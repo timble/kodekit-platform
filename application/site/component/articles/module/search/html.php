@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Articles Search Module Html Class
+ * Search Module Html View
  *
- * @author        Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package       Nooku_Server
- * @subpackage    Search
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
 class ArticlesModuleSearchHtml extends PagesModuleDefaultHtml
 {

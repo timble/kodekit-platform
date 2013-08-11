@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Model State Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Model
- * @subpackage  State
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Model
  */
 interface ModelStateInterface
 {

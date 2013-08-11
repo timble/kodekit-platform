@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Table Class
+ * Abstract Database Table
  *
  * Parent class to all tables.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Table
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectSingleton
 {

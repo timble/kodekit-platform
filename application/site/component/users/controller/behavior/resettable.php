@@ -9,6 +9,12 @@
 
 use Nooku\Library, Nooku\Component\Users;
 
+/**
+ * Resettable Controller Behavior
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
+ */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
     protected function _beforeControllerRead(Library\CommandContext $context)

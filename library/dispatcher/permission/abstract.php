@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Dispatcher Permission
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Permission
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 abstract class DispatcherPermissionAbstract extends ObjectMixinAbstract implements DispatcherPermissionInterface
 {

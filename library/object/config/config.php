@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * ObjectConfig Class
+ * Object Config
  *
  * ObjectConfig provides a property based interface to an array
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Config
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectConfig implements ObjectConfigInterface
 {

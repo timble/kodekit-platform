@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Application Pathway ObjectConfig
+ * Pathway Config
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Application
  */
 class ApplicationConfigPathway extends Library\ObjectConfig
 {

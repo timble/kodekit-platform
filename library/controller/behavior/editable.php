@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Editable Controller Behavior Class
+ * Editable Controller Behavior
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 {

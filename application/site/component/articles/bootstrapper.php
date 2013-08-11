@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Articles Bootstrapper
+ * Bootstrapper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
  class ArticlesBootstrapper extends Library\BootstrapperAbstract
 {

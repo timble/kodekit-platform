@@ -12,8 +12,7 @@ namespace Nooku\Library;
 /**
  * Dispatcher Exception Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 interface DispatcherException extends Exception {}

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Update Database Query Class
+ * Update Database Query
  *
- * @author      Gergo Erdosi <gergo@timble.net>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Library\Database
  */
 class DatabaseQueryUpdate extends DatabaseQueryAbstract
 {

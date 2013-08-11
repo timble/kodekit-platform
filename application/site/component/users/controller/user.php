@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * User Controller Class
+ * User Controller
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Users
  */
 class UsersControllerUser extends Library\ControllerModel
 {

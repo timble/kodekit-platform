@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Object class
+ * Object
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Object
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
 {

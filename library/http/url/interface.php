@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Url Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Url
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 interface HttpUrlInterface
 {

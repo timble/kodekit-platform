@@ -12,9 +12,9 @@ namespace Nooku\Component\Categories;
 use Nooku\Library;
 
 /**
- * Categories Toolbar Class
+ * Category Controller Toolbar
  *
- * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class ControllerToolbarCategory extends Library\ControllerToolbarModel

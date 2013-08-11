@@ -12,10 +12,8 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Contacts
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Contacts
  */
 class ContactsTemplateHelperListbox extends Library\TemplateHelperListbox
 {

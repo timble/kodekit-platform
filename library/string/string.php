@@ -32,14 +32,12 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
 namespace Nooku\Library;
 
 /**
- * String helper class for utf-8 data
+ * String
  *
- * All functions assume the validity of utf-8 strings.
+ * Helper class for utf-8 data. All functions assume the validity of utf-8 strings.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Helper
- * @subpackage  String
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\String
  * @static
  */
 class String

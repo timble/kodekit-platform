@@ -12,9 +12,8 @@ use Nooku\Library;
 /**
  * Categories Html View
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Categories
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Categories
  */
 class CategoriesViewCategoriesHtml extends Library\ViewHtml
 {

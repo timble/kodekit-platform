@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract ClassLoader Adapter
+ * Abstract Class Locator
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Class
- * @subpackage  Locator
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Class
  */
 abstract class ClassLocatorAbstract implements ClassLocatorInterface
 {

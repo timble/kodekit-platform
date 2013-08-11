@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Empty Model Class
+ * Empty Model
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Model
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Model
  */
 final class ModelEmpty extends ModelAbstract { }

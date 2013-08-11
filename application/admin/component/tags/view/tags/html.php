@@ -13,7 +13,7 @@ use Nooku\Library;
  * Tags Html View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Tags
+ * @package Component\Tags
  */
 class TagsViewTagsHtml extends Library\ViewHtml
 {

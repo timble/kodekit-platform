@@ -12,11 +12,12 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Containers Model
+ * Images Model
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class ModelImages extends ModelAbstract
 {
+
 }

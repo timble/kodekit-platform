@@ -12,7 +12,7 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Folder Validator Command Class
+ * Folder Validator Command
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files

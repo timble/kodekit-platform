@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template Renderer Filter Interface
+ * Renderer Template Filter Interface
  *
  * Filter will parse and render to the template to an HTML string
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage  Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 interface TemplateFilterRenderer
 {

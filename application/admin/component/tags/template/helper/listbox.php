@@ -12,11 +12,9 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author      Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package     Nooku_Server
- * @subpackage  Tags
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Tags
  */
-
 class TagsTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function tags($config = array())

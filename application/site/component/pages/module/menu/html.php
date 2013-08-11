@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Pages Module Html Class
+ * Menu Module Html View
  *
- * @author    	Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Pages
  */
 class PagesModuleMenuHtml extends PagesModuleDefaultHtml
 {

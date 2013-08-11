@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Conflict Class
+ * Conflict Http Exception
  *
  * The write request (PUT, POST, DELETE) has been rejected due conflicting changes made by another client, either to the
  * target resource itself or to a related resource. The server cannot currently complete the request without risking data
@@ -19,9 +19,8 @@ namespace Nooku\Library;
  * This response may include a Retry-After header indicating the time at which the conflicting edits are expected to
  * complete. Clients should wait until at least this time before retrying the request.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpExceptionConflict extends HttpExceptionAbstract
 {

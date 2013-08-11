@@ -12,12 +12,10 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Files Html View Class
+ * Files Html View
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
  */
 
 class ViewFilesHtml extends Library\ViewHtml

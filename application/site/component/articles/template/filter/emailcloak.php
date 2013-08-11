@@ -10,13 +10,12 @@
 use Nooku\Library;
 
 /**
- * Email Cloak Template Filter Class
+ * Email Cloak Template Filter
  *
  * Obfuscates email address using JavaScript for preventing bot email address harvesting.
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
 class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
 {

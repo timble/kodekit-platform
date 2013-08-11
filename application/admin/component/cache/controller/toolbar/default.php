@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Default Toolbar Class
+ * Default Controller Toolbar
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
 class CacheControllerToolbarDefault extends Library\ControllerToolbarModel
 {

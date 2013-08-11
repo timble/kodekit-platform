@@ -10,11 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template read filter for short_open_tags support
+ * Shorttag Template Filter
  *
- * @author	Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * Filter for short_open_tags support
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateFilterCompiler
 {

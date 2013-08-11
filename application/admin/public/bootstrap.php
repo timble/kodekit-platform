@@ -10,9 +10,7 @@
 /**
  * Framework loader
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
- * @package     Nooku_Server
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
 
 use Nooku\Library;

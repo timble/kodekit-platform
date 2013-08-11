@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Response Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 interface HttpResponseInterface extends HttpMessageInterface
 {

@@ -11,11 +11,10 @@ use Nooku\Library;
 use Nooku\Component\Extensions;
 
 /**
- * User Editable Controller Behavior
+ * Editable Controller Behavior
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
  */
 class UsersControllerBehaviorEditable extends Extensions\ControllerBehaviorEditable
 {

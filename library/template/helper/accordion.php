@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Template Accordion Behavior Helper
+ * Accordion Template Helper
  *
- * @author		Stian Didriksen <stian@timble.net>
- * @package		Koowa_Template
- * @subpackage	Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperAccordion extends TemplateHelperBehavior
 {

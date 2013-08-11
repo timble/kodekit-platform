@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Default Class
+ * Attachment Controller Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Attachments
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Attachments
  */
 class AttachmentsControllerPermissionAttachment extends ApplicationControllerPermissionAbstract
 {

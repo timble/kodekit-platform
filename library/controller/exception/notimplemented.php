@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Controller Exception Not Implemented Class
+ * Not Implemented Controller Exception
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerExceptionNotImplemented extends HttpExceptionNotImplemented implements ControllerException {}

@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Editable Controller Behavior Class
+ * Editable Controller Behavior
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Comments
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Comments
  */
 class CommentsControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {

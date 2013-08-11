@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Database Table Class
+ * Default Database Table
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Table
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 final class DatabaseTableDefault extends DatabaseTableAbstract { }

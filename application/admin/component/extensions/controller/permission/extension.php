@@ -10,10 +10,10 @@
 use Nooku\Library;
 
 /**
- * Default Controller Permissions
+ * Extension Controller Permission
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package Nooku\Component\Extensions
+ * @package Component\Extensions
  */
 class ExtensionsControllerPermissionExtension extends ApplicationControllerPermissionAbstract
 {

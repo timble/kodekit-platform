@@ -12,9 +12,9 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Chrome Filter
+ * Chrome Template Filter
  *
- * @author  Johan Janssens <johan@nooku.org>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiable

@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Folder Controller Class
+ * Directory Controller
  *
- * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Files
  */
 class FilesControllerDirectory extends Library\ControllerModel
 {

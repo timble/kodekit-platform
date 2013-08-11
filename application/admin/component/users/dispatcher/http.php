@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Users Dispatcher Class
+ * Users Dispatcher
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category	Nooku
- * @package		Nooku_Server
- * @subpackage	Users
+ * @package Component\Users
  */
 class UsersDispatcherHttp extends Library\DispatcherHttp
 {

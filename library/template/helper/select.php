@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Template Select Helper
+ * Select Template Helper
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Template
- * @subpackage	Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperSelect extends TemplateHelperAbstract
 {

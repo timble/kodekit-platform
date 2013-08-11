@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Filter Chain
+ * Chain Template Filter
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
- * @subpackage  Chain
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterChain extends ObjectQueue implements TemplateFilterRenderer, TemplateFilterCompiler
 {

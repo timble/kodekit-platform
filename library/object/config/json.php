@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * ObjectConfig Format Json
+ * Object Config Json
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Config
- * @subpackage  Format
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectConfigJson extends ObjectConfigFormat
 {

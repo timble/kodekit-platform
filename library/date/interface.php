@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Date Interface
  *
- * @author  Gergo Erdosi <gergo@timble.net>
- * @package Koowa_Date
+ * @author  Gergo Erodsi <http://nooku.assembla.com/profile/gergoerdosis>
+ * @package Nooku\Library\Date
  */
 interface DateInterface extends ObjectHandlable
 {

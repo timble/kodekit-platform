@@ -14,9 +14,8 @@ use Nooku\Library;
 /**
  * Pages Controller Toolbar
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Component\Pages
  */
 class ControllerToolbarPage extends Library\ControllerToolbarModel
 {

@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Identifiable Behavior
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage     Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
 {

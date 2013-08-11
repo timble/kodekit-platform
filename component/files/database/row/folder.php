@@ -12,7 +12,7 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Folder Database Row Class
+ * Folder Database Row
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files

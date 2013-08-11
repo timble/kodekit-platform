@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Dispatcher Response Transport Class
+ * Default Dispatcher Response Transport
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 final class DispatcherResponseTransportDefault extends DispatcherResponseTransportAbstract { }

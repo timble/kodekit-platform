@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Word filter.
+ * Word Filter.
  *
  * A 'word' is a string containing only the characters [A-Za-z_]
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterWord extends FilterAbstract implements FilterTraversable
 {

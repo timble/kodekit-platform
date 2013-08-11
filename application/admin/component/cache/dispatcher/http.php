@@ -10,14 +10,11 @@
 use Nooku\Library;
 
 /**
- * Cache Dispatcher Class
+ * Http Dispatcher
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
- 
 class CacheDispatcherHttp extends Library\DispatcherHttp
 {
     protected function _initialize(Library\ObjectConfig $config)

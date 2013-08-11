@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Object Handlable interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Object
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 interface ObjectHandlable
 {

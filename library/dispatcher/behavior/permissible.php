@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Dispatcher Permissible Behavior
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
 {

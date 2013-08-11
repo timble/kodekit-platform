@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Row Class
+ * Abstract Database Row
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Row
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInterface
 {

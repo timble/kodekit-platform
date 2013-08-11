@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Controller Exception Conflict Class
+ * Conflict Controller Exception
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerExceptionConflict extends HttpExceptionConflict implements ControllerException {}

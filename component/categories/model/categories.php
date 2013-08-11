@@ -12,7 +12,7 @@ namespace Nooku\Component\Categories;
 use Nooku\Library;
 
 /**
- * Categories Model Class
+ * Categories Model
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories

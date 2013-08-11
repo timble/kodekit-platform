@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Article Template Helper Class
+ * Date Template Helper
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
 class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 {

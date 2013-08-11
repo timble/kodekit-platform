@@ -10,11 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template filter to parse style tags
+ * Style Template Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * Filter to parse style tags
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterStyle extends TemplateFilterTag
 {

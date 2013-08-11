@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Event Class
+ * Event
  *
  * You can call the method stopPropagation() to abort the execution of further listeners in your event listener.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 class Event extends ObjectConfig implements EventInterface
 {

@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Object Exception Not Found Class
+ * Not Instantiated Object Exception
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectExceptionNotInstantiated extends \RuntimeException implements ObjectException {}

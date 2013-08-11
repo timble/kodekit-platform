@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Article Controller Permission Class
+ * Article Controller Permission
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
 class ArticlesControllerPermissionArticle extends ApplicationControllerPermissionAbstract
 {

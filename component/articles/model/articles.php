@@ -12,9 +12,9 @@ namespace Nooku\Component\Articles;
 use Nooku\Library;
 
 /**
- * Articles Model Class
+ * Articles Model
  *
- * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Articles
  */
 class ModelArticles extends Library\ModelTable

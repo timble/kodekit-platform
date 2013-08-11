@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Controller Response Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 interface ControllerResponseInterface extends HttpResponseInterface
 {

@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Date filter
+ * Date Filter
  *
  * Validates or sanitizes a value is an ISO 8601 date string.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterDate extends FilterTimestamp
 {

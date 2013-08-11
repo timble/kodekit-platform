@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Ascii filter
+ * Ascii Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterAscii extends FilterAbstract implements FilterTraversable
 {

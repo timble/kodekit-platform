@@ -12,10 +12,8 @@ use Nooku\Library;
 /**
  * Session Controller Permission Class
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Users
  */
 class SessionControllerPermissionSession extends ApplicationControllerPermissionAbstract
 {

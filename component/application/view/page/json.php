@@ -12,7 +12,7 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Html Json Class
+ * Page Json View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application

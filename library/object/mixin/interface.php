@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Mixes a chain of command behaviour into a class
+ * Object Mixes Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 interface ObjectMixinInterface extends ObjectHandlable
 {

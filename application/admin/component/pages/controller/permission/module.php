@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Default Class
+ * Module Controller Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Pages
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Pages
  */
 class PagesControllerPermissionModule extends ApplicationControllerPermissionAbstract
 {

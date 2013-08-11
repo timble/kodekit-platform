@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Tag Controller Class
+ * Tag Controller
  *
- * @author    	Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
 class ArticlesControllerTag extends TagsControllerTag
 { 

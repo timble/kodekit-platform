@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Select Database Query Class
+ * Select Database Query
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseQuerySelect extends DatabaseQueryAbstract
 {

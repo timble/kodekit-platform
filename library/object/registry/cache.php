@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Cached Object Registry
+ * Cache Object Registry
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Identifier
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectRegistryCache extends ObjectRegistry
 {

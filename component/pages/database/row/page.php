@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Modules Database Row
+ * Page Database Row
  *
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages

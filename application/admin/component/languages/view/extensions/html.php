@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Extensions Html View Class
+ * Extensions Html View
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
-
 class LanguagesViewExtensionsHtml extends Library\ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)

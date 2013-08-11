@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default View Class
+ * Default View
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 final class ViewDefault extends ViewHtml { }

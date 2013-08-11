@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Row Default
+ * Default Database Row
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Row
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 final class DatabaseRowDefault extends DatabaseRowTable { }

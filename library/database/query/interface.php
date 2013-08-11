@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Query Interface
  *
- * @author      Gergo Erdosi <gergo@timble.net>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Library\Database
  */
 interface DatabaseQueryInterface
 {

@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Comment Controller Class
+ * Comment Controller
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Comments
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Comments
  */
 abstract class CommentsControllerComment extends Library\ControllerModel
 { 

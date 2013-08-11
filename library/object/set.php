@@ -10,13 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * An Object Set Class
+ * Object Set
  *
  * ObjectSet implements an associative container that stores objects, and in which the object themselves are the keys.
  * Objects are stored in the set in FIFO order.
  *
- * @author  Johan Janssens <johan@nooku.org>
- * @package Koowa_Object
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  * @see     http://www.php.net/manual/en/class.splobjectstorage.php
  */
 class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Countable, \Serializable

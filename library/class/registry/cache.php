@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Class Registry Cache
+ * Cache Class Registry
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Class
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Class
  */
 class ClassRegistryCache extends ClassRegistry
 {

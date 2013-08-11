@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Category Element Class
+ * Category Element
  *
- * @author     Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package    Nooku_Server
- * @subpackage Categories
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Categories
  */
 class JElementCategory extends JElement
 {

@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Attachments Template Helper Class
+ * Image Template Helper
  *
- * @author     Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package    Nooku_Server
- * @subpackage Attachments
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Attachments
  */
 class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
 {

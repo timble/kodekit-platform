@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Article Controller Class
+ * Article Controller
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
 class ArticlesControllerArticle extends Library\ControllerModel
 { 

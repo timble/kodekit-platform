@@ -15,9 +15,8 @@ use Nooku\Component\Files;
 /**
  * Thumbnail Controller Class
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
  */
 class ControllerThumbnail extends ControllerAbstract
 {

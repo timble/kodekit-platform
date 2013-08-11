@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Controller Toolbar Class
+ * Default Controller Toolbar
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage 	Toolbar
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 final class ControllerToolbarDefault extends ControllerToolbarModel { }

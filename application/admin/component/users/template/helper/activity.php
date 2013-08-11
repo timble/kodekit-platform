@@ -11,14 +11,11 @@ use Nooku\Library;
 use Nooku\Component\Activities;
 
 /**
- * Log Template Helper Class
+ * Activity Template Helper
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package    	Nooku_Server
- * @subpackage 	Users
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
  */
-
 class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 {
     public function message($config = array())

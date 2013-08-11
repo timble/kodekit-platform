@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Paginator Model Class
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Model
- * @subpackage  Paginator
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Model
  */
 class ModelPaginator extends ObjectConfig implements ModelPaginatorInterface
 {

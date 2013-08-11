@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Database Schema Column Class
+ * Column Database Schema
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Schema
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseSchemaColumn extends Object
 {

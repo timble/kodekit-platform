@@ -10,12 +10,11 @@
 namespace Nooku\Library;
 
 /**
- * Template Grid Helper
+ * Grid Template Helper
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Template
- * @subpackage	Helper
- * @see 		http://ajaxpatterns.org/Data_Grid
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
+ * @see     http://ajaxpatterns.org/Data_Grid
  */
 class TemplateHelperGrid extends TemplateHelperAbstract
 {

@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Application Tabbar
-.*
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * Tabbar Controller Toolbar
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstract
 {

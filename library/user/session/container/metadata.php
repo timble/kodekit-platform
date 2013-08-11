@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Metadata User Session Container Class
+ * Metadata User Session Container
  *
  * Session container that stores session metadata and provides utility functions.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Session
- * @subpackage  Container
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 class UserSessionContainerMetadata extends UserSessionContainerAbstract
 {

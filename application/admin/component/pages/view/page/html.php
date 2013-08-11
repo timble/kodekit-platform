@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Page Html View Class
+ * Page Html View
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Pages
  */
-
 class PagesViewPageHtml extends Library\ViewHtml
 {
     public function render()

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Route Class
+ * Dispatcher Route
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Router
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherRouterRoute extends HttpUrl
 {

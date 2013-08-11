@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Cache Groups Rowset Class
+ * Groups Database Rowset
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
  
 class CacheDatabaseRowsetGroups extends Library\DatabaseRowsetAbstract

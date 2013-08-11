@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Date Class
+ * Date
  *
- * @author  	Gergo Erdosi <gergo@timble.net>
- * @package     Koowa_Date
+ * @author  Gergo Erodsi <http://nooku.assembla.com/profile/gergoerdosis>
+ * @package Nooku\Library\Date
  */
 class Date extends \DateTime implements DateInterface
 {

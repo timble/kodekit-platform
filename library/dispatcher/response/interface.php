@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Dispatcher Response Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 interface DispatcherResponseInterface extends ControllerResponseInterface, DispatcherResponseTransportInterface
 {

@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Application Bootstrapper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Bootstrapper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Bootstrapper
  */
 class BootstrapperApplication extends BootstrapperChain
 {

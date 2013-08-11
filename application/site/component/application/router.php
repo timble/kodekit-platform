@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Application Router Class
-.*
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * Router
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationRouter extends Library\DispatcherRouter
 {

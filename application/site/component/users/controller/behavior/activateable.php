@@ -9,6 +9,12 @@
 
 use Nooku\Library, Nooku\Component\Users;
 
+/**
+ * Activateable Controller Behavior
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
+ */
 class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
 {
     protected function _initialize(Library\ObjectConfig $config)

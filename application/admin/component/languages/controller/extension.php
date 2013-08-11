@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Component Controller Class
+ * Extension Controller
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
-
 class LanguagesControllerExtension extends Library\ControllerView
 {
     protected function _actionEdit(Library\CommandContext $context)

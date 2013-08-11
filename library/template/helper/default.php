@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Template Helper Class
+ * Default Template Helper
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Template
- * @subpackage	Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperDefault extends TemplateHelperAbstract
 {

@@ -10,10 +10,10 @@
 use Nooku\Library;
 
 /**
- * Executable Controller Behavior
+ * Activity Controller Permission
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Activities
+ * @package Component\Activities
  */
 class ActivitiesControllerPermissionDefault extends ApplicationControllerPermissionAbstract
 {  

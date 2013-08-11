@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Select Template Helper Class
+ * Select Template Helper
  *
- * @author      Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @category	Nooku
- * @package		Nooku_Server
- * @subpackage	Users
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Users
  */
 class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
 {    

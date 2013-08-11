@@ -13,6 +13,7 @@ use Nooku\Library;
  * Settings Html View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Extensions
  */
 class ExtensionsViewSettingsHtml extends Library\ViewHtml
 {

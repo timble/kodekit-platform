@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Default Dispatcher
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 
 final class DispatcherDefault extends DispatcherHttp { }

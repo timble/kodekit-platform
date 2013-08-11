@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Closurable Controller Behavior Class
+ * Closurable Controller Behavior
  *
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages

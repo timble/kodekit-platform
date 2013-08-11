@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Base64 filter
+ * Base64 Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterBase64 extends FilterAbstract implements FilterTraversable
 {

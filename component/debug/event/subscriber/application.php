@@ -13,8 +13,8 @@ use Nooku\Library;
 
 /**
  * Application Event Subscriber
-.*
- * @author		Johan Janssens <johan@nooku.org>
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
 class EventSubscriberApplication extends Library\EventSubscriberAbstract

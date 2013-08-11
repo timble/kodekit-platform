@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Behavior Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Behavior
  */
 interface BehaviorInterface extends CommandInterface, ObjectInterface
 {

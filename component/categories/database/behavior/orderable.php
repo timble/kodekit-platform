@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Orderable Database Behavior
  *
- * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable

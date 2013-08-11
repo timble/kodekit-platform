@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * HTTP Url Class
+ * Http Url
  *
  * This class helps you to create and manipulate urls, including query strings and path elements. It does so by splitting
  * up the pieces of the url and allowing you modify them individually; you can then then fetch them as a single url
@@ -81,8 +81,8 @@ namespace Nooku\Library;
  * ?>
  * </code>
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpUrl extends Object
 {

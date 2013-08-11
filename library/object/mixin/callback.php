@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Callback Command Mixin
+ * Callback Object Mixin
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterface
 {

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Toolbar Mixin Class
+ * Toolbar Mixin
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerToolbarMixin extends ObjectMixinAbstract
 {

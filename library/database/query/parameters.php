@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Query Parameters
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseQueryParameters extends ObjectArray
 {

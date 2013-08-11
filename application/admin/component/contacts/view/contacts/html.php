@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Contacts HTML view class.
+ * Contacts HTML View
  *
- * @author     Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @category   Nooku
- * @package    Nooku_Server
- * @subpackage Contacts
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Contacts
  */
 class ContactsViewContactsHtml extends Library\ViewHtml
 {

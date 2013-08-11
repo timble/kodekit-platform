@@ -10,10 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Filename filter, strips path info
+ * Filename Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * Strips path info
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterFilename extends FilterAbstract implements FilterTraversable
 {

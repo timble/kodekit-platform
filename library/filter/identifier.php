@@ -14,8 +14,8 @@ namespace Nooku\Library;
  *
  * Validates identifiers in the form of [application::]type.package.[.path].name
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterIdentifier extends FilterAbstract implements FilterTraversable
 {

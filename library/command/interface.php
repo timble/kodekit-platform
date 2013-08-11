@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Command Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 interface CommandInterface extends ObjectHandlable
 {

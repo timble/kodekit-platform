@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Controller Class
+ * Default Controller
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 final class ControllerDefault extends ControllerModel { }

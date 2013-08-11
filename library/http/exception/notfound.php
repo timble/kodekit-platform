@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Forbidden Class
+ * Not Found Http Exception
  *
  * The requested resource could not be found.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpExceptionNotFound extends HttpExceptionAbstract
 {

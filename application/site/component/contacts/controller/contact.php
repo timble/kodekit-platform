@@ -12,9 +12,8 @@ use Nooku\Library;
 /**
  * Contact Controller
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Contacts
+ * @author  ohan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Contacts
  */
 class ContactsControllerContact extends Library\ControllerModel
 {

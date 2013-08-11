@@ -10,11 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template filter to parse tags
+ * Abstract Tag Template Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * Filter to parse tags
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 abstract class TemplateFilterTag extends TemplateFilterAbstract implements TemplateFilterRenderer
 {

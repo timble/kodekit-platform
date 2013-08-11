@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Dispatcher Class
+ * Http Dispatcher
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Files
  */
-
 class FilesDispatcherHttp extends Library\DispatcherHttp
 {
 	public function __construct(Library\ObjectConfig $config)

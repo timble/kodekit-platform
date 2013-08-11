@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Controller Viewable Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Nooku_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 interface ControllerViewable
 {

@@ -9,13 +9,13 @@
 namespace Nooku\Library;
 
 /**
- * HTTP Response Class
+ * Http Response
  *
  * @see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
+ * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
  */
 class HttpResponse extends HttpMessage implements HttpResponseInterface
 {

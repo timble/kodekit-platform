@@ -12,10 +12,9 @@ namespace Nooku\Library;
 /**
  * User Session Handler Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
- * @subpackage  Session
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
+ * @see     http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 interface UserSessionHandlerInterface
 {

@@ -12,11 +12,9 @@ use Nooku\Library;
 /**
  * Menu Element Class
  *
- * @author      Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Pages
  */
-
 class JElementMenu extends JElement
 {
     var $_name = 'Menu';

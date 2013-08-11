@@ -10,15 +10,14 @@
 namespace Nooku\Library;
 
 /**
- * Http Message Headers Class
+ * Http Message Headers
  *
  * Container class that handles the aggregations of HTTP headers as a collection
  *
  * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Messsage
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpMessageHeaders extends ObjectArray
 {

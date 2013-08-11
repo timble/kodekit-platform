@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Not Allowed Class
+ * Method Not Allowed Http Exception
  *
  * The request URL does not support the specific request method.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpExceptionMethodNotAllowed extends HttpExceptionAbstract
 {

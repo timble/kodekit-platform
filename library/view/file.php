@@ -10,6 +10,8 @@
 namespace Nooku\Library;
 
 /**
+ * File View
+ *
  * Use to force browser to download a file from the file system
  *
  * <code>
@@ -30,8 +32,8 @@ namespace Nooku\Library;
  * }
  * </code>
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 class ViewFile extends ViewAbstract
 {

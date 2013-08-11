@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Model Controller Toolbar Class
+ * Model Controller Toolbar
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage 	Toolbar
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerToolbarModel extends ControllerToolbarAbstract
 {

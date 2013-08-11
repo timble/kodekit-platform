@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Application Menubar
-.*
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Server
- * @subpackage  Application
+ * Menubar Controller Toolbar
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationControllerToolbarMenubar extends Library\ControllerToolbarAbstract
 {

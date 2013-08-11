@@ -14,8 +14,8 @@ namespace Nooku\Library;
  *
  * If the data passed is an array or is traversable the filter will iterate over it and filter each individual value.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterIterator extends ObjectDecorator implements FilterInterface, FilterTraversable
 {

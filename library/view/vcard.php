@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Vcard Class
+ * Vcard View
  *
  * Complies to version 2.1 of the vCard specification
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  * @see         http://www.imc.org/pdi/
  * @see         http://en.wikipedia.org/wiki/VCard
  */

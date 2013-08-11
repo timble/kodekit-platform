@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Redirect Dispatcher Response Transport Class
+ * Redirect Dispatcher Response Transport
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbstract
 {

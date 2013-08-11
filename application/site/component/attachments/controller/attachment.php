@@ -9,6 +9,12 @@
 
 use Nooku\Library;
 
+/**
+ * Attachment Controller
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Attachments
+ */
 class AttachmentsControllerAttachment extends Library\ControllerModel
 {
 	protected function _initialize(Library\ObjectConfig $config)

@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Application Dispatcher Class
-.*
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * Http Dispatcher
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {

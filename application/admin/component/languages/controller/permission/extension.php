@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Executable Controller Behavior Class
+ * Extension Controller Permission
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
-
 class LanguagesControllerPermissionExtension extends ApplicationControllerPermissionAbstract
 {
     public function canEdit()

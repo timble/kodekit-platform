@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * User Controller Executable Behavior
+ * User Controller Permission
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Users
  */
 class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract
 {
@@ -23,7 +21,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     {
         $result = true;
 
-        $layout       = $this->getView()->getLayout();
+        $layout      = $this->getView()->getLayout();
         $row        = $this->getModel()->getRow();
         $parameters = $this->getObject('application.extensions')->users->params;
 

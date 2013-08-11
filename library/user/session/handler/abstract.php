@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Session Handler Class
+ * Abstract Session Handler
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
- * @subpackage  Session
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 abstract class UserSessionHandlerAbstract extends Object implements UserSessionHandlerInterface

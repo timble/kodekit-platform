@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Dispatcher Default Permission
+ * Default Dispatcher Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationDispatcherPermissionDefault extends Library\DispatcherPermissionAbstract
 {

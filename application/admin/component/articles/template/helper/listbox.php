@@ -12,12 +12,9 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Articles
  */
-
 class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function articles($config = array())

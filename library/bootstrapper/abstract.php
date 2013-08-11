@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Bootstrapper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Bootstrapper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Bootstrapper
  */
 abstract class BootstrapperAbstract extends Object implements BootstrapperInterface
 {

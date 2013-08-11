@@ -10,13 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * Command handler
+ * Command
  *
  * The command handler will translate the command name into a function format and call it for the object class to handle
  * it if the method exists.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class Command extends Object implements CommandInterface
 {

@@ -22,7 +22,7 @@ class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
     /**
      * Constructor
      *
-     * @param ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return Library\DatabaseRowsetAbstract
      */
     public function __construct(Library\ObjectConfig $config)

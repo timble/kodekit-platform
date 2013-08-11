@@ -11,13 +11,12 @@ use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
- * Orderable Database Behavior Class
+ * Orderable Database Behavior
  *
  * Provides ordering support for closure tables by using a special ordering help of another table
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Articles
  */
 class ArticlesDatabaseBehaviorOrderable extends Pages\DatabaseBehaviorOrderable
 {

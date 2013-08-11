@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Dispatcher
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 abstract class DispatcherAbstract extends ControllerAbstract implements DispatcherInterface
 {

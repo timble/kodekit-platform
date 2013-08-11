@@ -9,6 +9,12 @@
 
 use Nooku\Library;
 
+/**
+ * Attachment File View
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Attachments
+ */
 class AttachmentsViewAttachmentFile extends Library\ViewFile
 {
 	public function render()

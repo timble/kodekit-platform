@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Contacts Router Class
+ * Router
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Contacts
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Contacts
  */
-
 class ContactsRouter extends Library\DispatcherRouter
 {
     public function build(Library\HttpUrl $url)

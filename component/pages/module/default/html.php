@@ -12,9 +12,9 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Default Module
+ * Default Module Html View
  *
- * @author  Johan Janssens <johan@nooku.org>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class ModuleDefaultHtml extends Library\ViewHtml

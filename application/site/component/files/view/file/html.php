@@ -9,6 +9,12 @@
 
 use Nooku\Library;
 
+/**
+ * File Html View
+ *
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Files
+ */
 class FilesViewFileHtml extends Library\ViewFile
 {
     public function render()

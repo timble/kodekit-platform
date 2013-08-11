@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Cache Date Helper
+ * Date Template Helper
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
 class CacheTemplateHelperDate extends Library\TemplateHelperDate
 {

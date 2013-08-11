@@ -12,8 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Exception Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 interface ObjectException extends Exception {}

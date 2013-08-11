@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Message Controller Permission Class
+ * Message Controller Permission
  *
- * @author    	Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Contacts
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Contacts
  */
 class ContactsControllerPermissionMessage extends ContactsControllerPermissionContact
 {

@@ -9,11 +9,12 @@
 namespace Nooku\Library;
 
 /**
- * Template write filter which runs the output through Tidy
+ * Prettyprint Template Filter
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage  Filter
+ * Filter which runs the output through Tidy
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterPrettyprint extends TemplateFilterAbstract implements TemplateFilterRenderer
 {

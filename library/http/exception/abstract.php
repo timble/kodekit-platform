@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Bad Request Class
+ * Abstract Http Exception
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 abstract class HttpExceptionAbstract extends \RuntimeException implements HttpException
 {

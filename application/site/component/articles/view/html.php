@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Html View class.
+ * Html View
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @package Component\Articles
  */
 class ArticlesViewHtml extends Library\ViewHtml
 {

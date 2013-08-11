@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Database Query Class
+ * Abstract Database Query
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInterface
 {

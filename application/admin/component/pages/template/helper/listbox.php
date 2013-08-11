@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Listbox Template Helper Class
+ * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Pages
  */
-
 class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function menus($config = array())

@@ -10,11 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template write filter which removes all spaces from the template output
+ * Spaceless Template Filter
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage  Filter
+ * Filter which removes all spaces from the template output
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterSpaceless extends TemplateFilterAbstract implements TemplateFilterRenderer
 {

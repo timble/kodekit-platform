@@ -13,6 +13,7 @@ use Nooku\Library;
  * Setting Controller
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Extensions
  */
 class ExtensionsControllerSetting extends Library\ControllerModel
 {

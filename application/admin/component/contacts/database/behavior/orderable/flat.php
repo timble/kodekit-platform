@@ -10,13 +10,11 @@
 use Nooku\Component\Pages;
 
 /**
- * Orderable Database Behavior Class
+ * Flat Orderable Database Behavior
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Contacts
  */
-
 class ContactsDatabaseBehaviorOrderableFlat extends Pages\DatabaseBehaviorOrderableFlat
 {
     public function _buildQuery($query)

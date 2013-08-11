@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Class Locator Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Class
- * @subpackage 	Locator
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Class
  */
 interface ClassLocatorInterface
 {

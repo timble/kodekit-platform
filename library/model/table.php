@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Table Model Class
+ * Table Model
  *
  * Provides interaction with a database table
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Model
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Model
  */
 class ModelTable extends ModelAbstract
 {

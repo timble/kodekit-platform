@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Http Message Class
+ * Http Message
  *
  * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Messsage
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 abstract class HttpMessage extends Object implements HttpMessageInterface
 {

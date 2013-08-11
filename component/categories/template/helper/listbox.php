@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox

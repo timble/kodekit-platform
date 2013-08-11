@@ -12,7 +12,7 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Specialized exception for remote file adapters
+ * Url Database Row Adapter Exception
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files

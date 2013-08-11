@@ -13,7 +13,7 @@ use Nooku\Library;
  * Page Controller
  *
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package Nooku\Component\Pages
+ * @package Component\Pages
  */
 class PagesControllerPage extends Library\ControllerModel
 {

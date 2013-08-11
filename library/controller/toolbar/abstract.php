@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Controller Toolbar Class
+ * Abstract Controller Toolbar
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage     Toolbar
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerToolbarAbstract extends EventSubscriberAbstract implements ControllerToolbarInterface
 {

@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * View Html Class
+ * Html View
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 class ViewHtml extends ViewTemplate
 {

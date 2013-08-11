@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Object Bootstrapper Interface
+ * Bootstrapper Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Bootstrapper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Bootstrapper
  */
 interface BootstrapperInterface
 {

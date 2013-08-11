@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * User HTML View Class
+ * User Html View
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Users
  */
 class UsersViewUserHtml extends Library\ViewHtml
 {

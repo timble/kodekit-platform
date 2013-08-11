@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
  /**
-  * Default Template class
+  * Default Template
   *
-  * @author		Johan Janssens <johan@nooku.org>
-  * @package	Koowa_Template
+  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+  * @package Nooku\Library\Template
   */
 final class TemplateDefault extends TemplateAbstract { }

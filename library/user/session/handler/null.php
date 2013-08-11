@@ -10,14 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * User Null Session Handler Class
+ * User Null Session Handler
  *
  * Can be used in unit testing or in a situation where persisted sessions are not desired.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
- * @subpackage  Session
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
+ * @see     http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class UserSessionHandlerNull extends UserSessionHandlerAbstract
 {

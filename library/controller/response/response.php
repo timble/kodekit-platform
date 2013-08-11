@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Controller Response Class
+ * Controller Response
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerResponse extends HttpResponse implements ControllerResponseInterface
 {

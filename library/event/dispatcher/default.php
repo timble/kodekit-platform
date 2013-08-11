@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Event Dispatcher Class.
+ * Default Event Dispatcher
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
- * @subpackage 	Dispatcher
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 final class EventDispatcherDefault extends EventDispatcherAbstract { }

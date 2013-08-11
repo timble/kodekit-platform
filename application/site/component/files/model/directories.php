@@ -10,13 +10,12 @@
 use Nooku\Library, Nooku\Component\Files;
 
 /**
- * Default Directories Class
+ * Directories Model
  *   
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Files
  */
- 
 class FilesModelDirectories extends Files\ModelFolders
 {
+
 }

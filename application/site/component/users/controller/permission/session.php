@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * User Controller Executable Behavior
+ * Session Controller Permission
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Users
  */
 class UsersControllerPermissionSession extends ApplicationControllerPermissionAbstract
 {

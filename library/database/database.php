@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Database Namespace class
+ * Database Namespace
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class Database
 {

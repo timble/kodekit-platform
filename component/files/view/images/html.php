@@ -12,13 +12,11 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Files Html View Class
+ * Files Html View
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
  */
-
 class ViewImagesHtml extends Library\ViewHtml
 {
 	protected function _initialize(Library\ObjectConfig $config)

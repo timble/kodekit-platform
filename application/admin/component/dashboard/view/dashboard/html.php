@@ -10,14 +10,11 @@
 use Nooku\Library;
 
 /**
- * Dashboard View
+ * Dashboard Html View
  *   
- * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
- * @category 	Nooku
- * @package     Nooku_Server
- * @subpackage  Dashboard
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Dashboard
  */
-
 class DashboardViewDashboardHtml extends Library\ViewHtml
 {
 

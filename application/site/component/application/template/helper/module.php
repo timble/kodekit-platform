@@ -13,11 +13,9 @@ use Nooku\Component\Pages;
 /**
  * Module Template Helper
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
-
 class ApplicationTemplateHelperModule extends Pages\TemplateHelperModule
 {
     protected function _initialize(Library\ObjectConfig $config)

@@ -10,14 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * User File Session Handler Class
+ * User File Session Handler
  *
  * Native session handler using PHP's built in file storage.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
- * @subpackage  Session
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
+ * @see     http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class UserSessionHandlerFile extends UserSessionHandlerAbstract
 {

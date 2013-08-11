@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Dispatcher Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 interface DispatcherInterface extends ControllerInterface
 {

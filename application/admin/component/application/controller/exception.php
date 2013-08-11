@@ -11,11 +11,10 @@ use Nooku\Library;
 use Nooku\Component\Application;
 
 /**
- * Exception Controller Class
- *   
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * Exception Controller
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationControllerException extends Application\ControllerException
 {

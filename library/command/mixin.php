@@ -14,9 +14,8 @@ namespace Nooku\Library;
  * 
  * Class can be used as a mixin in classes that want to implement a chain of responsibility or chain of command pattern.
  *  
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class CommandMixin extends ObjectMixinAbstract
 {   

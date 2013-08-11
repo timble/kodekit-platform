@@ -12,7 +12,7 @@ namespace Nooku\Component\Extensions;
 use Nooku\Library;
 
 /**
- * Component Database Row
+ * Extension Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions

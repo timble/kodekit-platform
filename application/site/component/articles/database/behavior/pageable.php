@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Pageable Database Behavior Class.
+ * Pageable Database Behavior
  *
- * @author        Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package       Nooku_Server
- * @subpackage    Articles
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
 class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 {

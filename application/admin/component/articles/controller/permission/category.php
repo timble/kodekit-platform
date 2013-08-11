@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Default Class
+ * Category Controller Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
 class ArticlesControllerPermissionCategory extends CategoriesControllerPermissionCategory
 {

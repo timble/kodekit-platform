@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Database Adapter
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Adapter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface
 {

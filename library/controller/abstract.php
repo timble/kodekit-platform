@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Controller Class
+ * Abstract Controller
  *
  * Note: Concrete controllers must have a singular name
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerAbstract extends Object implements ControllerInterface
 {

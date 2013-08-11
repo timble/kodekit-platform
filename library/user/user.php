@@ -10,14 +10,14 @@
 namespace Nooku\Library;
 
 /**
- * User Class
+ * User
  *
  * User is the user implementation used by the in-memory user provider. This object is tightly coupled to the session.
  * all data is stored and retrieved from the session attribute container, using a special 'user' namespace to avoid
  * conflicts.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 class User extends Object implements UserInterface, ObjectInstantiable
 {

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Rowset Class
+ * Abstract Database Rowset
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Rowset
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowsetInterface
 {

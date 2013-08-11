@@ -10,15 +10,14 @@
 namespace Nooku\Library;
 
 /**
- * Resettable Dispatcher Behavior Class
+ * Resettable Dispatcher Behavior
  *
  * When a user sends a POST request (e.g. after submitting a form), their browser will try to protect them from sending
  * the POST again, breaking the back button, causing browser warnings and pop-ups, and sometimes reposting the form.
  * Instead, when receiving a POST we should redirect the user to a GET request.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
 {

@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Table Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Table
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 interface DatabaseTableInterface
 {

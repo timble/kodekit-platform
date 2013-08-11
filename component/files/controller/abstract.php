@@ -12,13 +12,11 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Node Controller Class
+ * Abstract Controller
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
  */
-
 abstract class ControllerAbstract extends Library\ControllerModel
 {
 	protected function _initialize(Library\ObjectConfig $config)

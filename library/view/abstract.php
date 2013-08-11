@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract View Class
+ * Abstract View
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package        Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 abstract class ViewAbstract extends Object implements ViewInterface
 {

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Event Dispatcher Class
+ * Abstract Event Dispatcher
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
- * @subpackage 	Dispatcher
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 abstract class EventDispatcherAbstract extends Object implements EventDispatcherInterface
 {

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Persistable Dispatcher Behavior Class
+ * Persistable Dispatcher Behavior
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 {

@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Contact Element Class
+ * Contact Element
  *
- * @author     Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package    Nooku_Server
- * @subpackage Contacts
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Contacts
  */
-
 class JElementContact extends JElement
 {
 	var	$_name = 'Contact';

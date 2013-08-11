@@ -11,7 +11,7 @@ use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
- * Module Template Filter Class
+ * Module Template Filter
  *
  * Filter will parse elements of the form <html:modules position="[position]" /> and render the modules that are
  * available for this position.
@@ -19,9 +19,8 @@ use Nooku\Component\Pages;
  * Filter will parse elements of the form <html:module position="[position]">[content]</module> and inject the
  * content into the module position.
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationTemplateFilterModule extends Pages\TemplateFilterModule
 {

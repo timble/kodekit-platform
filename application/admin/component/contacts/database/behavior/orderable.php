@@ -15,9 +15,8 @@ use Nooku\Component\Pages;
  *
  * Provides ordering support for closure tables by using a special ordering help of another table
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Contacts
  */
 class ContactsDatabaseBehaviorOrderable extends Pages\DatabaseBehaviorOrderable
 {

@@ -10,14 +10,11 @@
 use Nooku\Library;
 
 /**
- * Cache Default Controller
+ * Group Controller
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
- 
 class CacheControllerGroup extends Library\ControllerModel
 { 
     protected function _actionPurge(Library\CommandContext $context)

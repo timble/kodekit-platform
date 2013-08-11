@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Search Pages Element Class
+ * Search Pages Element
  *
  * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @package Component\Articles
  */
-
 class JElementSearchpages extends JElement
 {
     var $_name = 'Searchpages';

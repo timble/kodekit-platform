@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Object Decoratable Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 interface ObjectDecoratable
 {

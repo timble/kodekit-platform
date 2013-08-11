@@ -12,8 +12,7 @@ namespace Nooku\Library;
 /**
  * Default Dispatcher Permission
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Permission
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 final class DispatcherPermissionDefault extends DispatcherPermissionAbstract { }

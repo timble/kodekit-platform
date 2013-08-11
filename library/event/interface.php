@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Event Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 interface EventInterface
 {

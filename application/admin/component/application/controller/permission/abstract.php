@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Abstract Class
+ * Abstract Controller Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 abstract class ApplicationControllerPermissionAbstract extends Library\ControllerPermissionAbstract
 {

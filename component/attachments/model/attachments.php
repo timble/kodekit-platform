@@ -12,7 +12,7 @@ namespace Nooku\Component\Attachments;
 use Nooku\Library;
 
 /**
- * Attachments Database Model
+ * Attachments Model
  *
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments

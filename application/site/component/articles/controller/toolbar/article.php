@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Article controller toolbar class.
+ * Article Controller Toolbar
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
-
 class ArticlesControllerToolbarArticle extends Library\ControllerToolbarModel
 {
     protected function _initialize(Library\ObjectConfig $config)

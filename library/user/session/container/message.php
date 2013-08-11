@@ -10,15 +10,14 @@
 namespace Nooku\Library;
 
 /**
- * Message User Session Container Class
+ * Message User Session Container
  *
  * Session container that stores flash messages and provides utility functions. Flash messages are self-expiring
  * messages that are meant to live for exactly one request (they're "gone in a flash"). They're designed to be used
  * across redirects.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Session
- * @subpackage  Container
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 class UserSessionContainerMessage extends UserSessionContainerAbstract
 {

@@ -10,14 +10,11 @@
 use Nooku\Library;
 
 /**
- * Cache Items Rowset Class
+ * Items Database Rowset
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @package Component\Cache
  */
- 
 class CacheDatabaseRowsetItems extends Library\DatabaseRowsetAbstract
 {	
     protected function _initialize(Library\ObjectConfig $config)

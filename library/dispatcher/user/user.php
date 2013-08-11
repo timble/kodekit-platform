@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Dispatcher User Class
+ * Dispatcher User
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  User
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherUser extends ControllerUser implements DispatcherUserInterface
 {

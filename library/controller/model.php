@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Model Controller Class
+ * Abstract Model Controller
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerModel extends ControllerView implements ControllerModellable
 {

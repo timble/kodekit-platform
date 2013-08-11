@@ -14,10 +14,9 @@ use Nooku\Library;
 /**
  * List Template Helper
  *
- * @author      Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package     Nooku\Component\Pages
+ * @author   Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package  Nooku\Component\Pages
  */
-
 class TemplateHelperList extends Library\TemplateHelperAbstract
 {
     public function pages($config = array())

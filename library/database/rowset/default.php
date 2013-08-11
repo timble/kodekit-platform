@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Rowset Default
+ * Default Database Rowset
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Rowset
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 final class DatabaseRowsetDefault extends DatabaseRowsetTable {}

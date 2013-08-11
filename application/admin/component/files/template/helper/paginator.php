@@ -9,6 +9,12 @@
 
 use Nooku\Library;
 
+/**
+ * Paginator Template Helper
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Files
+ */
 class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 {
     /**

@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Digit filter
+ * Digit Filter
  *
  * Checks if all of the characters in the provided string are numerical
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterDigit extends FilterAbstract implements FilterTraversable
 {

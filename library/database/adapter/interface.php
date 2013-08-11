@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Adapter Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Adapter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 interface DatabaseAdapterInterface
 {

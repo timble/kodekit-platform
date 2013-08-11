@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Thumbnail Database Row
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class DatabaseRowThumbnail extends Library\DatabaseRowTable

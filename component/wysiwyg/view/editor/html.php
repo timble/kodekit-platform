@@ -12,7 +12,7 @@ namespace Nooku\Component\Wysiwyg;
 use Nooku\Library;
 
 /**
- * Editor Html View Class
+ * Editor Html View
  *
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg

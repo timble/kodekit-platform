@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Command Context
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
- * @subpackage  Context
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class CommandContext extends ObjectConfig implements CommandContextInterface
 {

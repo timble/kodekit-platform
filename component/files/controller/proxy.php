@@ -12,14 +12,13 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Proxy Controller Class
+ * Proxy Controller
  *
  * Used to perform cross origin HEAD request calls on resources to see if they exist, and if exists then also pass
  * the Content-length and Content-Type headers
  *
- * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @package Nooku\Component\Files
  */
  class ControllerProxy extends Library\ControllerView
 {

@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Filter Chain
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
- * @subpackage  Chain
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterChain extends ObjectQueue implements FilterInterface
 {

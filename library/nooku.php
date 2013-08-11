@@ -8,11 +8,12 @@
  */
 
 /**
- * Nooku class
+ * Nooku
  *
  * Loads classes and files, and provides metadata for Nooku such as version info
  *
- * @author  Johan Janssens <johan@nooku.org>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library
  */
 class Nooku
 {

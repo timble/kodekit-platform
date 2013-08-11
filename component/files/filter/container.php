@@ -12,7 +12,7 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Filter class for validating containers
+ * Container Filter
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files

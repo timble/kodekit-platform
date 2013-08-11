@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Custom Module Html View Class
+ * Custom Module Html View
  *
- * @author      Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Pages
  */
- 
 class PagesModuleCustomHtml extends PagesModuleDefaultHtml
 {
     public function render()

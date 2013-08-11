@@ -14,8 +14,8 @@ namespace Nooku\Library;
  *
  * Filters Windows and Unix style file paths
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 class FilterPath extends FilterAbstract implements FilterTraversable
 {

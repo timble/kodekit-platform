@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Class Locator Library
+ * Library Class Locator
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Class
- * @subpackage 	Adapter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Class
  */
 class ClassLocatorLibrary extends ClassLocatorAbstract
 {

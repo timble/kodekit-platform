@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * View Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 interface ViewInterface
 {

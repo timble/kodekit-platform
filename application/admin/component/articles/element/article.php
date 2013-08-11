@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Article Element Class
+ * Article Element
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Articles
  */
-
 class JElementArticle extends JElement
 {
     var $_name = 'Article';

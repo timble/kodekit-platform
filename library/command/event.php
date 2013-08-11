@@ -15,8 +15,8 @@ namespace Nooku\Library;
  * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
  * to any registered event handlers.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class CommandEvent extends Command
 {

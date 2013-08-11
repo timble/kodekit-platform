@@ -11,6 +11,12 @@ namespace Nooku\Component\Files;
 
 use Nooku\Library;
 
+/**
+ * Node Database Row
+ *
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
+ */
 class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
 	protected $_adapter;

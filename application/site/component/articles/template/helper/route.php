@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Route Template Helper Class
+ * Route Template Helper
  *
- * @author     Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Articles
  */
 class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 {

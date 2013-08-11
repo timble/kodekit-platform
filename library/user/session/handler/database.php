@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Database User Session Handler Class
+ * Database User Session Handler
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Session
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
 {

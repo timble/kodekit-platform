@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * HTTP Cookie Class
+ * Http Cookie Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Cookie
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 interface HttpCookieInterface
 {

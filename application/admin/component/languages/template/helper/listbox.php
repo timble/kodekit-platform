@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Languages Template Helper Listbox Class
+ * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
 class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {

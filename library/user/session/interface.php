@@ -14,9 +14,8 @@ namespace Nooku\Library;
  *
  * Provides access to session-state values as well as session-level settings and lifetime management methods.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
- * @subpackage  Session
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 interface UserSessionInterface
 {

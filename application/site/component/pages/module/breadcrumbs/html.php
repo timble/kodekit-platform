@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Breadcrumbs Module Html View Class
+ * Breadcrumbs Module Html View
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Pages
  */
- 
 class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
 {
     public function render()

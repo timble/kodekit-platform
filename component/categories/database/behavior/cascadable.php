@@ -12,7 +12,7 @@ namespace Nooku\Component\Categories;
 use Nooku\Library;
 
 /**
- * Cascadable Database Behavior Class
+ * Cascadable Database Behavior
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories

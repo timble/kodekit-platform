@@ -11,8 +11,6 @@
  * Framework loader
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
- * @package     Nooku_Server
  */
 
 use Nooku\Library;

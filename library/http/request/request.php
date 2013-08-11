@@ -10,11 +10,11 @@
 namespace Nooku\Library;
 
 /**
- * HTTP Request Class
+ * Http Request
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
+ * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
  */
 class HttpRequest extends HttpMessage implements HttpRequestInterface
 {

@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Controller Request Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Request
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 interface ControllerRequestInterface extends HttpRequestInterface
 {

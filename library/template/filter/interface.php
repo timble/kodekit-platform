@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Template filter interface
+ * Template Filter Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 interface TemplateFilterInterface extends ObjectHandlable
 {

@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Articles router class.
+ * Router
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author   Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
-
 class ArticlesRouter extends Library\DispatcherRouter
 {
     public function build(Library\HttpUrl $url)

@@ -17,7 +17,6 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-
 class DatabaseRowContainer extends Library\DatabaseRowTable
 {
 	/**

@@ -11,9 +11,9 @@ namespace Nooku\Library;
 
  /**
   * Template Interface
-  * 
-  * @author		Johan Janssens <johan@nooku.org>
-  * @package	Koowa_Template
+  *
+  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+  * @package Nooku\Library\Template
   */
 interface TemplateInterface
 {

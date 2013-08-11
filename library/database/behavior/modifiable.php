@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Modifiable Behavior
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage 	Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 {

@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Module Template Filter Class
+ * Module Template Filter
  *
  * Filter will parse elements of the form <html:modules position="[position]" /> and render the modules that are
  * available for this position.

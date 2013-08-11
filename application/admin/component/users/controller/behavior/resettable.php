@@ -7,15 +7,21 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Users;
+use Nooku\Library;
+use Nooku\Component\Users;
 
+/**
+ * Resettable Controller Behavior
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
+ */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
-        if (!$context->request->data->get('password', 'string'))
-        {
-            // Force a password reset.
+        // Force a password reset.
+        if (!$context->request->data->get('password', 'string')) {
             $context->request->data->password_reset = true;
         }
     }
@@ -33,7 +39,6 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
     protected function _afterControllerEdit(Library\CommandContext $context)
     {
-        // Same as add.
         return $this->_afterControllerAdd($context);
     }
 }

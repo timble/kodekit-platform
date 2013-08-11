@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Controller Toolbar Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage 	Toolbar
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 interface ControllerToolbarInterface extends \IteratorAggregate
 {

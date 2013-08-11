@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Controller Behavior
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerBehaviorAbstract extends BehaviorAbstract
 {

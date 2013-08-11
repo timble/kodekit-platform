@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Tags Controller Executable Behavior
+ * Tag Controller Permission
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Components
- * @subpackage  Tags
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Tags
  */
 class TagsControllerPermissionTag extends ApplicationControllerPermissionAbstract
 {

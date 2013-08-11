@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Folders Element Class
+ * Folders Element
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Server
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Files
  */
-
 class JElementFolders extends JElement
 {
 	public $_name = 'Folders';

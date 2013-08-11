@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Listbox Template Helper Class
+ * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category	Nooku
- * @package		Nooku_Server
- * @subpackage	Users
+ * @author   Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @@package Component\Users
  */
 class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 {

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Event Subscriber Class
+ * Abstract Event Subscriber
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
- * @subpackage 	Subscriber
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 abstract class EventSubscriberAbstract extends Object implements EventSubscriberInterface
 {

@@ -10,15 +10,14 @@
 namespace Nooku\Library;
 
 /**
- * Object Queue Class
+ * Object Queue
  *
  * ObjectQueue is a type of container adaptor implemented as a double linked list and specifically designed such that
  * its first element is always the greatest of the elements it contains based on the priority of the element.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Object
- * @see         http://www.php.net/manual/en/class.splpriorityqueue.php
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
+ * @see     http://www.php.net/manual/en/class.splpriorityqueue.php
  */
 class ObjectQueue extends Object implements \Iterator, \Countable
 {

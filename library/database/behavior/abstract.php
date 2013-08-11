@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Database Behavior
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage     Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
 {

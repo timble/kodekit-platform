@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Categories Database Rowset
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class DatabaseRowsetCategories extends DatabaseRowsetNodes

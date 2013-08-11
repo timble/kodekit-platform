@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * User Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 interface UserInterface
 {

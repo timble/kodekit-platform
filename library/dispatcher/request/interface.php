@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Dispatcher Request Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Request
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 interface DispatcherRequestInterface extends ControllerRequestInterface
 {

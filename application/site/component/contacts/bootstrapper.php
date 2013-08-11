@@ -10,18 +10,16 @@
 use Nooku\Library;
 
 /**
- * Contacts Bootstrapper
+ * Bootstrapper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Server
- * @subpackage  Contacts
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Contacts
  */
  class ContactsBootstrapper extends Library\BootstrapperAbstract
 {
     public function bootstrap()
     {
         $manager = $this->getObjectManager();
-
         $manager->registerAlias('com:contacts.model.categories', 'com:categories.model.categories');
     }
 }

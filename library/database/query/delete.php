@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Delete Database Query Class
+ * Delete Database Query
  *
- * @author      Gergo Erdosi <gergo@timble.net>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Library\Database
  */
 class DatabaseQueryDelete extends DatabaseQueryAbstract
 {

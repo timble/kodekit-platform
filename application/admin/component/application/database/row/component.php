@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Component Database Row Class
+ * Component Database Row
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationDatabaseRowComponent extends Library\DatabaseRowAbstract
 {

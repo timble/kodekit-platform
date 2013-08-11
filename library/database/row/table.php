@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Table Row Class
+ * Table Database Row
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Row
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseRowTable extends DatabaseRowAbstract
 {

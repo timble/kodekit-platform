@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Export a view as a CSV file
+ * CSV View
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 class ViewCsv extends ViewFile
 {

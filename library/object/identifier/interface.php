@@ -15,9 +15,8 @@ namespace Nooku\Library;
  * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors and methods for
  * derived formats.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Identifier
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 interface ObjectIdentifierInterface extends \Serializable
 {

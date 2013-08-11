@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Page Controller Class
- *   
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * Page Controller
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationControllerPage extends Library\ControllerView
 {

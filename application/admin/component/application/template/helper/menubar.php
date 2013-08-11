@@ -11,12 +11,12 @@ use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
- * Template Menubar Helper
+ * Menubar Template Helper
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
+
 class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
 {
  	/**

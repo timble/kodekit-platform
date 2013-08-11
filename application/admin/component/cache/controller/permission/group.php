@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Default Controller Permissions Class
+ * Group Controller Permission
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Cache
  */
 class CacheControllerPermissionGroup extends ApplicationControllerPermissionAbstract
 {  

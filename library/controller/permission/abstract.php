@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Controller Permissible Behavior
+ * Abstract Controller Permission
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage	Permission
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerPermissionAbstract extends ObjectMixinAbstract implements ControllerPermissionInterface
 {

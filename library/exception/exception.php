@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Exception Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Exception
  */
 interface Exception
 {

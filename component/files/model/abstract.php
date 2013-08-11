@@ -12,9 +12,9 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Default Model Class
+ * Abstract Model
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
 abstract class ModelAbstract extends Library\ModelAbstract

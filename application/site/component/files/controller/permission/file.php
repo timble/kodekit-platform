@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Default Class
+ * File Controller Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Files
  */
 class FilesControllerPermissionFile extends ApplicationControllerPermissionAbstract
 {

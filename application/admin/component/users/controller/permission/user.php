@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * User Controller Permission Class
+ * User Controller Permission
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
  */
 class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract
 {

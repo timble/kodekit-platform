@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Filter interface
+ * Filter Interface
  *
  * Validate or sanitize data
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 interface FilterInterface extends ObjectHandlable
 {

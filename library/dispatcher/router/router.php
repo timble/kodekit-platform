@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Default Router Class
+ * Default Dispatcher Router
  *
  * Provides route building and parsing functionality
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Router
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectSingleton
 {

@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template Compiler Filter Interface
+ * Compiler Template Filter Interface
  *
  * Filter will parse and compile to the template to executable PHP code.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage  Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 interface TemplateFilterCompiler
 {

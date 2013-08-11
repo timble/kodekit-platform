@@ -12,11 +12,10 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Node Controller Class
+ * Node Controller
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Components
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
  */
 class ControllerNode extends ControllerAbstract
 {

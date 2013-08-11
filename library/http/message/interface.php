@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Message Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Message
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 interface HttpMessageInterface
 {

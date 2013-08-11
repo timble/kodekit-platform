@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Languages Element Class
+ * Languages Element
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
  */
-
 class JElementLanguages extends JElement
 {
 	var	$_name = 'Languages';

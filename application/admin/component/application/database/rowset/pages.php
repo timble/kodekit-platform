@@ -11,11 +11,10 @@ use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
- * Pages Database Rowset Class
+ * Pages Database Rowset
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ObjectSingleton
 {

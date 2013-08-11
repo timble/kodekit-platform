@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * View JSON Class
+ * Json View
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 class ViewJson extends ViewAbstract
 {

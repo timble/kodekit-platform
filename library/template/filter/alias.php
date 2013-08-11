@@ -10,11 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template read filter for aliases such as @template, @text, @helper, @route etc
+ * Alias Template Filter
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage  Filter
+ * Read filter for aliases such as @template, @text, @helper, @route etc
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilterCompiler, TemplateFilterRenderer
 {

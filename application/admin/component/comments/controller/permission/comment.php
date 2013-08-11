@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Default Class
+ * Comments Controller Permission
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Commnets
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Comments
  */
 class CommentsControllerPermissionComment extends ApplicationControllerPermissionAbstract
 {

@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Contact Controller Class
+ * Contact Controller
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Contacts
  */
 class ContactsControllerContact extends Library\ControllerModel
 { 

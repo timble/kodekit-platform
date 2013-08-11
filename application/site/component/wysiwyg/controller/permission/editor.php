@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Editor Controller Permission Class
+ * Editor Controller Permission
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Wysiwyg
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Wywisyg
  */
 class WysiwygControllerPermissionEditor extends ApplicationControllerPermissionAbstract
 {

@@ -11,13 +11,11 @@ use Nooku\Library;
 use Nooku\Component\Languages;
 
 /**
- * Languages Template Helper Grid Class
+ * Grid Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
-
 class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
 {
     public function status($config = array())

@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Page Controller Class
+ * Page Controller
  *   
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author   Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @@package Component\Application
  */
- 
 class ApplicationControllerPage extends Library\ControllerView
 {
     protected function _actionRender(Library\CommandContext $context)

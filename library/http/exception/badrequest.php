@@ -10,13 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Bad Request Class
+ * Bead Request Http Exception
  *
  * The request itself or the data supplied along with the request is invalid and could not be processed by the server.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Exception
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpExceptionBadRequest extends HttpExceptionAbstract
 {

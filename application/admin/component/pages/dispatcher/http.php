@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Dispatcher Class
+ * Http  Dispatcher
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Pages
  */
-
 class PagesDispatcherHttp extends Library\DispatcherHttp
 {
     protected function _actionDispatch(Library\CommandContext $context)

@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Cache Group Row Class
+ * Group Database Row
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
  
 class CacheDatabaseRowGroup extends Library\DatabaseRowAbstract

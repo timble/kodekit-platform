@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Category Controller Class
+ * Category Controller
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
-
 class ArticlesControllerCategory extends CategoriesControllerCategory
 {    
 

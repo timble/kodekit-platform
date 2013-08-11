@@ -10,14 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * Abstract mixing class
+ * Abstract Object Mixin
  *
  * This class does not extend from Object and acts as a special core class that is intended to offer semi-multiple
  * inheritance features to Object derived classes.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 abstract class ObjectMixinAbstract implements ObjectMixinInterface
 {

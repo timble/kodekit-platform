@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Model Class
+ * Abstract Model
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Model
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Model
  */
 abstract class ModelAbstract extends Object implements ModelInterface
 {

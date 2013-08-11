@@ -10,13 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * Behavior Mixin Class
+ * Behavior Mixin
  *
  * Behaviors are attached in FIFO order during construction to allow to allow a behavior that is added by
  * a sub class to remix a previously mixed method to one of it's own methods.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Behavior
  */
 class BehaviorMixin extends ObjectMixinAbstract
 {

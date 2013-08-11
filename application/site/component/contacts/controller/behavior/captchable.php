@@ -11,11 +11,10 @@ use Nooku\Library, Nooku\Component\Users;
 
 
 /**
- * Captchable Controller Behavior.
+ * Captchable Controller Behavior
  *
- * @author        Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package       Nooku_Server
- * @subpackage    Contacts
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Contacts
  */
 class ContactsControllerBehaviorCaptchable extends Users\ControllerBehaviorCaptchable
 {

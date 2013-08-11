@@ -11,14 +11,11 @@ use Nooku\Library;
 use Nooku\Component\Files;
 
 /**
- * Files Html View Class
+ * Files Html View
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Files
  */
-
 class FilesViewFilesHtml extends Files\ViewFilesHtml
 {
     public function render()

@@ -10,14 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * Abstract User Session Container Class
+ * Abstract User Session Container
  *
  * This class provides structured storage of session attributes using a name spacing character in the key. Be default
  * the namespace character is a dot ('.')
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Session
- * @subpackage  Container
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 abstract class UserSessionContainerAbstract extends ObjectArray implements UserSessionContainerInterface
 {

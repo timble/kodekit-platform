@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Items HTML View class
+ * Items Html View
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Cache    
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Cache
  */
 class CacheViewItemsHtml extends Library\ViewHtml
 {

@@ -10,13 +10,11 @@
 use Nooku\Library;
 
 /**
- * Module Login View
+ * Module Login Html View
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
  */
- 
 class UsersModuleLoginHtml extends PagesModuleDefaultHtml
 {
     protected function _initialize(Library\ObjectConfig $config)

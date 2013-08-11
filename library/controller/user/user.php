@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Controller User Class
+ * Controller User
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  User
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerUser extends User implements ControllerUserInterface
 {

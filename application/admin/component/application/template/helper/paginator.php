@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Default Paginator Helper
-.*
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * Paginator Template Helper
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 {

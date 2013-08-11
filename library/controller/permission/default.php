@@ -10,10 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Default Controller Permission Class
+ * Default Controller Permission
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage	Permission
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 final class ControllerPermissionDefault extends ControllerPermissionAbstract { }

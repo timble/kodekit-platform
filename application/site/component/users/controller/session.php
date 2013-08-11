@@ -10,12 +10,10 @@
 use Nooku\Library;
 
 /**
- * Session Controller Class
+ * Session Controller
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
  */
 class UsersControllerSession extends Library\ControllerModel
 {
@@ -44,7 +42,8 @@ class UsersControllerSession extends Library\ControllerModel
 
     public function authenticate(Library\CommandContext $context)
     {
-        $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))
+        $user = $this->getObject('com:users.model.users')
+            ->email($context->request->data->get('email', 'email'))
             ->getRow();
 
         if(!$user->isNew())

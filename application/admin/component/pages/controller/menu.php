@@ -10,11 +10,10 @@
 use Nooku\Library;
 
 /**
- * Menu Controller Class
+ * Menu Controller
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Pages
+ * @package Component\Pages
  */
 class PagesControllerMenu extends Library\ControllerModel
 {

@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Dispatcher Response Class
+ * Dispatcher Response
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponse extends ControllerResponse implements DispatcherResponseInterface, ObjectInstantiable
 {

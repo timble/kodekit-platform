@@ -11,11 +11,10 @@ use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
- * Default Module View
+ * Default Module Html View
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Modules
- * @subpackage  Default
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Pages
  */
 class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
 {

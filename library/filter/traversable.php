@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * This interface signals FilterAbstract::getInstance() to decorate the Filter with a FilterIterator. The iterator
  * will traverse the data if it's traversable and filter each value separately.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
 interface FilterTraversable { }

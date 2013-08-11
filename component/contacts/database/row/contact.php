@@ -12,7 +12,7 @@ namespace Nooku\Component\Contacts;
 use Nooku\Library;
 
 /**
- * Contact Database Row Class
+ * Contact Database Row
  *
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts

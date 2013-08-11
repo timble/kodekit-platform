@@ -10,11 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Event Dispatcher Interface.
+ * Event Dispatcher Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
- * @subpackage 	Dispatcher
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 interface EventDispatcherInterface
 {
