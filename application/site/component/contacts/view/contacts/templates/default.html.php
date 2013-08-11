@@ -19,7 +19,7 @@
 </div>
 
 <? if ($category->image || $category->description) : ?>
-<div class="well clearfix">
+<div class="clearfix">
     <? if ($category->image) : ?>
     <?= @helper('com:categories.string.image', array('row' => $category)) ?>
     <? endif; ?>
