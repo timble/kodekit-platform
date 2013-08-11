@@ -56,7 +56,7 @@ class Date extends \DateTime implements DateInterface
     /**
      * Returns date formatted according to given format.
      *
-     * @param  string The format to use
+     * @param  string $format The format to use
      * @return string The formatted data
      */
     public function format($format)
