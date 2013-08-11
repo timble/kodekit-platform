@@ -152,7 +152,7 @@ class Event extends ObjectConfig implements EventInterface
      *
      * If multiple event listeners are connected to the same event, no further event listener will be triggered once
      * any trigger calls stopPropagation().
-     * 
+     *
      * @return Event
      */
     public function stopPropagation()
