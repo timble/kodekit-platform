@@ -48,7 +48,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
 
         //Set the site name
         if(empty($config->site)) {
-            $this->_site = $this->_findSite();
+            $this->_site = $this->getSite();
         } else {
             $this->_site = $config->site;
         }
@@ -468,16 +468,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     }
 
     /**
-     * Gets the name of site
-     *
-     * @return	string
-     */
-    public function getSite()
-    {
-        return $this->_site;
-    }
-
-    /**
      * Get the theme
      *
      * @return string The theme name
@@ -488,37 +478,43 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     }
 
     /**
-     * Find the site name
+     * Gets the name of site
      *
      * This function tries to get the site name based on the information present in the request. If no site can be found
      * it will return 'default'.
      *
-     * @return string   The site name
+     * @param  boolean $reparse Reparse the site name from the request url
+     * @return string  The site name
      */
-    protected function _findSite()
+    public function getSite($reparse = false)
     {
-        // Check URL host
-        $uri  = clone($this->getRequest()->getUrl());
-
-        $host = $uri->getHost();
-        if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
+        if(!$this->_site || $reparse)
         {
-            // Check folder
-            $base = $this->getRequest()->getBaseUrl()->getPath();
-            $path = trim(str_replace($base, '', $uri->getPath()), '/');
-            if(!empty($path)) {
-                $site = array_shift(explode('/', $path));
-            } else {
-                $site = 'default';
-            }
+            // Check URL host
+            $uri  = clone($this->getRequest()->getUrl());
 
-            //Check if the site can be found, otherwise use 'default'
-            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
-                $site = 'default';
-            }
+            $host = $uri->getHost();
+            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
+            {
+                // Check folder
+                $base = $this->getRequest()->getBaseUrl()->getPath();
+                $path = trim(str_replace($base, '', $uri->getPath()), '/');
+                if(!empty($path)) {
+                    $site = array_shift(explode('/', $path));
+                } else {
+                    $site = 'default';
+                }
 
-        } else $site = $host;
+                //Check if the site can be found, otherwise use 'default'
+                if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
+                    $site = 'default';
+                }
 
-        return $site;
+            } else $site = $host;
+
+            $this->_site = $site;
+        }
+
+        return $this->_site;
     }
 }
