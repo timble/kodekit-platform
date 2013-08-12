@@ -20,11 +20,8 @@ class ExtensionsControllerSetting extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'behaviors' => array(
-                'editable',
-                'com:activities.controller.behavior.loggable'
-            ),
-            'request' => array('view' => 'settings')
+            'behaviors' => array('editable'),
+            'request'   => array('view' => 'settings')
         ));
 
         parent::_initialize($config);
