@@ -25,6 +25,11 @@ class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
         
         $this->registerCallback('before.browse' , array($this, 'setReferrer'));
     }
+
+    public function canSave()
+    {
+        return $this->canEdit();
+    }
     
 	protected function _actionSave(Library\CommandContext $context)
 	{
