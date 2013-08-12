@@ -133,7 +133,7 @@ class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterfac
      * will be passed to the callback directly.
      *
      * @param   string|array $commands The command name to register the callback for or an array of command names
-     * @param   callback     $callback The callback function to register
+     * @param   callable     $callback The callback function to register
      * @param   array|ObjectConfig $params   An associative array of config parameters or a ObjectConfig object
      * @return  Object    The mixer object
      */

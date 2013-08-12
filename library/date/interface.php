@@ -17,5 +17,19 @@ namespace Nooku\Library;
  */
 interface DateInterface extends ObjectHandlable
 {
-    
+    /**
+     * Returns date formatted according to given format.
+     *
+     * @param  string $format The format to use
+     * @return string The formatted data
+     */
+    public function format($format);
+
+    /**
+     * Returns human readable date.
+     *
+     * @param  string $period The smallest period to use. Default is 'second'.
+     * @return string Formatted date.
+     */
+    public function humanize($period = 'second');
 }
