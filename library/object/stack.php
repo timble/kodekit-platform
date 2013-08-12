@@ -1,20 +1,21 @@
 <?php
 /**
- * @package     Koowa_Template
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
  /**
-  * Object Stack Class
+  * Object Stack
   * 
   * Implements a simple stack collection (LIFO) 
-  * 
-  * @author     Johan Janssens <johan@nooku.org>
-  * @package    Koowa_Object
+  *
+  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+  * @package Nooku\Library\Object
   */
 class ObjectStack extends Object implements \Countable
 { 

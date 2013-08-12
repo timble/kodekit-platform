@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Koowa_Http
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * HTTP Url Class
+ * Http Url
  *
  * This class helps you to create and manipulate urls, including query strings and path elements. It does so by splitting
  * up the pieces of the url and allowing you modify them individually; you can then then fetch them as a single url
@@ -80,8 +81,8 @@ namespace Nooku\Library;
  * ?>
  * </code>
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpUrl extends Object
 {

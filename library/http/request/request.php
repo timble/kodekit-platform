@@ -1,19 +1,20 @@
 <?php
 /**
- * @package     Koowa_Http
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * HTTP Request Class
+ * Http Request
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
+ * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
  */
 class HttpRequest extends HttpMessage implements HttpRequestInterface
 {

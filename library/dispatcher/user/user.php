@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Koowa_Dispatcher
- * @subpackage  User
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Dispatcher User Class
+ * Dispatcher User
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  User
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherUser extends ControllerUser implements DispatcherUserInterface
 {

@@ -1,23 +1,23 @@
 <?php
 /**
- * @package        Koowa_Object
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Object Queue Class
+ * Object Queue
  *
  * ObjectQueue is a type of container adaptor implemented as a double linked list and specifically designed such that
  * its first element is always the greatest of the elements it contains based on the priority of the element.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Object
- * @see         http://www.php.net/manual/en/class.splpriorityqueue.php
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
+ * @see     http://www.php.net/manual/en/class.splpriorityqueue.php
  */
 class ObjectQueue extends Object implements \Iterator, \Countable
 {

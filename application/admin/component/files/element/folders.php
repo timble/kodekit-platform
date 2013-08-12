@@ -1,23 +1,20 @@
 <?php
 /**
- * @version     $Id$
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Folders Element Class
+ * Folders Element
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Server
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Files
  */
-
 class JElementFolders extends JElement
 {
 	public $_name = 'Folders';

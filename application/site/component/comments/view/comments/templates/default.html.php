@@ -1,35 +1,35 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Comments
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<script src="media://js/mootools.js" />
+    <script src="media://js/mootools.js" />
 
-<script>
-    window.addEvent('domready', function() {
-        $$('.icon-trash').addEvent('click',function(){
-            var id = $(this).getAttribute('data-id');
-            var request = new Request.JSON({
-                url: '<?=@route();?>',
-                method: 'delete',
-                data: {
-                    action: 'delete',
-                    id: id,
-                    _token:'<?= @object('user')->getSession()->getToken() ?>'
-                },
+    <script>
+        window.addEvent('domready', function() {
+            $$('.icon-trash').addEvent('click',function(){
+                var id = $(this).getAttribute('data-id');
+                var request = new Request.JSON({
+                    url: '<?=@route();?>',
+                    method: 'delete',
+                    data: {
+                        action: 'delete',
+                        id: id,
+                        _token:'<?= @object('user')->getSession()->getToken() ?>'
+                    },
 //                action: delete,
-                onComplete: function(response){
-                    $('comment-'+id).remove()
-                }
-            }).send();
+                    onComplete: function(response){
+                        $('comment-'+id).remove()
+                    }
+                }).send();
+            });
         });
-    });
-</script>
+    </script>
 
 <?if(@object('com:comments.controller.comment')->canAdd()):?>
     <?= @template('com:comments.view.comment.form.html'); ?>
@@ -55,4 +55,3 @@
         </div>
     </div>
 <? endforeach ?>
-

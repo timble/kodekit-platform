@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Mixin
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,9 +14,8 @@ namespace Nooku\Library;
  * 
  * Class can be used as a mixin in classes that want to implement a chain of responsibility or chain of command pattern.
  *  
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class CommandMixin extends ObjectMixinAbstract
 {   

@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Database
- * @subpackage  Rowset
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Rowset Class
+ * Abstract Database Rowset
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Rowset
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowsetInterface
 {

@@ -1,18 +1,19 @@
 <?php
 /**
- * @package     Koowa_Date
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Date Class
+ * Date
  *
- * @author  	Gergo Erdosi <gergo@timble.net>
- * @package     Koowa_Date
+ * @author  Gergo Erodsi <http://nooku.assembla.com/profile/gergoerdosis>
+ * @package Nooku\Library\Date
  */
 class Date extends \DateTime implements DateInterface
 {
@@ -55,7 +56,7 @@ class Date extends \DateTime implements DateInterface
     /**
      * Returns date formatted according to given format.
      *
-     * @param  string The format to use
+     * @param  string $format The format to use
      * @return string The formatted data
      */
     public function format($format)

@@ -1,23 +1,23 @@
 <?php
 /**
- * @package		Koowa_Controller
- * @subpackage  User
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * User Class
+ * User
  *
  * User is the user implementation used by the in-memory user provider. This object is tightly coupled to the session.
  * all data is stored and retrieved from the session attribute container, using a special 'user' namespace to avoid
  * conflicts.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 class User extends Object implements UserInterface, ObjectInstantiable
 {

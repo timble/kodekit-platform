@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Module Template Filter Class
+ * Module Template Filter
  *
  * Filter will parse elements of the form <html:modules position="[position]" /> and render the modules that are
  * available for this position.
@@ -35,7 +35,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -49,7 +49,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -65,7 +65,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      * @return void
      */
     public function render(&$text)
@@ -100,7 +100,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Parse <ktml:module></ktml:module> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      */
     public function _parseModuleTags(&$text)
     {
@@ -142,7 +142,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      */
     public function _parseModulesTags(&$text)
     {

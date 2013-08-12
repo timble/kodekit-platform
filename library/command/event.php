@@ -1,9 +1,10 @@
 <?php
 /**
- * @package        Koowa_Command
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,8 +15,8 @@ namespace Nooku\Library;
  * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
  * to any registered event handlers.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class CommandEvent extends Command
 {
