@@ -5524,82 +5524,93 @@ body.login .alert__text {
   overflow: hidden;
 }
 
-/* line 18, components/_ckeditor.scss */
+/* line 17, components/_ckeditor.scss */
+div.cke_dialog_ui_input_select {
+  border: 0 none;
+  box-shadow: none;
+}
+
+/* line 23, components/_ckeditor.scss */
+#cke_advanced_207 {
+  display: none;
+}
+
+/* line 28, components/_ckeditor.scss */
 #files-compact .tab > label {
   border-right: 1px solid #dddddd;
 }
-/* line 22, components/_ckeditor.scss */
+/* line 32, components/_ckeditor.scss */
 #files-compact [type=radio]:checked ~ label {
   background-color: #f9f9f9;
   border-bottom-color: #f9f9f9;
 }
-/* line 27, components/_ckeditor.scss */
+/* line 37, components/_ckeditor.scss */
 #files-compact .content {
   overflow: hidden;
   top: 30px;
   background-color: #f9f9f9;
 }
-/* line 32, components/_ckeditor.scss */
+/* line 42, components/_ckeditor.scss */
 #files-compact .content .dropzone {
   background-color: white;
 }
-/* line 39, components/_ckeditor.scss */
+/* line 49, components/_ckeditor.scss */
 #files-compact #files-insert #files-tree-container,
 #files-compact #files-insert #files-grid {
   width: 200px;
   border-right: 1px solid #E1E1E1;
   background-color: #f9f9f9;
 }
-/* line 46, components/_ckeditor.scss */
+/* line 56, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview {
   background: white;
 }
-/* line 49, components/_ckeditor.scss */
+/* line 59, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview > div {
   margin: auto;
   text-align: center;
 }
-/* line 53, components/_ckeditor.scss */
+/* line 63, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview > div > div {
   padding-top: 6px;
 }
-/* line 58, components/_ckeditor.scss */
+/* line 68, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview img {
   max-height: 125px;
   max-width: 300px;
 }
-/* line 64, components/_ckeditor.scss */
+/* line 74, components/_ckeditor.scss */
 #files-compact #files-insert #details #image-insert-form {
   border-top: 1px solid #E1E1E1;
   background-color: #F4F4F4;
 }
-/* line 69, components/_ckeditor.scss */
+/* line 79, components/_ckeditor.scss */
 #files-compact #files-insert #details .buttons {
   border-top: 1px solid #E1E1E1;
   background-color: #F4F4F4;
   padding: 6px;
   text-align: right;
 }
-/* line 79, components/_ckeditor.scss */
+/* line 89, components/_ckeditor.scss */
 #files-compact #files-upload form {
   padding: 5px;
 }
-/* line 83, components/_ckeditor.scss */
+/* line 93, components/_ckeditor.scss */
 #files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
   height: 28px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 87, components/_ckeditor.scss */
+/* line 97, components/_ckeditor.scss */
 #files-compact #files-upload form #remote-url {
   border-radius: 4px 0 0 4px;
 }
-/* line 90, components/_ckeditor.scss */
+/* line 100, components/_ckeditor.scss */
 #files-compact #files-upload form #remote-name {
   border-radius: 0;
 }
-/* line 93, components/_ckeditor.scss */
+/* line 103, components/_ckeditor.scss */
 #files-compact #files-upload form .remote-submit {
   top: 5px;
   right: 5px;
@@ -5607,7 +5618,7 @@ body.login .alert__text {
   border-radius: 0 4px 4px 0;
 }
 
-/* line 110, components/_ckeditor.scss */
+/* line 120, components/_ckeditor.scss */
 #insert-modal-cancel,
 #insert-link,
 .insert-or {
@@ -5617,14 +5628,14 @@ body.login .alert__text {
   cursor: pointer;
 }
 
-/* line 116, components/_ckeditor.scss */
+/* line 126, components/_ckeditor.scss */
 .insert-or {
   padding: 5px 5px 5px 0;
   margin-left: -5px;
   cursor: default;
 }
 
-/* line 121, components/_ckeditor.scss */
+/* line 131, components/_ckeditor.scss */
 #insert-link {
   font-size: 15px;
   overflow: hidden;
