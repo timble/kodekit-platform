@@ -7,7 +7,6 @@
     CKEDITOR.plugins.addExternal('images','extras/images/', 'plugin.js');
     CKEDITOR.plugins.addExternal('autosave','extras/autosave/', 'plugin.js');
     CKEDITOR.plugins.addExternal('files','extras/files/', 'plugin.js');
-    //CKEDITOR.plugins.addExternal('links','extras/links/', 'plugin.js');
 })();
 
 
