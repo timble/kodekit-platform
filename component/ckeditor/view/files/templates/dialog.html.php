@@ -47,7 +47,7 @@
 
                 var    url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
                 selected = row.path;
-                document.id('insert-document').set('disabled', false);
+
                 document.id('image-url').set('value', url);
 
                 document.id('image-type').set('value',row.metadata.mimetype);
