@@ -21,7 +21,7 @@
         document.id('details').adopt(document.id('image-insert-form'));
 
         var type = '<?=$type?>';
-
+        var selected = null;
         if(type == 'file'){
             Files.app.grid.addEvent('clickFile', function(e) {
                 var target = document.id(e.target).getParent('.files-node');
@@ -41,15 +41,25 @@
         }else{
 
             Files.app.grid.addEvent('clickImage', function(e) {
+
                 var target = document.id(e.target).getParent('.files-node');
                 var row = target.retrieve('row');
 
                 var    url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+                selected = row.path;
+                document.id('insert-document').set('disabled', false);
                 document.id('image-url').set('value', url);
 
                 document.id('image-type').set('value',row.metadata.mimetype);
             });
         }
+        document.id('image-insert-form').addEvent('click', function(e) {
+            e.stop();
+
+            <? if ($state->callback): ?>
+            window.parent.<?= $state->callback; ?>(selected);
+            <? endif; ?>
+        });
 
     });
 </script>

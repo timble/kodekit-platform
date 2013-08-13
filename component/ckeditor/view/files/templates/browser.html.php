@@ -31,7 +31,8 @@
                     theme: 'media://files/images/mootree.png'
                 },
                 types: <?= json_encode($state->types); ?>,
-                container: <?= json_encode($state->container ? $state->container : null); ?>
+                container: <?= json_encode($state->container ? $state->container : null); ?>,
+                url: 'files/default/images/powered_by.png'
             };
         options = $extend(options, config);
 
@@ -43,7 +44,7 @@
     });
 </script>
 
-<?= @template('com:files.view.files.templates_compact.html');?>
+<?= @template('templates_compact.html');?>
 
 <div id="files-compact" class="tabs tabs-horizontal">
     <div class="tab">
