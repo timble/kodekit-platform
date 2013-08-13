@@ -44,8 +44,13 @@
                     <?= @helper('grid.checkbox', array('row' => $tag)); ?>
                 </td>
                 <td>
+<<<<<<< HEAD:application/admin/component/terms/view/terms/templates/default.html.php
+                    <a href="<?= @route('view=term&id='.$term->id); ?>">
+                        <?= @escape($term->title); ?>
+=======
                     <a href="<?= @route('view=tag&id='.$tag->id); ?>">
                         <?= @escape($tag->title); ?>
+>>>>>>> develop:application/admin/component/tags/view/tags/templates/default.html.php
                     </a>
                 </td>
                 <td>

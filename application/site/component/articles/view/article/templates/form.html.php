@@ -11,6 +11,11 @@
 <?= @helper('behavior.mootools'); ?>
 <?= @helper('behavior.keepalive'); ?>
 
+<? if (@object('component')->getController()->canEdit()) : ?>
+    <?= @helper('behavior.inline_editing'); ?>
+<? endif;?>
+
+
 <!--
 <script src="media://js/koowa.js"/>
 -->
@@ -19,14 +24,45 @@
     <?= @helper('com:base.toolbar.render', array('toolbar' => $toolbar));?>
 </div>
 
+<article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
+    <div class="page-header">
+        <h1 id="title" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>"><?= $article->title ?></h1>
+        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <? if (!$article->published) : ?>
+            <span class="label label-info"><?= @text('Unpublished') ?></span>
+        <? endif ?>
+        <? if ($article->access) : ?>
+            <span class="label label-important"><?= @text('Registered') ?></span>
+        <? endif ?>
+    </div>
+
+    <? if($article->thumbnail): ?>
+        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
+    <? endif; ?>
+
+    <? if($article->fulltext) : ?>
+        <div id="introtext" class="article_introtext" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>">
+            <?= $article->introtext ?>
+        </div>
+    <? else : ?>
+        <div id="introtext" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>" >
+            <?= $article->introtext ?>
+        </div>
+    <? endif ?>
+
+    <div id="fulltext" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>">
+        <?= $article->fulltext ?>
+    </div>
+
+    <?= @template('com:tags.view.tags.default.html') ?>
+    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+</article>
+
+
 <form method="post" action="" class="-koowa-form form-horizontal">
     <input type="hidden" name="published" value="0" />
     <input type="hidden" name="access" value="0" />
-    
-    <fieldset>
-        <input class="input-block-level" type="text" name="title" maxlength="100" value="<?= @escape($article->title); ?>" style="margin-bottom: 10px"/>
-        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
-    </fieldset>
+
     <fieldset>
         <legend><?= @text('Publishing'); ?></legend>
         <div class="control-group">

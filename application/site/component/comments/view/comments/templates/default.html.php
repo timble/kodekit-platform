@@ -11,27 +11,37 @@
 <script src="media://js/mootools.js" />
 
 
-<script src="media:///wysiwyg/ckeditor/ckeditor.js" />
+<script src="media:///ckeditor/ckeditor/ckeditor.js" />
 <script type='text/javascript' language='javascript'>
 
     function ClickToSave (comment_id) {
-        var request = new Request.JSON({
-            url: '?view=comment&id='+comment_id,
-            data: {
-                id: comment_id,
-                text: CKEDITOR.instances['comment-'+comment_id].getData(),
-                _token:'<?= @object('user')->getSession()->getToken() ?>'
-            },
-            onComplete: function(response){
 
-            }
-        }).send();
     }
 
     CKEDITOR.on( 'instanceCreated', function( event ) {
-        var editor = event.editor,
+        var editor = event.editor;
 
         editor.config.toolbar = 'title';
+        editor.config.removePlugins = 'codemirror,readmore,autosave,images,files';
+        editor.config.allowedContent = "";
+        editor.config.forcePasteAsPlainText = true;
+
+        editor.on('blur', function(e){
+            if (e.editor.checkDirty()){
+                var id = e.editor.name.split("-");
+
+                var request = new Request.JSON({
+                    url: '?view=comment&id='+id[1],
+                    data: {
+                        text: e.editor.getData(),
+                        _token:'<?= @object('user')->getSession()->getToken() ?>'
+                    },
+                    onComplete: function(response){
+
+                    }
+                }).send();
+            }
+        });
     });
 
     window.addEvent('domready', function() {
@@ -66,15 +76,17 @@
            <span class="comment-header-time">
                 <time datetime="<?= $comment->created_on ?>" pubdate><?= @helper('date.humanize', array('date' => $comment->created_on)) ?></time>
             </span>
-            <?if($comment->created_by == @object('user')->getId() || $this->getUser()->getRole() >= 23):?>
+            <?if($comment->created_by == @object('user')->getId() || @object('user')->getRole() >= 23):?>
                 <span class="comment-header-options">
                     <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
                 </span>
             <? endif;?>
         </div>
-        <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= $comment->editable ? 'true':'true';?>" onBlur="ClickToSave(<?=$comment->id?>)">
-            <p><?= @escape($comment->text) ?></p>
-        </div>
+
+            <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= $comment->editable ? 'true':'false';?>" >
+                <p><?= @escape($comment->text) ?></p>
+            </div>
+
 
     </div>
 

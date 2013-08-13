@@ -11,7 +11,7 @@
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
 	    <? if (@object('component')->getController()->canEdit()) : ?>
-	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+	    <a style="float: right;" class="btn btn-mini" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
 	        <i class="icon-edit"></i>
 	    </a>
 	    <? endif; ?>
@@ -28,21 +28,21 @@
     <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
 
     <? if($article->fulltext) : ?>
-    <div class="article__introtext">
-        <?= $article->introtext ?>
-    </div>
+        <div class="article__introtext">
+            <?= $article->introtext ?>
+        </div>
     <? else : ?>
-    <?= $article->introtext ?>
+        <?= $article->introtext ?>
     <? endif ?>
 
     <?= $article->fulltext ?>
-    
+
     <?= @template('com:tags.view.tags.default.html') ?>
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>
 
 <? if($article->id && $params->get('commentable')) : ?>
-<div class="comments">
-    <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
-</div>
+    <div class="comments">
+        <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
+    </div>
 <? endif ?>
