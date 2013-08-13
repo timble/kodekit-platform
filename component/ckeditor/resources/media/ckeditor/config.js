@@ -7,7 +7,7 @@
     CKEDITOR.plugins.addExternal('images','extras/images/', 'plugin.js');
     CKEDITOR.plugins.addExternal('autosave','extras/autosave/', 'plugin.js');
     CKEDITOR.plugins.addExternal('files','extras/files/', 'plugin.js');
-    CKEDITOR.plugins.addExternal('links','extras/links/', 'plugin.js');
+    //CKEDITOR.plugins.addExternal('links','extras/links/', 'plugin.js');
 })();
 
 
@@ -17,9 +17,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'codemirror,readmore,autosave,images,onchange,files,links';
+    config.extraPlugins = 'codemirror,readmore,autosave,images,onchange,files';
     // wee need to remove the default image and link plugins for the custom plugin's to work properly
-    config.removePlugins ='link';
 
     config.protectedSource.push( /<\?[\s\S]*?\?>/g );
     config.autosave_delay = '10';
@@ -73,7 +72,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic' ] },
             { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
             { name: 'links', items: [ 'readmore' ] },
-            { name: 'insert', items: [ 'images', 'files','links' ,'Table' ] },
+            { name: 'insert', items: [ 'images', 'files','Link','Unlink' ,'Table' ] },
             { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
             { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] }
