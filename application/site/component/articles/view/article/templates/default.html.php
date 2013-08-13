@@ -42,7 +42,5 @@
 </article>
 
 <? if($article->id && $params->get('commentable')) : ?>
-    <div class="comments">
-        <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
-    </div>
+    <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
 <? endif ?>
