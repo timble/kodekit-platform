@@ -41,15 +41,14 @@ class CommandMixin extends ObjectMixinAbstract
             
         //Create a command chain object 
         $this->_command_chain = $config->command_chain;
-        
-        //Mixin the callback mixer if callbacks have been enabled
+
+        //Mixin the callback mixin
         if($config->enable_callbacks)
         {
-            //Mixin the callback mixin
-            $mixin = $this->getMixer()->mixin('lib:object.mixin.callback', $config);
-
-            //Enqueue the command in the mixer's command chain
-            $this->getCommandChain()->enqueue($mixin, $config->callback_priority);
+            $this->getMixer()->mixin('lib:command.mixin.callback', array(
+                'command_chain' => $this->getCommandChain(),
+                'priority'      => $config->callback_priority
+            ));
         }
         
         //Enqueue the event command with a lowest priority to make sure it runs last

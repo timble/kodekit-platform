@@ -23,7 +23,8 @@ class ControllerFile extends ControllerAbstract
 	{
 		parent::__construct($config);
 
-		$this->registerCallback(array('before.add', 'before.edit'), array($this, 'addFile'));
+		$this->registerCallback('before.add' , array($this, 'addFile'));
+        $this->registerCallback('before.edit', array($this, 'addFile'));
 	}
 	
     protected function _initialize(Library\ObjectConfig $config)
@@ -47,7 +48,6 @@ class ControllerFile extends ControllerAbstract
 			if (empty($name)) {
 				$context->request->data->set('name', $context->request->files->get('file.name', 'raw'));
 			}
-
 		}
 	}
 
