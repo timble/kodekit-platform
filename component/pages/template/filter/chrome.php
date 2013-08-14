@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -12,9 +12,9 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Chrome Filter
+ * Chrome Template Filter
  *
- * @author  Johan Janssens <johan@nooku.org>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiable
@@ -29,7 +29,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      */
     public function __construct( Library\ObjectConfig $config )
     {
@@ -43,7 +43,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -60,7 +60,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      *
      * @param   Library\ObjectConfig         	        $config  An optional Library\ObjectConfig object with configuration options
      * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
-     * @return  TemplateHelperChrome
+     * @return  TemplateFilterChrome
      */
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
@@ -114,14 +114,14 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
     /**
      * Render the module chrome
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      * @return void
      */
     public function render(&$text)
     {
         $data = (object) $this->getTemplate()->getData();
 
-        foreach($data->module->chrome as $style)
+        foreach($this->_styles as $style)
         {
             $method = '_style'.ucfirst($style);
 

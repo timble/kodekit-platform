@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Koowa_Helper
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 /**
@@ -31,14 +32,12 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
 namespace Nooku\Library;
 
 /**
- * String helper class for utf-8 data
+ * String
  *
- * All functions assume the validity of utf-8 strings.
+ * Helper class for utf-8 data. All functions assume the validity of utf-8 strings.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Helper
- * @subpackage  String
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\String
  * @static
  */
 class String

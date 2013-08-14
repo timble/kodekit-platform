@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Koowa_Http
- * @subpackage  Url
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,12 +12,24 @@ namespace Nooku\Library;
 /**
  * Http Url Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Url
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 interface HttpUrlInterface
 {
+    /**
+     * Parse the url from a string or array
+     *
+     * Partial URLs are also accepted. setUrl() tries its best to parse them correctly. Function also accepts an
+     * associative array like parse_url returns.
+     *
+     * @param   string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
+     * @throws  \UnexpectedValueException If the url is not an array a string or cannot be casted to one.
+     * @return  HttpUrl
+     * @see     parse_url()
+     */
+    public function setUrl($url);
+
     /**
      * Get the scheme part of the URL
      *
@@ -162,15 +174,25 @@ interface HttpUrlInterface
     public function setFragment($fragment);
 
     /**
-     * Parse the url from a string
+     * Build the url from a string
      *
-     * Partial URLs are also accepted,froString tries its best to parse them correctly.
+     * Partial URLs are also accepted. fromString tries its best to parse them correctly.
      *
      * @param   string  $url
-     * @return  HttpUrlInterface
+     * @throws  \UnexpectedValueException If the url is not a string or cannot be casted to one.
+     * @return  HttpUrl
      * @see     parse_url()
      */
-    public function fromString($url);
+    public static function fromString($url);
+
+    /**
+     * Build the url from an array
+     *
+     * @param   string  $array Associative array like parse_url() returns.
+     * @return  HttpUrl
+     * @see     parse_url()
+     */
+    public static function fromArray(array $parts);
 
     /**
      * Convert the url or part of it to a string

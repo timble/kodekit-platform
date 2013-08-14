@@ -1,20 +1,21 @@
 <?php
 /**
- * @package     Koowa_Event
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Event Class
+ * Event
  *
  * You can call the method stopPropagation() to abort the execution of further listeners in your event listener.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 class Event extends ObjectConfig implements EventInterface
 {
@@ -152,7 +153,7 @@ class Event extends ObjectConfig implements EventInterface
      *
      * If multiple event listeners are connected to the same event, no further event listener will be triggered once
      * any trigger calls stopPropagation().
-     * 
+     *
      * @return Event
      */
     public function stopPropagation()

@@ -1,23 +1,24 @@
 <?php
 /**
- * @package     Koowa_Behavior
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Behavior Mixin Class
+ * Behavior Mixin
  *
  * Behaviors are attached in FIFO order during construction to allow to allow a behavior that is added by
  * a sub class to remix a previously mixed method to one of it's own methods.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Behavior
  */
-class BehaviorMixin extends ObjectMixinAbstract
+class BehaviorMixin extends CommandMixin
 {
     /**
      * List of behaviors
@@ -137,9 +138,7 @@ class BehaviorMixin extends ObjectMixinAbstract
         $behavior->setMixer($this->_mixer);
 
         //Enqueue the behavior
-        if ($this->inherits('Nooku\Library\CommandMixin')) {
-            $this->getCommandChain()->enqueue($behavior);
-        }
+        $this->getCommandChain()->enqueue($behavior);
 
         //Mixin the behavior
         if ($this->_auto_mixin) {
@@ -165,13 +164,7 @@ class BehaviorMixin extends ObjectMixinAbstract
             if (is_string($behavior) && strpos($behavior, '.') === false)
             {
                 $identifier = clone $this->getIdentifier();
-
-                if(isset($identifier->path[0])) {
-                    $identifier->path = array($identifier->path[0], 'behavior');
-                } else {
-                    $identifier->path = array($identifier->name, 'behavior');
-                }
-
+                $identifier->path = array($identifier->path[0], 'behavior');
                 $identifier->name = $behavior;
             }
             else $identifier = $this->getIdentifier($behavior);
@@ -188,6 +181,4 @@ class BehaviorMixin extends ObjectMixinAbstract
 
         return $behavior;
     }
-
-
 }

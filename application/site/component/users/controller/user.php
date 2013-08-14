@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Users
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * User Controller Class
+ * User Controller
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Users
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Users
  */
 class UsersControllerUser extends Library\ControllerModel
 {
@@ -22,15 +21,16 @@ class UsersControllerUser extends Library\ControllerModel
     {
         parent::__construct($config);
 
-        $this->registerCallback(array('before.edit', 'before.add'), array($this, 'sanitizeRequest'))
-             ->registerCallback('after.add', array($this, 'redirect'));
+        $this->registerCallback('before.edit', array($this, 'sanitizeRequest'))
+             ->registerCallback('before.add' , array($this, 'sanitizeRequest'))
+             ->registerCallback('after.add'  , array($this, 'redirect'));
 	}
     
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
-                'resettable', 'activatable',
+                'editable', 'resettable', 'activatable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
         )));
 

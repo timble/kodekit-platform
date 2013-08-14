@@ -11,11 +11,10 @@
 use Nooku\Library;
 
 /**
- * Files Html View Class
+ * Files Html View
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Files
  */
 class FilesViewDirectoryHtml extends Library\ViewHtml
 {

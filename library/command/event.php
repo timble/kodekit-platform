@@ -1,9 +1,10 @@
 <?php
 /**
- * @package        Koowa_Command
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,35 +15,30 @@ namespace Nooku\Library;
  * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
  * to any registered event handlers.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
-class CommandEvent extends Command
+class CommandEvent extends EventMixin implements CommandInterface
 {
     /**
-     * The event dispatcher object
+     * The command priority
      *
-     * @var EventDispatcherInterface
+     * @var integer
      */
-    protected $_dispatcher;
+    protected $_priority;
 
     /**
-     * Constructor.
+     * Object constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config Configuration options
+     * @throws \InvalidArgumentException
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        if (is_null($config->event_dispatcher))
-        {
-            throw new \InvalidArgumentException(
-                'event_dispatcher [EventDispatcherInterface] config option is required'
-            );
-        }
-
-        $this->_event_dispatcher = $config->event_dispatcher;
+        //Set the command priority
+        $this->_priority = $config->priority;
     }
 
     /**
@@ -50,39 +46,16 @@ class CommandEvent extends Command
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'event_dispatcher' => null
+            'priority' => CommandChain::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Get the event dispatcher
-     *
-     * @return  EventDispatcherInterface
-     */
-    public function getEventDispatcher()
-    {
-        if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
-        {
-            $this->_event_dispatcher = $this->getObject($this->_event_dispatcher);
-
-            //Make sure the request implements ControllerRequestInterface
-            if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement EventDispatcherInterface'
-                );
-            }
-        }
-
-        return $this->_event_dispatcher;
     }
 
     /**
@@ -116,5 +89,31 @@ class CommandEvent extends Command
         $event->setTarget($context->getSubject());
 
         $this->getEventDispatcher()->dispatchEvent($name, $event);
+    }
+
+    /**
+     * Get the methods that are available for mixin.
+     *
+     * @param  Object $mixer Mixer object
+     * @return array An array of methods
+     */
+    public function getMixableMethods(ObjectMixable $mixer = null)
+    {
+        $methods = parent::getMixableMethods();
+
+        unset($methods['execute']);
+        unset($methods['getPriority']);
+
+        return $methods;
+    }
+
+    /**
+     * Get the priority of a behavior
+     *
+     * @return	integer The command priority
+     */
+    public function getPriority()
+    {
+        return $this->_priority;
     }
 }

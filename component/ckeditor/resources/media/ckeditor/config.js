@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'codemirror,readmore,autosave,images,onchange,files';
+    config.extraPlugins = 'codemirror,readmore,images,onchange,files';
     // wee need to remove the default image and link plugins for the custom plugin's to work properly
 
     config.protectedSource.push( /<\?[\s\S]*?\?>/g );

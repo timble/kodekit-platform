@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Koowa_Database
- * @subpackage  Behavior
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,10 +15,9 @@ namespace Nooku\Library;
  * Generates a slug, a short label for the row, containing only letters, numbers, underscores or hyphens. A slug is
  * generaly using a URL.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Behavior
- * @see         http://en.wikipedia.org/wiki/Slug_(web_publishing)
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
+ * @see     http://en.wikipedia.org/wiki/Slug_(web_publishing)
  */
 class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
 {

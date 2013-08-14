@@ -2,11 +2,10 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
-
 
 namespace Nooku\Component\Categories;
 
@@ -39,7 +38,7 @@ class DatabaseRowNode extends Library\DatabaseRowTable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   ObjectConfig $object An optional Library\ObjectConfig object with configuration options
+     * @param   Library\ObjectConfig $object An optional Library\ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -78,17 +77,17 @@ class DatabaseRowNode extends Library\DatabaseRowTable
      */
     public function hasChildren()
 	{
-		return (boolean) count($this->_children);
+        return (boolean) count($this->_children);
 	}
 
 	/**
      * Get the children rowset
      *
-     * @return	Library\DatabaseRowInterface
+     * @return	Library\DatabaseRowsetInterface
      */
 	public function getChildren()
 	{
-		if(!($this->_children instanceof Library\DatabaseRowsetInterface))
+        if(!($this->_children instanceof Library\DatabaseRowsetInterface))
         {
             $identifier         = clone $this->getIdentifier();
             $identifier->path   = array('database', 'rowset');
@@ -101,7 +100,7 @@ class DatabaseRowNode extends Library\DatabaseRowTable
                
             $this->_children = $this->getObject($identifier, $options);
         }
-        
+
 	    return $this->_children;
 	}
 

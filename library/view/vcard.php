@@ -1,20 +1,21 @@
 <?php
 /**
- * @package     Koowa_View
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Vcard Class
+ * Vcard View
  *
  * Complies to version 2.1 of the vCard specification
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  * @see         http://www.imc.org/pdi/
  * @see         http://en.wikipedia.org/wiki/VCard
  */

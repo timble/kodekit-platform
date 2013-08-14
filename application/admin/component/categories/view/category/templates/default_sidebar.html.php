@@ -1,10 +1,10 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Categories
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
@@ -27,14 +27,7 @@
     <fieldset class="categories group">
         <legend><?= @text('Parent') ?></legend>
         <div>
-            <?= @helper('com:categories.listbox.categories', array(
-                'name'      => 'parent_id',
-                'selected'  => $category->parent_id,
-                'prompt'    => '- None -',
-                'max_depth' => 1,
-                'table'     => 'articles',
-                'parent'	=> '0'
-            )) ?>
+            <?= @helper('com:categories.radiolist.categories', array('row' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => $state->table))) ?>
         </div>
     </fieldset>
 <? endif ?>

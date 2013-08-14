@@ -10,12 +10,10 @@
 if(!Koowa) var Koowa = {};
 
 /**
- * Koowa global namespace
+ * Koowa Tabs
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
- * @package     Nooku_Media
- * @subpackage  Javascript
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku|Library|Resources
  */
 (function(){
 var $ = document.id;

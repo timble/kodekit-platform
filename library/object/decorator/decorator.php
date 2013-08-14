@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Decorator
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Object Decorator Class
+ * Object Decorator
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Decorator
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectDecorator implements ObjectDecoratorInterface
 {
@@ -136,7 +135,7 @@ class ObjectDecorator implements ObjectDecoratorInterface
             }
             else $methods = $object->getMethods();
 
-            $this->__methods = array_merge(parent::getMethods(), $methods);
+            $this->__methods = $methods;
         }
 
         return $this->__methods;
@@ -337,6 +336,6 @@ class ObjectDecorator implements ObjectDecoratorInterface
             return $result;
         }
 
-        return parent::__call($method, $arguments);
+        throw new \BadMethodCallException('Call to undefined method :' . $method);
     }
 }
