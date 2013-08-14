@@ -99,6 +99,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      * @param  integer   $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
      *                               default is 3. If no priority is set, the command priority will be used
      *                               instead.
+     * @throws \InvalidArgumentException If the listener is not a callable
      * @return EventDispatcherAbstract
      */
     public function addEventListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
@@ -121,6 +122,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      *
      * @param   string    $name      The event name
      * @param   callable  $listener  The listener
+     * @throws \InvalidArgumentException If the listener is not a callable
      * @return  EventDispatcherAbstract
      */
     public function removeEventListener($name, $listener)
