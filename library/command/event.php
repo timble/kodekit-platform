@@ -18,32 +18,27 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandEvent extends Command
+class CommandEvent extends EventMixin implements CommandInterface
 {
     /**
-     * The event dispatcher object
+     * The command priority
      *
-     * @var EventDispatcherInterface
+     * @var integer
      */
-    protected $_dispatcher;
+    protected $_priority;
 
     /**
-     * Constructor.
+     * Object constructor
      *
-     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config Configuration options
+     * @throws \InvalidArgumentException
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        if (is_null($config->event_dispatcher))
-        {
-            throw new \InvalidArgumentException(
-                'event_dispatcher [EventDispatcherInterface] config option is required'
-            );
-        }
-
-        $this->_event_dispatcher = $config->event_dispatcher;
+        //Set the command priority
+        $this->_priority = $config->priority;
     }
 
     /**
@@ -57,33 +52,10 @@ class CommandEvent extends Command
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'event_dispatcher' => null
+            'priority' => CommandChain::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Get the event dispatcher
-     *
-     * @return  EventDispatcherInterface
-     */
-    public function getEventDispatcher()
-    {
-        if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
-        {
-            $this->_event_dispatcher = $this->getObject($this->_event_dispatcher);
-
-            //Make sure the request implements ControllerRequestInterface
-            if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement EventDispatcherInterface'
-                );
-            }
-        }
-
-        return $this->_event_dispatcher;
     }
 
     /**
@@ -117,5 +89,31 @@ class CommandEvent extends Command
         $event->setTarget($context->getSubject());
 
         $this->getEventDispatcher()->dispatchEvent($name, $event);
+    }
+
+    /**
+     * Get the methods that are available for mixin.
+     *
+     * @param  Object $mixer Mixer object
+     * @return array An array of methods
+     */
+    public function getMixableMethods(ObjectMixable $mixer = null)
+    {
+        $methods = parent::getMixableMethods();
+
+        unset($methods['execute']);
+        unset($methods['getPriority']);
+
+        return $methods;
+    }
+
+    /**
+     * Get the priority of a behavior
+     *
+     * @return	integer The command priority
+     */
+    public function getPriority()
+    {
+        return $this->_priority;
     }
 }
