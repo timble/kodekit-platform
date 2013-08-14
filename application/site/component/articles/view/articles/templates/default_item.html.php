@@ -8,7 +8,7 @@
  */
 ?>
 
-<article class="clearfix">
+<article>
     <div class="page-header">
         <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
@@ -24,6 +24,6 @@
     
     <? if ($article->introtext) : ?>
         <?= @highlight($article->introtext) ?>
-        <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
+        <a class="article__readmore" href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
     <? endif; ?>
 </article>

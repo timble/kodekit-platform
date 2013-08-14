@@ -1866,13 +1866,9 @@ select:focus:invalid:focus {
 /* line 468, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-append .add-on,
 .input-append .btn,
-.input-append .readmore a,
-.readmore .input-append a,
 .input-append .btn-group > .dropdown-toggle,
 .input-prepend .add-on,
 .input-prepend .btn,
-.input-prepend .readmore a,
-.readmore .input-prepend a,
 .input-prepend .btn-group > .dropdown-toggle {
   vertical-align: top;
   -webkit-border-radius: 0;
@@ -1888,16 +1884,12 @@ select:focus:invalid:focus {
 
 /* line 480, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-prepend .add-on,
-.input-prepend .btn,
-.input-prepend .readmore a,
-.readmore .input-prepend a {
+.input-prepend .btn {
   margin-right: -1px;
 }
 /* line 484, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-prepend .add-on:first-child,
-.input-prepend .btn:first-child,
-.input-prepend .readmore a:first-child,
-.readmore .input-prepend a:first-child {
+.input-prepend .btn:first-child {
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
@@ -1912,13 +1904,9 @@ select:focus:invalid:focus {
   border-radius: 4px 0 0 4px;
 }
 /* line 495, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
-.input-append input + .btn-group .btn:last-child, .input-append input + .btn-group .readmore a:last-child, .readmore .input-append input + .btn-group a:last-child,
+.input-append input + .btn-group .btn:last-child,
 .input-append select + .btn-group .btn:last-child,
-.input-append select + .btn-group .readmore a:last-child,
-.readmore .input-append select + .btn-group a:last-child,
-.input-append .uneditable-input + .btn-group .btn:last-child,
-.input-append .uneditable-input + .btn-group .readmore a:last-child,
-.readmore .input-append .uneditable-input + .btn-group a:last-child {
+.input-append .uneditable-input + .btn-group .btn:last-child {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
@@ -1926,16 +1914,12 @@ select:focus:invalid:focus {
 /* line 501, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-append .add-on,
 .input-append .btn,
-.input-append .readmore a,
-.readmore .input-append a,
 .input-append .btn-group {
   margin-left: -1px;
 }
 /* line 506, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-append .add-on:last-child,
 .input-append .btn:last-child,
-.input-append .readmore a:last-child,
-.readmore .input-append a:last-child,
 .input-append .btn-group:last-child > .dropdown-toggle {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
@@ -1951,22 +1935,16 @@ select:focus:invalid:focus {
   border-radius: 0;
 }
 /* line 517, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
-.input-prepend.input-append input + .btn-group .btn, .input-prepend.input-append input + .btn-group .readmore a, .readmore .input-prepend.input-append input + .btn-group a,
+.input-prepend.input-append input + .btn-group .btn,
 .input-prepend.input-append select + .btn-group .btn,
-.input-prepend.input-append select + .btn-group .readmore a,
-.readmore .input-prepend.input-append select + .btn-group a,
-.input-prepend.input-append .uneditable-input + .btn-group .btn,
-.input-prepend.input-append .uneditable-input + .btn-group .readmore a,
-.readmore .input-prepend.input-append .uneditable-input + .btn-group a {
+.input-prepend.input-append .uneditable-input + .btn-group .btn {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 /* line 522, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-prepend.input-append .add-on:first-child,
-.input-prepend.input-append .btn:first-child,
-.input-prepend.input-append .readmore a:first-child,
-.readmore .input-prepend.input-append a:first-child {
+.input-prepend.input-append .btn:first-child {
   margin-right: -1px;
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
@@ -1974,9 +1952,7 @@ select:focus:invalid:focus {
 }
 /* line 527, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
 .input-prepend.input-append .add-on:last-child,
-.input-prepend.input-append .btn:last-child,
-.input-prepend.input-append .readmore a:last-child,
-.readmore .input-prepend.input-append a:last-child {
+.input-prepend.input-append .btn:last-child {
   margin-left: -1px;
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
@@ -2017,7 +1993,7 @@ input.search-query {
 }
 
 /* line 559, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
-.form-search .input-append .btn, .form-search .input-append .readmore a, .readmore .form-search .input-append a {
+.form-search .input-append .btn {
   -webkit-border-radius: 0 14px 14px 0;
   -moz-border-radius: 0 14px 14px 0;
   border-radius: 0 14px 14px 0;
@@ -2031,7 +2007,7 @@ input.search-query {
 }
 
 /* line 565, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_forms.scss */
-.form-search .input-prepend .btn, .form-search .input-prepend .readmore a, .readmore .form-search .input-prepend a {
+.form-search .input-prepend .btn {
   -webkit-border-radius: 14px 0 0 14px;
   -moz-border-radius: 14px 0 0 14px;
   border-radius: 14px 0 0 14px;
@@ -3553,7 +3529,7 @@ button.close {
 }
 
 /* line 10, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_buttons.scss */
-.btn, .readmore a {
+.btn {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -3592,21 +3568,21 @@ button.close {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 513, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.btn:hover, .readmore a:hover, .btn:focus, .readmore a:focus, .btn:active, .readmore a:active, .btn.active, .readmore a.active, .btn.disabled, .readmore a.disabled, .btn[disabled], .readmore a[disabled] {
+.btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
   color: #333333;
   background-color: #e6e6e6;
   *background-color: #d9d9d9;
 }
 /* line 521, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.btn:active, .readmore a:active, .btn.active, .readmore a.active {
+.btn:active, .btn.active {
   background-color: #cccccc \9;
 }
 /* line 61, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.btn:first-child, .readmore a:first-child {
+.btn:first-child {
   *margin-left: 0;
 }
 /* line 30, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_buttons.scss */
-.btn:hover, .readmore a:hover, .btn:focus, .readmore a:focus {
+.btn:hover, .btn:focus {
   color: #333333;
   text-decoration: none;
   background-position: 0 -15px;
@@ -3616,13 +3592,13 @@ button.close {
   transition: background-position 0.1s linear;
 }
 /* line 41, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_buttons.scss */
-.btn:focus, .readmore a:focus {
+.btn:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 /* line 47, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_buttons.scss */
-.btn.active, .readmore a.active, .btn:active, .readmore a:active {
+.btn.active, .btn:active {
   background-image: none;
   outline: 0;
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -3630,7 +3606,7 @@ button.close {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 55, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_buttons.scss */
-.btn.disabled, .readmore a.disabled, .btn[disabled], .readmore a[disabled] {
+.btn.disabled, .btn[disabled] {
   cursor: default;
   background-image: none;
   opacity: 0.65;
@@ -3988,16 +3964,14 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 10px;
 }
 /* line 29, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-toolbar > .btn + .btn, .readmore .btn-toolbar > a + .btn, .readmore .btn-toolbar > .btn + a, .readmore .btn-toolbar > a + a,
+.btn-toolbar > .btn + .btn,
 .btn-toolbar > .btn-group + .btn,
-.readmore .btn-toolbar > .btn-group + a,
-.btn-toolbar > .btn + .btn-group,
-.readmore .btn-toolbar > a + .btn-group {
+.btn-toolbar > .btn + .btn-group {
   margin-left: 5px;
 }
 
 /* line 35, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn, .readmore .btn-group > a {
+.btn-group > .btn {
   position: relative;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -4005,12 +3979,12 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 39, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn + .btn, .readmore .btn-group > a + .btn, .readmore .btn-group > .btn + a, .readmore .btn-group > a + a {
+.btn-group > .btn + .btn {
   margin-left: -1px;
 }
 
 /* line 44, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn, .readmore .btn-group > a,
+.btn-group > .btn,
 .btn-group > .dropdown-menu,
 .btn-group > .popover {
   font-size: 14px;
@@ -4032,7 +4006,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 60, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn:first-child, .readmore .btn-group > a:first-child {
+.btn-group > .btn:first-child {
   margin-left: 0;
   -webkit-border-top-left-radius: 4px;
   -moz-border-radius-topleft: 4px;
@@ -4043,7 +4017,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 67, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn:last-child, .readmore .btn-group > a:last-child,
+.btn-group > .btn:last-child,
 .btn-group > .dropdown-toggle {
   -webkit-border-top-right-radius: 4px;
   -moz-border-radius-topright: 4px;
@@ -4054,7 +4028,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 72, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn.large:first-child, .readmore .btn-group > a.large:first-child {
+.btn-group > .btn.large:first-child {
   margin-left: 0;
   -webkit-border-top-left-radius: 6px;
   -moz-border-radius-topleft: 6px;
@@ -4065,7 +4039,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 78, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn.large:last-child, .readmore .btn-group > a.large:last-child,
+.btn-group > .btn.large:last-child,
 .btn-group > .large.dropdown-toggle {
   -webkit-border-top-right-radius: 6px;
   -moz-border-radius-topright: 6px;
@@ -4076,13 +4050,10 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 87, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn:hover, .readmore .btn-group > a:hover,
+.btn-group > .btn:hover,
 .btn-group > .btn:focus,
-.readmore .btn-group > a:focus,
 .btn-group > .btn:active,
-.readmore .btn-group > a:active,
-.btn-group > .btn.active,
-.readmore .btn-group > a.active {
+.btn-group > .btn.active {
   z-index: 2;
 }
 
@@ -4093,7 +4064,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 103, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group > .btn + .dropdown-toggle, .readmore .btn-group > a + .dropdown-toggle {
+.btn-group > .btn + .dropdown-toggle {
   padding-left: 8px;
   padding-right: 8px;
   -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.125), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -4133,7 +4104,7 @@ input[type="submit"].btn.btn-mini {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 137, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group.open .btn.dropdown-toggle, .btn-group.open .readmore a.dropdown-toggle, .readmore .btn-group.open a.dropdown-toggle {
+.btn-group.open .btn.dropdown-toggle {
   background-color: #e6e6e6;
 }
 /* line 140, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
@@ -4162,7 +4133,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 162, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn .caret, .readmore a .caret {
+.btn .caret {
   margin-top: 8px;
   margin-left: 0;
 }
@@ -4210,7 +4181,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 208, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group-vertical > .btn, .readmore .btn-group-vertical > a {
+.btn-group-vertical > .btn {
   display: block;
   float: none;
   max-width: 100%;
@@ -4220,20 +4191,20 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 214, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group-vertical > .btn + .btn, .readmore .btn-group-vertical > a + .btn, .readmore .btn-group-vertical > .btn + a, .readmore .btn-group-vertical > a + a {
+.btn-group-vertical > .btn + .btn {
   margin-left: 0;
   margin-top: -1px;
 }
 
 /* line 218, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group-vertical > .btn:first-child, .readmore .btn-group-vertical > a:first-child {
+.btn-group-vertical > .btn:first-child {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 
 /* line 221, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_button-groups.scss */
-.btn-group-vertical > .btn:last-child, .readmore .btn-group-vertical > a:last-child {
+.btn-group-vertical > .btn:last-child {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
@@ -4906,19 +4877,15 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 95, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_navbar.scss */
-.navbar .btn, .navbar .readmore a, .readmore .navbar a,
+.navbar .btn,
 .navbar .btn-group {
   margin-top: 5px;
 }
 
 /* line 102, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_navbar.scss */
-.navbar .btn-group .btn, .navbar .btn-group .readmore a, .readmore .navbar .btn-group a,
+.navbar .btn-group .btn,
 .navbar .input-prepend .btn,
-.navbar .input-prepend .readmore a,
-.readmore .navbar .input-prepend a,
 .navbar .input-append .btn,
-.navbar .input-append .readmore a,
-.readmore .navbar .input-append a,
 .navbar .input-prepend .btn-group,
 .navbar .input-append .btn-group {
   margin-top: 0;
@@ -4949,9 +4916,7 @@ input[type="submit"].btn.btn-mini {
 /* line 119, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_navbar.scss */
 .navbar-form input,
 .navbar-form select,
-.navbar-form .btn,
-.navbar-form .readmore a,
-.readmore .navbar-form a {
+.navbar-form .btn {
   display: inline-block;
   margin-bottom: 0;
 }
@@ -5792,12 +5757,12 @@ input[type="submit"].btn.btn-mini {
   clear: both;
 }
 /* line 83, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-footer .btn + .btn, .modal-footer .readmore a + .btn, .readmore .modal-footer a + .btn, .modal-footer .readmore .btn + a, .readmore .modal-footer .btn + a, .modal-footer .readmore a + a, .readmore .modal-footer a + a {
+.modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
 /* line 88, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-footer .btn-group .btn + .btn, .modal-footer .btn-group .readmore a + .btn, .readmore .modal-footer .btn-group a + .btn, .modal-footer .btn-group .readmore .btn + a, .readmore .modal-footer .btn-group .btn + a, .modal-footer .btn-group .readmore a + a, .readmore .modal-footer .btn-group a + a {
+.modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
 /* line 92, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
@@ -6308,9 +6273,8 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 }
 
 /* line 73, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_labels-badges.scss */
-.btn .label, .readmore a .label,
-.btn .badge,
-.readmore a .badge {
+.btn .label,
+.btn .badge {
   position: relative;
   top: -1px;
 }
@@ -6798,17 +6762,17 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 }
 
 /* line 33, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_utilities.scss */
-.clearfix {
+.clearfix, article {
   *zoom: 1;
 }
 /* line 15, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.clearfix:before, .clearfix:after {
+.clearfix:before, article:before, .clearfix:after, article:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 22, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.clearfix:after {
+.clearfix:after, article:after {
   clear: both;
 }
 
@@ -6929,17 +6893,17 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   }
 }
 /* line 62, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_responsive-utilities.scss */
-.clearfix {
+.clearfix, article {
   *zoom: 1;
 }
 /* line 15, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.clearfix:before, .clearfix:after {
+.clearfix:before, article:before, .clearfix:after, article:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 22, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.clearfix:after {
+.clearfix:after, article:after {
   clear: both;
 }
 
@@ -8190,7 +8154,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   }
 
   /* line 75, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_responsive-navbar.scss */
-  .nav-collapse .btn, .nav-collapse .readmore a, .readmore .nav-collapse a {
+  .nav-collapse .btn {
     padding: 4px 10px 4px;
     font-weight: normal;
     -webkit-border-radius: 4px;
@@ -8323,138 +8287,317 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
     overflow: visible !important;
   }
 }
-/*
- * Bootstrap Image Gallery CSS 2.5.3
- * https://github.com/blueimp/Bootstrap-Image-Gallery
- */
-/* line 16, default.scss */
-html {
-  overflow-y: scroll;
-}
-
-/* line 20, default.scss */
-body {
-  margin-top: 20px;
-}
-
-/* line 26, default.scss */
-h1 {
-  font-size: 21px;
-}
-
-/* line 27, default.scss */
-h2 {
-  font-size: 19px;
-}
-
-/* line 28, default.scss */
-h3 {
-  font-size: 16px;
-}
-
-/* line 31, default.scss */
-.page-header h1 {
-  line-height: 21px;
-  margin-bottom: 0;
-}
-/* line 36, default.scss */
-.page-header .timestamp {
-  color: #999;
-  font-size: 12px;
-}
-
-/* line 49, default.scss */
-.sidebar .mod_mainmenu.well {
-  padding: 0;
-}
-/* line 52, default.scss */
-.sidebar .mod_mainmenu.well h3 {
-  padding: 4px 12px;
-}
-
-/* line 58, default.scss */
-section article {
+/* line 1, blocks/_article.scss */
+article {
   margin-bottom: 40px;
+  /* Add margins to thumbnails in articles */
 }
-/* line 61, default.scss */
-section article .page-header {
+/* line 6, blocks/_article.scss */
+article .page-header {
   margin-bottom: 14px;
+}
+/* line 11, blocks/_article.scss */
+article img[align="right"] {
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 
 /* Extend Bootstrap to optimise nested navigation */
-/* line 67, default.scss */
+/* line 2, blocks/_sidebar.scss */
 .nav-list ul {
   margin-left: -15px;
   margin-right: -15px;
 }
-/* line 71, default.scss */
+/* line 6, blocks/_sidebar.scss */
 .nav-list ul a {
   padding-left: 30px;
   padding-right: 30px;
 }
 
-/* line 78, default.scss */
-.module.mod_login form {
+/* line 13, blocks/_sidebar.scss */
+.mod_login form {
   margin-left: 15px;
   margin-right: 15px;
 }
-/* line 82, default.scss */
-.module.mod_login form input {
+/* line 17, blocks/_sidebar.scss */
+.mod_login form input {
   width: 90%;
 }
-/* line 86, default.scss */
-.module.mod_login form .form-actions {
+/* line 21, blocks/_sidebar.scss */
+.mod_login form .form-actions {
   padding: 10px 0;
 }
-/* line 89, default.scss */
-.module.mod_login form .form-actions .btn, .module.mod_login form .form-actions .readmore a, .readmore .module.mod_login form .form-actions a {
+/* line 24, blocks/_sidebar.scss */
+.mod_login form .form-actions .btn {
   width: auto;
 }
 
-/* line 97, default.scss */
+/*
+ * Bootstrap Image Gallery CSS 2.5.3
+ * https://github.com/blueimp/Bootstrap-Image-Gallery
+ */
+/*
+ * Bootstrap Image Gallery CSS 2.5.3
+ * https://github.com/blueimp/Bootstrap-Image-Gallery
+ *
+ * Copyright 2011, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+/* line 12, _bootstrap-image-gallery.scss */
+.modal-gallery {
+  width: auto;
+  max-height: none;
+  outline: none;
+}
+
+/* line 17, _bootstrap-image-gallery.scss */
+.modal-gallery.fade.in {
+  top: 25%;
+}
+
+/* line 20, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-body {
+  max-height: none;
+}
+
+/* line 23, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-title {
+  display: inline-block;
+  max-height: 54px;
+  overflow: hidden;
+}
+
+/* line 28, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-image {
+  position: relative;
+  margin: auto;
+  min-width: 128px;
+  min-height: 128px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* line 37, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-image:hover:before,
+.modal-gallery .modal-image:hover:after {
+  content: '\2039';
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  font-size: 60px;
+  font-weight: 100;
+  line-height: 30px;
+  color: #ffffff;
+  text-align: center;
+  background: #222222;
+  border: 3px solid #ffffff;
+  -webkit-border-radius: 23px;
+  -moz-border-radius: 23px;
+  border-radius: 23px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  z-index: 1;
+}
+
+/* line 59, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-image:hover:after {
+  content: '\203A';
+  left: auto;
+  right: 15px;
+}
+
+/* line 65, _bootstrap-image-gallery.scss */
+.modal-single .modal-image:hover:before,
+.modal-single .modal-image:hover:after {
+  display: none;
+}
+
+/* line 68, _bootstrap-image-gallery.scss */
+.modal-loading .modal-image {
+  background: url(../img/loading.gif) center no-repeat;
+}
+
+/* line 71, _bootstrap-image-gallery.scss */
+.modal-gallery.fade .modal-image {
+  -webkit-transition: width 0.15s ease, height 0.15s ease;
+  -moz-transition: width 0.15s ease, height 0.15s ease;
+  -ms-transition: width 0.15s ease, height 0.15s ease;
+  -o-transition: width 0.15s ease, height 0.15s ease;
+  transition: width 0.15s ease, height 0.15s ease;
+}
+
+/* line 78, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-image * {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+/* line 84, _bootstrap-image-gallery.scss */
+.modal-gallery.fade .modal-image * {
+  -webkit-transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -ms-transition: opacity 0.5s linear;
+  -o-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
+}
+
+/* line 91, _bootstrap-image-gallery.scss */
+.modal-gallery .modal-image *.in {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+/* line 95, _bootstrap-image-gallery.scss */
+.modal-fullscreen {
+  border: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* line 103, _bootstrap-image-gallery.scss */
+.modal-fullscreen.modal-loading {
+  border: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+/* line 109, _bootstrap-image-gallery.scss */
+.modal-fullscreen .modal-body {
+  padding: 0;
+}
+
+/* line 113, _bootstrap-image-gallery.scss */
+.modal-fullscreen .modal-header,
+.modal-fullscreen .modal-footer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: transparent;
+  border: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  opacity: 0;
+  z-index: 2000;
+}
+
+/* line 126, _bootstrap-image-gallery.scss */
+.modal-fullscreen .modal-footer {
+  top: auto;
+  bottom: 0;
+}
+
+/* line 131, _bootstrap-image-gallery.scss */
+.modal-fullscreen .close,
+.modal-fullscreen .modal-title {
+  color: #fff;
+  text-shadow: 0 0 2px rgba(33, 33, 33, 0.8);
+}
+
+/* line 136, _bootstrap-image-gallery.scss */
+.modal-fullscreen .modal-header:hover,
+.modal-fullscreen .modal-footer:hover {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  /* line 141, _bootstrap-image-gallery.scss */
+  .modal-gallery .btn span {
+    display: none;
+  }
+
+  /* line 144, _bootstrap-image-gallery.scss */
+  .modal-fullscreen {
+    right: 0;
+    left: 0;
+  }
+}
+/* line 19, default.scss */
+html {
+  overflow-y: scroll;
+}
+
+/* line 23, default.scss */
+body {
+  margin-top: 20px;
+}
+
+/* line 29, default.scss */
+h1 {
+  font-size: 21px;
+}
+
+/* line 30, default.scss */
+h2 {
+  font-size: 19px;
+}
+
+/* line 31, default.scss */
+h3 {
+  font-size: 16px;
+}
+
+/* line 34, default.scss */
+.page-header h1 {
+  line-height: 21px;
+  margin-bottom: 0;
+}
+/* line 39, default.scss */
+.page-header .timestamp {
+  color: #999;
+  font-size: 12px;
+}
+
+/* line 46, default.scss */
 #password-check.score1 {
   color: #FF0000;
 }
 
-/* line 98, default.scss */
+/* line 47, default.scss */
 #password-check.score2 {
   color: #FF5F5F;
 }
 
-/* line 99, default.scss */
+/* line 48, default.scss */
 #password-check.score3 {
   color: #56E500;
 }
 
-/* line 100, default.scss */
+/* line 49, default.scss */
 #password-check.score4 {
   color: #4DCD00;
 }
 
-/* line 101, default.scss */
+/* line 50, default.scss */
 #password-check.score5 {
   color: #399800;
 }
 
-/* line 103, default.scss */
+/* line 52, default.scss */
 .highlight {
   background-color: yellow;
 }
 
-/* Add margins to thumbnails in articles */
-/* line 108, default.scss */
-article .pull-right .thumbnail {
-  margin-left: 20px;
-  margin-bottom: 20px;
-}
-
 /* com:application.view.page.login.html */
-/* line 114, default.scss */
+/* line 57, default.scss */
 body.login {
   background-color: #f5f5f5;
   padding-top: 60px;
 }
-/* line 118, default.scss */
+/* line 61, default.scss */
 body.login form {
   max-width: 300px;
   margin: 0 auto;
@@ -8463,21 +8606,21 @@ body.login form {
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 126, default.scss */
+/* line 69, default.scss */
 body.login form .form-content {
   padding: 10px 30px 0;
 }
-/* line 129, default.scss */
+/* line 72, default.scss */
 body.login form .form-content .page-header {
   margin-bottom: 10px;
 }
-/* line 134, default.scss */
+/* line 77, default.scss */
 body.login form .form-actions {
   margin-bottom: 0;
   padding: 19px 30px;
   border-radius: 0 0 5px 5px;
 }
-/* line 140, default.scss */
+/* line 83, default.scss */
 body.login form input {
   font-size: 16px;
   height: auto;
@@ -8485,22 +8628,22 @@ body.login form input {
   padding: 7px 9px;
 }
 
-/* line 150, default.scss */
+/* line 93, default.scss */
 .radio input[type="radio"].level2, .checkbox input[type="checkbox"].level2 {
   margin-left: 0px;
   margin-right: 6px;
 }
-/* line 151, default.scss */
+/* line 94, default.scss */
 .radio input[type="radio"].level3, .checkbox input[type="checkbox"].level3 {
   margin-left: 36px;
   margin-right: 6px;
 }
-/* line 152, default.scss */
+/* line 95, default.scss */
 .radio input[type="radio"].level4, .checkbox input[type="checkbox"].level4 {
   margin-left: 54px;
   margin-right: 6px;
 }
-/* line 153, default.scss */
+/* line 96, default.scss */
 .radio input[type="radio"].level5, .checkbox input[type="checkbox"].level5 {
   margin-left: 72px;
   margin-right: 6px;
