@@ -28,14 +28,16 @@ class Command extends Object implements CommandInterface
     protected $_priority;
 
     /**
-     * Constructor.
+     * Object constructor
      *
-     * @param  ObjectConfig  $config An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config Configuration options
+     * @throws \InvalidArgumentException
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
+        //Set the command priority
         $this->_priority = $config->priority;
     }
 
@@ -59,10 +61,10 @@ class Command extends Object implements CommandInterface
     /**
      * Command handler
      *
-     * @param   string           $name     The command name
+     * @param   string          $name     The command name
      * @param   CommandContext  $context  The command context
      *
-     * @return  mixed  Method result if the method exsist, NULL otherwise.
+     * @return  mixed  Method result if the method exists, NULL otherwise.
      */
     public function execute($name, CommandContext $context)
     {
