@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class CommandMixinCallback extends ObjectMixinCallback implements CommandInterface
+class CommandCallback extends ObjectMixinCallback implements CommandInterface
 {
     /**
      * The command priority
@@ -34,15 +34,8 @@ class CommandMixinCallback extends ObjectMixinCallback implements CommandInterfa
     {
         parent::__construct($config);
 
-        if(is_null($config->command_chain)) {
-            throw new \InvalidArgumentException('command_chain [KCommandChain] option is required');
-        }
-
         //Set the command priority
         $this->_priority = $config->priority;
-
-        //Enqueue the command in the mixer's command chain
-        $config->command_chain->enqueue($this);
     }
 
     /**
@@ -56,8 +49,7 @@ class CommandMixinCallback extends ObjectMixinCallback implements CommandInterfa
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'      => CommandChain::PRIORITY_NORMAL,
-            'command_chain'	=> null,
+            'priority' => CommandChain::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -97,7 +89,7 @@ class CommandMixinCallback extends ObjectMixinCallback implements CommandInterfa
 
         return $result === false ? false : true;
     }
-
+    
     /**
      * Get the methods that are available for mixin.
      *
@@ -123,4 +115,5 @@ class CommandMixinCallback extends ObjectMixinCallback implements CommandInterfa
     {
         return $this->_priority;
     }
+
 }
