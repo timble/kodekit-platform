@@ -29,7 +29,7 @@ class CommandMixin extends ObjectMixinAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -39,28 +39,20 @@ class CommandMixin extends ObjectMixinAbstract
 			throw new \InvalidArgumentException('command_chain [CommandChainInterface] config option is required');
 		}
             
-        //Create a command chain object 
+        //Create a command chain object
         $this->_command_chain = $config->command_chain;
-        
-        //Mixin the callback mixer if callbacks have been enabled
+
+        //Enqueue the callback command
         if($config->enable_callbacks)
         {
-            //Mixin the callback mixin
-            $mixin = $this->getMixer()->mixin('lib:object.mixin.callback', $config);
-
-            //Enqueue the command in the mixer's command chain
-            $this->getCommandChain()->enqueue($mixin, $config->callback_priority);
+            $command = $this->getMixer()->mixin('lib:command.callback', $config);
+            $this->getCommandChain()->enqueue($command, $config->callback_priority);
         }
         
-        //Enqueue the event command with a lowest priority to make sure it runs last
+        //Enqueue the event command
         if($config->dispatch_events) 
         {
-            $this->getMixer()->mixin('lib:event.mixin', $config);
-
-            $command = $this->getCommandChain()->getObject('lib:command.event', array(
-            	'event_dispatcher' => $this->getEventDispatcher()
-            ));
-
+            $command = $this->getMixer()->mixin('lib:command.event', $config);
             $this->getCommandChain()->enqueue($command, $config->event_priority);
         }
     }

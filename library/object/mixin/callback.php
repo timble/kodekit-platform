@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterface
+class ObjectMixinCallback extends ObjectMixinAbstract
 {
     /**
      * Array of callbacks
@@ -25,199 +25,115 @@ class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterfac
     protected $_callbacks = array();
 
     /**
-     * ObjectConfig passed to the callbacks
+     * Config passed to the callbacks
      *
      * @var array
      */
     protected $_params = array();
 
     /**
-     * The command priority
+     * Execute the named callbacks
      *
-     * @var integer
+     * @param string   $name  The callback name
+     * @return void
      */
-    protected $_priority;
-
-    /**
-     * Object constructor
-     *
-     * @param ObjectConfig $config    An optional ObjectConfig object with configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        //Set the command priority
-        $this->_priority = $config->callback_priority;
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config   An optional ObjectConfig object with configuration options
-     * @return  void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'callback_priority' => CommandChain::PRIORITY_HIGH
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
-     * Command handler
-     *
-     * @param string          $name    The command name
-     * @param CommandContext  $context The command context
-     *
-     * @return boolean
-     */
-    public function execute($name, CommandContext $context)
+    public function executeCallbacks( $name )
     {
         $result = true;
 
-        if (isset($this->_callbacks[$name]))
+        $callbacks = $this->getCallbacks($name);
+        $params    = $this->_params[$name];
+
+        foreach($callbacks as $key => $callback)
         {
-            $callbacks = $this->_callbacks[$name];
-            $params = $this->_params[$name];
+            $param = $params[$key];
 
-            foreach ($callbacks as $key => $callback)
-            {
-                $param = $params[$key];
-
-                if (is_array($param) && is_numeric(key($param))) {
-                    $result = call_user_func_array($callback, $params);
-                } else {
-                    $result = call_user_func($callback, $context->append($param));
-                }
-
-                //Call the callback
-                if ($result === false) {
-                    break;
-                }
+            if(is_array($param) && !empty($params)) {
+                call_user_func_array($callback, $params);
+            } else {
+                call_user_func($callback);
             }
         }
-
-        return $result === false ? false : true;
     }
 
     /**
-     * Get the registered callbacks for a command
-     *
-     * @param   string $command The method to return the functions for
-     * @return  array  A list of registered functions
-     */
-    public function getCallbacks($command)
-    {
-        $result = array();
-        $command = strtolower($command);
-
-        if (isset($this->_callbacks[$command])) {
-            $result = $this->_callbacks[$command];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Registers a callback function in FIFO order
+     * Register a named callback
      *
      * If the callback has already been registered. It will not be re-registered.
      *
-     * If params are passed as a associative array or as a ObjectConfig object they will be merged with the
-     * context of the command chain and passed along. If they are passed as an indexed array they
-     * will be passed to the callback directly.
-     *
-     * @param   string|array $commands The command name to register the callback for or an array of command names
-     * @param   callable     $callback The callback function to register
-     * @param   array|ObjectConfig $params   An associative array of config parameters or a ObjectConfig object
-     * @return  Object    The mixer object
+     * @param  	string      	$name       The callback name to register the callback for
+     * @param 	callable		$callback   The callback function to register
+     * @param   array|object    An associative array of config parameters or a KConfig object
+     * @throws  \InvalidArgumentException If the callback is not a callable
+     * @return  Object	The mixer object
      */
-    public function registerCallback($commands, $callback, $params = array())
+    public function registerCallback($name, $callback, $params = array())
     {
-        $commands = (array)$commands;
-        $params   = (array)ObjectConfig::unbox($params);
-
-        foreach ($commands as $command)
+        if (!is_callable($callback))
         {
-            $command = strtolower($command);
-
-            if (!isset($this->_callbacks[$command]))
-            {
-                $this->_callbacks[$command] = array();
-                $this->_params[$command]    = array();
-            }
-
-            //Don't re-register commands.
-            $index = array_search($callback, $this->_callbacks[$command], true);
-
-            if ($index === false)
-            {
-                $this->_callbacks[$command][] = $callback;
-                $this->_params[$command][] = $params;
-            }
-            else $this->_params[$command][$index] = array_merge($this->_params[$command][$index], $params);
+            throw new \InvalidArgumentException(
+                'The callback must be a callable, "'.gettype($callback).'" given.'
+            );
         }
 
-        return $this->_mixer;
+        $params = (array) ObjectConfig::unbox($params);
+        $name   = strtolower($name);
+
+        if (!isset($this->_callbacks[$name]) )
+        {
+            $this->_callbacks[$name] = array();
+            $this->_params[$name]   = array();
+        }
+
+        //Don't re-register names
+        $index = array_search($callback, $this->_callbacks[$name], true);
+
+        if ( $index === false )
+        {
+            $this->_callbacks[$name][] = $callback;
+            $this->_params[$name][]    = $params;
+        }
+        else $this->_params[$name][$index] = array_merge($this->_params[$name][$index], $params);
+
+        return $this->getMixer();
     }
 
     /**
-     * Unregister a callback function
+     * Unregister a named callback
      *
-     * @param   string|array $commands The method name to unregister the callback from or an array of method names
-     * @param   callback     $callback The callback function to unregister
+     * @param  	string|array	$name       The callback name to unregister the callback from
+     * @param 	callback		$callback   The callback function to unregister
      * @return  Object The mixer object
      */
-    public function unregisterCallback($commands, $callback)
+    public function unregisterCallback($name, $callback)
     {
-        $commands = (array)$commands;
+        $name = strtolower($name);
 
-        foreach ($commands as $command)
+        if (isset($this->_callbacks[$name]) )
         {
-            $command = strtolower($command);
-
-            if (isset($this->_callbacks[$command]))
-            {
-                $key = array_search($callback, $this->_callbacks[$command], true);
-                unset($this->_callbacks[$command][$key]);
-                unset($this->_params[$command][$key]);
-            }
+            $key = array_search($callback, $this->_callbacks[$name], true);
+            unset($this->_callbacks[$name][$key]);
+            unset($this->_params[$name][$key]);
         }
 
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**
-     * Get the methods that are available for mixin.
+     * Get the registered callbacks by name
      *
-     * This functions overloads ObjectMixinAbstract::getMixableMethods and excludes the execute() function from the
-     * list of available mixable methods.
-     *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of methods
+     * @param  	string	$name The callback name to return the callbacks for
+     * @return  array	A list of registered callbacks
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getCallbacks($name)
     {
-        $methods = parent::getMixableMethods();
+        $result = array();
+        $name   = strtolower($name);
 
-        unset($methods['execute']);
-        unset($methods['getPriority']);
+        if (isset($this->_callbacks[$name]) ) {
+            $result = $this->_callbacks[$name];
+        }
 
-        return $methods;
-    }
-
-    /**
-     * Get the priority of a behavior
-     *
-     * @return integer The command priority
-     */
-    public function getPriority()
-    {
-        return $this->_priority;
+        return $result;
     }
 }

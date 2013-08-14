@@ -10,15 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Event Command
- *
- * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
- * to any registered event handlers.
+ * Callback Object Mixin
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Command
+ * @package Nooku\Library\Object
  */
-class CommandEvent extends EventMixin implements CommandInterface
+class CommandCallback extends ObjectMixinCallback implements CommandInterface
 {
     /**
      * The command priority
@@ -46,8 +43,8 @@ class CommandEvent extends EventMixin implements CommandInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return void
+     * @param   ObjectConfig $config Configuration options
+     * @return  void
      */
     protected function _initialize(ObjectConfig $config)
     {
@@ -61,36 +58,38 @@ class CommandEvent extends EventMixin implements CommandInterface
     /**
      * Command handler
      *
-     * This functions returns void to prevent is from breaking the chain.
+     * If params are passed as a associative array or as a KConfig object they will be merged with the context of the
+     * command chain and passed along. If they are passed as an indexed array they will be passed to the callback
+     * directly.
      *
-     * @param   string  $name    The command name
-     * @param   object  $context The command context
-     * @return  void
+     * @param string         $name     The command name
+     * @param CommandContext $context  The command context
+     * @return boolean
      */
-    public function execute($name, CommandContext $context)
+    public function execute( $name, CommandContext $context)
     {
-        $type = '';
+        $result    = true;
+        $callbacks = $this->getCallbacks($name);
 
-        if ($context->getSubject())
+        foreach($callbacks as $key => $callback)
         {
-            $identifier = clone $context->getSubject()->getIdentifier();
+            $params = $this->_params[$name][$key];
 
-            if ($identifier->path) {
-                $type = array_shift($identifier->path);
+            if(is_array($params) && is_numeric(key($params))) {
+                $result = call_user_func_array($callback, $params);
             } else {
-                $type = $identifier->name;
+                $result = call_user_func($callback,  $context->append($params));
+            }
+
+            //Call the callback
+            if ( $result === false) {
+                break;
             }
         }
 
-        $parts = explode('.', $name);
-        $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . StringInflector::implode($parts);
-
-        $event = new Event(clone($context));
-        $event->setTarget($context->getSubject());
-
-        $this->getEventDispatcher()->dispatchEvent($name, $event);
+        return $result === false ? false : true;
     }
-
+    
     /**
      * Get the methods that are available for mixin.
      *
@@ -116,4 +115,5 @@ class CommandEvent extends EventMixin implements CommandInterface
     {
         return $this->_priority;
     }
+
 }

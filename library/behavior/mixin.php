@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
  */
-class BehaviorMixin extends ObjectMixinAbstract
+class BehaviorMixin extends CommandMixin
 {
     /**
      * List of behaviors
@@ -138,9 +138,7 @@ class BehaviorMixin extends ObjectMixinAbstract
         $behavior->setMixer($this->_mixer);
 
         //Enqueue the behavior
-        if ($this->inherits('Nooku\Library\CommandMixin')) {
-            $this->getCommandChain()->enqueue($behavior);
-        }
+        $this->getCommandChain()->enqueue($behavior);
 
         //Mixin the behavior
         if ($this->_auto_mixin) {
