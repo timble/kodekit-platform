@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Database
- * @subpackage  Query
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Update Database Query Class
+ * Update Database Query
  *
- * @author      Gergo Erdosi <gergo@timble.net>
- * @package     Koowa_Database
- * @subpackage  Query
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Library\Database
  */
 class DatabaseQueryUpdate extends DatabaseQueryAbstract
 {

@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Manager
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Object Manager Class
+ * Object Manager
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Manager
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSingleton
 {
@@ -470,8 +469,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         {
             $mixins = $identifier->getMixins();
 
-            foreach ($mixins as $mixin) {
-                $mixer->mixin($mixin);
+            foreach ($mixins as $key => $value)
+            {
+                if (is_numeric($key)) {
+                    $mixer->mixin($value);
+                } else {
+                    $mixer->mixin($key, $value);
+                }
             }
         }
 
@@ -491,8 +495,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         {
             $decorators = $identifier->getDecorators();
 
-            foreach ($decorators as $decorator) {
-                $delegate = $delegate->decorate($decorator);
+            foreach ($decorators as $key => $value)
+            {
+                if (is_numeric($key)) {
+                    $delegate = $delegate->decorate($value);
+                } else {
+                    $delegate = $delegate->decorate($key, $value);
+                }
             }
         }
 

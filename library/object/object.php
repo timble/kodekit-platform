@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Koowa_Object
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Object class
+ * Object
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Object
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
 {
@@ -158,7 +158,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         $this->_mixed_methods = array_merge($this->_mixed_methods, $mixed_methods);
 
         //Set the object methods
-        $this->__methods = array_unique(array_merge($this->__methods, array_keys($mixed_methods)));
+        $this->__methods = array_unique(array_merge($this->getMethods(), array_keys($mixed_methods)));
 
         //Notify the mixin
         $mixin->onMixin($this);

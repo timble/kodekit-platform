@@ -1,18 +1,19 @@
 <?php
 /**
- * @package        Koowa_Template
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Template class
+ * Abstract Template
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package    Koowa_Template
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 abstract class TemplateAbstract extends Object implements TemplateInterface
 {
@@ -227,23 +228,42 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         {
             $info  = pathinfo( $file );
 
-            //Get the filepath based on the identifier
-            $path  = $this->getIdentifier($info['filename'])->classpath;
+            //Get the path based on the identifier
+            $identifier = $this->getIdentifier($info['filename']);
+
+            $path  = implode('/', $identifier->path).'/'.strtolower($identifier->name);
+            $path = 'component/'.strtolower($identifier->package).'/'.$path.'.php';
 
             //Add the templates folder
             $path = dirname($path).'/templates/'.basename($path);
 
             //Add the format
             $path  = str_replace('.php', '.'.$info['extension'].'.php', $path);
+
+            if(file_exists(JPATH_APPLICATION.'/'.$path)) {
+                $path = JPATH_APPLICATION.'/'.$path;
+            } else {
+                $path = JPATH_ROOT.'/'.$path;
+            }
         }
-        else
+        else $path = dirname($this->getPath()).'/'.$file.'.php';
+
+        //Theme override
+        $theme  = $this->getObject('application')->getTheme();
+        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
+        $theme .= str_replace(array(JPATH_APPLICATION.'/component', '/view', '/templates'), '', $path);
+
+        //Try to find the template
+        foreach(array($theme, $path) as $find)
         {
-            $path  = dirname($this->getPath());
-            $path .= '/'.$file.'.php';
+            $template = $this->findFile($find);
+            if($template !== false) {
+                break;
+            }
         }
 
         //Find the template
-        $template = $this->findFile($path);
+        //$template = $this->findFile($path);
 
         //Check of the file exists
         if (!file_exists($template)) {

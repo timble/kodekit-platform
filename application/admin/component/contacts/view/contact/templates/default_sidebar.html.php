@@ -1,11 +1,10 @@
 <?
 /**
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Banners
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
@@ -28,13 +27,7 @@
 <fieldset class="categories group">
     <legend><?= @text('Category') ?></legend>
     <div>
-        <?= @helper('listbox.radiolist', array(
-            'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
-            'selected' => $contact->categories_category_id,
-            'name'     => 'categories_category_id',
-            'text'     => 'title',
-        ));
-        ?>
+        <?= @helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
     </div>
 </fieldset>
 

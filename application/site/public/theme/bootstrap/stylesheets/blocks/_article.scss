@@ -1,0 +1,15 @@
+article {
+  @extend .clearfix;
+
+  margin-bottom: $gridGutterWidth * 2;
+
+  .page-header {
+    margin-bottom: 14px;
+  }
+
+  /* Add margins to thumbnails in articles */
+  img[align="right"] {
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+}

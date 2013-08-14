@@ -1,23 +1,22 @@
 <?php
 /**
- * @package		Koowa_User
- * @subpackage  Session
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * User Null Session Handler Class
+ * User Null Session Handler
  *
  * Can be used in unit testing or in a situation where persisted sessions are not desired.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_User
- * @subpackage  Session
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
+ * @see     http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class UserSessionHandlerNull extends UserSessionHandlerAbstract
 {

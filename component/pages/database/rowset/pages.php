@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -26,7 +26,8 @@ class DatabaseRowsetPages extends Library\DatabaseRowsetTable
             $query = $needle['link'];
             unset($needle['link']);
 
-            $pages = parent::find($needle);
+            $pages  = parent::find($needle);
+            $result = null;
 
             foreach($pages as $page)
             {

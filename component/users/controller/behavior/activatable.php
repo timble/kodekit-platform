@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -58,7 +58,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
             if (!$row->activation)
             {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
-                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url))
+                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
 
                 $context->response->setRedirect($url, 'Invalid request', 'error');
             }

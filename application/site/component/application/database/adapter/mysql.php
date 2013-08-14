@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Application
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Application Database MySQLi Adapter Class
+ * MySql Database Adapter
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author   Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectSingleton
 {
@@ -30,7 +29,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param 	object 	An optional Library\ObjectConfig object with configuration options
+	 * @param ObjectConfig $config 	An optional Library\ObjectConfig object with configuration options
 	 */
 	public function __construct(Library\ObjectConfig $config)
 	{
@@ -49,7 +48,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+     * @param 	ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -74,7 +73,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 	 * This function try to get the table schema from the cache. If it cannot be found
 	 * the table schema will be retrieved from the database and stored in the cache.
 	 *
-	 * @param 	string 	A table name or a list of table names
+	 * @param 	string 	$table A table name or a list of table names
 	 * @return	Library\DatabaseSchemaTable
 	 */
 	public function getTableSchema($table)

@@ -1,22 +1,27 @@
 <?php
 /**
- * @category       Nooku
- * @package        Nooku_Server
- * @subpackage     Users
- * @copyright      Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Users;
+use Nooku\Library;
+use Nooku\Component\Users;
 
+/**
+ * Resettable Controller Behavior
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Users
+ */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
-        if (!$context->request->data->get('password', 'string'))
-        {
-            // Force a password reset.
+        // Force a password reset.
+        if (!$context->request->data->get('password', 'string')) {
             $context->request->data->password_reset = true;
         }
     }
@@ -34,7 +39,6 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
     protected function _afterControllerEdit(Library\CommandContext $context)
     {
-        // Same as add.
         return $this->_afterControllerAdd($context);
     }
 }
