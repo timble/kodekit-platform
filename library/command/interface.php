@@ -20,8 +20,8 @@ interface CommandInterface extends ObjectHandlable
 	/**
 	 * Generic Command handler
 	 *
-	 * @param 	string 	The command name
-	 * @param 	object  The command context
+	 * @param 	string 	       $name     The command name
+	 * @param 	CommandContext $context  The command context
 	 * @return	boolean
 	 */
 	public function execute( $name, CommandContext $context);
