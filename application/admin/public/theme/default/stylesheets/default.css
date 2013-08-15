@@ -1343,7 +1343,7 @@ ul {
   margin-bottom: 0 !important;
 }
 /* line 401, _general.scss */
-.-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
+.-koowa-form .main .scrollable, .-koowa-form .main #files-app #files-canvas #files-grid, #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main #files-tree {
   background-color: white;
 }
 /* line 407, _general.scss */
@@ -1378,16 +1378,6 @@ ul {
 }
 
 /* $endgroup */
-/* line 438, _general.scss */
-.CodeMirror {
-  border-bottom: 1px solid #CCCCCC;
-}
-
-/* line 442, _general.scss */
-.editor-toolbar {
-  height: 18px;
-}
-
 /* ---- Menu layout -------------------------- */
 /* line 4, _menu.scss */
 #panel-header ul, #panel-header li {
@@ -4428,7 +4418,7 @@ body {
 }
 
 /* line 104, _flexbox.scss */
-.scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
+.scrollable, #files-app #files-canvas #files-grid, #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-flex-grow: 1;
@@ -4436,51 +4426,55 @@ body {
   flex-grow: 1;
 }
 
-/* line 116, _flexbox.scss */
-.editor-wrap,
-.editor-container,
-.mceEditor,
-table.mceLayout,
-table.mceLayout > tbody,
-table.mceLayout > tbody > tr:nth-of-type(2),
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
+/* line 109, _flexbox.scss */
+.cke_chrome iframe {
+  min-height: 100px;
+}
+
+/* line 117, _flexbox.scss */
+.cke_chrome,
+.cke_chrome > .cke_inner,
+.cke_chrome > .cke_inner > .cke_contents,
+.cke_chrome > .cke_inner > .cke_contents iframe,
+.cke_chrome > .cke_inner > .cke_contents > .cke_source {
+  display: -webkit-flex !important;
+  display: -moz-flex !important;
+  display: flex !important;
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
 }
 
-/* line 122, _flexbox.scss */
-table.mceLayout > tbody > tr:nth-of-type(1),
-table.mceLayout > tbody > tr:nth-of-type(3) {
+/* line 131, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  flex: 0 0 auto;
 }
-
-/* line 126, _flexbox.scss */
-.CodeMirror {
+/* line 134, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
 }
-/* line 130, _flexbox.scss */
-.CodeMirror .CodeMirror-scroll {
+/* line 137, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table {
+  margin: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 144, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody,
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td
+tbody tr td iframe {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4490,20 +4484,20 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @group Scope Bar */
-/* line 136, _flexbox.scss */
+/* line 154, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 139, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 143, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4513,7 +4507,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-/* line 151, _flexbox.scss */
+/* line 170, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4524,7 +4518,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 157, _flexbox.scss */
+/* line 176, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4533,7 +4527,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 160, _flexbox.scss */
+/* line 179, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4542,7 +4536,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 163, _flexbox.scss */
+/* line 182, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4554,7 +4548,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 167, _flexbox.scss */
+/* line 186, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4569,8 +4563,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 177, _flexbox.scss */
-.com_files #files-app {
+/* line 195, _flexbox.scss */
+#files-app {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4581,8 +4575,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 181, _flexbox.scss */
-.com_files #files-app #files-canvas {
+/* line 199, _flexbox.scss */
+#files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4593,25 +4587,31 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 190, _flexbox.scss */
-.com_files #files-paginator {
+
+/* line 208, _flexbox.scss */
+#files-paginator {
   height: 26px;
 }
-/* line 198, _flexbox.scss */
-.com_files #files-compact {
+
+/* line 216, _flexbox.scss */
+#files-compact {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+
+/* line 220, _flexbox.scss */
+#files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 202, _flexbox.scss */
-.com_files #files-insert {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-}
-/* line 206, _flexbox.scss */
-.com_files #files-insert #files-tree-container,
-.com_files #files-insert #files-grid {
+/* line 224, _flexbox.scss */
+#files-insert #files-tree-container,
+#files-insert #files-grid {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4619,8 +4619,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 210, _flexbox.scss */
-.com_files #files-insert #details {
+/* line 228, _flexbox.scss */
+#files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4631,8 +4631,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 214, _flexbox.scss */
-.com_files #files-insert #details #files-preview {
+/* line 232, _flexbox.scss */
+#files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4640,8 +4640,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 218, _flexbox.scss */
-.com_files #files-insert #details #image-insert-form {
+/* line 236, _flexbox.scss */
+#files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
   flex-shrink: 0;
@@ -5360,118 +5360,6 @@ body.com_contacts .editor-wrap {
 }
 
 /* @end */
-/* line 7, components/_files_compact.scss */
-#files-compact .tab > label {
-  border-top: 1px solid #dddddd;
-}
-/* line 10, components/_files_compact.scss */
-#files-compact .tab:first-child > label {
-  border-left: 1px solid #dddddd;
-}
-/* line 13, components/_files_compact.scss */
-#files-compact [type=radio]:checked ~ label {
-  background-color: #f9f9f9;
-  border-bottom-color: #f9f9f9;
-}
-/* line 18, components/_files_compact.scss */
-#files-compact .content {
-  overflow: hidden;
-  border: 1px solid #dddddd;
-  top: 31px;
-}
-/* line 26, components/_files_compact.scss */
-#files-compact #files-insert #files-tree-container,
-#files-compact #files-insert #files-grid {
-  width: 200px;
-  border-right: 1px solid #E1E1E1;
-  background-color: #f9f9f9;
-}
-/* line 33, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview {
-  background: white;
-}
-/* line 36, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview > div {
-  margin: auto;
-  text-align: center;
-}
-/* line 40, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview > div > div {
-  padding-top: 6px;
-}
-/* line 45, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview img {
-  max-height: 125px;
-  max-width: 300px;
-}
-/* line 51, components/_files_compact.scss */
-#files-compact #files-insert #details #image-insert-form {
-  border-top: 1px solid #E1E1E1;
-  background-color: #F4F4F4;
-}
-/* line 56, components/_files_compact.scss */
-#files-compact #files-insert #details .buttons {
-  border-top: 1px solid #E1E1E1;
-  background-color: #F4F4F4;
-  padding: 6px;
-  text-align: right;
-}
-/* line 66, components/_files_compact.scss */
-#files-compact #files-upload form {
-  padding: 5px;
-}
-/* line 70, components/_files_compact.scss */
-#files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
-  height: 28px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-/* line 74, components/_files_compact.scss */
-#files-compact #files-upload form #remote-url {
-  border-radius: 4px 0 0 4px;
-}
-/* line 77, components/_files_compact.scss */
-#files-compact #files-upload form #remote-name {
-  border-radius: 0;
-}
-/* line 80, components/_files_compact.scss */
-#files-compact #files-upload form .remote-submit {
-  top: 5px;
-  right: 5px;
-  bottom: 5px;
-  border-radius: 0 4px 4px 0;
-}
-
-/* line 97, components/_files_compact.scss */
-#insert-modal-cancel,
-#insert-link,
-.insert-or {
-  border-radius: 2px;
-  display: inline-block;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-/* line 103, components/_files_compact.scss */
-.insert-or {
-  padding: 5px 5px 5px 0;
-  margin-left: -5px;
-  cursor: default;
-}
-
-/* line 108, components/_files_compact.scss */
-#insert-link {
-  font-size: 15px;
-  overflow: hidden;
-  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
-  background: #8F8F8F;
-  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
-  background-clip: border-box;
-  color: white;
-  background: linear-gradient(top, #72a8df, #2b75bf);
-}
-
 /* line 2, components/_pages.scss */
 .com_pages #components {
   width: 200px;
@@ -5639,4 +5527,140 @@ body.login .alert__text {
   font: bold 16px/40px sans-serif;
   text-align: center;
   text-decoration: none;
+}
+
+/* line 1, components/_ckeditor.scss */
+.cke_chrome {
+  border: 0px none !important;
+  box-shadow: none !important;
+}
+
+/* line 6, components/_ckeditor.scss */
+.cke_dialog_contents_body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* line 17, components/_ckeditor.scss */
+div.cke_dialog_ui_input_select {
+  border: 0 none;
+  box-shadow: none;
+}
+
+/* line 23, components/_ckeditor.scss */
+#cke_advanced_207 {
+  display: none;
+}
+
+/* line 28, components/_ckeditor.scss */
+#files-compact .tab > label {
+  border-right: 1px solid #dddddd;
+}
+/* line 32, components/_ckeditor.scss */
+#files-compact [type=radio]:checked ~ label {
+  background-color: #f9f9f9;
+  border-bottom-color: #f9f9f9;
+}
+/* line 37, components/_ckeditor.scss */
+#files-compact .content {
+  overflow: hidden;
+  top: 30px;
+  background-color: #f9f9f9;
+}
+/* line 42, components/_ckeditor.scss */
+#files-compact .content .dropzone {
+  background-color: white;
+}
+/* line 49, components/_ckeditor.scss */
+#files-compact #files-insert #files-tree-container,
+#files-compact #files-insert #files-grid {
+  width: 200px;
+  border-right: 1px solid #E1E1E1;
+  background-color: #f9f9f9;
+}
+/* line 56, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview {
+  background: white;
+}
+/* line 59, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview > div {
+  margin: auto;
+  text-align: center;
+}
+/* line 63, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview > div > div {
+  padding-top: 6px;
+}
+/* line 68, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview img {
+  max-height: 125px;
+  max-width: 300px;
+}
+/* line 74, components/_ckeditor.scss */
+#files-compact #files-insert #details #image-insert-form {
+  border-top: 1px solid #E1E1E1;
+  background-color: #F4F4F4;
+}
+/* line 79, components/_ckeditor.scss */
+#files-compact #files-insert #details .buttons {
+  border-top: 1px solid #E1E1E1;
+  background-color: #F4F4F4;
+  padding: 6px;
+  text-align: right;
+}
+/* line 89, components/_ckeditor.scss */
+#files-compact #files-upload form {
+  padding: 5px;
+}
+/* line 93, components/_ckeditor.scss */
+#files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
+  height: 28px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 97, components/_ckeditor.scss */
+#files-compact #files-upload form #remote-url {
+  border-radius: 4px 0 0 4px;
+}
+/* line 100, components/_ckeditor.scss */
+#files-compact #files-upload form #remote-name {
+  border-radius: 0;
+}
+/* line 103, components/_ckeditor.scss */
+#files-compact #files-upload form .remote-submit {
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* line 120, components/_ckeditor.scss */
+#insert-modal-cancel,
+#insert-link,
+.insert-or {
+  border-radius: 2px;
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* line 126, components/_ckeditor.scss */
+.insert-or {
+  padding: 5px 5px 5px 0;
+  margin-left: -5px;
+  cursor: default;
+}
+
+/* line 131, components/_ckeditor.scss */
+#insert-link {
+  font-size: 15px;
+  overflow: hidden;
+  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
+  background: #8F8F8F;
+  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+  background-clip: border-box;
+  color: white;
+  background: linear-gradient(top, #72a8df, #2b75bf);
 }
