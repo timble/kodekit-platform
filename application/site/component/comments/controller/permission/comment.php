@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Comments
  */
-class CommentsControllerPermissionComment extends ApplicationControllerPermissionDefault
+class CommentsControllerPermissionComment extends ApplicationControllerPermissionAbstract
 {
     public function canEdit()
     {
