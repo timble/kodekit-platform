@@ -862,7 +862,7 @@ h4 small {
 }
 
 /* line 93, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_type.scss */
-.page-header {
+.page-header, article header {
   padding-bottom: 9px;
   margin: 20px 0 30px;
   border-bottom: 1px solid #eeeeee;
@@ -8005,7 +8005,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   }
 
   /* line 129, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_responsive-767px-max.scss */
-  .page-header h1 small {
+  .page-header h1 small, article header h1 small {
     display: block;
     line-height: 20px;
   }
@@ -8293,7 +8293,7 @@ article {
   /* Add margins to thumbnails in articles */
 }
 /* line 6, blocks/_article.scss */
-article .page-header {
+article .page-header, article header {
   margin-bottom: 14px;
 }
 /* line 11, blocks/_article.scss */
@@ -8550,54 +8550,54 @@ h3 {
   font-size: 16px;
 }
 
-/* line 31, default.scss */
-.page-header h1 {
+/* line 37, default.scss */
+.page-header h1, article header h1 {
   line-height: 21px;
   margin-bottom: 0;
 }
-/* line 36, default.scss */
-.page-header .timestamp {
+/* line 42, default.scss */
+.page-header .timestamp, article header .timestamp {
   color: #999;
   font-size: 12px;
 }
 
-/* line 43, default.scss */
+/* line 49, default.scss */
 #password-check.score1 {
   color: #FF0000;
 }
 
-/* line 44, default.scss */
+/* line 50, default.scss */
 #password-check.score2 {
   color: #FF5F5F;
 }
 
-/* line 45, default.scss */
+/* line 51, default.scss */
 #password-check.score3 {
   color: #56E500;
 }
 
-/* line 46, default.scss */
+/* line 52, default.scss */
 #password-check.score4 {
   color: #4DCD00;
 }
 
-/* line 47, default.scss */
+/* line 53, default.scss */
 #password-check.score5 {
   color: #399800;
 }
 
-/* line 49, default.scss */
+/* line 55, default.scss */
 .highlight {
   background-color: yellow;
 }
 
 /* com:application.view.page.login.html */
-/* line 54, default.scss */
+/* line 60, default.scss */
 body.login {
   background-color: #f5f5f5;
   padding-top: 60px;
 }
-/* line 58, default.scss */
+/* line 64, default.scss */
 body.login form {
   max-width: 300px;
   margin: 0 auto;
@@ -8606,21 +8606,21 @@ body.login form {
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 66, default.scss */
+/* line 72, default.scss */
 body.login form .form-content {
   padding: 10px 30px 0;
 }
-/* line 69, default.scss */
-body.login form .form-content .page-header {
+/* line 75, default.scss */
+body.login form .form-content .page-header, body.login form .form-content article header, article body.login form .form-content header {
   margin-bottom: 10px;
 }
-/* line 74, default.scss */
+/* line 80, default.scss */
 body.login form .form-actions {
   margin-bottom: 0;
   padding: 19px 30px;
   border-radius: 0 0 5px 5px;
 }
-/* line 80, default.scss */
+/* line 86, default.scss */
 body.login form input {
   font-size: 16px;
   height: auto;
@@ -8628,22 +8628,22 @@ body.login form input {
   padding: 7px 9px;
 }
 
-/* line 90, default.scss */
+/* line 96, default.scss */
 .radio input[type="radio"].level2, .checkbox input[type="checkbox"].level2 {
   margin-left: 0px;
   margin-right: 6px;
 }
-/* line 91, default.scss */
+/* line 97, default.scss */
 .radio input[type="radio"].level3, .checkbox input[type="checkbox"].level3 {
   margin-left: 36px;
   margin-right: 6px;
 }
-/* line 92, default.scss */
+/* line 98, default.scss */
 .radio input[type="radio"].level4, .checkbox input[type="checkbox"].level4 {
   margin-left: 54px;
   margin-right: 6px;
 }
-/* line 93, default.scss */
+/* line 99, default.scss */
 .radio input[type="radio"].level5, .checkbox input[type="checkbox"].level5 {
   margin-left: 72px;
   margin-right: 6px;
