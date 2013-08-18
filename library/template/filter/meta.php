@@ -39,7 +39,7 @@ class TemplateFilterMeta extends TemplateFilterTag
                     'content' => $match
                 );
 
-                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+                $attribs = array_merge($this->parseAttributes( $matches[2][$key]), $attribs);
 				$tags .= $this->_renderTag($attribs);
 			}
 
@@ -58,7 +58,7 @@ class TemplateFilterMeta extends TemplateFilterTag
      */
     protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = $this->_buildAttributes($attribs);
+		$attribs = $this->buildAttributes($attribs);
 
 		$html = '<meta '.$attribs.' />'."\n";
 		return $html;

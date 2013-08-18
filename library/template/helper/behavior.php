@@ -155,7 +155,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         //Force tmpl to overlay
         $url->query['tmpl'] = 'overlay';
 
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
 
         $id = 'overlay' . rand();
         if ($url->fragment) {
@@ -349,8 +349,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 			});
 		</script>";
 
-        $html .= '<input ' . $this->_buildAttributes($config->attribs) . ' />';
-        $html .= '<input ' . $this->_buildAttributes(array(
+        $html .= '<input ' . $this->buildAttributes($config->attribs) . ' />';
+        $html .= '<input ' . $this->buildAttributes(array(
             'type' => 'hidden',
             'name' => $config->name,
             'id' => $config->element . '-value',

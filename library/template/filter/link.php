@@ -39,7 +39,7 @@ class TemplateFilterLink extends TemplateFilterTag
                     'href' => $match
                 );
 
-                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+                $attribs = array_merge($this->parseAttributes( $matches[2][$key]), $attribs);
 
 				$tags .= $this->_renderTag($attribs);
 			}
@@ -59,7 +59,7 @@ class TemplateFilterLink extends TemplateFilterTag
      */
     protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = $this->_buildAttributes($attribs);
+		$attribs = $this->buildAttributes($attribs);
 
 		$html = '<link '.$attribs.'/>'."\n";
 		return $html;

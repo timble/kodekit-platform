@@ -47,7 +47,7 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 		}
 
 		$id      = strtolower($config->id);
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$events			= '';
 		$onActive 		= 'function(e){e.addClass(\'jpane-toggler-down\');e.removeClass(\'jpane-toggler\');}';
@@ -105,7 +105,7 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 		));
 
 		$title   = $config->translate ? \JText::_($config->title) : $config->title;
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$html = '<div class="panel"><h3 class="jpane-toggler title" '.$attribs.'><span>'.$title.'</span></h3><div class="jpane-slider content">';
 		return $html;

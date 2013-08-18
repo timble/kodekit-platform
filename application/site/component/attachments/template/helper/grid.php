@@ -32,7 +32,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
             )
         ));
         
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
 
         $list = $this->getObject('com:attachments.controller.attachment', array(
 			'request' => $this->getObject('lib:controller.request', array(
