@@ -18,6 +18,23 @@ namespace Nooku\Library;
 class ViewJson extends ViewAbstract
 {
     /**
+     * JSON API version
+     */
+    protected $_version;
+
+    /**
+     * Constructor
+     *
+     * @param   KConfig $config Configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_version = $config->version;
+    }
+
+    /**
      * Initializes the config for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -39,15 +56,17 @@ class ViewJson extends ViewAbstract
     /**
      * Render and return the views output
      *
-     * If the view 'output' variable is empty the output will be generated based on the model data, if it set it will
+     * If the view 'content'  is empty the output will be generated based on the model data, if it set it will
      * be returned instead.
      *
-     * @return string     The output of the view
+     * @return string A RFC4627-compliant JSON string, which may also be embedded into HTML.
      */
     public function render()
     {
-        if (empty($this->_content)) {
+        if (empty($this->_content))
+        {
             $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
+            $this->_content = array_merge(array('version' => $this->_version), $this->_content);
         }
 
         if (!is_string($this->_content))
@@ -92,7 +111,6 @@ class ViewJson extends ViewAbstract
         }
 
         $data = array(
-            'version' => '1.0',
             'href' => (string)$route->setQuery($state->getValues(), true),
             'url' => array(
                 'type' => 'application/json',
@@ -183,7 +201,6 @@ class ViewJson extends ViewAbstract
         }
 
         $data = array(
-            'version' => '1.0',
             'href' => (string)$route->setQuery($state->getValues(true)),
             'url' => array(
                 'type' => 'application/json',
