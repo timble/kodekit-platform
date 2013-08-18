@@ -71,6 +71,7 @@ class TemplateFilterStyle extends TemplateFilterTag
 	protected function _renderTag($attribs = array(), $content = null)
 	{
         $link = isset($attribs['src']) ? $attribs['src'] : false;
+        $condition = isset($attribs['condition']) ? $attribs['condition'] : false;
 
         if(!$link)
 		{
@@ -83,9 +84,16 @@ class TemplateFilterStyle extends TemplateFilterTag
 		else
         {
             unset($attribs['src']);
+            unset($attribs['condition']);
             $attribs = $this->buildAttributes($attribs);
 
-            $html = '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
+            if($condition)
+            {
+                $html  = '<!--['.$condition.']>';
+                $html .= '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
+                $html .= '<![endif]-->';
+            } 
+            else $html  = '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
         }
 
 		return $html;

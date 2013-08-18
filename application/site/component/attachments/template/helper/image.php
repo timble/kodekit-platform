@@ -28,7 +28,8 @@ class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
         $image = $config->row;
 
         if($image->thumbnail) {
-            return '<img class="'.$config->class.'" align="'.$config->align.'" src="'.$image->thumbnail.'" />';
+            return '<figure><img class="'.$config->class.'" align="'.$config->align.'" src="'.$image->thumbnail.'" /></figure>
+';
         }
 
         return false;

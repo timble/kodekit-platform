@@ -9,7 +9,7 @@
 ?>
 
 <article>
-    <div class="page-header">
+    <header>
         <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
@@ -18,7 +18,7 @@
         <? if ($article->access) : ?>
         <span class="label label-important"><?= @text('Registered') ?></span>
         <? endif ?>
-    </div>
+    </header>
 
     <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
     
