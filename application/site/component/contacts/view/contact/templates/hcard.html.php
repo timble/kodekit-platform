@@ -18,7 +18,9 @@
     <? if($contact->isAttachable()) : ?>
         <? foreach($contact->getAttachments() as $item) : ?>
             <? if($item->file->isImage()) : ?>
-                <img class="photo thumbnail" align="right" src="<?= $item->thumbnail->thumbnail ?>" />
+                <figure>
+                    <img class="photo" src="<?= $item->thumbnail->thumbnail ?>" />
+                </figure>
             <? endif ?>
         <? endforeach ?>
     <? endif ?>
