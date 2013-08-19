@@ -151,8 +151,8 @@ window.addEvent('domready', function() {
 </script>
 
 <? if (isset($toolbar)): ?>
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
 </ktml:module>
 <? endif; ?>
 
