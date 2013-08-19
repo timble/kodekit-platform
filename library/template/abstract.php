@@ -340,7 +340,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * Get a filter by identifier
      *
      * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
-                                    or valid identifier string
+     *                              or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return TemplateFilterInterface
      */
@@ -374,7 +374,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Attach one or more filters for template transformation
+     * Attach a filter for template transformation
      *
      * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string

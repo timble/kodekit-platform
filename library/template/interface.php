@@ -105,7 +105,7 @@ interface TemplateInterface
     public function getFilter($filter, $config = array());
 
     /**
-     * Attach one or more filters for template transformation
+     * Attach a filter for template transformation
      *
      * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
