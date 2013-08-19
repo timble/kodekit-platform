@@ -14,8 +14,8 @@
 <script src="media://js/koowa.js" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
 </ktml:module>
 
 <form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">

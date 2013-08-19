@@ -15,8 +15,8 @@
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
 <?= @helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
 </ktml:module>
 
 <ktml:module position="sidebar">
