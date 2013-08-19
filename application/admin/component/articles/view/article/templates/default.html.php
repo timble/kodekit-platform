@@ -33,12 +33,12 @@
     }));
 </script>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
 </ktml:module>
 
 <? if($article->isTranslatable()) : ?>
-    <ktml:module position="toolbar" content="append">
+    <ktml:module position="actionbar" content="append">
         <?= @helper('com:languages.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
