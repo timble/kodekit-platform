@@ -27,14 +27,14 @@
         <div id="menu">
         	<?= @helper('menubar.render')?>
         </div>
-        <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
+        <?= @helper('actionbar.render', array('actionbar' => $actionbar, 'attribs' => array('id' => 'statusmenu')))?>
 	</div>
 
     <?= @helper('tabbar.render', array('tabbar' => $tabbar))?>
 
-    <ktml:modules position="toolbar">
+    <ktml:modules position="actionbar">
     <div id="panel-toolbar">
-        <ktml:modules:content />
+        <ktml:modules:content>
         <?= @template('page_message.html') ?>
     </div>
     </ktml:modules>
@@ -42,17 +42,17 @@
     <div id="panel-component">
         <ktml:modules position="sidebar">
         <div id="panel-sidebar">
-            <ktml:modules:content />
+            <ktml:modules:content>
         </div>
         </ktml:modules>
 
         <div id="panel-content">
-            <ktml:content />
+            <ktml:content>
 	    </div>
 
         <ktml:modules position="inspector">
             <div id="panel-inspector">
-                <ktml:modules:content />
+                <ktml:modules:content>
             </div>
         </ktml:modules>
     </div>
