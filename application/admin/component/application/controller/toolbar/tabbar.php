@@ -17,7 +17,24 @@ use Nooku\Library;
  */
 class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstract
 {
-	/**
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config Configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'type'  => 'tabbar',
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
 	 * Push the tabbar into the view
 	 * .
 	 * @param	Library\Event	A event object
