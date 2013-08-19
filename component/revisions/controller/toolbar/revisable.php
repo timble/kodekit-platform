@@ -22,7 +22,7 @@ class ControllerToolbarRevisable extends Library\ControllerToolbarActionbar
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-    		'priority'  => Library\CommandChain::PRIORITY_LOW
+    		'priority'  => Library\Command::PRIORITY_LOW
         ));
 
         parent::_initialize($config);

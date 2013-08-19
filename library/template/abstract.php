@@ -94,7 +94,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             }
         }
 
-        //Reset the counter
+        //Reset the stack
         $this->_stack = array();
     }
 
@@ -313,14 +313,14 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     public function render()
     {
         //Parse the template
-        $this->_parse($this->_content);
+        $this->_compile($this->_content);
 
         //Evaluate the template
         $this->_evaluate($this->_content);
 
         //Process the template only at the end of the render cycle.
         if(!count($this->_stack)) {
-            $this->_process($this->_content);
+            $this->_render($this->_content);
         }
 
         return $this->_content;
@@ -514,7 +514,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @return string The parsed data
      */
-    protected function _parse(&$content)
+    protected function _compile(&$content)
     {
         $this->_chain->compile($content);
     }
@@ -555,7 +555,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @return string  The rendered data
      */
-    protected function _process(&$content)
+    protected function _render(&$content)
     {
         $this->_chain->render($content);
     }

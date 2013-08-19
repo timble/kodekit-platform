@@ -41,7 +41,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Library\CommandChain::PRIORITY_LOWEST,
+            'priority'   => Library\Command::PRIORITY_LOWEST,
             'auto_mixin' => true,
             'strategy'   => 'flat',
             'table'      => null,

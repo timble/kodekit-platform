@@ -28,7 +28,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => CommandChain::PRIORITY_LOW,
+			'priority'   => Command::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);
