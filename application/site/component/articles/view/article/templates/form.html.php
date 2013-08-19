@@ -16,7 +16,7 @@
 -->
 
 <div class="btn-toolbar">
-    <?= @helper('com:base.toolbar.render', array('toolbar' => $toolbar));?>
+    <?= @helper('actionbar.render', array('actionbar' => $actionbar));?>
 </div>
 
 <form method="post" action="" class="-koowa-form form-horizontal">
