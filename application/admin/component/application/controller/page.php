@@ -25,7 +25,7 @@ class ApplicationControllerPage extends Library\ControllerView
     protected function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'toolbars'  => array('menubar', 'tabbar', 'toolbar'),
+            'toolbars'  => array('menubar', 'tabbar', 'actionbar'),
         ));
 
         parent::_initialize($config);
