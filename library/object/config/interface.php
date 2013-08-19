@@ -58,7 +58,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * This function only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  mixed    A value of an or array of values to be appended
+     * @param  mixed $config A value of an or array of values to be appended
      * @return ObjectConfig
      */
     public function append($config);
@@ -68,7 +68,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
      *
-     * @param  ObjectConfig|mxied $data
+     * @param  ObjectConfig|mixed $data
      * @return array|mixed
      */
     public static function unbox($data);

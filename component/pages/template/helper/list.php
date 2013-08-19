@@ -42,7 +42,7 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
 
             if($depth > $last_depth)
             {
-                $result .= $first ? '<ul '.$this->_buildAttributes($config->attribs).'>' : '<ul>';
+                $result .= $first ? '<ul '.$this->buildAttributes($config->attribs).'>' : '<ul>';
 
                 if($first && $config->title) {
                     $result .= '<li class="nav-header">'.$config->title.'</li>';

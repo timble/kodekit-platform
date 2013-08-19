@@ -43,7 +43,7 @@ class TemplateFilterScript extends TemplateFilterTag
                     'src' => $match
                 );
 
-                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+                $attribs = array_merge($this->parseAttributes( $matches[2][$key]), $attribs);
 
                 if(!isset($attribs['type'])) {
                     $attribs['type'] = 'text/javascript';
@@ -63,7 +63,7 @@ class TemplateFilterScript extends TemplateFilterTag
 		{
             foreach($matches[2] as $key => $match)
 			{
-				$attribs = $this->_parseAttributes( $matches[1][$key]);
+				$attribs = $this->parseAttributes( $matches[1][$key]);
 
                 if(!isset($attribs['type'])) {
                     $attribs['type'] = 'text/javascript';
@@ -93,7 +93,7 @@ class TemplateFilterScript extends TemplateFilterTag
 
 		if(!$link)
 		{
-            $attribs = $this->_buildAttributes($attribs);
+            $attribs = $this->buildAttributes($attribs);
 
             $html  = '<script '.$attribs.'>'."\n";
 			$html .= trim($content);
@@ -102,7 +102,7 @@ class TemplateFilterScript extends TemplateFilterTag
 		else
         {
             unset($attribs['src']);
-            $attribs = $this->_buildAttributes($attribs);
+            $attribs = $this->buildAttributes($attribs);
 
             $html = '<script src="'.$link.'" '.$attribs.'></script>'."\n";
         }

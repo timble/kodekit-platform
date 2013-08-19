@@ -39,7 +39,7 @@ class TemplateFilterStyle extends TemplateFilterTag
                     'src' => $match
                 );
 
-                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+                $attribs = array_merge($this->parseAttributes( $matches[2][$key]), $attribs);
 				$tags .= $this->_renderTag($attribs);
 			}
 
@@ -51,7 +51,7 @@ class TemplateFilterStyle extends TemplateFilterTag
 		{
 			foreach($matches[2] as $key => $match)
 			{
-				$attribs = $this->_parseAttributes( $matches[1][$key]);
+				$attribs = $this->parseAttributes( $matches[1][$key]);
 				$tags .= $this->_renderTag($attribs, $match);
 			}
 
@@ -71,10 +71,11 @@ class TemplateFilterStyle extends TemplateFilterTag
 	protected function _renderTag($attribs = array(), $content = null)
 	{
         $link = isset($attribs['src']) ? $attribs['src'] : false;
+        $condition = isset($attribs['condition']) ? $attribs['condition'] : false;
 
         if(!$link)
 		{
-            $attribs = $this->_buildAttributes($attribs);
+            $attribs = $this->buildAttributes($attribs);
 
             $html  = '<style type="text/css" '.$attribs.'>'."\n";
 			$html .= trim($content);
@@ -83,9 +84,16 @@ class TemplateFilterStyle extends TemplateFilterTag
 		else
         {
             unset($attribs['src']);
-            $attribs = $this->_buildAttributes($attribs);
+            unset($attribs['condition']);
+            $attribs = $this->buildAttributes($attribs);
 
-            $html = '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
+            if($condition)
+            {
+                $html  = '<!--['.$condition.']>';
+                $html .= '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
+                $html .= '<![endif]-->';
+            } 
+            else $html  = '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
         }
 
 		return $html;
