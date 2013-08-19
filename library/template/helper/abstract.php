@@ -66,7 +66,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
      * @param   mixed   $array The array of Key/Value pairs for the attributes
      * @return  string  String containing xml style attributes
      */
-    public static function _buildAttributes($array)
+    public function buildAttributes($array)
     {
         $output = array();
 

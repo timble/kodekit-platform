@@ -1,3 +1,5 @@
+@import "variables";
+
 // Load bootstrap
 @import "bootstrap.scss";
 @import "validation.css";
@@ -12,11 +14,6 @@
  */
 @import "bootstrap-image-gallery.scss";
 
-// Sprite icons path
-// -------------------------
-$iconSpritePath:          "../images/glyphicons-halflings.png";
-$iconWhiteSpritePath:     "../images/glyphicons-halflings-white.png";
-
 html {
 	overflow-y: scroll;
 }
@@ -30,6 +27,12 @@ body {
 h1 { font-size: 21px; }
 h2 { font-size: 19px; }
 h3 { font-size: 16px; }
+
+article {
+  header {
+    @extend .page-header;
+  }
+}
 
 .page-header {
 	h1 {

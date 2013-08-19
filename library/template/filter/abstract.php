@@ -102,7 +102,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      * @param   string  $string String containing xml style attributes
      * @return  array   Key/Value pairs for the attributes
      */
-    protected function _parseAttributes($string)
+    public function parseAttributes($string)
     {
         $result = array();
 
@@ -129,16 +129,18 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      * @param   mixed   $array The array of Key/Value pairs for the attributes
      * @return  string  String containing xml style attributes
      */
-    public static function _buildAttributes($array)
+    public function buildAttributes($array)
     {
         $output = array();
 
-        if ($array instanceof ObjectConfig) {
-            $array = ObjectConfig::unbox($array);
+        if ($array instanceof KConfig) {
+            $array = KConfig::unbox($array);
         }
 
-        if (is_array($array)) {
-            foreach ($array as $key => $item) {
+        if (is_array($array))
+        {
+            foreach ($array as $key => $item)
+            {
                 if (is_array($item)) {
                     $item = implode(' ', $item);
                 }

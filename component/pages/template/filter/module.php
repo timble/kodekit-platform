@@ -117,7 +117,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'position'  => ''
                 );
 
-                $attributes = array_merge($defaults, $this->_parseAttributes($matches[1][$key]));
+                $attributes = array_merge($defaults, $this->parseAttributes($matches[1][$key]));
 
                 //Create module object
                 $values = array(
@@ -156,7 +156,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
             for($i = 0; $i < $count; $i++)
             {
                 $position    = $matches[1][$i];
-                $attribs     = $this->_parseAttributes( $matches[2][$i] );
+                $attribs     = $this->parseAttributes( $matches[2][$i] );
 
                 $modules = $this->getModules()->find(array('position' => $position));
                 $replace[$i] = $this->_renderModules($modules, $attribs);
@@ -175,7 +175,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
             for($i = 0; $i < $count; $i++)
             {
                 $position    = $matches[1][$i];
-                $attribs     = $this->_parseAttributes( $matches[2][$i] );
+                $attribs     = $this->parseAttributes( $matches[2][$i] );
 
                 $modules = $this->getModules()->find(array('position' => $position));
                 $replace[$i] = $this->_renderModules($modules, $attribs);

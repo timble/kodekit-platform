@@ -37,7 +37,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
             //Force the id
             $config->attribs['id'] = 'toolbar-'.$config->toolbar->getName();
 
-            $html  = '<div '.$this->_buildAttributes($config->attribs).'>';
+            $html  = '<div '.$this->buildAttributes($config->attribs).'>';
             $html .= '<div class="btn-group">';
             foreach ($config->toolbar->getCommands() as $command)
             {
@@ -84,7 +84,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
             $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
         }
 
-        $html  = '<a '.$this->_buildAttributes($command->attribs).'>';
+        $html  = '<a '.$this->buildAttributes($command->attribs).'>';
        	$html .= \JText::_($command->label);
        	$html .= '</a>';
 
@@ -106,7 +106,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
 
         $command = $config->command;
 
-        $html = '</div><div '.$this->_buildAttributes($command->attribs).'>';
+        $html = '</div><div '.$this->buildAttributes($command->attribs).'>';
 
     	return $html;
     }

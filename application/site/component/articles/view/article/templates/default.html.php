@@ -9,7 +9,7 @@
 ?>
 
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
-    <div class="page-header">
+    <header>
 	    <? if (@object('component')->getController()->canEdit()) : ?>
 	    <a style="float: right;" class="btn btn-mini" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
 	        <i class="icon-edit"></i>
@@ -23,7 +23,7 @@
 	    <? if ($article->access) : ?>
 	    <span class="label label-important"><?= @text('Registered') ?></span>
 	    <? endif ?>
-	</div>
+	</header>
 
     <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
 

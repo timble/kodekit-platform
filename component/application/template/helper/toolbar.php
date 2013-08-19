@@ -33,7 +33,7 @@ class TemplateHelperToolbar extends Library\TemplateHelperAbstract
             'attribs' => array()
         ));
 
-        $html  = '<ul '.$this->_buildAttributes($config->attribs).'>';
+        $html  = '<ul '.$this->buildAttributes($config->attribs).'>';
 	    foreach ($config->toolbar->getCommands() as $command)
 	    {
             $name = $command->getName();
@@ -79,7 +79,7 @@ class TemplateHelperToolbar extends Library\TemplateHelperAbstract
             $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
         }
 
-        $html  = '<a '.$this->_buildAttributes($command->attribs).'>';
+        $html  = '<a '.$this->buildAttributes($command->attribs).'>';
        	$html .= \JText::_($command->label);
        	$html .= '</a>';
 

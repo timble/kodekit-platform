@@ -30,7 +30,8 @@ class TemplateHelperDate extends TemplateHelperAbstract
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
             'format'   => $this->getTemplate()->getFormat() == 'rss' ? Date::RSS : \JText::_('DATE_FORMAT_LC1'),
-            'default'  => ''
+            'default'  => '',
+            'attribs'  => array()
         ));
 
         $return = $config->default;
@@ -39,11 +40,15 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try 
             {
+                $attribs = $this->buildAttributes($config->attribs);
+
                 $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
-                $return = $date->format($config->format);
-            } 
+                $return = '<time datetime="'.$date->format('Y-m-d').'" '.$attribs.'>';
+                $return .= $date->format($config->format);
+                $return .= '</time>';
+            }
             catch(\Exception $e) {}
         }
 

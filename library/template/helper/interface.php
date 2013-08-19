@@ -23,4 +23,12 @@ interface TemplateHelperInterface
      * @return  object	The template object
      */
     public function getTemplate();
+
+    /**
+     * Method to build a string with xml style attributes from  an array of key/value pairs
+     *
+     * @param   mixed   $array The array of Key/Value pairs for the attributes
+     * @return  string  String containing xml style attributes
+     */
+    public function buildAttributes($array);
 }
