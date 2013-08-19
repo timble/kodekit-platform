@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class ControllerToolbarContact extends Library\ControllerToolbarModel
+class ControllerToolbarContact extends Library\ControllerToolbarActionbar
 {
     public function onAfterControllerBrowse(Library\Event $event)
     {    

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Revisions
  */
-class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
+class ControllerToolbarRevisable extends Library\ControllerToolbarActionbar
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -32,11 +32,10 @@ class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
     {     
         $controller = $this->getController();
         $state      = $controller->getModel()->getState();
-        
+
         if($state->trashed == true) 
         {
-            $name    = $controller->getIdentifier()->name;
-            $toolbar = $this->getController()->getToolbar($name);
+            $toolbar = $this->getController()->getToolbar($this->getType());
             $toolbar->reset();
                  
             if($controller->canEdit()) {
