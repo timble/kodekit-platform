@@ -22,6 +22,6 @@ class TemplateFilterMeta extends Library\TemplateFilterMeta
     public function render(&$text)
     {
         $meta = $this->_parseTags($text);
-        $text = str_replace('<ktml:meta />'.PHP_EOL, $meta, $text);
+        $text = str_replace('<ktml:meta>'.PHP_EOL, $meta, $text);
     }
 }

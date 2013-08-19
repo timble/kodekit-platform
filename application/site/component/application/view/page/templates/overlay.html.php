@@ -14,7 +14,7 @@
 <?= @template('page_head.html') ?>
 
 <body id="tmpl-overlay" class="com_<?= $extension ?>">
-    <ktml:content />
+    <ktml:content>
 </body>
 
 </html>

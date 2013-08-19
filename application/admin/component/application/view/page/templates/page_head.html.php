@@ -14,10 +14,10 @@
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta content="chrome=1" http-equiv="X-UA-Compatible" />
 
-    <ktml:meta />
-    <ktml:link />
-    <ktml:style />
-    <ktml:script />
+    <ktml:meta>
+    <ktml:link>
+    <ktml:style>
+    <ktml:script>
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 

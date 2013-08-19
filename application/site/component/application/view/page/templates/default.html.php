@@ -18,9 +18,9 @@
         <nav class="navbar-inner">           
             <a class="brand" href="/"><?= @escape(@object('application')->getCfg('sitename' )) ?></a>
             <div>
-                <ktml:modules position="user3" />
+                <ktml:modules position="user3">
             </div>
-            <ktml:modules position="user4" />
+            <ktml:modules position="user4">
         </nav>
     </div>
 </header>
@@ -29,14 +29,14 @@
     <div class="row">
         <aside class="sidebar span3">
             <div class="well" style="padding: 8px 0;">
-            	<ktml:modules position="left" chrome="wrapped" />
+            	<ktml:modules position="left" chrome="wrapped">
             </div>
         </aside>
         <div class="span9">
-            <ktml:modules position="breadcrumb" />
+            <ktml:modules position="breadcrumb">
             <?= @template('page_message.html') ?>
             <section>
-                <ktml:content />
+                <ktml:content>
             </section>
         </div>
     </div>

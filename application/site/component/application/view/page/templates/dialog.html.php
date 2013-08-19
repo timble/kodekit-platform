@@ -15,7 +15,7 @@
 
 <body id="tmpl-modal" class="com_<?= $extension ?>">
     <?= @template('page_message.html') ?>
-    <ktml:content />
+    <ktml:content>
 </body>
 
 </html>

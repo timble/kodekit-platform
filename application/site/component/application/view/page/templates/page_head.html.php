@@ -15,10 +15,10 @@
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <ktml:meta />
-    <ktml:link />
-    <ktml:style />
-    <ktml:script />
+    <ktml:meta>
+    <ktml:link>
+    <ktml:style>
+    <ktml:script>
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 

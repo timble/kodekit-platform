@@ -16,7 +16,7 @@
 <body class="login">
     <div class="container">
         <?= @template('page_message.html') ?>
-        <ktml:content />
+        <ktml:content>
     </div>
 </body>
 </html>
