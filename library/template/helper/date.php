@@ -40,7 +40,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try 
             {
-                $attribs = $this->_buildAttributes($config->attribs);
+                $attribs = $this->buildAttributes($config->attribs);
 
                 $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
