@@ -89,7 +89,7 @@ class CommandMixin extends ObjectMixinAbstract
     public function getCommandContext()
     {
         $context = $this->_command_chain->getContext();
-        $context->setSubject($this->_mixer);
+        $context->setSubject($this->getMixer());
         
         return $context;
     }
@@ -125,7 +125,7 @@ class CommandMixin extends ObjectMixinAbstract
     public function setCommandChain(CommandChainInterface $chain)
     {
         $this->_command_chain = $chain;
-        return $this->_mixer;
+        return $this->getMixer();
     }
     
 	/**
