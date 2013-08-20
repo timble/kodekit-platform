@@ -25,7 +25,8 @@ interface ObjectMixable
      * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return  ObjectInterface
+     * @return  ObjectMixinInterface
+     * @throws  \UnexpectedValueException If the mixin does not implement the ObjectMixinInterface
      */
     public function mixin($mixin, $config = array());
 

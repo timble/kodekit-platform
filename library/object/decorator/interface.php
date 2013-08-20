@@ -15,22 +15,31 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-interface ObjectDecoratorInterface extends ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
+interface ObjectDecoratorInterface extends ObjectHandlable
 {
     /**
      * Get the decorated object
      *
-     * @return ObjectDecoratable The decorated object
+     * @return object The decorated object
      */
     public function getDelegate();
 
     /**
      * Set the decorated object
      *
-     * @param   object $delegate The decorated object
-     * @return  ObjectDecorator
+     * @param   object $delegate The object to decorate
+     * @return  ObjectDecoratorInterface
      */
     public function setDelegate($delegate);
+
+    /**
+     * Get a list of all the available methods
+     *
+     * This function returns an array of all the public methods, both native and mixed.
+     *
+     * @return array An array
+     */
+    public function getMethods();
 
     /**
      * Decorate Notifier

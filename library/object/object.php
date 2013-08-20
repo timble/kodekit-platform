@@ -121,6 +121,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return  ObjectMixinInterface
+     * @throws  \UnexpectedValueException If the mixin does not implement the ObjectMixinInterface
      */
     public function mixin($mixin, $config = array())
     {
@@ -169,12 +170,14 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Decorate the object
      *
-     * When using decorate(), the object will be decorated by the decorator
+     * When using decorate(), the object will be decorated by the decorator. The decorator needs to extend from
+     * ObjectDecorator.
      *
      * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return   ObjectDecoratorInterface
+     * @throws  \UnexpectedValueException If the decorator does not extend from ObjectDecorator
      */
     public function decorate($decorator, $config = array())
     {
@@ -198,10 +201,14 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
 
             $decorator = new $identifier->classname($config);
 
-            if(!$decorator instanceof ObjectDecoratorInterface)
+            /*
+             * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
+             * ObjectInterface, ObjectHandable, ObjectMixable and ObjectDecoratable interfaces.
+             */
+            if(!$decorator instanceof ObjectDecorator)
             {
                 throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($decorator).' does not implement ObjectDecoratorInterface'
+                    'Decorator: '.get_class($decorator).' does not extend from ObjectDecorator'
                 );
             }
         }
@@ -252,7 +259,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Get a list of all the available methods
      *
-     * This function returns an array of all the methods, both native and mixed in
+     * This function returns an array of all the methods, both native and mixed in.
      *
      * @return array An array
      */
