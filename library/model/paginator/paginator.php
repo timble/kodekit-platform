@@ -90,36 +90,34 @@ class ModelPaginator extends ObjectConfig implements ModelPaginatorInterface
         $current  = ($this->current - 1) * $this->limit;
         
         // First
-        $page    = 1;
-        $offset  = 0;
-        $active  = $offset != $this->offset;
-        
-        $pages->first = array('title' => 'First', 'page' => 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active, 'rel' => 'first' );
+        $offset = 0;
+        $class  = $offset == $this->offset ? 'pagination__first disabled' : 'pagination__first';
+        $pages->first = array('title' => 'First', 'page' => 1, 'offset' => $offset, 'limit' => $this->limit, 'attribs' => array('class' => $class));
       
         // Previous
-        $offset  = max(0, ($this->current - 2) * $this->limit);
-        $active  = $offset != $this->offset;
-        $pages->prev = array('title' => 'Previous', 'page' => $this->current - 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active, 'rel' => 'prev');
+        $offset = max(0, ($this->current - 2) * $this->limit);
+        $class  = $offset == $this->offset ? 'pagination__previous disabled' : 'pagination__previous';
+        $pages->prev = array('title' => 'Previous', 'page' => $this->current - 1, 'offset' => $offset, 'limit' => $this->limit, 'rel' => 'prev', 'attribs' => array('class' => $class));
 
         // Pages
         $offsets = array();
         foreach($this->_offsets() as $page => $offset)
         {
-            $current = $offset == $this->offset;
-            $offsets[] = array('title' => $page, 'page' => $page, 'offset' => $offset, 'limit' => $this->limit, 'current' => $current, 'active' => !$current);
+            $class = $offset == $this->offset ? 'pagination__offset active' : 'pagination__offset';
+            $offsets[] = array('title' => $page, 'page' => $page, 'offset' => $offset, 'limit' => $this->limit, 'attribs' => array('class' => $class));
         }
         
         $pages->offsets = $offsets;
         
         // Next
         $offset = min(($this->count-1) * $this->limit, ($this->current) * $this->limit);
-        $active = $offset != $this->offset;
-        $pages->next = array('title' => 'Next', 'page' => $this->current + 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active, 'rel' => 'next');
+        $class  = $offset == $this->offset ? 'pagination__next disabled' : 'pagination__next';
+        $pages->next = array('title' => 'Next', 'page' => $this->current + 1, 'offset' => $offset, 'limit' => $this->limit, 'rel' => 'next', 'attribs' => array('class' => $class));
        
         // Last
-        $offset  = ($this->count - 1) * $this->limit;
-        $active  = $offset != $this->offset;
-        $pages->last = array('title' => 'Last', 'page' => $this->count, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active, 'rel' => 'last');
+        $offset = ($this->count - 1) * $this->limit;
+        $class  = $offset == $this->offset ? 'pagination__last disabled' : 'pagination__last';
+        $pages->last = array('title' => 'Last', 'page' => $this->count, 'offset' => $offset, 'limit' => $this->limit, 'attribs' => array('class' => $class));
         
         return $pages;
     }
