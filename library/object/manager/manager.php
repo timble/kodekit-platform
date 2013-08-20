@@ -36,7 +36,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * Prevent creating instances of this class by making the constructor private
      */
-    final private function __construct(ObjectConfig $config)
+    public function __construct(ObjectConfig $config)
     {
         //Set the class loader
         if (!$config->class_loader instanceof ClassLoaderInterface)
