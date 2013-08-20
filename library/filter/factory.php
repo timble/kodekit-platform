@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
+class FilterFactory extends ObjectFactoryAbstract implements ObjectMultiton
 {
 	/**
 	 * Factory method for FilterInterface classes.

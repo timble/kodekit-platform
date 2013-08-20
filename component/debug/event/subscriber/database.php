@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements Library\ObjectSingleton
+class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements Library\ObjectMultiton
 {    
     /**
      * The start time

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectSingleton
+class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectMultiton
 {
     public function render()
     {

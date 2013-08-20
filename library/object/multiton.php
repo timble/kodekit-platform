@@ -10,15 +10,15 @@
 namespace Nooku\Library;
 
 /**
- * Object Singleton Interface
+ * Object Multiton Interface
  *
- * Ensures that only one object instance can exist.
+ * Ensures that only one object instance for per object identifier can exist.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  * @see     ObjectManager::getObject()
  */
-interface ObjectSingleton extends ObjectMultiton
+interface ObjectMultiton extends ObjectInterface
 {
 
 }

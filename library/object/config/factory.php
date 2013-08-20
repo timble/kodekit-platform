@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSingleton
+class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectMultiton
 {
     /**
      * Registered config file formats.
@@ -41,7 +41,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config	An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectSingleton
+abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectMultiton
 {
     /**
      * Priority levels

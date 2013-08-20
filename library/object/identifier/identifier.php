@@ -370,6 +370,16 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
+     * Check if the object is a multiton
+     *
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isMultiton()
+    {
+        return array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($this->classname));
+    }
+
+    /**
      * Check if the object is a singleton
      *
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.

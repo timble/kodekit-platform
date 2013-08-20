@@ -190,7 +190,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             $instance = $this->_decorate($identifier, $instance);
 
             //Auto register the object
-            if($instance instanceof ObjectSingleton) {
+            if($instance instanceof ObjectMultiton) {
                 $this->setObject($identifier, $instance);
             }
         }
@@ -432,6 +432,23 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
                 $result = false;
             }
 
+        } catch (ObjectExceptionInvalidIdentifier $e) {
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if the object is a multiton
+     *
+     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isMultiton($identifier)
+    {
+        try {
+            $result = $this->getIdentifier($identifier)->isMultiton();
         } catch (ObjectExceptionInvalidIdentifier $e) {
             $result = false;
         }

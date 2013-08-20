@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseRowsetLanguages extends Library\DatabaseRowsetAbstract implements Library\ObjectSingleton
+class ApplicationDatabaseRowsetLanguages extends Library\DatabaseRowsetAbstract implements Library\ObjectMultiton
 {
     protected $_active;
     protected $_primary;

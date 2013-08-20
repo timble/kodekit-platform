@@ -155,10 +155,19 @@ interface ObjectManagerInterface
     public function isRegistered($identifier);
 
     /**
+     * Check if the object is a multiton
+     *
+     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isMultiton($identifier);
+
+    /**
      * Check if the object is a singleton
      *
      * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
      */
     public function isSingleton($identifier);
+
 }
