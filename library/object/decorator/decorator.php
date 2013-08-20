@@ -28,13 +28,13 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
      */
     public function inherits($class)
     {
-        $result = false;
-        $object = $this->getDelegate();
+        $result   = false;
+        $delegate = $this->getDelegate();
 
-        if ($object instanceof ObjectMixable) {
-            $result = $object->inherits($class);
+        if ($delegate instanceof ObjectMixable) {
+            $result = $delegate->inherits($class);
         } else {
-            $result = $object instanceof $class;
+            $result = $delegate instanceof $class;
         }
 
         return $result;
@@ -59,12 +59,14 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
     /**
      * Decorate the object
      *
-     * When using decorate(), the object will be decorated by the decorator
+     * When using decorate(), the decorator will be re-decorated. The decorator needs to extend from
+     * ObjectDecorator.
      *
      * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecorator
+     * @return   ObjectDecoratorInterface
+     * @throws  \UnexpectedValueException If the decorator does not extend from ObjectDecorator
      */
     public function decorate($decorator, $config = array())
     {
@@ -81,6 +83,7 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
      *
      * @param   ObjectInterface $delegate The object to decorate
      * @return  ObjectDecorator
+     * @throws  \InvalidArgumentException If the delegate does not implement ObjectInterface
      */
     public function setDelegate($delegate)
     {
@@ -122,6 +125,6 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
      */
     public function getConfig($identifier = null)
     {
-        return $this->getDelegate()->getObject($identifier);
+        return $this->getDelegate()->getConfig($identifier);
     }
 }

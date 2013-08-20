@@ -82,6 +82,7 @@ abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface
      *
      * @param   object $delegate The decorated object
      * @return  ObjectDecoratorAbstract
+     * @throws  \InvalidArgumentException If the delegate is not an object instance
      */
     public function setDelegate($delegate)
     {
@@ -217,15 +218,15 @@ abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface
      */
     public function __call($method, $arguments)
     {
-        $object = $this->getDelegate();
+        $delegate = $this->getDelegate();
 
         //Check if the method exists
-        if ($object instanceof ObjectMixable)
+        if ($delegate instanceof ObjectMixable)
         {
-            $methods = $object->getMethods();
+            $methods = $delegate->getMethods();
             $exists = in_array($method, $methods);
         }
-        else $exists = method_exists($object, $method);
+        else $exists = method_exists($delegate, $method);
 
         //Call the method if it exists
         if ($exists)
@@ -236,24 +237,24 @@ abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface
             switch (count($arguments))
             {
                 case 0 :
-                    $result = $object->$method();
+                    $result = $delegate->$method();
                     break;
                 case 1 :
-                    $result = $object->$method($arguments[0]);
+                    $result = $delegate->$method($arguments[0]);
                     break;
                 case 2:
-                    $result = $object->$method($arguments[0], $arguments[1]);
+                    $result = $delegate->$method($arguments[0], $arguments[1]);
                     break;
                 case 3:
-                    $result = $object->$method($arguments[0], $arguments[1], $arguments[2]);
+                    $result = $delegate->$method($arguments[0], $arguments[1], $arguments[2]);
                     break;
                 default:
                     // Resort to using call_user_func_array for many segments
-                    $result = call_user_func_array(array($object, $method), $arguments);
+                    $result = call_user_func_array(array($delegate, $method), $arguments);
             }
 
             //Allow for method chaining through the decorator
-            $class = get_class($object);
+            $class = get_class($delegate);
             if ($result instanceof $class) {
                 return $this;
             }
