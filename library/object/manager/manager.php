@@ -36,7 +36,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * Prevent creating instances of this class by making the constructor private
      */
-    public function __construct(ObjectConfig $config)
+    final private function __construct(ObjectConfig $config)
     {
         //Set the class loader
         if (!$config->class_loader instanceof ClassLoaderInterface)
@@ -265,7 +265,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
-     * Register a mixin or an array of mixins for an identifier
+     * Register a mixin for an identifier
      *
      * The mixin is mixed when the identified object is first instantiated see {@link get} The mixin is also mixed with
      * with the represented by the identifier if the object is registered in the object manager. This mostly applies to
@@ -292,7 +292,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
-     * Register a decorator or an array of decorators for an identifier
+     * Register a decorator  for an identifier
      *
      * The object is decorated when it's first instantiated see {@link get} The object represented by the identifier is
      * also decorated if the object is registered in the object manager. This mostly applies to singletons but can also
@@ -564,8 +564,11 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             }
 
             //Thrown an error if no object was instantiated
-            if (!is_object($result)) {
-                throw new ObjectExceptionNotInstantiated('Cannot instantiate object from identifier: ' . $identifier->classname);
+            if (!is_object($result))
+            {
+                throw new ObjectExceptionNotInstantiated(
+                    'Cannot instantiate object from identifier: ' . $identifier->classname
+                );
             }
         }
         else throw new ObjectExceptionNotFound('Cannot load object from identifier: '. $identifier);
