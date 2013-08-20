@@ -20,7 +20,9 @@
 
     <? if($category->thumbnail) : ?>
         <a href="<?= @helper('route.category', array('row' => $category)) ?>">
-            <img class="article__thumbnail" src="<?= $category->thumbnail ?>" />
+            <figure>
+                <img src="<?= $category->thumbnail ?>" />
+            </figure>
         </a>
     <? endif ?>
 
