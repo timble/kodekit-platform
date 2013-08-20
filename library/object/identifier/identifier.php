@@ -101,18 +101,18 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      * Constructor
      *
      * @param   string $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not fully qualified or cannot be parsed
      */
     public function __construct($identifier)
     {
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
-            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Identifier is not fully qualified : '.$identifier);
         }
 
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
-            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
         }
 
         // Set the type
