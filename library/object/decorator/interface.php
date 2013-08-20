@@ -27,18 +27,18 @@ interface ObjectDecoratorInterface extends ObjectInterface, ObjectHandlable, Obj
     /**
      * Set the decorated object
      *
-     * @param   ObjectDecoratable $delegate The decorated object
+     * @param   object $delegate The decorated object
      * @return  ObjectDecorator
      */
-    public function setDelegate(ObjectDecoratable $delegate);
+    public function setDelegate($delegate);
 
     /**
      * Decorate Notifier
      *
      * This function is called when an object is being decorated. It will get the object passed in.
      *
-     * @param ObjectDecoratable $delegate The object being decorated
+     * @param object $delegate The object being decorated
      * @return void
      */
-    public function onDecorate(ObjectDecoratable $delegate);
+    public function onDecorate($delegate);
 }

@@ -76,10 +76,10 @@ class ObjectDecorator implements ObjectDecoratorInterface
     /**
      * Set the decorated object
      *
-     * @param   ObjectDecoratable $delegate The decorated object
+     * @param   object $delegate The decorated object
      * @return  ObjectDecorator
      */
-    public function setDelegate(ObjectDecoratable $delegate)
+    public function setDelegate($delegate)
     {
         $this->_delegate = $delegate;
         return $this;
@@ -90,10 +90,10 @@ class ObjectDecorator implements ObjectDecoratorInterface
      *
      * This function is called when an object is being decorated. It will get the object passed in.
      *
-     * @param ObjectDecoratable $delegate The object being decorated
+     * @param object $delegate The object being decorated
      * @return void
      */
-    public function onDecorate(ObjectDecoratable $delegate)
+    public function onDecorate($delegate)
     {
         $this->setDelegate($delegate);
     }
@@ -203,7 +203,7 @@ class ObjectDecorator implements ObjectDecoratorInterface
      */
     public function decorate($decorator, $config = array())
     {
-        $decorator = $this->getDelegate($decorator, $config);
+        $decorator = $this->getDelegate()->decorate($decorator, $config);
 
         //Notify the decorator and set the delegate
         $decorator->onDecorate($this);
