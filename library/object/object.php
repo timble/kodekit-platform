@@ -278,7 +278,6 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      *
      * @param    string|object    $identifier A valid identifier string or object implementing ObjectInterface
      * @param    array            $config     An optional associative array of configuration settings.
-     * @throws   \RuntimeException If the service manager has not been defined.
      * @return   ObjectInterface  Return object on success, throws exception on failure
      */
     final public function getObject($identifier, array $config = array())
