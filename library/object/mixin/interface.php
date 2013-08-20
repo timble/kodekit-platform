@@ -27,16 +27,6 @@ interface ObjectMixinInterface extends ObjectHandlable
      */
     public function getMixableMethods(ObjectMixable $mixer = null);
 
-    /**
-     * Mixin Notifier
-     *
-     * This function is called when the mixin is being mixed. It will get the mixer passed in.
-     *
-     * @param ObjectMixable $mixer The mixer object
-     * @return void
-     */
-    public function onMixin(ObjectMixable $mixer);
-
 	/**
      * Get the mixer object
      *
@@ -51,4 +41,14 @@ interface ObjectMixinInterface extends ObjectHandlable
      * @return ObjectMixinInterface
      */
     public function setMixer(ObjectMixable $mixer);
+
+    /**
+     * Mixin Notifier
+     *
+     * This function is called when the mixin is being mixed. It will get the mixer passed in.
+     *
+     * @param ObjectMixable $mixer The mixer object
+     * @return void
+     */
+    public function onMixin(ObjectMixable $mixer);
 }
