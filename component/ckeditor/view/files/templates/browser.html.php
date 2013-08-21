@@ -32,7 +32,7 @@
                 },
                 types: <?= json_encode($state->types); ?>,
                 container: <?= json_encode($state->container ? $state->container : null); ?>,
-                url: 'files/default/images/powered_by.png'
+
             };
         options = $extend(options, config);
 
