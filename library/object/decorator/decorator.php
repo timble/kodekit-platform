@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Object Decorator
  *
- * The object decorator implements the same interface as Object and allows to decorate any Object. To decorate a none
- * Object object create a decorator that extends from ObjectDecoratorAbstract instead.
+ * The object decorator implements the same interface as Object and can only be used to decorate objects extending from
+ * Object. To decorate an object that does not extend from Object use ObjectDecoratorAbstract instead.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
@@ -47,7 +47,8 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
      *
      * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                          or valid identifier string
-     * @param    array $config  An optional associative array of configuration options
+     * @param   array $config  An optional associative array of configuration options
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
      * @return  ObjectInterface
      */
     public function mixin($mixin, $config = array())
@@ -62,10 +63,10 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
      * When using decorate(), the decorator will be re-decorated. The decorator needs to extend from
      * ObjectDecorator.
      *
-     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
-     *                              or valid identifier string
-     * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecoratorInterface
+     * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectDecorator
+     * @param   array $config  An optional associative array of configuration options
+     * @return  ObjectDecorator
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
      * @throws  \UnexpectedValueException If the decorator does not extend from ObjectDecorator
      */
     public function decorate($decorator, $config = array())
@@ -81,14 +82,14 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
     /**
      * Set the decorated object
      *
-     * @param   ObjectInterface $delegate The object to decorate
-     * @return  ObjectDecorator
-     * @throws  \InvalidArgumentException If the delegate does not implement ObjectInterface
+     * @param  ObjectInterface $delegate The object to decorate
+     * @return ObjectDecorator
+     * @throws \InvalidArgumentException If the delegate does not extend from Object
      */
     public function setDelegate($delegate)
     {
-        if (!$delegate instanceof ObjectInterface) {
-            throw new \InvalidArgumentException('Delegate needs to implement ObjectInterface');
+        if (!$delegate instanceof Object) {
+            throw new \InvalidArgumentException('Delegate needs to extend from Object');
         }
 
         return parent::setDelegate($delegate);
@@ -97,9 +98,9 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
     /**
      * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
      *
-     * @param	string|object	$identifier The class identifier or identifier object
-     * @param	array  			$config     An optional associative array of configuration settings.
-     * @return	Object Return object on success, throws exception on failure
+     * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param  array $config     An optional associative array of configuration settings.
+     * @return Object Return object on success, throws exception on failure
      */
     public function getObject($identifier = null, array $config = array())
     {
@@ -109,8 +110,8 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
     /**
      * Get an object identifier.
      *
-     * @param	string|object	$identifier A valid identifier string or object implementing ObjectInterface
-     * @return	ObjectIdentifier
+     * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectIdentifier
      */
     public function getIdentifier($identifier = null)
     {
@@ -120,7 +121,7 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
     /**
      * Get the object configuration
      *
-     * @param   string|object    $identifier A valid identifier string or object implementing ObjectInterface
+     * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectConfig
      */
     public function getConfig($identifier = null)

@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Object Decorator
  *
- * The abstract object decorator implements allows to decorate any object. To decorate an object that extends from
- * Object create a decorator that extends from ObjectDecorator instead.
+ * The abstract object decorator allows to decorate any object. To decorate an object that extends from
+ * KObject use KObjectDecorator instead.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
@@ -82,12 +82,12 @@ abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface
      *
      * @param   object $delegate The decorated object
      * @return  ObjectDecoratorAbstract
-     * @throws  \InvalidArgumentException If the delegate is not an object instance
+     * @throws  \InvalidArgumentException If the delegate is not an object
      */
     public function setDelegate($delegate)
     {
         if (!is_object($delegate)) {
-            throw new \InvalidArgumentException('Delegate needs to be an object instance, '.gettype($delegate).' given');
+            throw new \InvalidArgumentException('Delegate is not an object, '.gettype($delegate).' given');
         }
 
         $this->__delegate = $delegate;
@@ -101,6 +101,7 @@ abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface
      *
      * @param object $delegate The object being decorated
      * @return void
+     * @throws  \InvalidArgumentException If the delegate is not an object
      */
     public function onDecorate($delegate)
     {

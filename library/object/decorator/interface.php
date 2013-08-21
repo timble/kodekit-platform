@@ -29,6 +29,7 @@ interface ObjectDecoratorInterface extends ObjectHandlable
      *
      * @param   object $delegate The object to decorate
      * @return  ObjectDecoratorInterface
+     * @throws  \InvalidArgumentException If the delegate is not an object
      */
     public function setDelegate($delegate);
 
@@ -44,10 +45,11 @@ interface ObjectDecoratorInterface extends ObjectHandlable
     /**
      * Decorate Notifier
      *
-     * This function is called when an object is being decorated. It will get the object passed in.
+     * This function is called when an object is being decorated. It will get the delegate passed in.
      *
      * @param object $delegate The object being decorated
      * @return void
+     * @throws  \InvalidArgumentException If the delegate is not an object
      */
     public function onDecorate($delegate);
 }
