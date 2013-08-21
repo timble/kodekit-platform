@@ -267,6 +267,29 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
+/* line 1, blocks/_pagination.scss */
+.pagination {
+  float: right;
+  font-size: 11px;
+}
+/* line 5, blocks/_pagination.scss */
+.pagination > div {
+  float: left;
+}
+/* line 8, blocks/_pagination.scss */
+.pagination > div.limit {
+  line-height: 22px;
+  margin: 0 10px;
+}
+/* line 13, blocks/_pagination.scss */
+.pagination > div select[name="limit"] {
+  width: 50px;
+}
+/* line 16, blocks/_pagination.scss */
+.pagination a {
+  font-size: 11px !important;
+}
+
 /* line 10, _reset.scss */
 html {
   font-size: 100%;
@@ -454,7 +477,7 @@ textarea {
   }
 }
 /* line 10, _buttons.scss */
-.btn {
+.btn, .pagination a {
   display: inline-block;
   padding: 4px 12px;
   margin-bottom: 0;
@@ -474,33 +497,33 @@ textarea {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 186, _mixins.scss */
-.btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+.btn:hover, .pagination a:hover, .btn:focus, .pagination a:focus, .btn:active, .pagination a:active, .btn.active, .pagination a.active, .btn.disabled, .pagination a.disabled, .btn[disabled], .pagination a[disabled] {
   color: #333333;
   background-color: #e6e6e6;
 }
 /* line 193, _mixins.scss */
-.btn:active, .btn.active {
+.btn:active, .pagination a:active, .btn.active, .pagination a.active {
   background-color: #cccccc \9;
 }
 /* line 27, _buttons.scss */
-.btn:hover, .btn:focus {
+.btn:hover, .pagination a:hover, .btn:focus, .pagination a:focus {
   color: #333333;
   text-decoration: none;
 }
 /* line 33, _buttons.scss */
-.btn:focus {
+.btn:focus, .pagination a:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 /* line 39, _buttons.scss */
-.btn.active, .btn:active {
+.btn.active, .pagination a.active, .btn:active, .pagination a:active {
   background-image: none;
   outline: 0;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 47, _buttons.scss */
-.btn.disabled, .btn[disabled] {
+.btn.disabled, .pagination a.disabled, .btn[disabled], .pagination a[disabled] {
   cursor: default;
   background-image: none;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=6500);
@@ -728,25 +751,27 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 6px;
 }
 /* line 27, _button-groups.scss */
-.btn-toolbar > .btn + .btn,
+.btn-toolbar > .btn + .btn, .pagination .btn-toolbar > a + .btn, .pagination .btn-toolbar > .btn + a, .pagination .btn-toolbar > a + a,
 .btn-toolbar > .btn-group + .btn,
-.btn-toolbar > .btn + .btn-group {
+.pagination .btn-toolbar > .btn-group + a,
+.btn-toolbar > .btn + .btn-group,
+.pagination .btn-toolbar > a + .btn-group {
   margin-left: 5px;
 }
 
 /* line 33, _button-groups.scss */
-.btn-group > .btn {
+.btn-group > .btn, .pagination .btn-group > a {
   position: relative;
   border-radius: 0;
 }
 
 /* line 37, _button-groups.scss */
-.btn-group > .btn + .btn {
+.btn-group > .btn + .btn, .pagination .btn-group > a + .btn, .pagination .btn-group > .btn + a, .pagination .btn-group > a + a {
   margin-left: -1px;
 }
 
 /* line 40, _button-groups.scss */
-.btn-group > .btn {
+.btn-group > .btn, .pagination .btn-group > a {
   font-size: 12px;
 }
 
@@ -766,36 +791,39 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 56, _button-groups.scss */
-.btn-group > .btn:first-child {
+.btn-group > .btn:first-child, .pagination .btn-group > a:first-child {
   margin-left: 0;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
 /* line 61, _button-groups.scss */
-.btn-group > .btn:last-child {
+.btn-group > .btn:last-child, .pagination .btn-group > a:last-child {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
 /* line 66, _button-groups.scss */
-.btn-group > .btn.large:first-child {
+.btn-group > .btn.large:first-child, .pagination .btn-group > a.large:first-child {
   margin-left: 0;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
 /* line 71, _button-groups.scss */
-.btn-group > .btn.large:last-child {
+.btn-group > .btn.large:last-child, .pagination .btn-group > a.large:last-child {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
 
 /* line 80, _button-groups.scss */
-.btn-group > .btn:hover,
+.btn-group > .btn:hover, .pagination .btn-group > a:hover,
 .btn-group > .btn:focus,
+.pagination .btn-group > a:focus,
 .btn-group > .btn:active,
-.btn-group > .btn.active {
+.pagination .btn-group > a:active,
+.btn-group > .btn.active,
+.pagination .btn-group > a.active {
   z-index: 2;
 }
 
@@ -1014,8 +1042,10 @@ ul {
   padding: 6px 12px;
 }
 /* line 114, _general.scss */
-#panel-toolbar .btn,
-#panel-toolbar a.btn {
+#panel-toolbar .btn, #panel-toolbar .pagination a, .pagination #panel-toolbar a,
+#panel-toolbar a.btn,
+#panel-toolbar .pagination a,
+.pagination #panel-toolbar a {
   color: #333;
   font-weight: bold;
   border: 1px solid #BBB;
@@ -1294,40 +1324,17 @@ ul {
 }
 
 /* line 354, _general.scss */
-.pagination {
-  float: right;
-  font-size: 11px;
-}
-/* line 358, _general.scss */
-.pagination .btn {
-  font-size: 11px;
-}
-/* line 362, _general.scss */
-.pagination > div {
-  float: left;
-}
-/* line 365, _general.scss */
-.pagination > div.limit {
-  line-height: 22px;
-  margin: 0 10px;
-}
-/* line 370, _general.scss */
-.pagination > div select[name="limit"] {
-  width: 50px;
-}
-
-/* line 374, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 379, _general.scss */
+/* line 359, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 384, _general.scss */
+/* line 364, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1336,17 +1343,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 393, _general.scss */
+/* line 373, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0 !important;
 }
-/* line 401, _general.scss */
+/* line 381, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 407, _general.scss */
+/* line 387, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1355,35 +1362,35 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 414, _general.scss */
+/* line 394, _general.scss */
 .-koowa-form .sidebar input[type=date],
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 420, _general.scss */
+/* line 400, _general.scss */
 .box-column {
   box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
 }
 
 /* Sidebar */
-/* line 426, _general.scss */
+/* line 406, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 429, _general.scss */
+/* line 409, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 438, _general.scss */
+/* line 418, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 442, _general.scss */
+/* line 422, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -1988,10 +1995,18 @@ select:focus:invalid:focus {
 .input-append .add-on, .scopebar__search .add-on,
 .input-append .btn,
 .scopebar__search .btn,
+.input-append .pagination a,
+.pagination .input-append a,
+.scopebar__search .pagination a,
+.pagination .scopebar__search a,
 .input-prepend .add-on,
 .-koowa-form .main .title .slug .add-on,
 .input-prepend .btn,
-.-koowa-form .main .title .slug .btn {
+.-koowa-form .main .title .slug .btn,
+.input-prepend .pagination a,
+.pagination .input-prepend a,
+.-koowa-form .main .title .slug .pagination a,
+.pagination .-koowa-form .main .title .slug a {
   vertical-align: top;
   border-radius: 0;
 }
@@ -2006,13 +2021,21 @@ select:focus:invalid:focus {
 /* line 372, _forms.scss */
 .input-prepend .add-on, .-koowa-form .main .title .slug .add-on,
 .input-prepend .btn,
-.-koowa-form .main .title .slug .btn {
+.-koowa-form .main .title .slug .btn,
+.input-prepend .pagination a,
+.pagination .input-prepend a,
+.-koowa-form .main .title .slug .pagination a,
+.pagination .-koowa-form .main .title .slug a {
   margin-right: -1px;
 }
 /* line 376, _forms.scss */
 .input-prepend .add-on:first-child, .-koowa-form .main .title .slug .add-on:first-child,
 .input-prepend .btn:first-child,
-.-koowa-form .main .title .slug .btn:first-child {
+.-koowa-form .main .title .slug .btn:first-child,
+.input-prepend .pagination a:first-child,
+.pagination .input-prepend a:first-child,
+.-koowa-form .main .title .slug .pagination a:first-child,
+.pagination .-koowa-form .main .title .slug a:first-child {
   border-radius: 4px 0 0 4px;
 }
 
@@ -2025,17 +2048,29 @@ select:focus:invalid:focus {
   border-radius: 4px 0 0 4px;
 }
 /* line 387, _forms.scss */
-.input-append input + .btn-group .btn:last-child, .scopebar__search input + .btn-group .btn:last-child,
+.input-append input + .btn-group .btn:last-child, .scopebar__search input + .btn-group .btn:last-child, .input-append input + .btn-group .pagination a:last-child, .pagination .input-append input + .btn-group a:last-child, .scopebar__search input + .btn-group .pagination a:last-child, .pagination .scopebar__search input + .btn-group a:last-child,
 .input-append select + .btn-group .btn:last-child,
 .scopebar__search select + .btn-group .btn:last-child,
+.input-append select + .btn-group .pagination a:last-child,
+.pagination .input-append select + .btn-group a:last-child,
+.scopebar__search select + .btn-group .pagination a:last-child,
+.pagination .scopebar__search select + .btn-group a:last-child,
 .input-append .uneditable-input + .btn-group .btn:last-child,
-.scopebar__search .uneditable-input + .btn-group .btn:last-child {
+.scopebar__search .uneditable-input + .btn-group .btn:last-child,
+.input-append .uneditable-input + .btn-group .pagination a:last-child,
+.pagination .input-append .uneditable-input + .btn-group a:last-child,
+.scopebar__search .uneditable-input + .btn-group .pagination a:last-child,
+.pagination .scopebar__search .uneditable-input + .btn-group a:last-child {
   border-radius: 0 4px 4px 0;
 }
 /* line 393, _forms.scss */
 .input-append .add-on, .scopebar__search .add-on,
 .input-append .btn,
 .scopebar__search .btn,
+.input-append .pagination a,
+.pagination .input-append a,
+.scopebar__search .pagination a,
+.pagination .scopebar__search a,
 .input-append .btn-group,
 .scopebar__search .btn-group {
   margin-left: -1px;
@@ -2043,7 +2078,11 @@ select:focus:invalid:focus {
 /* line 397, _forms.scss */
 .input-append .add-on:last-child, .scopebar__search .add-on:last-child,
 .input-append .btn:last-child,
-.scopebar__search .btn:last-child {
+.scopebar__search .btn:last-child,
+.input-append .pagination a:last-child,
+.pagination .input-append a:last-child,
+.scopebar__search .pagination a:last-child,
+.pagination .scopebar__search a:last-child {
   border-radius: 0 4px 4px 0;
 }
 
@@ -2060,15 +2099,31 @@ select:focus:invalid:focus {
   border-radius: 0;
 }
 /* line 408, _forms.scss */
-.input-prepend.input-append input + .btn-group .btn, .input-prepend.scopebar__search input + .btn-group .btn, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn,
+.input-prepend.input-append input + .btn-group .btn, .input-prepend.scopebar__search input + .btn-group .btn, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn, .input-prepend.input-append input + .btn-group .pagination a, .pagination .input-prepend.input-append input + .btn-group a, .input-prepend.scopebar__search input + .btn-group .pagination a, .pagination .input-prepend.scopebar__search input + .btn-group a, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .pagination a, .pagination .-koowa-form .main .title .scopebar__search.slug input + .btn-group a, .-koowa-form .main .title .input-append.slug input + .btn-group .pagination a, .pagination .-koowa-form .main .title .input-append.slug input + .btn-group a,
 .input-prepend.input-append select + .btn-group .btn,
 .input-prepend.scopebar__search select + .btn-group .btn,
 .-koowa-form .main .title .scopebar__search.slug select + .btn-group .btn,
 .-koowa-form .main .title .input-append.slug select + .btn-group .btn,
+.input-prepend.input-append select + .btn-group .pagination a,
+.pagination .input-prepend.input-append select + .btn-group a,
+.input-prepend.scopebar__search select + .btn-group .pagination a,
+.pagination .input-prepend.scopebar__search select + .btn-group a,
+.-koowa-form .main .title .scopebar__search.slug select + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .scopebar__search.slug select + .btn-group a,
+.-koowa-form .main .title .input-append.slug select + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .input-append.slug select + .btn-group a,
 .input-prepend.input-append .uneditable-input + .btn-group .btn,
 .input-prepend.scopebar__search .uneditable-input + .btn-group .btn,
 .-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group .btn,
-.-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .btn {
+.-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .btn,
+.input-prepend.input-append .uneditable-input + .btn-group .pagination a,
+.pagination .input-prepend.input-append .uneditable-input + .btn-group a,
+.input-prepend.scopebar__search .uneditable-input + .btn-group .pagination a,
+.pagination .input-prepend.scopebar__search .uneditable-input + .btn-group a,
+.-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group a,
+.-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group a {
   border-radius: 0 4px 4px 0;
 }
 /* line 413, _forms.scss */
@@ -2076,7 +2131,15 @@ select:focus:invalid:focus {
 .input-prepend.input-append .btn:first-child,
 .input-prepend.scopebar__search .btn:first-child,
 .-koowa-form .main .title .scopebar__search.slug .btn:first-child,
-.-koowa-form .main .title .input-append.slug .btn:first-child {
+.-koowa-form .main .title .input-append.slug .btn:first-child,
+.input-prepend.input-append .pagination a:first-child,
+.pagination .input-prepend.input-append a:first-child,
+.input-prepend.scopebar__search .pagination a:first-child,
+.pagination .input-prepend.scopebar__search a:first-child,
+.-koowa-form .main .title .scopebar__search.slug .pagination a:first-child,
+.pagination .-koowa-form .main .title .scopebar__search.slug a:first-child,
+.-koowa-form .main .title .input-append.slug .pagination a:first-child,
+.pagination .-koowa-form .main .title .input-append.slug a:first-child {
   margin-right: -1px;
   border-radius: 4px 0 0 4px;
 }
@@ -2085,7 +2148,15 @@ select:focus:invalid:focus {
 .input-prepend.input-append .btn:last-child,
 .input-prepend.scopebar__search .btn:last-child,
 .-koowa-form .main .title .scopebar__search.slug .btn:last-child,
-.-koowa-form .main .title .input-append.slug .btn:last-child {
+.-koowa-form .main .title .input-append.slug .btn:last-child,
+.input-prepend.input-append .pagination a:last-child,
+.pagination .input-prepend.input-append a:last-child,
+.input-prepend.scopebar__search .pagination a:last-child,
+.pagination .input-prepend.scopebar__search a:last-child,
+.-koowa-form .main .title .scopebar__search.slug .pagination a:last-child,
+.pagination .-koowa-form .main .title .scopebar__search.slug a:last-child,
+.-koowa-form .main .title .input-append.slug .pagination a:last-child,
+.pagination .-koowa-form .main .title .input-append.slug a:last-child {
   margin-left: -1px;
   border-radius: 0 4px 4px 0;
 }
@@ -2156,9 +2227,13 @@ textarea {
   padding: 5px 5px;
 }
 /* line 483, _forms.scss */
-.input-prepend .btn, .-koowa-form .main .title .slug .btn,
+.input-prepend .btn, .-koowa-form .main .title .slug .btn, .input-prepend .pagination a, .pagination .input-prepend a, .-koowa-form .main .title .slug .pagination a, .pagination .-koowa-form .main .title .slug a,
 .input-append .btn,
-.scopebar__search .btn {
+.scopebar__search .btn,
+.input-append .pagination a,
+.pagination .input-append a,
+.scopebar__search .pagination a,
+.pagination .scopebar__search a {
   padding-top: 3px;
 }
 
