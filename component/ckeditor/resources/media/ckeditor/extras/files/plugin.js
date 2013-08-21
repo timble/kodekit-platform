@@ -26,7 +26,6 @@ CKEDITOR.plugins.add('files',
                         iframeWindow.document.id('image-url').set('value',selected.getAttribute('href'));
                         iframeWindow.document.id('image-alt').set('value',selected.getAttribute('alt'));
                         iframeWindow.document.id('image-title').set('value',selected.getAttribute('title'));
-                        iframeWindow.document.id('target').set('value',selected.getAttribute('target'));
                     }
                 },
 
@@ -37,7 +36,6 @@ CKEDITOR.plugins.add('files',
                         var iframedocument = iframeWindow.document;
                         var src = iframedocument.id('image-url').get('value');
                         var link = iframedocument.id('image-text').get('value');
-                        var target = iframedocument.id('target').get('value');
                         var attrs = {};
                         ['alt', 'title','type'].each(function(id) {
                             var value = iframedocument.id('image-'+id).get('value');
@@ -48,7 +46,7 @@ CKEDITOR.plugins.add('files',
 
                         var str = '<a href="'+src+'" ';
                         var parts = [];
-                        parts.push('target="'+target+'"');
+
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });

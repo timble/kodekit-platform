@@ -27,7 +27,7 @@
                 var target = document.id(e.target).getParent('.files-node');
                 var row = target.retrieve('row');
 
-                var path = row.baseurl+"/"+row.name;
+                var path = row.baseurl+"/"+row.filepath;
                 var url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
 
                 document.id('image-url').set('value', url);
@@ -101,19 +101,6 @@
                         <option value="" selected="selected"><?= @text('Not Set') ?></option>
                         <option value="left"><?= @text('Left') ?></option>
                         <option value="right"><?= @text('Right') ?></option>
-                    </select>
-                </div>
-            </div>
-        <?else:?>
-            <div>
-                <label for="image-align"><?= @text('Target') ?></label>
-                <div>
-                    <select size="1" id="target" title="<?= @text('Target of the link') ?>">
-                        <option value="" selected="selected"><?= @text('Not Set') ?></option>
-                        <option value="_blank"><?= @text('_blank') ?></option>
-                        <option value="_top"><?= @text('_top') ?></option>
-                        <option value="_self"><?= @text('_self') ?></option>
-                        <option value="_parent"><?= @text('_parent') ?></option>
                     </select>
                 </div>
             </div>
