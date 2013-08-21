@@ -416,10 +416,10 @@ Files.Grid = new Class({
     	this.fireEvent('afterSetIconSize', {size: size});
 	},
     spin: function(){
-        $jQuery('#files-grid div:eq(0)').addClass('spinner');
+        document.id('files-grid').getElements('div').addClass('spinner');
     },
     unspin: function(){
-        $jQuery('#files-grid div:eq(0)').removeClass('spinner');
+        document.id('files-grid').getElements('div').removeClass('spinner');
     }
 });
 
