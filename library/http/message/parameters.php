@@ -75,7 +75,7 @@ class HttpMessageParameters extends ObjectArray
 
             // Filter the data
             if(!($filter instanceof FilterInterface)) {
-                $filter = $this->getObject('lib:filter.factory')->getInstance($filter);
+                $filter = $this->getObject('lib:filter.factory')->getFilter($filter);
             }
 
             $result = $filter->sanitize($result);
@@ -123,7 +123,7 @@ class HttpMessageParameters extends ObjectArray
 
             // Filter the data
             if(!($filter instanceof FilterInterface)) {
-                $filter = $this->getObject('lib:filter.factory')->getInstance($filter);
+                $filter = $this->getObject('lib:filter.factory')->getFilter($filter);
             }
 
             $result = $filter->sanitize($result);

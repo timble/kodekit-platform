@@ -350,7 +350,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
                     $filter = $this->_data[$name]->filter;
 
                     if(!($filter instanceof FilterInterface)) {
-                        $filter =  $this->getObject('lib:filter.factory')->getInstance($filter);
+                        $filter =  $this->getObject('lib:filter.factory')->getFilter($filter);
                     }
 
                     $value = $filter->sanitize($value);
