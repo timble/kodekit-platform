@@ -150,7 +150,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<? if (isset($toolbar)): ?>
+<? if (isset($actionbar)): ?>
 <ktml:module position="actionbar">
     <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
 </ktml:module>
