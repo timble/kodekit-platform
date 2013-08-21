@@ -458,7 +458,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @param   string  $property The virtual property to set.
      * @param   string  $value    Set the virtual property to this value.
-     * @throws \DomainException If the type is unknown
+     * @throws  ObjectExceptionInvalidIdentifier If the type is unknown
      */
     public function __set($property, $value)
     {
@@ -480,7 +480,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
 
                 //Make exception for 'lib' locator
                 if($value != 'lib' && !$this->getLocator()) {
-                    throw new \DomainException('Unknow type : '.$value);
+                    throw new ObjectExceptionInvalidIdentifier('Unknow type : '.$value);
                 }
             }
 
@@ -534,7 +534,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Allow PHP casting of this object
+     * Allow casting of the identfiier to a string
      *
      * @return string
      */
