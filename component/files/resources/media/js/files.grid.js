@@ -30,6 +30,16 @@ Files.Grid = new Class({
 		this.nodes = new Hash();
 		this.container = document.id(container);
 
+        // Attach spinner events
+        this.addEvents({
+            afterReset: function(){
+                this.spin();
+            },
+            afterInsertRows: function(){
+                this.unspin();
+            }
+        });
+
 		if (this.options.switcher) {
 			this.options.switcher = document.getElement(this.options.switcher);
 		}
@@ -405,6 +415,12 @@ Files.Grid = new Class({
 
     	this.fireEvent('afterSetIconSize', {size: size});
 	},
+    spin: function(){
+        $jQuery('#files-grid div:eq(0)').addClass('spinner');
+    },
+    unspin: function(){
+        $jQuery('#files-grid div:eq(0)').removeClass('spinner');
+    }
 });
 
 Files.Grid.Root = new Class({
