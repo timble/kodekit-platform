@@ -1,3 +1,83 @@
+@-webkit-keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 /* line 1, blocks/_navigation.scss */
 .navigation {
   margin: 0;
@@ -5319,11 +5399,31 @@ body.com_contacts .editor-wrap {
 #files-app #files-grid > div {
   padding: 10px;
 }
-/* line 427, components/_files.scss */
-#files-app .spinner {
-  padding: 0px !important;
+/* line 428, components/_files.scss */
+#files-app #files-grid > .spinner,
+#files-app #files-grid .loading .spinner {
+  margin: auto;
+  -webkit-animation: spinner 1250ms infinite linear;
+  -moz-animation: spinner 1250ms infinite linear;
+  -ms-animation: spinner 1250ms infinite linear;
+  -o-animation: spinner 1250ms infinite linear;
+  animation: spinner 1250ms infinite linear;
+  border: 8px solid #2b75bf;
+  border-right-color: transparent;
+  border-radius: 32px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  text-indent: -9999px;
+  width: 32px;
+  height: 32px;
 }
-/* line 430, components/_files.scss */
+/* line 432, components/_files.scss */
+#files-app #files-grid .loading img {
+  display: none;
+}
+/* line 436, components/_files.scss */
 #files-app div.files-node {
   cursor: pointer;
   display: inline-block;
@@ -5337,15 +5437,15 @@ body.com_contacts .editor-wrap {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 441, components/_files.scss */
+/* line 447, components/_files.scss */
 #files-app #files-grid .loading {
   opacity: 0.6;
 }
-/* line 445, components/_files.scss */
+/* line 451, components/_files.scss */
 #files-app #files-grid .loaded {
   opacity: 1;
 }
-/* line 448, components/_files.scss */
+/* line 454, components/_files.scss */
 #files-app div.files-node img {
   opacity: 0;
   -webkit-transition: opacity 150ms ease-out;
@@ -5353,11 +5453,11 @@ body.com_contacts .editor-wrap {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 452, components/_files.scss */
+/* line 458, components/_files.scss */
 #files-app div.files-node img.loaded {
   opacity: 1;
 }
-/* line 455, components/_files.scss */
+/* line 461, components/_files.scss */
 #files-app div.files-node.selected {
   color: white;
   border-color: #2b75bf;
@@ -5369,7 +5469,7 @@ body.com_contacts .editor-wrap {
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   background: linear-gradient(#2b75bf, #2b75bf);
 }
-/* line 468, components/_files.scss */
+/* line 474, components/_files.scss */
 #files-app div.files-node-thumbnail {
   position: relative;
   margin: 0 0 8px 0;
@@ -5378,7 +5478,7 @@ body.com_contacts .editor-wrap {
   height: 150px;
   background: radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
 }
-/* line 477, components/_files.scss */
+/* line 483, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate {
   display: block;
   background: no-repeat center center;
@@ -5387,7 +5487,7 @@ body.com_contacts .editor-wrap {
   width: inherit;
   height: inherit;
 }
-/* line 485, components/_files.scss */
+/* line 491, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate::after {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
   content: '';
@@ -5397,38 +5497,38 @@ body.com_contacts .editor-wrap {
   top: 0;
   width: inherit;
 }
-/* line 494, components/_files.scss */
+/* line 500, components/_files.scss */
 #files-app div.files-node.selected div.files-node-thumbnail a.navigate::after {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
-/* line 497, components/_files.scss */
+/* line 503, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate img {
   width: 100%;
 }
-/* line 500, components/_files.scss */
+/* line 506, components/_files.scss */
 #files-app .files-folder div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/folder-64.png");
 }
-/* line 504, components/_files.scss */
+/* line 510, components/_files.scss */
 #files-app .files-file div.files-node-thumbnail a.navigate,
 #files-app .files-image.nothumbnails div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/document-64.png");
 }
-/* line 507, components/_files.scss */
+/* line 513, components/_files.scss */
 #files-app .files-image.thumbnails div.files-node-thumbnail a.navigate {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   background: url("../../../../media/files/images/checker.png") repeat left top white;
 }
-/* line 514, components/_files.scss */
+/* line 520, components/_files.scss */
 #files-app .files-icons-controls {
   text-align: center;
 }
 
 /* @end */
 /* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
-/* line 521, components/_files.scss */
+/* line 527, components/_files.scss */
 .uploader-flash-container object, .uploader-flash-container embed {
   display: block !important;
   visibility: visible !important;
