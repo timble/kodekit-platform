@@ -106,14 +106,9 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
-        if(!$config->active && $config->current) {
-            $html = '<a class="btn active" href="#">'.JText::_($config->title).'</a>';
-        } elseif (!$config->active && !$config->current) {
-            $html = '<a class="btn disabled" href="#">'.JText::_($config->title).'</a>';
-        } else {
-            $html = '<a class="btn" href="'.$route.'" '.$rel.'>'.JText::_($config->title).'</a>';
-        }
+        $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.\JText::_($config->title).'</a>';
 
-        return $html;
+
+       return $html;
    }
 }

@@ -25,9 +25,9 @@ class ViewJson extends ViewAbstract
     /**
      * Constructor
      *
-     * @param   KConfig $config Configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 

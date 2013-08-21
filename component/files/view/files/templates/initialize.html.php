@@ -22,7 +22,6 @@
 
 <script src="media://js/koowa.js" />
 <script src="media://js/mootree.js" />
-<script src="media://files/js/spin.min.js" />
 
 <script src="media://files/js/files.utilities.js" />
 <script src="media://files/js/files.state.js" />

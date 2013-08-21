@@ -351,26 +351,6 @@ ul {
     .icon-star { color: $yellow; }
 }
 
-.pagination {
-	float: right;
-    font-size: $baseFontSize - 1px;
-
-    .btn {
-        font-size: $baseFontSize - 1px;
-    }
-
-	> div {
-		float: left;
-
-		&.limit {
-			line-height: 22px;
-			margin: 0 10px;
-		}
-
-		select[name="limit"] { width: 50px; }
-	}
-}
-
 .-koowa-form {
 	background-color: #F9F9F9;
 	margin: 0;

@@ -5,7 +5,6 @@
 @import "validation.css";
 
 @import "blocks/article";
-@import "blocks/comments";
 @import "blocks/sidebar";
 
 /*
@@ -98,4 +97,8 @@ body.login {
     &.level3 { margin-left: (18px * 2); margin-right: 6px; }
     &.level4 { margin-left: (18px * 3); margin-right: 6px; }
     &.level5 { margin-left: (18px * 4); margin-right: 6px; }
+}
+
+.pagination {
+  text-align: center;
 }

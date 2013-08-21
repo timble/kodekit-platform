@@ -44,13 +44,13 @@ class TemplateHelperPaginator extends TemplateHelperSelect
             $html = '';
             $html .= '<style src="media://css/koowa.css" />';
 
-            $html .= '<div class="-koowa-pagination pagination pagination-centered">';
+            $html .= '<div class="pagination">';
             if($config->show_limit) {
-                $html .= '<div class="limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
+                $html .= '<div class="pagination__limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
             }
             $html .=  $this->pages($config);
             if($config->show_count) {
-                $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
+                $html .= '<div class="pagination__count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
             }
             $html .= '</div>';
 
@@ -135,26 +135,20 @@ class TemplateHelperPaginator extends TemplateHelperSelect
     public function link($config)
     {
         $config = new ObjectConfig($config);
-		$config->append(array(
-			'title'   => '',
-			'current' => false,
-		    'active'  => false,
-			'offset'  => 0,
-			'limit'	  => 0,
-		    'rel'	  => '',
-			'attribs'  => array(),
-		));
-		
+        $config->append(array(
+            'title'   => '',
+            'current' => false,
+            'active'  => false,
+            'offset'  => 0,
+            'limit'	  => 0,
+            'rel'	  => '',
+            'attribs'  => array(),
+        ));
+
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
-        $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : ''; 
-        
-        if(!$config->active && $config->current) {
-            $html = '<li class="active"><a href="#">'.\JText::_($config->title).'</a></li>';
-        } elseif (!$config->active && !$config->current) {
-            $html = '<li class="disabled"><a class="disabled" href="#">'.\JText::_($config->title).'</a></li>';
-        } else {
-            $html = '<li><a href="'.$route.'" '.$rel.'>'.\JText::_($config->title).'</a></li>';
-        }
+        $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
+
+        $html = '<li '.$this->buildAttributes($config->attribs).'><a href="'.$route.'" '.$rel.'>'.\JText::_($config->title).'</a></li>';
 
         return $html;
     }

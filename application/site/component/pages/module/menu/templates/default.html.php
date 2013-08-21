@@ -10,4 +10,6 @@
 
 <? $title = $show_title ? $module->title : null; ?>
 
-<?= @helper('com:pages.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
+<nav role="navigation">
+    <?= @helper('com:pages.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
+</nav>
