@@ -8,6 +8,19 @@
  */
 ?>
 
-<textarea id="<?= $id ?>" name="<?= $name ?>" class="ckeditor editable-<?= $id ?> validate-editor" style="visibility:hidden"><?= $text ?></textarea>
+<script src="media://ckeditor/ckeditor/ckeditor.js" />
 
-<?= @template('default_script.html') ?>
+<script>
+    jQuery(document).ready(function() {
+        CKEDITOR.replace( <?= $id ?>, {
+            toolbar: '<?= $settings->options->toolbar ?>',
+            language: '<?= $settings->language ?>',
+            height: '<?= $settings->height ?>',
+            width: '<?= $settings->width ?>',
+            contentsLangDirection: '<?= $settings->directionality ?>',
+            scayt_autoStartup: '<?= $settings->scayt_autoStartup ?>'
+        });
+    });
+</script>
+
+<textarea id="<?= $id ?>" name="<?= $name ?>" class="ckeditor editable-<?= $id ?> validate-editor" style="visibility:hidden"><?= $text ?></textarea>
