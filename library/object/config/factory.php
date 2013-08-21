@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectMultiton
+class ObjectConfigFactory extends Object implements ObjectMultiton
 {
     /**
      * Registered config file formats.
@@ -67,7 +67,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectMultito
      * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
      * @return ObjectConfig
      */
-    public function getInstance($format, $config = array())
+    public function getFormat($format, $config = array())
     {
         $format = strtolower($format);
 
@@ -133,7 +133,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectMultito
             ));
         }
 
-        $config = $this->getIntance($pathinfo['extension'])->fromFile($filename);
+        $config = $this->getFormat($pathinfo['extension'])->fromFile($filename);
         return $config;
     }
 
@@ -156,6 +156,6 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectMultito
             ));
         }
 
-        return $this->getInstance($pathinfo['extension'])->toFile($filename, $config);
+        return $this->getFormat($pathinfo['extension'])->toFile($filename, $config);
     }
 }
