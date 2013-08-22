@@ -16,17 +16,6 @@
     ->render();
 ?>
 
-<script src="media://ckeditor/js/ckeditor.dialog.js" />
-
-<script>
-    window.addEvent('domready', function() {
-        document.id('details').adopt(document.id('image-insert-form'));
-        new Ckeditor.Dialog({
-            type: '<?= $type ?>'
-        });
-    });
-</script>
-
 <div id="image-insert-form">
     <input type="hidden" name="type" id="image-type" value=""/>
     <fieldset>

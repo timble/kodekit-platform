@@ -10,7 +10,7 @@
 
 <?= include('com:files.view.files.initialize.html'); ?>
 
-<script src="media://files/js/files.compact.js" />
+<script src="media://ckeditor/js/ckeditor.files.js" />
 
 <script>
     Files.sitebase = '<?= $sitebase; ?>';
@@ -18,6 +18,9 @@
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {
+
+        document.id('details').adopt(document.id('image-insert-form'));
+
         var config = <?= json_encode($state->config); ?>,
             options = {
                 state: {
@@ -35,7 +38,7 @@
             };
         options = $extend(options, config);
 
-        Files.app = new Files.Compact.App(options);
+        Files.app = new Ckeditor.Files(options);
 
         $$('#tabs-pane_insert dt').addEvent('click', function(){
             setTimeout(function(){window.fireEvent('refresh');}, 300);
