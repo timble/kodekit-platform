@@ -33,10 +33,5 @@ class ApplicationControllerToolbarMenubar extends Library\ControllerToolbarAbstr
 
         parent::_initialize($config);
     }
-
-    public function onBeforeControllerRender(Library\Event $event)
-    {   
-        $event->getTarget()->getView()->menubar = $this;
-    }
 }
 

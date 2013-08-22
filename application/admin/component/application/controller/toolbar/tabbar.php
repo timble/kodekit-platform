@@ -33,16 +33,6 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
 
         parent::_initialize($config);
     }
-
-    /**
-	 * Push the tabbar into the view
-	 * .
-	 * @param	Library\Event	A event object
-	 */
-    public function onBeforeControllerRender(Library\Event $event)
-    {
-        $event->getTarget()->getView()->tabbar = $this;
-    }
  	
  	/**
      * Add a command

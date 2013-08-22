@@ -19,7 +19,6 @@ class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarAct
 {
     public function onBeforeControllerRender(Library\Event $event)
     {
-        $event->getTarget()->getView()->actionbar = $this;
         $this->addCommand('profile');
         $this->addCommand('logout');
     }
