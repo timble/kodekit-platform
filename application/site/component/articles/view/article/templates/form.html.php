@@ -54,8 +54,8 @@
         <?= $article->fulltext ?>
     </div>
 
-    <?= @template('com:tags.view.tags.default.html') ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+    <?= include('com:tags.view.tags.default.html') ?>
+    <?= include('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
 
 
