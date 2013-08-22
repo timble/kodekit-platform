@@ -61,9 +61,9 @@
         <div class="content">
             <fieldset>
                 <? if (!$article->isNew()) : ?>
-                    <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
+                    <?= include('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
                 <? endif ?>
-                <?= @template('com:attachments.view.attachments.upload.html') ?>
+                <?= include('com:attachments.view.attachments.upload.html') ?>
             </fieldset>
         </div>
     </div>

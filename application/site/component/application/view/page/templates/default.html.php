@@ -10,7 +10,7 @@
 
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
-<?= @template('page_head.html') ?>
+<?= include('page_head.html') ?>
 
 <body>
 <header class="container">
@@ -34,7 +34,7 @@
         </aside>
         <div class="span9">
             <ktml:modules position="breadcrumb">
-            <?= @template('page_message.html') ?>
+            <?= include('page_message.html') ?>
             <section>
                 <ktml:content>
             </section>

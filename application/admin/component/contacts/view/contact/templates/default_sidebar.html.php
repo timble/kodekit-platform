@@ -35,10 +35,10 @@
     <fieldset>
         <legend><?= translate('Attachments'); ?></legend>
         <? if (!$contact->isNew()) : ?>
-            <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
+            <?= include('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
         <? endif ?>
         <? if(!count($contact->getAttachments())) : ?>
-        <?= @template('com:attachments.view.attachments.upload.html') ?>
+        <?= include('com:attachments.view.attachments.upload.html') ?>
         <? endif ?>
     </fieldset>
 <? endif ?>

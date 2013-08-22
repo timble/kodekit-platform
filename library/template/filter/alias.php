@@ -30,7 +30,7 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
         'date('        => '$this->renderHelper(\'date.format\',',
         'overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
         'translate('   => '\JText::_(',
-        '@template('   => '$this->loadFile(',
+        'include('     => '$this->loadFile(',
         '@route('      => '$this->getView()->getRoute(',
         '@escape('     => '$this->getView()->escape(',
         '@url('        => '$this->getView()->getBaseUrl()->toString('

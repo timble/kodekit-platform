@@ -12,4 +12,4 @@
     <h1><?= translate('Registration') ?></h1>
 </div>
 
-<?= @template('form.html') ?>
+<?= include('form.html') ?>

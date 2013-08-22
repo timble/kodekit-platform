@@ -84,7 +84,7 @@
 	</div>
 	
 	<div class="sidebar">
-        <?= @template('default_sidebar.html'); ?>
+        <?= include('default_sidebar.html'); ?>
 	</div>
 </form>
 

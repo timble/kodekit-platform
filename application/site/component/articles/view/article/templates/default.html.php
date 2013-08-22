@@ -36,6 +36,6 @@
 
     <?= $article->fulltext ?>
     
-    <?= @template('com:tags.view.tags.default.html') ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
+    <?= include('com:tags.view.tags.default.html') ?>
+    <?= include('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>

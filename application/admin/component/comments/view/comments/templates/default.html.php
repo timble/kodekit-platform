@@ -34,7 +34,7 @@
 			</thead>
 			<tbody>
 			<? if (count($comments)) : ?>
-				<?= @template('default_comments.html'); ?>
+				<?= include('default_comments.html'); ?>
 			<? else : ?>
 				<tr>
 					<td colspan="5" align="center">

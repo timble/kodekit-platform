@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @template('initialize.html');?>
+<?= include('initialize.html');?>
 
 <script>
 
@@ -155,8 +155,8 @@ window.addEvent('domready', function() {
 </ktml:module>
 
 <div id="files-app">
-	<?= @template('templates_icons.html'); ?>
-	<?= @template('templates_details.html'); ?>
+	<?= include('templates_icons.html'); ?>
+	<?= include('templates_details.html'); ?>
 	
 	<ktml:module position="sidebar">
 		<div id="files-tree"></div>
@@ -178,7 +178,7 @@ window.addEvent('domready', function() {
 			<?= helper('paginator.pagination') ?>
 		</div>
 		
-		<?= @template('uploader.html');?>
+		<?= include('uploader.html');?>
 	</div>
 </div>
 

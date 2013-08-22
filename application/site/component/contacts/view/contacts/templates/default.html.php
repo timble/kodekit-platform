@@ -41,7 +41,7 @@
         </tr>
     </thead>
     <tbody>
-        <?= @template('default_items.html'); ?>
+        <?= include('default_items.html'); ?>
     </tbody>
 </table>
 

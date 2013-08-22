@@ -12,4 +12,4 @@
     <h1><?= @escape($parameters->get('page_title')) ?></h1>
 </div>
 
-<?=@template('form.html')?>
+<?=include('form.html')?>

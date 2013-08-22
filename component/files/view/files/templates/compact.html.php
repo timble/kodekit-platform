@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @template('com:files.view.files.initialize.html'); ?>
+<?= include('com:files.view.files.initialize.html'); ?>
 
 <script src="media://files/js/files.compact.js" />
 
@@ -43,7 +43,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<?= @template('com:files.view.files.templates_compact.html');?>
+<?= include('com:files.view.files.templates_compact.html');?>
 
 <div id="files-compact" class="tabs tabs-horizontal">
     <div class="tab">
@@ -63,7 +63,7 @@ window.addEvent('domready', function() {
         <input type="radio" id="tab-2" name="tab-group-1">
         <label for="tab-2"><?= translate('Upload') ?></label>
         <div class="content">
-            <?= @template('com:files.view.files.uploader.html'); ?>
+            <?= include('com:files.view.files.uploader.html'); ?>
         </div>
     </div>
 </div>

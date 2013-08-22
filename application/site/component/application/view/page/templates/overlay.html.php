@@ -11,7 +11,7 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
-<?= @template('page_head.html') ?>
+<?= include('page_head.html') ?>
 
 <body id="tmpl-overlay" class="com_<?= $extension ?>">
     <ktml:content>

@@ -18,7 +18,7 @@
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html'); ?>
+	<?= include('default_sidebar.html'); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">	

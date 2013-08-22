@@ -11,10 +11,10 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
-<?= @template('page_head.html') ?>
+<?= include('page_head.html') ?>
 
 <body id="tmpl-dialog" class="com_<?= $extension ?>">
-    <?= @template('page_message.html') ?>
+    <?= include('page_message.html') ?>
     <ktml:content>
 </body>
 

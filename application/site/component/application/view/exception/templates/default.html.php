@@ -41,7 +41,7 @@
             <p><?= $message ?></p>
             <p>
                 <? if(count($trace)) : ?>
-                <?= @template('default_backtrace.html'); ?>
+                <?= include('default_backtrace.html'); ?>
                 <? endif; ?>
             </p>
         </div>

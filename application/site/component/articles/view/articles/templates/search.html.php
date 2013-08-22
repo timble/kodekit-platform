@@ -21,7 +21,7 @@
 </div>
 
 <? foreach ($articles as $article): ?>
-    <?= @template('default_item.html', array('article' => $article)) ?>
+    <?= include('default_item.html', array('article' => $article)) ?>
 <? endforeach ?>
 
 <? if (count($articles) != $total) : ?>
