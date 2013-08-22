@@ -12,7 +12,7 @@
 <?= @helper('behavior.validator') ?>
 
 <ktml:module position="actionbar">
-    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">

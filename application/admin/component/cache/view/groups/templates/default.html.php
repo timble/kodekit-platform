@@ -12,8 +12,8 @@
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:moduleposition="actionbar">
-    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">	

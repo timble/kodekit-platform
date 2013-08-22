@@ -12,7 +12,7 @@
 <style src="media://css/koowa.css" />
 
 <ktml:module position="actionbar">
-    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">

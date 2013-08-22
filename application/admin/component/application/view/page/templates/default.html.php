@@ -25,12 +25,12 @@
 <div id="panel-wrapper">
     <div id="panel-header">
         <div id="menu">
-        	<?= @helper('menubar.render')?>
+            <ktml:toolbar type="menubar">
         </div>
-        <?= @helper('actionbar.render', array('actionbar' => $actionbar, 'attribs' => array('id' => 'statusmenu')))?>
+        <ktml:toolbar type="actionbar" id="statusmenu">
 	</div>
 
-    <?= @helper('tabbar.render', array('tabbar' => $tabbar))?>
+    <ktml:toolbar type="tabbar">
 
     <ktml:modules position="actionbar">
     <div id="panel-toolbar">

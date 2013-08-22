@@ -15,7 +15,7 @@
 <?= @helper('behavior.sortable') ?>
 
 <ktml:module position="actionbar">
-    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <? if($articles->isTranslatable()) : ?>
