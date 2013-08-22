@@ -34,16 +34,6 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
         parent::_initialize($config);
     }
 
-    /**
-	 * Push the toolbar into the view
-	 * .
-	 * @param Event	$event A event object
-	 */
-    public function onBeforeControllerRender(Event $event)
-    {
-        $event->getTarget()->getView()->actionbar = $this;
-    }
-
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
