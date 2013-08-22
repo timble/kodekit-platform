@@ -10,7 +10,7 @@
 <?= helper('behavior.modal') ?>
 
 <div>
-    <label for="modules"><?= @text('Module assignment') ?></label>
+    <label for="modules"><?= translate('Module assignment') ?></label>
     <div>
         <? foreach($modules->available as $module) : ?>
             <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />

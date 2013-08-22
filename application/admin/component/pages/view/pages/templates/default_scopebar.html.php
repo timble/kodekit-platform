@@ -16,10 +16,10 @@
     </div>
     <div class="scopebar__group">
         <a href="<?= @route('published=1' ) ?>" class="<?= $state->published === true ? 'active' : '' ?>">
-            <?= @text('Published') ?>
+            <?= translate('Published') ?>
         </a>
         <a href="<?= @route('published=0' ) ?>" class="<?= $state->published === false ? 'active' : '' ?>">
-            <?= @text('Unpublished') ?>
+            <?= translate('Unpublished') ?>
         </a>
         <a href="<?= @route( $state->deleted ? 'deleted=' : 'deleted=1' ) ?>" class="<?= $state->deleted ? 'active' : '' ?>">
             <?= 'Trashed' ?>

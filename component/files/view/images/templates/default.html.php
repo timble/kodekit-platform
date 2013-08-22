@@ -77,42 +77,42 @@ window.addEvent('domready', function() {
 <div id="image-insert-form">
 	<fieldset>
         <div>
-            <label for="image-url"><?= @text('URL') ?></label>
+            <label for="image-url"><?= translate('URL') ?></label>
             <div>
                 <input type="text" id="image-url" value="" />
             </div>
         </div>
         <div>
-            <label for="image-alt"><?= @text('Description') ?></label>
+            <label for="image-alt"><?= translate('Description') ?></label>
             <div>
                 <input type="text" id="image-alt" value="" />
             </div>
         </div>
         <div>
-            <label for="image-title"><?= @text('Title') ?></label>
+            <label for="image-title"><?= translate('Title') ?></label>
             <div>
                 <input type="text" id="image-title" value="" />
             </div>
         </div>
         <div>
-            <label for="image-align"><?= @text('Align') ?></label>
+            <label for="image-align"><?= translate('Align') ?></label>
             <div>
-                <select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
-                    <option value="" selected="selected"><?= @text('Not Set') ?></option>
-                    <option value="left"><?= @text('Left') ?></option>
-                    <option value="right"><?= @text('Right') ?></option>
+                <select size="1" id="image-align" title="<?= translate('Positioning of this image') ?>">
+                    <option value="" selected="selected"><?= translate('Not Set') ?></option>
+                    <option value="left"><?= translate('Left') ?></option>
+                    <option value="right"><?= translate('Right') ?></option>
                 </select>
             </div>
         </div>
         <div>
-            <label for="image-caption"><?= @text('Caption') ?></label>
+            <label for="image-caption"><?= translate('Caption') ?></label>
             <div>
                 <input type="checkbox" id="image-caption" />
             </div>
         </div>
 	</fieldset>
 	<div class="buttons">
-        <button class="btn" type="button" id="close-modal"><?= @text('Cancel') ?></button>
-        <button class="btn" type="button" id="insert-image"><?= @text('Insert') ?></button>
+        <button class="btn" type="button" id="close-modal"><?= translate('Cancel') ?></button>
+        <button class="btn" type="button" id="insert-image"><?= translate('Insert') ?></button>
 	</div>
 </div>

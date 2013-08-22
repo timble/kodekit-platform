@@ -37,7 +37,7 @@
 					<?= helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
 				</th>
                 <th width="1">
-                    <?= @text('Primary') ?>
+                    <?= translate('Primary') ?>
                 </th>
 				<th width="1">
 					<?= helper('grid.sort', array('column' => 'slug')) ?>
@@ -79,7 +79,7 @@
 				</td>
 				<td align="center">
 					<? if($language->primary) : ?>
-                	 	<?= @text('n/a') ?>
+                	 	<?= translate('n/a') ?>
                     <? else: ?>
                     	<?= helper('grid.enable', array('row' => $language)) ?>
                     <? endif ?>

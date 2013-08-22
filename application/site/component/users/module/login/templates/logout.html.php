@@ -14,6 +14,6 @@
     <?= JText::sprintf( 'HINAME', object('user')->getName()); ?>
 	
 	<div class="form-actions">
-		<input type="submit" name="Submit" class="btn" value="<?= @text('Sign out'); ?>" />
+		<input type="submit" name="Submit" class="btn" value="<?= translate('Sign out'); ?>" />
 	</div>
 </form>

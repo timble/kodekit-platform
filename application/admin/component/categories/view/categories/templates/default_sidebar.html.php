@@ -8,5 +8,5 @@
  */
 ?>
 
-<h3><?= @text('Categories') ?></h3>
+<h3><?= translate('Categories') ?></h3>
 <?= @template('com:categories.view.categories.list.html', array('categories' => object('com:articles.model.categories')->sort(array('ordering', 'title'))->table($state->table)->getRowset())); ?>

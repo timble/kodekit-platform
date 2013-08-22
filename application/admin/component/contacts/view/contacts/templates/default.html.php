@@ -69,7 +69,7 @@
 	   				<?= @escape($contact->name); ?>
 	   			</a>
 	   			<? if($contact->access) : ?>
-	   			    <span class="label label-important"><?= @text('Registered') ?></span>
+	   			    <span class="label label-important"><?= translate('Registered') ?></span>
 	   			<? endif; ?>
 			</td>
 		</tr>

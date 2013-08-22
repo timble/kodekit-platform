@@ -24,10 +24,10 @@
 				    <?= helper('grid.checkall') ?>
 				</th>
 				<th>
-					<?= @text('Name') ?>
+					<?= translate('Name') ?>
 				</th>
 				<th width="1">
-					<?= @text('Enabled') ?>
+					<?= translate('Enabled') ?>
 				</th>
 			</tr>
 		</thead>

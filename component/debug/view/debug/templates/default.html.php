@@ -12,7 +12,7 @@
 <script src="media://debug/js/debug.js" />
 
 <div id="debug" class="profiler">
-<a class="close" title="<?= @text("press 'd' to bring the debug bar back up") ?>"></a>
+<a class="close" title="<?= translate("press 'd' to bring the debug bar back up") ?>"></a>
 <?=	helper('tabs.startPane', array('id' => 'debug')); ?>
 
 <?= helper('tabs.startPanel', array('title' => 'Overview', 'attribs' => array( 'class' => 'profiles'))); ?>

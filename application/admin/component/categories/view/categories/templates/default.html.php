@@ -74,7 +74,7 @@
                             <?= @escape($category->title); ?>
                          </a>
                          <? if($category->access) : ?>
-                             <span class="label label-important"><?= @text('Registered') ?></span>
+                             <span class="label label-important"><?= translate('Registered') ?></span>
                          <? endif; ?>
                     </td>
                     <td align="center">

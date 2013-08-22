@@ -56,7 +56,7 @@
             <? if (!count($tags)) : ?>
             <tr>
                 <td colspan="4" align="center">
-                    <?= @text('No items found'); ?>
+                    <?= translate('No items found'); ?>
                 </td>
             </tr>
             <? endif; ?>

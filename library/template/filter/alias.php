@@ -29,7 +29,7 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
     	'object('      => '$this->getObject(',
         'date('        => '$this->renderHelper(\'date.format\',',
         'overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
-        '@text('       => '\JText::_(',
+        'translate('   => '\JText::_(',
         '@template('   => '$this->loadFile(',
         '@route('      => '$this->getView()->getRoute(',
         '@escape('     => '$this->getView()->escape(',

@@ -11,23 +11,23 @@
 <div class="scopebar">
 	<div class="scopebar__group">
 		<a class="<?= is_null($state->enabled) && is_null($state->visited) && is_null($state->loggedin) ? 'active' : ''; ?>" href="<?= @route('enabled=&loggedin=&visited=' ) ?>">
-		    <?= @text('All') ?>
+		    <?= translate('All') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
 		<a class="<?= $state->enabled === true ? 'active' : ''; ?>" href="<?= @route($state->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
-		    <?= @text('Enabled') ?>
+		    <?= translate('Enabled') ?>
 		</a> 
 		<a class="<?= $state->enabled === false ? 'active' : ''; ?>" href="<?= @route($state->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
-		    <?= @text('Disabled') ?>
+		    <?= translate('Disabled') ?>
 		</a> 
 	</div>
 	<div class="scopebar__group">
 		<a class="<?= $state->loggedin === true ? 'active' : ''; ?>" href="<?= @route( $state->loggedin === true ? 'loggedin=' : 'loggedin=1&visited=' ) ?>">
-		    <?= @text('Logged in') ?>
+		    <?= translate('Logged in') ?>
 		</a> 
 		<a class="<?= $state->visited === false ? 'active' : ''; ?>" href="<?= @route( $state->visited === false? 'visited=' : 'visited=0&loggedin=' ) ?>">
-		    <?= @text('Never visited') ?>
+		    <?= translate('Never visited') ?>
 		</a> 
 	</div>
 	<div class="scopebar__search">

@@ -18,10 +18,10 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th style="width: 70%"><?=@text('Name')?></th>
+			<th style="width: 70%"><?=translate('Name')?></th>
             <? if(count($files)) : ?>
-            <th><?=@text('Size')?></th>
-            <th><?=@text('Type')?></th>
+            <th><?=translate('Size')?></th>
+            <th><?=translate('Type')?></th>
             <? endif ?>
 		</tr>
 	</thead>

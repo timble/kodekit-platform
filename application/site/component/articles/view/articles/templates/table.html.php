@@ -28,11 +28,11 @@
     <thead>
     <tr>
         <th width="100%">
-            <?= @text('Title'); ?>
+            <?= translate('Title'); ?>
         </th>
         <? if ($params->get('show_create_date')): ?>
         <th>
-            <?= @text('Date'); ?>
+            <?= translate('Date'); ?>
         </th>
         <? endif; ?>
     </tr>

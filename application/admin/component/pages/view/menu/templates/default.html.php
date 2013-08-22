@@ -23,17 +23,17 @@
     
     <div class="main">
         <div class="title">
-            <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= @text('Title') ?>" />
+            <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= translate('Title') ?>" />
         </div>
         <div class="scrollable">
-            <label for="name"><?= @text('Slug') ?>:</label>
+            <label for="name"><?= translate('Slug') ?>:</label>
             <input type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
 
-            <label for="description"><?= @text('Application') ?>:</label>
+            <label for="description"><?= translate('Application') ?>:</label>
             <?= helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
             
-            <label for="description"><?= @text('Description') ?>:</label>
-            <textarea name="description" rows="3" placeholder="<?= @text('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>
+            <label for="description"><?= translate('Description') ?>:</label>
+            <textarea name="description" rows="3" placeholder="<?= translate('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>
         </div>
     </div>
 </form>

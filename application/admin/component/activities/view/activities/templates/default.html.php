@@ -24,8 +24,8 @@
 				<th width="10">
                     <?= helper('grid.checkall') ?>
                 </th>
-				<th width="55"><?=@text('Time')?></th>
-				<th><?=@text('Message')?></th>
+				<th width="55"><?=translate('Time')?></th>
+				<th><?=translate('Message')?></th>
 			</tr>
 		</thead>
 		<tfoot>

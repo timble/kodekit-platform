@@ -40,7 +40,7 @@
 					<?= helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
 				</th>
 				<th width="1">
-					<?= @text('Group') ?>
+					<?= translate('Group') ?>
 				</th>
 				<th width="1">
 					<?= helper('grid.sort',  array('title' => 'E-Mail', 'column' => 'email')) ?>
@@ -88,7 +88,7 @@
 				</td>
 				<td>
 					<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-						<?= @text('Never') ?>
+						<?= translate('Never') ?>
 					<? else : ?>
 						<?= helper('date.humanize', array('date' => $user->last_visited_on)) ?>
 					<? endif ?>

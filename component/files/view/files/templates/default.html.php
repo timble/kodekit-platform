@@ -165,10 +165,10 @@ window.addEvent('domready', function() {
 	<div id="files-canvas">
 	    <div class="scopebar">
 			<div class="btn-group" data-toggle="buttons-radio">
-				<button class="btn files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
+				<button class="btn files-layout-switcher" data-layout="icons" title="<?= translate('Show files as icons'); ?>">
 					<i class="icon-th"></i>
 				</button>
-				<button class="btn files-layout-switcher" data-layout="details" title="<?= @text('Show files in a list'); ?>">
+				<button class="btn files-layout-switcher" data-layout="details" title="<?= translate('Show files in a list'); ?>">
 					<i class="icon-list"></i>
 				</button>
 			</div>
@@ -187,12 +187,12 @@ window.addEvent('domready', function() {
         <form class="files-modal">
             <div style="text-align: center;">
                 <h3 style=" float: none">
-                    <?= str_replace('%folder%', '<span class="upload-files-to"></span>', @text('Create a new folder in %folder%')) ?>
+                    <?= str_replace('%folder%', '<span class="upload-files-to"></span>', translate('Create a new folder in %folder%')) ?>
                 </h3>
             </div>
             <div class="input-append">
-                <input class="span5 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" />
-                <button id="files-new-folder-create" class="btn btn-primary" disabled><?= @text('Create'); ?></button>
+                <input class="span5 focus" type="text" id="files-new-folder-input" placeholder="<?= translate('Enter a folder name') ?>" />
+                <button id="files-new-folder-create" class="btn btn-primary" disabled><?= translate('Create'); ?></button>
             </div>
         </form>
     </div>

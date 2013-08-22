@@ -12,7 +12,7 @@
 
 <div class="sidebar">
     <div class="mod_users">
-    	<h3><?= @text('Logged in Users'); ?></h3>
+    	<h3><?= translate('Logged in Users'); ?></h3>
     	<?= object('com:users.controller.user')->layout('list')->limit(10)->loggedin(true)->render(); ?>
     </div>
 </div>

@@ -48,7 +48,7 @@
                 </th>
                 <? if($articles->isTranslatable()) : ?>
                     <th width="70">
-                        <?= @text('Translation') ?>
+                        <?= translate('Translation') ?>
                     </th>
                 <? endif ?>
             </tr>
@@ -83,7 +83,7 @@
                      	<?= @escape($article->title); ?>
                      <? endif; ?>
                      <? if($article->access) : ?>
-                         <span class="label label-important"><?= @text('Registered') ?></span>
+                         <span class="label label-important"><?= translate('Registered') ?></span>
                      <? endif; ?>
                 </td>
                 <td>

@@ -11,26 +11,26 @@
 <div class="scopebar">
 	<div class="scopebar__group">
 		<a class="<?= is_null($state->action) && is_null($state->application) ? 'active' : ''; ?>" href="<?= @route('application=&action=' ) ?>">
-		    <?= @text('All') ?>
+		    <?= translate('All') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
 		<a  class="<?= ($state->action == 'add') ? 'active' : ''; ?> separator-left" href="<?= @route('action=add' ) ?>">
-		    <?= @text('Created') ?>
+		    <?= translate('Created') ?>
 		</a>
 		<a class="<?= ($state->action == 'edit') ? 'active' : ''; ?>" href="<?= @route('action=edit' ) ?>">
-		    <?= @text('Updated') ?>
+		    <?= translate('Updated') ?>
 		</a>
 		<a class="<?= ($state->action == 'delete') ? 'active' : ''; ?>" href="<?= @route('action=delete' ) ?>">
-		    <?= @text('Trashed') ?>
+		    <?= translate('Trashed') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
 		<a class="<?= ($state->direction == 'desc') ? 'active' : ''; ?>" href="<?= @route($state->direction == 'desc' ? 'direction=' : 'direction=desc' ) ?>">
-		    <?= @text('Latest First') ?>
+		    <?= translate('Latest First') ?>
 		</a>
 		<a class="<?= ($state->direction == 'asc') ? 'active' : ''; ?>" href="<?= @route($state->direction == 'asc' ? 'direction=' : 'direction=asc' ) ?>">
-		    <?= @text('Oldest First') ?>
+		    <?= translate('Oldest First') ?>
 		</a>
 	</div>
 	</ul>

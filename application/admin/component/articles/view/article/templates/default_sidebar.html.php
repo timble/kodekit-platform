@@ -10,25 +10,25 @@
 
 <fieldset>
     <div>
-        <label for="published"><?= @text('Published') ?></label>
+        <label for="published"><?= translate('Published') ?></label>
         <div>
             <input type="checkbox" name="published" value="1" <?= $article->published ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div>
-        <label for="access"><?= @text('Registered') ?></label>
+        <label for="access"><?= translate('Registered') ?></label>
         <div>
             <input type="checkbox" name="access" value="1" <?= $article->access ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div>
-        <label for="publish_on"><?= @text('Publish on') ?></label>
+        <label for="publish_on"><?= translate('Publish on') ?></label>
         <div>
             <?= helper('date.datetime', array('row' => $article, 'name' => 'publish_on')) ?>
         </div>
     </div>
     <div>
-        <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
+        <label for="unpublish_on"><?= translate('Unpublish on') ?></label>
         <div>
             <?= helper('date.datetime', array('row' => $article, 'name' => 'unpublish_on')) ?>
         </div>
@@ -38,17 +38,17 @@
 <div class="tabs tabs-horizontal">
     <div class="tab">
         <input type="radio" id="tab-1" name="tab-group-1" checked="">
-        <label for="tab-1"><?= @text('Classifications') ?></label>
+        <label for="tab-1"><?= translate('Classifications') ?></label>
         <div class="content">
             <fieldset class="categories group">
-                <legend><?= @text('Category') ?></legend>
+                <legend><?= translate('Category') ?></legend>
                 <div>
                     <?= helper('com:categories.radiolist.categories', array('row' => $article, 'uncategorised' => true)) ?>
                 </div>
             </fieldset>
             <? if($article->isTaggable()) : ?>
                 <fieldset>
-                    <legend><?= @text('Tags') ?></legend>
+                    <legend><?= translate('Tags') ?></legend>
                     <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags()->tags_tag_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
                 </fieldset>
             <? endif ?>
@@ -57,7 +57,7 @@
     <? if($article->isAttachable()) : ?>
     <div class="tab">
         <input type="radio" id="tab-3" name="tab-group-1">
-        <label for="tab-3"><?= @text('Attachments') ?></label>
+        <label for="tab-3"><?= translate('Attachments') ?></label>
         <div class="content">
             <fieldset>
                 <? if (!$article->isNew()) : ?>
@@ -72,7 +72,7 @@
 
 <? if($article->isTranslatable()) : ?>
     <fieldset>
-        <legend><?= @text('Translations') ?></legend>
+        <legend><?= translate('Translations') ?></legend>
         <? $translations = $article->getTranslations() ?>
         <? foreach($article->getLanguages() as $language) : ?>
             <?= $language->name.':' ?>

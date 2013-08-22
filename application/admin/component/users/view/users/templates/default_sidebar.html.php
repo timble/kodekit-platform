@@ -8,11 +8,11 @@
  */
 ?>
 
-<h3><?= @text('Roles') ?></h3>
+<h3><?= translate('Roles') ?></h3>
 <ul class="navigation">
 	<li>
         <a class="<?= is_null($state->role) ? 'active' : ''; ?>" href="<?= @route('role=') ?>">
-            <?= @text('All roles') ?>
+            <?= translate('All roles') ?>
         </a>
 	</li>
 	<? foreach($roles as $role) : ?>
@@ -24,11 +24,11 @@
 	<? endforeach ?>
 </ul>
 
-<h3><?= @text('Groups') ?></h3>
+<h3><?= translate('Groups') ?></h3>
 <ul class="navigation">
 	<li>
         <a class="<?= is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
-            <?= @text('All groups') ?>
+            <?= translate('All groups') ?>
         </a>
 	</li>
 

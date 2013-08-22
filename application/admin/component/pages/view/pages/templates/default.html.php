@@ -87,10 +87,10 @@
                         <i class="icon-star"></i>
                     <? endif ?>
                     <? if($page->access) : ?>
-                        <span class="label label-important"><?= @text('Registered') ?></span>
+                        <span class="label label-important"><?= translate('Registered') ?></span>
                     <? endif; ?>
                     <? if($page->hidden) : ?>
-                        <span class="label label-info"><?= @text('Hidden') ?></span>
+                        <span class="label label-info"><?= translate('Hidden') ?></span>
                     <? endif; ?>
                 </td>
                 <td align="center">

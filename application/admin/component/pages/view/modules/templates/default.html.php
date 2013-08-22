@@ -72,16 +72,16 @@
 					    <?= @escape($module->title) ?>
 					</a>
 					<? if($module->access) : ?>
-					    <span class="label label-important"><?= @text('Registered') ?></span>
+					    <span class="label label-important"><?= translate('Registered') ?></span>
 					<? endif; ?>
 				</td>
 				<td align="center">
-					<?= @text(
+					<?= translate(
 						is_array($module->pages) ? 'Varies' : $module->pages
 					) ?>
 				</td>
 				<td>
-					<?= @text(ucfirst($module->identifier->package)).' &raquo; '. @text(ucfirst($module->identifier->path[1])); ?>
+					<?= translate(ucfirst($module->identifier->package)).' &raquo; '. translate(ucfirst($module->identifier->path[1])); ?>
 				</td>
 			</tr>
 		<? endforeach ?>

@@ -8,11 +8,11 @@
  */
 ?>
 
-<h3><?= @text( 'Groups' ); ?></h3>
+<h3><?= translate( 'Groups' ); ?></h3>
 <ul class="navigation">
     <li>
         <a <? if(!$state->group) echo 'class="active"' ?> href="<?= @route('group=') ?>">
-            <?= @text('All groups') ?>
+            <?= translate('All groups') ?>
         </a>
     </li>
     <? foreach($groups as $group) : ?>
@@ -23,6 +23,6 @@
     </li>
     <? endforeach ?>
 </ul>
-<h3><?= @text( 'Details' ); ?></h3>
-<p><?= @text('Files').':'.$count ?></p>
-<p><?= @text('Size').':'.number_format($size / 1024, 2) ?></p>
+<h3><?= translate( 'Details' ); ?></h3>
+<p><?= translate('Files').':'.$count ?></p>
+<p><?= translate('Size').':'.number_format($size / 1024, 2) ?></p>

@@ -22,11 +22,11 @@
 <form action="" method="post" class="-koowa-form" id="group-form">
     <div class="main">
         <div class="title">
-            <input class="required" type="text" name="name" maxlength="255" value="<?= $group->name ?>" placeholder="<?= @text('Group name') ?>" />
+            <input class="required" type="text" name="name" maxlength="255" value="<?= $group->name ?>" placeholder="<?= translate('Group name') ?>" />
         </div>
         <div class="scrollable">
     		<fieldset>
-    			<legend><?= @text('Users') ?></legend>
+    			<legend><?= translate('Users') ?></legend>
     			<div>
     			    <div>
     			        <?= helper('select.users', array('selected' => $users, 'name' => 'users')) ?>

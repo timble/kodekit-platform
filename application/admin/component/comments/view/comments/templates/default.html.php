@@ -38,7 +38,7 @@
 			<? else : ?>
 				<tr>
 					<td colspan="5" align="center">
-						<?= @text('No items found'); ?>
+						<?= translate('No items found'); ?>
 					</td>
 				</tr>
 			<? endif; ?>

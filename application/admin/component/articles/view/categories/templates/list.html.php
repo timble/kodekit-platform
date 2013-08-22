@@ -11,12 +11,12 @@
 <ul class="navigation">
 	<li>
         <a class="<?= !is_numeric($state->category) ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
-            <?= @text('All articles')?>
+            <?= translate('All articles')?>
         </a>
 	</li>
 	<li>
         <a class="<?= $state->category == '0' ? 'active' : ''; ?>" href="<?= @route('&category=0' ) ?>">
-            <?= @text('Uncategorised') ?>
+            <?= translate('Uncategorised') ?>
         </a>
 	</li>
 

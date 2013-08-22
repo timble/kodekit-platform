@@ -31,11 +31,11 @@
     <thead>
         <tr>
             <th width="100%">
-                <?= @text('Name'); ?>
+                <?= translate('Name'); ?>
         	</th>
             <? if ($params->get('show_telephone', true)) : ?>
         	<th>
-                <?= @text('Phone'); ?>
+                <?= translate('Phone'); ?>
         	</th>
         	<? endif; ?>
         </tr>

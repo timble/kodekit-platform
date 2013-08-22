@@ -30,6 +30,6 @@
     <p><?= $category->description; ?></p>
     <? endif; ?>
 
-    <a href="<?= helper('route.category', array('row' => $category)) ?>"><?= @text('Read more') ?></a>
+    <a href="<?= helper('route.category', array('row' => $category)) ?>"><?= translate('Read more') ?></a>
 </article>
 <? endforeach; ?>

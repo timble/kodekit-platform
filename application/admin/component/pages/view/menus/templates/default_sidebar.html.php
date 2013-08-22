@@ -8,7 +8,7 @@
  */
 ?>
 
-<h3><?= @text('Applications') ?></h3>
+<h3><?= translate('Applications') ?></h3>
 <ul class="navigation">
 	<? foreach($applications as $application) : ?>
 	<li>

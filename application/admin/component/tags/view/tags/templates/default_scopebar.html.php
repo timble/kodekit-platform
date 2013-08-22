@@ -11,7 +11,7 @@
 <div class="scopebar">
     <div class="scopebar__group">
         <a class="<?= is_null($state->published) ? 'active' : ''; ?>" href="<?= @route('published=' ) ?>">
-            <?= @text('All') ?>
+            <?= translate('All') ?>
         </a>
     </div>
     <div class="scopebar__search">

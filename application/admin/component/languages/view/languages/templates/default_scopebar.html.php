@@ -11,15 +11,15 @@
 <div class="scopebar">
     <div class="scopebar__group">
         <a href="<?= @route('enabled=') ?>" class="<?= is_null($state->enabled) ? 'active' : '' ?>">
-            <?= @text('All') ?>
+            <?= translate('All') ?>
         </a>
     </div>
     <div class="scopebar__group">
         <a href="<?= @route('enabled=1') ?>" class="<?= $state->enabled === true ? 'active' : '' ?>">
-            <?= @text('Enabled') ?>
+            <?= translate('Enabled') ?>
         </a>
         <a href="<?= @route('enabled=0') ?>" class="<?= $state->enabled === false ? 'active' : '' ?>">
-            <?= @text('Disabled') ?>
+            <?= translate('Disabled') ?>
         </a>
     </div>
     <div class="scopebar__search">

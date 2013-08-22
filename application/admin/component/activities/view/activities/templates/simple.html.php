@@ -10,7 +10,7 @@
 
 <? $activities = object('com:activities.model.activities')->package($package)->name($name)->limit('10')->getRowset() ?>
 
-<h3><?= @text('Recent Activities')?></h3>
+<h3><?= translate('Recent Activities')?></h3>
 <div class="scrollable">
 <? if(count($activities)) : ?>
     <?
@@ -44,7 +44,7 @@
     	<? endforeach ?>
     	<div class="btn-group">
 	    	<a class="btn btn-block" href="<?= @route('option=com_activities&view=activities&package='.$package) ?>">
-	    	   <?= @text('More activities') ?>
+	    	   <?= translate('More activities') ?>
 	    	</a>
     	</div>
     </div>

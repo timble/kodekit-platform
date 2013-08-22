@@ -20,9 +20,9 @@
 
 <?if ($contact->params->get('allow_vcard', false)) :?>
 <p>
-    <?= @text( 'Download information as a' );?>
+    <?= translate( 'Download information as a' );?>
     <a href="<?= @route('id='.$contact->id.'&format=vcard') ?>">
-        <?= @text( 'VCard' );?>
+        <?= translate( 'VCard' );?>
     </a>
 </p>
 <? endif; ?>
