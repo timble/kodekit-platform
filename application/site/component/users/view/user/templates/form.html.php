@@ -24,14 +24,14 @@
     <div class="control-group">
         <label class="control-label" for="name"><?= translate('Your Name') ?></label>
         <div class="controls">
-            <input class="inputbox required" type="text" id="name" name="name" value="<?= @escape($user->name) ?>" size="100" />
+            <input class="inputbox required" type="text" id="name" name="name" value="<?= escape($user->name) ?>" size="100" />
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label" for="email"><?= translate('Email') ?></label>
         <div class="controls">
-            <input class="inputbox required validate-email" type="email" id="email" name="email" value="<?= @escape($user->email) ?>" size="100" />
+            <input class="inputbox required validate-email" type="email" id="email" name="email" value="<?= escape($user->email) ?>" size="100" />
         </div>
     </div>
 

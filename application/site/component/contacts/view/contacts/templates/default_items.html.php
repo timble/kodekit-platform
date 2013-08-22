@@ -17,7 +17,7 @@
 	</td>
     <? if ($params->get('show_telephone', true)) : ?>
     <td nowrap="nowrap">
-        <?= @escape($contact->telephone); ?>
+        <?= escape($contact->telephone); ?>
     </td>
     <? endif; ?>
 </tr>

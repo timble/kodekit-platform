@@ -24,7 +24,7 @@
             <?= translate( 'Enter your name' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="name" value="<?=isset($captcha_data)?@escape($captcha_data->name):''?>" class="required" required />
+            <input type="text" name="name" value="<?=isset($captcha_data)?escape($captcha_data->name):''?>" class="required" required />
         </div>
     </div>
     <div class="control-group">
@@ -32,7 +32,7 @@
             <?= translate( 'Email address' );?>:
         </label>
         <div class="controls">
-            <input type="email" name="email" value="<?=isset($captcha_data)?@escape($captcha_data->email):''?>" class="required validate-email" maxlength="100" required />
+            <input type="email" name="email" value="<?=isset($captcha_data)?escape($captcha_data->email):''?>" class="required validate-email" maxlength="100" required />
         </div>
     </div>
     <div class="control-group">
@@ -40,7 +40,7 @@
             <?= translate( 'Message subject' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="subject" value="<?=isset($captcha_data)?@escape($captcha_data->subject):''?>" required />
+            <input type="text" name="subject" value="<?=isset($captcha_data)?escape($captcha_data->subject):''?>" required />
         </div>
     </div>
     <div class="control-group">

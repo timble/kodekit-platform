@@ -15,7 +15,7 @@
 <form action="<?= helper('route.session'); ?>" method="post" class="-koowa-form">
     <div class="form-content">
         <div class="page-header">
-            <h1><?= @escape($parameters->get('page_title')) ?></h1>
+            <h1><?= escape($parameters->get('page_title')) ?></h1>
         </div>
 
         <? if($parameters->get('description_login_text')) : ?>

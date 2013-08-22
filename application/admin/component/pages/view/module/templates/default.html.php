@@ -23,7 +23,7 @@
 	
 	<div class="main">
 		<div class="title">
-			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
+			<input class="required" type="text" name="title" value="<?= escape($module->title) ?>" />
 		</div>
 
 		<div class="scrollable">

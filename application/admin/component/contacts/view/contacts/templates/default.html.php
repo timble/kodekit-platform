@@ -66,7 +66,7 @@
             </td>
 			<td>
 				<a href="<?= route('view=contact&id='.$contact->id); ?>">
-	   				<?= @escape($contact->name); ?>
+	   				<?= escape($contact->name); ?>
 	   			</a>
 	   			<? if($contact->access) : ?>
 	   			    <span class="label label-important"><?= translate('Registered') ?></span>

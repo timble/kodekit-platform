@@ -15,7 +15,7 @@
 <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 
 <div class="page-header">
-    <h1><?= @escape($params->get('page_title')); ?></h1>
+    <h1><?= escape($params->get('page_title')); ?></h1>
 </div>
 
 <? if ($category->image || $category->description) : ?>

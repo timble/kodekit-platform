@@ -19,8 +19,8 @@ use Nooku\Library;
 
     <channel>
 
-        <title><?= @escape($category->title) ?></title>
-        <description><![CDATA[<?= @escape($category->description) ?>]]></description>
+        <title><?= escape($category->title) ?></title>
+        <description><![CDATA[<?= escape($category->description) ?>]]></description>
         <link><?= route() ?></link>
         <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
@@ -38,7 +38,7 @@ use Nooku\Library;
         <? if($category->image) : ?>
         <image>
             <url><?= object('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
-            <title><?= @escape($category->title) ?></title>
+            <title><?= escape($category->title) ?></title>
             <link><?= route() ?></link>
             <width><?= $category->image->width ?></width>
             <height><?= $category->image->height ?></height>
@@ -47,7 +47,7 @@ use Nooku\Library;
 
         <? foreach($contacts as $contact) : ?>
         <item>
-            <title><?= @escape($contact->name) ?></title>
+            <title><?= escape($contact->name) ?></title>
             <link><?= helper('route.contact', array('row' => $contact)) ?></link>
             <guid isPermaLink="false"><?= helper('route.contact', array('row' => $contact)) ?></guid>
             <description><![CDATA[<?= include('com:contacts.view.contact.hcard.html', array('contact' => $contact)); ?>]]></description>

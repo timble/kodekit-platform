@@ -15,22 +15,22 @@
 	</td>
 	<td>
 		<a href="<?= route('view=comment&table='.$comment->table."&row=".$comment->row); ?>">
-			<?= @escape($comment->table); ?>
+			<?= escape($comment->table); ?>
 		</a>
 	</td>
 	<td>
 		<a href="<?= route('view=comment&table='.$comment->table."&row=".$comment->row); ?>">
-			<?= @escape($comment->row); ?>
+			<?= escape($comment->row); ?>
 		</a>
 	</td>
 	<td>
 		<a href="<?= route('view=tag&id='.$comment->id); ?>">
-			<?= @escape($comment->created_by); ?>
+			<?= escape($comment->created_by); ?>
 		</a>
 	</td>
 	<td>
 		<a href="<?= route('view=tag&id='.$comment->id); ?>">
-			<?= @escape($comment->text); ?>
+			<?= escape($comment->text); ?>
 		</a>
 	</td>
 </tr>

@@ -26,7 +26,7 @@
     <ul>
     <? foreach($list as $item) : ?>        
     	<? if(!$item->file->isImage()) : ?>
-    	<li><a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= @escape($item->name) ?></a> </li>
+    	<li><a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= escape($item->name) ?></a> </li>
     	<? endif ?>
     <? endforeach ?>
     </ul>

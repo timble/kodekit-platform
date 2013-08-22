@@ -71,7 +71,7 @@
                     </td>
                     <td>
                         <a href="<?= route( 'view=category&id='.$category->id ); ?>">
-                            <?= @escape($category->title); ?>
+                            <?= escape($category->title); ?>
                          </a>
                          <? if($category->access) : ?>
                              <span class="label label-important"><?= translate('Registered') ?></span>

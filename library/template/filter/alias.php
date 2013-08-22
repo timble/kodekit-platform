@@ -25,15 +25,15 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
      * @var array
      */
     protected $_alias_read = array(
-        'helper('      => '$this->renderHelper(',
-    	'object('      => '$this->getObject(',
-        'date('        => '$this->renderHelper(\'date.format\',',
-        'overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
-        'translate('   => '\JText::_(',
-        'include('     => '$this->loadFile(',
-        'route('       => '$this->getView()->getRoute(',
-        '@escape('     => '$this->getView()->escape(',
-        '@url('        => '$this->getView()->getBaseUrl()->toString('
+        'helper('    => '$this->renderHelper(',
+    	'object('    => '$this->getObject(',
+        'date('      => '$this->renderHelper(\'date.format\',',
+        'overlay('   => '$this->renderHelper(\'behavior.overlay\', ',
+        'translate(' => '\JText::_(',
+        'include('   => '$this->loadFile(',
+        'route('     => '$this->getView()->getRoute(',
+        'escape('    => '$this->getView()->escape(',
+        '@url('      => '$this->getView()->getBaseUrl()->toString('
     );
 
     /**

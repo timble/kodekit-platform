@@ -25,7 +25,7 @@
 
 		<td width="50%">
             <a href="<?= route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_extension_id) ?>">
-                <?= translate(@escape($module->name)) ?>
+                <?= translate(escape($module->name)) ?>
             </a>
 		</td>
 

@@ -29,7 +29,7 @@
     				<div>
     					<div class="ellipsis">
     						<a href="<?= route('view=article&id='.$activity->row) ?>">
-    						   <?= @escape($activity->title) ?>
+    						   <?= escape($activity->title) ?>
     						</a>
     					</div>
     					 <div class="ellipsis">

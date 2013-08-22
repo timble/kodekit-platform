@@ -69,7 +69,7 @@
                 </td>
 				<td>
 					<a href="<?= route('view=module&id='.$module->id) ?>">
-					    <?= @escape($module->title) ?>
+					    <?= escape($module->title) ?>
 					</a>
 					<? if($module->access) : ?>
 					    <span class="label label-important"><?= translate('Registered') ?></span>

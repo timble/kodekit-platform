@@ -10,7 +10,7 @@
 
 <? if ($params->get('show_page_title', 1)): ?>
 <div class="page-header">
-	<h1><?= @escape($params->get('page_title')); ?></h1>
+	<h1><?= escape($params->get('page_title')); ?></h1>
 </div>
 <? endif; ?>
 
@@ -31,7 +31,7 @@
 			<td colspan="3">
 				<i class="icon-folder-close"></i>
 				<a href="<?= route('&view=folder&folder='.$folder->path);?>">
-					<?=@escape($folder->display_name)?>
+					<?=escape($folder->display_name)?>
 				</a>
 			</td>
 			<td></td>
@@ -43,9 +43,9 @@
 		<tr>
 			<td>	
 				<i class="icon-file"></i>
-				<a class="files-download" data-path="<?= @escape($file->path); ?>"
+				<a class="files-download" data-path="<?= escape($file->path); ?>"
 					href="<?= route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
-					<?=@escape($file->display_name)?>
+					<?=escape($file->display_name)?>
 				</a>
 			</td>
 			<td>

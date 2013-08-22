@@ -77,10 +77,10 @@
                 <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>
                     	<a href="<?= route('view=article&id='.$article->id) ?>">
-                            <?= @escape($article->title) ?>
+                            <?= escape($article->title) ?>
                     	</a>
                      <? else : ?>
-                     	<?= @escape($article->title); ?>
+                     	<?= escape($article->title); ?>
                      <? endif; ?>
                      <? if($article->access) : ?>
                          <span class="label label-important"><?= translate('Registered') ?></span>

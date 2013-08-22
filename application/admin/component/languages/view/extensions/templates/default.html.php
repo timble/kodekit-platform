@@ -45,7 +45,7 @@
 					<?= helper('grid.checkbox', array('row' => $extension)) ?>
 				</td>
 				<td>
-					<?= @escape($extension->title) ?>
+					<?= escape($extension->title) ?>
 				</td>
 				<td align="center">
 					<?= helper('grid.enable', array('row' => $extension)) ?>

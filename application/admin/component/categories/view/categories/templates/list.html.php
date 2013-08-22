@@ -17,7 +17,7 @@
 	<? foreach ($categories as $category) : ?>
 	<li>
         <a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= route('category='.$category->id ) ?>">
-            <?= @escape($category->title) ?>
+            <?= escape($category->title) ?>
         </a>
 	</li>
 	<? endforeach ?>

@@ -50,7 +50,7 @@ window.addEvent('domready', function() {
     <? foreach($list as $item) : ?>        
     	<? if(!$item->file->isImage()) : ?>
     	<li>
-            <a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= @escape($item->name) ?></a>
+            <a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= escape($item->name) ?></a>
             <div class="caption btn-group">
                 <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
                     <i class="icon-trash icon-white"></i>

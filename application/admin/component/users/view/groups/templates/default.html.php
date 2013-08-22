@@ -47,7 +47,7 @@
                     </td>
                     <td>
                         <a href="<?= route('view=group&id='.$group->id) ?>">
-                            <?= @escape($group->name) ?>
+                            <?= escape($group->name) ?>
                         </a>
                     </td>
                 </tr>

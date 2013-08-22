@@ -14,7 +14,7 @@
     <form action="<?=route('option=com_articles&view=articles')?>" method="get" class="form-search" style="margin-bottom: 0;">
         <div class="input-append">
         <input id="searchword" name="searchword" class="input-xxlarge search-query" type="text"
-               value="<?=@escape($state->searchword)?>" placeholder="<?=translate('Search articles')?>"/>
+               value="<?=escape($state->searchword)?>" placeholder="<?=translate('Search articles')?>"/>
         <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i></button>
         </div>
     </form>

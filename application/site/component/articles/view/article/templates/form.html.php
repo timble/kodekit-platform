@@ -24,7 +24,7 @@
     <input type="hidden" name="access" value="0" />
     
     <fieldset>
-        <input class="input-block-level" type="text" name="title" maxlength="100" value="<?= @escape($article->title); ?>" style="margin-bottom: 10px"/>
+        <input class="input-block-level" type="text" name="title" maxlength="100" value="<?= escape($article->title); ?>" style="margin-bottom: 10px"/>
         <?= object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </fieldset>
     <fieldset>

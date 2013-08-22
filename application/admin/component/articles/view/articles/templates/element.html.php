@@ -43,7 +43,7 @@
 			<tr>
 				<td>
 					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?= $article->id ?>', '<?= str_replace(array("'", "\""), array("\\'", ""), $article->title); ?>', '<?= object('request')->query->get('object', 'cmd'); ?>');">
-					    <?= @escape($article->title) ?>
+					    <?= escape($article->title) ?>
 					</a>
 				</td>
 				<td nowrap="nowrap">

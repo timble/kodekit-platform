@@ -16,7 +16,7 @@
 <header class="container">
     <div class="navbar">
         <nav class="navbar-inner">           
-            <a class="brand" href="/"><?= @escape(object('application')->getCfg('sitename' )) ?></a>
+            <a class="brand" href="/"><?= escape(object('application')->getCfg('sitename' )) ?></a>
             <div>
                 <ktml:modules position="user3">
             </div>

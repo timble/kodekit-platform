@@ -81,7 +81,7 @@
                         <? if($page->level > 1) : ?>
                             <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - 1) ?><sup>|_</sup>&nbsp;
                         <? endif ?>
-                        <?= @escape($page->title) ?>
+                        <?= escape($page->title) ?>
                     </a>
                     <? if($page->home) : ?>
                         <i class="icon-star"></i>

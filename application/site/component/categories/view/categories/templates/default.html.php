@@ -13,7 +13,7 @@
     <div class="page-header">
         <h1>
             <a href="<?= helper('route.category', array('row' => $category)) ?>">
-                <?= @escape($category->title);?>
+                <?= escape($category->title);?>
             </a>
         </h1>
     </div>

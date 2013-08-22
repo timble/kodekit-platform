@@ -51,10 +51,10 @@
                 <td>
                     <? if(!$state->trash) : ?>
                     <a href="<?= route('view=menu&id='.$menu->id); ?>">
-                        <?= @escape($menu->title); ?>
+                        <?= escape($menu->title); ?>
                     </a>
                     <? else : ?>
-                        <?= @escape($menu->title); ?>
+                        <?= escape($menu->title); ?>
                     <? endif ?>
                 </td>
             </tr>

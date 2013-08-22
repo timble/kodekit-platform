@@ -69,14 +69,14 @@
                 </td>
 				<td>
 					<a href="<?= route('view=user&id='.$user->id) ?>">
-						<?= @escape($user->name) ?>
+						<?= escape($user->name) ?>
 					</a>
 				</td>
 				<td align="center">
 					<i class="<?= $user->loggedin ? 'icon-ok' : 'icon-remove' ?>"></i>
 				</td>
 				<td>
-					<?= @escape($user->role_name) ?>
+					<?= escape($user->role_name) ?>
 				</td>
 				<td class="array-separator">
 					<? foreach($groups_users->find(array('users_user_id' => $user->id)) as $group) : ?>
@@ -84,7 +84,7 @@
 					<? endforeach; ?>
 				</td>
 				<td>
-					<?= @escape($user->email) ?>
+					<?= escape($user->email) ?>
 				</td>
 				<td>
 					<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
