@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
+
+use Nooku\Library;
 ?>
 
 <?= include('com:files.view.files.initialize.html'); ?>
@@ -13,8 +15,8 @@
 <script src="media://ckeditor/js/ckeditor.files.js" />
 
 <script>
-    Files.sitebase = '<?= $sitebase; ?>';
-    Files.base     = '<?= $base; ?>';
+    Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';
+    Files.base     = '<?= route('option=com_files', true, false); ?>';
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {

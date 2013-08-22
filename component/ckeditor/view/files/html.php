@@ -28,18 +28,4 @@ class ViewFilesHtml extends Files\ViewFilesHtml
 
         parent::_initialize($config);
     }
-
-    public function render()
-    {
-        $base = clone $this->getObject('request')->getBaseUrl();
-
-        $this->sitebase = (string) $base;
-
-        $base->setQuery(array('option' => 'com_files'));
-        $this->getObject('application')->getRouter()->build($base);
-
-        $this->base = (string) $base;
-
-        return parent::render();
-    }
 }
