@@ -22,7 +22,7 @@
         options = {
             state: {
                 defaults: {
-                    limit: 0,
+                    limit: '50',
                     offset: 0
                 }
             },

@@ -36,6 +36,15 @@ Ckeditor.Files = new Class({
     },
     setPathway: function() {
     },
+    setState: function() {
+        // TODO: Implement pagination into the view
+        this.fireEvent('beforeSetState');
+
+        var opts = this.options.state;
+        this.state = new Files.State(opts);
+
+        this.fireEvent('afterSetState');
+    },
     setGrid: function() {
         var opts = this.options.grid;
         var that = this;
