@@ -13,7 +13,7 @@
     <div>
         <label for="enabled"><?= @text('Enable User') ?></label>
         <div>
-            <input <?= @object('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
+            <input <?= object('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div>

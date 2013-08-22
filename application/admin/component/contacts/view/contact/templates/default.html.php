@@ -98,7 +98,7 @@
 				</div>
 			</fieldset>
 		</div>
-        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'misc', 'text' => $contact->misc)) ?>
+        <?= object('com:wysiwyg.controller.editor')->render(array('name' => 'misc', 'text' => $contact->misc)) ?>
 	</div>
 
 	<div class="sidebar">
