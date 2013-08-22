@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
+<?= overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
 <div class="sidebar">
     <div class="mod_users">
