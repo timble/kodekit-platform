@@ -184,7 +184,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
                 }
             }
         }
-        else $this->_commands[$name];
+        else $command = $this->_commands[$name];
 
         return $command;
     }
@@ -233,7 +233,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     }
 
     /**
-     * Returns the number of elements in the collection.
+     * Returns the number of toolbar commands.
      *
      * Required by the Countable interface
      *
