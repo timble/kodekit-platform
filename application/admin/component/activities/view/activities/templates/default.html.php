@@ -38,7 +38,7 @@
 		<tbody>
 		<? $date = $old_date = '';   ?>
 		<? foreach ($activities as $activity) : ?>	
-	        <? $date = @date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
+	        <? $date = date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
 	        <tr class="no-hover separator">
@@ -53,7 +53,7 @@
 				</td>
 
 				<td align="left">
-			        <?= @date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
+			        <?= date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
 				</td>
 
 				<td>
