@@ -83,7 +83,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
         }
 
         //Store the toolbar to allow for name lookups
-        $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
+        $this->_toolbars[$toolbar->getType()] = $toolbar;
 
         if ($this->inherits('Nooku\Library\EventMixin')) {
             $this->addEventSubscriber($toolbar, $priority);
