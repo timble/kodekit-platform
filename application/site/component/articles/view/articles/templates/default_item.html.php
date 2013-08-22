@@ -23,7 +23,7 @@
     <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
     
     <? if ($article->introtext) : ?>
-        <?= @highlight($article->introtext) ?>
+        <?= highlight($article->introtext) ?>
         <a class="article__readmore" href="<?= helper('route.article', array('row' => $article)) ?>"><?= translate('Read more') ?></a>
     <? endif; ?>
 </article>
