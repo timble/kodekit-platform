@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Alias Template Filter
  *
- * Read filter for aliases such as @template, @text, @helper, @route etc
+ * Read filter for aliases such as template(), text(), helper(), route() etc
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Template
@@ -33,7 +33,7 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
         'include('   => '$this->loadFile(',
         'route('     => '$this->getView()->getRoute(',
         'escape('    => '$this->getView()->escape(',
-        '@url('      => '$this->getView()->getBaseUrl()->toString('
+        'url('       => '$this->getView()->getBaseUrl()->toString('
     );
 
     /**

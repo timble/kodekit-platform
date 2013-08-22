@@ -9,7 +9,7 @@
 ?>
 
 <head>
-    <base href="<?= @url(); ?>" />
+    <base href="<?= url(); ?>" />
     <title><?= escape(object('application')->getCfg('sitename' )) ?></title>
 
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />

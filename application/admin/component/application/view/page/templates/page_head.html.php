@@ -9,7 +9,7 @@
 ?>
 
 <head>
-    <base href="<?= @url(); ?>" />
+    <base href="<?= url(); ?>" />
     <title><?= escape(object('application')->getCfg('sitename' )). ' - ' .translate( 'Administration')  ?></title>
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta content="chrome=1" http-equiv="X-UA-Compatible" />
