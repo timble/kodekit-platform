@@ -41,50 +41,44 @@ Ckeditor.Files = new Class({
         var that = this;
         $extend(opts, {
             'onClickImage': function(e) {
-                var target = document.id(e.target),
-                    node = target.getParent('.files-node-shadow') || target.getParent('.files-node');
+                that.setPreview(document.id(e.target), 'image');
 
-                node.getParent().getChildren().removeClass('active');
-                node.addClass('active');
-                var row = node.retrieve('row');
-                var copy = $extend({}, row);
-                copy.template = 'details_image';
-
-                that.preview.empty();
-
-                copy.render('compact').inject(that.preview);
-
-                that.preview.getElement('img').set('src', copy.image);
-
-                var row     = target.getParent('.files-node').retrieve('row');
-                var path    = row.baseurl+"/"+row.filepath;
-                var url     = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
-
-                document.id('image-url').set('value', url);
-                document.id('image-type').set('value',row.metadata.mimetype);
             },
             'onClickFile': function(e) {
-                var target = document.id(e.target),
-                    node = target.getParent('.files-node-shadow') || target.getParent('.files-node');
-
-                node.getParent().getChildren().removeClass('active');
-                node.addClass('active');
-                var row = node.retrieve('row');
-                var copy = $extend({}, row);
-                copy.template = 'details_file';
-
-                that.preview.empty();
-
-                copy.render('compact').inject(that.preview);
-
-                var row     = target.getParent('.files-node').retrieve('row');
-                var url     = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
-                selected    = row.path;
-
-                document.id('image-url').set('value', url);
-                document.id('image-type').set('value',row.metadata.mimetype);
+                that.setPreview(document.id(e.target), 'file');
             }
         });
         this.grid = new Files.Grid(this.options.grid.element, opts);
+    },
+    setPreview: function(target, type) {
+        var node    = target.getParent('.files-node-shadow') || target.getParent('.files-node');
+        var row     = node.retrieve('row');
+        var copy    = $extend({}, row);
+        var path    = row.baseurl+"/"+row.filepath;
+        var url     = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+
+        // Update active row
+        node.getParent().getChildren().removeClass('active');
+        node.addClass('active');
+
+        // Load preview template
+        copy.template = 'details_'+type;
+        this.preview.empty();
+        copy.render('compact').inject(this.preview);
+
+        // Inject preview image
+        if (type == 'image') {
+            this.preview.getElement('img').set('src', copy.image);
+        }
+
+        // When no text is selected use the file name
+        if (type == 'file') {
+            if(document.id('image-text').get('value') == ""){
+                document.id('image-text').set('value', row.name);
+            }
+        }
+
+        document.id('image-url').set('value', url);
+        document.id('image-type').set('value',row.metadata.mimetype);
     }
 });
