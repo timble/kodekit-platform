@@ -18,7 +18,7 @@
     <ktml:toolbar type="actionbar">!
 </ktml:module>
 
-<form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">
+<form action="<?= route('&id='.$menu->id)?>" method="post" class="-koowa-form">
     <input type="hidden" name="application" value="site" />
     
     <div class="main">

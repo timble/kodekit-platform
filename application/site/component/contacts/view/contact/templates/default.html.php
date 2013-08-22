@@ -13,7 +13,7 @@
 -->
 
 <? if ($contact->params->get('allow_vcard', false)) : ?>
-    <link href="<?= @route('format=vcard') ?>" rel="alternate" type="text/x-vcard; version=2.1" title="Vcard - <?= $contact->name; ?>"/>
+    <link href="<?= route('format=vcard') ?>" rel="alternate" type="text/x-vcard; version=2.1" title="Vcard - <?= $contact->name; ?>"/>
 <? endif; ?>
 
 <?= include('hcard.html') ?>
@@ -21,7 +21,7 @@
 <?if ($contact->params->get('allow_vcard', false)) :?>
 <p>
     <?= translate( 'Download information as a' );?>
-    <a href="<?= @route('id='.$contact->id.'&format=vcard') ?>">
+    <a href="<?= route('id='.$contact->id.'&format=vcard') ?>">
         <?= translate( 'VCard' );?>
     </a>
 </p>

@@ -12,7 +12,7 @@
 <ul class="navigation">
 	<? foreach($applications as $application) : ?>
 	<li>
-        <a <?= $state->application == $application ? 'class="active"' : '' ?> href="<?= @route('application='.$application) ?>">
+        <a <?= $state->application == $application ? 'class="active"' : '' ?> href="<?= route('application='.$application) ?>">
             <?= $application ?>
         </a>
 	</li>

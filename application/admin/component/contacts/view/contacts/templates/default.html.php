@@ -65,7 +65,7 @@
                 <?= helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
             </td>
 			<td>
-				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
+				<a href="<?= route('view=contact&id='.$contact->id); ?>">
 	   				<?= @escape($contact->name); ?>
 	   			</a>
 	   			<? if($contact->access) : ?>

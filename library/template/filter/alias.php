@@ -31,7 +31,7 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
         'overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
         'translate('   => '\JText::_(',
         'include('     => '$this->loadFile(',
-        '@route('      => '$this->getView()->getRoute(',
+        'route('       => '$this->getView()->getRoute(',
         '@escape('     => '$this->getView()->escape(',
         '@url('        => '$this->getView()->getBaseUrl()->toString('
     );

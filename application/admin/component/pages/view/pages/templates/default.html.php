@@ -77,7 +77,7 @@
 
                         $link .= '&view=page&menu='.$state->menu.'&id='.$page->id;
                     ?>
-                    <a href="<?= urldecode(@route($link)) ?>">
+                    <a href="<?= urldecode(route($link)) ?>">
                         <? if($page->level > 1) : ?>
                             <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - 1) ?><sup>|_</sup>&nbsp;
                         <? endif ?>

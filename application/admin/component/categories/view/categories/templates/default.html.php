@@ -70,7 +70,7 @@
                         <?= helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
                     </td>
                     <td>
-                        <a href="<?= @route( 'view=category&id='.$category->id ); ?>">
+                        <a href="<?= route( 'view=category&id='.$category->id ); ?>">
                             <?= @escape($category->title); ?>
                          </a>
                          <? if($category->access) : ?>

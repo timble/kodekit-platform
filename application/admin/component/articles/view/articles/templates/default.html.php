@@ -76,7 +76,7 @@
                 </td>
                 <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>
-                    	<a href="<?= @route('view=article&id='.$article->id) ?>">
+                    	<a href="<?= route('view=article&id='.$article->id) ?>">
                             <?= @escape($article->title) ?>
                     	</a>
                      <? else : ?>
@@ -87,7 +87,7 @@
                      <? endif; ?>
                 </td>
                 <td>
-                    <?= helper('date.humanize', array('date' => $article->last_activity_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
+                    <?= helper('date.humanize', array('date' => $article->last_activity_on)) ?> by <a href="<?= route('option=com_users&view=user&id='.$article->created_by) ?>">
                         <?= $article->last_activity_by_name ?>
                     </a>
                 </td>

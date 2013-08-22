@@ -15,7 +15,7 @@
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
-<form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
+<form action="<?= route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />
 	<input type="hidden" name="published" value="0" />
 	<input type="hidden" name="name" value="<?= $module->name ?>" />

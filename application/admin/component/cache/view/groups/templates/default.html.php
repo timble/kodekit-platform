@@ -48,7 +48,7 @@
 				<?= helper( 'grid.checkbox' , array('row' => $group)); ?>
 			</td>
 			<td>
-				<a href="<?= @route('view=keys&group='.$group->name); ?>"><?= $group->name; ?></a>
+				<a href="<?= route('view=keys&group='.$group->name); ?>"><?= $group->name; ?></a>
 			</td>
 			<td align="center">
 				<?= $group->count; ?>

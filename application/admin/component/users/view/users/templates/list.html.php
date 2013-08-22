@@ -29,7 +29,7 @@
     <?php foreach ($users as $user) : ?>
     <tr>
         <td>
-            <a href="<?=  @route('option=com_users&view=user&id='. $user->id); ?>" title="<?= translate( 'Edit User' ) ?>">
+            <a href="<?=  route('option=com_users&view=user&id='. $user->id); ?>" title="<?= translate( 'Edit User' ) ?>">
                 <?= $user->name; ?>
             </a>
         </td>

@@ -21,7 +21,7 @@
 	<?= include('default_sidebar.html') ?>
 </ktml:module>
 
-<form id="menus-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form id="menus-form" action="<?= route() ?>" method="get" class="-koowa-grid">
     <table>
         <thead>
             <tr>
@@ -50,7 +50,7 @@
                 </td>
                 <td>
                     <? if(!$state->trash) : ?>
-                    <a href="<?= @route('view=menu&id='.$menu->id); ?>">
+                    <a href="<?= route('view=menu&id='.$menu->id); ?>">
                         <?= @escape($menu->title); ?>
                     </a>
                     <? else : ?>

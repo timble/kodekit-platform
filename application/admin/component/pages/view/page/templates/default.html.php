@@ -62,10 +62,10 @@
             </div>
             <? if($menu->application == 'site') : ?>
                 <h3><?= translate('Other') ?></h3>
-                <a href="<?= @route('menu='.$state->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Page link') ?></a>
-                <a href="<?= @route('menu='.$state->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('External link') ?></a>
-                <a href="<?= @route('menu='.$state->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Redirect') ?></a>
-                <a href="<?= @route('menu='.$state->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Separator') ?></a>
+                <a href="<?= route('menu='.$state->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Page link') ?></a>
+                <a href="<?= route('menu='.$state->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('External link') ?></a>
+                <a href="<?= route('menu='.$state->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Redirect') ?></a>
+                <a href="<?= route('menu='.$state->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Separator') ?></a>
             <? endif ?>
         </div>
     </div>
@@ -80,7 +80,7 @@
                     <div class="view">
                         <h4><?= translate($view->title) ?></h4>
                         <? foreach($view->layouts as $layout) : ?>
-                        <a class="<?= ($state->type['name'] == 'extension' && $state->type['view'] == $view->name && $state->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[option]='.$extension->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                        <a class="<?= ($state->type['name'] == 'extension' && $state->type['view'] == $view->name && $state->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.$state->menu.'&type[name]=component&type[option]='.$extension->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
                             <?= translate($layout->title) ?>
                             <br />
                             <small><?= translate($layout->description) ?></small>

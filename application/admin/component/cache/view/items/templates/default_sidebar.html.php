@@ -11,13 +11,13 @@
 <h3><?= translate( 'Groups' ); ?></h3>
 <ul class="navigation">
     <li>
-        <a <? if(!$state->group) echo 'class="active"' ?> href="<?= @route('group=') ?>">
+        <a <? if(!$state->group) echo 'class="active"' ?> href="<?= route('group=') ?>">
             <?= translate('All groups') ?>
         </a>
     </li>
     <? foreach($groups as $group) : ?>
     <li>
-        <a <? if($state->group == $group->name) echo 'class="active"' ?> href="<?= @route('group='.$group->name) ?>">
+        <a <? if($state->group == $group->name) echo 'class="active"' ?> href="<?= route('group='.$group->name) ?>">
             <?= $group->name; ?>
         </a>
     </li>

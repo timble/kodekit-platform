@@ -28,7 +28,7 @@
     				<i class="icon-<?= $activity->action ?>"></i>
     				<div>
     					<div class="ellipsis">
-    						<a href="<?= @route('view=article&id='.$activity->row) ?>">
+    						<a href="<?= route('view=article&id='.$activity->row) ?>">
     						   <?= @escape($activity->title) ?>
     						</a>
     					</div>
@@ -43,7 +43,7 @@
     		</div>
     	<? endforeach ?>
     	<div class="btn-group">
-	    	<a class="btn btn-block" href="<?= @route('option=com_activities&view=activities&package='.$package) ?>">
+	    	<a class="btn btn-block" href="<?= route('option=com_activities&view=activities&package='.$package) ?>">
 	    	   <?= translate('More activities') ?>
 	    	</a>
     	</div>

@@ -11,7 +11,7 @@
 <style src="media://comments/css/comments-default.css" />
 
 <div id="list" class="-koowa-box-flex">
-	<form action="<?= @route()?>" method="post" name="adminForm">
+	<form action="<?= route()?>" method="post" name="adminForm">
 		<table class="adminlist" style="clear: both;">
 			<thead>
 				<tr>

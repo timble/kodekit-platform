@@ -46,7 +46,7 @@
                         <?= helper('grid.checkbox', array('row' => $group)) ?>
                     </td>
                     <td>
-                        <a href="<?= @route('view=group&id='.$group->id) ?>">
+                        <a href="<?= route('view=group&id='.$group->id) ?>">
                             <?= @escape($group->name) ?>
                         </a>
                     </td>

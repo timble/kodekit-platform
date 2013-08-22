@@ -68,7 +68,7 @@
                     <?= helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
                 </td>
 				<td>
-					<a href="<?= @route('view=module&id='.$module->id) ?>">
+					<a href="<?= route('view=module&id='.$module->id) ?>">
 					    <?= @escape($module->title) ?>
 					</a>
 					<? if($module->access) : ?>

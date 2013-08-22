@@ -232,7 +232,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
      * - foo=bar
      * - option=com_mycomp&view=myview&foo=bar
      *
-     * In templates, use @route()
+     * In templates, use route()
      *
      * @param   string|array $route  The query string used to create the route
      * @param   boolean      $fqr    If TRUE create a fully qualified route. Default TRUE.

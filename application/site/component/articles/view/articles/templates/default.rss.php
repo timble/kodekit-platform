@@ -21,7 +21,7 @@ use Nooku\Library;
 
         <title><?= @escape($category->title) ?></title>
         <description><![CDATA[<?= @escape($category->description) ?>]]></description>
-        <link><?= @route() ?></link>
+        <link><?= route() ?></link>
         <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
@@ -33,13 +33,13 @@ use Nooku\Library;
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
 
-        <atom:link href="<?= @route() ?>" rel="self" type="application/rss+xml"/>
+        <atom:link href="<?= route() ?>" rel="self" type="application/rss+xml"/>
 
         <? if($category->image) : ?>
         <image>
             <url><?= object('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
             <title><?= @escape($category->title) ?></title>
-            <link><?= @route() ?></link>
+            <link><?= route() ?></link>
             <width><?= $category->image->width ?></width>
             <height><?= $category->image->height ?></height>
         </image>

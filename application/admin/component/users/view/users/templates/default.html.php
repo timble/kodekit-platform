@@ -68,7 +68,7 @@
                     <?= helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
                 </td>
 				<td>
-					<a href="<?= @route('view=user&id='.$user->id) ?>">
+					<a href="<?= route('view=user&id='.$user->id) ?>">
 						<?= @escape($user->name) ?>
 					</a>
 				</td>

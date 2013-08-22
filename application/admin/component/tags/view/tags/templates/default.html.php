@@ -44,7 +44,7 @@
                     <?= helper('grid.checkbox', array('row' => $tag)); ?>
                 </td>
                 <td>
-                    <a href="<?= @route('view=tag&id='.$tag->id); ?>">
+                    <a href="<?= route('view=tag&id='.$tag->id); ?>">
                         <?= @escape($tag->title); ?>
                     </a>
                 </td>

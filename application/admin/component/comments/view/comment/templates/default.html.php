@@ -9,7 +9,7 @@
 ?>
 
 <div id="comments-comment-form">
-	<form action="<?= @route('row='.@$state->row.'&table='.$state->table) ?>" method="post">
+	<form action="<?= route('row='.@$state->row.'&table='.$state->table) ?>" method="post">
         <input type="hidden" name="row" value="<?= $state->row ?>" />
         <input type="hidden" name="table" value="<?= $state->table ?>" />
 

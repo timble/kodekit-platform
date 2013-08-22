@@ -9,7 +9,7 @@
 ?>
 
 <? if ($params->get('show_feed_link', 1) == 1) : ?>
-<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>
 
 <? foreach ($articles as $article): ?>

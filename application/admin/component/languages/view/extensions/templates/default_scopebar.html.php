@@ -10,15 +10,15 @@
 
 <div class="scopebar">
 	<div class="scopebar__group">
-		<a class="<?= is_null($state->enabled) ? 'active' : '' ?>" href="<?= @route('enabled=' ) ?>">
+		<a class="<?= is_null($state->enabled) ? 'active' : '' ?>" href="<?= route('enabled=' ) ?>">
 		    <?= translate('All') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= $state->enabled === true ? 'active' : '' ?>" href="<?= @route($state->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
+		<a class="<?= $state->enabled === true ? 'active' : '' ?>" href="<?= route($state->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
 		    <?= translate('Enabled') ?>
 		</a> 
-		<a class="<?= $state->enabled === false ? 'active' : '' ?>" href="<?= @route($state->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
+		<a class="<?= $state->enabled === false ? 'active' : '' ?>" href="<?= route($state->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
 		    <?= translate('Disabled') ?>
 		</a> 
 	</div>

@@ -12,7 +12,7 @@
 <script src="media://js/koowa.js" />
 -->
 
-<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 
 <div class="page-header">
     <h1><?= @escape($params->get('page_title')); ?></h1>

@@ -61,7 +61,7 @@
 					<?= helper('grid.checkbox', array('row' => $language)) ?>
 				</td>
 				<td>
-					<a href="<?= @route('view=language&id='.$language->id) ?>"><?= $language->name ?></a>
+					<a href="<?= route('view=language&id='.$language->id) ?>"><?= $language->name ?></a>
 				</td>
 				<td>
 					<?= $language->native_name ?>

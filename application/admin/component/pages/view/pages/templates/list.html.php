@@ -22,7 +22,7 @@
                 <? $depth = substr_count($page->path, '/') ?>
                 <? switch($page->type) :
                     case 'component': ?>
-                        <a class="level<?= $depth ?>" href="<?= @route(preg_replace('%layout=table%', 'layout=default', $page->getLink()->getQuery()).'&Itemid='.$page->id) ?>">
+                        <a class="level<?= $depth ?>" href="<?= route(preg_replace('%layout=table%', 'layout=default', $page->getLink()->getQuery()).'&Itemid='.$page->id) ?>">
                             <span><?= $page->title ?></span>
                         </a>
                         <? break ?>

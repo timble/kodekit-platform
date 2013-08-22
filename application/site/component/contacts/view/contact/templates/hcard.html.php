@@ -10,7 +10,7 @@
 
 <address class="vcard">
     <div class="page-header">
-        <h1 class="fn url" href="<?= @route(); ?>"><?= $contact->name?></h1>
+        <h1 class="fn url" href="<?= route(); ?>"><?= $contact->name?></h1>
     </div>
     <?if ($contact->con_position) : ?>
     <h2 class="title"><?= $contact->con_position?></h2>
