@@ -16,7 +16,7 @@
 -->
 
 <div class="btn-toolbar">
-    <?= @helper('actionbar.render', array('actionbar' => $actionbar));?>
+    <ktml:toolbar type="actionbar">
 </div>
 
 <form method="post" action="" class="-koowa-form form-horizontal">

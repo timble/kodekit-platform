@@ -21,7 +21,7 @@
 </script>
 
 <ktml:module position="actionbar">
-    <?= @helper('actionbar.render', array('actionbar' => $actionbar))?>
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
