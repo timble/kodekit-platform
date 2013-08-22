@@ -13,7 +13,7 @@
 	<div>
 	    <label for=""><?= @text( 'Mailer' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.mailers', array('name' => 'settings[system][mailer]', 'selected' => $settings->mailer)); ?>
+	        <?= helper('listbox.mailers', array('name' => 'settings[system][mailer]', 'selected' => $settings->mailer)); ?>
 	        <p class="help-block"><?= @text( 'TIPMAILER' ); ?></p>
 	    </div>
 	</div>
@@ -41,14 +41,14 @@
 	<div>
 	    <label for=""><?= @text( 'SMTP Auth' ); ?></label>
 	    <div>
-	         <?= @helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]', 'selected' => $settings->smtpauth));?>
+	         <?= helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]', 'selected' => $settings->smtpauth));?>
 	        <p class="help-block"><?= @text( 'TIPSMTPAUTH' ); ?></p>
 	    </div>
 	</div>
 	<div>
 	    <label for=""><?= @text( 'SMTP Security' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.smtpsecure', array('name' => 'settings[system][smtpsecure]', 'selected' => $settings->smtpsecure)); ?>
+	        <?= helper('listbox.smtpsecure', array('name' => 'settings[system][smtpsecure]', 'selected' => $settings->smtpsecure)); ?>
 	        <p class="help-block"><?= @text( 'TIPSMTPSECURITY' ); ?></p>
 	    </div>
 	</div>

@@ -12,7 +12,7 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
-<?= @helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
+<?= helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
@@ -29,24 +29,24 @@
             <tr>
                 <? if($state->sort == 'custom' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
                 <th width="1">
-                    <?= @helper('grid.checkall'); ?>
+                    <?= helper('grid.checkall'); ?>
                 </th>
                 <th width="1"></th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title')); ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
+                    <?= helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort',  array('column' => 'extensions_extension_id' , 'title' => 'Type')); ?>
+                    <?= helper('grid.sort',  array('column' => 'extensions_extension_id' , 'title' => 'Type')); ?>
                 </th>
             </tr>
         </thead>
         <tfoot>
             <tr>
                 <td colspan="6">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -61,10 +61,10 @@
                     </td>
                 <? endif ?>
                 <td align="center">
-                    <?= @helper('grid.checkbox',array('row' => $page)); ?>
+                    <?= helper('grid.checkbox',array('row' => $page)); ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?
@@ -94,7 +94,7 @@
                     <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
+                    <?= helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
                 </td>
                 <td>
                     <?= $page->getTypeDescription() ?>

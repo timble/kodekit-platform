@@ -12,7 +12,7 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
-<?= @helper('behavior.sortable') ?>
+<?= helper('behavior.sortable') ?>
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
@@ -35,14 +35,14 @@
                 <th class="handle"></th>
                 <? endif ?>
                 <th width="1">
-                    <?= @helper('grid.checkall'); ?>
+                    <?= helper('grid.checkall'); ?>
                 </th>
                 <th width="1"></th>
                 <th>
-                    <?= @helper('grid.sort',  array('column' => 'title')); ?>
+                    <?= helper('grid.sort',  array('column' => 'title')); ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
+                    <?= helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
                 </th>
             </tr>
         </thead>
@@ -50,7 +50,7 @@
         <tfoot>
             <tr>
                 <td colspan="13">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)); ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)); ?>
                 </td>
             </tr>
         </tfoot>
@@ -64,10 +64,10 @@
                     </td>
                     <? endif ?>
                     <td align="center">
-                        <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
+                        <?= helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
                     <td align="center">
-                        <?= @helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
+                        <?= helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
                     </td>
                     <td>
                         <a href="<?= @route( 'view=category&id='.$category->id ); ?>">

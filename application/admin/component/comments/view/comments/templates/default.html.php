@@ -19,16 +19,16 @@
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($comments); ?>);" />
 					</th>
 					<th>
-						<?= @helper('grid.sort', array('column' => 'table')); ?>
+						<?= helper('grid.sort', array('column' => 'table')); ?>
 					</th>
 					<th>
-						<?= @helper('grid.sort', array('column' => 'row', 'title' => 'Ticket ID')); ?>
+						<?= helper('grid.sort', array('column' => 'row', 'title' => 'Ticket ID')); ?>
 					</th>
 					<th>
-						<?= @helper('grid.sort', array('column' => 'created_by')); ?>
+						<?= helper('grid.sort', array('column' => 'created_by')); ?>
 					</th>
 					<th>
-						<?= @helper('grid.sort', array('column' => 'text')); ?>
+						<?= helper('grid.sort', array('column' => 'text')); ?>
 					</th>
 				</tr>
 			</thead>
@@ -46,7 +46,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="20">
-						<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+						<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 					</td>
 				</tr>
 			</tfoot>

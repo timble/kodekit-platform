@@ -9,7 +9,7 @@
 ?>
 
 <? /* Image and article buttons needs this in order to work */ ?>
-<?= @helper('behavior.modal') ?>
+<?= helper('behavior.modal') ?>
 
 <? if ($options['toggle']) : ?>
     <style src="media://wysiwyg/css/form.css" />

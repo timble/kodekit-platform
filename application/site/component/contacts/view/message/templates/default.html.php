@@ -8,8 +8,8 @@
  */
 ?>
 
-<?=@helper('behavior.mootools')?>
-<?=@helper('behavior.validator')?>
+<?=helper('behavior.mootools')?>
+<?=helper('behavior.validator')?>
 
 <script type="text/javascript">
     window.onDomReady(function() {
@@ -17,7 +17,7 @@
     });
 </script>
 
-<form action="<?=  @helper('route.message', array('row' => $contact, 'category' => $category->getSlug())) ?>" method="post" name="emailForm" class="-koowa-form form-horizontal">
+<form action="<?=  helper('route.message', array('row' => $contact, 'category' => $category->getSlug())) ?>" method="post" name="emailForm" class="-koowa-form form-horizontal">
     <input type="hidden" name="_action" value="add" />
     <div class="control-group">
         <label class="control-label" for="name">
@@ -61,7 +61,7 @@
 
     <div class="control-group">
         <div class="controls">
-            <?=@helper('com:users.captcha.render', array('attribs' => array('class' => 'required')))?>
+            <?=helper('com:users.captcha.render', array('attribs' => array('class' => 'required')))?>
         </div>
     </div>
     

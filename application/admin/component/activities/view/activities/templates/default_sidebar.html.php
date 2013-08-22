@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <script inline>
 window.addEvent('domready', function(){
@@ -48,7 +48,7 @@ window.addEvent('domready', function(){
         </div>
         <div class="input-prepend">
             <span class="add-on">User</span>
-            <?= @helper('com:users.listbox.users',
+            <?= helper('com:users.listbox.users',
                 array(
                     'autocomplete' => true,
                     'name'		   => 'user',

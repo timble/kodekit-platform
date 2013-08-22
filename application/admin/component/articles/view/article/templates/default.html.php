@@ -8,8 +8,8 @@
  */
 ?>
 
-<?= @helper('behavior.keepalive') ?>
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.keepalive') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />
@@ -39,7 +39,7 @@
 
 <? if($article->isTranslatable()) : ?>
     <ktml:module position="actionbar" content="append">
-        <?= @helper('com:languages.listbox.languages') ?>
+        <?= helper('com:languages.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 

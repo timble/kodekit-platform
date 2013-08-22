@@ -27,7 +27,7 @@
 <fieldset class="categories group">
     <legend><?= @text('Category') ?></legend>
     <div>
-        <?= @helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
+        <?= helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
     </div>
 </fieldset>
 

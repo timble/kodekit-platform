@@ -40,7 +40,7 @@
             <?= $user->loggedin_application; ?>
         </td>
         <td>
-            <?= @helper('date.humanize', array('date' => '@'.$user->loggedin_on));?>
+            <?= helper('date.humanize', array('date' => '@'.$user->loggedin_on));?>
         </td>
     </tr>
         <?php endforeach; ?>

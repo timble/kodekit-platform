@@ -26,7 +26,7 @@
         <div>
             <label><?= @text('Register Date') ?></label>
             <div>
-                <?= @helper('date.format', array('date' => $user->created_on, 'format' => 'Y-m-d H:i:s')) ?>
+                <?= helper('date.format', array('date' => $user->created_on, 'format' => 'Y-m-d H:i:s')) ?>
             </div>
         </div>
         <div>
@@ -35,7 +35,7 @@
                 <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
                     <?= @text('Never') ?>
                 <? else : ?>
-                    <?= @helper('date.format', array('date' => $user->last_visited_on, 'format' => 'Y-m-d H:i:s')) ?>
+                    <?= helper('date.format', array('date' => $user->last_visited_on, 'format' => 'Y-m-d H:i:s')) ?>
                 <? endif ?>
             </div>
         </div>
@@ -44,6 +44,6 @@
 <fieldset>
     <legend><?= @text('Role') ?></legend>
     <div>
-        <div><?= @helper('select.groups', array('selected' => $user->role_id)); ?></div>
+        <div><?= helper('select.groups', array('selected' => $user->role_id)); ?></div>
     </div>
 </fieldset>

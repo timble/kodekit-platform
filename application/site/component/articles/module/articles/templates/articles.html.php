@@ -13,7 +13,7 @@
 <? endif ?>
 
 <?php foreach ($articles as $article): ?>
-<?php echo @helper('com:articles.article.render',
+<?php echo helper('com:articles.article.render',
     array(
         'row'              => $article,
         'show_create_date' => false,

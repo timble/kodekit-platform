@@ -20,7 +20,7 @@
 	<div>
 	    <label for="settings[system][offline]"><?= @text( 'Require login' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][offline]', 'selected' => $settings->offline));?>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][offline]', 'selected' => $settings->offline));?>
 	        <p class="help-block"><?= @text( 'TIPSETYOURSITEREQUIRESLOGIN' ); ?></p>
 	    </div>
 	</div>
@@ -31,14 +31,14 @@
 	<div>
 	    <label for="settings[system][list_limit]"><?= @text( 'List Length' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.list_limits', array('name' => 'settings[system][list_limit]', 'selected' => $settings->list_limit)); ?>
+	        <?= helper('listbox.list_limits', array('name' => 'settings[system][list_limit]', 'selected' => $settings->list_limit)); ?>
 	        <p class="help-block"><?= @text( 'TIPSETSDEFAULTLENGTHLISTS' ); ?></p>
 	    </div>
 	</div>
 	<div>
 	    <label for="settings[system][feed_limit]"><?= @text( 'Feed Length' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.list_limits', array('name' => 'settings[system][feed_limit]', 'selected' => $settings->feed_limit)); ?>
+	        <?= helper('listbox.list_limits', array('name' => 'settings[system][feed_limit]', 'selected' => $settings->feed_limit)); ?>
 	        <p class="help-block"><?= @text( 'TIPFEEDLIMIT' ); ?></p>
 	    </div>
 	</div>

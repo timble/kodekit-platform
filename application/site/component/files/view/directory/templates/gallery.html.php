@@ -62,7 +62,7 @@ jQuery(function($) {
     </ol>
 
     <? if(count($files) != $total): ?>
-	    <?= @helper('paginator.pagination', array(
+	    <?= helper('paginator.pagination', array(
 	    	'total' => $total,
 	    	'limit' => $state->limit,
 	    	'offset' => $state->offset,

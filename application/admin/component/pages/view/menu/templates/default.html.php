@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />
@@ -30,7 +30,7 @@
             <input type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
 
             <label for="description"><?= @text('Application') ?>:</label>
-            <?= @helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
+            <?= helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
             
             <label for="description"><?= @text('Description') ?>:</label>
             <textarea name="description" rows="3" placeholder="<?= @text('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>

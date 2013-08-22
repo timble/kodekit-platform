@@ -13,7 +13,7 @@
 <style src="media://css/koowa.css" />
 -->
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
-<?= @helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
+<?= helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
@@ -30,17 +30,17 @@
 			<tr>
                 <? if($state->position && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
 				<th width="1">
-				    <?= @helper('grid.checkall'); ?>
+				    <?= helper('grid.checkall'); ?>
 				</th>
                 <th width="1"></th>
                 <th>
-					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
+					<?= helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
+					<?= helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
+					<?= helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
 				</th>
 			</tr>
 		</thead>
@@ -48,7 +48,7 @@
 			<? if ($modules) : ?>
 			<tr>
 				<td colspan="20">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 			<? endif ?>
@@ -62,10 +62,10 @@
                 </td>
                 <? endif ?>
 				<td align="center">
-					<?= @helper('grid.checkbox',array('row' => $module)) ?>
+					<?= helper('grid.checkbox',array('row' => $module)) ?>
 				</td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
                 </td>
 				<td>
 					<a href="<?= @route('view=module&id='.$module->id) ?>">

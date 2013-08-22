@@ -22,13 +22,13 @@ use Nooku\Library;
         <title><?= @escape($category->title) ?></title>
         <description><![CDATA[<?= @escape($category->description) ?>]]></description>
         <link><?= @route() ?></link>
-        <lastBuildDate><?= @helper('date.format') ?></lastBuildDate>
+        <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
 
         <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
-        <dc:rights>Copyright <?= @helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= @helper('date.format') ?></dc:date>
+        <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
+        <dc:date><?= helper('date.format') ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
@@ -48,10 +48,10 @@ use Nooku\Library;
         <? foreach($contacts as $contact) : ?>
         <item>
             <title><?= @escape($contact->name) ?></title>
-            <link><?= @helper('route.contact', array('row' => $contact)) ?></link>
-            <guid isPermaLink="false"><?= @helper('route.contact', array('row' => $contact)) ?></guid>
+            <link><?= helper('route.contact', array('row' => $contact)) ?></link>
+            <guid isPermaLink="false"><?= helper('route.contact', array('row' => $contact)) ?></guid>
             <description><![CDATA[<?= @template('com:contacts.view.contact.hcard.html', array('contact' => $contact)); ?>]]></description>
-            <category domain="<?= @helper('route.category', array('row' => $category)) ?>">
+            <category domain="<?= helper('route.category', array('row' => $category)) ?>">
                 <![CDATA[<? $category->title; ?>]]>
             </category>
         </item>

@@ -18,13 +18,13 @@
         <thead>
             <tr>
                 <th width="10">
-                    <?= @helper('grid.checkall'); ?>
+                    <?= helper('grid.checkall'); ?>
                 </th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title')); ?>
                 </th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'count')); ?>
+                    <?= helper('grid.sort', array('column' => 'count')); ?>
                 </th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -41,7 +41,7 @@
             <? foreach ($tags as $tag) : ?>
             <tr>
                 <td align="center">
-                    <?= @helper('grid.checkbox', array('row' => $tag)); ?>
+                    <?= helper('grid.checkbox', array('row' => $tag)); ?>
                 </td>
                 <td>
                     <a href="<?= @route('view=tag&id='.$tag->id); ?>">

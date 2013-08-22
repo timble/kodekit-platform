@@ -22,13 +22,13 @@ use Nooku\Library;
         <title><?= @escape($category->title) ?></title>
         <description><![CDATA[<?= @escape($category->description) ?>]]></description>
         <link><?= @route() ?></link>
-        <lastBuildDate><?= @helper('date.format') ?></lastBuildDate>
+        <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
 
         <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
-        <dc:rights>Copyright <?= @helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= @helper('date.format') ?></dc:date>
+        <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
+        <dc:date><?= helper('date.format') ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
@@ -48,15 +48,15 @@ use Nooku\Library;
         <? foreach($articles as $article) : ?>
         <item>
             <title><?= @escape($article->title) ?></title>
-            <link><?= @helper('route.article', array('row' => $article)) ?> ?></link>
+            <link><?= helper('route.article', array('row' => $article)) ?> ?></link>
             <dc:creator><?= $article->created_by_name ?></dc:creator>
-            <guid isPermaLink="false"><?= @helper('route.article', array('row' => $article)) ?> ?></guid>
+            <guid isPermaLink="false"><?= helper('route.article', array('row' => $article)) ?> ?></guid>
             <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
-            <category domain="<?= @helper('route.category', array('row' => $category)) ?>">
+            <category domain="<?= helper('route.category', array('row' => $category)) ?>">
                 <![CDATA[<? $article->category_title ?>]]>
             </category>
-            <pubDate><?= @helper('date.format', array('date' => $article->published_on)) ?></pubDate>
-            <dc:date><?= @helper('date.format', array('date' => $article->published_on)) ?></dc:date>
+            <pubDate><?= helper('date.format', array('date' => $article->published_on)) ?></pubDate>
+            <dc:date><?= helper('date.format', array('date' => $article->published_on)) ?></dc:date>
         </item>
         <? endforeach; ?>
 

@@ -49,7 +49,7 @@
 				</a>
 			</td>
 			<td>
-				<?= @helper('com:files.filesize.humanize', array('size' => $file->size));?>
+				<?= helper('com:files.filesize.humanize', array('size' => $file->size));?>
 			</td>
 			<td>
 				<?= $file->extension; ?>
@@ -60,7 +60,7 @@
 </table>
 
 <? if(count($files) != $total): ?>
-    <?= @helper('paginator.pagination', array(
+    <?= helper('paginator.pagination', array(
         'limit' => $state->limit,
         'offset' => $state->offset,
     	'total' => $total, 

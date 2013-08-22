@@ -13,14 +13,14 @@
 	<div>
 	    <label for="settings[system][debug]"><?= @text( 'Application Profiling' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug]', 'selected' => $settings->debug));?>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][debug]', 'selected' => $settings->debug));?>
 	        <p class="help-block"><?= @text('TIPDEBUGGINGINFO'); ?></p>
 	    </div>
 	</div>
 	<div>
 	    <label for="settings[system][debug_lang]"><?= @text( 'Language Indicators' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
 	        <p class="help-block"><?= @text('TIPDEBUGLANGUAGE'); ?></p>
 	    </div>
 	</div>
@@ -31,7 +31,7 @@
 	<div>
 	    <label for="settings[system][debug_mode]"><?= @text( 'Debug mode' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.error_reportings', array('name' => 'settings[system][debug_mode]', 'selected' => $settings->debug_mode)); ?>
+	        <?= helper('listbox.error_reportings', array('name' => 'settings[system][debug_mode]', 'selected' => $settings->debug_mode)); ?>
 	        <p class="help-block"><?= @text( 'TIPERRORREPORTING' ); ?></p>
 	    </div>
 	</div>
@@ -42,7 +42,7 @@
 	<div>
 	    <label for="settings[system][caching]"><?= @text( 'Cache' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][caching]', 'selected' => $settings->caching));?>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][caching]', 'selected' => $settings->caching));?>
 	        <p class="help-block"><?= @text( 'TIPCACHE' ); ?></p>
 	    </div>
 	</div>
@@ -75,8 +75,8 @@
 	<div>
 	    <label for=""><?= @text( 'Time Zone' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false, 'attribs' => array('class' => 'select-timezone', 'style' => 'width: 200px'))) ?>
-	        <p class="help-block"><?= @text( 'TIPDATETIMEDISPLAY' ) .': '. @helper('date.format', array('format' => @text('DATE_FORMAT_LC2'))) ?></p>
+	        <?= helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false, 'attribs' => array('class' => 'select-timezone', 'style' => 'width: 200px'))) ?>
+	        <p class="help-block"><?= @text( 'TIPDATETIMEDISPLAY' ) .': '. helper('date.format', array('format' => @text('DATE_FORMAT_LC2'))) ?></p>
 	    </div>
 	</div>
 </fieldset>

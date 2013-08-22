@@ -8,8 +8,8 @@
  */
 ?>
 
-<?=@helper('behavior.mootools');?>
-<?=@helper('behavior.validator');?>
+<?=helper('behavior.mootools');?>
+<?=helper('behavior.validator');?>
 
 <script src="media://js/koowa.js"/>
 <script src="media://users/js/users.js" />
@@ -39,7 +39,7 @@
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
             <input class="inputbox <?=!$user->isNew()?:'required'?> passwordLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value="" size="40" />
-            <?=@helper('com:users.form.password');?>
+            <?=helper('com:users.form.password');?>
         </div>
     </div>
 
@@ -54,7 +54,7 @@
     <div class="control-group">
         <label class="control-label"><?=@text('Timezone');?></label>
         <div class="controls">
-            <?= @helper('com:extensions.listbox.timezones',
+            <?= helper('com:extensions.listbox.timezones',
             array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true));?>
         </div>
     </div>

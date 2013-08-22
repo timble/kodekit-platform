@@ -25,7 +25,7 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
      * @var array
      */
     protected $_alias_read = array(
-        '@helper('      => '$this->renderHelper(',
+        'helper('      => '$this->renderHelper(',
     	'@object('     => '$this->getObject(',
         '@date('        => '$this->renderHelper(\'date.format\',',
         '@overlay('     => '$this->renderHelper(\'behavior.overlay\', ',

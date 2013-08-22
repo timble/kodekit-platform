@@ -27,33 +27,33 @@
 		<thead>
 			<tr>
 				<th width="1">
-				    <?= @helper('grid.checkall'); ?>
+				    <?= helper('grid.checkall'); ?>
 				</th>
                 <th width="1"></th>
 				<th>
-					<?= @helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
+					<?= helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort',  array('title' => 'Logged In', 'column' => 'loggedin')) ?>
+					<?= helper('grid.sort',  array('title' => 'Logged In', 'column' => 'loggedin')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
+					<?= helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
 				</th>
 				<th width="1">
 					<?= @text('Group') ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort',  array('title' => 'E-Mail', 'column' => 'email')) ?>
+					<?= helper('grid.sort',  array('title' => 'E-Mail', 'column' => 'email')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort',  array('title' => 'Last Visit', 'column' => 'last_visited_on')) ?>
+					<?= helper('grid.sort',  array('title' => 'Last Visit', 'column' => 'last_visited_on')) ?>
 				</th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
 				<td colspan="8">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -62,10 +62,10 @@
 		<? foreach($users as $user) : ?>
 			<tr>
 				<td align="center">
-					<?= @helper('grid.checkbox' , array('row' => $user)) ?>
+					<?= helper('grid.checkbox' , array('row' => $user)) ?>
 				</td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
+                    <?= helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
                 </td>
 				<td>
 					<a href="<?= @route('view=user&id='.$user->id) ?>">
@@ -90,7 +90,7 @@
 					<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
 						<?= @text('Never') ?>
 					<? else : ?>
-						<?= @helper('date.humanize', array('date' => $user->last_visited_on)) ?>
+						<?= helper('date.humanize', array('date' => $user->last_visited_on)) ?>
 					<? endif ?>
 				</td>
 			</tr>

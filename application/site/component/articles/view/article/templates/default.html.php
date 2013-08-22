@@ -10,12 +10,12 @@
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
 	    <? if (@object('component')->getController()->canEdit()) : ?>
-	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+	    <a style="float: right;" class="btn" href="<?= helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
 	        <i class="icon-edit"></i>
 	    </a>
 	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
-	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	    <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
 	    <span class="label label-info"><?= @text('Unpublished') ?></span>
 	    <? endif ?>
@@ -24,7 +24,7 @@
 	    <? endif ?>
 	</header>
 
-    <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
+    <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
 
     <? if($article->fulltext) : ?>
     <div class="article__introtext">

@@ -21,7 +21,7 @@
 <? if ($category->image || $category->description) : ?>
 <div class="clearfix">
     <? if ($category->image) : ?>
-    <?= @helper('com:categories.string.image', array('row' => $category)) ?>
+    <?= helper('com:categories.string.image', array('row' => $category)) ?>
     <? endif; ?>
     <?= $category->description; ?>
 </div>
@@ -45,4 +45,4 @@
     </tbody>
 </table>
 
-<?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
+<?= helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>

@@ -40,18 +40,18 @@
     <? foreach ($articles as $article): ?>
     <tr>
         <td>
-            <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a>
+            <a href="<?= helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a>
         </td>
         <? if ($params->get('show_create_date')) : ?>
         <td nowrap="nowrap">
-            <?= @helper('date.format', array('date'   => $article->created)); ?>
+            <?= helper('date.format', array('date'   => $article->created)); ?>
         </td>
         <? endif; ?>
     </tr>
     <? endforeach; ?>
 </table>
 
-<?= @helper('paginator.pagination',array(
+<?= helper('paginator.pagination',array(
         'limit'      => $params->get('articles_per_page', 10),
         'total'      => $total,
         'show_limit' => false,

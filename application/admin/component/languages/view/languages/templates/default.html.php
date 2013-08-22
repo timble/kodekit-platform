@@ -25,32 +25,32 @@
 		<thead>
 			<tr>
 				<th width="1">
-				    <?= @helper('grid.checkall') ?>
+				    <?= helper('grid.checkall') ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', array('column' => 'name')) ?>
+					<?= helper('grid.sort', array('column' => 'name')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'native_name', 'title' => 'Native Name')) ?>
+					<?= helper('grid.sort', array('column' => 'native_name', 'title' => 'Native Name')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
+					<?= helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
 				</th>
                 <th width="1">
                     <?= @text('Primary') ?>
                 </th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'slug')) ?>
+					<?= helper('grid.sort', array('column' => 'slug')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'enabled', 'title' => 'Enabled')) ?>
+					<?= helper('grid.sort', array('column' => 'enabled', 'title' => 'Enabled')) ?>
 				</th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
 				<td colspan="7">
-					 <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					 <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -58,7 +58,7 @@
 			<? foreach($languages as $language) : ?>
 			<tr>
 				<td align="center">
-					<?= @helper('grid.checkbox', array('row' => $language)) ?>
+					<?= helper('grid.checkbox', array('row' => $language)) ?>
 				</td>
 				<td>
 					<a href="<?= @route('view=language&id='.$language->id) ?>"><?= $language->name ?></a>
@@ -81,7 +81,7 @@
 					<? if($language->primary) : ?>
                 	 	<?= @text('n/a') ?>
                     <? else: ?>
-                    	<?= @helper('grid.enable', array('row' => $language)) ?>    
+                    	<?= helper('grid.enable', array('row' => $language)) ?>
                     <? endif ?>
 				</td>
 			</tr>

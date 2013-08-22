@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />
@@ -29,7 +29,7 @@
     			<legend><?= @text('Users') ?></legend>
     			<div>
     			    <div>
-    			        <?= @helper('select.users', array('selected' => $users, 'name' => 'users')) ?>
+    			        <?= helper('select.users', array('selected' => $users, 'name' => 'users')) ?>
     			    </div>
     			</div>
     		</fieldset>

@@ -8,8 +8,8 @@
  */
 ?>
 
-<?= @helper('behavior.mootools'); ?>
-<?= @helper('behavior.keepalive'); ?>
+<?= helper('behavior.mootools'); ?>
+<?= helper('behavior.keepalive'); ?>
 
 <!--
 <script src="media://js/koowa.js"/>
@@ -56,7 +56,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
             <div class="controls">
-                <?= @helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
+                <?= helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
             </div>
         </div>
     </fieldset>

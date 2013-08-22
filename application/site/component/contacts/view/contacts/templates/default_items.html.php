@@ -11,7 +11,7 @@
 <? foreach($contacts as $contact) : ?>
 <tr>
     <td>
-		<a href="<?= @helper('route.contact', array('row' => $contact)) ?>">
+		<a href="<?= helper('route.contact', array('row' => $contact)) ?>">
 		    <?= $contact->name; ?>
 		</a>
 	</td>

@@ -29,7 +29,7 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($menus); ?>);" />
                 </th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
                 </th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -46,7 +46,7 @@
         <? foreach($menus as $menu) : ?>
             <tr>
                 <td align="center">
-                    <?= @helper('grid.checkbox',array('row' => $menu)); ?>
+                    <?= helper('grid.checkbox',array('row' => $menu)); ?>
                 </td>
                 <td>
                     <? if(!$state->trash) : ?>

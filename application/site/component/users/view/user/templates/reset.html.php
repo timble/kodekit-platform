@@ -8,8 +8,8 @@
  */
 ?>
 
-<?=@helper('behavior.mootools')?>
-<?=@helper('behavior.validator')?>
+<?=helper('behavior.mootools')?>
+<?=helper('behavior.validator')?>
 
 <div class="page-header">
     <h1><?=@text('Password reset request');?></h1>

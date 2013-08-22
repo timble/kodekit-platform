@@ -36,6 +36,6 @@
     	</a>
     </div>
     <div class="scopebar__search">
-        <?= @helper('grid.search') ?>
+        <?= helper('grid.search') ?>
     </div>
 </div>

@@ -21,7 +21,7 @@
 		<thead>
 			<tr>
 			    <th width="1">
-				    <?= @helper('grid.checkall') ?>
+				    <?= helper('grid.checkall') ?>
 				</th>
 				<th>
 					<?= @text('Name') ?>
@@ -34,7 +34,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					 <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					 <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -42,13 +42,13 @@
 			<? foreach($extensions as $extension) : ?>
 			<tr>
 			    <td align="center">
-					<?= @helper('grid.checkbox', array('row' => $extension)) ?>
+					<?= helper('grid.checkbox', array('row' => $extension)) ?>
 				</td>
 				<td>
 					<?= @escape($extension->title) ?>
 				</td>
 				<td align="center">
-					<?= @helper('grid.enable', array('row' => $extension)) ?>
+					<?= helper('grid.enable', array('row' => $extension)) ?>
 				</td>
 			</tr>
 			<? endforeach ?>

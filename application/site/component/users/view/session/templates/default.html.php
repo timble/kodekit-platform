@@ -8,11 +8,11 @@
  */
 ?>
 
-<?=@helper('behavior.mootools')?>
-<?=@helper('behavior.keepalive')?>
-<?=@helper('behavior.validator')?>
+<?=helper('behavior.mootools')?>
+<?=helper('behavior.keepalive')?>
+<?=helper('behavior.validator')?>
 
-<form action="<?= @helper('route.session'); ?>" method="post" class="-koowa-form">
+<form action="<?= helper('route.session'); ?>" method="post" class="-koowa-form">
     <div class="form-content">
         <div class="page-header">
             <h1><?= @escape($parameters->get('page_title')) ?></h1>
@@ -26,14 +26,14 @@
             <input id="email" class="required validate-email input-block-level" name="email" type="email" alt="email" placeholder="Email address" />
             <input id="password" class="required input-block-level" type="password" name="password" alt="password" placeholder="Password"/>
         </fieldset>
-        <small><a href="<?= @helper('route.user', array('layout' => 'reset')); ?>"><?= @text('FORGOT_YOUR_PASSWORD'); ?></a></small>
+        <small><a href="<?= helper('route.user', array('layout' => 'reset')); ?>"><?= @text('FORGOT_YOUR_PASSWORD'); ?></a></small>
     </div>
 
     <div class="form-actions">
         <button type="submit" class="validate btn btn-primary"><?= @text('Sign in') ?></button>
         <? if($parameters->get('registration')) : ?>
         	<?= @text('or') ?>
-        	<a href="<?= @helper('route.user', array('layout' => 'form')); ?>"><?= @text('Sign up'); ?></a>
+        	<a href="<?= helper('route.user', array('layout' => 'form')); ?>"><?= @text('Sign up'); ?></a>
         <?php endif; ?>
     </div>
 </form>

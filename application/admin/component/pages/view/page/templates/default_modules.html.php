@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
-<?= @helper('behavior.modal') ?>
+<?= helper('behavior.modal') ?>
 
 <div>
     <label for="modules"><?= @text('Module assignment') ?></label>

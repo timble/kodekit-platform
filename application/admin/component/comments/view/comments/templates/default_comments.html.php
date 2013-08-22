@@ -11,7 +11,7 @@
 <? foreach ($comments as $comment) : ?>
 <tr>
 	<td align="center">
-		<?= @helper('grid.checkbox', array('row' => $comment)); ?>
+		<?= helper('grid.checkbox', array('row' => $comment)); ?>
 	</td>
 	<td>
 		<a href="<?= @route('view=comment&table='.$comment->table."&row=".$comment->row); ?>">

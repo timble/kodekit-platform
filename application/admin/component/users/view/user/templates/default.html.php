@@ -12,7 +12,7 @@
 <script src="media://users/js/users.js" />
 <style src="media://css/koowa.css" />
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <script type="text/javascript">
     window.addEvent('domready', function() {
@@ -45,7 +45,7 @@
 				<div>
 				    <label for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div>
-				        <?= @helper('com:extensions.listbox.timezones',
+				        <?= helper('com:extensions.listbox.timezones',
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'select-timezone', 'style' => 'width:220px'))) ?>
 				    </div>
 				</div>
@@ -56,7 +56,7 @@
 				    <label for="password"><?= @text('Password') ?></label>
 				    <div>
 				        <input class="passwordLength:<?=$params->get('password_length', 6);?>" id="password" type="password" name="password" maxlength="100" />
-				        <?=@helper('com:users.form.password');?>
+				        <?=helper('com:users.form.password');?>
 				    </div>
 				</div>
 				<div>

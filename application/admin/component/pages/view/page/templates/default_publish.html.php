@@ -29,18 +29,18 @@
 <div>
     <label for="access"><?= @text('Group') ?></label>
     <div>
-        <?= @helper('com:users.listbox.groups', array('selected' => $page->users_group_id, 'name' => 'users_group_id')) ?>
+        <?= helper('com:users.listbox.groups', array('selected' => $page->users_group_id, 'name' => 'users_group_id')) ?>
     </div>
 </div>
 <div>
     <label for="parent"><?= @text('Menu') ?></label>
     <div id="parent" class="controls">
-        <?= @helper('listbox.menus', array('selected' => $state->menu)) ?>
+        <?= helper('listbox.menus', array('selected' => $state->menu)) ?>
     </div>
 </div>
 <div>
     <label for="parent"><?= @text('Parent') ?></label>
     <div id="pages-parent" class="controls">
-        <?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $parent_id, 'attribs')) ?>
+        <?= helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $parent_id, 'attribs')) ?>
     </div>
 </div>

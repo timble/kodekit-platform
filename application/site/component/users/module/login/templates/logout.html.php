@@ -8,7 +8,7 @@
  */
 ?>
 
-<form action="<?= @helper('route.session'); ?>" method="post" name="login" id="form-login">
+<form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login">
 	<input type="hidden" name="_action" value="delete" />
     
     <?= JText::sprintf( 'HINAME', @object('user')->getName()); ?>

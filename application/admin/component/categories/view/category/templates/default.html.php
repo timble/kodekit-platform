@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />

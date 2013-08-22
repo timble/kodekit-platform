@@ -22,7 +22,7 @@
 		<thead>
 			<tr>
 				<th width="10">
-                    <?= @helper('grid.checkall') ?>
+                    <?= helper('grid.checkall') ?>
                 </th>
 				<th width="55"><?=@text('Time')?></th>
 				<th><?=@text('Message')?></th>
@@ -31,7 +31,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="3">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -49,7 +49,7 @@
 	        <? endif; ?>
 			<tr>
 				<td>
-			        <?= @helper('grid.checkbox',array('row' => $activity)); ?>
+			        <?= helper('grid.checkbox',array('row' => $activity)); ?>
 				</td>
 
 				<td align="left">
@@ -57,7 +57,7 @@
 				</td>
 
 				<td>
-					<i class="icon-<?= $activity->action ?>"></i> <?= @helper('activity.message', array('row' => $activity))?>
+					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.message', array('row' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>

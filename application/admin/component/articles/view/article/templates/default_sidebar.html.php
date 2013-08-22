@@ -24,13 +24,13 @@
     <div>
         <label for="publish_on"><?= @text('Publish on') ?></label>
         <div>
-            <?= @helper('date.datetime', array('row' => $article, 'name' => 'publish_on')) ?>
+            <?= helper('date.datetime', array('row' => $article, 'name' => 'publish_on')) ?>
         </div>
     </div>
     <div>
         <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
         <div>
-            <?= @helper('date.datetime', array('row' => $article, 'name' => 'unpublish_on')) ?>
+            <?= helper('date.datetime', array('row' => $article, 'name' => 'unpublish_on')) ?>
         </div>
     </div>
 </fieldset>
@@ -43,13 +43,13 @@
             <fieldset class="categories group">
                 <legend><?= @text('Category') ?></legend>
                 <div>
-                    <?= @helper('com:categories.radiolist.categories', array('row' => $article, 'uncategorised' => true)) ?>
+                    <?= helper('com:categories.radiolist.categories', array('row' => $article, 'uncategorised' => true)) ?>
                 </div>
             </fieldset>
             <? if($article->isTaggable()) : ?>
                 <fieldset>
                     <legend><?= @text('Tags') ?></legend>
-                    <?= @helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags()->tags_tag_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
+                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags()->tags_tag_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
                 </fieldset>
             <? endif ?>
         </div>
@@ -77,7 +77,7 @@
         <? foreach($article->getLanguages() as $language) : ?>
             <?= $language->name.':' ?>
             <? $translation = $translations->find(array('iso_code' => $language->iso_code)) ?>
-            <?= @helper('com:languages.grid.status',
+            <?= helper('com:languages.grid.status',
                 array('status' => $translation->status, 'original' => $translation->original, 'deleted' => $translation->deleted)) ?>
         <? endforeach ?>
     </fieldset>
