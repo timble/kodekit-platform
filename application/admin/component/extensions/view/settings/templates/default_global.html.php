@@ -9,74 +9,74 @@
 ?>
 
 <fieldset>
-	<legend><?= @text( 'Diagnostics' ); ?></legend>
+	<legend><?= translate( 'Diagnostics' ); ?></legend>
 	<div>
-	    <label for="settings[system][debug]"><?= @text( 'Application Profiling' ); ?></label>
+	    <label for="settings[system][debug]"><?= translate( 'Application Profiling' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug]', 'selected' => $settings->debug));?>
-	        <p class="help-block"><?= @text('TIPDEBUGGINGINFO'); ?></p>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][debug]', 'selected' => $settings->debug));?>
+	        <p class="help-block"><?= translate('TIPDEBUGGINGINFO'); ?></p>
 	    </div>
 	</div>
 	<div>
-	    <label for="settings[system][debug_lang]"><?= @text( 'Language Indicators' ); ?></label>
+	    <label for="settings[system][debug_lang]"><?= translate( 'Language Indicators' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
-	        <p class="help-block"><?= @text('TIPDEBUGLANGUAGE'); ?></p>
-	    </div>
-	</div>
-</fieldset>
-
-<fieldset>
-	<legend><?= @text( 'Errors' ); ?></legend>
-	<div>
-	    <label for="settings[system][debug_mode]"><?= @text( 'Debug mode' ); ?></label>
-	    <div>
-	        <?= @helper('listbox.error_reportings', array('name' => 'settings[system][debug_mode]', 'selected' => $settings->debug_mode)); ?>
-	        <p class="help-block"><?= @text( 'TIPERRORREPORTING' ); ?></p>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
+	        <p class="help-block"><?= translate('TIPDEBUGLANGUAGE'); ?></p>
 	    </div>
 	</div>
 </fieldset>
 
 <fieldset>
-	<legend><?= @text( 'Cache' ); ?></legend>
+	<legend><?= translate( 'Errors' ); ?></legend>
 	<div>
-	    <label for="settings[system][caching]"><?= @text( 'Cache' ); ?></label>
+	    <label for="settings[system][debug_mode]"><?= translate( 'Debug mode' ); ?></label>
 	    <div>
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][caching]', 'selected' => $settings->caching));?>
-	        <p class="help-block"><?= @text( 'TIPCACHE' ); ?></p>
+	        <?= helper('listbox.error_reportings', array('name' => 'settings[system][debug_mode]', 'selected' => $settings->debug_mode)); ?>
+	        <p class="help-block"><?= translate( 'TIPERRORREPORTING' ); ?></p>
+	    </div>
+	</div>
+</fieldset>
+
+<fieldset>
+	<legend><?= translate( 'Cache' ); ?></legend>
+	<div>
+	    <label for="settings[system][caching]"><?= translate( 'Cache' ); ?></label>
+	    <div>
+	        <?= helper('select.booleanlist' , array('name' => 'settings[system][caching]', 'selected' => $settings->caching));?>
+	        <p class="help-block"><?= translate( 'TIPCACHE' ); ?></p>
 	    </div>
 	</div>
 	<div>
-	    <label for="settings[system][cachetime]"><?= @text( 'Cache Time' ); ?></label>
+	    <label for="settings[system][cachetime]"><?= translate( 'Cache Time' ); ?></label>
 	    <div>
 	        <div class="input-append">
-	            <input style="width: 40px;" type="text" name="settings[system][cachetime]" value="<?= $settings->cachetime; ?>" /><span class="add-on"><?= @text( 'Minutes' ); ?></span>
+	            <input style="width: 40px;" type="text" name="settings[system][cachetime]" value="<?= $settings->cachetime; ?>" /><span class="add-on"><?= translate( 'Minutes' ); ?></span>
 	        </div>
-	        <p class="help-block"><?= @text( 'TIPCACHETIME' ); ?></p>
+	        <p class="help-block"><?= translate( 'TIPCACHETIME' ); ?></p>
 	    </div>
 	</div>
 </fieldset>
 
 <fieldset>
-	<legend><?= @text( 'Session' ); ?></legend>
+	<legend><?= translate( 'Session' ); ?></legend>
 	<div>
-	    <label for=""><?= @text( 'Session Lifetime' ); ?></label>
+	    <label for=""><?= translate( 'Session Lifetime' ); ?></label>
 	    <div>
 	        <div class="input-append">
-	            <input style="width: 40px;" type="text" name="settings[system][lifetime]" value="<?= $settings->lifetime; ?>" /><span class="add-on"><?= @text( 'Minutes' ); ?></span>
+	            <input style="width: 40px;" type="text" name="settings[system][lifetime]" value="<?= $settings->lifetime; ?>" /><span class="add-on"><?= translate( 'Minutes' ); ?></span>
 	        </div>
-	        <p class="help-block"><?= @text( 'TIPAUTOLOGOUTTIMEOF' ); ?></p>
+	        <p class="help-block"><?= translate( 'TIPAUTOLOGOUTTIMEOF' ); ?></p>
 	    </div>
 	</div>
 </fieldset>
 
 <fieldset>
-	<legend><?= @text( 'Locale' ); ?></legend>
+	<legend><?= translate( 'Locale' ); ?></legend>
 	<div>
-	    <label for=""><?= @text( 'Time Zone' ); ?></label>
+	    <label for=""><?= translate( 'Time Zone' ); ?></label>
 	    <div>
-	        <?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false, 'attribs' => array('class' => 'select-timezone', 'style' => 'width: 200px'))) ?>
-	        <p class="help-block"><?= @text( 'TIPDATETIMEDISPLAY' ) .': '. @helper('date.format', array('format' => @text('DATE_FORMAT_LC2'))) ?></p>
+	        <?= helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false, 'attribs' => array('class' => 'select-timezone', 'style' => 'width: 200px'))) ?>
+	        <p class="help-block"><?= translate( 'TIPDATETIMEDISPLAY' ) .': '. helper('date.format', array('format' => translate('DATE_FORMAT_LC2'))) ?></p>
 	    </div>
 	</div>
 </fieldset>

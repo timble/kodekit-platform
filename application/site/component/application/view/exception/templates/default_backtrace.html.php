@@ -10,13 +10,13 @@
 
 <table>
     <tr>
-        <td colspan="4" align="left" class="TD"><strong><?= @text('Call stack') ?></strong></td>
+        <td colspan="4" align="left" class="TD"><strong><?= translate('Call stack') ?></strong></td>
     </tr>
     <tr>
         <td><strong>#</strong></td>
-        <td><strong><?= @text('Function') ?></strong></td>
-        <td><strong><?= @text('File') ?></strong></td>
-        <td><strong><?= @text('Line') ?></strong></td>
+        <td><strong><?= translate('Function') ?></strong></td>
+        <td><strong><?= translate('File') ?></strong></td>
+        <td><strong><?= translate('Line') ?></strong></td>
     </tr>
     <? $j = 1; ?>
     <? for( $i = count( $trace ) - 1; $i >= 0 ; $i-- ) : ?>

@@ -190,7 +190,7 @@ class ControllerBehaviorCacheable extends ControllerBehaviorAbstract
 	 */
 	protected function _getGroup()
 	{ 
-	    $group = $this->_mixer->getIdentifier();
+	    $group = $this->getMixer()->getIdentifier();
 	    return $group;
 	}
 }

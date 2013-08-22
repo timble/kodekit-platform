@@ -12,10 +12,14 @@ namespace Nooku\Library;
 /**
  * Abstract Filter
  *
+ * If the filter implements FilterTraversable it will be decorated with FilterIterator to allow iterating over the data
+ * being filtered in case of an array of a Traversable object. If a filter does not implement FilterTraversable the data
+ * will be passed directly to the filter.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectSingleton
+abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectMultiton
 {
     /**
      * Priority levels
@@ -39,6 +43,7 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return FilterInterface
+     * @see KFilterTraversable
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {

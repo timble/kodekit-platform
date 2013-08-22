@@ -17,9 +17,21 @@ use Nooku\Library;
  */
 class ApplicationControllerToolbarMenubar extends Library\ControllerToolbarAbstract
 {
-    public function onBeforeControllerRender(Library\Event $event)
-    {   
-        $event->getTarget()->getView()->menubar = $this;
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config Configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'type'  => 'menubar',
+        ));
+
+        parent::_initialize($config);
     }
 }
 

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbarInterface
+class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbarCommandInterface
 {
  	/**
      * The command name
@@ -93,14 +93,14 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      */
     public function addCommand($command, $config = array())
     {
-        if (!($command instanceof  ControllerToolbarCommand)) {
+        if (!($command instanceof ControllerToolbarCommand)) {
             $command = $this->getCommand($command, $config);
         }
 
         //Set the command parent
         $command->setParent($this);
 
-        $this->_commands[] = $command;
+        $this->_commands[$command->getName()] = $command;
         return $command;
     }
 
@@ -114,6 +114,17 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     public function getCommand($name, $config = array())
     {
         return $this->getToolbar()->getCommand($name, $config);
+    }
+
+    /**
+     * Check if a command exists
+     *
+     * @param string $name  The command name
+     * @return boolean True if the command exists, false otherwise.
+     */
+    public function hasCommand($name)
+    {
+        return isset($this->_commands[$name]);
     }
 
     /**
@@ -177,10 +188,10 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     /**
      * Set the parent command
      *
-     * @param object $node The parent command
+     * @param ControllerToolbarCommand $command The parent command
      * @return ControllerToolbarCommand
      */
-    public function setParent(ControllerToolbarCommand $command )
+    public function setParent(ControllerToolbarCommandInterface $command )
     {
         $this->_parent = $command;
         return $this;
@@ -199,7 +210,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     /**
      * Set the parent node
      *
-     * @param object $node The toolbar this command belongs too
+     * @param ControllerToolbarInterface $toolbar The toolbar this command belongs too
      * @return ControllerToolbarCommand
      */
     public function setToolbar(ControllerToolbarInterface $toolbar )

@@ -32,6 +32,13 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     protected $_commands;
 
     /**
+     * The toolbar type
+     *
+     * @var array
+     */
+    protected $_type;
+
+    /**
      * Constructor.
      *
      * @param  ObjectConfig  $config An associative array of configuration settings or a ObjectConfig instance.
@@ -40,25 +47,14 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     {
         parent::__construct($config);
 
-        if (is_null($config->controller))
-        {
-            throw new \InvalidArgumentException(
-                'controller [ControllerInterface] config option is required'
-            );
-        }
-
-        if(!$config->controller instanceof ControllerInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Controller: '.get_class($config->controller).' does not implement ControllerInterface'
-            );
-        }
-
         //Create the commands array
         $this->_commands = array();
 
+        //Set the toolbar type
+        $this->_type = $config->type;
+
         // Set the controller
-        $this->_controller = $config->controller;
+        $this->setController($config->controller);
     }
 
     /**
@@ -72,6 +68,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'type'       => 'toolbar',
             'controller' => null,
         ));
 
@@ -79,13 +76,13 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     }
 
     /**
-     * Get the controller object
+     * Get the toolbar type
      *
-     * @return  ControllerInterface
+     * @return  string
      */
-    public function getController()
+    public function getType()
     {
-        return $this->_controller;
+        return $this->_type;
     }
 
     /**
@@ -96,6 +93,27 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     public function getName()
     {
         return $this->getIdentifier()->name;
+    }
+
+    /**
+     * Get the controller
+     *
+     * @return  ControllerInterface
+     */
+    public function getController()
+    {
+        return $this->_controller;
+    }
+
+    /**
+     * Set the controller
+     *
+     * @return  ControllerToolbarAbstract
+     */
+    public function setController(ControllerInterface $controller)
+    {
+        $this->_controller = $controller;
+        return $this;
     }
 
     /**
@@ -126,7 +144,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
         //Set the command parent
         $command->setParent($command);
 
-        $this->_commands[] = $command;
+        $this->_commands[$command->getName()] = $command;
         return $command;
     }
 
@@ -139,32 +157,47 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
      */
     public function getCommand($name, $config = array())
     {
-        //Create the config object
-        $command = new ControllerToolbarCommand($name, $config);
-
-        //Attach the command to the toolbar
-        $command->setToolbar($this);
-
-        //Find the command function to call
-        if (method_exists($this, '_command' . ucfirst($name)))
+        if(!isset($this->_commands[$name]))
         {
-            $function = '_command' . ucfirst($name);
-            $this->$function($command);
-        }
-        else
-        {
-            //Don't set an action for GET commands
-            if (!isset($command->href))
+            //Create the config object
+            $command = new ControllerToolbarCommand($name, $config);
+
+            //Attach the command to the toolbar
+            $command->setToolbar($this);
+
+            //Find the command function to call
+            if (method_exists($this, '_command' . ucfirst($name)))
             {
-                $command->append(array(
-                    'attribs' => array(
-                        'data-action' => $command->getName()
-                    )
-                ));
+                $function = '_command' . ucfirst($name);
+                $this->$function($command);
+            }
+            else
+            {
+                //Don't set an action for GET commands
+                if (!isset($command->href))
+                {
+                    $command->append(array(
+                        'attribs' => array(
+                            'data-action' => $command->getName()
+                        )
+                    ));
+                }
             }
         }
+        else $command = $this->_commands[$name];
 
         return $command;
+    }
+
+    /**
+     * Check if a command exists
+     *
+     * @param string $name  The command name
+     * @return boolean True if the command exists, false otherwise.
+     */
+    public function hasCommand($name)
+    {
+        return isset($this->_commands[$name]);
     }
 
     /**
@@ -197,6 +230,18 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
         unset($this->_commands);
         $this->_commands = array();
         return $this;
+    }
+
+    /**
+     * Returns the number of toolbar commands.
+     *
+     * Required by the Countable interface
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->_commands);
     }
 
     /**

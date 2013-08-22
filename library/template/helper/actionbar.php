@@ -10,15 +10,15 @@
 namespace Nooku\Library;
 
 /**
- * Toolbar Template Helper
+ * Actionbar Template Helper
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateHelperToolbar extends TemplateHelperAbstract
+class TemplateHelperActionbar extends TemplateHelperAbstract
 {
     /**
-     * Render the toolbar
+     * Render the action bar
      *
      * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
@@ -35,7 +35,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
         if(isset($config->toolbar))
         {
             //Force the id
-            $config->attribs['id'] = 'toolbar-'.$config->toolbar->getName();
+            $config->attribs['id'] = 'toolbar-'.$config->toolbar->getType();
 
             $html  = '<div '.$this->buildAttributes($config->attribs).'>';
             $html .= '<div class="btn-group">';
@@ -57,7 +57,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
     }
 
     /**
-     * Render a toolbar command
+     * Render a action bar command
      *
      * @param 	array 	$config An optional array with configuration options
      * @return  string  Html

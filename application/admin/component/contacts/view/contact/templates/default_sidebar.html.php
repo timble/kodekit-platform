@@ -9,15 +9,15 @@
 ?>
 
 <fieldset>
-    <legend><?= @text('Publish'); ?></legend>
+    <legend><?= translate('Publish'); ?></legend>
     <div>
-        <label for="published"><?= @text( 'Published' ); ?></label>
+        <label for="published"><?= translate( 'Published' ); ?></label>
         <div>
             <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div>
-        <label for="access"><?= @text('Registered') ?></label>
+        <label for="access"><?= translate('Registered') ?></label>
         <div>
             <input type="checkbox" name="access" value="1" <?= $contact->access ? 'checked="checked"' : '' ?> />
         </div>
@@ -25,25 +25,25 @@
 </fieldset>
 
 <fieldset class="categories group">
-    <legend><?= @text('Category') ?></legend>
+    <legend><?= translate('Category') ?></legend>
     <div>
-        <?= @helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
+        <?= helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
     </div>
 </fieldset>
 
 <? if($contact->isAttachable()) : ?>
     <fieldset>
-        <legend><?= @text('Attachments'); ?></legend>
+        <legend><?= translate('Attachments'); ?></legend>
         <? if (!$contact->isNew()) : ?>
-            <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
+            <?= include('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
         <? endif ?>
         <? if(!count($contact->getAttachments())) : ?>
-        <?= @template('com:attachments.view.attachments.upload.html') ?>
+        <?= include('com:attachments.view.attachments.upload.html') ?>
         <? endif ?>
     </fieldset>
 <? endif ?>
 
 <fieldset>
-    <legend><?= @text('Parameters'); ?></legend>
+    <legend><?= translate('Parameters'); ?></legend>
     <?= $contact->params->render(); ?>
 </fieldset>

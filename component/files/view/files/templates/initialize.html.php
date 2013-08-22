@@ -8,10 +8,10 @@
  */
 ?>
 
-<?= @helper('behavior.mootools'); ?>
-<?= @helper('behavior.keepalive'); ?>
+<?= helper('behavior.mootools'); ?>
+<?= helper('behavior.keepalive'); ?>
 
-<?= @helper('behavior.modal'); ?>
+<?= helper('behavior.modal'); ?>
 
 <script src="media://files/js/delegation.js" />
 <script src="media://files/js/uri.js" />

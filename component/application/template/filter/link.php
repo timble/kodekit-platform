@@ -22,6 +22,6 @@ class TemplateFilterLink extends Library\TemplateFilterLink
     public function render(&$text)
     {
         $links = $this->_parseTags($text);
-        $text = str_replace('<ktml:link />'.PHP_EOL, $links, $text);
+        $text = str_replace('<ktml:link>'.PHP_EOL, $links, $text);
     }
 }

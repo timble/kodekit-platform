@@ -21,6 +21,15 @@ namespace Nooku\Library;
 class Command extends Object implements CommandInterface
 {
     /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
      * The command priority
      *
      * @var integer
@@ -52,7 +61,7 @@ class Command extends Object implements CommandInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => CommandChain::PRIORITY_NORMAL,
+            'priority' => Command::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);

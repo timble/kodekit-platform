@@ -70,7 +70,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
      *
      * @param   mixed $toolbar An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
-     * @param  array  $config   An optional associative array of configuration settings
+     * @param  array   $config   An optional associative array of configuration settings
      * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
      *                 default is 3. If no priority is set, the command priority will be used
      *                 instead.
@@ -83,7 +83,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
         }
 
         //Store the toolbar to allow for name lookups
-        $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
+        $this->_toolbars[$toolbar->getType()] = $toolbar;
 
         if ($this->inherits('Nooku\Library\EventMixin')) {
             $this->addEventSubscriber($toolbar, $priority);
@@ -95,26 +95,26 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
     /**
      * Check if a toolbar exists
      *
-     * @param   string   $toolbar The name of the toolbar
+     * @param   string   $type The type of the toolbar
      * @return  boolean  TRUE if the toolbar exists, FALSE otherwise
      */
-    public function hasToolbar($name)
+    public function hasToolbar($type)
     {
-        return isset($this->_toolbars[$name]);
+        return isset($this->_toolbars[$type]);
     }
 
     /**
-     * Get a toolbar by name
+     * Get a toolbar by type
      *
-     * @param  string  $name   The toolbar name
+     * @param  string  $type   The toolbar type
      * @return ControllerToolbarInterface
      */
-    public function getToolbar($name)
+    public function getToolbar($type)
     {
         $result = null;
 
-        if(isset($this->_toolbars[$name])) {
-            $result = $this->_toolbars[$name];
+        if(isset($this->_toolbars[$type])) {
+            $result = $this->_toolbars[$type];
         }
 
         return $result;

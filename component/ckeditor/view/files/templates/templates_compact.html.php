@@ -26,11 +26,11 @@
 <table class="table table-condensed parameters">
 	<tbody>
 		<tr>
-			<td class="detail-label"><?= @text('Name'); ?></td>
+			<td class="detail-label"><?= translate('Name'); ?></td>
 			<td>[%=name%]</td>
 		</tr>
 		<tr>
-			<td class="detail-label"><?= @text('Size'); ?></td>
+			<td class="detail-label"><?= translate('Size'); ?></td>
 			<td>[%=size.humanize()%]</td>
 		</tr>
 	</tbody>

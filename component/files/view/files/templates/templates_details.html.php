@@ -37,9 +37,9 @@ window.addEvent('domready', function() {
                     <input type="checkbox" class="-check-all" />
 				</th>
 				<th width="32"></th>
-				<th><?= @text('Name'); ?></th>
-				<th><?= @text('Size'); ?></th>
-				<th><?= @text('Last Modified'); ?></th>
+				<th><?= translate('Name'); ?></th>
+				<th><?= translate('Size'); ?></th>
+				<th><?= translate('Last Modified'); ?></th>
 			</tr>
 		</thead>
 		<tbody>

@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-final class ControllerToolbarDefault extends ControllerToolbarModel { }
+final class ControllerToolbarDefault extends ControllerToolbarActionbar { }

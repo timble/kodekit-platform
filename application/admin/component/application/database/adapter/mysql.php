@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectSingleton
+class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectMultiton
 {
     /**
 	 * The cache object

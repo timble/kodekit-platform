@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Alias Template Filter
  *
- * Read filter for aliases such as @template, @text, @helper, @route etc
+ * Read filter for aliases such as template(), text(), helper(), route() etc
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Template
@@ -25,15 +25,15 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
      * @var array
      */
     protected $_alias_read = array(
-        '@helper('      => '$this->renderHelper(',
-    	'@object('     => '$this->getObject(',
-        '@date('        => '$this->renderHelper(\'date.format\',',
-        '@overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
-        '@text('        => '\JText::_(',
-        '@template('    => '$this->loadFile(',
-        '@route('       => '$this->getView()->getRoute(',
-        '@escape('      => '$this->getView()->escape(',
-        '@url('         => '$this->getView()->getBaseUrl()->toString('
+        'helper('    => '$this->renderHelper(',
+    	'object('    => '$this->getObject(',
+        'date('      => '$this->renderHelper(\'date.format\',',
+        'overlay('   => '$this->renderHelper(\'behavior.overlay\', ',
+        'translate(' => '\JText::_(',
+        'include('   => '$this->loadFile(',
+        'route('     => '$this->getView()->getRoute(',
+        'escape('    => '$this->getView()->escape(',
+        'url('       => '$this->getView()->getBaseUrl()->toString('
     );
 
     /**

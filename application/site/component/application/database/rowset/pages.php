@@ -16,7 +16,7 @@ use Nooku\Component\Pages;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ObjectSingleton
+class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ObjectMultiton
 {
     protected $_active;
     protected $_home;

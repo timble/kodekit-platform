@@ -8,22 +8,22 @@
  */
 ?>
 
-<h1><?=@text('Search results')?></h1>
+<h1><?=translate('Search results')?></h1>
 
 <div class="well">
-    <form action="<?=@route('option=com_articles&view=articles')?>" method="get" class="form-search" style="margin-bottom: 0;">
+    <form action="<?=route('option=com_articles&view=articles')?>" method="get" class="form-search" style="margin-bottom: 0;">
         <div class="input-append">
         <input id="searchword" name="searchword" class="input-xxlarge search-query" type="text"
-               value="<?=@escape($state->searchword)?>" placeholder="<?=@text('Search articles')?>"/>
+               value="<?=escape($state->searchword)?>" placeholder="<?=translate('Search articles')?>"/>
         <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i></button>
         </div>
     </form>
 </div>
 
 <? foreach ($articles as $article): ?>
-    <?= @template('default_item.html', array('article' => $article)) ?>
+    <?= include('default_item.html', array('article' => $article)) ?>
 <? endforeach ?>
 
 <? if (count($articles) != $total) : ?>
-    <?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)) ?>
+    <?= helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)) ?>
 <? endif ?>

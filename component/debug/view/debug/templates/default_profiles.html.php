@@ -11,10 +11,10 @@
 <table class="adminlist">
 	<thead>
     	<tr>
-    		<th class="-koowa-sortable"><?= @text('Identifier') ?></th>
-    		<th class="-koowa-sortable"><?= @text('Event'); ?></th>
-    		<th class="-koowa-sortable"><?= @text('Time'); ?></th>
-    		<th class="-koowa-sortable"><?= @text('Memory'); ?></th>
+    		<th class="-koowa-sortable"><?= translate('Identifier') ?></th>
+    		<th class="-koowa-sortable"><?= translate('Event'); ?></th>
+    		<th class="-koowa-sortable"><?= translate('Time'); ?></th>
+    		<th class="-koowa-sortable"><?= translate('Memory'); ?></th>
     	</tr>
   	</thead>
   	<tbody>

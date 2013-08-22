@@ -17,34 +17,23 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Revisions
  */
-class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
+class ControllerToolbarRevisable extends Library\ControllerToolbarDecorator
 {
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-    		'priority'  => Library\CommandChain::PRIORITY_LOW
-        ));
-
-        parent::_initialize($config);
-    }
-    
     public function onAfterControllerBrowse(Library\Event $event)
-    {     
+    {
         $controller = $this->getController();
         $state      = $controller->getModel()->getState();
-        
+
         if($state->trashed == true) 
         {
-            $name    = $controller->getIdentifier()->name;
-            $toolbar = $this->getController()->getToolbar($name);
-            $toolbar->reset();
-                 
+            $this->reset();
+
             if($controller->canEdit()) {
-                $toolbar->addCommand($this->getCommand('restore'));
+                $this->addCommand('restore');
             }
             
             if($controller->canDelete()) {
-                $toolbar->addCommand($this->getCommand('delete'));
+                $this->addCommand('delete');
             }
         } 
     }

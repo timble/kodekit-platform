@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleton
+class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
 {	
      public function __construct(Library\ObjectConfig $config)
      {

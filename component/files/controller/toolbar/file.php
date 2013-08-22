@@ -17,12 +17,10 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ControllerToolbarFile extends Library\ControllerToolbarModel
+class ControllerToolbarFile extends Library\ControllerToolbarActionbar
 {
     public function onBeforeControllerRender(Library\Event $event)
-    {     
-        parent::onBeforeControllerRender($event);
-        
+    {
         $this->addCommand('upload');
         $this->addNew(array('label' => 'New Folder'));
         

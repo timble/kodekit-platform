@@ -13,45 +13,45 @@
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" >
     <div class="tabs tabs-vertical">
-        <h3><?= @text('System')?></h3>
+        <h3><?= translate('System')?></h3>
         <div class="tab">
             <input type="radio" id="tab-1" name="tab-group-1" checked="">
-            <label for="tab-1"><?= @text('Global') ?></label>
+            <label for="tab-1"><?= translate('Global') ?></label>
             <div class="content">
-                <?= @template('default_global.html',  array('settings' => $settings->system)); ?>
+                <?= include('default_global.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
         <div class="tab">
             <input type="radio" id="tab-2" name="tab-group-1">
-            <label for="tab-2"><?= @text('Site') ?></label>
+            <label for="tab-2"><?= translate('Site') ?></label>
             <div class="content">
-                <?= @template('default_site.html',  array('settings' => $settings->system)); ?>
+                <?= include('default_site.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
         <div class="tab">
             <input type="radio" id="tab-3" name="tab-group-1">
-            <label for="tab-3"><?= @text('Mail') ?></label>
+            <label for="tab-3"><?= translate('Mail') ?></label>
             <div class="content">
-                <?= @template('default_mail.html',  array('settings' => $settings->system)); ?>
+                <?= include('default_mail.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
-        <h3><?= @text('Extensions')?></h3>
+        <h3><?= translate('Extensions')?></h3>
         <? foreach($settings as $name => $setting) : ?>
         <? if($setting->getType() == 'extension' && $setting->getPath()) : ?>
         <div class="tab">
             <input type="radio" id="tab-<?= $setting->getName() ?>" name="tab-group-1">
-            <label for="tab-<?= $setting->getName() ?>"><?= @text(ucfirst($setting->getName())) ?></label>
+            <label for="tab-<?= $setting->getName() ?>"><?= translate(ucfirst($setting->getName())) ?></label>
             <div class="content">
-                <?= @template('default_extension.html', array('settings' => $setting)); ?>
+                <?= include('default_extension.html', array('settings' => $setting)); ?>
             </div>
         </div>
         <? endif; ?>

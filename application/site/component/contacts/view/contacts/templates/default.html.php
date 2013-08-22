@@ -12,16 +12,16 @@
 <script src="media://js/koowa.js" />
 -->
 
-<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 
 <div class="page-header">
-    <h1><?= @escape($params->get('page_title')); ?></h1>
+    <h1><?= escape($params->get('page_title')); ?></h1>
 </div>
 
 <? if ($category->image || $category->description) : ?>
 <div class="clearfix">
     <? if ($category->image) : ?>
-    <?= @helper('com:categories.string.image', array('row' => $category)) ?>
+    <?= helper('com:categories.string.image', array('row' => $category)) ?>
     <? endif; ?>
     <?= $category->description; ?>
 </div>
@@ -31,18 +31,18 @@
     <thead>
         <tr>
             <th width="100%">
-                <?= @text('Name'); ?>
+                <?= translate('Name'); ?>
         	</th>
             <? if ($params->get('show_telephone', true)) : ?>
         	<th>
-                <?= @text('Phone'); ?>
+                <?= translate('Phone'); ?>
         	</th>
         	<? endif; ?>
         </tr>
     </thead>
     <tbody>
-        <?= @template('default_items.html'); ?>
+        <?= include('default_items.html'); ?>
     </tbody>
 </table>
 
-<?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
+<?= helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>

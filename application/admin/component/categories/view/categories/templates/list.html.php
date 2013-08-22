@@ -10,14 +10,14 @@
 
 <ul class="navigation">
 	<li>
-        <a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
+        <a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= route('category=' ) ?>">
             <?= 'All categories' ?>
         </a>
 	</li>
 	<? foreach ($categories as $category) : ?>
 	<li>
-        <a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
-            <?= @escape($category->title) ?>
+        <a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= route('category='.$category->id ) ?>">
+            <?= escape($category->title) ?>
         </a>
 	</li>
 	<? endforeach ?>

@@ -9,15 +9,15 @@
 ?>
 
 <fieldset>
-    <legend><?= @text( 'Publish' ); ?></legend>
+    <legend><?= translate( 'Publish' ); ?></legend>
     <div>
-        <label for="published"><?= @text('Published') ?></label>
+        <label for="published"><?= translate('Published') ?></label>
         <div>
             <input type="checkbox" name="published" value="1" <?= $category->published ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div>
-        <label for="access"><?= @text('Registered') ?></label>
+        <label for="access"><?= translate('Registered') ?></label>
         <div>
             <input type="checkbox" name="access" value="1" <?= $category->access ? 'checked="checked"' : '' ?> />
         </div>
@@ -25,19 +25,19 @@
 </fieldset>
 <? if($state->table == 'articles') : ?>
     <fieldset class="categories group">
-        <legend><?= @text('Parent') ?></legend>
+        <legend><?= translate('Parent') ?></legend>
         <div>
-            <?= @helper('com:categories.radiolist.categories', array('row' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => $state->table))) ?>
+            <?= helper('com:categories.radiolist.categories', array('row' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => $state->table))) ?>
         </div>
     </fieldset>
 <? endif ?>
 
 <? if($category->isAttachable()) : ?>
 <fieldset>
-    <legend><?= @text('Image') ?></legend>
+    <legend><?= translate('Image') ?></legend>
     <? if (!$category->isNew()) : ?>
-        <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $category->getAttachments(), 'attachments_attachment_id' => $category->attachments_attachment_id)) ?>
+        <?= include('com:attachments.view.attachments.list.html', array('attachments' => $category->getAttachments(), 'attachments_attachment_id' => $category->attachments_attachment_id)) ?>
     <? endif ?>
-    <?= @template('com:attachments.view.attachments.upload.html') ?>
+    <?= include('com:attachments.view.attachments.upload.html') ?>
 </fieldset>
 <? endif ?>

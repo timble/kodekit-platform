@@ -8,8 +8,8 @@
  */
 ?>
 
-<?= @helper('behavior.mootools'); ?>
-<?= @helper('behavior.keepalive'); ?>
+<?= helper('behavior.mootools'); ?>
+<?= helper('behavior.keepalive'); ?>
 
 <? if (@object('component')->getController()->canEdit()) : ?>
     <?= @helper('behavior.inline_editing'); ?>
@@ -21,7 +21,7 @@
 -->
 
 <div class="btn-toolbar">
-    <?= @helper('com:base.toolbar.render', array('toolbar' => $toolbar));?>
+    <ktml:toolbar type="actionbar">
 </div>
 
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
@@ -64,35 +64,35 @@
     <input type="hidden" name="access" value="0" />
 
     <fieldset>
-        <legend><?= @text('Publishing'); ?></legend>
+        <legend><?= translate('Publishing'); ?></legend>
         <div class="control-group">
-            <label class="control-label" for="title"><?= @text('Published'); ?></label>
+            <label class="control-label" for="title"><?= translate('Published'); ?></label>
             <div class="controls">
                 <input type="checkbox" name="published" value="1" <?= $article->published ? 'checked="checked"' : '' ?> />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="access"><?= @text('Registered'); ?></label>
+            <label class="control-label" for="access"><?= translate('Registered'); ?></label>
             <div class="controls">
                 <input type="checkbox" name="access" value="1" <?= $article->access ? 'checked="checked"' : '' ?> />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="publish_on"><?= @text('Publish on'); ?></label>
+            <label class="control-label" for="publish_on"><?= translate('Publish on'); ?></label>
             <div class="controls">
                 <input type="datetime-local" name="publish_on" value="<?= $article->publish_on ?>" />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="unpublish_on"><?= @text('Unpublish on'); ?></label>
+            <label class="control-label" for="unpublish_on"><?= translate('Unpublish on'); ?></label>
             <div class="controls">
                 <input type="datetime-local" name="unpublish_on" value="<?= $article->unpublish_on ?>" />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
+            <label class="control-label" for="categories_category_id"><?= translate('Category'); ?></label>
             <div class="controls">
-                <?= @helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
+                <?= helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
             </div>
         </div>
     </fieldset>

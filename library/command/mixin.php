@@ -71,9 +71,9 @@ class CommandMixin extends ObjectMixinAbstract
             'command_chain'     => null,
             'event_dispatcher'  => null,
             'dispatch_events'   => true,
-            'event_priority'    => CommandChain::PRIORITY_LOWEST,
+            'event_priority'    => Command::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
-            'callback_priority' => CommandChain::PRIORITY_HIGH,
+            'callback_priority' => Command::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);
@@ -89,7 +89,7 @@ class CommandMixin extends ObjectMixinAbstract
     public function getCommandContext()
     {
         $context = $this->_command_chain->getContext();
-        $context->setSubject($this->_mixer);
+        $context->setSubject($this->getMixer());
         
         return $context;
     }
@@ -125,7 +125,7 @@ class CommandMixin extends ObjectMixinAbstract
     public function setCommandChain(CommandChainInterface $chain)
     {
         $this->_command_chain = $chain;
-        return $this->_mixer;
+        return $this->getMixer();
     }
     
 	/**

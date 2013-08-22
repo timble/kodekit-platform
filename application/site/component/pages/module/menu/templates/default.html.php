@@ -11,5 +11,5 @@
 <? $title = $show_title ? $module->title : null; ?>
 
 <nav role="navigation">
-    <?= @helper('com:pages.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
+    <?= helper('com:pages.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
 </nav>

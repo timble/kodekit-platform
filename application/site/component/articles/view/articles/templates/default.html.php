@@ -9,12 +9,12 @@
 ?>
 
 <? if ($params->get('show_feed_link', 1) == 1) : ?>
-<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>
 
 <? foreach ($articles as $article): ?>
-    <?= @template('default_item.html', array('article' => $article)) ?>
+    <?= include('default_item.html', array('article' => $article)) ?>
 <? endforeach; ?>
 
-<?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
+<?= helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
 
