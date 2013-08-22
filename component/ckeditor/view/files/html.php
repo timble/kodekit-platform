@@ -15,12 +15,9 @@ use Nooku\Component\Files;
 /**
  * Files Html View Class
  *
- * @author      Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Ckeditor
+ * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
+ * @package Nooku\Component\Ckeditor
  */
-
 class ViewFilesHtml extends Files\ViewFilesHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
@@ -36,9 +33,7 @@ class ViewFilesHtml extends Files\ViewFilesHtml
     {
         $base = clone $this->getObject('request')->getBaseUrl();
 
-
-        $this->type = $this->getObject('request')->query->get('type', 'string');
-
+        $this->type     = $this->getObject('request')->query->get('type', 'string');
         $this->sitebase = (string) $base;
 
         $base->setQuery(array('option' => 'com_files'));

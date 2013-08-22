@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @template('com:files.view.files.initialize.html'); ?>
+<?= include('com:files.view.files.initialize.html'); ?>
 
 <script src="media://files/js/files.compact.js" />
 
@@ -43,12 +43,12 @@
     });
 </script>
 
-<?= @template('templates_compact.html');?>
+<?= include('templates_compact.html');?>
 
 <div id="files-compact" class="tabs tabs-horizontal">
     <div class="tab">
         <input type="radio" id="tab-1" name="tab-group-1" checked="">
-        <label for="tab-1"><?= @text('Insert') ?></label>
+        <label for="tab-1"><?= translate('Insert') ?></label>
         <div id="files-insert" class="content">
             <div id="files-tree-container">
                 <div id="files-tree"></div>
@@ -61,9 +61,9 @@
     </div>
     <div class="tab">
         <input type="radio" id="tab-2" name="tab-group-1">
-        <label for="tab-2"><?= @text('Upload') ?></label>
+        <label for="tab-2"><?= translate('Upload') ?></label>
         <div class="content">
-            <?= @template('com:files.view.files.uploader.html'); ?>
+            <?= include('com:files.view.files.uploader.html'); ?>
         </div>
     </div>
 </div>

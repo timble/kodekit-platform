@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @object('com:ckeditor.controller.file')
+<?= object('com:ckeditor.controller.file')
     ->container('files-files')
     ->layout('browser')
     ->types(array($type))
@@ -31,39 +31,39 @@
     <input type="hidden" name="type" id="image-type" value=""/>
     <fieldset>
         <div>
-            <label for="image-url"><?= @text('URL') ?></label>
+            <label for="image-url"><?= translate('URL') ?></label>
             <div>
                 <input type="text" id="image-url" value="" />
             </div>
         </div>
         <?if($type == 'file'):?>
             <div id="link-text">
-                <label for="image-text"><?= @text('Text') ?></label>
+                <label for="image-text"><?= translate('Text') ?></label>
                 <div>
                     <input type="text" id="image-text" value="" />
                 </div>
             </div>
         <?endif;?>
         <div>
-            <label for="image-alt"><?= @text('Description') ?></label>
+            <label for="image-alt"><?= translate('Description') ?></label>
             <div>
                 <input type="text" id="image-alt" value="" />
             </div>
         </div>
         <div>
-            <label for="image-title"><?= @text('Title') ?></label>
+            <label for="image-title"><?= translate('Title') ?></label>
             <div>
                 <input type="text" id="image-title" value="" />
             </div>
         </div>
         <? if($type == 'image') : ?>
             <div>
-                <label for="image-align"><?= @text('Align') ?></label>
+                <label for="image-align"><?= translate('Align') ?></label>
                 <div>
-                    <select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
-                        <option value="" selected="selected"><?= @text('Not Set') ?></option>
-                        <option value="left"><?= @text('Left') ?></option>
-                        <option value="right"><?= @text('Right') ?></option>
+                    <select size="1" id="image-align" title="<?= translate('Positioning of this image') ?>">
+                        <option value="" selected="selected"><?= translate('Not Set') ?></option>
+                        <option value="left"><?= translate('Left') ?></option>
+                        <option value="right"><?= translate('Right') ?></option>
                     </select>
                 </div>
             </div>

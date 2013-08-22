@@ -28,5 +28,4 @@ class ControllerFile extends Files\ControllerFile
         parent::_initialize($config);
 
     }
-
 }
