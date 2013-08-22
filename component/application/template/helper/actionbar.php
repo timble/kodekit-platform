@@ -34,7 +34,7 @@ class TemplateHelperActionbar extends Library\TemplateHelperAbstract
         ));
 
         $html  = '<ul '.$this->buildAttributes($config->attribs).'>';
-	    foreach ($config->actionbar->getCommands() as $command)
+	    foreach ($config->toolbar->getCommands() as $command)
 	    {
             $name = $command->getName();
 
