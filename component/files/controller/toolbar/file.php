@@ -20,9 +20,7 @@ use Nooku\Library;
 class ControllerToolbarFile extends Library\ControllerToolbarActionbar
 {
     public function onBeforeControllerRender(Library\Event $event)
-    {     
-        parent::onBeforeControllerRender($event);
-        
+    {
         $this->addCommand('upload');
         $this->addNew(array('label' => 'New Folder'));
         
