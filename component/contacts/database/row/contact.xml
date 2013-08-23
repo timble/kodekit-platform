@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <model>
 	<params>
-		<param name="show_email" type="radio" default="0" label="Show e-mail address" description="PARAMEMAIL">
+		<param name="show_email" type="radio" default="0" label="Email address" description="">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_email_form" type="radio" default="0" label="Show e-mail form" description="Show/Hide the email to form">
+		<param name="show_email_form" type="radio" default="0" label="Email form" description="">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="allow_vcard" type="radio" default="0" label="Show vCard" description="Show/Hide VCard">
+		<param name="allow_vcard" type="radio" default="0" label="vCard" description="">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
