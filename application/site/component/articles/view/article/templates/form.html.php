@@ -29,10 +29,10 @@
         <h1 id="title" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>"><?= $article->title ?></h1>
         <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
-            <span class="label label-info"><?= @text('Unpublished') ?></span>
+            <span class="label label-info"><?= translate('Unpublished') ?></span>
         <? endif ?>
         <? if ($article->access) : ?>
-            <span class="label label-important"><?= @text('Registered') ?></span>
+            <span class="label label-important"><?= translate('Registered') ?></span>
         <? endif ?>
     </div>
 
