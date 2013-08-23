@@ -9,49 +9,58 @@
 ?>
 
 <?if(@object('com:comments.controller.comment')->canAdd()):?>
-    <script src="media://js/mootools.js" />
+    <script src="media://files/js/jquery-1.8.0.min.js" />
     <script src="media:///ckeditor/ckeditor/ckeditor.js" />
     <script type='text/javascript' language='javascript'>
+
         CKEDITOR.on( 'instanceCreated', function( event ) {
             var editor = event.editor;
 
-            editor.config.toolbar = 'title';
-            editor.config.removePlugins = 'codemirror,readmore,autosave,images,files';
-            editor.config.allowedContent = "";
-            editor.config.forcePasteAsPlainText = true;
 
-            editor.on('blur', function(e){
-                if (e.editor.checkDirty()){
-                    var id = e.editor.name.split("-");
+                editor.config.toolbar = 'title';
 
-                    var request = new Request.JSON({
-                        url: '?view=comment&id='+id[1],
-                        data: {
-                            text: e.editor.getData(),
-                            _token:'<?= @object('user')->getSession()->getToken() ?>'
-                        },
-                        onComplete: function(response){
 
-                        }
-                    }).send();
-                }
-            });
+                editor.config.removePlugins = 'codemirror,readmore,autosave,images,files';
+                editor.config.allowedContent = "";
+                editor.config.forcePasteAsPlainText = true;
+
+                editor.on('blur', function(e){
+                    if (e.editor.checkDirty()){
+                        var id = e.editor.name.split("-");
+
+                        var request = new Request.JSON({
+                            url: '?view=comment&id='+id[1],
+                            data: {
+                                text: e.editor.getData(),
+                                _token:'<?= @object('user')->getSession()->getToken() ?>'
+                            },
+                            onComplete: function(response){
+
+                            }
+                        }).send();
+                    }
+                });
+
         });
 
-        window.addEvent('domready', function() {
-            $$('.icon-trash').addEvent('click',function(){
-                var id = $(this).getAttribute('data-id');
-                var request = new Request.JSON({
+
+        jQuery( document ).ready(function() {
+            jQuery('.icon-trash').click(function(){
+                var id = jQuery(this).attr('data-id');
+                console.log(id);
+                jQuery.ajax({
+                    type: "delete",
                     url: '?view=comment&id='+id,
-                    method: 'delete',
                     data: {
                         id: id,
-                        _token:'<?= @object('user')->getSession()->getToken() ?>'
+                        _token:'<?= @object('user')->getSession()->getToken() ?>',
+                        _action: 'delete'
                     },
-                    onComplete: function(response){
-                        $('comment-'+id).remove()
+                    success: function(response){
+                        jQuery('#comment-'+id).remove()
                     }
-                }).send();
+                });
+
             });
         });
     </script>
