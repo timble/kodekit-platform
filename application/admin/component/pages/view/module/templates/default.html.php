@@ -67,7 +67,7 @@
 			<? if($module->name == 'mod_custom') : ?>
 			<fieldset>
 				<legend><?= translate('Custom Output') ?></legend>
-				<?= object('com:ckeditor.controller.editor')->render(array('name' => 'content', 'text' => $module->content,'toolbar' => 'standard')) ?>
+				<?= object('com:ckeditor.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
 			</fieldset>
 			<? endif ?>
 		</div>
