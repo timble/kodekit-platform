@@ -8,8 +8,8 @@
  */
 ?>
 
-<?= @helper('behavior.keepalive') ?>
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.keepalive') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />

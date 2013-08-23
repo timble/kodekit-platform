@@ -12,7 +12,7 @@
 <?= helper('behavior.keepalive'); ?>
 
 <? if (@object('component')->getController()->canEdit()) : ?>
-    <?= @helper('behavior.inline_editing'); ?>
+    <?= helper('behavior.inline_editing'); ?>
 <? endif;?>
 
 
@@ -27,7 +27,7 @@
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
         <h1 id="title" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>"><?= $article->title ?></h1>
-        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
             <span class="label label-info"><?= @text('Unpublished') ?></span>
         <? endif ?>
