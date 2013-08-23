@@ -55,7 +55,7 @@
                 <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" />
             </div>
         </div>
-        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => $article->text, 'toolbar' => 'standard')) ?>
+        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar no--scrollbar">
         <?= include('default_sidebar.html'); ?>

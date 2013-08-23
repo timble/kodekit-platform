@@ -62,13 +62,9 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.toolbar_basic =
         [
-            ['Bold','Italic','Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','HorizontalRule','readmore','images']
+            ['Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink']
         ];
 
-    config.toolbar_comments =
-        [
-            ['Bold','Italic','Underline', '-', 'NumberedList', 'BulletedList']
-        ];
     config.toolbar_standard =
         [
             { name: 'styles', items: [ 'Styles' ] },
