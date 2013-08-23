@@ -21,7 +21,7 @@
             <i class="icon-<?= $activity->action ?>"></i>
             <?= helper('activity.message', array('row' => $activity)) ?>
             <span class="activity__info">
-                <?= $activity->package.' - '.$activity->name ?> | <?= date("H:i", strtotime($activity->created_on)) ?>
+                <?= $activity->package.' - '.$activity->name ?> | <?= date(array('format' => "H:i", 'date' =>  $activity->created_on)) ?>
             </span>
         </div>
         <? endforeach ?>
