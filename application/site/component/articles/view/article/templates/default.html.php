@@ -39,3 +39,6 @@
     <?= include('com:tags.view.tags.default.html') ?>
     <?= include('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>
+<? if($article->id && $params->get('commentable')) : ?>
+    <?= object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
+<? endif ?>
