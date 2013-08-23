@@ -40,5 +40,5 @@
     <?= include('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>
 <? if($article->id && $params->get('commentable')) : ?>
-    <?= object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
+    <?= object('com:articles.controller.comment')->row($article->id)->sort('created_on')->render(array('row' => $article));?>
 <? endif ?>
