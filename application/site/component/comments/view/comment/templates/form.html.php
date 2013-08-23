@@ -10,7 +10,7 @@
 
 <form action="<?= @helper('com:comments.route.comment', array('row' => $row)) ?>" method="post">
     <input type="hidden" name="row" value="<?= $state->row ?>" />
-    <?= @object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => "", 'toolbar' => 'basic')) ?>
+    <?= @object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => "", 'toolbar' => 'comments')) ?>
 
     <input class="btn btn-primary" type="submit" value="<?= @text('Comment') ?>"/>
 </form>

@@ -47,7 +47,6 @@
         jQuery( document ).ready(function() {
             jQuery('.icon-trash').click(function(){
                 var id = jQuery(this).attr('data-id');
-                console.log(id);
                 jQuery.ajax({
                     type: "delete",
                     url: '?view=comment&id='+id,
