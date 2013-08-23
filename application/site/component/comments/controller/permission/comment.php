@@ -24,7 +24,7 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
         $comment = $this->getModel()->getRow();
 
         //If the user is manager he can moderator comments
-        if($this->getUser()->getRole() >= 23) {
+        if($this->getUser()->getRole() >= 18) {
             $result = true;
         }
 
@@ -47,7 +47,7 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
         }
 
         //If the user is manager he can delete comments
-        if($this->getUser()->getRole() >= 23) {
+        if($this->getUser()->getRole() >= 18) {
             $result = true;
         }
 
