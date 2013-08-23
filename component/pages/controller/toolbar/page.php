@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ControllerToolbarPage extends Library\ControllerToolbarModel
+class ControllerToolbarPage extends Library\ControllerToolbarActionbar
 {
     public function onAfterControllerBrowse(Library\Event $event)
     {

@@ -17,26 +17,6 @@ namespace Nooku\Library;
  */
 interface ObjectMixinInterface extends ObjectHandlable
 {
-    /**
-     * Get the methods that are available for mixin.
-     *
-     * Only public methods can be mixed
-     *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of public methods
-     */
-    public function getMixableMethods(ObjectMixable $mixer = null);
-
-    /**
-     * Mixin Notifier
-     *
-     * This function is called when the mixin is being mixed. It will get the mixer passed in.
-     *
-     * @param ObjectMixable $mixer The mixer object
-     * @return void
-     */
-    public function onMixin(ObjectMixable $mixer);
-
 	/**
      * Get the mixer object
      *
@@ -51,4 +31,33 @@ interface ObjectMixinInterface extends ObjectHandlable
      * @return ObjectMixinInterface
      */
     public function setMixer(ObjectMixable $mixer);
+
+    /**
+     * Mixin Notifier
+     *
+     * This function is called when the mixin is being mixed. It will get the mixer passed in.
+     *
+     * @param ObjectMixable $mixer The mixer object
+     * @return void
+     */
+    public function onMixin(ObjectMixable $mixer);
+
+    /**
+     * Get a list of all the available methods
+     *
+     * This function returns an array of all the methods, both native and mixed in
+     *
+     * @return array An array
+     */
+    public function getMethods();
+
+    /**
+     * Get the methods that are available for mixin.
+     *
+     * Only public methods can be mixed
+     *
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
+     * @return array An array of public methods
+     */
+    public function getMixableMethods(ObjectMixable $mixer = null);
 }

@@ -15,16 +15,23 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerToolbarModel extends ControllerToolbarAbstract
+class ControllerToolbarActionbar extends ControllerToolbarAbstract
 {
-	/**
-	 * Push the toolbar into the view
-	 * .
-	 * @param Event	$event A event object
-	 */
-    public function onBeforeControllerRender(Event $event)
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $config Configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
     {
-        $event->getTarget()->getView()->toolbar = $this;
+        $config->append(array(
+            'type'  => 'actionbar',
+        ));
+
+        parent::_initialize($config);
     }
 
 	/**

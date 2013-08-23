@@ -25,7 +25,7 @@ interface ObjectInstantiable
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectManagerInterface object
-     * @return  object
+     * @return  ObjectInterface
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager);
 }

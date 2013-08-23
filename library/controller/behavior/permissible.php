@@ -35,7 +35,7 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => CommandChain::PRIORITY_HIGH,
+            'priority'   => Command::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);

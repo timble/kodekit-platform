@@ -15,11 +15,10 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerToolbarToolbar extends Library\ControllerToolbarAbstract
+class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarActionbar
 {
     public function onBeforeControllerRender(Library\Event $event)
     {
-        $event->getTarget()->getView()->toolbar = $this;
         $this->addCommand('profile');
         $this->addCommand('logout');
     }

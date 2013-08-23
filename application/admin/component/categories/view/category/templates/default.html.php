@@ -8,15 +8,15 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
@@ -26,18 +26,18 @@
     
     <div class="main">
 		<div class="title">
-			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= translate( 'Title' ); ?>" />
 		    <div class="slug">
-		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <span class="add-on"><?= translate('Slug'); ?></span>
 		        <input type="text" name="slug" maxlength="255" value="<?= $category->slug ?>" />
 		    </div>
 		</div>
 
 		<div class="scrollable">
 			<fieldset>
-				<legend><?= @text( 'Details' ); ?></legend>
+				<legend><?= translate( 'Details' ); ?></legend>
 				<div>
-				    <label for=""><?= @text( 'Description' ); ?></label>
+				    <label for=""><?= translate( 'Description' ); ?></label>
 				    <div>
 				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
 				    </div>
@@ -47,6 +47,6 @@
 	</div>
 
     <div class="sidebar">
-	    <?= @template('default_sidebar.html'); ?>
+	    <?= include('default_sidebar.html'); ?>
     </div>
 </form>

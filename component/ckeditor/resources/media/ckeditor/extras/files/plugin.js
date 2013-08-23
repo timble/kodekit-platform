@@ -9,7 +9,7 @@ CKEDITOR.plugins.add('files',
             CKEDITOR.dialog.addIframe(
                 'filesDialog',
                 'files',
-                '?option=com_ckeditor&container=files-files&view=files&type=file&layout=dialog&tmpl=dialog', width, height,
+                '?option=com_ckeditor&view=files&tmpl=dialog&container=files-files&types[]=file', width, height,
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
@@ -26,7 +26,6 @@ CKEDITOR.plugins.add('files',
                         iframeWindow.document.id('image-url').set('value',selected.getAttribute('href'));
                         iframeWindow.document.id('image-alt').set('value',selected.getAttribute('alt'));
                         iframeWindow.document.id('image-title').set('value',selected.getAttribute('title'));
-                        iframeWindow.document.id('target').set('value',selected.getAttribute('target'));
                     }
                 },
 
@@ -37,7 +36,6 @@ CKEDITOR.plugins.add('files',
                         var iframedocument = iframeWindow.document;
                         var src = iframedocument.id('image-url').get('value');
                         var link = iframedocument.id('image-text').get('value');
-                        var target = iframedocument.id('target').get('value');
                         var attrs = {};
                         ['alt', 'title','type'].each(function(id) {
                             var value = iframedocument.id('image-'+id).get('value');
@@ -48,7 +46,7 @@ CKEDITOR.plugins.add('files',
 
                         var str = '<a href="'+src+'" ';
                         var parts = [];
-                        parts.push('target="'+target+'"');
+
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });

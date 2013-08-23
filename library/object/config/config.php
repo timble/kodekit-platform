@@ -97,7 +97,7 @@ class ObjectConfig implements ObjectConfigInterface
      * Remove a configuration item
      *
      * @param   string $name The configuration item name.
-     * @return  ModelStateInterface
+     * @return  ObjectConfig
      */
     public function remove( $name )
     {

@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectExceptionInvalidIdentifier extends \InvalidArgumentException implements ObjectException {}
+class ObjectExceptionInvalidIdentifier extends \DomainException implements ObjectException {}

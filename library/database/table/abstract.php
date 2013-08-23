@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectSingleton
+abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectMultiton
 {
     /**
      * Real name of the table in the db schema

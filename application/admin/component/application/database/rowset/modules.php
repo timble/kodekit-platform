@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectSingleton
+class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectMultiton
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

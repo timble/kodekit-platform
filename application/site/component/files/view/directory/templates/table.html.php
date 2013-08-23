@@ -10,7 +10,7 @@
 
 <? if ($params->get('show_page_title', 1)): ?>
 <div class="page-header">
-	<h1><?= @escape($params->get('page_title')); ?></h1>
+	<h1><?= escape($params->get('page_title')); ?></h1>
 </div>
 <? endif; ?>
 
@@ -18,10 +18,10 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th style="width: 70%"><?=@text('Name')?></th>
+			<th style="width: 70%"><?=translate('Name')?></th>
             <? if(count($files)) : ?>
-            <th><?=@text('Size')?></th>
-            <th><?=@text('Type')?></th>
+            <th><?=translate('Size')?></th>
+            <th><?=translate('Type')?></th>
             <? endif ?>
 		</tr>
 	</thead>
@@ -30,8 +30,8 @@
 		<tr>
 			<td colspan="3">
 				<i class="icon-folder-close"></i>
-				<a href="<?= @route('&view=folder&folder='.$folder->path);?>">
-					<?=@escape($folder->display_name)?>
+				<a href="<?= route('&view=folder&folder='.$folder->path);?>">
+					<?=escape($folder->display_name)?>
 				</a>
 			</td>
 			<td></td>
@@ -43,13 +43,13 @@
 		<tr>
 			<td>	
 				<i class="icon-file"></i>
-				<a class="files-download" data-path="<?= @escape($file->path); ?>"
-					href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
-					<?=@escape($file->display_name)?>
+				<a class="files-download" data-path="<?= escape($file->path); ?>"
+					href="<?= route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
+					<?=escape($file->display_name)?>
 				</a>
 			</td>
 			<td>
-				<?= @helper('com:files.filesize.humanize', array('size' => $file->size));?>
+				<?= helper('com:files.filesize.humanize', array('size' => $file->size));?>
 			</td>
 			<td>
 				<?= $file->extension; ?>
@@ -60,7 +60,7 @@
 </table>
 
 <? if(count($files) != $total): ?>
-    <?= @helper('paginator.pagination', array(
+    <?= helper('paginator.pagination', array(
         'limit' => $state->limit,
         'offset' => $state->offset,
     	'total' => $total, 

@@ -12,41 +12,41 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
-<?= @helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
+<?= helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-    <?= @template('default_sidebar.html') ?>
+    <?= include('default_sidebar.html') ?>
 </ktml:module>
 
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
-    <?= @template('default_scopebar.html') ?>
+    <?= include('default_scopebar.html') ?>
     <table>
         <thead>
             <tr>
                 <? if($state->sort == 'custom' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
                 <th width="1">
-                    <?= @helper('grid.checkall'); ?>
+                    <?= helper('grid.checkall'); ?>
                 </th>
                 <th width="1"></th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title')); ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
+                    <?= helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort',  array('column' => 'extensions_extension_id' , 'title' => 'Type')); ?>
+                    <?= helper('grid.sort',  array('column' => 'extensions_extension_id' , 'title' => 'Type')); ?>
                 </th>
             </tr>
         </thead>
         <tfoot>
             <tr>
                 <td colspan="6">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -61,10 +61,10 @@
                     </td>
                 <? endif ?>
                 <td align="center">
-                    <?= @helper('grid.checkbox',array('row' => $page)); ?>
+                    <?= helper('grid.checkbox',array('row' => $page)); ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?
@@ -77,24 +77,24 @@
 
                         $link .= '&view=page&menu='.$state->menu.'&id='.$page->id;
                     ?>
-                    <a href="<?= urldecode(@route($link)) ?>">
+                    <a href="<?= urldecode(route($link)) ?>">
                         <? if($page->level > 1) : ?>
                             <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - 1) ?><sup>|_</sup>&nbsp;
                         <? endif ?>
-                        <?= @escape($page->title) ?>
+                        <?= escape($page->title) ?>
                     </a>
                     <? if($page->home) : ?>
                         <i class="icon-star"></i>
                     <? endif ?>
                     <? if($page->access) : ?>
-                        <span class="label label-important"><?= @text('Registered') ?></span>
+                        <span class="label label-important"><?= translate('Registered') ?></span>
                     <? endif; ?>
                     <? if($page->hidden) : ?>
-                        <span class="label label-info"><?= @text('Hidden') ?></span>
+                        <span class="label label-info"><?= translate('Hidden') ?></span>
                     <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
+                    <?= helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
                 </td>
                 <td>
                     <?= $page->getTypeDescription() ?>

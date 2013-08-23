@@ -12,12 +12,12 @@ namespace Nooku\Component\Articles;
 use Nooku\Library;
 
 /**
- * Article Controller Toolbar
+ * Article Controller Actionbar
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Articles
  */
-class ControllerToolbarArticle extends Library\ControllerToolbarModel
+class ControllerToolbarArticle extends Library\ControllerToolbarActionbar
 {
     public function onAfterControllerBrowse(Library\Event $event)
     {    

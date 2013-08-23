@@ -19,8 +19,10 @@ use Nooku\Library;
  */
 class ControllerBehaviorRevisable extends Library\ControllerBehaviorAbstract
 {
-	protected function _beforeControllerRender(Library\CommandContext $context)
+    protected function _beforeControllerBrowse(Library\CommandContext $context)
 	{
-	    $this->attachToolbar('com:revisions.controller.toolbar.revisable');
+        if($this->hasToolbar('actionbar')) {
+            $this->getToolbar('actionbar')->decorate('com:revisions.controller.toolbar.revisable');
+        }
 	}
 }

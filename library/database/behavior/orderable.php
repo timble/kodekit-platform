@@ -104,7 +104,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 			$this->reorder();
 		}
 
-		return $this->_mixer;
+		return $this->getMixer();
 	}
 
 	 /**

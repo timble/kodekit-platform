@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectSingleton
+class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectMultiton
 {
     /**
      * Function to convert a route to an internal URI

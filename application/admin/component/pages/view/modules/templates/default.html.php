@@ -13,34 +13,34 @@
 <style src="media://css/koowa.css" />
 -->
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
-<?= @helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
+<?= helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html'); ?>
+	<?= include('default_sidebar.html'); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-	<?= @template('default_scopebar.html'); ?>
+	<?= include('default_scopebar.html'); ?>
 	<table>
 		<thead>
 			<tr>
                 <? if($state->position && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
 				<th width="1">
-				    <?= @helper('grid.checkall'); ?>
+				    <?= helper('grid.checkall'); ?>
 				</th>
                 <th width="1"></th>
                 <th>
-					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
+					<?= helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
+					<?= helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
 				</th>
 				<th width="1">
-					<?= @helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
+					<?= helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
 				</th>
 			</tr>
 		</thead>
@@ -48,7 +48,7 @@
 			<? if ($modules) : ?>
 			<tr>
 				<td colspan="20">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 			<? endif ?>
@@ -62,26 +62,26 @@
                 </td>
                 <? endif ?>
 				<td align="center">
-					<?= @helper('grid.checkbox',array('row' => $module)) ?>
+					<?= helper('grid.checkbox',array('row' => $module)) ?>
 				</td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
                 </td>
 				<td>
-					<a href="<?= @route('view=module&id='.$module->id) ?>">
-					    <?= @escape($module->title) ?>
+					<a href="<?= route('view=module&id='.$module->id) ?>">
+					    <?= escape($module->title) ?>
 					</a>
 					<? if($module->access) : ?>
-					    <span class="label label-important"><?= @text('Registered') ?></span>
+					    <span class="label label-important"><?= translate('Registered') ?></span>
 					<? endif; ?>
 				</td>
 				<td align="center">
-					<?= @text(
+					<?= translate(
 						is_array($module->pages) ? 'Varies' : $module->pages
 					) ?>
 				</td>
 				<td>
-					<?= @text(ucfirst($module->identifier->package)).' &raquo; '. @text(ucfirst($module->identifier->path[1])); ?>
+					<?= translate(ucfirst($module->identifier->package)).' &raquo; '. translate(ucfirst($module->identifier->path[1])); ?>
 				</td>
 			</tr>
 		<? endforeach ?>

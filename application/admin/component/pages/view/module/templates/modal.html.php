@@ -26,18 +26,18 @@ window.addEvent('domready', (function() {
     <fieldset>
         <label class="radio inline">
             <input type="radio" name="pages" value="all" <?= $module->pages == 'all' ? 'checked="checked"' : '' ?>/>
-            <?= @text('All') ?>
+            <?= translate('All') ?>
         </label>
         <label class="radio inline">
             <input type="radio" name="pages" value="selected" <?= is_array($module->pages) ? 'checked="checked"' : '' ?>/>
-            <?= @text('Selected') ?>
+            <?= translate('Selected') ?>
         </label>
         <label class="radio inline">
             <input type="radio" name="pages" value="none" <?= $module->pages == 'none' ? 'checked="checked"' : '' ?>/>
-            <?= @text('None') ?>
+            <?= translate('None') ?>
         </label>
 
-        <input type="button" name="save" class="btn" value="<?= @text('Save') ?>" />
+        <input type="button" name="save" class="btn" value="<?= translate('Save') ?>" />
     </fieldset>
     <? foreach($menus as $menu) : ?>
         <? $menu_pages = $pages->find(array('pages_menu_id' => $menu->id)) ?>

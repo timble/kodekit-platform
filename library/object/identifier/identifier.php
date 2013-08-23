@@ -101,18 +101,18 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      * Constructor
      *
      * @param   string $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not fully qualified or cannot be parsed
      */
     public function __construct($identifier)
     {
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
-            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Identifier is not fully qualified : '.$identifier);
         }
 
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
-            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
         }
 
         // Set the type
@@ -370,6 +370,16 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
+     * Check if the object is a multiton
+     *
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isMultiton()
+    {
+        return array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($this->classname));
+    }
+
+    /**
      * Check if the object is a singleton
      *
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
@@ -448,7 +458,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @param   string  $property The virtual property to set.
      * @param   string  $value    Set the virtual property to this value.
-     * @throws \DomainException If the type is unknown
+     * @throws  ObjectExceptionInvalidIdentifier If the type is unknown
      */
     public function __set($property, $value)
     {
@@ -470,7 +480,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
 
                 //Make exception for 'lib' locator
                 if($value != 'lib' && !$this->getLocator()) {
-                    throw new \DomainException('Unknow type : '.$value);
+                    throw new ObjectExceptionInvalidIdentifier('Unknow type : '.$value);
                 }
             }
 
@@ -524,7 +534,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Allow PHP casting of this object
+     * Allow casting of the identfiier to a string
      *
      * @return string
      */

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSingleton
+class ObjectConfigFactory extends Object implements ObjectMultiton
 {
     /**
      * Registered config file formats.
@@ -41,7 +41,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config	An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -67,7 +67,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
      * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
      * @return ObjectConfig
      */
-    public function getInstance($format, $config = array())
+    public function getFormat($format, $config = array())
     {
         $format = strtolower($format);
 
@@ -133,7 +133,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
             ));
         }
 
-        $config = $this->getIntance($pathinfo['extension'])->fromFile($filename);
+        $config = $this->getFormat($pathinfo['extension'])->fromFile($filename);
         return $config;
     }
 
@@ -156,6 +156,6 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
             ));
         }
 
-        return $this->getInstance($pathinfo['extension'])->toFile($filename, $config);
+        return $this->getFormat($pathinfo['extension'])->toFile($filename, $config);
     }
 }

@@ -22,10 +22,11 @@ interface ObjectMixable
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param    array $config  An optional associative array of configuration options
-     * @return  ObjectInterface
+     * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectMixableInterface
+     * @param   array $config  An optional associative array of configuration options
+     * @return  ObjectMixinInterface
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  \UnexpectedValueException If the mixin does not implement the ObjectMixinInterface
      */
     public function mixin($mixin, $config = array());
 

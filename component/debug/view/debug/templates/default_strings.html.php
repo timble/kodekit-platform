@@ -8,7 +8,7 @@
  */
 ?>
 
-<h4><?= @text( 'Untranslated Strings' ) ?></h4>
+<h4><?= translate( 'Untranslated Strings' ) ?></h4>
 <pre>
 <? foreach ($strings as $key => $occurance) : ?>
 	<? foreach ( $occurance as $i => $info) : ?>

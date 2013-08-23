@@ -59,6 +59,7 @@ class ViewEditorHtml extends Library\ViewHtml
 
         $settings = clone $this->getConfig()->settings;
         $settings->editor_selector = 'editable-'.$this->id;
+        $settings->options->toolbar = $this->toolbar ? $this->toolbar : 'standard';
 
 		$this->settings = $settings;
 

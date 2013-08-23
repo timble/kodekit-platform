@@ -1,0 +1,33 @@
+// Inspired by http://codepen.io/jlong/pen/jgbvs
+
+@mixin keyframes($name) {
+  @-webkit-keyframes $name { @content; }
+  @-moz-keyframes $name { @content; }
+  @-o-keyframes $name { @content; }
+  @keyframes $name { @content; }
+}
+
+@mixin animation($value) {
+  @include experimental(animation, $value, -webkit, -moz, -ms, -o, official);
+}
+
+@include keyframes(spinner) {
+  0%   { @include rotateZ(0deg); }
+  100% { @include rotateZ(360deg); }
+}
+
+@mixin spinner($size: 32px, $color: $blueDark) {
+  margin: auto; // align in center thanks to flexbox
+
+  @include animation(spinner 1250ms infinite linear);
+  border: ($size/4) solid $color;
+  border-right-color: transparent;
+  border-radius: ($size);
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  text-indent: -9999px;
+  width: $size;
+  height: $size;
+}

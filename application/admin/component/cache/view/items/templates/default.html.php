@@ -13,12 +13,12 @@
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html'); ?>
+	<?= include('default_sidebar.html'); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">	
@@ -26,29 +26,29 @@
 	<thead>
 		<tr>
 			<th width="1">
-                <?= @helper( 'grid.checkall'); ?>
+                <?= helper( 'grid.checkall'); ?>
             </th>
 			<th>
-				<?= @helper('grid.sort',  array('column' => 'name', 'title' => 'Key')); ?>
+				<?= helper('grid.sort',  array('column' => 'name', 'title' => 'Key')); ?>
 			</th>
 			<th width="1">
-				<?= @helper('grid.sort',  array('column' => 'size')); ?>
+				<?= helper('grid.sort',  array('column' => 'size')); ?>
 			</th>
 			<th width="1">
-				<?= @helper('grid.sort',  array('column' => 'hits')); ?>
+				<?= helper('grid.sort',  array('column' => 'hits')); ?>
 			</th>
 			<th width="1">
-				<?= @helper('grid.sort',  array('column' => 'created_on','title' => 'Created')); ?>
+				<?= helper('grid.sort',  array('column' => 'created_on','title' => 'Created')); ?>
 			</th>
 			<th width="1">
-				<?= @helper('grid.sort',  array('column' => 'accessed_on','title' => 'Accessed')); ?>
+				<?= helper('grid.sort',  array('column' => 'accessed_on','title' => 'Accessed')); ?>
 			</th>
 		</tr>
 	</thead>
 	<tfoot>
 			<tr>
 				<td colspan="13">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)); ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)); ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -56,7 +56,7 @@
 	<? foreach($items as $item) : ?>
 		<tr>
 			<td align="center">
-				<?= @helper( 'grid.checkbox' , array('row' => $item)); ?>
+				<?= helper( 'grid.checkbox' , array('row' => $item)); ?>
 			</td>
 			<td>
 				<span class="bold">
@@ -70,10 +70,10 @@
 				<?= $item->hits; ?>
 			</td>
 			<td align="center">
-				<?= @helper('date.humanize', array('date' => $item->created_on)); ?>
+				<?= helper('date.humanize', array('date' => $item->created_on)); ?>
 			</td>
 			<td align="center">
-				<?= @helper('date.humanize', array('date' => $item->accessed_on)); ?>
+				<?= helper('date.humanize', array('date' => $item->accessed_on)); ?>
 			</td>
 		</tr>
 	<? endforeach; ?>

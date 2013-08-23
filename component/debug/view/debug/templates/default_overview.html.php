@@ -9,11 +9,11 @@
 ?>
 
 <h4>
-<?= @text('Memory : ') ?>
+<?= translate('Memory : ') ?>
 <?= $memory; ?>
 </h4>
 
 <h4>
-<?= @text('Queries : ') ?>
+<?= translate('Queries : ') ?>
 <?= count($queries);?>
 </h4>

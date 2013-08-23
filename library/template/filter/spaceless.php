@@ -30,7 +30,7 @@ class TemplateFilterSpaceless extends TemplateFilterAbstract implements Template
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => TemplateFilterChain::PRIORITY_LOWEST,
+            'priority' => TemplateFilter::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);

@@ -170,6 +170,13 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Check if the object is a singleton
      *
+     * @return boolean Returns TRUE if the object is a multiton, FALSE otherwise.
+     */
+    public function isMultiton();
+
+    /**
+     * Check if the object is a singleton
+     *
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
      */
     public function isSingleton();

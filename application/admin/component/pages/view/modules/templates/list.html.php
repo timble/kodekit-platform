@@ -12,7 +12,7 @@
 	<thead>
 		<tr>
 			<th colspan="2">
-				<?= @text('Select module') ?>
+				<?= translate('Select module') ?>
 			</th>
 		</tr>
 	</thead>
@@ -24,8 +24,8 @@
 		<? $last = $i+1 == count($modules) ?>
 
 		<td width="50%">
-            <a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_extension_id) ?>">
-                <?= @text(@escape($module->name)) ?>
+            <a href="<?= route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_extension_id) ?>">
+                <?= translate(escape($module->name)) ?>
             </a>
 		</td>
 

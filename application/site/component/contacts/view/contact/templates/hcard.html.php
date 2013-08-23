@@ -10,7 +10,7 @@
 
 <address class="vcard">
     <div class="page-header">
-        <h1 class="fn url" href="<?= @route(); ?>"><?= $contact->name?></h1>
+        <h1 class="fn url" href="<?= route(); ?>"><?= $contact->name?></h1>
     </div>
     <?if ($contact->con_position) : ?>
     <h2 class="title"><?= $contact->con_position?></h2>
@@ -44,25 +44,25 @@
     <ul>
         <? if ($contact->telephone) :?>
         <li class="tel">
-            <span class="type"><?= @text('Phone') ?></span>:
+            <span class="type"><?= translate('Phone') ?></span>:
             <span class="value"><?= $contact->telephone?></span>
         </li>
         <? endif; ?>
         <? if ($contact->fax) :?>
         <li class="tel">
-            <span class="type"><?= @text('Fax') ?></span>:
+            <span class="type"><?= translate('Fax') ?></span>:
             <span class="value"><?= $contact->fax?></span>
         </li>
         <? endif; ?>
         <?if ($contact->mobile) :?>
         <li class="tel">
-            <span class="type"><?= @text('Mobile') ?></span>:
+            <span class="type"><?= translate('Mobile') ?></span>:
             <span class="value"><?= $contact->mobile?></span>
         </li>
         <? endif; ?>
         <?if ($contact->email_to && $contact->params->get('show_email', false)) :?>
         <li>
-            <span><?= @text('Email') ?></span>:
+            <span><?= translate('Email') ?></span>:
             <a class="email" href="mailto:<?= $contact->email_to?>"><?= $contact->email_to?></a>
         </li>
         <? endif; ?>

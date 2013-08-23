@@ -11,13 +11,13 @@
 <? foreach($contacts as $contact) : ?>
 <tr>
     <td>
-		<a href="<?= @helper('route.contact', array('row' => $contact)) ?>">
+		<a href="<?= helper('route.contact', array('row' => $contact)) ?>">
 		    <?= $contact->name; ?>
 		</a>
 	</td>
     <? if ($params->get('show_telephone', true)) : ?>
     <td nowrap="nowrap">
-        <?= @escape($contact->telephone); ?>
+        <?= escape($contact->telephone); ?>
     </td>
     <? endif; ?>
 </tr>

@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesControllerToolbarArticle extends Library\ControllerToolbarModel
+class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionbar
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

@@ -10,12 +10,15 @@
 namespace Nooku\Library;
 
 /**
- * Object Factory
+ * Object Multiton Interface
+ *
+ * Ensures that only one object instance for per object identifier can exist.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
+ * @see     ObjectManager::getObject()
  */
-abstract class ObjectFactoryAbstract extends Object implements ObjectFactoryInterface
+interface ObjectMultiton extends ObjectInterface
 {
 
 }

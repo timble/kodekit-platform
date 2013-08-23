@@ -11,8 +11,8 @@
 <script src="media://pages/js/pages-list.js" />
 
 <ul class="navigation">
-    <? foreach(@object('com:pages.model.menus')->sort('title')->application('site')->getRowset() as $menu) : ?>
-        <? $menu_pages = @object('com:pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
+    <? foreach(object('com:pages.model.menus')->sort('title')->application('site')->getRowset() as $menu) : ?>
+        <? $menu_pages = object('com:pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
         <? if(count($menu_pages)) : ?>
             <h3><?= $menu->title ?></h3>
             <? $first = true; $last_depth = 0; ?>
@@ -22,13 +22,13 @@
                 <? $depth = substr_count($page->path, '/') ?>
                 <? switch($page->type) :
                     case 'component': ?>
-                        <a class="level<?= $depth ?>" href="<?= @route(preg_replace('%layout=table%', 'layout=default', $page->getLink()->getQuery()).'&Itemid='.$page->id) ?>">
+                        <a class="level<?= $depth ?>" href="<?= route(preg_replace('%layout=table%', 'layout=default', $page->getLink()->getQuery()).'&Itemid='.$page->id) ?>">
                             <span><?= $page->title ?></span>
                         </a>
                         <? break ?>
 
                     <? case 'menulink': ?>
-                        <? $page_linked = @object('application.pages')->getPage($page->getLink()->query['Itemid']); ?>
+                        <? $page_linked = object('application.pages')->getPage($page->getLink()->query['Itemid']); ?>
                         <a href="<?= $page_linked->getLink() ?>">
                             <span><?= $page->title ?></span>
                         </a>

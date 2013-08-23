@@ -10,20 +10,20 @@
 
 <article>
     <header>
-        <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
-        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <h1><a href="<?= helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
+        <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
-        <span class="label label-info"><?= @text('Unpublished') ?></span>
+        <span class="label label-info"><?= translate('Unpublished') ?></span>
         <? endif ?>
         <? if ($article->access) : ?>
-        <span class="label label-important"><?= @text('Registered') ?></span>
+        <span class="label label-important"><?= translate('Registered') ?></span>
         <? endif ?>
     </header>
 
-    <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
+    <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
     
     <? if ($article->introtext) : ?>
-        <?= @highlight($article->introtext) ?>
-        <a class="article__readmore" href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
+        <?= highlight($article->introtext) ?>
+        <a class="article__readmore" href="<?= helper('route.article', array('row' => $article)) ?>"><?= translate('Read more') ?></a>
     <? endif; ?>
 </article>

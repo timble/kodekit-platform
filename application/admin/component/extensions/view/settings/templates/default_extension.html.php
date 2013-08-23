@@ -15,7 +15,7 @@ $params->loadArray($settings->toArray());
 
 <? if($params = $params->render('settings['.$settings->getName().']')) : ?>
 	<fieldset>
-	    <legend><?=  @text(ucfirst($settings->getName())); ?></legend>
+	    <legend><?=  translate(ucfirst($settings->getName())); ?></legend>
 		<?= $params; ?>
 	</fieldset>
 <? endif ?>

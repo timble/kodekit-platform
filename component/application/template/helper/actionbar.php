@@ -17,12 +17,12 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class TemplateHelperToolbar extends Library\TemplateHelperAbstract
+class TemplateHelperActionbar extends Library\TemplateHelperAbstract
 {
     /**
      * Render the toolbar
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function render($config = array())
@@ -52,9 +52,9 @@ class TemplateHelperToolbar extends Library\TemplateHelperAbstract
     }
 
     /**
-     * Render a toolbar command
+     * Render a actionbar command
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function command($config = array())

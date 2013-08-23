@@ -12,18 +12,18 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
-<?= @helper('behavior.sortable') ?>
+<?= helper('behavior.sortable') ?>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html'); ?>
+	<?= include('default_sidebar.html'); ?>
 </ktml:module>
 
 <form action="" method="get"  class="-koowa-grid">
-<?= @template('default_scopebar.html'); ?>
+<?= include('default_scopebar.html'); ?>
 <table>
 	<thead>
 		<tr>
@@ -31,13 +31,13 @@
             <th class="handle"></th>
             <? endif ?>
 			<th width="1">
-			    <?= @helper('grid.checkall'); ?>
+			    <?= helper('grid.checkall'); ?>
 			</th>
             <th width="1">
 
             </th>
 			<th>
-			    <?= @helper('grid.sort', array('column' => 'name')); ?>
+			    <?= helper('grid.sort', array('column' => 'name')); ?>
 			</th>
 		</tr>		
 	</thead>
@@ -45,7 +45,7 @@
 	<tfoot>
         <tr>
             <td colspan="20">
-                 <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                 <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
             </td>
         </tr>
 	</tfoot>
@@ -59,17 +59,17 @@
             </td>
             <? endif ?>
 			<td align="center">
-				<?= @helper('grid.checkbox', array('row' => $contact))?>
+				<?= helper('grid.checkbox', array('row' => $contact))?>
 			</td>
             <td align="center">
-                <?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
+                <?= helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
             </td>
 			<td>
-				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
-	   				<?= @escape($contact->name); ?>
+				<a href="<?= route('view=contact&id='.$contact->id); ?>">
+	   				<?= escape($contact->name); ?>
 	   			</a>
 	   			<? if($contact->access) : ?>
-	   			    <span class="label label-important"><?= @text('Registered') ?></span>
+	   			    <span class="label label-important"><?= translate('Registered') ?></span>
 	   			<? endif; ?>
 			</td>
 		</tr>

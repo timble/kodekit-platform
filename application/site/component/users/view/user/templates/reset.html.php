@@ -8,24 +8,24 @@
  */
 ?>
 
-<?=@helper('behavior.mootools')?>
-<?=@helper('behavior.validator')?>
+<?=helper('behavior.mootools')?>
+<?=helper('behavior.validator')?>
 
 <div class="page-header">
-    <h1><?=@text('Password reset request');?></h1>
+    <h1><?=translate('Password reset request');?></h1>
 </div>
 
-<p><?= @text('RESET_PASSWORD_REQUEST_DESCRIPTION');?></p>
+<p><?= translate('RESET_PASSWORD_REQUEST_DESCRIPTION');?></p>
 <form action="" method="post" class="-koowa-form form-horizontal">
     <div class="control-group">
-        <label class="control-label" for="email"><?= @text('E-mail') ?></label>
+        <label class="control-label" for="email"><?= translate('E-mail') ?></label>
 
         <div class="controls">
             <input class="required validate-email" type="email" id="email" name="email" placeholder="E-mail"/>
         </div>
     </div>
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary"><?=@text('Submit');?></button>
+        <button type="submit" class="btn btn-primary"><?=translate('Submit');?></button>
     </div>
     <input type="hidden" name="_action" value="token"/>
 </form>

@@ -12,13 +12,13 @@
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
     <link rel="stylesheet" href="media://application/stylesheets/error.css" type="text/css" />
-    <title><?= @text('Error').': '.$code; ?></title>
+    <title><?= translate('Error').': '.$code; ?></title>
 </head>
 <body>
 <table width="550" align="center" class="outline">
     <tr>
         <td align="center">
-            <h1><?= $code ?> - <?= @text('An error has occurred') ?></h1>
+            <h1><?= $code ?> - <?= translate('An error has occurred') ?></h1>
         </td>
     </tr>
     <tr>
@@ -26,7 +26,7 @@
             <p><?= $message ?></p>
             <p>
                 <? if(count($trace)) : ?>
-                <?= @template('default_backtrace.html'); ?>
+                <?= include('default_backtrace.html'); ?>
                 <? endif; ?>
             </p>
         </td>

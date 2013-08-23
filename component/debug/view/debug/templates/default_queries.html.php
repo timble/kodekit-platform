@@ -18,10 +18,10 @@ window.addEvent('domready', prettyPrint);
 <table class="adminlist">
 	<thead>
     	<tr>
-    		<th class="-koowa-sortable"><?= @text('#') ?></th>
-    		<th class="-koowa-sortable"><?= @text('Type') ?></th>
-    		<th class="-koowa-sortable"><?= @text('Time'); ?></th>
-    		<th><?= @text('Query'); ?></th>
+    		<th class="-koowa-sortable"><?= translate('#') ?></th>
+    		<th class="-koowa-sortable"><?= translate('Type') ?></th>
+    		<th class="-koowa-sortable"><?= translate('Time'); ?></th>
+    		<th><?= translate('Query'); ?></th>
     	</tr>
   	</thead>
   	<tbody>

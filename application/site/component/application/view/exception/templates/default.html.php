@@ -12,7 +12,7 @@
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
     <link rel="stylesheet" href="media://application/stylesheets/error.css" type="text/css" />
-    <title><?= @text('Error').': '.$code; ?></title>
+    <title><?= translate('Error').': '.$code; ?></title>
 </head>
 <body>
 
@@ -21,27 +21,27 @@
         <?= $message ?>
     </div>
     <div id="errorboxbody">
-        <p><strong><?= @text('You may not be able to visit this page because of:'); ?></strong></p>
+        <p><strong><?= translate('You may not be able to visit this page because of:'); ?></strong></p>
         <ol>
-            <li><?= @text('An out-of-date bookmark/favourite'); ?></li>
-            <li><?= @text('A search engine that has an out-of-date listing for this site'); ?></li>
-            <li><?= @text('A mis-typed address'); ?></li>
-            <li><?= @text('You have no access to this page'); ?></li>
-            <li><?= @text('The requested resource was not found'); ?></li>
-            <li><?= @text('An error has occurred while processing your request.'); ?></li>
+            <li><?= translate('An out-of-date bookmark/favourite'); ?></li>
+            <li><?= translate('A search engine that has an out-of-date listing for this site'); ?></li>
+            <li><?= translate('A mis-typed address'); ?></li>
+            <li><?= translate('You have no access to this page'); ?></li>
+            <li><?= translate('The requested resource was not found'); ?></li>
+            <li><?= translate('An error has occurred while processing your request.'); ?></li>
         </ol>
-        <p><strong><?= @text('Please try one of the following pages:'); ?></strong></p>
+        <p><strong><?= translate('Please try one of the following pages:'); ?></strong></p>
         <p>
         <ul>
-            <li><a href="/" title="<?= @text('Go to the home page'); ?>"><?= @text('Home Page'); ?></a></li>
+            <li><a href="/" title="<?= translate('Go to the home page'); ?>"><?= translate('Home Page'); ?></a></li>
         </ul>
         </p>
-        <p><?= @text('If difficulties persist, please contact the system administrator of this site.'); ?></p>
+        <p><?= translate('If difficulties persist, please contact the system administrator of this site.'); ?></p>
         <div id="techinfo">
             <p><?= $message ?></p>
             <p>
                 <? if(count($trace)) : ?>
-                <?= @template('default_backtrace.html'); ?>
+                <?= include('default_backtrace.html'); ?>
                 <? endif; ?>
             </p>
         </div>

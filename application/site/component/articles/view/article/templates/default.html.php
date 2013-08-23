@@ -7,25 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
-
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
-	    <? if (@object('component')->getController()->canEdit()) : ?>
-	    <a style="float: right;" class="btn btn-mini" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+	    <? if (object('component')->getController()->canEdit()) : ?>
+	    <a style="float: right;" class="btn btn-mini" href="<?= helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
 	        <i class="icon-edit"></i>
 	    </a>
 	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
-	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	    <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
-	    <span class="label label-info"><?= @text('Unpublished') ?></span>
+	    <span class="label label-info"><?= translate('Unpublished') ?></span>
 	    <? endif ?>
 	    <? if ($article->access) : ?>
-	    <span class="label label-important"><?= @text('Registered') ?></span>
+	    <span class="label label-important"><?= translate('Registered') ?></span>
 	    <? endif ?>
 	</header>
 
-    <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
+    <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
 
     <? if($article->fulltext) : ?>
         <div class="article__introtext">
@@ -37,10 +36,6 @@
 
     <?= $article->fulltext ?>
 
-    <?= @template('com:tags.view.tags.default.html') ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
+    <?= include('com:tags.view.tags.default.html') ?>
+    <?= include('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>
-
-<? if($article->id && $params->get('commentable')) : ?>
-    <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
-<? endif ?>

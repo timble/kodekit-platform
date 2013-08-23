@@ -81,7 +81,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $mixer->save();
         $mixer->getTable()->getCommandChain()->enable();
 
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $mixer->delete();
         $mixer->getTable()->getCommandChain()->enable();
 
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**

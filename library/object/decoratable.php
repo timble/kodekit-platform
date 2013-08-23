@@ -20,12 +20,14 @@ interface ObjectDecoratable
     /**
      * Decorate the object
      *
-     * When using decorate(), the object will be decorate by the decorator
+     * When using decorate(), the object will be decorated by the decorator. The decorator needs to extend from
+     * ObjectDecorator.
      *
-     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
-     *                              or valid identifier string
+     * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectDecorator
      * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecoratable
+     * @return   ObjectDecorator
+     * @throws   ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  \UnexpectedValueException If the decorator does not extend from ObjectDecorator
      */
     public function decorate($decorator, $config = array());
 }

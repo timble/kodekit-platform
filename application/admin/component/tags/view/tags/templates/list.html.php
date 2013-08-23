@@ -18,15 +18,15 @@
 		<? foreach (@$tags as $tag) : ?>
 		<div class="tag">
 			<span><?= $tag->title; ?></span>
-			<a title="<?= @text('Delete this tag ?') ?>" data-action="delete" data-id="<?= $tag->id; ?>" href="#"><span>[x]</span></a>
+			<a title="<?= translate('Delete this tag ?') ?>" data-action="delete" data-id="<?= $tag->id; ?>" href="#"><span>[x]</span></a>
 		</div>
 		<? endforeach; ?>
 	</div>
-	<form action="<?= @route('row='.@$state->row.'&table='.$state->table.'&tmpl='); ?>" method="post">
+	<form action="<?= route('row='.@$state->row.'&table='.$state->table.'&tmpl='); ?>" method="post">
 		<input type="hidden" name="row"     value="<?= $state->row?>" />
 		<input type="hidden" name="table" value="<?= $state->table?>" />
-		<input name="title" type="text" value="" placeholder="<?= @text('Add new tag') ?>" <?= $disabled ?> />
-		<input class="button" type="submit" <?= $disabled ?> value="<?= @text('Add') ?>"/>
+		<input name="title" type="text" value="" placeholder="<?= translate('Add new tag') ?>" <?= $disabled ?> />
+		<input class="button" type="submit" <?= $disabled ?> value="<?= translate('Add') ?>"/>
 	</form>
-	<?= @text('Seperate tags with commas'); ?>
+	<?= translate('Seperate tags with commas'); ?>
 </div>

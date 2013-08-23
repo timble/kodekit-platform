@@ -26,14 +26,14 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'tabbar'  => null,
+        	'toolbar' => null,
             'attribs' => array(),
         ));
 
         $html = '';
-        if(isset($config->tabbar))
+        if(isset($config->toolbar))
         {
-            $commands = $config->tabbar->getCommands();
+            $commands = $config->toolbar->getCommands();
 
             if(count($commands)) {
                 $html = '<div id="panel-tabbar">';

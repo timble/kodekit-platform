@@ -113,8 +113,7 @@ class DatabaseSchemaColumn extends Object
     }
 
     /**
-     * Implements access to $_filter by reference so that it appears to be
-     * a public $filter property.
+     * Implements access to $_filter by reference so that it appears to be a public $filter property.
      *
      * @param   string  $key The virtual property to return, only accepts 'filter'
      * @return  mixed   The value of the virtual property.
@@ -128,7 +127,7 @@ class DatabaseSchemaColumn extends Object
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getObject('lib:filter.factory')->getInstance($this->_filter);
+                $this->_filter = $this->getObject('lib:filter.factory')->getFilter($this->_filter);
             }
 
             return $this->_filter;

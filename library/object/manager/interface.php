@@ -20,11 +20,15 @@ interface ObjectManagerInterface
     /**
      * Returns an identifier object.
      *
-     * If no identifier is passed the object identifier of this object will be returned. Function recursively
-     * resolves identifier aliases and returns the aliased identifier.
+     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
+     * object that implements KObjectInterface, or a KObjectIdentifier object, or valid identifier
+     * string. Function recursively resolves identifier aliases and returns the aliased identifier.
+     *
+     * If no identifier is passed the object identifier of this object will be returned.
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectIdentifier
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function getIdentifier($identifier = null);
 
@@ -39,8 +43,12 @@ interface ObjectManagerInterface
      *
      * @param	string|object	$identifier  An ObjectIdentifier or identifier string
      * @param	array  			$config     An optional associative array of configuration settings.
-     * @throws	ObjectException
      * @return	ObjectInterface  Return object on success, throws exception on failure
+     * @throws ObjectExceptionInvalidIdentifier   If the identifier is not valid
+     * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
+     * @throws  ObjectExceptionNotFound           If object cannot be loaded
+     * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
+     * @return  object  Return object on success, throws exception on failure
      */
     public function getObject($identifier, array $config = array());
 
@@ -50,6 +58,7 @@ interface ObjectManagerInterface
      * @param string|object	 $identifier  The identifier string or identifier object
      * @param ObjectInterface $object     An object that implements ObjectInterface
      * @return ObjectManagerInterface
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
 	public function setObject($identifier, ObjectInterface $object);
 
@@ -58,6 +67,7 @@ interface ObjectManagerInterface
      *
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectConfig
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function getConfig($identifier = null);
 
@@ -67,6 +77,7 @@ interface ObjectManagerInterface
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param array $config      An optional associative array of configuration options
      * @return ObjectManagerInterface
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function setConfig($identifier, array $config = null);
 
@@ -80,7 +91,8 @@ interface ObjectManagerInterface
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
      * @return ObjectManagerInterface
-     * @see Object::mixin()
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @see ObjectMixable::mixin()
      */
     public function registerMixin($identifier, $mixins);
 
@@ -94,7 +106,8 @@ interface ObjectManagerInterface
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
      * @return ObjectManagerInterface
-     * @see Object::decorate()
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @see ObjectDecoratable::decorate()
      */
     public function registerDecorator($identifier, $decorator);
 
@@ -104,6 +117,7 @@ interface ObjectManagerInterface
      * @param string $alias      The alias
      * @param mixed  $identifier The class identifier or identifier object
      * @return ObjectManagerInterface
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function registerAlias($alias, $identifier);
 
@@ -112,6 +126,7 @@ interface ObjectManagerInterface
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return array   An array of aliases
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function getAliases($identifier);
 
@@ -120,6 +135,7 @@ interface ObjectManagerInterface
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectLocatorInterface
      * @return ObjectManagerInterface
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function registerLocator($identifier, array $config = array());
 
@@ -155,10 +171,19 @@ interface ObjectManagerInterface
     public function isRegistered($identifier);
 
     /**
+     * Check if the object is a multiton
+     *
+     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isMultiton($identifier);
+
+    /**
      * Check if the object is a singleton
      *
      * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
      */
     public function isSingleton($identifier);
+
 }

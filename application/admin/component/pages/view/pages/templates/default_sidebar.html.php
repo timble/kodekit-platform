@@ -8,5 +8,5 @@
  */
 ?>
 
-<h3><?= @text('Menus') ?></h3>
-<?= @template('com:pages.view.menus.list.html', array('state' => $state, 'menus' => @object('com:pages.model.menus')->getRowset())); ?>
+<h3><?= translate('Menus') ?></h3>
+<?= include('com:pages.view.menus.list.html', array('state' => $state, 'menus' => object('com:pages.model.menus')->getRowset())); ?>

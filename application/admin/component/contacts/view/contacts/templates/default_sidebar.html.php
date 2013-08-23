@@ -8,6 +8,6 @@
  */
 ?>
 
-<h3><?= @text('Categories') ?></h3>
+<h3><?= translate('Categories') ?></h3>
 
-<?= @template('com:categories.view.categories.list.html', array('categories' => @object('com:contacts.model.categories')->sort('title')->table('contacts')->getRowset())); ?>
+<?= include('com:categories.view.categories.list.html', array('categories' => object('com:contacts.model.categories')->sort('title')->table('contacts')->getRowset())); ?>
