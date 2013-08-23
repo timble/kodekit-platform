@@ -13,6 +13,40 @@
     textarea {
       resize: vertical;
     }
+
+    .cke {
+      @include box-shadow(none);
+      border-color: darken($wellBackground, 7%);
+      @include border-radius(5px);
+      margin-bottom: $gridGutterWidth / 2;
+    }
+
+    .cke_inner {
+      background: $white;
+      @include border-radius(5px);
+    }
+
+    .cke_top {
+      background: $wellBackground;
+      border-bottom-color: darken($wellBackground, 7%);
+      @include box-shadow(none);
+      @include border-radius(5px 5px 0 0);
+
+      .cke_toolgroup {
+        background: none;
+        border: 0 none;
+        @include box-shadow(none);
+
+        .cke_button:hover {
+          @include border-radius(5px);
+          background: darken($wellBackground, 7%);
+        }
+      }
+    }
+
+    .cke_bottom {
+      display: none;
+    }
   }
 }
 
