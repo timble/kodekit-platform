@@ -432,8 +432,8 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
             if (!$option) {
                 $option = $this->getRequest()->getQuery()->get('option', 'cmd');
             }
-
-            $params[$hash] = $this->getObject('application.extensions')->getExtension(substr( $option, 4))->params;
+            $extension = substr($option, 4);
+            $params[$hash] = $this->getObject('application.extensions')->getExtension($extension)->params;
 
             // Get menu parameters
             $page = $this->getObject('application.pages')->getActive();
