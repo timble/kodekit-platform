@@ -80,8 +80,8 @@
                 <? endif;?>
             </div>
 
-            <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= @object('com:comments.controller.comment')->id($comment->id)->canDelete() ? 'true':'false';?>" >
-                <p><?= @escape($comment->text) ?></p>
+            <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= @object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true":"false";?>" >
+                <p><?=$comment->text?></p>
             </div>
 
 

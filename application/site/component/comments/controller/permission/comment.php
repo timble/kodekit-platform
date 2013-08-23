@@ -39,10 +39,10 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
         $result = false;
 
         //If the user is the owner of a comment he delete it.
-        if($comment->created_by == $this->getUser()->getId()) {
+        if($this->getUser()->getRole() > 18) {
             $result = true;
-        }elseif($this->getUser()->getRole() >= 23) {
-            $result = true;
+        }elseif($comment->created_by == $this->getUser()->getId()) {
+            $result = false;
         }
 
         return $result;
