@@ -65,8 +65,6 @@
 
     <? foreach($comments as $comment) : ?>
 
-        <?$editable = ($comment->created_by == @object('user')->getId() || @object('user')->getRole() >= 18) ? true:false;?>
-
         <div class="comment" id="comment-<?=$comment->id;?>">
             <div class="comment-header">
                <span class="comment-header-author">
@@ -75,14 +73,14 @@
                <span class="comment-header-time">
                     <time datetime="<?= $comment->created_on ?>" pubdate><?= @helper('date.humanize', array('date' => $comment->created_on)) ?></time>
                 </span>
-                <?if($editable):?>
+                <?if(@object('com:comments.controller.comment')->id($comment->id)->canDelete()):?>
                     <span class="comment-header-options">
                         <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
                     </span>
                 <? endif;?>
             </div>
 
-            <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= $editable ? 'true':'false';?>" >
+            <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= @object('com:comments.controller.comment')->id($comment->id)->canDelete() ? 'true':'false';?>" >
                 <p><?= @escape($comment->text) ?></p>
             </div>
 
