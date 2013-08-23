@@ -65,7 +65,7 @@
 
     <? foreach($comments as $comment) : ?>
 
-        <?$editable = ($comment->created_by == @object('user')->getId() || @object('user')->getRole() >= 23) ? true:false;?>
+        <?$editable = ($comment->created_by == @object('user')->getId() || @object('user')->getRole() >= 18) ? true:false;?>
 
         <div class="comment" id="comment-<?=$comment->id;?>">
             <div class="comment-header">
