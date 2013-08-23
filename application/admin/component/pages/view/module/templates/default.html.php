@@ -28,7 +28,7 @@
 
 		<div class="scrollable">
 		    <fieldset>
-		    	<legend><?= translate( 'Details' ); ?></legend>
+		    	<legend><?= translate('Details'); ?></legend>
 				<div>
 				    <label><?= translate('Type') ?></label>
 				    <div>
@@ -45,28 +45,28 @@
 
             <? if($params_rendered = $params->render('params')) : ?>
             <fieldset>
-				<legend><?= translate( 'Default Parameters' ); ?></legend>
+				<legend><?= translate('Default Parameters'); ?></legend>
                 <?= $params_rendered; ?>
 			</fieldset>
             <? endif ?>
 
             <? if($params_rendered = $params->render('params', 'advanced')) : ?>
 			<fieldset>
-				<legend><?= translate( 'Advanced Parameters' ); ?></legend>
+				<legend><?= translate('Advanced Parameters'); ?></legend>
                 <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 
             <? if($params_rendered = $params->render('params', 'other')) : ?>
 			<fieldset>
-				<legend><?= translate( 'Other Parameters' ); ?></legend>
+				<legend><?= translate('Other Parameters'); ?></legend>
                 <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 
 			<? if($module->name == 'mod_custom') : ?>
 			<fieldset>
-				<legend><?= @text('Custom Output') ?></legend>
+				<legend><?= translate('Custom Output') ?></legend>
 				<?= object('com:ckeditor.controller.editor')->render(array('name' => 'content', 'text' => $module->content,'toolbar' => 'standard')) ?>
 			</fieldset>
 			<? endif ?>
