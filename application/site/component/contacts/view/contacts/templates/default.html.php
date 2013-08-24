@@ -12,7 +12,7 @@
 <script src="media://js/koowa.js" />
 -->
 
-<title><?= $category->title ?></title>
+<title content="replace"><?= $category->title ?></title>
 
 <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 

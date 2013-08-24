@@ -12,7 +12,7 @@
 <?=helper('behavior.keepalive')?>
 <?=helper('behavior.validator')?>
 
-<title><?= translate('Login') ?></title>
+<title content="replace"><?= translate('Login') ?></title>
 
 <form action="<?= helper('route.session'); ?>" method="post" class="-koowa-form">
     <div class="form-content">

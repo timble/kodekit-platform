@@ -8,7 +8,7 @@
  */
 ?>
 
-<title><?= $article->title ?></title>
+<title content="replace"><?= $article->title ?></title>
 
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>

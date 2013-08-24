@@ -8,7 +8,7 @@
  */
 ?>
 
-<title><?= $category->title ?></title>
+<title content="replace"><?= $category->title ?></title>
 
 <h1><?=translate('Search results')?></h1>
 

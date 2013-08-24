@@ -8,7 +8,7 @@
  */
 ?>
 
-<title><?= $category->title ?></title>
+<title content="replace"><?= $category->title ?></title>
 
 <div class="page-header">
     <h1><?= escape($params->get('page_title')); ?></h1>
