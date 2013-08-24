@@ -8312,9 +8312,9 @@ article img[align="right"] {
 }
 /* line 8, blocks/_comments.scss */
 .comments form {
-  padding: 19px;
-  background-color: whitesmoke;
-  border-bottom: 1px solid #e3e3e3;
+  margin: 19px;
+  padding-top: 19px;
+  border-top: 1px solid #e3e3e3;
 }
 /* line 13, blocks/_comments.scss */
 .comments form textarea {

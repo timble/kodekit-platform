@@ -67,12 +67,7 @@
 
 <? if(count($comments) || object('com:comments.controller.comment')->canAdd()) : ?>
 <div class="comments">
-    <?if(object('com:comments.controller.comment')->canAdd()):?>
-        <?= include('com:comments.view.comment.form.html'); ?>
-    <?endif;?>
-
     <? foreach($comments as $comment) : ?>
-
         <div class="comment" id="comment-<?=$comment->id;?>">
             <div class="comment-header">
                <span class="comment-header-author">
@@ -91,9 +86,10 @@
             <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true":"false";?>" >
                 <p><?=$comment->text?></p>
             </div>
-
-
         </div>
     <? endforeach ?>
+    <?if(object('com:comments.controller.comment')->canAdd()):?>
+        <?= include('com:comments.view.comment.form.html'); ?>
+    <?endif;?>
 </div>
 <?endif;?>

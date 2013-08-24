@@ -6,9 +6,9 @@
   margin-bottom: 20px;
 
   form {
-    padding: 19px;
-    background-color: $wellBackground;
-    border-bottom: 1px solid darken($wellBackground, 7%);
+    margin: 19px;
+    padding-top: 19px;
+    border-top: 1px solid darken($wellBackground, 7%);
 
     textarea {
       resize: vertical;
