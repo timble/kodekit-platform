@@ -8,7 +8,6 @@
  */
 ?>
 
-
 <form action="<?= helper('com:comments.route.comment', array('row' => $row)) ?>" method="post">
     <input type="hidden" name="row" value="<?= $state->row ?>" />
 

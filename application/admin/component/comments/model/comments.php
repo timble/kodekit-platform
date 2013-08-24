@@ -14,7 +14,7 @@ use Nooku\Library;
  * Comments Model
  *
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
- * @package Nooku\Component\Comments
+ * @package Component\Comments
  */
 class CommentsModelComments extends Comments\ModelComments
 {

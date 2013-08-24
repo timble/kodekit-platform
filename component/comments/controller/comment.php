@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Comments
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Comments;
@@ -12,11 +12,10 @@ namespace Nooku\Component\Comments;
 use Nooku\Library;
 
 /**
- * Comment Controller Class
+ * Comment Controller
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Comments
+ * @package     Nooku\Component\Comments
  */
 abstract class ControllerComment extends Library\ControllerModel
 { 
