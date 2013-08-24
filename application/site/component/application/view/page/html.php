@@ -25,16 +25,8 @@ class ApplicationViewPageHtml extends Application\ViewPageHtml
      */
     public function getTitle()
     {
-        $title = '';
-
         //Get the parameters of the active menu item
-        $page   = $this->getObject('application.pages')->getActive();
-        $params = new JParameter($page->params);
-
-        if($params->get('page_title')) {
-            $title = $params->get('page_title');
-        }
-
-        return $title;
+        $page = $this->getObject('application.pages')->getActive();
+        return $page->title;
     }
 }
