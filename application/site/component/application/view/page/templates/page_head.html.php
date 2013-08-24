@@ -10,11 +10,12 @@
 
 <head>
     <base href="<?= url(); ?>" />
-    <title><?= $params->get('page_title') ?></title>
+    <title><?= title() ?></title>
 
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <ktml:title>
     <ktml:meta>
     <ktml:link>
     <ktml:style>
