@@ -37,9 +37,8 @@ class ViewPageHtml extends ViewHtml
         $this->extension = $this->getObject('component')->getIdentifier()->package;
         $this->layout    = $this->getObject('component')->getController()->getView()->getLayout();
 
-        // Set the site and params information
-        $this->site      = $this->getObject('application')->getSite();
-        $this->params    = $this->getObject('application')->getParams();
+        // Set the site and title information
+        $this->site  = $this->getObject('application')->getSite();
 
         return parent::render();
     }
