@@ -18,12 +18,24 @@ use Nooku\Library;
  */
 class CommentsControllerPermissionComment extends ApplicationControllerPermissionAbstract
 {
+    public function canAdd()
+    {
+        $result = false;
+
+        // Logged in users can add comments
+        if($this->getUser()->getId()){
+            $result = true;
+        }
+
+        return $result;
+    }
+
     public function canEdit()
     {
         $result  = false;
         $comment = $this->getModel()->getRow();
 
-        //If the user is manager he can moderator comments
+        // If the user is manager he can moderator comments
         if($comment->created_by == $this->getUser()->getId()) {
             $result = true;
         }elseif($this->getUser()->getRole() >= 23) {
@@ -38,7 +50,7 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
         $comment = $this->getModel()->getRow();
         $result = false;
 
-        //If the user is the owner of a comment he delete it.
+        // If the user is the owner of a comment he delete it.
         if($this->getUser()->getRole() > 18) {
             $result = true;
         }elseif($comment->created_by == $this->getUser()->getId()) {
@@ -47,16 +59,4 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
 
         return $result;
     }
-
-    public function canAdd()
-    {
-        $result = false;
-        if($this->getUser()->getId()){
-            $result = true;
-        }
-
-        return $result;
-    }
-
-
 }

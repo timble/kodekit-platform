@@ -28,12 +28,6 @@ class ModelComments extends Library\ModelTable
 			->insert('row'  , 'int');
 	}
 
-    /**
-     * Builds SELECT columns list for the query.
-     *
-     * @param   Library\DatabaseQuerySelect  A query object.
-     * @return  void
-     */
     protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
@@ -44,12 +38,6 @@ class ModelComments extends Library\ModelTable
         ));
     }
 
-    /**
-     * Builds LEFT JOINS clauses for the query.
-     *
-     * @param   Library\DatabaseQuerySelect  A query object.
-     * @return  void
-     */
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
