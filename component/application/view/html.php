@@ -46,6 +46,9 @@ class ViewHtml extends Library\ViewHtml
         $this->language  = \JFactory::getLanguage()->getTag();
         $this->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
+        // Set the site information
+        $this->site  = $this->getObject('application')->getSite();
+
         return parent::render();
     }
 }
