@@ -36,6 +36,7 @@ class TemplateFilterTitle extends TemplateFilterTag
     {
         $config->append(array(
             'separator' => '-',
+            'escape'    => true,
         ));
 
         parent::_initialize($config);
@@ -98,6 +99,10 @@ class TemplateFilterTitle extends TemplateFilterTag
         unset($attribs['separator']);
 
         $attribs = $this->buildAttributes($attribs);
+
+        if($this->getConfig()->escape) {
+            $content = $this->getTemplate()->getView()->escape($content);
+        }
 
 		$html = '<title '.$attribs.'>'.$content.'</title>'."\n";
 		return $html;
