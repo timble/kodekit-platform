@@ -25,19 +25,10 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         //Get the contact
         $article = $this->getModel()->getData();
 
-        //Get the parameters of the active menu item
-        if($page = $this->getObject('application.pages')->getActive())
-        {
-            $menu_params = new JParameter($page->params);
-            if(!$menu_params->get('page_title')) {
-                $params->set('page_title',	$article->title);
-            }
-        }
-        else $params->set('page_title',	$article->title);
-
         //Set the breadcrumbs
         $pathway = $this->getObject('application')->getPathway();
 
+        $page = $this->getObject('application.pages')->getActive();
         if($page->getLink()->query['view'] == 'categories')
         {
             $category = $this->getCategory();

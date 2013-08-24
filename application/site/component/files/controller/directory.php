@@ -29,9 +29,7 @@ class FilesControllerDirectory extends Library\ControllerModel
             $page = $this->getObject('application.pages')->getActive();
 
             $params = new JParameter($page->params);
-
-            if (isset($params->limit) && $params->limit > 0)
-            {
+            if (isset($params->limit) && $params->limit > 0) {
                 $request->query->set('limit', $params->limit);
             }
         }

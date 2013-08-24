@@ -8,6 +8,8 @@
  */
 ?>
 
+<title><?= $category->title ?></title>
+
 <h1><?=translate('Search results')?></h1>
 
 <div class="well">
