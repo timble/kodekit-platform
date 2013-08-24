@@ -25,9 +25,8 @@ class ViewHtml extends Library\ViewHtml
 
         $path  = $this->getObject('request')->getBaseUrl()->getPath();
         $path .= '/theme/'.$this->getObject('application')->getTheme().'/';
-        $this->getTemplate()->getFilter('alias')->addAlias(
-            array($this->_mediaurl.'/application/' => $path), Library\TemplateFilter::MODE_COMPILE | Library\TemplateFilter::MODE_RENDER
-        );
+
+        $this->getTemplate()->getFilter('url')->addAlias('/media/application/', $path);
     }
 
     protected function _initialize(Library\ObjectConfig $config)
