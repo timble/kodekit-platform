@@ -134,6 +134,16 @@ abstract class ViewAbstract extends Object implements ViewInterface
     }
 
     /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle()
+    {
+        return ucfirst($this->getName());
+    }
+
+    /**
      * Get the format
      *
      * @return string   The format of the view

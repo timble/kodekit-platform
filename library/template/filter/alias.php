@@ -33,7 +33,8 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
         'include('   => '$this->loadFile(',
         'route('     => '$this->getView()->getRoute(',
         'escape('    => '$this->getView()->escape(',
-        'url('       => '$this->getView()->getBaseUrl()->toString('
+        'url('       => '$this->getView()->getBaseUrl()->toString(',
+        'title('     => '$this->getView()->getTitle('
     );
 
     /**

@@ -12,6 +12,8 @@
 <script src="media://js/koowa.js" />
 -->
 
+<title content="replace"><?= $category->title ?></title>
+
 <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 
 <div class="page-header">

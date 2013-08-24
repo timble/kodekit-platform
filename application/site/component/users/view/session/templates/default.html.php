@@ -12,6 +12,8 @@
 <?=helper('behavior.keepalive')?>
 <?=helper('behavior.validator')?>
 
+<title content="replace"><?= translate('Login') ?></title>
+
 <form action="<?= helper('route.session'); ?>" method="post" class="-koowa-form">
     <div class="form-content">
         <div class="page-header">

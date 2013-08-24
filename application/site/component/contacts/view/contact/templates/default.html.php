@@ -12,6 +12,8 @@
 <script src="media://js/koowa.js" />
 -->
 
+<title content="replace"><?= $contact->name ?></title>
+
 <? if ($contact->params->get('allow_vcard', false)) : ?>
     <link href="<?= route('format=vcard') ?>" rel="alternate" type="text/x-vcard; version=2.1" title="Vcard - <?= $contact->name; ?>"/>
 <? endif; ?>

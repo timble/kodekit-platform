@@ -47,6 +47,13 @@ interface ViewInterface
 	 * @return 	string 	The name of the object
 	 */
 	public function getName();
+
+    /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle();
 	
 	/**
 	 * Get the format

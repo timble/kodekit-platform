@@ -25,17 +25,8 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
         //Get the category
         $category = $this->getCategory();
 
-        //Get the parameters of the active menu item
-        if($page = $this->getObject('application.pages')->getActive())
-        {
-            $menu_params = new JParameter($page->params);
-            if(!$menu_params->get('page_title')) {
-                $params->set('page_title', $category->title);
-            }
-        }
-        else $params->set('page_title',	$category->title);
-
         //Set the pathway
+        $page = $this->getObject('application.pages')->getActive();
         if($page->getLink()->query['view'] == 'categories' ) {
             $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
