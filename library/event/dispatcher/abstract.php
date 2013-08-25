@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-abstract class EventDispatcherAbstract extends Object implements EventDispatcherInterface, ObjectInstantiable
+abstract class EventDispatcherAbstract extends Object implements EventDispatcherInterface
 {
     /**
      * List of event listeners
@@ -55,28 +55,6 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
 
         $this->_subscribers = array();
         $this->_listeners   = array();
-    }
-
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered('event.dispatcher'))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->setObject($config->object_identifier, $instance);
-
-            //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('event.dispatcher', $config->object_identifier);
-        }
-
-        return $manager->getObject('event.dispatcher');
     }
 
     /**
