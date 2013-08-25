@@ -77,7 +77,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     {
         $config->append(array(
             'base_url'          => '/',
-            'event_dispatcher'  => 'com:debug.event.dispatcher.debug',
             'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
             'site'      => null,
             'options'   => array(
