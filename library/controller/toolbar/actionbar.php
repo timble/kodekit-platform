@@ -37,9 +37,9 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
-	 * @param	Event $event A event object
+	 * @param	CommandContext	$context A command context object
 	 */
-    public function onAfterControllerRead(Event $event)
+    protected function _afterControllerRead(CommandContext $context)
     {
         $controller = $this->getController();
 
@@ -59,9 +59,9 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     /**
 	 * Add default toolbar commands
 	 * .
-	 * @param	Event $event A event object
+	 * @param	CommandContext	$context A command context object
 	 */
-    public function onAfterControllerBrowse(Event $event)
+    protected function _afterControllerBrowse(CommandContext $context)
     {
         $controller = $this->getController();
 
