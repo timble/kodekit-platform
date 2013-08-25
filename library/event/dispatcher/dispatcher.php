@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Event Dispatcher Singleton
  *
+ * Force the user object to a singleton
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */

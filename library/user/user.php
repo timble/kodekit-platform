@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * User Singleton
  *
- * Force the user object to a singleton with identfifier alias 'user'.
+ * Force the user object to a singleton
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
