@@ -21,6 +21,6 @@ class ArticlesTemplateFilterFunction extends Library\TemplateFilterFunction
     {
         parent::__construct($config);
 
-        $this->addFunction('highlight', '$this->getView()->highlight');
+        $this->addFunction('highlight', '$this->getView()->highlight(');
     }
 }
