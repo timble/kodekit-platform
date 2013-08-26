@@ -54,7 +54,7 @@ class ModelNodes extends ModelAbstract
         return parent::getRow();
     }
 
-	public function getRowset()
+	public function fetch()
 	{
 		if (!isset($this->_data))
 		{
@@ -109,7 +109,7 @@ class ModelNodes extends ModelAbstract
 			$this->_data  = $list;
 		}
 
-		return parent::getRowset();
+		return $this->_data;
 	}
 
     public function getContainer()

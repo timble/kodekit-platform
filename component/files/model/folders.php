@@ -26,7 +26,7 @@ class ModelFolders extends ModelNodes
         $this->getState()->insert('tree', 'boolean', false);
 	}
 
-	public function getRowset()
+	public function fetch()
 	{
 		if (!isset($this->_data))
 		{
@@ -75,7 +75,7 @@ class ModelFolders extends ModelNodes
 			$this->_data = $this->createRowset()->addRow($results);
 		}
 
-		return parent::getRowset();
+		return parent::fetch();
 	}
 
 	public function iteratorMap($path)

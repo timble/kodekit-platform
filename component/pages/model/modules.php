@@ -151,7 +151,7 @@ class ModelModules extends Library\ModelDatabase
      *
      * @return Library\DatabaseRowsetInterface
      */
-    public function getRowset()
+    public function fetch()
     {
         if(!isset($this->_data))
         {
@@ -208,7 +208,7 @@ class ModelModules extends Library\ModelDatabase
 
                 $this->_data = $this->getTable()->fetch()->addRow($modules);
 
-            } else $this->_data = parent::getRowset();
+            } else $this->_data = parent::fetch();
         }
 
         return $this->_data;

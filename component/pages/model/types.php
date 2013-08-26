@@ -26,7 +26,7 @@ class ModelTypes extends Library\ModelAbstract
         $this->getState()->insert('application', 'word');
     }
 
-    public function getRowset()
+    public function fetch()
     {
         if(!isset($this->_data))
         {

@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelFiles extends ModelNodes
 {
-    public function getRowset()
+    public function fetch()
     {
         if (!isset($this->_data))
         {
@@ -58,7 +58,7 @@ class ModelFiles extends ModelNodes
             $this->_data = $this->createRowset(array('data' => $data));
         }
 
-        return parent::getRowset();
+        return parent::fetch();
     }
 
 	public function iteratorMap($path)
