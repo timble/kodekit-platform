@@ -64,21 +64,19 @@
 <div id="comments" class="comments">
     <? foreach($comments as $comment) : ?>
         <div class="comment" id="comment-<?=$comment->id;?>">
-            <div class="comment-header">
-               <span class="comment-header-author">
+            <div class="comment__header">
+               <span class="comment__header--left">
                     <?= $comment->created_by == object('user')->id ? translate('You') : $comment->created_by_name ?>&nbsp;<?= translate('wrote') ?>
                </span>
-               <span class="comment-header-time">
+               <span class="comment__header--right">
                     <time datetime="<?= $comment->created_on ?>" pubdate><?= helper('date.humanize', array('date' => $comment->created_on)) ?></time>
-                </span>
-                <?if(object('com:comments.controller.comment')->id($comment->id)->canDelete()):?>
-                    <span class="comment-header-options">
-                        <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
-                    </span>
-                <? endif;?>
+                   <?if(object('com:comments.controller.comment')->id($comment->id)->canDelete()):?>
+                       <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
+                   <? endif;?>
+               </span>
             </div>
 
-            <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true":"false";?>" >
+            <div class="comment__text" id="comment-<?=$comment->id;?>" contenteditable="<?= object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true":"false";?>" >
                 <?=$comment->text?>
             </div>
         </div>
