@@ -13,16 +13,16 @@
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" id="tag-form">
     <div class="main">
 		<div class="title">
-			<input class="required" type="text" name="title" maxlength="255" value="<?= $tag->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+			<input class="required" type="text" name="title" maxlength="255" value="<?= $tag->title; ?>" placeholder="<?= translate( 'Title' ); ?>" />
 		    <div class="slug">
-		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <span class="add-on"><?= translate('Slug'); ?></span>
 		        <input type="text" name="slug" maxlength="255" value="<?= $tag->slug ?>" />
 		    </div>
 		</div>

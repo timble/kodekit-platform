@@ -117,27 +117,21 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param    array $config  An optional associative array of configuration options
+     * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectMixableInterface
+     * @param  array $config  An optional associative array of configuration options
      * @return  ObjectMixinInterface
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  \UnexpectedValueException If the mixin does not implement the ObjectMixinInterface
      */
     public function mixin($mixin, $config = array())
     {
         if (!($mixin instanceof ObjectMixinInterface))
         {
-            if (!($mixin instanceof ObjectIdentifier))
-            {
-                //Create the complete identifier if a partial identifier was passed
-                if (is_string($mixin) && strpos($mixin, '.') === false)
-                {
-                    $identifier = clone $this->getIdentifier();
-                    $identifier->path = 'mixin';
-                    $identifier->name = $mixin;
-                }
-                else $identifier = $this->getIdentifier($mixin);
+            if (!($mixin instanceof ObjectIdentifier)) {
+               $identifier = $this->getIdentifier($mixin);
+            } else {
+                $identifier = $mixin;
             }
-            else $identifier = $mixin;
 
             $config = new ObjectConfig($config);
             $config->mixer = $this;
@@ -169,39 +163,38 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Decorate the object
      *
-     * When using decorate(), the object will be decorated by the decorator
+     * When using decorate(), the object will be decorated by the decorator. The decorator needs to extend from
+     * ObjectDecorator.
      *
-     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
-     *                              or valid identifier string
+     * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectDecorator
      * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecoratorInterface
+     * @return   ObjectDecorator
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  \UnexpectedValueException If the decorator does not extend from ObjectDecorator
      */
     public function decorate($decorator, $config = array())
     {
-        if (!($decorator instanceof ObjectDecoratorInterface))
+        if (!($decorator instanceof ObjectDecorator))
         {
-            if (!($decorator instanceof ObjectIdentifier))
-            {
-                //Create the complete identifier if a partial identifier was passed
-                if (is_string($decorator) && strpos($decorator, '.') === false)
-                {
-                    $identifier = clone $this->getIdentifier();
-                    $identifier->path = 'decorator';
-                    $identifier->name = $decorator;
-                }
-                else $identifier = $this->getIdentifier($decorator);
+            if (!($decorator instanceof ObjectIdentifier)) {
+                $identifier = $this->getIdentifier($decorator);
+            } else {
+                $identifier = $decorator;
             }
-            else $identifier = $decorator;
 
             $config = new ObjectConfig($config);
             $config->delegate = $this;
 
             $decorator = new $identifier->classname($config);
 
-            if(!$decorator instanceof ObjectDecoratorInterface)
+            /*
+             * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
+             * ObjectInterface, ObjectHandable, ObjectMixable and ObjectDecoratable interfaces.
+             */
+            if(!$decorator instanceof ObjectDecorator)
             {
                 throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($decorator).' does not implement ObjectDecoratorInterface'
+                    'Decorator: '.get_class($decorator).' does not extend from ObjectDecorator'
                 );
             }
         }
@@ -252,7 +245,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Get a list of all the available methods
      *
-     * This function returns an array of all the methods, both native and mixed in
+     * This function returns an array of all the methods, both native and mixed in.
      *
      * @return array An array
      */
@@ -276,10 +269,9 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
      *
-     * @param    string|object    $identifier A valid identifier string or object implementing ObjectInterface
-     * @param    array            $config     An optional associative array of configuration settings.
-     * @throws   \RuntimeException If the service manager has not been defined.
-     * @return   ObjectInterface  Return object on success, throws exception on failure
+     * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param  array $config     An optional associative array of configuration settings.
+     * @return ObjectInterface  Return object on success, throws exception on failure
      */
     final public function getObject($identifier, array $config = array())
     {
@@ -293,8 +285,8 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * If no identifier is passed the object identifier of this object will be returned. Function recursively
      * resolves identifier aliases and returns the aliased identifier.
      *
-     * @param   string|object    $identifier The class identifier or identifier object
-     * @return  ObjectIdentifier
+     * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectIdentifier
      */
     final public function getIdentifier($identifier = null)
     {
@@ -313,7 +305,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * If no identifier is passed the object config of this object will be returned. Function recursively
      * resolves identifier aliases and returns the aliased identifier.
      *
-     *  @param   string|object    $identifier A valid identifier string or object implementing ObjectInterface
+     * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectConfig
      */
     public function getConfig($identifier = null)
@@ -380,29 +372,29 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
             else
             {
-                $object = $this->_mixed_methods[$method];
+                $mixin = $this->_mixed_methods[$method];
 
                 //Switch the mixin's attached mixer
-                $object->setMixer($this);
+                $mixin->setMixer($this);
 
                 // Call_user_func_array is ~3 times slower than direct method calls.
                 switch (count($arguments))
                 {
                     case 0 :
-                        $result = $object->$method();
+                        $result = $mixin->$method();
                         break;
                     case 1 :
-                        $result = $object->$method($arguments[0]);
+                        $result = $mixin->$method($arguments[0]);
                         break;
                     case 2 :
-                        $result = $object->$method($arguments[0], $arguments[1]);
+                        $result = $mixin->$method($arguments[0], $arguments[1]);
                         break;
                     case 3 :
-                        $result = $object->$method($arguments[0], $arguments[1], $arguments[2]);
+                        $result = $mixin->$method($arguments[0], $arguments[1], $arguments[2]);
                         break;
                     default:
                         // Resort to using call_user_func_array for many segments
-                        $result = call_user_func_array(array($object, $method), $arguments);
+                        $result = call_user_func_array(array($mixin, $method), $arguments);
                 }
             }
 

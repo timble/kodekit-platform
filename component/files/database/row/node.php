@@ -42,9 +42,9 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getObject('lib:command.chain'),
+			'command_chain'     => 'lib:command.chain',
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getObject('lib:event.dispatcher.default'),
+			'event_dispatcher'  => 'event.dispatcher',
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));

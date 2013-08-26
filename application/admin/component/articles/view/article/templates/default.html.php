@@ -8,8 +8,8 @@
  */
 ?>
 
-<?= @helper('behavior.keepalive') ?>
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.keepalive') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />
@@ -33,13 +33,13 @@
     }));
 </script>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <? if($article->isTranslatable()) : ?>
-    <ktml:module position="toolbar" content="append">
-        <?= @helper('com:languages.listbox.languages') ?>
+    <ktml:module position="actionbar" content="append">
+        <?= helper('com:languages.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 
@@ -49,16 +49,16 @@
     
     <div class="main">
         <div class="title">
-            <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
+            <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= translate('Title') ?>" />
             <div class="slug">
-                <span class="add-on"><?= @text('Slug') ?></span>
+                <span class="add-on"><?= translate('Slug') ?></span>
                 <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" />
             </div>
         </div>
-        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
+        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar no--scrollbar">
-        <?= @template('default_sidebar.html'); ?>
+        <?= include('default_sidebar.html'); ?>
     </div>
 </form>
 

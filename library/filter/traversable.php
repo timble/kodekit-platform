@@ -17,5 +17,6 @@ namespace Nooku\Library;
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
+ * @see KFilterAbstract::getInstance()
  */
 interface FilterTraversable { }

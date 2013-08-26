@@ -135,7 +135,7 @@ class BehaviorMixin extends CommandMixin
         $this->_behaviors[$behavior->getName()] = $behavior;
 
         //Force set the mixer
-        $behavior->setMixer($this->_mixer);
+        $behavior->setMixer($this->getMixer());
 
         //Enqueue the behavior
         $this->getCommandChain()->enqueue($behavior);
@@ -145,7 +145,7 @@ class BehaviorMixin extends CommandMixin
             $this->mixin($behavior);
         }
 
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**

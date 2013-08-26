@@ -47,8 +47,13 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      */
     protected function _initialize(ObjectConfig $config)
     {
-    	$config->append(array(
-            'toolbars'   => array($this->getIdentifier()->name),
+        $toolbars = array();
+        if($config->dispatched && $config->user->isAuthentic()) {
+            $toolbars[] = $this->getIdentifier()->name;
+        }
+
+        $config->append(array(
+            'toolbars'   => $toolbars,
             'model'	     => $this->getIdentifier()->name,
         ));
 

@@ -17,36 +17,24 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Revisions
  */
-class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
+class ControllerToolbarRevisable extends Library\ControllerToolbarDecorator
 {
-    protected function _initialize(Library\ObjectConfig $config)
+    /**
+     * Add default toolbar commands
+     * .
+     * @param	Library\CommandContext	$context A command context object
+     */
+    protected function _afterControllerBrowse(Library\CommandContext $context)
     {
-        $config->append(array(
-    		'priority'  => Library\CommandChain::PRIORITY_LOW
-        ));
-
-        parent::_initialize($config);
-    }
-    
-    public function onAfterControllerBrowse(Library\Event $event)
-    {     
         $controller = $this->getController();
-        $state      = $controller->getModel()->getState();
-        
-        if($state->trashed == true) 
-        {
-            $name    = $controller->getIdentifier()->name;
-            $toolbar = $this->getController()->getToolbar($name);
-            $toolbar->reset();
-                 
-            if($controller->canEdit()) {
-                $toolbar->addCommand($this->getCommand('restore'));
-            }
-            
-            if($controller->canDelete()) {
-                $toolbar->addCommand($this->getCommand('delete'));
-            }
-        } 
+
+        if($controller->canEdit()) {
+            $this->addCommand('restore');
+        }
+
+        if($controller->canDelete()) {
+            $this->addCommand('delete');
+        }
     }
     
     protected function _commandRestore(Library\ControllerToolbarCommand $command)

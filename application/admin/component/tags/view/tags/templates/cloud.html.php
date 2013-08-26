@@ -14,11 +14,11 @@
 	<? foreach ($tags as $tag) : ?>
 	<? list($extension, $view) = explode("_", $tag->table) ?>
 	<li>
-		<span><?= $tags->count ?> <?= @text('articles are tagged with') ?></span>
-		<a  href="<?= @route('option=com_'.$extension.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/$total + 1) ?>" ><?= $tag->title; ?></a>
+		<span><?= $tags->count ?> <?= translate('articles are tagged with') ?></span>
+		<a  href="<?= route('option=com_'.$extension.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/$total + 1) ?>" ><?= $tag->title; ?></a>
 	</li>
 	<? endforeach; ?>
 	<li>
-		<a href="<?= @route('option=com_'.$extension.'&view='.$view.'&tag=') ?>"><?= @text('All tags') ?></a>
+		<a href="<?= route('option=com_'.$extension.'&view='.$view.'&tag=') ?>"><?= translate('All tags') ?></a>
 	</li>
 </ul>

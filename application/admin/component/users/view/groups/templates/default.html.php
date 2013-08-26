@@ -13,20 +13,20 @@
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-    <?= @template('default_scopebar.html') ?>
+    <?= include('default_scopebar.html') ?>
     <table>
         <thead>
             <tr>
                 <th width="1">
-                    <?= @helper('grid.checkall'); ?>
+                    <?= helper('grid.checkall'); ?>
                 </th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'Name')) ?>
+                    <?= helper('grid.sort', array('column' => 'Name')) ?>
                 </th>
             </tr>
         </thead>
@@ -34,7 +34,7 @@
         <tfoot>
             <tr>
                 <td colspan="2">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -43,11 +43,11 @@
             <? foreach($groups as $group) : ?>
                 <tr>
                     <td align="center">
-                        <?= @helper('grid.checkbox', array('row' => $group)) ?>
+                        <?= helper('grid.checkbox', array('row' => $group)) ?>
                     </td>
                     <td>
-                        <a href="<?= @route('view=group&id='.$group->id) ?>">
-                            <?= @escape($group->name) ?>
+                        <a href="<?= route('view=group&id='.$group->id) ?>">
+                            <?= escape($group->name) ?>
                         </a>
                     </td>
                 </tr>

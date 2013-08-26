@@ -18,15 +18,15 @@
 		<thead>
 			<tr>
 				<th class="title">
-				    <?= @helper('grid.sort', array('title' => 'Title', 'column' => 'title')) ?>
+				    <?= helper('grid.sort', array('title' => 'Title', 'column' => 'title')) ?>
 				</th>
 				<th align="center" width="10">
-					<?= @helper('grid.sort', array('title' => 'Date', 'column' => 'created_on')) ?>
+					<?= helper('grid.sort', array('title' => 'Date', 'column' => 'created_on')) ?>
 				</th>
 			</tr>
 			<tr>
 				<td>
-				    <?= @helper('grid.search') ?>
+				    <?= helper('grid.search') ?>
 				</td>
 				<td></td>
 			</tr>
@@ -34,7 +34,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -42,12 +42,12 @@
 		<? foreach($articles as $article) : ?>
 			<tr>
 				<td>
-					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?= $article->id ?>', '<?= str_replace(array("'", "\""), array("\\'", ""), $article->title); ?>', '<?= @object('request')->query->get('object', 'cmd'); ?>');">
-					    <?= @escape($article->title) ?>
+					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?= $article->id ?>', '<?= str_replace(array("'", "\""), array("\\'", ""), $article->title); ?>', '<?= object('request')->query->get('object', 'cmd'); ?>');">
+					    <?= escape($article->title) ?>
 					</a>
 				</td>
 				<td nowrap="nowrap">
-					<?= @helper('date.humanize', array('date' => $article->created_on)) ?>
+					<?= helper('date.humanize', array('date' => $article->created_on)) ?>
 				</td>
 			</tr>
 		<? endforeach ?>

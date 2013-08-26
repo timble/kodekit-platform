@@ -17,15 +17,22 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ControllerToolbarFile extends Library\ControllerToolbarModel
+class ControllerToolbarFile extends Library\ControllerToolbarActionbar
 {
-    public function onBeforeControllerRender(Library\Event $event)
-    {     
-        parent::onBeforeControllerRender($event);
-        
-        $this->addCommand('upload');
-        $this->addNew(array('label' => 'New Folder'));
-        
-        $this->addDelete();
+    public function getCommands()
+    {
+        $controller = $this->getController();
+
+        if ($controller->canAdd())
+        {
+            $this->addCommand('upload');
+            $this->addNew(array('label' => 'New Folder'));
+        }
+
+        if ($controller->canDelete()) {
+            $this->addDelete();
+        }
+
+        return parent::getCommands();
     }
 }

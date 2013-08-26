@@ -37,8 +37,12 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $this->_view = $config->view;
 
 		// Mixin the toolbar
-		if($config->dispatch_events) {
-            $this->mixin('lib:controller.toolbar.mixin', $config);
+		if($config->dispatch_events)
+        {
+            $this->mixin('lib:controller.toolbar.mixin');
+
+            //Attach the toolbars
+            $this->registerCallback('before.render' , array($this, 'attachToolbars'), array($config->toolbars));
 		}
 	}
 	
@@ -55,9 +59,33 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $config->append(array(
             'view'      => $this->getIdentifier()->name,
             'behaviors' => array('permissible'),
+            'toolbars'  => array()
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Attach the toolbars to the controller
+     *
+     * @param array $toolbars A list of toolbars
+     * @return ControllerView
+     */
+    public function attachToolbars($toolbars)
+    {
+        if($this->getView() instanceof ViewHtml)
+        {
+            foreach($toolbars as $toolbar) {
+                $this->attachToolbar($toolbar);
+            }
+
+            if($toolbars = $this->getToolbars())
+            {
+                $this->getView()
+                    ->getTemplate()
+                    ->attachFilter('toolbar', array('toolbars' => $toolbars));
+            };
+        }
     }
 
 	/**
@@ -82,9 +110,8 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
 			//Create the view
 			$config = array(
-                'media_url' => $this->getObject('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getObject('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
-                'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
+			    'url'	  => $this->getObject('request')->getUrl(),
+                'layout'  => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
 			$this->_view = $this->getObject($this->_view, $config);

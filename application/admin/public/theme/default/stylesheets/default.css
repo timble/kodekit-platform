@@ -1,3 +1,83 @@
+@-webkit-keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  /* line 15, mixins/_spinner.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 16, mixins/_spinner.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 /* line 1, blocks/_navigation.scss */
 .navigation {
   margin: 0;
@@ -267,6 +347,29 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
+/* line 1, blocks/_pagination.scss */
+.pagination {
+  float: right;
+  font-size: 11px;
+}
+/* line 5, blocks/_pagination.scss */
+.pagination > div {
+  float: left;
+}
+/* line 8, blocks/_pagination.scss */
+.pagination > div.limit {
+  line-height: 22px;
+  margin: 0 10px;
+}
+/* line 13, blocks/_pagination.scss */
+.pagination > div select[name="limit"] {
+  width: 50px;
+}
+/* line 16, blocks/_pagination.scss */
+.pagination a {
+  font-size: 11px !important;
+}
+
 /* line 10, _reset.scss */
 html {
   font-size: 100%;
@@ -454,7 +557,7 @@ textarea {
   }
 }
 /* line 10, _buttons.scss */
-.btn {
+.btn, .pagination a {
   display: inline-block;
   padding: 4px 12px;
   margin-bottom: 0;
@@ -474,33 +577,33 @@ textarea {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 186, _mixins.scss */
-.btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+.btn:hover, .pagination a:hover, .btn:focus, .pagination a:focus, .btn:active, .pagination a:active, .btn.active, .pagination a.active, .btn.disabled, .pagination a.disabled, .btn[disabled], .pagination a[disabled] {
   color: #333333;
   background-color: #e6e6e6;
 }
 /* line 193, _mixins.scss */
-.btn:active, .btn.active {
+.btn:active, .pagination a:active, .btn.active, .pagination a.active {
   background-color: #cccccc \9;
 }
 /* line 27, _buttons.scss */
-.btn:hover, .btn:focus {
+.btn:hover, .pagination a:hover, .btn:focus, .pagination a:focus {
   color: #333333;
   text-decoration: none;
 }
 /* line 33, _buttons.scss */
-.btn:focus {
+.btn:focus, .pagination a:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 /* line 39, _buttons.scss */
-.btn.active, .btn:active {
+.btn.active, .pagination a.active, .btn:active, .pagination a:active {
   background-image: none;
   outline: 0;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 47, _buttons.scss */
-.btn.disabled, .btn[disabled] {
+.btn.disabled, .pagination a.disabled, .btn[disabled], .pagination a[disabled] {
   cursor: default;
   background-image: none;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=6500);
@@ -728,25 +831,27 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 6px;
 }
 /* line 27, _button-groups.scss */
-.btn-toolbar > .btn + .btn,
+.btn-toolbar > .btn + .btn, .pagination .btn-toolbar > a + .btn, .pagination .btn-toolbar > .btn + a, .pagination .btn-toolbar > a + a,
 .btn-toolbar > .btn-group + .btn,
-.btn-toolbar > .btn + .btn-group {
+.pagination .btn-toolbar > .btn-group + a,
+.btn-toolbar > .btn + .btn-group,
+.pagination .btn-toolbar > a + .btn-group {
   margin-left: 5px;
 }
 
 /* line 33, _button-groups.scss */
-.btn-group > .btn {
+.btn-group > .btn, .pagination .btn-group > a {
   position: relative;
   border-radius: 0;
 }
 
 /* line 37, _button-groups.scss */
-.btn-group > .btn + .btn {
+.btn-group > .btn + .btn, .pagination .btn-group > a + .btn, .pagination .btn-group > .btn + a, .pagination .btn-group > a + a {
   margin-left: -1px;
 }
 
 /* line 40, _button-groups.scss */
-.btn-group > .btn {
+.btn-group > .btn, .pagination .btn-group > a {
   font-size: 12px;
 }
 
@@ -766,36 +871,39 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 56, _button-groups.scss */
-.btn-group > .btn:first-child {
+.btn-group > .btn:first-child, .pagination .btn-group > a:first-child {
   margin-left: 0;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
 /* line 61, _button-groups.scss */
-.btn-group > .btn:last-child {
+.btn-group > .btn:last-child, .pagination .btn-group > a:last-child {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
 /* line 66, _button-groups.scss */
-.btn-group > .btn.large:first-child {
+.btn-group > .btn.large:first-child, .pagination .btn-group > a.large:first-child {
   margin-left: 0;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
 /* line 71, _button-groups.scss */
-.btn-group > .btn.large:last-child {
+.btn-group > .btn.large:last-child, .pagination .btn-group > a.large:last-child {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
 
 /* line 80, _button-groups.scss */
-.btn-group > .btn:hover,
+.btn-group > .btn:hover, .pagination .btn-group > a:hover,
 .btn-group > .btn:focus,
+.pagination .btn-group > a:focus,
 .btn-group > .btn:active,
-.btn-group > .btn.active {
+.pagination .btn-group > a:active,
+.btn-group > .btn.active,
+.pagination .btn-group > a.active {
   z-index: 2;
 }
 
@@ -1014,8 +1122,10 @@ ul {
   padding: 6px 12px;
 }
 /* line 114, _general.scss */
-#panel-toolbar .btn,
-#panel-toolbar a.btn {
+#panel-toolbar .btn, #panel-toolbar .pagination a, .pagination #panel-toolbar a,
+#panel-toolbar a.btn,
+#panel-toolbar .pagination a,
+.pagination #panel-toolbar a {
   color: #333;
   font-weight: bold;
   border: 1px solid #BBB;
@@ -1293,41 +1403,18 @@ ul {
   color: #ffc40d;
 }
 
-/* line 354, _general.scss */
-.pagination {
-  float: right;
-  font-size: 11px;
-}
-/* line 358, _general.scss */
-.pagination .btn {
-  font-size: 11px;
-}
-/* line 362, _general.scss */
-.pagination > div {
-  float: left;
-}
-/* line 365, _general.scss */
-.pagination > div.limit {
-  line-height: 22px;
-  margin: 0 10px;
-}
-/* line 370, _general.scss */
-.pagination > div select[name="limit"] {
-  width: 50px;
-}
-
-/* line 374, _general.scss */
+/* line 355, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 379, _general.scss */
+/* line 360, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 384, _general.scss */
+/* line 365, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1336,17 +1423,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 393, _general.scss */
+/* line 374, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0 !important;
 }
-/* line 401, _general.scss */
-.-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
+/* line 382, _general.scss */
+.-koowa-form .main .scrollable, .-koowa-form .main #files-app #files-canvas #files-grid, #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 407, _general.scss */
+/* line 388, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1355,39 +1442,29 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 414, _general.scss */
+/* line 395, _general.scss */
 .-koowa-form .sidebar input[type=date],
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 420, _general.scss */
+/* line 401, _general.scss */
 .box-column {
   box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
 }
 
 /* Sidebar */
-/* line 426, _general.scss */
+/* line 407, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 429, _general.scss */
+/* line 410, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 438, _general.scss */
-.CodeMirror {
-  border-bottom: 1px solid #CCCCCC;
-}
-
-/* line 442, _general.scss */
-.editor-toolbar {
-  height: 18px;
-}
-
 /* ---- Menu layout -------------------------- */
 /* line 4, _menu.scss */
 #panel-header ul, #panel-header li {
@@ -1988,10 +2065,18 @@ select:focus:invalid:focus {
 .input-append .add-on, .scopebar__search .add-on,
 .input-append .btn,
 .scopebar__search .btn,
+.input-append .pagination a,
+.pagination .input-append a,
+.scopebar__search .pagination a,
+.pagination .scopebar__search a,
 .input-prepend .add-on,
 .-koowa-form .main .title .slug .add-on,
 .input-prepend .btn,
-.-koowa-form .main .title .slug .btn {
+.-koowa-form .main .title .slug .btn,
+.input-prepend .pagination a,
+.pagination .input-prepend a,
+.-koowa-form .main .title .slug .pagination a,
+.pagination .-koowa-form .main .title .slug a {
   vertical-align: top;
   border-radius: 0;
 }
@@ -2006,13 +2091,21 @@ select:focus:invalid:focus {
 /* line 372, _forms.scss */
 .input-prepend .add-on, .-koowa-form .main .title .slug .add-on,
 .input-prepend .btn,
-.-koowa-form .main .title .slug .btn {
+.-koowa-form .main .title .slug .btn,
+.input-prepend .pagination a,
+.pagination .input-prepend a,
+.-koowa-form .main .title .slug .pagination a,
+.pagination .-koowa-form .main .title .slug a {
   margin-right: -1px;
 }
 /* line 376, _forms.scss */
 .input-prepend .add-on:first-child, .-koowa-form .main .title .slug .add-on:first-child,
 .input-prepend .btn:first-child,
-.-koowa-form .main .title .slug .btn:first-child {
+.-koowa-form .main .title .slug .btn:first-child,
+.input-prepend .pagination a:first-child,
+.pagination .input-prepend a:first-child,
+.-koowa-form .main .title .slug .pagination a:first-child,
+.pagination .-koowa-form .main .title .slug a:first-child {
   border-radius: 4px 0 0 4px;
 }
 
@@ -2025,17 +2118,29 @@ select:focus:invalid:focus {
   border-radius: 4px 0 0 4px;
 }
 /* line 387, _forms.scss */
-.input-append input + .btn-group .btn:last-child, .scopebar__search input + .btn-group .btn:last-child,
+.input-append input + .btn-group .btn:last-child, .scopebar__search input + .btn-group .btn:last-child, .input-append input + .btn-group .pagination a:last-child, .pagination .input-append input + .btn-group a:last-child, .scopebar__search input + .btn-group .pagination a:last-child, .pagination .scopebar__search input + .btn-group a:last-child,
 .input-append select + .btn-group .btn:last-child,
 .scopebar__search select + .btn-group .btn:last-child,
+.input-append select + .btn-group .pagination a:last-child,
+.pagination .input-append select + .btn-group a:last-child,
+.scopebar__search select + .btn-group .pagination a:last-child,
+.pagination .scopebar__search select + .btn-group a:last-child,
 .input-append .uneditable-input + .btn-group .btn:last-child,
-.scopebar__search .uneditable-input + .btn-group .btn:last-child {
+.scopebar__search .uneditable-input + .btn-group .btn:last-child,
+.input-append .uneditable-input + .btn-group .pagination a:last-child,
+.pagination .input-append .uneditable-input + .btn-group a:last-child,
+.scopebar__search .uneditable-input + .btn-group .pagination a:last-child,
+.pagination .scopebar__search .uneditable-input + .btn-group a:last-child {
   border-radius: 0 4px 4px 0;
 }
 /* line 393, _forms.scss */
 .input-append .add-on, .scopebar__search .add-on,
 .input-append .btn,
 .scopebar__search .btn,
+.input-append .pagination a,
+.pagination .input-append a,
+.scopebar__search .pagination a,
+.pagination .scopebar__search a,
 .input-append .btn-group,
 .scopebar__search .btn-group {
   margin-left: -1px;
@@ -2043,7 +2148,11 @@ select:focus:invalid:focus {
 /* line 397, _forms.scss */
 .input-append .add-on:last-child, .scopebar__search .add-on:last-child,
 .input-append .btn:last-child,
-.scopebar__search .btn:last-child {
+.scopebar__search .btn:last-child,
+.input-append .pagination a:last-child,
+.pagination .input-append a:last-child,
+.scopebar__search .pagination a:last-child,
+.pagination .scopebar__search a:last-child {
   border-radius: 0 4px 4px 0;
 }
 
@@ -2060,15 +2169,31 @@ select:focus:invalid:focus {
   border-radius: 0;
 }
 /* line 408, _forms.scss */
-.input-prepend.input-append input + .btn-group .btn, .input-prepend.scopebar__search input + .btn-group .btn, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn,
+.input-prepend.input-append input + .btn-group .btn, .input-prepend.scopebar__search input + .btn-group .btn, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn, .input-prepend.input-append input + .btn-group .pagination a, .pagination .input-prepend.input-append input + .btn-group a, .input-prepend.scopebar__search input + .btn-group .pagination a, .pagination .input-prepend.scopebar__search input + .btn-group a, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .pagination a, .pagination .-koowa-form .main .title .scopebar__search.slug input + .btn-group a, .-koowa-form .main .title .input-append.slug input + .btn-group .pagination a, .pagination .-koowa-form .main .title .input-append.slug input + .btn-group a,
 .input-prepend.input-append select + .btn-group .btn,
 .input-prepend.scopebar__search select + .btn-group .btn,
 .-koowa-form .main .title .scopebar__search.slug select + .btn-group .btn,
 .-koowa-form .main .title .input-append.slug select + .btn-group .btn,
+.input-prepend.input-append select + .btn-group .pagination a,
+.pagination .input-prepend.input-append select + .btn-group a,
+.input-prepend.scopebar__search select + .btn-group .pagination a,
+.pagination .input-prepend.scopebar__search select + .btn-group a,
+.-koowa-form .main .title .scopebar__search.slug select + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .scopebar__search.slug select + .btn-group a,
+.-koowa-form .main .title .input-append.slug select + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .input-append.slug select + .btn-group a,
 .input-prepend.input-append .uneditable-input + .btn-group .btn,
 .input-prepend.scopebar__search .uneditable-input + .btn-group .btn,
 .-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group .btn,
-.-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .btn {
+.-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .btn,
+.input-prepend.input-append .uneditable-input + .btn-group .pagination a,
+.pagination .input-prepend.input-append .uneditable-input + .btn-group a,
+.input-prepend.scopebar__search .uneditable-input + .btn-group .pagination a,
+.pagination .input-prepend.scopebar__search .uneditable-input + .btn-group a,
+.-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group a,
+.-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .pagination a,
+.pagination .-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group a {
   border-radius: 0 4px 4px 0;
 }
 /* line 413, _forms.scss */
@@ -2076,7 +2201,15 @@ select:focus:invalid:focus {
 .input-prepend.input-append .btn:first-child,
 .input-prepend.scopebar__search .btn:first-child,
 .-koowa-form .main .title .scopebar__search.slug .btn:first-child,
-.-koowa-form .main .title .input-append.slug .btn:first-child {
+.-koowa-form .main .title .input-append.slug .btn:first-child,
+.input-prepend.input-append .pagination a:first-child,
+.pagination .input-prepend.input-append a:first-child,
+.input-prepend.scopebar__search .pagination a:first-child,
+.pagination .input-prepend.scopebar__search a:first-child,
+.-koowa-form .main .title .scopebar__search.slug .pagination a:first-child,
+.pagination .-koowa-form .main .title .scopebar__search.slug a:first-child,
+.-koowa-form .main .title .input-append.slug .pagination a:first-child,
+.pagination .-koowa-form .main .title .input-append.slug a:first-child {
   margin-right: -1px;
   border-radius: 4px 0 0 4px;
 }
@@ -2085,7 +2218,15 @@ select:focus:invalid:focus {
 .input-prepend.input-append .btn:last-child,
 .input-prepend.scopebar__search .btn:last-child,
 .-koowa-form .main .title .scopebar__search.slug .btn:last-child,
-.-koowa-form .main .title .input-append.slug .btn:last-child {
+.-koowa-form .main .title .input-append.slug .btn:last-child,
+.input-prepend.input-append .pagination a:last-child,
+.pagination .input-prepend.input-append a:last-child,
+.input-prepend.scopebar__search .pagination a:last-child,
+.pagination .input-prepend.scopebar__search a:last-child,
+.-koowa-form .main .title .scopebar__search.slug .pagination a:last-child,
+.pagination .-koowa-form .main .title .scopebar__search.slug a:last-child,
+.-koowa-form .main .title .input-append.slug .pagination a:last-child,
+.pagination .-koowa-form .main .title .input-append.slug a:last-child {
   margin-left: -1px;
   border-radius: 0 4px 4px 0;
 }
@@ -2156,9 +2297,13 @@ textarea {
   padding: 5px 5px;
 }
 /* line 483, _forms.scss */
-.input-prepend .btn, .-koowa-form .main .title .slug .btn,
+.input-prepend .btn, .-koowa-form .main .title .slug .btn, .input-prepend .pagination a, .pagination .input-prepend a, .-koowa-form .main .title .slug .pagination a, .pagination .-koowa-form .main .title .slug a,
 .input-append .btn,
-.scopebar__search .btn {
+.scopebar__search .btn,
+.input-append .pagination a,
+.pagination .input-append a,
+.scopebar__search .pagination a,
+.pagination .scopebar__search a {
   padding-top: 3px;
 }
 
@@ -4428,7 +4573,7 @@ body {
 }
 
 /* line 104, _flexbox.scss */
-.scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
+.scrollable, #files-app #files-canvas #files-grid, #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-flex-grow: 1;
@@ -4436,51 +4581,55 @@ body {
   flex-grow: 1;
 }
 
-/* line 116, _flexbox.scss */
-.editor-wrap,
-.editor-container,
-.mceEditor,
-table.mceLayout,
-table.mceLayout > tbody,
-table.mceLayout > tbody > tr:nth-of-type(2),
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
+/* line 109, _flexbox.scss */
+.cke_chrome iframe {
+  min-height: 100px;
+}
+
+/* line 117, _flexbox.scss */
+.cke_chrome,
+.cke_chrome > .cke_inner,
+.cke_chrome > .cke_inner > .cke_contents,
+.cke_chrome > .cke_inner > .cke_contents iframe,
+.cke_chrome > .cke_inner > .cke_contents > .cke_source {
+  display: -webkit-flex !important;
+  display: -moz-flex !important;
+  display: flex !important;
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
 }
 
-/* line 122, _flexbox.scss */
-table.mceLayout > tbody > tr:nth-of-type(1),
-table.mceLayout > tbody > tr:nth-of-type(3) {
+/* line 131, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  flex: 0 0 auto;
 }
-
-/* line 126, _flexbox.scss */
-.CodeMirror {
+/* line 134, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
 }
-/* line 130, _flexbox.scss */
-.CodeMirror .CodeMirror-scroll {
+/* line 137, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table {
+  margin: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 144, _flexbox.scss */
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody,
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td
+tbody tr td iframe {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4490,20 +4639,20 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @group Scope Bar */
-/* line 136, _flexbox.scss */
+/* line 154, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 139, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 143, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4513,7 +4662,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-/* line 151, _flexbox.scss */
+/* line 170, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4524,7 +4673,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 157, _flexbox.scss */
+/* line 176, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4533,7 +4682,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 160, _flexbox.scss */
+/* line 179, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4542,7 +4691,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 163, _flexbox.scss */
+/* line 182, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4554,7 +4703,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 167, _flexbox.scss */
+/* line 186, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4569,8 +4718,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 177, _flexbox.scss */
-.com_files #files-app {
+/* line 195, _flexbox.scss */
+#files-app {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4581,8 +4730,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 181, _flexbox.scss */
-.com_files #files-app #files-canvas {
+/* line 199, _flexbox.scss */
+#files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4593,25 +4742,31 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 190, _flexbox.scss */
-.com_files #files-paginator {
+
+/* line 208, _flexbox.scss */
+#files-paginator {
   height: 26px;
 }
-/* line 198, _flexbox.scss */
-.com_files #files-compact {
+
+/* line 216, _flexbox.scss */
+#files-compact {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+
+/* line 220, _flexbox.scss */
+#files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 202, _flexbox.scss */
-.com_files #files-insert {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-}
-/* line 206, _flexbox.scss */
-.com_files #files-insert #files-tree-container,
-.com_files #files-insert #files-grid {
+/* line 224, _flexbox.scss */
+#files-insert #files-tree-container,
+#files-insert #files-grid {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4619,8 +4774,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 210, _flexbox.scss */
-.com_files #files-insert #details {
+/* line 228, _flexbox.scss */
+#files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4631,8 +4786,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 214, _flexbox.scss */
-.com_files #files-insert #details #files-preview {
+/* line 232, _flexbox.scss */
+#files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4640,8 +4795,8 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 218, _flexbox.scss */
-.com_files #files-insert #details #image-insert-form {
+/* line 236, _flexbox.scss */
+#files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
   flex-shrink: 0;
@@ -5244,11 +5399,31 @@ body.com_contacts .editor-wrap {
 #files-app #files-grid > div {
   padding: 10px;
 }
-/* line 427, components/_files.scss */
-#files-app .spinner {
-  padding: 0px !important;
+/* line 428, components/_files.scss */
+#files-app #files-grid > .spinner,
+#files-app #files-grid .loading .spinner {
+  margin: auto;
+  -webkit-animation: spinner 1250ms infinite linear;
+  -moz-animation: spinner 1250ms infinite linear;
+  -ms-animation: spinner 1250ms infinite linear;
+  -o-animation: spinner 1250ms infinite linear;
+  animation: spinner 1250ms infinite linear;
+  border: 8px solid #2b75bf;
+  border-right-color: transparent;
+  border-radius: 32px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  text-indent: -9999px;
+  width: 32px;
+  height: 32px;
 }
-/* line 430, components/_files.scss */
+/* line 432, components/_files.scss */
+#files-app #files-grid .loading img {
+  display: none;
+}
+/* line 436, components/_files.scss */
 #files-app div.files-node {
   cursor: pointer;
   display: inline-block;
@@ -5262,15 +5437,15 @@ body.com_contacts .editor-wrap {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 441, components/_files.scss */
+/* line 447, components/_files.scss */
 #files-app #files-grid .loading {
   opacity: 0.6;
 }
-/* line 445, components/_files.scss */
+/* line 451, components/_files.scss */
 #files-app #files-grid .loaded {
   opacity: 1;
 }
-/* line 448, components/_files.scss */
+/* line 454, components/_files.scss */
 #files-app div.files-node img {
   opacity: 0;
   -webkit-transition: opacity 150ms ease-out;
@@ -5278,11 +5453,11 @@ body.com_contacts .editor-wrap {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 452, components/_files.scss */
+/* line 458, components/_files.scss */
 #files-app div.files-node img.loaded {
   opacity: 1;
 }
-/* line 455, components/_files.scss */
+/* line 461, components/_files.scss */
 #files-app div.files-node.selected {
   color: white;
   border-color: #2b75bf;
@@ -5294,7 +5469,7 @@ body.com_contacts .editor-wrap {
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   background: linear-gradient(#2b75bf, #2b75bf);
 }
-/* line 468, components/_files.scss */
+/* line 474, components/_files.scss */
 #files-app div.files-node-thumbnail {
   position: relative;
   margin: 0 0 8px 0;
@@ -5303,7 +5478,7 @@ body.com_contacts .editor-wrap {
   height: 150px;
   background: radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
 }
-/* line 477, components/_files.scss */
+/* line 483, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate {
   display: block;
   background: no-repeat center center;
@@ -5312,7 +5487,7 @@ body.com_contacts .editor-wrap {
   width: inherit;
   height: inherit;
 }
-/* line 485, components/_files.scss */
+/* line 491, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate::after {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
   content: '';
@@ -5322,156 +5497,44 @@ body.com_contacts .editor-wrap {
   top: 0;
   width: inherit;
 }
-/* line 494, components/_files.scss */
+/* line 500, components/_files.scss */
 #files-app div.files-node.selected div.files-node-thumbnail a.navigate::after {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
-/* line 497, components/_files.scss */
+/* line 503, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate img {
   width: 100%;
 }
-/* line 500, components/_files.scss */
+/* line 506, components/_files.scss */
 #files-app .files-folder div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/folder-64.png");
 }
-/* line 504, components/_files.scss */
+/* line 510, components/_files.scss */
 #files-app .files-file div.files-node-thumbnail a.navigate,
 #files-app .files-image.nothumbnails div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/document-64.png");
 }
-/* line 507, components/_files.scss */
+/* line 513, components/_files.scss */
 #files-app .files-image.thumbnails div.files-node-thumbnail a.navigate {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   background: url("../../../../media/files/images/checker.png") repeat left top white;
 }
-/* line 514, components/_files.scss */
+/* line 520, components/_files.scss */
 #files-app .files-icons-controls {
   text-align: center;
 }
 
 /* @end */
 /* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
-/* line 521, components/_files.scss */
+/* line 527, components/_files.scss */
 .uploader-flash-container object, .uploader-flash-container embed {
   display: block !important;
   visibility: visible !important;
 }
 
 /* @end */
-/* line 7, components/_files_compact.scss */
-#files-compact .tab > label {
-  border-top: 1px solid #dddddd;
-}
-/* line 10, components/_files_compact.scss */
-#files-compact .tab:first-child > label {
-  border-left: 1px solid #dddddd;
-}
-/* line 13, components/_files_compact.scss */
-#files-compact [type=radio]:checked ~ label {
-  background-color: #f9f9f9;
-  border-bottom-color: #f9f9f9;
-}
-/* line 18, components/_files_compact.scss */
-#files-compact .content {
-  overflow: hidden;
-  border: 1px solid #dddddd;
-  top: 31px;
-}
-/* line 26, components/_files_compact.scss */
-#files-compact #files-insert #files-tree-container,
-#files-compact #files-insert #files-grid {
-  width: 200px;
-  border-right: 1px solid #E1E1E1;
-  background-color: #f9f9f9;
-}
-/* line 33, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview {
-  background: white;
-}
-/* line 36, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview > div {
-  margin: auto;
-  text-align: center;
-}
-/* line 40, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview > div > div {
-  padding-top: 6px;
-}
-/* line 45, components/_files_compact.scss */
-#files-compact #files-insert #details #files-preview img {
-  max-height: 125px;
-  max-width: 300px;
-}
-/* line 51, components/_files_compact.scss */
-#files-compact #files-insert #details #image-insert-form {
-  border-top: 1px solid #E1E1E1;
-  background-color: #F4F4F4;
-}
-/* line 56, components/_files_compact.scss */
-#files-compact #files-insert #details .buttons {
-  border-top: 1px solid #E1E1E1;
-  background-color: #F4F4F4;
-  padding: 6px;
-  text-align: right;
-}
-/* line 66, components/_files_compact.scss */
-#files-compact #files-upload form {
-  padding: 5px;
-}
-/* line 70, components/_files_compact.scss */
-#files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
-  height: 28px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-/* line 74, components/_files_compact.scss */
-#files-compact #files-upload form #remote-url {
-  border-radius: 4px 0 0 4px;
-}
-/* line 77, components/_files_compact.scss */
-#files-compact #files-upload form #remote-name {
-  border-radius: 0;
-}
-/* line 80, components/_files_compact.scss */
-#files-compact #files-upload form .remote-submit {
-  top: 5px;
-  right: 5px;
-  bottom: 5px;
-  border-radius: 0 4px 4px 0;
-}
-
-/* line 97, components/_files_compact.scss */
-#insert-modal-cancel,
-#insert-link,
-.insert-or {
-  border-radius: 2px;
-  display: inline-block;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-/* line 103, components/_files_compact.scss */
-.insert-or {
-  padding: 5px 5px 5px 0;
-  margin-left: -5px;
-  cursor: default;
-}
-
-/* line 108, components/_files_compact.scss */
-#insert-link {
-  font-size: 15px;
-  overflow: hidden;
-  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
-  background: #8F8F8F;
-  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
-  background-clip: border-box;
-  color: white;
-  background: linear-gradient(top, #72a8df, #2b75bf);
-}
-
 /* line 2, components/_pages.scss */
 .com_pages #components {
   width: 200px;
@@ -5639,4 +5702,135 @@ body.login .alert__text {
   font: bold 16px/40px sans-serif;
   text-align: center;
   text-decoration: none;
+}
+
+/* line 1, components/_ckeditor.scss */
+.cke_chrome {
+  border: 0px none !important;
+  box-shadow: none !important;
+}
+
+/* line 6, components/_ckeditor.scss */
+.cke_dialog_contents_body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* line 17, components/_ckeditor.scss */
+div.cke_dialog_ui_input_select {
+  border: 0 none;
+  box-shadow: none;
+}
+
+/* line 23, components/_ckeditor.scss */
+#files-compact .tab > label {
+  border-right: 1px solid #dddddd;
+}
+/* line 27, components/_ckeditor.scss */
+#files-compact [type=radio]:checked ~ label {
+  background-color: #f9f9f9;
+  border-bottom-color: #f9f9f9;
+}
+/* line 32, components/_ckeditor.scss */
+#files-compact .content {
+  overflow: hidden;
+  top: 30px;
+  background-color: #f9f9f9;
+}
+/* line 37, components/_ckeditor.scss */
+#files-compact .content .dropzone {
+  background-color: white;
+}
+/* line 44, components/_ckeditor.scss */
+#files-compact #files-insert #files-tree-container,
+#files-compact #files-insert #files-grid {
+  width: 200px;
+  border-right: 1px solid #E1E1E1;
+  background-color: #f9f9f9;
+}
+/* line 51, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview {
+  background: white;
+}
+/* line 54, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview > div {
+  margin: auto;
+  text-align: center;
+}
+/* line 58, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview > div > div {
+  padding-top: 6px;
+}
+/* line 63, components/_ckeditor.scss */
+#files-compact #files-insert #details #files-preview img {
+  max-height: 125px;
+  max-width: 300px;
+}
+/* line 69, components/_ckeditor.scss */
+#files-compact #files-insert #details #image-insert-form {
+  border-top: 1px solid #E1E1E1;
+  background-color: #F4F4F4;
+}
+/* line 74, components/_ckeditor.scss */
+#files-compact #files-insert #details .buttons {
+  border-top: 1px solid #E1E1E1;
+  background-color: #F4F4F4;
+  padding: 6px;
+  text-align: right;
+}
+/* line 84, components/_ckeditor.scss */
+#files-compact #files-upload form {
+  padding: 5px;
+}
+/* line 88, components/_ckeditor.scss */
+#files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
+  height: 28px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 92, components/_ckeditor.scss */
+#files-compact #files-upload form #remote-url {
+  border-radius: 4px 0 0 4px;
+}
+/* line 95, components/_ckeditor.scss */
+#files-compact #files-upload form #remote-name {
+  border-radius: 0;
+}
+/* line 98, components/_ckeditor.scss */
+#files-compact #files-upload form .remote-submit {
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* line 115, components/_ckeditor.scss */
+#insert-modal-cancel,
+#insert-link,
+.insert-or {
+  border-radius: 2px;
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* line 121, components/_ckeditor.scss */
+.insert-or {
+  padding: 5px 5px 5px 0;
+  margin-left: -5px;
+  cursor: default;
+}
+
+/* line 126, components/_ckeditor.scss */
+#insert-link {
+  font-size: 15px;
+  overflow: hidden;
+  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
+  background: #8F8F8F;
+  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+  background-clip: border-box;
+  color: white;
+  background: linear-gradient(top, #72a8df, #2b75bf);
 }

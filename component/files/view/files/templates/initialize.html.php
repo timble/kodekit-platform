@@ -8,10 +8,10 @@
  */
 ?>
 
-<?= @helper('behavior.mootools'); ?>
-<?= @helper('behavior.keepalive'); ?>
+<?= helper('behavior.mootools'); ?>
+<?= helper('behavior.keepalive'); ?>
 
-<?= @helper('behavior.modal'); ?>
+<?= helper('behavior.modal'); ?>
 
 <script src="media://files/js/delegation.js" />
 <script src="media://files/js/uri.js" />
@@ -22,7 +22,6 @@
 
 <script src="media://js/koowa.js" />
 <script src="media://js/mootree.js" />
-<script src="media://files/js/spin.min.js" />
 
 <script src="media://files/js/files.utilities.js" />
 <script src="media://files/js/files.state.js" />

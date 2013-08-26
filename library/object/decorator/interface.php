@@ -15,30 +15,41 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-interface ObjectDecoratorInterface extends ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
+interface ObjectDecoratorInterface extends ObjectHandlable
 {
     /**
      * Get the decorated object
      *
-     * @return ObjectDecoratable The decorated object
+     * @return object The decorated object
      */
     public function getDelegate();
 
     /**
      * Set the decorated object
      *
-     * @param   ObjectDecoratable $delegate The decorated object
-     * @return  ObjectDecorator
+     * @param   object $delegate The object to decorate
+     * @return  ObjectDecoratorInterface
+     * @throws  \InvalidArgumentException If the delegate is not an object
      */
-    public function setDelegate(ObjectDecoratable $delegate);
+    public function setDelegate($delegate);
+
+    /**
+     * Get a list of all the available methods
+     *
+     * This function returns an array of all the public methods, both native and mixed.
+     *
+     * @return array An array
+     */
+    public function getMethods();
 
     /**
      * Decorate Notifier
      *
-     * This function is called when an object is being decorated. It will get the object passed in.
+     * This function is called when an object is being decorated. It will get the delegate passed in.
      *
-     * @param ObjectDecoratable $delegate The object being decorated
+     * @param object $delegate The object being decorated
      * @return void
+     * @throws  \InvalidArgumentException If the delegate is not an object
      */
-    public function onDecorate(ObjectDecoratable $delegate);
+    public function onDecorate($delegate);
 }

@@ -52,35 +52,17 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 			'limit'	     => 0,
 			'attribs'	=> array(),
 		));
-		
+
 		$html   = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
 		$html  .= '<div class="btn-group">';
 		$html  .= $this->link($config->pages->prev);
 		$html  .= '</div>';
-		$html  .= '<div class="btn-group pagelist"></div>';
+		$html  .= '<div class="btn-group page-list"></div>';
 		$html  .= '<div class="btn-group">';
 		$html  .= $this->link($config->pages->next);
 		$html  .= '</div>';
 		$html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
-		
+
 		return $html;
     }
-    
-    public function link($config)
-    {
-        $config = new Library\ObjectConfig($config);
-        $config->append(array(
-            'title'   => '',
-            'current' => false,
-            'active'  => false,
-            'offset'  => 0,
-            'limit'	  => 0,
-            'rel'	  => '',
-            'attribs'  => array(),
-        ));
-    
-        $html = '<a class="btn '.$config->rel.'" href="#">'.JText::_($config->title).'</a>';
-    
-        return $html;
-    }    
 }

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Decorator Template Filter
  *
- * Replace <ktml:content /> with the view contents allowing to the template to act as a view decorator.
+ * Replace <ktml:content> with the view contents allowing to the template to act as a view decorator.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Template
@@ -20,7 +20,7 @@ namespace Nooku\Library;
 class TemplateFilterDecorator extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
-	 * Replace <ktml:content /> with the view contents
+	 * Replace <ktml:content> with the view content
 	 *
 	 * @param string $text  The text to parse
 	 * @return void
@@ -28,7 +28,7 @@ class TemplateFilterDecorator extends TemplateFilterAbstract implements Template
 	public function render(&$text)
 	{
         $matches = array();
-        if(preg_match_all('#<ktml:content(.*)\/>#iU', $text, $matches))
+        if(preg_match_all('#<ktml:content(.*)>#iU', $text, $matches))
         {
             foreach($matches[1] as $key => $match) {
                 $text = str_replace($matches[0][$key], $this->getTemplate()->getView()->getContent(), $text);

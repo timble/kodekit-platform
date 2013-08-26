@@ -9,15 +9,17 @@
 ?>
 
 <head>
-    <base href="<?= @url(); ?>" />
-    <title><?= @escape(@object('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
+    <base href="<?= url(); ?>" />
+    <title><?= title().' - '. translate( 'Administration'); ?></title>
+
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta content="chrome=1" http-equiv="X-UA-Compatible" />
 
-    <ktml:meta />
-    <ktml:link />
-    <ktml:style />
-    <ktml:script />
+    <ktml:title>
+    <ktml:meta>
+    <ktml:link>
+    <ktml:style>
+    <ktml:script>
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 

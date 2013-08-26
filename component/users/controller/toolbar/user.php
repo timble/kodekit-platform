@@ -17,11 +17,16 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class ControllerToolbarUser extends Library\ControllerToolbarModel
+class ControllerToolbarUser extends Library\ControllerToolbarActionbar
 {
-    public function onAfterControllerBrowse(Library\Event $event)
+    /**
+     * Add default toolbar commands
+     * .
+     * @param	Library\CommandContext	$context A command context object
+     */
+    protected function _afterControllerBrowse(Library\CommandContext $context)
     {
-        parent::onAfterControllerBrowse($event);
+        parent::_afterControllerBrowse($context);
         
         $this->addSeparator();
 		$this->addEnable();

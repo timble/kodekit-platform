@@ -18,15 +18,6 @@ namespace Nooku\Library;
 class TemplateFilterChain extends ObjectQueue implements TemplateFilterRenderer, TemplateFilterCompiler
 {
     /**
-     * Priority levels
-     */
-    const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
-
-    /**
      * Parse the text and compile it
      *
      * @param string $text  The text string to parse

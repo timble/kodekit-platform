@@ -7,46 +7,49 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
+
+<title content="replace"><?= $article->title ?></title>
+
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
-    <div class="page-header">
-	    <? if (@object('component')->getController()->canEdit()) : ?>
-	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
-	        <i class="icon-edit"></i>
-	    </a>
+    <header>
+	    <? if (object('component')->getController()->canEdit()) : ?>
+        <div class="btn-toolbar">
+            <ktml:toolbar type="actionbar">
+        </div>
 	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
-	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	    <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
-	    <span class="label label-info"><?= @text('Unpublished') ?></span>
+	    <span class="label label-info"><?= translate('Unpublished') ?></span>
 	    <? endif ?>
 	    <? if ($article->access) : ?>
-	    <span class="label label-important"><?= @text('Registered') ?></span>
+	    <span class="label label-important"><?= translate('Registered') ?></span>
 	    <? endif ?>
-	</div>
+	</header>
 
-    <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
+    <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
 
     <? if($article->fulltext) : ?>
-    <div class="article__introtext">
-        <?= $article->introtext ?>
-    </div>
+        <div class="article__introtext">
+            <?= $article->introtext ?>
+        </div>
     <? else : ?>
-    <?= $article->introtext ?>
+        <?= $article->introtext ?>
     <? endif ?>
 
     <?= $article->fulltext ?>
 
     <? if($article->isTaggable()) : ?>
-    <?= @template('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
+    <?= include('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
     <? endif; ?>
 
     <? if($article->isAttachable()) : ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
+    <?= incude('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
     <? endif ?>
 </article>
 
 <? if($article->id && $article->isCommentable()) : ?>
 <div class="comments">
-    <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
+    <?= object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
 </div>
 <? endif ?>

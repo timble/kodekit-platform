@@ -13,15 +13,15 @@
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html') ?>
+	<?= include('default_sidebar.html') ?>
 </ktml:module>
 
-<form id="menus-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form id="menus-form" action="<?= route() ?>" method="get" class="-koowa-grid">
     <table>
         <thead>
             <tr>
@@ -29,7 +29,7 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($menus); ?>);" />
                 </th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
                 </th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -46,15 +46,15 @@
         <? foreach($menus as $menu) : ?>
             <tr>
                 <td align="center">
-                    <?= @helper('grid.checkbox',array('row' => $menu)); ?>
+                    <?= helper('grid.checkbox',array('row' => $menu)); ?>
                 </td>
                 <td>
                     <? if(!$state->trash) : ?>
-                    <a href="<?= @route('view=menu&id='.$menu->id); ?>">
-                        <?= @escape($menu->title); ?>
+                    <a href="<?= route('view=menu&id='.$menu->id); ?>">
+                        <?= escape($menu->title); ?>
                     </a>
                     <? else : ?>
-                        <?= @escape($menu->title); ?>
+                        <?= escape($menu->title); ?>
                     <? endif ?>
                 </td>
             </tr>

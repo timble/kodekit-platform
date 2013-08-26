@@ -25,7 +25,7 @@ class ArticlesControllerPermissionArticle extends ApplicationControllerPermissio
         if (!$article->isNew())
         {
             //If user doesn't have access to it, deny access.
-            if ($article->access > $this->getUser()->isAuthentic()) {
+            if ($article->access > (int) $this->getUser()->isAuthentic()) {
                 $result = false;
             }
 

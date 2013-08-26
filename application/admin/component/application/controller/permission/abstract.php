@@ -38,7 +38,7 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canRead()
     {
-            if(parent::canRead() && $this->getUser()->getRole() > 22) {
+        if(parent::canRead() && $this->getUser()->getRole() > 22) {
             return true;
         }
 

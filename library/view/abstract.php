@@ -29,7 +29,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
      *
      * @var object
      */
-    protected $_baseurl;
+    protected $_url;
 
     /**
      * The content of the view
@@ -54,13 +54,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     {
         parent::__construct($config);
 
-        //set the base url
-        if (!$config->base_url instanceof HttpUrlInterface) {
-            $this->_baseurl = $this->getObject('lib:http.url', array('url' => $config->base_url));
-        } else {
-            $this->_baseurl = $config->base_url;
-        }
-
+        $this->setUrl($config->url);
         $this->setContent($config->contents);
         $this->mimetype = $config->mimetype;
 
@@ -81,7 +75,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
             'model'    => 'lib:model.empty',
             'contents' => '',
             'mimetype' => '',
-            'base_url' => '',
+            'url'      => $this->getObject('lib:http.url')
         ));
 
         parent::_initialize($config);
@@ -123,6 +117,17 @@ abstract class ViewAbstract extends Object implements ViewInterface
     }
 
     /**
+     * Check if a view property exists
+     *
+     * @param   string  $property   The property name.
+     * @return  boolean TRUE if the property exists, FALSE otherwise
+     */
+    public function has($property)
+    {
+        return isset($this->$property);
+    }
+
+    /**
      * Get the name
      *
      * @return  string  The name of the object
@@ -131,6 +136,16 @@ abstract class ViewAbstract extends Object implements ViewInterface
     {
         $total = count($this->getIdentifier()->path);
         return $this->getIdentifier()->path[$total - 1];
+    }
+
+    /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle()
+    {
+        return ucfirst($this->getName());
     }
 
     /**
@@ -232,7 +247,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
      * - foo=bar
      * - option=com_mycomp&view=myview&foo=bar
      *
-     * In templates, use @route()
+     * In templates, use route()
      *
      * @param   string|array $route  The query string used to create the route
      * @param   boolean      $fqr    If TRUE create a fully qualified route. Default TRUE.
@@ -267,7 +282,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
         }
 
         //Add the model state only for routes to the same view
-        if ($parts['view'] == $this->getName())
+        if ($parts['option'] == 'com_'.$this->getIdentifier()->package && $parts['view'] == $this->getName())
         {
             $states = array();
             foreach($this->getModel()->getState() as $name => $state)
@@ -289,21 +304,37 @@ abstract class ViewAbstract extends Object implements ViewInterface
         //Add the host and the schema
         if ($fqr === null || $fqr === true)
         {
-            $route->scheme = $this->getBaseUrl()->scheme;
-            $route->host   = $this->getBaseUrl()->host;
+            $route->scheme = $this->getUrl()->scheme;
+            $route->host   = $this->getUrl()->host;
         }
 
         return $route;
     }
 
     /**
-     * Get the view base url
+     * Get the view url
      *
      * @return  HttpUrl  A HttpUrl object
      */
-    public function getBaseUrl()
+    public function getUrl()
     {
-        return $this->_baseurl;
+        return $this->_url;
+    }
+
+    /**
+     * Set the view url
+     *
+     * @param KHttpUrl $url   A HttpUrl object or a string
+     * @return  ViewAbstract
+     */
+    public function setUrl(HttpUrl $url)
+    {
+        //Remove the user and pass from the view url
+        unset($url->user);
+        unset($url->pass);
+
+        $this->_url = $url;
+        return $this;
     }
 
     /**

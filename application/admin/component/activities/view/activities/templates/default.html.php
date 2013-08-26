@@ -8,37 +8,37 @@
  */
 ?>
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html'); ?>
+	<?= include('default_sidebar.html'); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-	<?= @template('default_scopebar.html') ?>
+	<?= include('default_scopebar.html') ?>
 	<table>
 		<thead>
 			<tr>
 				<th width="10">
-                    <?= @helper('grid.checkall') ?>
+                    <?= helper('grid.checkall') ?>
                 </th>
-				<th width="55"><?=@text('Time')?></th>
-				<th><?=@text('Message')?></th>
+				<th width="55"><?=translate('Time')?></th>
+				<th><?=translate('Message')?></th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
 				<td colspan="3">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
 		<tbody>
 		<? $date = $old_date = '';   ?>
 		<? foreach ($activities as $activity) : ?>	
-	        <? $date = @date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
+	        <? $date = date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
 	        <tr class="no-hover separator">
@@ -49,15 +49,15 @@
 	        <? endif; ?>
 			<tr>
 				<td>
-			        <?= @helper('grid.checkbox',array('row' => $activity)); ?>
+			        <?= helper('grid.checkbox',array('row' => $activity)); ?>
 				</td>
 
 				<td align="left">
-			        <?= @date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
+			        <?= date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
 				</td>
 
 				<td>
-					<i class="icon-<?= $activity->action ?>"></i> <?= @helper('activity.message', array('row' => $activity))?>
+					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.message', array('row' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>

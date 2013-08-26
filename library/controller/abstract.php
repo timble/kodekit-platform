@@ -109,7 +109,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         $config->append(array(
             'command_chain'     => 'lib:command.chain',
             'dispatch_events'   => true,
-            'event_dispatcher'  => 'lib:event.dispatcher.default',
+            'event_dispatcher'  => 'event.dispatcher',
             'enable_callbacks'  => true,
             'dispatched'        => false,
             'request'           => 'lib:controller.request',

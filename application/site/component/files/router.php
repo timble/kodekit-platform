@@ -21,15 +21,15 @@ class FilesRouter extends Library\DispatcherRouter
 	{
         $segments = array();
         $query    = &$url->query;
-		
+
 		if (isset($query['Itemid'])) {
 			$page = $this->getObject('application.pages')->getPage($query['Itemid']);
 		} else {
 			$page = $this->getObject('application.pages')->getActive();
 		}
-		
+
 		$menu_query = $page->getLink()->query;
-		
+
 		if (isset($query['view']) && $query['view'] === 'file') {
 			$segments[] = 'file';
 		}

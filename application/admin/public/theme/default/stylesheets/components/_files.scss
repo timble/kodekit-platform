@@ -424,9 +424,15 @@
     padding: 10px;
   }
 
-  .spinner {
-    padding: 0px!important;
+  #files-grid > .spinner,
+  #files-grid .loading .spinner {
+    @include spinner;
   }
+
+  #files-grid .loading img {
+    display: none;
+  }
+
   div.files-node {
     cursor: pointer;
     display: inline-block;

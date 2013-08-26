@@ -94,7 +94,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             }
         }
 
-        //Reset the counter
+        //Reset the stack
         $this->_stack = array();
     }
 
@@ -116,6 +116,31 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Escape a string
+     *
+     * By default the function uses htmlspecialchars to escape the string
+     *
+     * @param string $string String to to be escape
+     * @return string Escaped string
+     */
+    public function escape($string)
+    {
+        return htmlspecialchars($string);
+    }
+
+    /**
+     * Translates a string and handles parameter replacements
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function translate($string, array $parameters = array())
+    {
+        return \JText::_($string);
     }
 
     /**
@@ -313,14 +338,14 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     public function render()
     {
         //Parse the template
-        $this->_parse($this->_content);
+        $this->_compile($this->_content);
 
         //Evaluate the template
         $this->_evaluate($this->_content);
 
         //Process the template only at the end of the render cycle.
         if(!count($this->_stack)) {
-            $this->_process($this->_content);
+            $this->_render($this->_content);
         }
 
         return $this->_content;
@@ -340,7 +365,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * Get a filter by identifier
      *
      * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
-                                    or valid identifier string
+     *                              or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return TemplateFilterInterface
      */
@@ -374,7 +399,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Attach one or more filters for template transformation
+     * Attach a filter for template transformation
      *
      * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
@@ -514,7 +539,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @return string The parsed data
      */
-    protected function _parse(&$content)
+    protected function _compile(&$content)
     {
         $this->_chain->compile($content);
     }
@@ -555,7 +580,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @return string  The rendered data
      */
-    protected function _process(&$content)
+    protected function _render(&$content)
     {
         $this->_chain->render($content);
     }

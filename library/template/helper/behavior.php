@@ -155,7 +155,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         //Force tmpl to overlay
         $url->query['tmpl'] = 'overlay';
 
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
 
         $id = 'overlay' . rand();
         if ($url->fragment) {
@@ -349,8 +349,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 			});
 		</script>";
 
-        $html .= '<input ' . $this->_buildAttributes($config->attribs) . ' />';
-        $html .= '<input ' . $this->_buildAttributes(array(
+        $html .= '<input ' . $this->buildAttributes($config->attribs) . ' />';
+        $html .= '<input ' . $this->buildAttributes(array(
             'type' => 'hidden',
             'name' => $config->name,
             'id' => $config->element . '-value',
@@ -416,6 +416,66 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
             $this->_loaded[$signature] = true;
         }
+
+        return $html;
+    }
+
+    /**
+     * Loads the inline editor behavior and attaches it to a specified element
+     *
+     * @see http://mootools.net/forge/p/meio_autocomplete
+     *
+     * @param 	array 	$config An optional array with configuration options
+     * @return string    The html output
+     *
+     */
+    public function inline_editing($config = array())
+    {
+        $config = new ObjectConfigJson($config);
+        $config->append(array(
+            'url' => '',
+            'options' => array(),
+            'attribs' => array(),
+        ));
+
+        $html = '';
+        // Load the necessary files if they haven't yet been loaded
+        if (!isset(self::$_loaded['inline_editing']))
+        {
+            $html .= '<script src="media://application/js/jquery.js" />';
+            $html .= '<script src="media://ckeditor/ckeditor/ckeditor.js" />';
+
+            self::$_loaded['inline_editing'] = true;
+        }
+
+        $url = $this->getObject('lib:http.url', array('url' => $config->url));
+
+        $html .= "<script>window.addEvent('domready', function(){
+                    CKEDITOR.on( 'instanceCreated', function( event ) {
+                        var editor = event.editor,
+                            element = editor.element;
+
+                        if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
+                            editor.on( 'configLoaded', function() {
+                                editor.config.toolbar = 'title';
+                            });
+                        }else{
+                            editor.on( 'configLoaded', function() {
+                                editor.config.toolbar = 'standard';
+                            });
+                        }
+                        editor.on('blur', function (ev) {
+                            var data = {};
+
+                            // Need to do this because we don't know what field there is being edited....
+                            data[editor.element.getId()] = editor.getData();
+                            data['_token'] = '".$this->getObject('user')->getSession()->getToken()."';
+
+                            jQuery.post('".$url."', data);
+                        });
+                    });
+            });</script>";
+
 
         return $html;
     }

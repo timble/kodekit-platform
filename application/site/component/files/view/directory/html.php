@@ -40,10 +40,6 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $parent = null;
         }
 
-	 	if (!$params->get('page_title')) {
-	 		$params->set('page_title', $page->title);
-	 	}
-
         $this->parent         = $parent;
         $this->params         = $params;
         $this->page           = $page;
@@ -95,8 +91,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
         $request = $this->getObject('lib:controller.request');
 
-        if ($this->getLayout() == 'gallery')
-        {
+        if ($this->getLayout() == 'gallery') {
             $request->query->set('types', array('image'));
         }
 
@@ -118,8 +113,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
         if ($params->get('humanize_filenames', 1))
         {
-            foreach ($files as $file)
-            {
+            foreach ($files as $file) {
                 $file->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $file->filename));
             }
         }

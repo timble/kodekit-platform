@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-interface ControllerToolbarInterface extends \IteratorAggregate
+interface ControllerToolbarInterface extends \IteratorAggregate, \Countable
 {
     /**
      * Get the toolbar's name
@@ -28,7 +28,7 @@ interface ControllerToolbarInterface extends \IteratorAggregate
      * Add a command by name
      *
      * @param   string	$name   The command name
-     * @param	mixed	$config Parameters to be passed to the command
+     * @param   array   $config An optional associative array of configuration settings
      * @return  ControllerToolbarCommand  The command object that was added
      */
     public function addCommand($name, $config = array());
@@ -40,7 +40,15 @@ interface ControllerToolbarInterface extends \IteratorAggregate
      * @param array $config An optional associative array of configuration settings
      * @return mixed ControllerToolbarCommand if found, false otherwise.
      */
-    public function getCommand($name, $config = array()) ;
+    public function getCommand($name, $config = array());
+
+    /**
+     * Check if a command exists
+     *
+     * @param string $name  The command name
+     * @return boolean True if the command exists, false otherwise.
+     */
+    public function hasCommand($name);
     
  	/**
      * Get the list of commands

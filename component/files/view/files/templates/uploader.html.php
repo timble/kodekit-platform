@@ -232,7 +232,7 @@ window.addEvent('domready', function() {
 	$$('.plupload_clear').addEvent('click', function(e) {
 		e.stop();
 
-        if(confirm(<?= json_encode(@text('Are you sure you want to clear the upload queue? This cannot be undone!')) ?>)) {
+        if(confirm(<?= json_encode(translate('Are you sure you want to clear the upload queue? This cannot be undone!')) ?>)) {
             // need to work on a clone, otherwise iterator gets confused after elements are removed
             var files = uploader.files.slice(0);
             files.each(function(file) {
@@ -448,16 +448,16 @@ window.addEvent('domready', function() {
     <div id="files-upload" style="clear: both" class="uploader-files-empty well">
 	<div style="text-align: center;">
 		<h3 style=" float: none">
-			<?= sprintf(@text('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
+			<?= sprintf(translate('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
 		</h3>
 	</div>
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
-			<li><?= @text('Upload from:') ?></li>
-			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= @text('Computer'); ?></a></li>
-			<li><a class="upload-form-toggle target-web" href="#web"><?= @text('Web'); ?></a></li>
+			<li><?= translate('Upload from:') ?></li>
+			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= translate('Computer'); ?></a></li>
+			<li><a class="upload-form-toggle target-web" href="#web"><?= translate('Web'); ?></a></li>
 			<li id="upload-max">
-                <?= str_replace('%size%', '<span id="upload-max-size"></span>',  @text('Each file should be smaller than %size%')) ?>
+                <?= str_replace('%size%', '<span id="upload-max-size"></span>',  translate('Each file should be smaller than %size%')) ?>
 			</li>
 		</ul>
 	</div>
@@ -465,19 +465,19 @@ window.addEvent('domready', function() {
 
 		<div style="clear: both"></div>
             <div class="dropzone">
-                <h2><?= @text('Drag files here') ?></h2>
+                <h2><?= translate('Drag files here') ?></h2>
             </div>
-            <h3 class="nodropzone"><?= @text('OR Select a file to upload:') ?></h3>
+            <h3 class="nodropzone"><?= translate('OR Select a file to upload:') ?></h3>
 		<div id="files-upload-multi"></div>
 
 	</div>
 	<div id="files-uploader-web" class="upload-form" style="display: none">
 		<form action="" method="post" name="remoteForm" id="remoteForm" >
 			<div class="remote-wrap">
-				<input type="text" placeholder="<?= @text('Remote URL') ?>" title="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
-				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
+				<input type="text" placeholder="<?= translate('Remote URL') ?>" title="<?= translate('Remote URL') ?>" id="remote-url" name="file" size="50" />
+				<input type="text" placeholder="<?= translate('File name') ?>" id="remote-name" name="name" />
 			</div>
-                <input type="submit" class="remote-submit btn" disabled value="<?= @text('Transfer File'); ?>" />
+                <input type="submit" class="remote-submit btn" disabled value="<?= translate('Transfer File'); ?>" />
 			<input type="hidden" name="_action" value="save" />
 		</form>
         </div>

@@ -17,14 +17,21 @@ use Nooku\Library;
  */
 class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstract
 {
-	/**
-	 * Push the tabbar into the view
-	 * .
-	 * @param	Library\Event	A event object
-	 */
-    public function onBeforeControllerRender(Library\Event $event)
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config Configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        $event->getTarget()->getView()->tabbar = $this;
+        $config->append(array(
+            'type'  => 'tabbar',
+        ));
+
+        parent::_initialize($config);
     }
  	
  	/**
@@ -32,7 +39,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
      * 
      * Disable the tabbar only for singular views that are editable.
      *
-     * @param   string	$name   The command name
+     * @param   string	$name The command name
      * @param	mixed	$config Parameters to be passed to the command
      * @return  Library\ControllerToolbarCommand
      */

@@ -42,7 +42,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
         }
 
         $id      = strtolower($config->id);
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
         //Don't pass an empty array as options
         $options = $config->options->toArray() ? ', '.$config->options : '';
 
@@ -83,7 +83,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
         ));
 
         $title   = $config->translate ? \JText::_($config->title) : $config->title;
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
 
         return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
     }

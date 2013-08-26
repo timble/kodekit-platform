@@ -8,15 +8,15 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" id="contact-form" class="-koowa-form">
@@ -26,83 +26,83 @@
 	
 	<div class="main">
 		<div class="title">
-		    <input class="required" type="text" name="name" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
+		    <input class="required" type="text" name="name" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= translate('Name') ?>" />
 		    <div class="slug">
-		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <span class="add-on"><?= translate('Slug'); ?></span>
 		        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug ?>" />
 		    </div>
 		</div>
 
 		<div class="scrollable">
 			<fieldset>
-				<legend><?= @text('Information'); ?></legend>
+				<legend><?= translate('Information'); ?></legend>
 				<div>
-				    <label for="position"><?= @text( 'Position' ); ?></label>
+				    <label for="position"><?= translate( 'Position' ); ?></label>
 				    <div>
 				        <input type="text" name="position" maxlength="255" value="<?= $contact->position; ?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="email_to"><?= @text( 'E-mail' ); ?></label>
+				    <label for="email_to"><?= translate( 'E-mail' ); ?></label>
 				    <div>
 				        <input type="text" name="email_to" maxlength="255" value="<?= $contact->email_to; ?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="address"><?= @text( 'Street Address' ); ?></label>
+				    <label for="address"><?= translate( 'Street Address' ); ?></label>
 				    <div>
 				        <textarea name="address" rows="5"><?= $contact->address; ?></textarea>
 				    </div>
 				</div>
 				<div>
-				    <label for="suburb"><?= @text( 'Town/Suburb' ); ?></label>
+				    <label for="suburb"><?= translate( 'Town/Suburb' ); ?></label>
 				    <div>
 				        <input type="text" name="suburb" maxlength="100" value="<?= $contact->suburb;?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="state"><?= @text( 'State/County' ); ?></label>
+				    <label for="state"><?= translate( 'State/County' ); ?></label>
 				    <div>
 				        <input type="text" name="state" maxlength="100" value="<?= $contact->state;?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="postcode"><?= @text( 'Postal Code/ZIP' ); ?></label>
+				    <label for="postcode"><?= translate( 'Postal Code/ZIP' ); ?></label>
 				    <div>
 				        <input type="text" name="postcode" maxlength="100" value="<?= $contact->postcode; ?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="country"><?= @text( 'Country' ); ?></label>
+				    <label for="country"><?= translate( 'Country' ); ?></label>
 				    <div>
 				        <input type="text" name="country" maxlength="100" value="<?= $contact->country;?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="telephone"><?= @text( 'Telephone' ); ?></label>
+				    <label for="telephone"><?= translate( 'Telephone' ); ?></label>
 				    <div>
 				        <input type="text" name="telephone" maxlength="255" value="<?= $contact->telephone; ?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="mobile"><?= @text( 'Mobile' ); ?></label>
+				    <label for="mobile"><?= translate( 'Mobile' ); ?></label>
 				    <div>
 				        <input type="text" name="mobile" maxlength="255" value="<?= $contact->mobile; ?>" />
 				    </div>
 				</div>
 				<div>
-				    <label for="fax"><?= @text( 'Fax' ); ?></label>
+				    <label for="fax"><?= translate( 'Fax' ); ?></label>
 				    <div>
 				        <input type="text" name="fax" maxlength="255" value="<?= $contact->fax; ?>" />
 				    </div>
 				</div>
 			</fieldset>
 		</div>
-        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'misc', 'text' => $contact->misc)) ?>
+        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'misc', 'text' => $contact->misc, 'toolbar' => 'basic')) ?>
 	</div>
 
 	<div class="sidebar">
-        <?= @template('default_sidebar.html'); ?>
+        <?= include('default_sidebar.html'); ?>
 	</div>
 	
 </form>

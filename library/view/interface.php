@@ -42,11 +42,26 @@ interface ViewInterface
     public function get($property);
 
     /**
+     * Check if a view property exists
+     *
+     * @param   string  $property   The property name.
+     * @return  boolean TRUE if the property exists, FALSE otherwise
+     */
+    public function has($property);
+
+    /**
 	 * Get the name
 	 *
 	 * @return 	string 	The name of the object
 	 */
 	public function getName();
+
+    /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle();
 	
 	/**
 	 * Get the format
@@ -87,6 +102,21 @@ interface ViewInterface
 	 */
     public function setModel($model);
 
+    /**
+     * Get the view url
+     *
+     * @return  HttpUrl  A HttpUrl object
+     */
+    public function getUrl();
+
+    /**
+     * Set the view url
+     *
+     * @param HttpUrl $url   A HttpUrl object or a string
+     * @return  ViewAbstract
+     */
+    public function setUrl(HttpUrl $url);
+
 	/**
 	 * Get a route based on a full or partial query string 
 	 * 
@@ -95,7 +125,7 @@ interface ViewInterface
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
 	 *
-	 * In templates, use @route()
+	 * In templates, use route()
 	 *
 	 * @param	string	$route  The query string used to create the route
 	 * @param 	boolean	$fqr    If TRUE create a fully qualified route. Default TRUE.

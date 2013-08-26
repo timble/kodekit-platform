@@ -17,11 +17,16 @@ use Nooku\Library;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class ControllerToolbarContact extends Library\ControllerToolbarModel
+class ControllerToolbarContact extends Library\ControllerToolbarActionbar
 {
-    public function onAfterControllerBrowse(Library\Event $event)
-    {    
-        parent::onAfterControllerBrowse($event);
+    /**
+     * Add default toolbar commands
+     * .
+     * @param	Library\CommandContext	$context A command context object
+     */
+    protected function _afterControllerBrowse(Library\CommandContext $context)
+    {
+        parent::_afterControllerBrowse($context);
         
         $this->addSeparator();
         $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));

@@ -17,7 +17,8 @@ VALUES
     (31, 'Users', 'com_users', 'allowUserRegistration=1\nnew_usertype=18\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
     (32, 'Cache', 'com_cache', '', 1),
     (34, 'Activities', 'com_activities', '', 1),
-    (35, 'Dashboard', 'com_dashboard', '', 1);
+    (35, 'Dashboard', 'com_dashboard', '', 1),
+    (36, 'CK Editor', 'com_ckeditor', '', 1);
 
 --
 -- Dumping data for table `languages`

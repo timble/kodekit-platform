@@ -114,7 +114,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             'attribs'	=> array('size' => 1),
 		));
 
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$html = array();
 		$html[] = '<select name="'. $config->name .'" '. $attribs .'>';
@@ -130,7 +130,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 			}
 
 			if(isset($option->attribs)) {
-				$attribs = $this->_buildAttributes($option->attribs);;
+				$attribs = $this->buildAttributes($option->attribs);;
 			}
 
 			if(!is_null($config->selected))
@@ -176,7 +176,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             'attribs'	=> array(),
 		));
 
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$html   = array();
         $html[] = '<fieldset  name="'. $config->name .'" '. $attribs .'>';
@@ -198,7 +198,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             }
 
             if(isset($option->attribs)) {
-                $attribs = $this->_buildAttributes($option->attribs);
+                $attribs = $this->buildAttributes($option->attribs);
             }
 
             $html[] = '<label class="radio" for="'.$config->name.$option->id.'">';
@@ -230,7 +230,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             'attribs'	=> array(),
 		));
 
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$html = array();
 
@@ -266,7 +266,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             }
 
             if(isset($option->attribs)) {
-                $attribs = $this->_buildAttributes($option->attribs);
+                $attribs = $this->buildAttributes($option->attribs);
             }
 
 			$html[] = '<label class="checkbox" for="'.$option->name.$option->id.'">';
@@ -299,7 +299,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 		));
 
 		$name    = $config->name;
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$html  = array();
 

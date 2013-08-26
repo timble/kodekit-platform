@@ -17,11 +17,16 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ControllerToolbarSetting extends Library\ControllerToolbarModel
-{  
-    public function onAfterControllerBrowse(Library\Event $event)
+class ControllerToolbarSetting extends Library\ControllerToolbarActionbar
+{
+    /**
+     * Add default toolbar commands
+     * .
+     * @param	Library\CommandContext	$context A command context object
+     */
+    protected function _afterControllerBrowse(Library\CommandContext $context)
     {
-        parent::onAfterControllerBrowse($event);
+        parent::_afterControllerBrowse($context);
         
         $this->addSave();
 		$this->addApply();

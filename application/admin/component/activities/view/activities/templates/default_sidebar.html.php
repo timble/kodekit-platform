@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <script inline>
 window.addEvent('domready', function(){
@@ -25,19 +25,19 @@ window.addEvent('domready', function(){
 </script>
 
 
-<h3><?=@text( 'Extensions' )?></h3>
+<h3><?=translate( 'Extensions' )?></h3>
 <ul class="navigation">
-    <a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= @route('package=') ?>">
-    <?= @text('All extensions')?>
+    <a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
+    <?= translate('All extensions')?>
     </a>
     <?php foreach ($packages as $package): ?>
-    <a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
+    <a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
     <?php endforeach ?>
 </ul>
 
 <form action="" method="get" id="activities-filter">
     <fieldset>
-        <legend><?=@text( 'Filters' )?></legend>
+        <legend><?=translate( 'Filters' )?></legend>
         <div class="input-prepend">
             <span class="add-on">Start</span>
             <input type="date" name="start_date" value="<?= $state->start_date ?>" />
@@ -48,7 +48,7 @@ window.addEvent('domready', function(){
         </div>
         <div class="input-prepend">
             <span class="add-on">User</span>
-            <?= @helper('com:users.listbox.users',
+            <?= helper('com:users.listbox.users',
                 array(
                     'autocomplete' => true,
                     'name'		   => 'user',
@@ -57,8 +57,8 @@ window.addEvent('domready', function(){
                 )) ?>
         </div>
         <div class="btn-group">
-            <input type="submit" name="submitfilter" class="btn" value="<?=@text('Filter')?>" />
-            <input type="reset" name="cancelfilter" class="btn" value="<?=@text('Reset')?>" />
+            <input type="submit" name="submitfilter" class="btn" value="<?=translate('Filter')?>" />
+            <input type="reset" name="cancelfilter" class="btn" value="<?=translate('Reset')?>" />
         </div>
     </fieldset>
 </form>

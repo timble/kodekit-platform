@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectSingleton
+class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectMultiton
 {
     protected $_tables;
     

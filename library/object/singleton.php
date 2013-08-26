@@ -12,13 +12,13 @@ namespace Nooku\Library;
 /**
  * Object Singleton Interface
  *
- * The interface signals the ObjectManager to register the object into the object registry upon instantiation.
+ * Ensures that only one object instance can exist.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  * @see     ObjectManager::getObject()
  */
-interface ObjectSingleton extends ObjectInterface
+interface ObjectSingleton extends ObjectMultiton
 {
 
 }

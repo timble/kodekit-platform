@@ -49,9 +49,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         $config->append(array(
         	'controller' => $this->getIdentifier()->package,
-            'request'    => 'lib:dispatcher.request',
-            'response'   => 'lib:dispatcher.response',
-            'user'       => 'lib:dispatcher.user',
+            'request'    => 'dispatcher.request',
+            'response'   => 'dispatcher.response',
+            'user'       => 'dispatcher.user',
             'behaviors'  => array('permissible'),
          ));
 

@@ -44,7 +44,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'     => Library\CommandChain::PRIORITY_LOWEST,
+            'priority'     => Library\Command::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));

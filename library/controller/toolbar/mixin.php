@@ -66,27 +66,47 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
     }
 
     /**
-     * Add one or more toolbars
+     * Attach a toolbar
      *
      * @param   mixed $toolbar An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
-     * @param  array  $config   An optional associative array of configuration settings
-     * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
+     * @param  array   $config   An optional associative array of configuration settings
+     * @param  integer $priority The command priority, usually between 1 (high priority) and 5 (lowest),
      *                 default is 3. If no priority is set, the command priority will be used
      *                 instead.
      * @return  Object The mixer object
      */
-    public function attachToolbar($toolbar, $config = array(), $priority = Event::PRIORITY_NORMAL)
+    public function attachToolbar($toolbar, $config = array(), $priority = null)
     {
         if (!($toolbar instanceof ControllerToolbarInterface)) {
             $toolbar = $this->createToolbar($toolbar, $config);
         }
 
         //Store the toolbar to allow for name lookups
-        $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
+        $this->_toolbars[$toolbar->getType()] = $toolbar;
 
-        if ($this->inherits('Nooku\Library\EventMixin')) {
-            $this->addEventSubscriber($toolbar, $priority);
+        if ($this->inherits('Nooku\Library\CommandMixin')) {
+            $this->getCommandChain()->enqueue($toolbar, $priority);
+        }
+
+        return $this->getMixer();
+    }
+
+    /**
+     * Detach a toolbar
+     *
+     * @param   ControllerToolbarInterface $toolbar A toolbar instance
+     * @return  Object The mixer object
+     */
+    public function detachToolbar(ControllerToolbarInterface $toolbar)
+    {
+        if($this->hasToolbar($toolbar->getType()))
+        {
+            unset($this->_toolbars[$toolbar->getType()]);
+
+            if ($this->inherits('Nooku\Library\CommandMixin')) {
+                $this->getCommandChain()->dequeue($toolbar);
+            }
         }
 
         return $this->getMixer();
@@ -95,26 +115,26 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
     /**
      * Check if a toolbar exists
      *
-     * @param   string   $toolbar The name of the toolbar
+     * @param   string   $type The type of the toolbar
      * @return  boolean  TRUE if the toolbar exists, FALSE otherwise
      */
-    public function hasToolbar($name)
+    public function hasToolbar($type)
     {
-        return isset($this->_toolbars[$name]);
+        return isset($this->_toolbars[$type]);
     }
 
     /**
-     * Get a toolbar by name
+     * Get a toolbar by type
      *
-     * @param  string  $name   The toolbar name
+     * @param  string  $type   The toolbar type
      * @return ControllerToolbarInterface
      */
-    public function getToolbar($name)
+    public function getToolbar($type)
     {
         $result = null;
 
-        if(isset($this->_toolbars[$name])) {
-            $result = $this->_toolbars[$name];
+        if(isset($this->_toolbars[$type])) {
+            $result = $this->_toolbars[$type];
         }
 
         return $result;

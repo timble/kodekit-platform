@@ -8,9 +8,10 @@
  */
 ?>
 
-<form action="<?= @helper('com:comments.route.comment', array('row' => $row)) ?>" method="post">
+<form action="<?= helper('com:comments.route.comment', array('row' => $row)) ?>" method="post">
     <input type="hidden" name="row" value="<?= $state->row ?>" />
 
-    <textarea type="text" name="text" placeholder="<?= @text('Write a comment...') ?>" id="new-comment-text" class="input-block-level"></textarea>
-    <input class="btn btn-primary" type="submit" value="<?= @text('Comment') ?>"/>
+    <textarea type="text" name="text" placeholder="<?= translate('Add new comment here ...') ?>" id="new-comment-text"></textarea>
+    <br />
+    <input class="button" type="submit" value="<?= translate('Submit') ?>"/>
 </form>

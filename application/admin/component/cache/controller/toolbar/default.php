@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Cache
  */
-class CacheControllerToolbarDefault extends Library\ControllerToolbarModel
+class CacheControllerToolbarDefault extends Library\ControllerToolbarActionbar
 {
     public function getCommands()
     {

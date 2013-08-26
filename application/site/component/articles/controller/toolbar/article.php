@@ -15,12 +15,29 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesControllerToolbarArticle extends Library\ControllerToolbarModel
+class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionbar
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array('controller' => 'com:articles.controller.article'));
 
         parent::_initialize($config);
+    }
+
+    protected function _afterControlerBrowse(Library\CommandContext $context)
+    {
+        $controller = $this->getController();
+        $view       = $controller->getView();
+
+        if($view->getLayout() != 'form' && $controller->isEditable() && $controller->canEdit())
+        {
+            $article = $controller->getModel()->getRow();
+            $route   = $controller->getView()->getTemplate()->getHelper('route')->article(
+                array('row' => $article, 'layout' => 'form'
+            ));
+
+            $this->addCommand('edit', array('href'  => (string) $route));
+        }
+        else parent::_afterControlerBrowse($context);
     }
 }
