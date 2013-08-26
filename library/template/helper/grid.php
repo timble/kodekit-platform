@@ -63,7 +63,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			'placeholder' => 'Title'
 		));
 
-	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->getTemplate()->getView()->escape($config->search).'" />';
+	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->escape($config->search).'" />';
         $html .= '<button class="btn">'.\JText::_('Go').'</button>';
 		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.\JText::_('Reset').'</button>';
 

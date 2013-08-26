@@ -10,14 +10,14 @@
 namespace Nooku\Library;
 
 /**
- * Dispatcher Response Singleton
+ * Event Dispatcher Singleton
  *
- * Force the user object to a singleton with identifier alias 'response'.
+ * Force the user object to a singleton
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Dispatcher
+ * @package Nooku\Library\Event
  */
-class DispatcherResponse extends DispatcherResponseAbstract implements ObjectInstantiable, ObjectSingleton
+class EventDispatcher extends EventDispatcherException implements ObjectInstantiable, ObjectSingleton
 {
     /**
      * Force creation of a singleton
@@ -28,18 +28,16 @@ class DispatcherResponse extends DispatcherResponseAbstract implements ObjectIns
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->isRegistered('dispatcher.response'))
+        if (!$manager->isRegistered('event.dispatcher'))
         {
-            //Create the singleton
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
             $manager->setObject($config->object_identifier, $instance);
 
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias('dispatcher.response', $config->object_identifier);
-            $manager->registerAlias('response', 'dispatcher.response');
+            //Add the service alias to allow easy access to the singleton
+            $manager->registerAlias('event.dispatcher', $config->object_identifier);
         }
 
-        return $manager->getObject('dispatcher.response');
+        return $manager->getObject('event.dispatcher');
     }
 }

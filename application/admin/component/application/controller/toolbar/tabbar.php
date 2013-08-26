@@ -39,8 +39,8 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
      * 
      * Disable the tabbar only for singular views that are editable.
      *
-     * @param   string	The command name
-     * @param	mixed	Parameters to be passed to the command
+     * @param   string	$name The command name
+     * @param	mixed	$config Parameters to be passed to the command
      * @return  Library\ControllerToolbarCommand
      */
     public function addCommand($name, $config = array())

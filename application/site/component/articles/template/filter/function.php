@@ -10,17 +10,17 @@
 use Nooku\Library;
 
 /**
- * Alias Template Filter
+ * Function Template Filter
  *
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Articles
  */
-class ArticlesTemplateFilterAlias extends Library\TemplateFilterAlias
+class ArticlesTemplateFilterFunction extends Library\TemplateFilterFunction
 {
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->addAlias(array('highlight(' => '$this->getView()->highlight('), Library\TemplateFilter::MODE_COMPILE);
+        $this->addFunction('highlight', '$this->getView()->highlight(');
     }
 }

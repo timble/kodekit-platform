@@ -66,17 +66,17 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
     }
 
     /**
-     * Add one or more toolbars
+     * Attach a toolbar
      *
      * @param   mixed $toolbar An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @param  array   $config   An optional associative array of configuration settings
-     * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
+     * @param  integer $priority The command priority, usually between 1 (high priority) and 5 (lowest),
      *                 default is 3. If no priority is set, the command priority will be used
      *                 instead.
      * @return  Object The mixer object
      */
-    public function attachToolbar($toolbar, $config = array(), $priority = Event::PRIORITY_NORMAL)
+    public function attachToolbar($toolbar, $config = array(), $priority = null)
     {
         if (!($toolbar instanceof ControllerToolbarInterface)) {
             $toolbar = $this->createToolbar($toolbar, $config);
@@ -85,8 +85,28 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
         //Store the toolbar to allow for name lookups
         $this->_toolbars[$toolbar->getType()] = $toolbar;
 
-        if ($this->inherits('Nooku\Library\EventMixin')) {
-            $this->addEventSubscriber($toolbar, $priority);
+        if ($this->inherits('Nooku\Library\CommandMixin')) {
+            $this->getCommandChain()->enqueue($toolbar, $priority);
+        }
+
+        return $this->getMixer();
+    }
+
+    /**
+     * Detach a toolbar
+     *
+     * @param   ControllerToolbarInterface $toolbar A toolbar instance
+     * @return  Object The mixer object
+     */
+    public function detachToolbar(ControllerToolbarInterface $toolbar)
+    {
+        if($this->hasToolbar($toolbar->getType()))
+        {
+            unset($this->_toolbars[$toolbar->getType()]);
+
+            if ($this->inherits('Nooku\Library\CommandMixin')) {
+                $this->getCommandChain()->dequeue($toolbar);
+            }
         }
 
         return $this->getMixer();

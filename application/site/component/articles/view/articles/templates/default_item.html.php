@@ -10,7 +10,7 @@
 
 <article>
     <header>
-        <h1><a href="<?= helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
+        <h1><a href="<?= helper('route.article', array('row' => $article)) ?>"><?= highlight($article->title) ?></a></h1>
         <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
         <span class="label label-info"><?= translate('Unpublished') ?></span>
@@ -21,7 +21,7 @@
     </header>
 
     <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
-    
+
     <? if ($article->introtext) : ?>
         <?= highlight($article->introtext) ?>
         <a class="article__readmore" href="<?= helper('route.article', array('row' => $article)) ?>"><?= translate('Read more') ?></a>

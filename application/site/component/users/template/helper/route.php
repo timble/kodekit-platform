@@ -34,7 +34,7 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
         );
 
         if($this->getObject('user')->isAuthentic()) {
-            $route['id'] = $this->getObject('session')->getId();
+            $route['id'] = $this->getObject('user')->getSession()->getId();
         }
 
         if (($page = $this->_findPage($needles))) {

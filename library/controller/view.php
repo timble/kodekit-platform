@@ -110,9 +110,8 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
 			//Create the view
 			$config = array(
-                'media_url' => $this->getObject('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getObject('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
-                'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
+			    'url'	  => $this->getObject('request')->getUrl(),
+                'layout'  => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
 			$this->_view = $this->getObject($this->_view, $config);

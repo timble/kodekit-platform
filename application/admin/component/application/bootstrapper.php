@@ -37,5 +37,6 @@ class ApplicationBootstrapper extends Library\BootstrapperAbstract
         $manager->registerAlias('application.modules'   , 'com:application.database.rowset.modules');
 
         $manager->registerAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');
+        $manager->registerAlias('event.dispatcher'          , 'com:debug.event.dispatcher.debug');
     }
 }

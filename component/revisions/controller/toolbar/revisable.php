@@ -19,23 +19,22 @@ use Nooku\Library;
  */
 class ControllerToolbarRevisable extends Library\ControllerToolbarDecorator
 {
-    public function onAfterControllerBrowse(Library\Event $event)
+    /**
+     * Add default toolbar commands
+     * .
+     * @param	Library\CommandContext	$context A command context object
+     */
+    protected function _afterControllerBrowse(Library\CommandContext $context)
     {
         $controller = $this->getController();
-        $state      = $controller->getModel()->getState();
 
-        if($state->trashed == true) 
-        {
-            $this->reset();
+        if($controller->canEdit()) {
+            $this->addCommand('restore');
+        }
 
-            if($controller->canEdit()) {
-                $this->addCommand('restore');
-            }
-            
-            if($controller->canDelete()) {
-                $this->addCommand('delete');
-            }
-        } 
+        if($controller->canDelete()) {
+            $this->addCommand('delete');
+        }
     }
     
     protected function _commandRestore(Library\ControllerToolbarCommand $command)

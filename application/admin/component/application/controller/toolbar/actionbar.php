@@ -17,10 +17,12 @@ use Nooku\Library;
  */
 class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarActionbar
 {
-    public function onBeforeControllerRender(Library\Event $event)
+    public function getCommands()
     {
         $this->addCommand('profile');
         $this->addCommand('logout');
+
+        return parent::getCommands();
     }
 
     protected function _commandProfile(Library\ControllerToolbarCommand $command)
