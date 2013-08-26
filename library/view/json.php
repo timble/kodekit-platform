@@ -209,10 +209,10 @@ class ViewJson extends ViewAbstract
             'item' => array()
         );
 
-        if ($item = $model->fetch()->top())
+        if ($item = $model->fetch())
         {
             $data = array_merge($data, array(
-                'item' => $item->toArray()
+                'item' => $item->getProperties()
             ));
         }
         ;
