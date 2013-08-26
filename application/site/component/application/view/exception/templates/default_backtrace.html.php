@@ -8,38 +8,41 @@
  */
 ?>
 
-<table>
-    <tr>
-        <td colspan="4" align="left" class="TD"><strong><?= translate('Call stack') ?></strong></td>
-    </tr>
-    <tr>
-        <td><strong>#</strong></td>
-        <td><strong><?= translate('Function') ?></strong></td>
-        <td><strong><?= translate('File') ?></strong></td>
-        <td><strong><?= translate('Line') ?></strong></td>
-    </tr>
+<table class="table table-striped">
+    <caption><?= $message ?></caption>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th><?= translate('Function') ?></th>
+            <th><?= translate('File') ?></th>
+            <th><?= translate('Line') ?></th>
+        </tr>
+    </thead>
+
     <? $j = 1; ?>
+    <tbody>
     <? for( $i = count( $trace ) - 1; $i >= 0 ; $i-- ) : ?>
-    <tr>
-        <td><?= $j ?></td>
-        <? if( isset( $trace[$i]['class'])) : ?>
-        <td><?= $trace[$i]['class'].$trace[$i]['type'].$trace[$i]['function'].'()' ?></td>
-        <? else : ?>
-        <td><?= $trace[$i]['function'].'()' ?></td>
-        <? endif; ?>
+        <tr>
+            <td><?= $j ?></td>
+            <? if( isset( $trace[$i]['class'])) : ?>
+            <td><?= $trace[$i]['class'].$trace[$i]['type'].$trace[$i]['function'].'()' ?></td>
+            <? else : ?>
+            <td><?= $trace[$i]['function'].'()' ?></td>
+            <? endif; ?>
 
-        <? if( isset( $trace[$i]['file'])) : ?>
-        <td><?= $trace[$i]['file'] ?></td>
-        <? else : ?>
-        <td> </td>
-        <? endif; ?>
+            <? if( isset( $trace[$i]['file'])) : ?>
+            <td><?= $trace[$i]['file'] ?></td>
+            <? else : ?>
+            <td> </td>
+            <? endif; ?>
 
-        <? if( isset( $trace[$i]['line'])) : ?>
-        <td><?= $trace[$i]['line']; ?></td>
-        <? else : ?>
-        <td> </td>
-        <? endif; ?>
-    </tr>
+            <? if( isset( $trace[$i]['line'])) : ?>
+            <td><?= $trace[$i]['line']; ?></td>
+            <? else : ?>
+            <td> </td>
+            <? endif; ?>
+        </tr>
     <? $j++ ?>
     <? endfor; ?>
+    </tbody>
 </table>
