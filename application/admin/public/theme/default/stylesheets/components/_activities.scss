@@ -30,8 +30,8 @@
   border-radius: 5px;
 }
 
-#activities-list .activity 			{ padding: 7px; border-bottom: 1px solid #DDD; }
-#activities-list .activity:last-child 	{ border-bottom: none 0px; }
+#activities-list .activity 		{ padding: 7px; border-top: 1px solid #DDD; }
+#activities-list h4 + .activity { border-top: 0 none; }
 
 #activities-list .activity__info { font-size: 10px; color: #999; float: right; width: auto; text-transform: capitalize; }
 

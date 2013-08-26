@@ -1403,18 +1403,18 @@ ul {
   color: #ffc40d;
 }
 
-/* line 355, _general.scss */
+/* line 354, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 360, _general.scss */
+/* line 359, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 365, _general.scss */
+/* line 364, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1423,17 +1423,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 374, _general.scss */
+/* line 373, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0 !important;
 }
-/* line 382, _general.scss */
+/* line 381, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main #files-app #files-canvas #files-grid, #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 388, _general.scss */
+/* line 387, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1442,23 +1442,23 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 395, _general.scss */
+/* line 394, _general.scss */
 .-koowa-form .sidebar input[type=date],
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 401, _general.scss */
+/* line 400, _general.scss */
 .box-column {
   box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
 }
 
 /* Sidebar */
-/* line 407, _general.scss */
+/* line 406, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 410, _general.scss */
+/* line 409, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
@@ -4707,18 +4707,9 @@ tbody tr td iframe {
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
 }
 
-/* line 195, _flexbox.scss */
+/* line 193, _flexbox.scss */
 #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4730,7 +4721,7 @@ tbody tr td iframe {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 199, _flexbox.scss */
+/* line 197, _flexbox.scss */
 #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4743,12 +4734,12 @@ tbody tr td iframe {
   flex-direction: column;
 }
 
-/* line 208, _flexbox.scss */
+/* line 206, _flexbox.scss */
 #files-paginator {
   height: 26px;
 }
 
-/* line 216, _flexbox.scss */
+/* line 214, _flexbox.scss */
 #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4758,13 +4749,13 @@ tbody tr td iframe {
   flex: 1;
 }
 
-/* line 220, _flexbox.scss */
+/* line 218, _flexbox.scss */
 #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 224, _flexbox.scss */
+/* line 222, _flexbox.scss */
 #files-insert #files-tree-container,
 #files-insert #files-grid {
   display: -webkit-flex;
@@ -4774,7 +4765,7 @@ tbody tr td iframe {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 228, _flexbox.scss */
+/* line 226, _flexbox.scss */
 #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4786,7 +4777,7 @@ tbody tr td iframe {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 232, _flexbox.scss */
+/* line 230, _flexbox.scss */
 #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4795,7 +4786,7 @@ tbody tr td iframe {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 236, _flexbox.scss */
+/* line 234, _flexbox.scss */
 #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
@@ -4849,12 +4840,12 @@ tbody tr td iframe {
 /* line 33, components/_activities.scss */
 #activities-list .activity {
   padding: 7px;
-  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD;
 }
 
 /* line 34, components/_activities.scss */
-#activities-list .activity:last-child {
-  border-bottom: none 0px;
+#activities-list h4 + .activity {
+  border-top: 0 none;
 }
 
 /* line 36, components/_activities.scss */
