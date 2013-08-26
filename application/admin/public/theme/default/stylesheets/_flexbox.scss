@@ -185,7 +185,6 @@ body {
 
       #activities-list {
         @include box-scrollable(scrollable);
-        @include flex();
         @include flex-direction(column);
 
         .activity {
