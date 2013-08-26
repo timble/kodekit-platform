@@ -32,14 +32,14 @@ class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
      */
 	public function addRow(array $list, $status = null)
     {
-    	foreach($list as $k => $row)
+        foreach($list as $k => $row)
 		{
 		    $options = array(
             	'data'   => $row,
                 'status' => $status,
             );
-		    
-		    $instance = $this->getRow($options);
+
+		    $instance = $this->createRow($options);
 
         	if(isset($row['path']) && !empty($row['path']))
         	{
