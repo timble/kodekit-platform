@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
  * Page Controller
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerPage extends Library\ControllerView
+class ApplicationControllerPage extends Application\ControllerPage
 {
     /**
      * Constructor.
