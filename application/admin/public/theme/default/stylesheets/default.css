@@ -4628,8 +4628,8 @@ body {
 /* line 144, _flexbox.scss */
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody,
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
-.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td
-tbody tr td iframe {
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td,
+.image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td iframe {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -5718,101 +5718,117 @@ body.login .alert__text {
   text-decoration: none;
 }
 
-/* line 1, components/_ckeditor.scss */
+/**
+ * Overrides for Moono skin
+ */
+/* line 5, components/_ckeditor.scss */
 .cke_chrome {
   border: 0px none !important;
   box-shadow: none !important;
 }
 
-/* line 6, components/_ckeditor.scss */
+/* line 10, components/_ckeditor.scss */
+.cke_button__source_label {
+  display: none !important;
+}
+
+/* line 14, components/_ckeditor.scss */
 .cke_dialog_contents_body {
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
 }
 
-/* line 17, components/_ckeditor.scss */
+/* line 20, components/_ckeditor.scss */
+.cke_dialog_ui_vbox_child {
+  padding: 0 !important;
+}
+
+/* line 24, components/_ckeditor.scss */
 div.cke_dialog_ui_input_select {
-  border: 0 none;
-  box-shadow: none;
+  border: 0 none !important;
+  box-shadow: none !important;
 }
 
-/* line 23, components/_ckeditor.scss */
+/**
+ * Image/Document insert dialog
+ */
+/* line 40, components/_ckeditor.scss */
 #files-compact .tab > label {
   border-right: 1px solid #dddddd;
 }
-/* line 27, components/_ckeditor.scss */
+/* line 44, components/_ckeditor.scss */
 #files-compact [type=radio]:checked ~ label {
   background-color: #f9f9f9;
   border-bottom-color: #f9f9f9;
 }
-/* line 32, components/_ckeditor.scss */
+/* line 49, components/_ckeditor.scss */
 #files-compact .content {
   overflow: hidden;
   top: 30px;
   background-color: #f9f9f9;
 }
-/* line 37, components/_ckeditor.scss */
+/* line 54, components/_ckeditor.scss */
 #files-compact .content .dropzone {
   background-color: white;
 }
-/* line 44, components/_ckeditor.scss */
+/* line 61, components/_ckeditor.scss */
 #files-compact #files-insert #files-tree-container,
 #files-compact #files-insert #files-grid {
   width: 200px;
   border-right: 1px solid #E1E1E1;
   background-color: #f9f9f9;
 }
-/* line 51, components/_ckeditor.scss */
+/* line 68, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview {
   background: white;
 }
-/* line 54, components/_ckeditor.scss */
+/* line 71, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview > div {
   margin: auto;
   text-align: center;
 }
-/* line 58, components/_ckeditor.scss */
+/* line 75, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview > div > div {
   padding-top: 6px;
 }
-/* line 63, components/_ckeditor.scss */
+/* line 80, components/_ckeditor.scss */
 #files-compact #files-insert #details #files-preview img {
   max-height: 125px;
   max-width: 300px;
 }
-/* line 69, components/_ckeditor.scss */
+/* line 86, components/_ckeditor.scss */
 #files-compact #files-insert #details #image-insert-form {
   border-top: 1px solid #E1E1E1;
   background-color: #F4F4F4;
 }
-/* line 74, components/_ckeditor.scss */
+/* line 91, components/_ckeditor.scss */
 #files-compact #files-insert #details .buttons {
   border-top: 1px solid #E1E1E1;
   background-color: #F4F4F4;
   padding: 6px;
   text-align: right;
 }
-/* line 84, components/_ckeditor.scss */
+/* line 101, components/_ckeditor.scss */
 #files-compact #files-upload form {
   padding: 5px;
 }
-/* line 88, components/_ckeditor.scss */
+/* line 105, components/_ckeditor.scss */
 #files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
   height: 28px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 92, components/_ckeditor.scss */
+/* line 109, components/_ckeditor.scss */
 #files-compact #files-upload form #remote-url {
   border-radius: 4px 0 0 4px;
 }
-/* line 95, components/_ckeditor.scss */
+/* line 112, components/_ckeditor.scss */
 #files-compact #files-upload form #remote-name {
   border-radius: 0;
 }
-/* line 98, components/_ckeditor.scss */
+/* line 115, components/_ckeditor.scss */
 #files-compact #files-upload form .remote-submit {
   top: 5px;
   right: 5px;
@@ -5820,7 +5836,7 @@ div.cke_dialog_ui_input_select {
   border-radius: 0 4px 4px 0;
 }
 
-/* line 115, components/_ckeditor.scss */
+/* line 132, components/_ckeditor.scss */
 #insert-modal-cancel,
 #insert-link,
 .insert-or {
@@ -5830,14 +5846,14 @@ div.cke_dialog_ui_input_select {
   cursor: pointer;
 }
 
-/* line 121, components/_ckeditor.scss */
+/* line 138, components/_ckeditor.scss */
 .insert-or {
   padding: 5px 5px 5px 0;
   margin-left: -5px;
   cursor: default;
 }
 
-/* line 126, components/_ckeditor.scss */
+/* line 143, components/_ckeditor.scss */
 #insert-link {
   font-size: 15px;
   overflow: hidden;

@@ -140,7 +140,7 @@ body {
 
         tbody,
         tbody tr,
-        tbody tr td
+        tbody tr td,
         tbody tr td iframe {
           @include flex(1);
         }
