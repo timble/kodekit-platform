@@ -8,7 +8,7 @@
  */
 ?>
 
-<style src="media://comments/css/comments-default.css" />
+<style src="assets://comments/css/comments-default.css" />
 
 <div id="list" class="-koowa-box-flex">
 	<form action="<?= route()?>" method="post" name="adminForm">

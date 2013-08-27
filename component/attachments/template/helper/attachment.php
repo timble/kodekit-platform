@@ -53,7 +53,7 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
         $extensions = json_encode($config->allowed_extensions->toArray());
 
 		$html = <<<END
-		<script src="media://attachments/js/attachments.upload.js" />
+		<script src="assets://attachments/js/attachments.upload.js" />
 		<script>
 		window.addEvent('domready', function() {
 			new Attachments.Upload({

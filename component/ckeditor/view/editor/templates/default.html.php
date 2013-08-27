@@ -8,7 +8,7 @@
  */
 ?>
 
-<script src="media://ckeditor/ckeditor/ckeditor.js" />
+<script src="assets://ckeditor/ckeditor/ckeditor.js" />
 
 <script>
     jQuery(document).ready(function() {

@@ -8,7 +8,7 @@
  */
 ?>
 
-<script src="media://pages/js/pages-list.js" />
+<script src="assets://pages/js/pages-list.js" />
 
 <ul class="navigation">
     <? foreach(object('com:pages.model.menus')->sort('title')->application('site')->getRowset() as $menu) : ?>

@@ -12,9 +12,9 @@
 <?= helper('behavior.validator') ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<script src="media://pages/js/widget.js" />
-<script src="media://pages/js/page.js" />
+<script src="assets://js/koowa.js" />
+<script src="assets://pages/js/widget.js" />
+<script src="assets://pages/js/page.js" />
 -->
 
 <script>

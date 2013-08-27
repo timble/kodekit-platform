@@ -41,7 +41,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $config = new ObjectConfig($config);
 
-            $html .= '<script src="media://js/mootools.js" />';
+            $html .= '<script src="assets://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
         }
 
@@ -66,8 +66,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['modal'])) {
-            $html .= '<script src="media://js/modal.js" />';
-            $html .= '<style src="media://css/modal.css" />';
+            $html .= '<script src="assets://js/modal.js" />';
+            $html .= '<style src="assets://css/modal.css" />';
 
             self::$_loaded['modal'] = true;
         }
@@ -144,8 +144,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['overlay']))
         {
-            $html .= '<script src="media://js/koowa.js" />';
-            $html .= '<style src="media://css/koowa.css" />';
+            $html .= '<script src="assets://js/koowa.js" />';
+            $html .= '<style src="assets://css/koowa.css" />';
 
             self::$_loaded['overlay'] = true;
         }
@@ -253,8 +253,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['validator'])) {
-            $html .= '<script src="media://js/validator-1.2.js" />';
-            $html .= '<script src="media://js/patch.validator.js" />';
+            $html .= '<script src="assets://js/validator-1.2.js" />';
+            $html .= '<script src="assets://js/patch.validator.js" />';
 
             self::$_loaded['validator'] = true;
         }
@@ -337,9 +337,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['autocomplete'])) {
-            $html .= '<script src="media://js/autocomplete.js" />';
-            $html .= '<script src="media://js/patch.autocomplete.js" />';
-            $html .= '<style src="media://css/autocomplete.css" />';
+            $html .= '<script src="assets://js/autocomplete.js" />';
+            $html .= '<script src="assets://js/patch.autocomplete.js" />';
+            $html .= '<style src="assets://css/autocomplete.css" />';
         }
 
         $html .= "
@@ -442,8 +442,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['inline_editing']))
         {
-            $html .= '<script src="media://application/js/jquery.js" />';
-            $html .= '<script src="media://ckeditor/ckeditor/ckeditor.js" />';
+            $html .= '<script src="assets://application/js/jquery.js" />';
+            $html .= '<script src="assets://ckeditor/ckeditor/ckeditor.js" />';
 
             self::$_loaded['inline_editing'] = true;
         }

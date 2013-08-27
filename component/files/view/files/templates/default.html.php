@@ -28,7 +28,7 @@ window.addEvent('domready', function() {
 				}
 			},
 			tree: {
-				theme: 'media://files/images/mootree.png'
+				theme: 'assets://files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
             site: <?= json_encode($site); ?>,

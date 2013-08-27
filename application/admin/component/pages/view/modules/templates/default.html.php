@@ -9,8 +9,8 @@
 ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
 <?= helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>

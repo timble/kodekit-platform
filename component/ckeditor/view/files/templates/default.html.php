@@ -12,7 +12,7 @@ use Nooku\Library;
 
 <?= import('com:files.view.files.initialize.html'); ?>
 
-<script src="media://ckeditor/js/ckeditor.files.js" />
+<script src="assets://ckeditor/js/ckeditor.files.js" />
 
 <script>
     Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';
@@ -30,7 +30,7 @@ use Nooku\Library;
             },
             editor: <?= json_encode($state->editor); ?>,
             tree: {
-                theme: 'media://files/images/mootree.png'
+                theme: 'assets://files/images/mootree.png'
             },
             types: <?= json_encode($state->types); ?>,
             site: <?= json_encode($site); ?>,

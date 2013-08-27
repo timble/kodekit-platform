@@ -10,8 +10,8 @@
 
 <? $list = (isset($row) && isset($table)) ? $attachments->find(array('row' => $row, 'table' => $table)) : $attachments ?>
 
-<script src="media://attachments/js/attachments.list.js" />
-<script src="media://files/js/uri.js" />
+<script src="assets://attachments/js/attachments.list.js" />
+<script src="assets://files/js/uri.js" />
 
 <script>
 window.addEvent('domready', function() {

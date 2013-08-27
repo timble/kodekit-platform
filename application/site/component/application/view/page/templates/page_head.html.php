@@ -21,9 +21,9 @@
     <ktml:style>
     <ktml:script>
 
-    <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="assets://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <style src="media://application/stylesheets/default.css" />
-    <style src="media://application/stylesheets/print.css" media="print" />
+    <style src="assets://application/stylesheets/default.css" />
+    <style src="assets://application/stylesheets/print.css" media="print" />
 
 </head>

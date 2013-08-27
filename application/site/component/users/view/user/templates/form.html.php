@@ -11,8 +11,8 @@
 <?=helper('behavior.mootools');?>
 <?=helper('behavior.validator');?>
 
-<script src="media://js/koowa.js"/>
-<script src="media://users/js/users.js" />
+<script src="assets://js/koowa.js"/>
+<script src="assets://users/js/users.js" />
 
 <script type="text/javascript">
     window.addEvent('domready', function () {
