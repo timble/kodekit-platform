@@ -122,7 +122,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 		foreach($config->options as $option)
 		{
             $value = $option->value;
-			$label  = $config->translate ? \JText::_( $option->label ) : $option->label;
+			$label  = $config->translate ? $this->translate( $option->label ) : $option->label;
 
 			$extra = '';
 			if(isset($option->disabled) && $option->disabled) {
@@ -182,13 +182,13 @@ class TemplateHelperSelect extends TemplateHelperAbstract
         $html[] = '<fieldset  name="'. $config->name .'" '. $attribs .'>';
 
         if(isset($config->legend)) {
-            $html[] = '<legend>'.$config->translate ? \JText::_( $config->legend ) : $config->legend.'</legend>';
+            $html[] = '<legend>'.$config->translate ? $this->translate( $config->legend ) : $config->legend.'</legend>';
         }
 
 		foreach($config->options as $option)
 		{
             $value = $option->value;
-            $label = $config->translate ? \JText::_( $option->label ) : $option->label;
+            $label = $config->translate ? $this->translate( $option->label ) : $option->label;
 
             $extra = '';
             $extra = ($value == $config->selected ? 'checked="checked"' : '');
@@ -237,13 +237,13 @@ class TemplateHelperSelect extends TemplateHelperAbstract
         $html[] = '<fieldset  name="'. $config->name .'" '. $attribs .'>';
 
         if(isset($config->legend)) {
-            $html[] = '<legend>'.$config->translate ? \JText::_( $config->legend ) : $config->legend.'</legend>';
+            $html[] = '<legend>'.$config->translate ? $this->translate( $config->legend ) : $config->legend.'</legend>';
         }
 
 		foreach($config->options as $option)
 		{
 			$value = $option->value;
-			$label = $config->translate ? \JText::_( $option->label ) : $option->label;
+			$label = $config->translate ? $this->translate( $option->label ) : $option->label;
 
 			$extra = '';
 
@@ -304,7 +304,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 		$html  = array();
 
 		$extra = !$config->selected ? 'checked="checked"' : '';
-		$label = $config->translate ? \JText::_( $config->false ) : $config->false;
+		$label = $config->translate ? $this->translate( $config->false ) : $config->false;
 
 		$html[] = '<label class="radio" for="'.$name.'0">';
 		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'0" value="0" '.$extra.' '.$attribs.' />';
@@ -312,7 +312,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 		$html[] = '</label>';
 
 		$extra = $config->selected ? 'checked="checked"' : '';
-		$label = $config->translate ? \JText::_( $config->true ) : $config->true;
+		$label = $config->translate ? $this->translate( $config->true ) : $config->true;
 
 		$html[] = '<label class="radio" for="'.$name.'1">';
 		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'1" value="1" '.$extra.' '.$attribs.' />';

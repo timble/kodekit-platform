@@ -171,7 +171,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $options = $config->options->toArray() ? ', ' . $config->options : '';
         $html .= "<script>window.addEvent('domready', function(){new Koowa.Overlay('$id'" . $options . ");});</script>";
 
-        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . \JText::_('Loading...') . '</div></div>';
+        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . $this->translate('Loading...') . '</div></div>';
         return $html;
     }
 

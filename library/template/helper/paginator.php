@@ -46,11 +46,11 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 
             $html .= '<div class="pagination">';
             if($config->show_limit) {
-                $html .= '<div class="pagination__limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
+                $html .= '<div class="pagination__limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
             }
             $html .=  $this->pages($config);
             if($config->show_count) {
-                $html .= '<div class="pagination__count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
+                $html .= '<div class="pagination__count"> '.$this->translate('Page').' '.$config->current.' '.$this->translate('of').' '.$config->count.'</div>';
             }
             $html .= '</div>';
 
@@ -148,7 +148,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
-        $html = '<li '.$this->buildAttributes($config->attribs).'><a href="'.$route.'" '.$rel.'>'.\JText::_($config->title).'</a></li>';
+        $html = '<li '.$this->buildAttributes($config->attribs).'><a href="'.$route.'" '.$rel.'>'.$this->translate($config->title).'</a></li>';
 
         return $html;
     }

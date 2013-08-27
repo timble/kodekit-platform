@@ -38,11 +38,11 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => \JText::_($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => \JText::_( 'Enabled' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => \JText::_( 'Disabled' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $this->translate( 'Enabled' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $this->translate( 'Disabled' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -71,11 +71,11 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => JText::_($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => \JText::_( 'Published' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => \JText::_( 'Draft' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $this->translate( 'Published' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $this->translate( 'Draft' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -160,7 +160,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		//Compose the options array
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('label' => \JText::_($config->prompt)));
+         	$options[] = $this->option(array('label' => $this->translate($config->prompt)));
         }
 
  		foreach($items as $key => $value)
