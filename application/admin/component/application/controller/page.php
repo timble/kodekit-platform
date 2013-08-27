@@ -20,7 +20,7 @@ class ApplicationControllerPage extends Library\ControllerView
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options.
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options.
      */
     protected function  _initialize(Library\ObjectConfig $config)
     {
@@ -29,22 +29,5 @@ class ApplicationControllerPage extends Library\ControllerView
         ));
 
         parent::_initialize($config);
-    }
-
-    protected function _actionRender(Library\CommandContext $context)
-    {
-        $content = parent::_actionRender($context);
-
-        //Make images paths absolute
-        $base = $this->getObject('request')->getBaseUrl();
-        $site = $this->getObject('application')->getSite();
-
-        $path = $base->getPath().'/files/'.$site.'/images/';
-
-        $content = str_replace($base.'/images/', $path, $content);
-        $content = str_replace(array('../images', './images') , '"'.$path, $content);
-
-        $context->response->setContent($content);
-        return $content;
     }
 }
