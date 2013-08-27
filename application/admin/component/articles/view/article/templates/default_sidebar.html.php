@@ -59,9 +59,9 @@
         <div class="content">
             <fieldset>
                 <? if (!$article->isNew()) : ?>
-                    <?= include('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
+                    <?= import('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
                 <? endif ?>
-                <?= include('com:attachments.view.attachments.upload.html') ?>
+                <?= import('com:attachments.view.attachments.upload.html') ?>
             </fieldset>
         </div>
     </div>

@@ -26,7 +26,7 @@
             <p><?= $message ?></p>
             <p>
                 <? if(count($trace)) : ?>
-                <?= include('default_backtrace.html'); ?>
+                <?= import('default_backtrace.html'); ?>
                 <? endif; ?>
             </p>
         </td>

@@ -11,14 +11,14 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
-<?= include('page_head.html') ?>
+<?= import('page_head.html') ?>
 
 <body class="com_<?= $extension ?>">
 <?
 /*
 ?>
 <div id="panel-pages">
-    <?= include('com:pages.view.pages.list.html', array('state' => $state)); ?>
+    <?= import('com:pages.view.pages.list.html', array('state' => $state)); ?>
 </div>
 */
 ?>
@@ -35,7 +35,7 @@
     <ktml:modules position="actionbar">
     <div id="panel-toolbar">
         <ktml:modules:content>
-        <?= include('page_message.html') ?>
+        <?= import('page_message.html') ?>
     </div>
     </ktml:modules>
 

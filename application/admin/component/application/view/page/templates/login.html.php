@@ -11,10 +11,10 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
-<?= include('page_head.html') ?>
+<?= import('page_head.html') ?>
 
 <body class="login">
-    <?= include('page_message.html') ?>
+    <?= import('page_message.html') ?>
     <div class="login-box">
         <ktml:content>
 	</div>

@@ -58,7 +58,7 @@
         <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar no--scrollbar">
-        <?= include('default_sidebar.html'); ?>
+        <?= import('default_sidebar.html'); ?>
     </div>
 </form>
 

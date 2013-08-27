@@ -10,7 +10,7 @@
 use Nooku\Library;
 ?>
 
-<?= include('com:files.view.files.initialize.html'); ?>
+<?= import('com:files.view.files.initialize.html'); ?>
 
 <script src="media://ckeditor/js/ckeditor.files.js" />
 
@@ -46,7 +46,7 @@ use Nooku\Library;
     });
 </script>
 
-<?= include('default_fields.html');?>
+<?= import('default_fields.html');?>
 
 <div id="files-compact" class="tabs tabs-horizontal">
     <div class="tab">
@@ -109,7 +109,7 @@ use Nooku\Library;
         <input type="radio" id="tab-2" name="tab-group-1">
         <label for="tab-2"><?= translate('Upload') ?></label>
         <div class="content">
-            <?= include('com:files.view.files.uploader.html'); ?>
+            <?= import('com:files.view.files.uploader.html'); ?>
         </div>
     </div>
 </div>

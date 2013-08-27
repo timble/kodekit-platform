@@ -55,8 +55,8 @@
         <?= $article->fulltext ?>
     </div>
 
-    <?= include('com:tags.view.tags.default.html') ?>
-    <?= include('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+    <?= import('com:tags.view.tags.default.html') ?>
+    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
 
 

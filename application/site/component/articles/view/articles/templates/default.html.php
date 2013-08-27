@@ -15,7 +15,7 @@
 <? endif; ?>
 
 <? foreach ($articles as $article): ?>
-    <?= include('default_item.html', array('article' => $article)) ?>
+    <?= import('default_item.html', array('article' => $article)) ?>
 <? endforeach; ?>
 
 <?= helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>

@@ -110,7 +110,7 @@
                 <label for="tab-1"><?= translate('Publish') ?></label>
                 <div class="content">
                     <fieldset>
-                        <?= include('default_publish.html') ?>
+                        <?= import('default_publish.html') ?>
                     </fieldset>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 <label for="tab-2"><?= translate('Page') ?></label>
                 <div class="content">
                     <fieldset>
-                        <?= include('default_page.html') ?>
+                        <?= import('default_page.html') ?>
                     </fieldset>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                     <label for="tab-3"><?= translate('Modules') ?></label>
                     <div class="content">
                         <fieldset id="pages-modules">
-                            <?= include('default_modules.html') ?>
+                            <?= import('default_modules.html') ?>
                         </fieldset>
                     </div>
                 </div>

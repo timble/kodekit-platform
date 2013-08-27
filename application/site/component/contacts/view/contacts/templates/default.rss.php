@@ -50,7 +50,7 @@ use Nooku\Library;
             <title><?= escape($contact->name) ?></title>
             <link><?= helper('route.contact', array('row' => $contact)) ?></link>
             <guid isPermaLink="false"><?= helper('route.contact', array('row' => $contact)) ?></guid>
-            <description><![CDATA[<?= include('com:contacts.view.contact.hcard.html', array('contact' => $contact)); ?>]]></description>
+            <description><![CDATA[<?= import('com:contacts.view.contact.hcard.html', array('contact' => $contact)); ?>]]></description>
             <category domain="<?= helper('route.category', array('row' => $category)) ?>">
                 <![CDATA[<? $category->title; ?>]]>
             </category>

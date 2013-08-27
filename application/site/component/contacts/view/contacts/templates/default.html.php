@@ -43,7 +43,7 @@
         </tr>
     </thead>
     <tbody>
-        <?= include('default_items.html'); ?>
+        <?= import('default_items.html'); ?>
     </tbody>
 </table>
 

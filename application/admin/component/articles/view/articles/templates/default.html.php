@@ -25,11 +25,11 @@
 <? endif ?>
 
 <ktml:module position="sidebar">
-    <?= include('default_sidebar.html'); ?>
+    <?= import('default_sidebar.html'); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-    <?= include('default_scopebar.html'); ?>
+    <?= import('default_scopebar.html'); ?>
     <table>
         <thead>
             <tr>

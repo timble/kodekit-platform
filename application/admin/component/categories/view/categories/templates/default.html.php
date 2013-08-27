@@ -20,14 +20,14 @@
 
 <? if($state->table == 'articles') : ?>
 <ktml:module position="sidebar">
-    <?= include('default_sidebar.html'); ?>
+    <?= import('default_sidebar.html'); ?>
 </ktml:module>
 <? endif; ?>
 
 <form action="" method="get" class="-koowa-grid">
     <input type="hidden" name="type" value="<?= $state->type;?>" />
 
-    <?= include('default_scopebar.html'); ?>
+    <?= import('default_scopebar.html'); ?>
     <table>
         <thead>
             <tr>

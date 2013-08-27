@@ -12,4 +12,4 @@
     <h1><?= escape($parameters->get('page_title')) ?></h1>
 </div>
 
-<?=include('form.html')?>
+<?=import('form.html')?>

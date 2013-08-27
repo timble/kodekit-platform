@@ -18,7 +18,7 @@
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-    <?= include('default_scopebar.html') ?>
+    <?= import('default_scopebar.html') ?>
     <table>
         <thead>
             <tr>

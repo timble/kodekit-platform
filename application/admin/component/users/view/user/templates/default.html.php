@@ -84,7 +84,7 @@
 	</div>
 	
 	<div class="sidebar">
-        <?= include('default_sidebar.html'); ?>
+        <?= import('default_sidebar.html'); ?>
 	</div>
 </form>
 

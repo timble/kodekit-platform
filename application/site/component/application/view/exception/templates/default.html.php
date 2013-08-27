@@ -10,7 +10,7 @@
 
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
-<?= include('default_head.html') ?>
+<?= import('default_head.html') ?>
 
-<?= include('default_body.html') ?>
+<?= import('default_body.html') ?>
 </html>

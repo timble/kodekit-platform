@@ -12,4 +12,4 @@
     <h1><?= translate('Registration') ?></h1>
 </div>
 
-<?= include('form.html') ?>
+<?= import('form.html') ?>

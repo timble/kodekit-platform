@@ -21,7 +21,7 @@
     </div>
     <div id="backtrace__info" class="is-hidden">
         <? if(count($trace)) : ?>
-            <?= include('default_backtrace.html'); ?>
+            <?= import('default_backtrace.html'); ?>
         <? endif; ?>
     </div>
 </div>
