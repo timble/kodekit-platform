@@ -14,12 +14,12 @@ use Nooku\Library;
 /**
  * Url Template Filter
  *
- * Filter rewrites relative images/... paths as inserted by the editor to absolute paths /files/[site]/images/...
+ * Filter rewrites relative files/... paths as inserted by the editor to absolute paths /files/[site]/files/...
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Ckeditor
  */
-class TemplateFilterUrl extends Library\TemplateFilterUrl
+class TemplateFilterFiles extends Library\TemplateFilterUrl
 {
     /**
      * Initializes the options for the object

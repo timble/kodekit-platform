@@ -29,7 +29,7 @@ class ApplicationViewPageHtml extends Application\ViewPageHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters' => array('com:ckeditor.template.filter.url'),
+            'template_filters' => array('com:ckeditor.template.filter.files'),
         ));
 
         parent::_initialize($config);
