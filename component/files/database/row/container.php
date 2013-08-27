@@ -61,9 +61,7 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 	public function getRelativePath()
 	{
 	    if ($this->adapter === 'local') {
-	        $path = $this->path;
-	        $root = str_replace('\\', '/', JPATH_ROOT);
-	        return str_replace($root.'/', '', $path);
+	        return $this->_data['path'];
 	    }
 	    
 	    return null;
