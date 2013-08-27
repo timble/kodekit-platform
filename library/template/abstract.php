@@ -119,6 +119,27 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
+     * Render the template
+     *
+     * @return string  The rendered data
+     */
+    public function render()
+    {
+        //Parse the template
+        $this->_compile($this->_content);
+
+        //Evaluate the template
+        $this->_evaluate($this->_content);
+
+        //Process the template only at the end of the render cycle.
+        if(!count($this->_stack)) {
+            $this->_render($this->_content);
+        }
+
+        return $this->_content;
+    }
+
+    /**
      * Escape a string
      *
      * By default the function uses htmlspecialchars to escape the string
@@ -328,27 +349,6 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         return $this;
-    }
-
-    /**
-     * Render the template
-     *
-     * @return string  The rendered data
-     */
-    public function render()
-    {
-        //Parse the template
-        $this->_compile($this->_content);
-
-        //Evaluate the template
-        $this->_evaluate($this->_content);
-
-        //Process the template only at the end of the render cycle.
-        if(!count($this->_stack)) {
-            $this->_render($this->_content);
-        }
-
-        return $this->_content;
     }
 
     /**
