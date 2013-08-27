@@ -64,7 +64,7 @@ Ckeditor.Files = new Class({
         var row     = node.retrieve('row');
         var copy    = $extend({}, row);
         var path    = row.baseurl+"/"+row.filepath;
-        var url     = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+        var url     = path.replace(Files.sitebase+'/', '').replace(/files\/[^\/]+\//, '');
 
         // Update active row
         node.getParent().getChildren().removeClass('active');
