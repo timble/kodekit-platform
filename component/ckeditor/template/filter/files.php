@@ -35,10 +35,10 @@ class TemplateFilterFiles extends Library\TemplateFilterUrl
         $base = $this->getObject('request')->getBaseUrl();
         $site = $this->getObject('application')->getSite();
 
-        $path = $base->getPath().'/files/'.$site.'/images/';
+        $path = $base->getPath().'/files/'.$site.'/files/';
 
         $config->append(array(
-            'aliases' => array('images/'  => $path)
+            'aliases' => array('files/'  => $path)
         ));
 
         parent::_initialize($config);
