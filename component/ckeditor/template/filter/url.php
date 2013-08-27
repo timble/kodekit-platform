@@ -17,7 +17,7 @@ use Nooku\Library;
  * Filter rewrites relative images/... paths as inserted by the editor to absolute paths /files/[site]/images/...
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Template
+ * @package Nooku\Component\Ckeditor
  */
 class TemplateFilterUrl extends Library\TemplateFilterUrl
 {
