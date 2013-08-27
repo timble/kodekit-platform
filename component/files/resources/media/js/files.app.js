@@ -21,6 +21,7 @@ Files.App = new Class({
 		persistent: true,
 		thumbnails: true,
 		types: null,
+        site: null,
 		container: null,
 		active: null,
 		title: 'files-title',
@@ -215,7 +216,7 @@ Files.App = new Class({
 			this.fireEvent('beforeSetContainer', {container: item});
 
             if (item.slug === 'files-files') {
-                item.relative_path = 'files/default/images';
+                item.relative_path = 'files/'+this.options.site+'/images';
             }
 
 			this.container = item;

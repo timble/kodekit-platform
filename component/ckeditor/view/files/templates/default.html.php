@@ -33,6 +33,7 @@ use Nooku\Library;
                 theme: 'media://files/images/mootree.png'
             },
             types: <?= json_encode($state->types); ?>,
+            site: <?= json_encode($site); ?>,
             container: <?= json_encode($state->container ? $state->container : null); ?>
         };
         options = $extend(options, config);

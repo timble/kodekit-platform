@@ -39,6 +39,9 @@ class ViewFilesHtml extends Library\ViewHtml
         //Set the container
         $this->container = $this->getModel()->getContainer();
 
+        //Set the site
+        $this->site = $this->getObject('application')->getSite();
+
         //Set the token
 		$this->token  = $this->getObject('user')->getSession()->getToken();
 
