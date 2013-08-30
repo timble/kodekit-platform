@@ -9,7 +9,7 @@
 ?>
 
 <? foreach($categories as $category) : ?>
-<article>
+<div>
     <div class="page-header">
         <h1>
             <a href="<?= helper('route.category', array('row' => $category)) ?>">
@@ -31,5 +31,5 @@
     <? endif; ?>
 
     <a href="<?= helper('route.category', array('row' => $category)) ?>"><?= translate('Read more') ?></a>
-</article>
+</div>
 <? endforeach; ?>
