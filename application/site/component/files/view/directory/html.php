@@ -36,8 +36,12 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		{
 			$path   = explode('/', $folder->path);
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
+
+            $params->set('page_title', ucfirst(end($path)));
 		} else {
             $parent = null;
+
+            $params->set('page_title', $page->title);
         }
 
         $this->parent         = $parent;
