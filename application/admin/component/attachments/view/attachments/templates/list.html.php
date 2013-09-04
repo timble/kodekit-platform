@@ -10,6 +10,8 @@
 
 <? $list = (isset($row) && isset($table)) ? $attachments->find(array('row' => $row, 'table' => $table)) : $attachments ?>
 
+<?= helper('behavior.modal') ?>
+
 <script src="assets://attachments/js/attachments.list.js" />
 <script src="assets://files/js/uri.js" />
 
