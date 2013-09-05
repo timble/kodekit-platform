@@ -1,0 +1,45 @@
+table.adminlist tbody.sortable tr td.handle, 
+table.adminlist tbody tr td.handle,
+.sortable .handle,
+.ghost .handle {
+	background-image: url(../images/drag.png);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	cursor: move;
+	vertical-align: middle;
+	width: 20px;
+}
+
+/*Width fix*/
+tbody.sortable td.handle::before {
+	content: '.';
+	color: transparent;
+	display: block;
+	width: inherit;
+}
+tbody.sortable > td.handle:first-child::before {
+	padding: 0;
+	padding-left: inherit;
+}
+tbody.sortable > td.handle:last-child::before {
+	padding: 0;
+	padding-right: inherit;
+}
+
+th.handle {
+	background-image: none;
+}
+table.adminlist tbody.sortable tr.error td.handle, 
+table.adminlist tbody tr.error td.handle,
+.sortable.error .handle,
+.ghost.error .handle,
+.error td.handle {
+	background-image: url(../images/error.png);
+}
+table.adminlist tbody.sortable tr.saving td.handle, 
+table.adminlist tbody tr.saving td.handle,
+.sortable.saving .handle,
+.ghost.saving .handle,
+.saving td.handle {
+	background-image: url(../images/spinner.gif);
+}

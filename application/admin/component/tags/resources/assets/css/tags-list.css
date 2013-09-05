@@ -1,0 +1,62 @@
+/**
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Tags
+ * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+#tags-list  {
+	margin-left:10px; 
+}
+
+#tags-list a.button-delete {
+	display:inline;
+	height:14px;
+	width:14px;
+	padding:0 7px;
+}
+
+#tags-list a.button-delete:hover {
+	background-position: 3px -34px;
+}
+
+#tags-list a.button-delete span {
+	left:-999em;
+	position:absolute;
+}
+
+#tags-list .tag {
+	padding: 3px;
+}
+
+#tags-list .list {
+}
+
+#tags-list .button {
+	border: 0 none;
+	background:#0B55C4 none repeat scroll 0 0;
+	padding:3px 5px;
+	margin-left: 3px;
+	border-radius: 4px;
+	color: white;
+}
+
+#tags-list .button:hover {
+	background-color:#07316f;
+}
+
+#tags-list .button[disabled] {
+	background:silver;
+}
+ 
+#tags-list form {
+	padding-top: 15px;
+	padding-bottom: 5px;
+}
+
+#tags-list input {
+	padding: 3px 5px;
+	border-radius: 4px;
+}

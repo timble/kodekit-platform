@@ -1,0 +1,82 @@
+//
+// Button groups
+// --------------------------------------------------
+
+
+// Make the div behave like a button
+.btn-group {
+  position: relative;
+  display: inline-block;
+  font-size: 0; // remove as part 1 of font-size inline-block hack
+  vertical-align: middle; // match .btn alignment given font-size hack above
+  white-space: nowrap; // prevent buttons from wrapping when in tight spaces (e.g., the table on the tests page)
+}
+
+// Space out series of button groups
+.btn-group + .btn-group {
+  margin-left: 5px;
+}
+
+// Optional: Group multiple button groups together for a toolbar
+.btn-toolbar {
+  font-size: 0; // Hack to remove whitespace that results from using inline-block
+  margin-top: $baseLineHeight / 2;
+  margin-bottom: $baseLineHeight / 2;
+  > .btn + .btn,
+  > .btn-group + .btn,
+  > .btn + .btn-group {
+    margin-left: 5px;
+  }
+}
+
+// Float them, remove border radius, then re-add to first and last elements
+.btn-group > .btn {
+  position: relative;
+  border-radius:0;
+}
+.btn-group > .btn + .btn {
+  margin-left: -1px;
+}
+.btn-group > .btn {
+  font-size: $baseFontSize; // redeclare as part 2 of font-size inline-block hack
+}
+
+// Reset fonts for other sizes
+.btn-group > .btn-mini {
+  font-size: $fontSizeMini;
+}
+.btn-group > .btn-small {
+  font-size: $fontSizeSmall;
+}
+.btn-group > .btn-large {
+  font-size: $fontSizeLarge;
+}
+
+// Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
+.btn-group > .btn:first-child {
+  margin-left: 0;
+  border-top-left-radius: $baseBorderRadius;
+  border-bottom-left-radius: $baseBorderRadius;
+}
+.btn-group > .btn:last-child {
+  border-top-right-radius: $baseBorderRadius;
+  border-bottom-right-radius: $baseBorderRadius;
+}
+// Reset corners for large buttons
+.btn-group > .btn.large:first-child {
+  margin-left: 0;
+  border-top-left-radius: $borderRadiusLarge;
+  border-bottom-left-radius: $borderRadiusLarge;
+}
+.btn-group > .btn.large:last-child {
+  border-top-right-radius: $borderRadiusLarge;
+  border-bottom-right-radius: $borderRadiusLarge;
+}
+
+// On hover/focus/active, bring the proper btn to front
+.btn-group > .btn:hover,
+.btn-group > .btn:focus,
+.btn-group > .btn:active,
+.btn-group > .btn.active {
+  z-index: 2;
+}

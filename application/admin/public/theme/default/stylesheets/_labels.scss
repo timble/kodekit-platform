@@ -1,0 +1,29 @@
+//
+// Labels and badges
+// --------------------------------------------------
+@mixin label-colors($background: lighten($grayLighter, 5%), $text: $gray) {
+  background-color: $background;
+  color: $text;
+}
+// Base
+.label,
+.badge{
+  padding: 1px 6px;
+  font-size: $baseFontSize * .85;
+  border-radius:3px;
+  @include label-colors();
+}
+
+// Empty labels/badges collapse
+.label,
+.badge {
+  &:empty {
+    display: none;
+  }
+}
+
+// Colors
+.label-important        { @include label-colors(lighten($red, 52%), $red); }
+.label-warning          { @include label-colors(lighten($orange, 45%), $orange); }
+.label-success          { @include label-colors(lighten($green, 60%), $green); }
+.label-info             { @include label-colors(lighten($blue, 50%), $blue); }

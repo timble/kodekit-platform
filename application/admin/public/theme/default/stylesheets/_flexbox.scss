@@ -1,0 +1,253 @@
+html {
+  @include flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  @include flex(1 1 auto);
+  @include flex-direction(column);
+  height: 100%; // Required for Firefox 23.0a2
+  overflow: hidden;
+}
+
+.navigation {
+  @include flex-grow(1);
+  overflow-y: scroll;
+
+  a {
+    @include flex(0 0 auto);
+    @include flex-justify-content(space-between);
+
+    .navigation__badge {
+      @include flex-grow(0);
+    }
+  }
+}
+
+#panel-wrapper {
+  @include flex(1 1 auto);
+  @include flex-direction(column);
+}
+
+#panel-header  {
+  @include flex;
+  @include flex-shrink(0);
+  @include flex-justify-content(space-between);
+}
+
+#panel-tabbar {
+  @include flex;
+  @include flex-shrink(0);
+}
+
+#panel-toolbar {
+  @include flex;
+  @include flex-shrink(0);
+  @include flex-justify-content(space-between);
+
+  > .toolbar {
+    @include flex;
+
+  }
+}
+
+#panel-component {
+  @include flex(1 1 auto);
+}
+
+#panel-sidebar,
+#panel-inspector {
+  @include flex(0 1 auto);
+  @include flex-direction(column);
+  width: 200px;
+
+  h3 {
+    @include flex-shrink(0);
+  }
+}
+
+#panel-content {
+  @include flex(1);
+
+  .-koowa-grid {
+    @include flex(1);
+    @include flex-direction(column);
+  }
+
+  .-koowa-form {
+    @include flex(1);
+
+    .main {
+      @include flex(1);
+      @include flex-direction(column);
+
+      .title {
+        @include flex(0 0 auto);
+        @include flex-direction(column);
+
+        .slug {
+          @include flex;
+        }
+      }
+    }
+    .sidebar:not(.no--scrollbar) {
+      overflow-y: scroll;
+    }
+    .sidebar.no--scrollbar {
+      @include flex;
+      @include flex-direction(column);
+    }
+  }
+}
+
+.scrollable {
+  @include box-scrollable(scrollable);
+  @include flex-grow(1);
+}
+
+.cke_chrome iframe {
+  min-height: 100px;
+}
+
+.cke_chrome,
+.cke_chrome > .cke_inner,
+.cke_chrome > .cke_inner > .cke_contents,
+.cke_chrome > .cke_inner > .cke_contents iframe,
+.cke_chrome > .cke_inner > .cke_contents > .cke_source {
+  // CK forces an inline display: block so we need !important power
+  display: -webkit-flex !important;
+  display: -moz-flex !important;
+  display: flex !important;
+
+  @include flex-grow(1);
+  @include flex-shrink(0);
+
+  @include flex-direction(column);
+}
+
+// Files dialog in the editor
+.image_dialog {
+  .cke_dialog_contents_body {
+    @include flex();
+
+    .cke_dialog_page_contents {
+      @include flex();
+
+      table {
+        margin: 0;
+        @include flex();
+
+        tbody,
+        tbody tr,
+        tbody tr td,
+        tbody tr td iframe {
+          @include flex(1);
+        }
+      }
+    }
+  }
+}
+
+
+/* @group Scope Bar */
+.scopebar {
+  @include flex;
+
+  .scopebar__search {
+    @include flex;
+    margin-left: auto;
+
+    input {
+      @include flex(1);
+    }
+  }
+}
+
+
+.com_pages {
+  #components,
+  #layouts {
+    @include flex;
+    @include flex-direction(column);
+  }
+}
+
+.com_dashboard #panel-content {
+  @include flex(1);
+
+  > div:first-child {
+    @include flex(1);
+
+    > div {
+      @include flex(1);
+      @include flex-direction(column);
+
+      #activities-list {
+        @include box-scrollable(scrollable);
+        @include flex-direction(column);
+
+        .activity {
+          @include flex();
+
+          .activity__text {
+            @include flex-grow(1);
+          }
+
+          .activity__info {
+            white-space: nowrap;
+            overflow: hidden;
+            @include flex-shrink(0);
+          }
+        }
+      }
+    }
+  }
+}
+
+  #files-app {
+    @include flex(1);
+    @include flex-direction(column);
+
+    #files-canvas {
+      @include flex(1);
+      @include flex-direction(column);
+        #files-grid {
+          @extend .scrollable;
+        }
+    }
+  }
+
+  #files-paginator {
+    height: 26px;
+  }
+
+  #files-tree {
+    @extend .scrollable;
+  }
+
+  #files-compact {
+    @include flex(1);
+  }
+
+  #files-insert {
+    @include flex;
+
+    #files-tree-container,
+    #files-grid {
+      @include flex(0 0 auto);
+    }
+
+    #details {
+      @include flex(1 0 auto);
+      @include flex-direction(column);
+
+      #files-preview {
+        @include flex(1 0 auto);
+      }
+
+      #image-insert-form {
+        @include flex-shrink(0);
+      }
+    }
+  }

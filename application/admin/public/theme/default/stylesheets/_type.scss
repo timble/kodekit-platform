@@ -1,0 +1,9 @@
+.text-small {
+    font-size: smaller;
+}
+
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

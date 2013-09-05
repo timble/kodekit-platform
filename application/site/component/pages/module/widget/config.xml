@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <params>
+        <param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+            <option value="0">Never</option>
+        </param>
+        <param name="layout" type="list" default="0" label="Render" description="Select whether to render the widget inline or using an overlay">
+            <option value="overlay">Overlay</option>
+            <option value="inline">Inline</option>
+        </param>
+        <param name="url" type="text" default="" label="url" description="Enter the url to the overlay" size="100" />
+    </params>
+    <params group="advanced">
+        <param name="selector" type="text" default="" label="selector" description="Enter the CSS selector for what content to put in the overlay." size="100" />
+    </params>
+</config>

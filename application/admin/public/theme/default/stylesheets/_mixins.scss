@@ -1,0 +1,196 @@
+@mixin flex($flex: empty) {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+
+  @if $flex != 'empty' {
+    -webkit-flex: $flex;
+    -moz-flex: $flex;
+    flex: $flex;
+  }
+}
+
+@mixin flex-direction($direction) {
+  -webkit-flex-direction: $direction;
+  -moz-flex-direction: $direction;
+  flex-direction: $direction;
+}
+
+@mixin flex-grow($grow) {
+  -webkit-flex-grow: $grow;
+  -moz-flex-grow: $grow;
+  flex-grow: $grow;
+}
+
+@mixin flex-shrink($shrink) {
+  -webkit-flex-shrink: $shrink;
+  -moz-flex-shrink: $shrink;
+  flex-shrink: $shrink;
+}
+
+@mixin flex-justify-content($justify-content) {
+  -webkit-justify-content: $justify-content;
+  -moz-justify-content: $justify-content;
+  justify-content: $justify-content;
+}
+
+@mixin flex-align-items($align-items) {
+  -webkit-align-items: $align-items;
+  -moz-align-items: $align-items;
+  align-items: $align-items;
+}
+
+@mixin flex-align-self($align-self) {
+  -webkit-align-self: $align-self;
+  -moz-align-self: $align-self;
+  align-self: $align-self;
+}
+
+@mixin box-scrollable($scroll) {
+  @if $scroll == scrollable {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@mixin box-scrollable-shadow {
+    $background: #F9F9F9;
+    background:
+        /* Shadow covers */
+        -webkit-linear-gradient($background 30%, $background),
+        -webkit-linear-gradient($background, $background 70%) 0 100%,
+
+        /* Shadows */
+        -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), transparent),
+        -webkit-radial-gradient(50% 100%,farthest-side, rgba(0, 0, 0, .2), transparent) 0 100%;
+    background: 		/* Shadow covers */
+        /* Shadow covers */
+        linear-gradient(white 30%, rgba(255,255,255,0)),
+        linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+
+        /* Shadows */
+        radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+        radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+    background-repeat: no-repeat;
+
+    background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+
+    /* Opera doesn't support this in the shorthand */
+    background-attachment: local, local, scroll, scroll;
+}
+
+
+
+@mixin font-shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $lineHeight;
+}
+
+// Transitions
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+@mixin grid-input($gridColumnWidth, $gridGutterWidth) {
+  input,
+  textarea,
+  .uneditable-input {
+    margin-left: 0; // override margin-left from core grid system
+  }
+
+// Space grid-sized controls properly if multiple per line
+  .controls-row [class*="span"] + [class*="span"] {
+    margin-left: $gridGutterWidth;
+  }
+}
+
+// Gradient Bar Colors for buttons and alerts
+@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+  color: $textColor;
+  text-shadow: $textShadow;
+  background: linear-gradient($primaryColor, $secondaryColor);
+  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
+  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fade-in(rgba(0,0,0,.1), 0.15);
+}
+
+// Webkit-style focus
+// ------------------
+@mixin tab-focus() {
+// Default
+  outline: thin dotted #333;
+// Webkit
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+// Placeholder text
+// -------------------------
+@mixin placeholder($color: $placeholderText) {
+  &:-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+}
+
+// Mixin for form field states
+@mixin formFieldState($textColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
+// Set the text color
+  .control-label,
+  .help-block,
+  .help-inline {
+    color: $textColor;
+  }
+// Style inputs accordingly
+  .checkbox,
+  .radio,
+  input,
+  select,
+  textarea {
+    color: $textColor;
+  }
+  input,
+  select,
+  textarea {
+    border-color: $borderColor;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075); // Redeclare so transitions work
+    &:focus {
+      border-color: darken($borderColor, 10%);
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten($borderColor, 20%);
+    }
+  }
+// Give a small background color for input-prepend/-append
+  .input-prepend .add-on,
+  .input-append .add-on {
+    color: $textColor;
+    background-color: $backgroundColor;
+    border-color: $textColor;
+  }
+}
+
+// Button backgrounds
+// ------------------
+@mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+  @include gradientBar($startColor, $endColor, $textColor, $textShadow);
+
+
+// in these cases the gradient won't cover the background, so we override
+  &:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+    color: $textColor;
+    background-color: $endColor;
+  }
+
+// IE 7 + 8 can't handle box-shadow to show active, so we darken a bit ourselves
+  &:active,
+  &.active {
+    background-color: darken($endColor, 10%) \9;
+  }
+}

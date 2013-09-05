@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Article layout">
+        <message>
+            <![CDATA[ARTICLE LAYOUT DESC]]>
+        </message>
+    </layout>
+    <state>
+        <name>Standard Article Layout</name>
+        <description>STANDARD ARTICLE LAYOUT DESC</description>
+        <url addpath="/application/admin/component/articles/element">
+            <param name="id" type="article" default="0" label="Select Article" description="An article"/>
+        </url>
+        <params>
+            <param name="show_create_date" type="radio" default="0" label="Creation date" description="">
+            	<option value="0">Hide</option>
+            	<option value="1">Show</option>
+            </param>
+            <param name="show_modify_date" type="radio" default="0" label="Modification date" description="">
+            	<option value="0">Hide</option>
+            	<option value="1">Show</option>
+            </param>
+        </params>
+    </state>
+</metadata>

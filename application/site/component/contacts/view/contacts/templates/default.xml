@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Table layout">
+		<message>
+			<![CDATA[CONTACTS TABLE LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Contacts Category Layout</name>
+		<description>CONTACT CATEGORY LAYOUT DESC</description>
+        <url addpath="/application/admin/component/categories/element">
+            <param name="category" type="category" table="contacts" default="0" label="Category" description="PARAMCATSELECT" />
+        </url>
+		<params>
+			<param name="show_telephone" type="radio" default="1" label="Phone number" description="">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</params>
+	</state>
+</metadata>

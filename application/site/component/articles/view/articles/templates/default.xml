@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Blog layout">
+        <message>
+            <![CDATA[ARTICLES BLOG LAYOUT DESC]]>
+        </message>
+    </layout>
+    <state>
+        <name>Blog layout</name>
+        <description>ARTICLES BLOG LAYOUT DESC</description>
+        <url addpath="/application/admin/component/categories/element">
+            <param name="category" type="category" table="articles" label="Category" description=""/>
+        </url>
+        <params>
+            <param name="articles_per_page" type="text" default="3" label="Articles per page" description=""/>
+            <param name="sort_by" type="list" default="newest" label="Sort by">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="order">Ordering</option>
+            </param>
+            <param name="@spacer" type="spacer" default="" label="" description="" />
+            <param name="show_create_date" type="list" default="0" label="Creation date" description="">
+            	<option value="0">Hide</option>
+            	<option value="1">Show</option>
+            </param>
+            <param name="show_modify_date" type="list" default="0" label="Modification date" description="">
+            	<option value="0">Hide</option>
+            	<option value="1">Show</option>
+            </param>
+        </params>
+    </state>
+</metadata>

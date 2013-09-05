@@ -1,0 +1,58 @@
+/** Scopebar styles **/
+.scopebar {
+  padding: 3px 10px;
+  background: linear-gradient(#F2F2F2, #E9E9E9);
+  border-bottom: 1px solid $grayLighter;
+  border-top: 1px solid $grayLighter;
+
+  font-size: $baseFontSize - 1px;
+}
+
+.scopebar__group {
+  border-right: 1px solid #BBB;
+  padding: 2px 10px 0 0;
+  margin: 3px 10px 3px 0;
+
+  a {
+    margin: 0 2px;
+    padding: 2px 7px;
+    font-weight: bold;
+    color: #363636;
+    text-transform: capitalize;
+    text-shadow: hsla(0, 0%, 100%, 0.75) 0 1px 0;
+  }
+
+  a:hover,
+  a.active {
+    text-decoration: none;
+    background: #A0A0A0;
+    color: #FFF;
+    border-radius:10px;
+    text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
+  }
+
+  a.active,
+  a:active {
+    box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
+  }
+
+  a:active {
+    background: gray;
+  }
+}
+
+.scopebar__search {
+  @extend .input-append;
+
+  margin-bottom: 0 !important;
+
+  input[type="search"] {
+    max-width: 150px;
+    margin-bottom: 0;
+  }
+
+  button {
+    padding: $paddingSmall;
+    font-size: $fontSizeSmall;
+  }
+}

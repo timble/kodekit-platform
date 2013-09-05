@@ -1,0 +1,152 @@
+/**
+ * Overrides for Moono skin
+ */
+
+.cke_chrome {
+  border: 0px none !important;
+  box-shadow: none !important;
+}
+
+.cke_button__source_label {
+  display: none !important;
+}
+
+.cke_dialog_contents_body {
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.cke_dialog_ui_vbox_child {
+  padding: 0 !important;
+}
+
+div.cke_dialog_ui_input_select {
+  border: 0 none !important;
+  box-shadow: none !important;
+}
+
+.navigation .files-node.active a,
+.navigation .files-node.active a:hover {
+  @extend .navigation__item--active;
+}
+
+
+/**
+ * Image/Document insert dialog
+ */
+
+#files-compact {
+  .tab > label {
+    border-right: 1px solid $grayLighter;
+  }
+
+  [type=radio]:checked ~ label {
+    background-color: $sidebarBackground;
+    border-bottom-color: $sidebarBackground;
+  }
+
+  .content {
+    overflow: hidden;
+    top: 30px;
+    background-color: $sidebarBackground;
+
+    .dropzone {
+      background-color: $white;
+    }
+  }
+
+  #files-insert {
+    #files-tree-container,
+    #files-grid {
+      width: 200px;
+      border-right: 1px solid #E1E1E1;
+      background-color: $sidebarBackground;
+    }
+
+    #details {
+      #files-preview {
+        background: white;
+
+        > div {
+          margin: auto;
+          text-align: center;
+
+          > div {
+            padding-top: 6px;
+          }
+        }
+
+        img {
+          max-height: 125px;
+          max-width: 300px;
+        }
+      }
+
+      #image-insert-form {
+        border-top: 1px solid #E1E1E1;
+        background-color: #F4F4F4;
+      }
+
+      .buttons {
+        border-top: 1px solid #E1E1E1;
+        background-color: #F4F4F4;
+        padding: 6px;
+        text-align: right;
+      }
+    }
+  }
+
+  #files-upload {
+    form {
+      $padding: 5px;
+      padding: $padding;
+
+      #remote-url, #remote-name {
+        height: 28px;
+        @include box-sizing(border-box);
+      }
+      #remote-url {
+        border-radius:$inputBorderRadius 0 0 $inputBorderRadius;
+      }
+      #remote-name {
+        border-radius:0;
+      }
+      .remote-submit {
+        top: $padding;
+        right: $padding;
+        bottom: $padding;
+
+        border-radius:0 $inputBorderRadius $inputBorderRadius 0;
+
+        &.valid {
+          //.buttonBackground($btnPrimaryBackground, $btnPrimaryBackgroundHighlight);
+        }
+      }
+    }
+  }
+}
+
+#insert-modal-cancel,
+#insert-link,
+.insert-or {
+  border-radius: 2px;
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.insert-or {
+  padding: 5px 5px 5px 0;
+  margin-left: -5px;
+  cursor: default;
+}
+#insert-link {
+  font-size: 15px;
+  overflow: hidden;
+  box-shadow: inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+  background: #8F8F8F;
+  text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+  background-clip: border-box;
+  color: white;
+  background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+}

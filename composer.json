@@ -1,0 +1,7 @@
+{
+    "require": {
+        "swiftmailer/swiftmailer": "5.0.*",
+        "imagine/imagine": "0.4.*",
+        "jlong/sass-twitter-bootstrap": "2.3.*"
+    }
+}

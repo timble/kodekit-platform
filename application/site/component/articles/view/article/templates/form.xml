@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Form layout">
+		<message>
+			<![CDATA[ARTICLES FORM LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Form layout</name>
+		<description>ARTICLES FORM LAYOUT DESC</description>
+		<params>
+		</params>
+	</state>
+</metadata>

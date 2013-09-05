@@ -1,0 +1,89 @@
+.tabs {
+  position: relative;
+  @include flex-grow(1);
+  z-index: 1;
+
+  .tab > label {
+    color: #444;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .content {
+    position: absolute;
+    background: white;
+    overflow: scroll;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .content > *                                { opacity: 0; }
+  .tab > [type=radio]                                { display: none; }
+  .tab > [type=radio]:checked ~ label                { z-index: 2; }
+  .tab > [type=radio]:checked ~ label ~ .content     { z-index: 1; }
+  .tab > [type=radio]:checked ~ label ~ .content > * { opacity: 1; }
+}
+
+.tabs.tabs-horizontal {
+  .tab {
+    float: left;
+  }
+
+  .tab > label {
+    padding: 0px 22px;
+    line-height: 30px;
+    position: relative;
+    border-right: 1px solid $grayLighter;
+    border-bottom: 1px solid $grayLighter;
+  }
+
+  .content {
+    top: 30px;
+    border-top: 1px solid $grayLighter;
+  }
+
+  [type=radio]:checked ~ label {
+    background-color: $white;
+    border-bottom-color: $white;
+  }
+}
+
+.tabs.tabs-vertical {
+  h3 {
+    color: #666;
+    font-size: 11px;
+    padding: 6px 0;
+    text-indent: 12px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .tab > label {
+    padding: 0px 0 0px 22px;
+    line-height: 26px;
+    border-top: 1px solid #F9F9F9;
+  }
+
+  .tab > label:hover {
+    border-top-color: lighten($blueDark, 40%);
+    background: linear-gradient(lighten($blueDark, 45%), lighten($blueDark, 35%));
+    text-decoration: none;
+  }
+
+  .content {
+    left: 200px;
+    border-left: 1px solid #E1E1E1;
+  }
+
+  [type=radio]:checked ~ label {
+    color: #FFF;
+    border-top-color: lighten($blueDark, 15%);
+    background: linear-gradient(lighten($blueDark, 20%), $blueDark);
+    box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+    text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+  }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Contact layout">
+		<message>
+			<![CDATA[CONTACT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Contact layout</name>
+		<description>CONTACT LAYOUT DESC</description>
+		<url addpath="/application/admin/component/contacts/element">
+			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
+		</url>
+	</state>
+</metadata>

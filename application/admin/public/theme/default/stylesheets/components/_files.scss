@@ -1,0 +1,531 @@
+#files-app {
+  #files-canvas {
+    #files-grid {
+      min-height: 300px;
+
+      tbody tr.files-node {
+        td:nth-child(2) {
+          padding: 0 10px;
+          img {
+            width: 26px;
+            max-width: 100%;
+
+          }
+        }
+        td:nth-child(1) {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  #files-paginator {
+    padding-top: 5px;
+    background-color: #F1F1F1;
+    border-top: 1px solid darken(#F1F1F1, 10%);
+    color: #333;
+
+    z-index: 1000;
+  }
+}
+/* @end */
+
+/**
+ * Upload Widget CSS
+ */
+#files-upload  {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  h3 {
+    padding: 15px 0 0 15px;
+    margin: 0 !important;
+    display: block;
+    float: left;
+    font-size: 18px;
+  }
+}
+
+#files-upload-controls {
+  .upload-buttons {
+    padding: 0;
+    list-style: none;
+    float: left;
+    margin: 10px 0 0 20px;
+
+    li {
+      display: inline;
+      font-size: 12px;
+
+      &:first-child {
+        padding-right: 5px;
+      }
+
+      a {
+        font-weight: bold;
+        padding: 5px 10px 10px;
+        display: inline-block;
+        position: relative;
+
+        &.active,
+        &.active:hover {
+          color: #3c3c3c;
+        }
+
+        &,
+        &:hover,
+        &:visited {
+          color: $linkColor;
+        }
+
+        &,
+        &:hover,
+        &:active,
+        &.active {
+          text-decoration: none;
+          background: none;
+        }
+
+        &.active::after,
+        &.active::before {
+          content: '.';
+          color: transparent;
+          border-color: transparent transparent hsl(0, 0%, 99%) transparent;
+          border-style: solid;
+          border-width: 8px;
+          height: 0;
+          width: 0;
+          position: absolute;
+          bottom: -1px;
+          left: 50%;
+          margin-left: -8px;
+          z-index: 1;
+        }
+
+        &.active::before {
+          bottom: 0;
+          border-bottom-color: #E6E6E6;
+        }
+      }
+    }
+  }
+}
+
+#files-upload.uploader-files-queued {
+  .plupload_filelist_footer {
+    height: auto;
+    padding-bottom: 54px;
+    position: relative;
+
+    .plupload_buttons {
+      position: absolute;
+      border-top: 1px solid $grayLighter;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      padding: 10px;
+    }
+  }
+
+  .plupload_start, .plupload_clear {
+    float: right;
+    clear: none;
+  }
+  .plupload_clear {
+    margin-right: 10px;
+  }
+}
+
+.uploader-files-queued #files-upload-controls .upload-buttons li a.active.target-computer::after {
+  border-bottom-color: white;
+}
+
+.upload-form {
+  margin-bottom: 10px;
+  position: relative;
+
+}
+
+.uploader-files-queued #files-upload-multi, #files-uploader-web form, .dropzone {
+  padding: 0;
+  background-color: hsl(0, 0%, 99%);
+  border-radius: 5px;
+  margin: 0 10px;
+  border: 1px solid hsl(0, 0%, 90%);
+
+  z-index: 0;
+}
+
+.uploader-files-queued .dropzone, .uploader-files-queued .nodropzone {
+  display: none!important;
+}
+.dropzone h2 {
+  font-weight: 100;
+  color: #595959;
+  font-size: 30px;
+  margin: 100px 0;
+}
+#files-upload .nodropzone {
+  display: inline-block;
+  float: none;
+  position: relative;
+  top: -9px;
+  padding: 0;
+  font-weight: normal;
+  color: #595959;
+  font-size: 15px;
+}
+.uploader-files-empty .upload-form {
+  text-align: center;
+}
+.uploader-files-empty #files-upload-multi {
+  display: inline-block;
+}
+#files-upload-multi .warning {
+  display: block;
+  float: none;
+  padding: 1em 0.4em;
+  font-size: 1.4em;
+  text-align: center;
+}
+#files-uploader-web form {
+  padding: 2px;
+}
+#files-upload-multi .plupload_container {
+  padding: 0px;
+}
+/* blur focus fix */
+#files-uploader-web input:focus {
+  z-index: 1;
+  position: relative;
+}
+#files-uploader-web input.success {
+  //.placeholder($successText); @TODO
+}
+
+#files-upload-multi .plupload_filelist_header, #files-upload-multi .plupload_filelist_footer {
+  background: none;
+}
+#files-upload-multi .plupload_filelist_header {
+  border-radius:4px 4px 0 0;
+  border-top: none;
+  box-shadow: hsl(0, 0%, 97%) 0 -1px 0 inset;
+  border-bottom: 1px solid hsl(0, 0%, 90%);
+  background: linear-gradient(white, whitesmoke);
+}
+
+#files-upload-multi .plupload_filelist_footer {
+  border-radius:0 0 4px 4px;
+  border-bottom: none;
+  border-top: none;
+  box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
+}
+.uploader-files-empty #files-upload-multi .plupload_filelist_footer {
+  border: 0 hidden transparent;
+  box-shadow: none;
+}
+#files-upload-multi .plupload_scroll .plupload_filelist {
+  background: none;
+}
+#files-upload-multi .plupload_filelist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#files-upload-multi .plupload_filelist li {
+  background: none;
+  line-height: normal;
+  margin: 0;
+  padding: 10px 8px;
+}
+#files-upload-multi .plupload_filelist .plupload_file_name {
+  /*width: 471px;*/
+  width: 453px;
+}
+
+#upload-max {
+  font-size: 11px!important;
+  padding-top: 6px;
+  margin-left: 30px;
+  color: #444;
+}
+
+/* No files state, this is the initial state */
+#files-upload.uploader-files-empty {
+  .plupload_filelist_header,
+  .plupload_start,
+  .plupload_clear,
+  .plupload_filelist,
+  .plupload_file_action,
+  .plupload_file_status,
+  .plupload_file_size,
+  .plupload_progress {
+    display: none;
+  }
+}
+/* @end */
+
+/* @group Uploader - Web */
+#remote-url, #remote-name {
+  @include box-sizing(border-box);
+  display: block;
+  float: left;
+  margin: 0;
+  border-style: none;
+  border-radius:0px;
+  height: $baseLineHeight + 8px; // bottom + top paddding
+}
+#remote-url {
+  width: 75%;
+  border-right-color: #e6e6e6;
+}
+#remote-name {
+  width: 25%;
+  border-left-color: #e6e6e6;
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: inherit;
+}
+.remote-wrap {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border: 1px solid hsl(0, 0%, 90%);
+  border-right-width: 0;
+}
+.remote-wrap::after {
+  content: '.';
+  clear: both;
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+#files-uploader-web .remote-submit {
+  //@TODO rename buttons in the markup to use .btn
+
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  bottom: 2px;
+  margin: 0;
+  border-radius:0px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  overflow: hidden;
+  display: inline-block;
+  height: $baseLineHeight + 10px; // bottom + top paddding and borders
+}
+#files-uploader-web input.remote-submit:focus {
+  position: absolute;
+}
+#files-uploader-web .remote-submit.valid {
+  //@TODO rename buttons in the markup to use .btn-primary
+}
+#files-uploader-web form {
+  position: relative;
+}
+
+/* admin template form overrides is breaking the text input styling for span5 */
+#files-new-folder-input {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 12px;
+  width: 380px;
+}
+#files-new-folder-create {
+  padding-top: 4px;
+}
+
+/* @end */
+
+/* @group Modal */
+.files-preview {
+  display: inline-block;
+  overflow: hidden;
+  padding: 10px;
+
+  .preview, .details, ul {
+    display: block;
+    float: left;
+  }
+
+  ul {
+    clear: left;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .name {
+    max-width: 400px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
+  }
+
+  h3, a {
+    margin: 11px 0;
+    display: block;
+  }
+
+  .label {
+    display: inline-block;
+    text-align: right;
+    width: 60px;
+    text-transform: capitalize;
+
+    &::after {
+      content: ':';
+    }
+  }
+}
+/* @end */
+
+#files-new-folder-modal {
+  .files-modal {
+    margin: 0;
+    padding: 3px;
+
+    h3 {
+      font-size: 18px;
+    }
+  }
+}
+
+#panel-sidebar #files-tree {
+  border-top: 1px solid $grayLighter;
+}
+
+#files-tree {
+  .mooTree_node {
+    @extend .navigation__item;
+    padding-left: 10px;
+  }
+
+  .mooTree_text {
+    text-indent: 5px;
+  }
+
+  .mooTree_img {
+    float: left;
+    width: 18px;
+    height: 18px;
+    overflow: hidden;
+    top: 5px;
+    position: relative;
+  }
+}
+
+/* @group files-layout-icons.css */
+#files-app {
+  $comFilesLocation: '../../../../media/files/images/';
+
+  #files-grid > div {
+    padding: 10px;
+  }
+
+  #files-grid > .spinner,
+  #files-grid .loading .spinner {
+    @include spinner;
+  }
+
+  #files-grid .loading img {
+    display: none;
+  }
+
+  div.files-node {
+    cursor: pointer;
+    display: inline-block;
+    border: 1px;
+
+    padding: 11px;
+    margin: 5px;
+    border: 1px solid hsl(0, 0%, 90%);
+    border-radius: 3px;
+    @include transition(opacity 150ms ease-out);
+  }
+  #files-grid .loading {
+    opacity: 0.6;
+  }
+
+  #files-grid .loaded {
+    opacity: 1;
+  }
+  div.files-node img {
+    opacity: 0;
+    @include transition(opacity 150ms ease-out);
+  }
+  div.files-node img.loaded {
+    opacity: 1;
+  }
+  div.files-node.selected {
+    color: white;
+    border-color: mix($blueDark, $blueDark, 50%);
+    border-color: hsla(0, 0%, 0%, .1);
+    background-color: mix($blueDark, $blueDark, 50%);
+    background-clip: border-box;
+    background-origin: border-box;
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+
+    box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+    background: linear-gradient($blueDark, $blueDark);
+  }
+
+  div.files-node-thumbnail {
+    position: relative;
+    margin: 0 0 8px 0;
+    overflow: hidden;
+    width: 200px;
+    height: 150px;
+    background: radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
+  }
+
+  div.files-node-thumbnail a.navigate {
+    display: block;
+    background: no-repeat center center;
+    position: relative;
+    overflow: hidden;
+    width: inherit;
+    height: inherit;
+  }
+  div.files-node-thumbnail a.navigate::after {
+    box-shadow: 0 0 2px rgba(0, 0, 0, .20) inset;
+    content: '';
+    height: inherit;
+    display: block;
+    position: absolute;
+    top: 0;
+    width: inherit;
+  }
+  div.files-node.selected div.files-node-thumbnail a.navigate::after {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+  }
+  div.files-node-thumbnail a.navigate img {
+    width: 100%;
+  }
+  .files-folder div.files-node-thumbnail a.navigate {
+    background-image: url('#{$comFilesLocation}folder-64.png');
+  }
+  .files-file div.files-node-thumbnail a.navigate,
+  .files-image.nothumbnails div.files-node-thumbnail a.navigate {
+    background-image: url('#{$comFilesLocation}document-64.png');
+  }
+  .files-image.thumbnails div.files-node-thumbnail a.navigate {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background: url('#{$comFilesLocation}checker.png') repeat left top white;
+  }
+
+  .files-icons-controls {
+    text-align: center;
+  }
+}
+/* @end */
+
+/* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
+.uploader-flash-container object, .uploader-flash-container embed {
+  display: block !important;
+  visibility: visible!important;
+}
+/* @end */

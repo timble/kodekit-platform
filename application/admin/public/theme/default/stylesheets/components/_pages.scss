@@ -1,0 +1,64 @@
+.com_pages {
+  #components {
+    width: 200px;
+    background: #F7F7F7;
+    border-right: 1px solid #DDD;
+  }
+
+  #components h3 {
+    border-bottom: 1px solid #DDD;
+    margin: 0;
+    padding: 10px;
+  }
+
+  #components a {
+    display: block;
+    font-size: 120%;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-bottom: 1px solid #DDD;
+  }
+
+  #components a.active 	{ background: #E8F3FB; }
+
+  #layouts {
+    width: 250px;
+    border-right: 1px solid #DDD;
+  }
+
+  #layouts .view h4 {
+    margin: 0;
+    padding: 5px;
+    background: #F0F0F0;
+    border-bottom: 1px solid #DDD;
+    border-top: 1px solid #DDD;
+  }
+
+  #layouts .view:first-of-type h4 { border-top: none 0px; }
+
+  #layouts .view a {
+    padding: 5px 10px;
+    display: block;
+    font-weight: bold;
+
+    &.active {
+      background: #E8F3FB;
+    }
+  }
+
+  #layouts .view a small {
+    font-weight: normal;
+    color: #333;
+  }
+
+  .level1 { padding-left: (18px * 1) + 18px; }
+  .level2 { padding-left: (18px * 2) + 18px; }
+  .level3 { padding-left: (18px * 3) + 18px; }
+  .level4 { padding-left: (18px * 4) + 18px; }
+  .level5 { padding-left: (18px * 5) + 18px; }
+
+  .title {
+    box-shadow: rgba(0, 0, 0, .10) 0px 1px 1px;
+    z-index: 3;
+  }
+}

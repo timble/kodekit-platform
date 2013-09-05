@@ -1,0 +1,416 @@
+/* -- General styles ------------------------------ */
+
+body {
+	margin: 0; padding: 0;
+	font-size: $baseFontSize;
+	background-color: #FFF;
+}
+
+body, td, th { font-family: $baseFontFamily; }
+
+#tmpl-component {
+	overflow: auto;
+}
+
+.group:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+a, img { padding: 0; margin: 0; }
+
+img { border: 0 none; }
+
+h3 {
+	font-size: 13px;
+}
+
+// Horizontal rules
+hr {
+  margin: $baseLineHeight 0;
+  border: 0;
+  border-top: 1px solid $gray;
+  border-bottom: 1px solid $white;
+}
+
+a {
+	color: $linkColor;
+}
+
+a:link    { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover   { text-decoration: underline; }
+
+ul {
+    padding: 0;
+}
+
+.hide {
+	display: none;
+}
+
+.radio input[type="radio"], .checkbox input[type="checkbox"] {
+  &.level2 { margin-left: (0px * 1); margin-right: 6px; }
+  &.level3 { margin-left: (18px * 2); margin-right: 6px; }
+  &.level4 { margin-left: (18px * 3); margin-right: 6px; }
+  &.level5 { margin-left: (18px * 4); margin-right: 6px; }
+}
+
+
+[data-action] {
+	cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    padding: 4px;
+}
+
+::-webkit-scrollbar-track {
+    border-left: 1px solid $grayLighter;
+    padding: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #C3C3C3;
+    margin: 4px;
+    border: 1px solid darken(#C3C3C3, 10%);
+}
+
+/* -- overall styles ------------------------------ */
+#panel-header  {
+	background-color: #333;
+	border-bottom: 1px solid lighten($navbarBackground, 10%);
+	background: darken($navbarBackground, 15%) linear-gradient($navbarBackground, darken($navbarBackground, 15%));
+    box-shadow: rgba(0, 0, 0, .8) 0px 1px 3px;
+
+	position: relative; // We need this for .box-shadow
+}
+
+#panel-tabbar {
+    background: darken($tabbarBackground, 10%) linear-gradient($tabbarBackground, darken($tabbarBackground, 10%));
+    box-shadow: inset rgba(0, 0, 0, .10) 0px -2px 2px;
+}
+
+#panel-toolbar {
+  padding: 8px 10px;
+  background: $tabbarBackgroundHighlight linear-gradient($tabbarBackgroundHighlight, darken($tabbarBackgroundHighlight, 5%));
+
+    .btn-group {
+		padding: 0;
+		float: left;
+
+		a {
+			min-width: 50px;
+			padding: 6px 12px;
+		 }
+	}
+
+	.btn,
+	a.btn {
+		color: #333; // bootstrap override
+		font-weight: bold;  // bootstrap override
+		border: 1px solid #BBB;  // bootstrap override
+        font-size: $baseFontSize - 1px;
+	}
+
+  .alert {
+    line-height: 26px;
+    font-weight: bold;
+    color: #333;
+  }
+}
+
+#panel-pages {
+  @include flex(1);
+  @include flex-direction(column);
+
+	min-width: 180px;
+	max-width: 180px;
+
+	border-right: 1px solid $grayLighter;
+	background-color: rgb(207,214,222);
+
+  .navigation {
+    h3 {
+      @extend .navigation__separator;
+    }
+
+    a {
+      border-top-color: rgb(207,214,222);
+    }
+  }
+}
+
+#panel-sidebar,
+#panel-inspector {
+  @include box-sizing(border-box);
+	background-color: $sidebarBackground;
+
+	h3,
+	legend {
+		padding: 0;
+		margin: 0;
+		line-height: 28px;
+		gradient-vertical-align: middle;
+
+		color: $gray;
+		font-size: $baseFontSize - 1px;
+		font-weight: 600;
+		text-indent: 12px;
+		text-transform: uppercase;
+
+		border-top: 1px solid $grayLighter;
+		border-bottom: 1px solid $grayLighter;
+        background: linear-gradient(#F2F2F2, #E9E9E9);
+
+      @extend .ellipsis;
+	}
+
+	fieldset {
+		margin: 0;
+	}
+}
+
+#panel-inspector {
+	border-left: 1px solid $grayLighter;
+
+	#activities-list {
+		h4 {
+			padding: 5px;
+			margin: 0;
+			border-top: 1px solid #E8EAEC;
+			color: #666;
+            background: linear-gradient(#f1f2f4, $sidebarBackground);
+		}
+
+		h4:first-of-type {
+			border-top: none 0px;
+		}
+
+		.activities {
+			margin: 0 10px 10px 10px;
+
+			.activity 			{
+				padding: 7px 0;
+				border-bottom: 1px dotted $grayLighter;
+                @include clearfix();
+
+				> div {
+					float: left;
+				}
+
+				a {
+					line-height: 16px;
+					width: 100%;
+				}
+
+				// Icon
+				i {
+					margin-right: 6px;
+					margin-top: 1px;
+					gradient-vertical-align: text-bottom;
+					float: left;
+				}
+
+				.datetime { color: $gray; }
+			}
+			.activity:last-child { border-bottom: none 0px; }
+		}
+
+		.btn-group {
+			padding: 0 10px;
+		}
+	}
+}
+
+#panel-sidebar {
+	border-right: 1px solid $grayLighter;
+
+	h4 {
+		padding: 4px 0 4px 10px;
+		margin: $baseLineHeight 0 0 0;
+		color: #666;
+		text-transform: uppercase;
+	}
+
+	h4:first-of-type {
+		margin-top: 2px;
+	}
+
+  input[type=date] {
+    width: 160px;
+  }
+}
+
+.-koowa-grid {
+	margin: 0; /* bootstrap override */
+
+	/** Table styles **/
+	table {
+		width: 100%;
+		border-spacing: 0px;
+		border-collapse: collapse;
+		color: #666;
+
+        table-layout:auto;
+        white-space:nowrap;
+
+        //Fixing radio and checkbox positioning in tables
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-top: 0;
+        }
+
+		td { padding: 4px 4px; }
+
+		thead {
+			th {
+				line-height: 18px;
+				text-align: left;
+                background: linear-gradient(#f7f7f7, #F2F2F2);
+				color: #666;
+				border-bottom: 1px solid $grayLighter;
+				border-left: 1px solid $grayLighter;
+                font-size: $baseFontSize - 1px;
+
+				a {
+					display: block;
+					padding: 0px 4px;
+
+					color: #666;
+
+                    &.-koowa-desc,
+                    &.-koowa-asc {
+                        padding-right: 12px;
+                    }
+
+					&:hover { text-decoration: none; }
+				}
+
+                &:first-child {
+                    border-left: none;
+                    padding-left: 2px;
+                }
+			}
+
+			th:not(.void):active {
+              background: linear-gradient(#e0e0e0, #e5e5e5);
+			}
+		}
+
+		tbody {
+			th { font-weight: bold; }
+
+			tr					{ background-color: #fff;  text-align: left; border-top: 1px solid #FFF; }
+			tr:nth-child(even) 	{ background-color: #f9f9f9; }
+
+			tr:nth-child(even):not(.no-hover):hover td,
+			tr:nth-child(odd):not(.no-hover):hover td  { background-color: #EAF3FA; }
+
+			tr td 	   { height: 26px; border-top: 1px solid #FFF; }
+
+			tr.selected td,
+			tr.selected:hover td {
+				background-color: #CDE7FD !important;
+              @include transition(all 150ms ease-in-out);
+			}
+
+            tr.separator td {
+              height: auto;
+              text-align: left;
+              font-weight: bold;
+              background-color: #ededed;
+              border-bottom: 1px solid #dddddd;
+            }
+
+            tr td.ellipsis {
+                max-width: 100px;
+            }
+		}
+
+		tfoot {
+			background-color: #F1F1F1;
+
+			tr 	{ text-align: center;  color: #333;  }
+			td	{ text-align: center; }
+		}
+	}
+
+	.array-separator {
+		span:after { content: " &"; }
+		span:last-of-type:after { content: ""; }
+	}
+
+    .icon-ok { color: $green; }
+    .icon-remove { color: $red }
+    .icon-star { color: $yellow; }
+}
+
+.-koowa-form {
+	background-color: #F9F9F9;
+	margin: 0;
+
+	.main {
+		.title {
+			padding: 10px 10px 10px 10px;
+            background: linear-gradient(#F0F0F0, #EAEAEA);
+			border-bottom: 1px solid #CCC;
+
+			> input {
+				font-size: $baseFontSize * 1.5;
+				padding: 4px 8px;
+				margin-bottom: 0;
+                border-radius:4px;
+				height: $baseLineHeight * 3;
+				line-height: $baseLineHeight * 3;
+			}
+
+			.slug {
+                @extend .input-prepend;
+				clear: left;
+				margin-top: 5px;
+				margin-bottom: 0 !important;
+			}
+		}
+
+		.scrollable {
+			background-color: $white;
+		}
+	}
+
+    .sidebar {
+        textarea {
+            @include box-sizing(border-box);
+            margin: 0;
+            resize: vertical;
+            width: 100%
+        }
+      input[type=date],
+      input[type=datetime-local] {
+        width: 160px;
+      }
+    }
+}
+
+.box-column {
+  box-shadow: rgba(0, 0, 0, .6) 0px 0px 10px;
+}
+
+/* Sidebar */
+#panel-content {
+	.-koowa-form {
+		border-top: 1px solid $grayLighter;
+
+		.sidebar {
+			width: 350px;
+            border-left: 1px solid #E1E1E1;
+		}
+	}
+}
+
+/* $endgroup */

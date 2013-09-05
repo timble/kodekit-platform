@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <params>
+        <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="TIPALLOWUSERREG">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="new_usertype" type="list" default="18" label="New User Registration Type" description="TIPNEWUSERTYPE">
+            <option value="18">Registered</option>
+            <option value="19">Author</option>
+            <option value="20">Editor</option>
+            <option value="21">Publisher</option>
+        </param>
+        <param name="useractivation" type="radio" default="1" label="New User Account Activation" description="TIPIFYESUSERMAILEDLINK">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="frontend_userparams" type="radio" default="1" label="Front-end User Params" description="TIPFRONTENDUSERPARAMS">
+            <option value="0">Hide</option>
+            <option value="1">Show</option>
+        </param>
+        <param name="password_length" type="list" default="5" label="Minimum password length" description="TIPMINPASSWLEN">
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="16">16</option>
+        </param>
+        <param name="password_expire" type="radio" default="0" label="Enable password expiration" description="TIPPASSWORDEXPIRE">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="recaptcha_public_key" type="text" default="" label="reCAPTCHA public key" description="TIPRECAPTCHAPUBLICKEY" />
+        <param name="recaptcha_private_key" type="text" default="" label="reCAPTCHA private key" description="TIPRECAPTCHAPRIVATEKEY" />
+    </params>
+</config>

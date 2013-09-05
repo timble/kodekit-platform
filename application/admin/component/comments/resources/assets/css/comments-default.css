@@ -1,0 +1,41 @@
+#comments-comment-form .comment { margin: 10px; border: 1px solid #DDD; border-radius: 5px; }
+
+#comments-comment-form .comment .comment-header {
+    background: #f1f2f4 linear-gradient(#f1f2f4, darken(#f1f2f4, 5%));
+    border-radius: 5px 5px 0px 0px;
+    padding: 7px;
+    font-weight: bold;
+}
+
+#comments-comment-form .comment .comment-header time {
+    float: right;
+    color: #999;
+    font-weight: normal;
+}
+
+#comments-comment-form .comment { background: #fff; }
+#comments-comment-form .comment p { padding: 8px; margin: 0; }
+
+#comments-comment-form form {
+    background: #F7F7F7;
+    border-top: 1px solid #DDD;
+    padding: 10px 20px 10px 10px;
+}
+
+#comments-comment-form textarea {
+    width: 100%;
+    height: 50px;
+}
+
+#comments-comment-form input.button { width: 100px; }
+
+#comments-comment-form input.button {
+    border: 0 none;
+    background-color: #0B55C4;
+    padding: 3px 5px;
+    border-radius: 4px;
+    color: white;
+}
+
+#comments-comment-form input.button:hover 		{ background-color: #07316f; }
+#comments-comment-form input.button[disabled] 	{ background-color: silver; }

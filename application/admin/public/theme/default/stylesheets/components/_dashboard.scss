@@ -1,0 +1,10 @@
+.com_dashboard #panel-content {
+  > div:first-child {
+    border-right: 1px solid $grayLighter;
+  }
+
+  .sidebar {
+    width: 400px;
+    padding: 20px;
+  }
+}

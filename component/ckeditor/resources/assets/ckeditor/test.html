@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>This is tutorial load external plugin</title>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+    <script type="text/javascript" src="ckeditor.js"></script>
+</head>
+<body>
+<h1>Custome plugin CKEditor</h1>
+<textarea cols="80" id="test" name="editor1" rows="10">
+    This is test content ckeditor
+</textarea>
+<script type="text/javascript">
+    var editor = CKEDITOR.replace(
+            'test'
+    );
+</script>
+</body>
+</html>

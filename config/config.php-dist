@@ -1,0 +1,75 @@
+<?php
+/**
+ * @version		$Id: CREDITS.php 2126 2011-07-01 00:06:43Z johanjanssens $
+ * @package     Nooku_Server
+ * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ *
+ * -------------------------------------------------------------------------
+ * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS
+ *
+ * Rename this file to configuration.php e.g.
+ *
+ * UNIX    -> mv config.php-dist config.php
+ * Windows -> rename config.php-dist config.php
+ *
+ * Now edit this file and configure the parameters for your site and database.
+ */
+class JConfig 
+{
+	/**
+	* -------------------------------------------------------------------------
+	* Site configuration section
+	* -------------------------------------------------------------------------
+	*/
+
+	/* Site Settings */
+	var $offline    = '0';
+	var $sitename   = 'Nooku Server';		// Name of the site
+	var $list_limit = '20';
+	var $feed_limit =  10;
+
+	/**
+	* -------------------------------------------------------------------------
+	* Database configuration section
+	* -------------------------------------------------------------------------
+	*/
+
+	/* Database Settings */
+	var $host = '127.0.0.1';				// This is normally set to 127.0.0.1 or localhost
+	var $user = '';							// MySQL username
+	var $password = '';						// MySQL password
+	var $db = '';							// MySQL database name
+
+	/* Server Settings */
+	var $secret          = 'FBVtggIk5lAzEU9H'; 	//Change this to something more secure
+	var $gzip            = '0';
+	var $debug_mode      = '0';                 //Use system defaults
+	var $timezone        = 'UTC';
+
+	/* Session settings */
+	var $lifetime          = '15';          // Session time
+
+	/* Mail Settings */
+	var $mailer = 'mail';
+	var $mailfrom = '';
+	var $fromname = '';
+	var $sendmail = '/usr/sbin/sendmail';
+	var $smtpauth = '0';
+	var $smtpuser = '';
+	var $smtppass = '';
+	var $smtphost = 'localhost';
+
+	/* Cache Settings */
+	var $caching       = '0';
+	var $cachetime     = '15';
+	var $cache_handler = 'file';
+
+	/* Debug Settings */
+	var $debug      = '0';
+	var $debug_lang = '0';
+
+	/* Template Settings */
+	var $theme = 'bootstrap';
+}

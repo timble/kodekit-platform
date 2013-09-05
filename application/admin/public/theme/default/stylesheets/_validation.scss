@@ -1,0 +1,33 @@
+/* Forms validation message */
+.validation-advice {
+  clear: both;
+  font-size: 11px;
+  color: hsl(40, 98%, 25%);
+  float: left;
+  position: relative;
+  margin-top: 15px;
+  overflow: visible!important;
+  top: -10px;
+  left: 1px;
+  padding: 6px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-shadow: white 0 1px 1px;
+  border-radius:5px;
+  @include box-sizing(content-box);
+  background: linear-gradient(rgb(255, 243, 197), rgb(255, 231, 143));
+  box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+}
+.validation-advice::before {
+  content: '▾';
+  font-family: Arial;
+  color: rgb(255, 243, 197);
+  -webkit-transform: rotate(180deg);
+  display: block;
+  position: absolute;
+  top: -22px;
+  z-index: 1;
+  font-size: 36px;
+  left: 10px;
+}
