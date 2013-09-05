@@ -96,7 +96,7 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
      * Returns the HTTP referrer.
      *
      * 'referer' a commonly used misspelling word for 'referrer'
-     * @see     http://en.wikipedia.org/wiki/HTTP_referrer
+     * @link     http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean  $isInternal Only allow internal url's
      * @return  HttpUrl A HttpUrl object
@@ -173,14 +173,16 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     /**
      * Return the request format
      *
-     * This function tries to find the format by inspecting the accept header and using the accept header with the
-     * highest quality. The accept mime-type will be mapped to a format. If the request query contains a 'format'
-     * parameter it will be used instead.
+     * Find the format by using following sequence :
      *
-     * @param string $default The default format
+     * 1. Use the format information from the url
+     * 2. Use the the 'format' request parameter
+     * 3. Use the accept header with the highest quality apply the reverse format map to find the format.
+     *
+     * @param string $format The default format
      * @return  string  The request format or NULL if no format could be found
      */
-    public function getFormat($default = 'html');
+    public function getFormat($format = 'html');
 
     /**
      * Associates a format with mime types.
@@ -207,12 +209,22 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     public function getCharsets();
 
     /**
+     * Gets the request ranges
+     *
+     *  @link : http://tools.ietf.org/html/rfc2616#section-14.35
+     *
+     * @throws HttpExceptionRangeNotSatisfied If the range info is not valid or if the start offset is large then the end offset
+     * @return array List of request ranges
+     */
+    public function getRanges();
+
+    /**
      * Checks whether the request is secure or not.
      *
      * This method can read the client scheme from the "X-Forwarded-Proto" header when the request is proxied and the
      * proxy is trusted. The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
      *
-     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.4
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.4
      *
      * @return  boolean
      */
@@ -225,9 +237,31 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
      * proxy IP address (and, potentially, a port number). If no "X-Forwarded-By" header can be found, or the header
      * IP address doesn't match the list of trusted proxies the function will return false.
      *
-     * @See http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#page-7
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#page-7
      *
      * @return  boolean Return TRUE if the request is proxied and the proxy is trusted. FALSE otherwise.
      */
     public function isProxied();
+
+    /**
+     * Check if the request is downloadable or not.
+     *
+     * A request is downloading if one of the following conditions are met :
+     *
+     * 1. The request query contains a 'force-download' parameter
+     * 2. The request accepts specifies either the application/force-download or application/octet-stream mime types
+     *
+     * @return bool Returns TRUE If the request is downloadable. FALSE otherwise.
+     */
+    public function isDownload();
+
+    /**
+     * Check if the request is streaming
+     *
+     * Responses that contain a Range header is considered to be streaming.
+     * @link : http://tools.ietf.org/html/rfc2616#section-14.35
+     *
+     * @return bool
+     */
+    public function isStreaming();
 }
