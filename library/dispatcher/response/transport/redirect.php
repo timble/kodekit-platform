@@ -15,8 +15,25 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbstract
+class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHttp
 {
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => DispatcherResponseTransport::PRIORITY_HIGH,
+        ));
+
+        parent::_initialize($config);
+    }
+
     /**
      * Sends content for the current web response.
      *
@@ -40,7 +57,7 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbs
         }
 
         //Set the redirect into the response
-        $response->setContent(sprintf(
+        $response->setContent('string://'.sprintf(
             '<!DOCTYPE html>
                 <html>
                     <head>
@@ -56,5 +73,19 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbs
         ));
 
         return parent::sendContent();
+    }
+
+    /**
+     * Send HTTP response
+     *
+     * If this is a redirect response, send the response and stop the transport handler chain.
+     *
+     * @return boolean
+     */
+    public function send()
+    {
+        if($this->getResponse()->isRedirect()) {
+            return parent::send();
+        }
     }
 }

@@ -10,9 +10,19 @@
 namespace Nooku\Library;
 
 /**
- * Default Dispatcher Response Transport
+ * Dispatcher Response Transport
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-final class DispatcherResponseTransportDefault extends DispatcherResponseTransportAbstract { }
+class DispatcherResponseTransport
+{
+    /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+}

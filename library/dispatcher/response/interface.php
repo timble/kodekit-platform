@@ -18,20 +18,29 @@ namespace Nooku\Library;
 interface DispatcherResponseInterface extends ControllerResponseInterface, DispatcherResponseTransportInterface
 {
     /**
-     * Get the transport strategy
+     * Send the response
      *
-     * @throws	\UnexpectedValueException	If the transport object doesn't implement the
-     *                                      DispatcherResponseTransportInterface
-     * @return	DispatcherResponseTransportInterface
+     * @return boolean  Returns true if the response has been send, otherwise FALSE
      */
-    public function getTransport();
+    public function send();
 
     /**
-     * Method to set a transport strategy
+     * Get a transport handler by identifier
      *
-     * @param	mixed	$transport An object that implements ObjectInterface, ObjectIdentifier object
-     * 					           or valid identifier string
-     * @return	DispatcherResponse
+     * @param   mixed    $transport    An object that implements ObjectInterface, ObjectIdentifier object
+     *                                 or valid identifier string
+     * @param   array    $config    An optional associative array of configuration settings
+     * @return DispatcherResponseInterface
      */
-    public function setTransport($transport);
+    public function getTransport($transport, $config = array());
+
+    /**
+     * Attach a transport handler
+     *
+     * @param   mixed  $transport An object that implements ObjectInterface, ObjectIdentifier object
+     *                            or valid identifier string
+     * @param   array $config  An optional associative array of configuration settings
+     * @return DispatcherResponseInterface
+     */
+    public function attachTransport($transport, $config = array());
 }

@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstract
+class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp
 {
     /**
      * The padding for JSONP
@@ -49,7 +49,8 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstrac
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'padding' => '',
+            'priority' => DispatcherResponseTransport::PRIORITY_HIGH,
+            'padding'  => '',
         ));
 
         parent::_initialize($config);
@@ -79,43 +80,39 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstrac
     }
 
     /**
-     * Sends content for the current web response.
-     *
-     * @return DispatcherResponseTransportJson
-     */
-    public function sendContent()
-    {
-        if (!empty($this->_padding))
-        {
-            $response = $this->getResponse();
-            $response->setContent(sprintf('%s(%s);', $this->_padding, $response->getContent()));
-        }
-
-        return parent::sendContent();
-    }
-
-    /**
      * Send HTTP response
      *
-     * If not padding is set inspect the request query for a 'callback' parameter and use this.
+     * If the format is json, add the padding by inspect the request query for a 'callback' parameter or by using
+     * the default padding if set.
+     *
+     * Don't stop the transport handler chain to allow other transports handlers to continue processing the
+     * response.
      *
      * @see http://tools.ietf.org/html/rfc2616
-     * @return DispatcherResponseTransportJson
+     * @return boolean
      */
     public function send()
     {
-        //If not padding is set inspect the request query.
-        if(empty($this->_padding))
+        $request = $this->getResponse()->getRequest();
+
+        //Force to use the json transport if format is json
+        if($request->getFormat() == 'json')
         {
-            $request = $this->getResponse()->getRequest();
-
-            if($request->query->has('callback')) {
-                $this->setCallback($request->query->get('callback', 'cmd'));
+            //If not padding is set inspect the request query.
+            if(empty($this->_padding))
+            {
+                if($request->query->has('callback')) {
+                    $this->setCallback($request->query->get('callback', 'cmd'));
+                }
             }
+
+            if (!empty($this->_padding))
+            {
+                $response = $this->getResponse();
+                $response->setContent('string://'.sprintf('%s(%s);', $this->_padding, $response->getContent()));
+            }
+
+            return parent::send();
         }
-
-        return parent::send();
     }
-
-
 }
