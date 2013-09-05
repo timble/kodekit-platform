@@ -78,7 +78,7 @@ class HttpMessageHeaders extends ObjectArray
 
         if (!isset($this[$key]))
         {
-            if (null === $default) {
+            if ($default === null) {
                 return $first ? null : array();
             }
 
