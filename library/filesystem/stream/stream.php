@@ -39,11 +39,12 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     protected $_data;
 
     /**
-     * Stream filter
+     * Stream filters
      *
      * @var array List of the attached stream filters
      */
     protected $_filters;
+
 
     /**
      * Lookup table of readable and writeable stream types
@@ -73,14 +74,12 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         parent::__construct($config);
 
         //Register stream wrappers
-        foreach($config->wrappers as $wrapper)
+        foreach($config->wrappers as $key => $wrapper)
         {
-            $identifier = $this->getIdentifier($wrapper);
-
-            if($identifier->inherits('Nooku\Library\FilesystemStreamWrapperInterface'))
-            {
-                $classname = $identifier->classname;
-                $classname::register();
+            if (is_numeric($key)) {
+                $this->registerWrapper($wrapper);
+            } else {
+                $this->registerWrapper($key, $wrapper);
             }
         }
 
@@ -93,7 +92,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
             if (is_numeric($key)) {
                 $this->attachFilter($filter);
             } else {
-                $this->attacFilter($key, $filter);
+                $this->attachFilter($key, $filter);
             }
         }
     }
@@ -121,7 +120,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         $config->append(array(
             'stream'   => '',
             'mode'     => 'rb',
-            'filters'  => array(),
+            'filters'  => array('whitespace'),
             'wrappers' => array('lib:filesystem.stream.wrapper.string'),
         ));
 
@@ -479,15 +478,17 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Attach a filter
+     * Attach a filter in FIFO order
      *
      * @param mixed $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                      or valid identifier string
-     * @param array $config    An optional array of filter config options
-     * @return  resource The stream filter resource
+     * @param array $config  An optional array of filter config options
+     * @return  bool   Returns TRUE if the filter was attached, FALSE otherwise
      */
     public function attachFilter($filter, $config = array())
     {
+        $result = false;
+
         //Handle custom filters
         if(!in_array($filter, stream_get_filters()))
         {
@@ -509,19 +510,26 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
             }
         }
 
-        $mode = 0;
-        if($this->isReadable()) {
-            $mode = $mode & STREAM_FILTER_READ;
+        //If we have a valid filter name create the filter and append it
+        if(is_string($filter) && !empty($filter))
+        {
+            $mode = 0;
+            if($this->isReadable()) {
+                $mode = $mode & STREAM_FILTER_READ;
+            }
+
+            if($this->isWritable()) {
+                $mode = $mode & STREAM_FILTER_WRITE;
+            }
+
+            if($resource = stream_filter_append($this->_stream, $filter, $mode, $config))
+            {
+                $this->_filters[$filter] = $filter;
+                $result = true;
+            }
         }
 
-        if($this->isWritable()) {
-            $mode = $mode & STREAM_FILTER_WRITE;
-        }
-
-        $filter = stream_filter_append($this->_stream, $filter, $mode, $config);
-        $this->_filters[$filter] = $filter;
-
-        return $this;
+        return $result;
     }
 
     /**
@@ -542,6 +550,58 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Register the stream wrapper
+     *
+     * Function prevents from registering the wrapper twice
+     *
+     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
+     * @return bool Returns TRUE on success, FALSE on failure.
+     */
+    public function registerWrapper($wrapper, $config = array() )
+    {
+        $result = false;
+        $identifier = $this->getIdentifier($wrapper);
+
+        if($identifier->inherits('Nooku\Library\FilesystemStreamWrapperInterface'))
+        {
+            $classname = $identifier->getClassName();
+            $result = $classname::register();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Un Register a stream wrapper
+     *
+     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
+     * @return bool Returns TRUE on success, FALSE on failure.
+     */
+    public function unregisterWrapper($wrapper)
+    {
+        $result = false;
+        $identifier = $this->getIdentifier($wrapper);
+
+        if($identifier->inherits('Nooku\Library\FilesystemStreamWrapperInterface'))
+        {
+            $classname = $identifier->getClassName();
+            $result = $classname::unregister();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get a list of all the registered stream wrappers
+     *
+     * @return array
+     */
+    public function getWrappers()
+    {
+        return stream_get_wrappers();
     }
 
     /**
