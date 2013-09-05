@@ -32,7 +32,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_content;
 
     /**
-     * The set of template filters for templates
+     * List of template filters
      *
      * @var array
      */
@@ -60,7 +60,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @var	TemplateFilterChain
      */
-    protected $_chain = null;
+    protected $_chain;
 
     /**
      * Constructor
