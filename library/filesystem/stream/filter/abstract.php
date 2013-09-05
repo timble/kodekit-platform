@@ -66,7 +66,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
         $result = false;
         $name   = self::getName();
 
-        if (!in_array($name, stream_get_filters()) && !empty($name)) {
+        if (!empty($name) && !in_array($name, stream_get_filters())) {
             $result = stream_filter_register(self::getName(), get_called_class());
         }
 
