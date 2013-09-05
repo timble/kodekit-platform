@@ -30,14 +30,14 @@ class FilesystemStreamWrapperAbstract implements FilesystemStreamWrapperInterfac
     /**
      * Register the stream wrapper
      *
-     * Function prevents from registering the wrapper twice
      * @return bool
      */
     public static function register()
     {
         $result   = false;
         $protocol = self::getProtocol();
-        if (!in_array($protocol, stream_get_wrappers() && !empty($protocol))) {
+
+        if (!empty($protocol) && !in_array($protocol, stream_get_wrappers())) {
             $result = stream_wrapper_register(self::getProtocol(),  get_called_class());
         }
 
@@ -47,7 +47,6 @@ class FilesystemStreamWrapperAbstract implements FilesystemStreamWrapperInterfac
     /**
      * Un Register the stream wrapper
      *
-     *  Once the wrapper has been disabled you may override
      * @return bool
      */
     public static function unregister()

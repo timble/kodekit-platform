@@ -20,7 +20,6 @@ interface FilesystemStreamWrapperInterface
     /**
      * Register the stream wrapper
      *
-     * Function prevents from registering the wrapper twice
      * @return bool
      */
     public static function register();
@@ -28,7 +27,6 @@ interface FilesystemStreamWrapperInterface
     /**
      * Un Register the stream wrapper
      *
-     *  Once the wrapper has been disabled you may override
      * @return bool
      */
     public static function unregister();
