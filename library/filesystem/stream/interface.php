@@ -192,6 +192,72 @@ interface FilesystemStreamInterface
     public function setData($name, $value);
 
     /**
+     * Attach a filter in FIFO order
+     *
+     * @param mixed $filter An object that implements ObjectInterface, ObjectIdentifier object
+     *                      or valid identifier string
+     * @param array $config  An optional array of filter config options
+     * @return  bool   Returns TRUE if the filter was attached, FALSE otherwise
+     */
+    public function attachFilter($filter, $config = array());
+
+    /**
+     * Detach a filter
+     *
+     * @param string $name   The name of the filter
+     * @return bool
+     */
+    public function detachFilter($filter);
+
+    /**
+     * Check if a filter is attached to the stream
+     *
+     * @param string $name  The name of the filter
+     * @return bool Returns TRUE if the filter is attached, FALSE otherwise.
+     */
+    public function hasFilter($name);
+
+    /**
+     * Get a filter
+     *
+     * @param string $name  The name of the filter
+     * @return resource The filter resource
+     */
+    public function getFilter($name);
+
+    /**
+     * Get the attached filters
+     *
+     * @return array The named list of attached filters
+     */
+    public function getFilters();
+
+    /**
+     * Register the stream wrapper
+     *
+     * Function prevents from registering the wrapper twice
+     *
+     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
+     * @return bool Returns TRUE on success, FALSE on failure.
+     */
+    public function registerWrapper($wrapper, $config = array());
+
+    /**
+     * Un Register a stream wrapper
+     *
+     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
+     * @return bool Returns TRUE on success, FALSE on failure.
+     */
+    public function unregisterWrapper($wrapper);
+
+    /**
+     * Get a list of all the registered stream wrappers
+     *
+     * @return array
+     */
+    public function getWrappers();
+
+    /**
      * Check if the stream is a local stream vs a remote stream
      *
      * @return bool
