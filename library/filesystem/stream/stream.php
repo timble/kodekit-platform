@@ -39,12 +39,18 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     protected $_data;
 
     /**
+     * Stream context params
+     *
+     * @var array
+     */
+    protected $_context;
+
+    /**
      * Stream filters
      *
      * @var array List of the attached stream filters
      */
     protected $_filters;
-
 
     /**
      * Lookup table of readable and writeable stream types
@@ -83,8 +89,11 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
             }
         }
 
+        //Create or set the context
+        $this->setContext($config->params);
+
         //Open the stream
-        $this->open($config->stream, $config->mode);
+        $this->open($config->stream, $config->mode, $config->params);
 
         //Attach stream filters
         foreach($config->filters as $key => $filter)
@@ -118,9 +127,12 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'stream'   => '',
-            'mode'     => 'rb',
-            'filters'  => array('whitespace'),
+            'stream'  => '',
+            'mode'    => 'rb',
+            'params'  => array(
+                'options' => array()
+            ),
+            'filters'  => array(),
             'wrappers' => array('lib:filesystem.stream.wrapper.string'),
         ));
 
@@ -142,7 +154,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         $this->close();
 
         if(!is_resource($stream)) {
-            $this->_stream = fopen($stream, $mode);
+            $this->_stream = fopen($stream, $mode, false, $this->getContext());
         } else {
             $this->_stream = $stream;
         }
@@ -475,6 +487,45 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
 
         $this->_data[$name] = $value;
         return $this;
+    }
+
+    /**
+     * Get the stream context
+     *
+     * @return resource
+     */
+    public function getContext()
+    {
+        return stream_context_create($this->_context);
+    }
+
+    /**
+     * Set the stream context params
+     *
+     * @param array|resource $context An stream, wrapper or context resource or  an array of context parameters
+     * @return bool
+     */
+    public function setContext($context)
+    {
+        $result = false;
+
+        //Get the context params from the resource
+        if(is_resource($context)) {
+            $context = (array) stream_context_get_params($context);
+        }
+
+        if(is_array($context))
+        {
+            if(!isset($this->_context)) {
+                $this->_context = $context;
+            } else {
+                $this->_context = array_merge($this->_context, $context);
+            }
+
+            $result = stream_context_set_params($this->_stream, $this->_context);
+        }
+
+        return $result;
     }
 
     /**

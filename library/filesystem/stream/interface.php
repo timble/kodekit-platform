@@ -192,6 +192,21 @@ interface FilesystemStreamInterface
     public function setData($name, $value);
 
     /**
+     * Get the stream context
+     *
+     * @return resource
+     */
+    public function getContext();
+
+    /**
+     * Set the stream context params
+     *
+     * @param array|resource $context An stream, wrapper or context resource or  an array of context parameters
+     * @return bool Returns TRUE if the context could be successfully set. FALSE otherwise.
+     */
+    public function setContext($context);
+
+    /**
      * Attach a filter in FIFO order
      *
      * @param mixed $filter An object that implements ObjectInterface, ObjectIdentifier object
