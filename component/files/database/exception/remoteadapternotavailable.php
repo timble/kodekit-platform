@@ -12,9 +12,9 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Url Database Row Exception
+ * Remote Adapter Not Available Database Exception
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseRowUrlException extends \Exception implements Library\Exception {}
+class DatabaseExceptionRemoteAdapterNotAvailable extends \Exception {}
