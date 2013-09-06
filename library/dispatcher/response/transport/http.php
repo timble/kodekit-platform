@@ -118,7 +118,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         {
             //Last-Modified header
             $time = $response->getStream()->getTime(FilesystemStream::TIME_MODIFIED);
-            $response->setLastModified(\DateTime::createFromFormat( 'U', $time));
+            $response->setLastModified($time);
 
             //Disposition header
             $response->headers->set('Content-Disposition', array(

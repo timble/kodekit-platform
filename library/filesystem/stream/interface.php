@@ -20,9 +20,9 @@ interface FilesystemStreamInterface
     /**
      * Time Constants
      */
-    CONST TIME_CREATED  = 'created';
-    CONST TIME_ACCESSED = 'accessed';
-    CONST TIME_MODIFIED = 'modified';
+    CONST TIME_CREATED  = 'ctime';
+    CONST TIME_ACCESSED = 'atime';
+    CONST TIME_MODIFIED = 'mtime';
 
     /**
      * Type Constants
@@ -168,7 +168,7 @@ interface FilesystemStreamInterface
      * Get the streams last modified, last accessed or created time.
      *
      * @param string $time One of the TIME_* constants
-     * @return integer|false A Unix timestamp or FALSE if the time could not be found
+     * @return \DateTime|false A DateTime object or FALSE if the time could not be found
      */
     public function getTime($time = self::TIME_MODIFIED);
 

@@ -415,18 +415,15 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      * Get the streams last modified, last accessed or created time.
      *
      * @param string $time One of the TIME_* constants
-     * @return integer|false A Unix timestamp or FALSE if the time could not be found
+     * @return \DateTime|false A DateTime object or FALSE if the time could not be found
      */
     public function getTime($time = self::TIME_MODIFIED)
     {
         $result = false;
-        $stat = fstat($this->_stream);
+        $info = $this->getInfo();
 
-        switch($time)
-        {
-            case self::TIME_ACCESSED : $result = $stat['atime']; break;
-            case self::TIME_CREATED  : $result = $stat['ctime']; break;
-            case self::TIME_MODIFIED : $result = $stat['ctime']; break;
+        if(isset($info[$time])) {
+            $result = \DateTime::createFromFormat('U', $info[$time]);
         }
 
         return $result;
