@@ -386,16 +386,16 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         {
             // If the stream is a file based stream and local, then use fstat
             clearstatcache(true, $this->getPath());
-            $stats = fstat($this->_stream);
+            $info = $this->getInfo();
 
-            if (isset($stats['size'])) {
-                $this->_size = $stats['size'];
+            if (isset($info['size'])) {
+                $this->_size = $info['size'];
             } else {
                 $this->_size = strlen((string) $this);
             }
         }
 
-        return strlen((string) $this);
+        return $this->_size;
     }
 
 
@@ -453,6 +453,18 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         }
 
         return $type;
+    }
+
+    /**
+     * Gives information about the stream
+     *
+     * @link http://be2.php.net/manual/en/function.fstat.php
+     *
+     * @return array
+     */
+    public function getInfo()
+    {
+        return fstat($this->_stream);
     }
 
     /**

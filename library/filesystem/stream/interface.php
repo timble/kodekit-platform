@@ -173,6 +173,15 @@ interface FilesystemStreamInterface
     public function getTime($time = self::TIME_MODIFIED);
 
     /**
+     * Gives information about the stream
+     *
+     * @link http://be2.php.net/manual/en/function.fstat.php
+     *
+     * @return array
+     */
+    public function getInfo();
+
+    /**
      * Get stream metadata
      *
      * @link http://php.net/manual/en/function.stream-get-meta-data.php
