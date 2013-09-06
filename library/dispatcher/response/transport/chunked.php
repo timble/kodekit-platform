@@ -154,6 +154,22 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     }
 
     /**
+     * Generate an etag from a file stream
+     *
+     * This functions returns a md5 hash of same format as Apache does. Eg "%ino-%size-%mtime" using the file info.
+     * @link http://stackoverflow.com/questions/44937/how-do-you-make-an-etag-that-matches-apache
+     *
+     * @return string
+     */
+    public function getFileEtag()
+    {
+        $info = $this->getResponse()->getStream()->getInfo();
+        $etag = sprintf('"%x-%x-%s"', $info['ino'], $info['size'],base_convert(str_pad($info['mtime'],16,"0"),10,16));
+
+        return $etag;
+    }
+
+    /**
      * Sends content for the current web response.
      *
      * We flush the data to the output buffer based on the chunk size and range information provided in the request.
@@ -213,6 +229,9 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
         {
             //Explicitly set the Accept Ranges header to bytes to inform client we accept range requests
             $response->headers->set('Accept-Ranges', 'bytes');
+
+            //Set a file etag
+            $response->headers->set('etag', $this->getFileEtag());
 
             if($request->isStreaming())
             {
