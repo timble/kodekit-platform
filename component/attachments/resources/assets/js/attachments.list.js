@@ -7,10 +7,13 @@ Attachments.List = new Class({
         this.element = document.id(options.container);
         this.url = options.action;
         this.token = options.token;
+        this.coordinates = '';
 
         if(!this.element) {
             return;
         }
+
+        this.addCrop();
 
         var that = this;
         this.element.getElements('a[data-action]').each(function(a) {
@@ -22,6 +25,22 @@ Attachments.List = new Class({
                 });
             }
         });
+    },
+
+    addCrop: function()
+    {
+        jQuery('#target').Jcrop({
+            aspectRatio: 4 / 3,
+            minSize: [200, 150],
+            setSelect: [10, 10, 210, 160],
+            onSelect: this.setCoordinates.bind(this),
+            onChange: this.setCoordinates.bind(this)
+        });
+    },
+
+    setCoordinates: function(c)
+    {
+        this.coordinates = c;
     },
 
     execute: function(action, id, row)

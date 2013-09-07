@@ -15,15 +15,7 @@
     });
 </script>
 
-<script language="javascript">
-    jQuery(function($) {
-        $('#target').Jcrop({
-            aspectRatio: 4 / 3,
-            minSize: [200, 150],
-            setSelect: [10, 10, 210, 160]
-        });
-    });
-</script>
+
 
 <div id="attachment">
     <img id="target" src="attachments/<?= $attachment->path ?>" />
