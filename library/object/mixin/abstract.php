@@ -122,7 +122,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
 
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods() as $method) {
-                $methods[] = $method->name;
+                $methods[$method->name] = $method->name;
             }
 
             $this->__methods = $methods;
@@ -148,7 +148,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                $methods[$method->name] = $this;
+                $methods[$method->name] = $method->name;
             }
 
             //Remove the base class methods
