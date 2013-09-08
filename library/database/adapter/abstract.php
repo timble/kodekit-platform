@@ -81,9 +81,16 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     protected $_charset;
 
     /**
+     * Chain of command object
+     *
+     * @var CommandChain
+     */
+    protected $_command_chain;
+
+    /**
      * Constructor.
      *
-     * @param     object     An optional ObjectConfig object with configuration options.
+     * @param     ObjectConfig $config   An optional ObjectConfig object with configuration options.
      * Recognized key values include 'command_chain', 'charset',
      * (this list is not meant to be comprehensive).
      */
@@ -123,7 +130,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional ObjectConfig object with configuration options.
+     * @param   ObjectConfig $config    An optional ObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -177,7 +184,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Set the database name
      *
-     * @param     string     The database name
+     * @param     string $database The database name
      * @return  DatabaseAdapterAbstract
      */
     abstract function setDatabase($database);
@@ -198,7 +205,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Set the connection
      *
-     * @param     resource     The connection resource
+     * @param     resource     $resource The connection resource
      * @return  DatabaseAdapterAbstract
      */
     public function setConnection($resource)
@@ -241,14 +248,40 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     }
 
     /**
+     * Get the chain of command object
+     *
+     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
+     * to the KCommandChain mixin.
+     *
+     * @return  KCommandChainInterface
+     */
+    public function getCommandChain()
+    {
+        if(!$this->_command_chain instanceof CommandChainInterface)
+        {
+            //Ask the parent the relay the call to the mixin
+            $this->_command_chain = parent::getCommandChain();
+
+            if(!$this->_command_chain instanceof CommandChainInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
+                );
+            }
+        }
+
+        return $this->_command_chain;
+    }
+
+    /**
      * Preform a select query.
      *
      * Use for SELECT and anything that returns rows.
      *
      * @param    DatabaseQuerySelect The query object.
-     * @param   integer    The fetch mode. Controls how the result will be returned to the subject. This
-     *                     value must be one of the Database::FETCH_* constants.
-     * @param   string     The column name of the index to use.
+     * @param   integer    $query The fetch mode. Controls how the result will be returned to the subject. This
+     *                             value must be one of the Database::FETCH_* constants.
+     * @param   string     $mode The column name of the index to use.
      * @throws  \InvalidArgumentException If the query is not an instance of DatabaseQuerySelect or DatabaseQueryShow
      * @return  mixed     The return value of this function on success depends on the fetch type.
      *                    In all cases, FALSE is returned on failure.
@@ -308,7 +341,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Insert a row of data into a table.
      *
-     * @param  DatabaseQueryInsert The query object.
+     * @param  DatabaseQueryInsert $query The query object.
      * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if
      *                          no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
@@ -338,7 +371,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Update a table with specified data.
      *
-     * @param  DatabaseQueryUpdate The query object.
+     * @param  DatabaseQueryUpdate $query The query object.
      * @return integer  If the update query was executed returns the number of rows updated, or 0 if
      *                     no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
@@ -367,7 +400,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Delete rows from the table.
      *
-     * @param  DatabaseQueryDelete The query object.
+     * @param  DatabaseQueryDelete $query The query object.
      * @return integer     Number of rows affected, or -1 if an error occured.
      */
     public function delete(DatabaseQueryDelete $query)
@@ -391,11 +424,10 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Safely quotes a value for an SQL statement.
      *
-     * If an array is passed as the value, the array values are quoted
-     * and then returned as a comma-separated string; this is useful
-     * for generating IN() lists.
+     * If an array is passed as the value, the array values are quoted and then returned as a comma-separated string;
+     * this is useful for generating IN() lists.
      *
-     * @param   mixed The value to quote.
+     * @param   mixed $value The value to quote.
      * @return string An SQL-safe quoted value (or a string of separated-
      *                and-quoted values).
      */
@@ -428,14 +460,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     }
 
     /**
-     * Quotes a single identifier name (table, table alias, table column,
-     * index, sequence).  Ignores empty values.
+     * Quotes a single identifier name (table, table alias, table column, index, sequence).  Ignores empty values.
      *
-     * This function requires all SQL statements, operators and functions to be
-     * uppercased.
+     * This function requires all SQL statements, operators and functions to be uppercased.
      *
-     * @param string|array The identifier name to quote.  If an array, quotes
-     *                      each element in the array as an identifier name.
+     * @param string|array The identifier name to quote.  If an array, quotes each element in the array.
      * @return string|array The quoted identifier name (or array of names).
      *
      * @see _quoteIdentifier()
@@ -463,8 +492,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch the first field of the first row
      *
-     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
-     * @param   integer         The index to use
+     * @param   mysqli_result   $result The result object. A result set identifier returned by the select() function
+     * @param   integer         $key    The index to use
      * @return The value returned in the query or null if the query failed.
      */
     abstract protected function _fetchField($result, $key = 0);
@@ -472,8 +501,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch an array of single field results
      *
-     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
-     * @param   integer         The index to use
+     * @param   mysqli_result   $result The result object. A result set identifier returned by the select() function
+     * @param   integer         $key    The index to use
      * @return  array           A sequential array of returned rows.
      */
     abstract protected function _fetchFieldList($result, $key = 0);
@@ -481,7 +510,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch the first row of a result set as an associative array
      *
-     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
+     * @param   mysqli_result   $sql The result object. A result set identifier returned by the select() function
      * @return array
      */
     abstract protected function _fetchArray($sql);
@@ -492,8 +521,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * of the database key.  Returns <var>null</var> if the query fails.
      *
-     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
-     * @param   string          The column name of the index to use
+     * @param   mysqli_result   $result The result object. A result set identifier returned by the select() function
+     * @param   string          $key    The column name of the index to use
      * @return  array   If key is empty as sequential list of returned records.
      */
     abstract protected function _fetchArrayList($result, $key = '');
@@ -501,7 +530,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch the first row of a result set as an object
      *
-     * @param   mysqli_result  The result object. A result set identifier returned by the select() function
+     * @param   mysqli_result  $result The result object. A result set identifier returned by the select() function
      * @param object
      */
     abstract protected function _fetchObject($result);
@@ -512,8 +541,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * of the database key.  Returns <var>null</var> if the query fails.
      *
-     * @param   mysqli_result  The result object. A result set identifier returned by the select() function
-     * @param   string         The column name of the index to use
+     * @param   mysqli_result  $result The result object. A result set identifier returned by the select() function
+     * @param   string         $key    The column name of the index to use
      * @return  array   If <var>key</var> is empty as sequential array of returned rows.
      */
     abstract protected function _fetchObjectList($result, $key = '');
@@ -521,7 +550,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Parse the raw table schema information
      *
-     * @param   object  The raw table schema information
+     * @param   object  $info The raw table schema information
      * @return DatabaseSchemaTable
      */
     abstract protected function _parseTableInfo($info);
@@ -529,7 +558,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Parse the raw column schema information
      *
-     * @param   object  The raw column schema information
+     * @param   object  $info The raw column schema information
      * @return DatabaseSchemaColumn
      */
     abstract protected function _parseColumnInfo($info);
@@ -537,8 +566,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Given a raw column specification, parse into datatype, size, and decimal scope.
      *
-     * @param string The column specification; for example,
-     * "VARCHAR(255)" or "NUMERIC(10,2)".
+     * @param string $spec The column specification; for example, "VARCHAR(255)" or "NUMERIC(10,2)".
      *
      * @return array A sequential array of the column type, size, and scope.
      */
@@ -547,7 +575,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Safely quotes a value for an SQL statement.
      *
-     * @param   mixed   The value to quote
+     * @param   mixed   $value The value to quote
      * @return string An SQL-safe quoted value
      */
     abstract protected function _quoteValue($value);
@@ -558,7 +586,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * If the name contains a dot, this method will separately quote the
      * parts before and after the dot.
      *
-     * @param string    The identifier name to quote.
+     * @param string    $name The identifier name to quote.
      * @return string   The quoted identifier name.
      * @see quoteIdentifier()
      */
