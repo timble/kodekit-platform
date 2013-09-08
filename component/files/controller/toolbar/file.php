@@ -19,11 +19,20 @@ use Nooku\Library;
  */
 class ControllerToolbarFile extends Library\ControllerToolbarActionbar
 {
-    public function onBeforeControllerRender(Library\Event $event)
+    public function getCommands()
     {
-        $this->addCommand('upload');
-        $this->addNew(array('label' => 'New Folder'));
-        
-        $this->addDelete();
+        $controller = $this->getController();
+
+        if ($controller->canAdd())
+        {
+            $this->addCommand('upload');
+            $this->addNew(array('label' => 'New Folder'));
+        }
+
+        if ($controller->canDelete()) {
+            $this->addDelete();
+        }
+
+        return parent::getCommands();
     }
 }

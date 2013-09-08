@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
  * Page Controller
@@ -15,12 +16,12 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerPage extends Library\ControllerView
+class ApplicationControllerPage extends Application\ControllerPage
 {
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options.
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options.
      */
     protected function  _initialize(Library\ObjectConfig $config)
     {
@@ -29,22 +30,5 @@ class ApplicationControllerPage extends Library\ControllerView
         ));
 
         parent::_initialize($config);
-    }
-
-    protected function _actionRender(Library\CommandContext $context)
-    {
-        $content = parent::_actionRender($context);
-
-        //Make images paths absolute
-        $base = $this->getObject('request')->getBaseUrl();
-        $site = $this->getObject('application')->getSite();
-
-        $path = $base->getPath().'/files/'.$site.'/images/';
-
-        $content = str_replace($base.'/images/', $path, $content);
-        $content = str_replace(array('../images', './images') , '"'.$path, $content);
-
-        $context->response->setContent($content);
-        return $content;
     }
 }

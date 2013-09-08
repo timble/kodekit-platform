@@ -10,9 +10,9 @@
 use Nooku\Library;
 ?>
 
-<?= include('com:files.view.files.initialize.html'); ?>
+<?= import('com:files.view.files.initialize.html'); ?>
 
-<script src="media://ckeditor/js/ckeditor.files.js" />
+<script src="assets://ckeditor/js/ckeditor.files.js" />
 
 <script>
     Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';
@@ -30,9 +30,10 @@ use Nooku\Library;
             },
             editor: <?= json_encode($state->editor); ?>,
             tree: {
-                theme: 'media://files/images/mootree.png'
+                theme: 'assets://files/images/mootree.png'
             },
             types: <?= json_encode($state->types); ?>,
+            site: <?= json_encode($site); ?>,
             container: <?= json_encode($state->container ? $state->container : null); ?>
         };
         options = $extend(options, config);
@@ -45,7 +46,7 @@ use Nooku\Library;
     });
 </script>
 
-<?= include('default_fields.html');?>
+<?= import('default_fields.html');?>
 
 <div id="files-compact" class="tabs tabs-horizontal">
     <div class="tab">
@@ -108,7 +109,7 @@ use Nooku\Library;
         <input type="radio" id="tab-2" name="tab-group-1">
         <label for="tab-2"><?= translate('Upload') ?></label>
         <div class="content">
-            <?= include('com:files.view.files.uploader.html'); ?>
+            <?= import('com:files.view.files.uploader.html'); ?>
         </div>
     </div>
 </div>

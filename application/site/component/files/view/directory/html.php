@@ -36,13 +36,13 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		{
 			$path   = explode('/', $folder->path);
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
+
+            $params->set('page_title', ucfirst(end($path)));
 		} else {
             $parent = null;
-        }
 
-	 	if (!$params->get('page_title')) {
-	 		$params->set('page_title', $page->title);
-	 	}
+            $params->set('page_title', $page->title);
+        }
 
         $this->parent         = $parent;
         $this->params         = $params;
@@ -72,8 +72,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
             if ($params->get('humanize_filenames', 1))
             {
-                foreach ($folders as $folder)
-                {
+                foreach ($folders as $folder) {
                     $folder->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $folder->name));
                 }
             }
@@ -96,8 +95,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
         $request = $this->getObject('lib:controller.request');
 
-        if ($this->getLayout() == 'gallery')
-        {
+        if ($this->getLayout() == 'gallery') {
             $request->query->set('types', array('image'));
         }
 
@@ -119,8 +117,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
         if ($params->get('humanize_filenames', 1))
         {
-            foreach ($files as $file)
-            {
+            foreach ($files as $file) {
                 $file->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $file->filename));
             }
         }

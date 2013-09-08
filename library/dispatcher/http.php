@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable
+class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
     /**
 	 * Constructor.

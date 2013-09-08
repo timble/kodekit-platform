@@ -15,14 +15,34 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerToolbarDecorator extends ObjectDecorator implements ControllerToolbarInterface, EventSubscriberInterface
+abstract class ControllerToolbarDecorator extends ObjectDecorator implements ControllerToolbarInterface, CommandInterface
 {
     /**
-     * List of subscribed events
+     * Command handler
      *
-     * @var array
+     * This function translates the command name to a command handler function of the format '_beforeController[Command]'
+     * or '_afterController[Command]. Command handler functions should be declared protected.
+     *
+     * @param 	string           $name	    The command name
+     * @param 	CommandContext  $context 	The command context
+     * @return 	boolean Always returns TRUE
      */
-    private $__subscriptions;
+    final public function execute($name, CommandContext $context)
+    {
+        $identifier = clone $context->getSubject()->getIdentifier();
+        $type = array_shift($identifier->path);
+
+        $parts  = explode('.', $name);
+        $method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
+
+        if(method_exists($this, $method)) {
+            $this->$method($context);
+        } else {
+            $this->getDelegate()->execute($name, $context);
+        }
+
+        return true;
+    }
 
     /**
      * Decorate Notifier
@@ -41,7 +61,9 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
 
         if ($controller->inherits('Nooku\Library\ControllerToolbarMixin'))
         {
-            if($controller->hasToolbar($delegate->getType())) {
+            if($controller->hasToolbar($delegate->getType()))
+            {
+                $controller->detachToolbar($delegate);
                 $controller->attachToolbar($this);
             }
         }
@@ -131,34 +153,6 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
     public function getPriority()
     {
         return $this->getDelegate()->getPriority();
-    }
-
-    /**
-     * Get a list of subscribed events
-     *
-     * Event handlers always start with 'on' and need to be public methods
-     *
-     * @return array An array of public methods
-     */
-    public function getSubscriptions()
-    {
-        if(!$this->__subscriptions)
-        {
-            $subscriptions  = array();
-
-            //Get all the public methods
-            $reflection = new \ReflectionClass($this);
-            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method)
-            {
-                if(substr($method->name, 0, 2) == 'on') {
-                    $subscriptions[$method->name] = array($this, $method->name);
-                }
-            }
-
-            $this->__subscriptions = array_merge($this->getDelegate()->getSubscriptions(), $subscriptions);
-        }
-
-        return $this->__subscriptions;
     }
 
     /**

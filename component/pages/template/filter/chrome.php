@@ -152,7 +152,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
         $accordion = $this->getTemplate()->getHelper('accordion');
 
         $config = array(
-            'title'     => \JText::_( $module->title ),
+            'title'     => $this->translate( $module->title ),
             'id'        => 'module' . $module->id,
             'translate' => false
         );
@@ -178,7 +178,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
         $tabs = $this->getTemplate()->getHelper('tabs');
 
         $config = array(
-            'title'     => \JText::_( $module->title ),
+            'title'     => $this->translate( $module->title ),
             'id'        => 'module' . $module->id,
             'translate' => false
         );

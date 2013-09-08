@@ -12,15 +12,32 @@ namespace Nooku\Library;
 /**
  * Shorttag Template Filter
  *
- * Filter for short_open_tags support
+ * Filter for short_open_tags support. Also provides support for auto-escaping.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateFilterCompiler
 {
-	/**
-	 * Convert <?= ?> to long-form <?php echo ?> when needed
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => TemplateFilter::PRIORITY_HIGH,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+	 * Convert <?= ?> and <? ?> to long-form <?php echo ?> when needed
 	 *
 	 * @param string $text  The text to parse
 	 * @return void

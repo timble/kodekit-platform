@@ -40,19 +40,8 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         parent::__construct($config);
 
-        if (is_null($config->template))
-        {
-            throw new \InvalidArgumentException(
-                'template [TemplateInterface] config option is required'
-            );
-        }
-
-        if(!$config->template instanceof TemplateInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Template: '.get_class($config->template).' does not implement TemplateInterface'
-            );
-        }
+        // Set the template object
+        $this->setTemplate($config->template);
 
         $this->_priority = $config->priority;
         $this->_template = $config->template;
@@ -63,7 +52,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Cpnfig $config An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -74,6 +63,31 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Translates a string and handles parameter replacements
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function translate($string, array $parameters = array())
+    {
+        return $this->getTemplate()->translate($string, $parameters);
+    }
+
+    /**
+     * Escape a string
+     *
+     * By default the function uses htmlspecialchars to escape the string
+     *
+     * @param string $string String to to be escape
+     * @return string Escaped string
+     */
+    public function escape($string)
+    {
+        return $this->getTemplate()->escape($string);
     }
 
     /**
@@ -94,6 +108,17 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     public function getTemplate()
     {
         return $this->_template;
+    }
+
+    /**
+     * Set the template object
+     *
+     * @return  TemplateInterface $template	The template object
+     */
+    public function setTemplate(TemplateInterface $template)
+    {
+        $this->_template = $template;
+        return $this;
     }
 
     /**

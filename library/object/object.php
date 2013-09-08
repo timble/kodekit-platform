@@ -120,7 +120,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectMixableInterface
      * @param  array $config  An optional associative array of configuration options
      * @return  ObjectMixinInterface
-     * @throws  \ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
      * @throws  \UnexpectedValueException If the mixin does not implement the ObjectMixinInterface
      */
     public function mixin($mixin, $config = array())
@@ -169,7 +169,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectDecorator
      * @param    array $config  An optional associative array of configuration options
      * @return   ObjectDecorator
-     * @throws  \ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
      * @throws  \UnexpectedValueException If the decorator does not extend from ObjectDecorator
      */
     public function decorate($decorator, $config = array())

@@ -11,8 +11,8 @@
 <?= helper('behavior.validator') ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
 <ktml:module position="actionbar">
@@ -102,7 +102,7 @@
 	</div>
 
 	<div class="sidebar">
-        <?= include('default_sidebar.html'); ?>
+        <?= import('default_sidebar.html'); ?>
 	</div>
 	
 </form>

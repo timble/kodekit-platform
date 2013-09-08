@@ -12,6 +12,8 @@
 <?=helper('behavior.keepalive')?>
 <?=helper('behavior.validator')?>
 
+<title content="replace"><?= translate('Login') ?></title>
+
 <form action="<?= helper('route.session'); ?>" method="post" class="-koowa-form">
     <div class="form-content">
         <div class="page-header">
@@ -19,7 +21,7 @@
         </div>
 
         <? if($parameters->get('description_login_text')) : ?>
-        <p><?= $parameters->get('description_login_text' ) ?></p>
+        <p><?= escape(translate($parameters->get('description_login_text'))) ?></p>
         <? endif ?>
 
         <fieldset>

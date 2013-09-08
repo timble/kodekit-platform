@@ -58,7 +58,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $rows = JCache::getStores();
 
         foreach($rows as $row) {
-            $options[] 	= $this->option(array('label' => \JText::_(ucfirst($row)), 'value' => $row));
+            $options[] 	= $this->option(array('label' => $this->translate(ucfirst($row)), 'value' => $row));
         }
 
         $list = $this->optionlist(array(
@@ -78,7 +78,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'name'		=> 'timezone',
             'attribs'	=> array(),
             'deselect'  => true,
-            'prompt'    => '- '.\JText::_('Select Time Zone').' -',
+            'prompt'    => '- '.$this->translate('Select Time Zone').' -',
         ));
 
         if ($config->deselect) {

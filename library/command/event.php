@@ -15,6 +15,9 @@ namespace Nooku\Library;
  * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
  * to any registered event handlers.
  *
+ * The 'clone_context' config option defines if the context is clone before being passed to the event dispatcher or
+ * it passed by reference instead. By default the context is cloned.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
@@ -52,7 +55,8 @@ class CommandEvent extends EventMixin implements CommandInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => Command::PRIORITY_NORMAL,
+            'priority'      => Command::PRIORITY_NORMAL,
+            'clone_context' => true,
         ));
 
         parent::_initialize($config);
@@ -85,7 +89,13 @@ class CommandEvent extends EventMixin implements CommandInterface
         $parts = explode('.', $name);
         $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . StringInflector::implode($parts);
 
-        $event = new Event(clone($context));
+        if($this->getConfig()->clone_context) {
+            $event = clone($context);
+        } else {
+            $event = $context;
+        }
+
+        $event = new Event($event);
         $event->setTarget($context->getSubject());
 
         $this->getEventDispatcher()->dispatchEvent($name, $event);

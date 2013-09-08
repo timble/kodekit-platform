@@ -92,6 +92,11 @@ class ControllerException extends Library\ControllerView
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
 
+        //Find and use file alias if it exists
+        if($alias = array_search($file, $aliases)) {
+            $file = str_replace(JPATH_ROOT, '', $alias);;
+        };
+
         //Create the exception message
         if(ini_get('display_errors')) {
             $message = "Exception '".get_class($exception) ."' with message '".$message."' in ".$file.":".$line;

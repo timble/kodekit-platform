@@ -8,12 +8,14 @@
  */
 ?>
 
+<title content="replace"><?= $category->title ?></title>
+
 <? if ($params->get('show_feed_link', 1) == 1) : ?>
 <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>
 
 <? foreach ($articles as $article): ?>
-    <?= include('default_item.html', array('article' => $article)) ?>
+    <?= import('default_item.html', array('article' => $article)) ?>
 <? endforeach; ?>
 
 <?= helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>

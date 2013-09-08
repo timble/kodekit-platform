@@ -11,8 +11,8 @@
 <h1><?= translate('Administrator Login') ?></h1>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
 <form action="" method="post" name="login" id="form-login">

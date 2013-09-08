@@ -9,4 +9,4 @@
 ?>
 
 <h3><?= translate('Menus') ?></h3>
-<?= include('com:pages.view.menus.list.html', array('state' => $state, 'menus' => object('com:pages.model.menus')->getRowset())); ?>
+<?= import('com:pages.view.menus.list.html', array('state' => $state, 'menus' => object('com:pages.model.menus')->getRowset())); ?>

@@ -32,6 +32,13 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     protected $_pathway;
 
     /**
+     * The params
+     *
+     * @var object
+     */
+    protected $_params;
+
+    /**
      * Constructor.
      *
      * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
@@ -70,7 +77,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     {
         $config->append(array(
             'base_url'          => '/',
-            'event_dispatcher'  => 'com:debug.event.dispatcher.debug',
             'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
             'site'      => null,
             'options'   => array(
@@ -417,42 +423,32 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
      * @param	string	$option The component option
      * @return	object	The parameters object
      */
-    public function getParams($option = null)
+    public function getParams()
     {
-        static $params = array();
-        $hash = '__default';
-
-        if(!empty($option)) {
-            $hash = $option;
-        }
-
-        if (!isset($params[$hash]))
+        if (!isset($this->_params))
         {
             // Get component parameters
-            if (!$option) {
-                $option = $this->getRequest()->getQuery()->get('option', 'cmd');
-            }
-
-            $params[$hash] = $this->getObject('application.extensions')->getExtension(substr( $option, 4))->params;
+            $extension = substr($this->getRequest()->query->get('option', 'cmd'), 4);
+            $params    = $this->getObject('application.extensions')->getExtension($extension)->params;
 
             // Get menu parameters
             $page = $this->getObject('application.pages')->getActive();
-
             $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
 
             // Lets cascade the parameters if we have menu item parameters
             if (is_object($page))
             {
-                $params[$hash]->merge(new JParameter((string) $page->params));
+                $params->merge(new JParameter((string) $page->params));
                 $title = $page->title;
-
             }
 
-            $params[$hash]->def( 'page_title'      , $title );
-            $params[$hash]->def( 'page_description', '' );
+            $params->def( 'page_title'      , $title );
+            $params->def( 'page_description', '' );
+
+            $this->_params = $params;
         }
 
-        return $params[$hash];
+        return $this->_params;
     }
 
     /**

@@ -23,4 +23,21 @@ class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionba
 
         parent::_initialize($config);
     }
+
+    protected function _afterControlerBrowse(Library\CommandContext $context)
+    {
+        $controller = $this->getController();
+        $view       = $controller->getView();
+
+        if($view->getLayout() != 'form' && $controller->isEditable() && $controller->canEdit())
+        {
+            $article = $controller->getModel()->getRow();
+            $route   = $controller->getView()->getTemplate()->getHelper('route')->article(
+                array('row' => $article, 'layout' => 'form'
+            ));
+
+            $this->addCommand('edit', array('href'  => (string) $route));
+        }
+        else parent::_afterControlerBrowse($context);
+    }
 }

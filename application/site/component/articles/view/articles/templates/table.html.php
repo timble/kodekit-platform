@@ -8,8 +8,10 @@
  */
 ?>
 
+<title content="replace"><?= $category->title ?></title>
+
 <div class="page-header">
-    <h1><?php echo escape($params->get('page_title')); ?></h1>
+    <h1><?= escape($params->get('page_title')); ?></h1>
 </div>
 
 <? if($params->get('show_description') && $category->description && $params->get('show_description_image') && $category->image) : ?>

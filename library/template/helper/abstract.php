@@ -40,6 +40,31 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	}
 
     /**
+     * Translates a string and handles parameter replacements
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function translate($string, array $parameters = array())
+    {
+        return $this->getTemplate()->translate($string, $parameters);
+    }
+
+    /**
+     * Escape a string
+     *
+     * By default the function uses htmlspecialchars to escape the string
+     *
+     * @param string $string String to to be escape
+     * @return string Escaped string
+     */
+    public function escape($string)
+    {
+        return $this->getTemplate()->escape($string);
+    }
+
+    /**
      * Set the template object
      *
      * @return  TemplateInterface $template	The template object

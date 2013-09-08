@@ -8375,10 +8375,6 @@ article img[align="right"] {
 .comment .comment__header--right {
   float: right;
 }
-/* line 64, blocks/_comments.scss */
-.comment .comment__text {
-  margin-top: 10px;
-}
 
 /* Extend Bootstrap to optimise nested navigation */
 /* line 2, blocks/_sidebar.scss */
@@ -8628,54 +8624,65 @@ h3 {
   font-size: 16px;
 }
 
-/* line 38, default.scss */
+/* line 31, default.scss */
+.is-hidden {
+  display: none;
+}
+
+/* line 34, default.scss */
+.backtrace {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* line 46, default.scss */
 .page-header h1, article header h1 {
   line-height: 21px;
   margin-bottom: 0;
 }
-/* line 43, default.scss */
+/* line 51, default.scss */
 .page-header .timestamp, article header .timestamp {
   color: #999;
   font-size: 12px;
 }
 
-/* line 50, default.scss */
+/* line 58, default.scss */
 #password-check.score1 {
   color: #FF0000;
 }
 
-/* line 51, default.scss */
+/* line 59, default.scss */
 #password-check.score2 {
   color: #FF5F5F;
 }
 
-/* line 52, default.scss */
+/* line 60, default.scss */
 #password-check.score3 {
   color: #56E500;
 }
 
-/* line 53, default.scss */
+/* line 61, default.scss */
 #password-check.score4 {
   color: #4DCD00;
 }
 
-/* line 54, default.scss */
+/* line 62, default.scss */
 #password-check.score5 {
   color: #399800;
 }
 
-/* line 56, default.scss */
+/* line 64, default.scss */
 .highlight {
   background-color: yellow;
 }
 
 /* com:application.view.page.login.html */
-/* line 61, default.scss */
+/* line 69, default.scss */
 body.login {
   background-color: #f5f5f5;
   padding-top: 60px;
 }
-/* line 65, default.scss */
+/* line 73, default.scss */
 body.login form {
   max-width: 300px;
   margin: 0 auto;
@@ -8684,21 +8691,21 @@ body.login form {
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 73, default.scss */
+/* line 81, default.scss */
 body.login form .form-content {
   padding: 10px 30px 0;
 }
-/* line 76, default.scss */
+/* line 84, default.scss */
 body.login form .form-content .page-header, body.login form .form-content article header, article body.login form .form-content header {
   margin-bottom: 10px;
 }
-/* line 81, default.scss */
+/* line 89, default.scss */
 body.login form .form-actions {
   margin-bottom: 0;
   padding: 19px 30px;
   border-radius: 0 0 5px 5px;
 }
-/* line 87, default.scss */
+/* line 95, default.scss */
 body.login form input {
   font-size: 16px;
   height: auto;
@@ -8706,28 +8713,28 @@ body.login form input {
   padding: 7px 9px;
 }
 
-/* line 97, default.scss */
+/* line 105, default.scss */
 .radio input[type="radio"].level2, .checkbox input[type="checkbox"].level2 {
   margin-left: 0px;
   margin-right: 6px;
 }
-/* line 98, default.scss */
+/* line 106, default.scss */
 .radio input[type="radio"].level3, .checkbox input[type="checkbox"].level3 {
   margin-left: 36px;
   margin-right: 6px;
 }
-/* line 99, default.scss */
+/* line 107, default.scss */
 .radio input[type="radio"].level4, .checkbox input[type="checkbox"].level4 {
   margin-left: 54px;
   margin-right: 6px;
 }
-/* line 100, default.scss */
+/* line 108, default.scss */
 .radio input[type="radio"].level5, .checkbox input[type="checkbox"].level5 {
   margin-left: 72px;
   margin-right: 6px;
 }
 
-/* line 103, default.scss */
+/* line 111, default.scss */
 .pagination {
   text-align: center;
 }

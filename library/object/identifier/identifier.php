@@ -100,23 +100,21 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     /**
      * Constructor
      *
+     * If the identifier does not have a type set default type to 'lib'. Eg, event.dispatcher is the same as
+     * lib:event.dispatcher.
+     *
      * @param   string $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not fully qualified or cannot be parsed
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
      */
     public function __construct($identifier)
     {
-        //Check if the identifier is valid
-        if(strpos($identifier, ':') === FALSE) {
-            throw new ObjectExceptionInvalidIdentifier('Identifier is not fully qualified : '.$identifier);
-        }
-
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
             throw new ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
         }
 
         // Set the type
-        $this->type = $parts['scheme'];
+        $this->type = isset($parts['scheme']) ? $parts['scheme'] : 'lib';
 
         // Set the path
         $this->_path = trim($parts['path'], '/');

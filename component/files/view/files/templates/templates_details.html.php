@@ -54,7 +54,7 @@ window.addEvent('domready', function() {
 			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td>
-		    <img src="media://files/images/folder-64.png" height="24px" alt="[%=name%]" border="0" />
+		    <img src="assets://files/images/folder-64.png" height="24px" alt="[%=name%]" border="0" />
 		</td>
 		<td colspan="3">
 			<a href="#" class="navigate">
@@ -70,7 +70,7 @@ window.addEvent('domready', function() {
 			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td>
-		    <img src="media://files/images/document-64.png" height="24px" alt="[%=name%]" border="0" />
+		    <img src="assets://files/images/document-64.png" height="24px" alt="[%=name%]" border="0" />
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -95,7 +95,7 @@ window.addEvent('domready', function() {
 			[% if (typeof thumbnail === 'string') { %]
     			<img src="[%= client_cache || Files.blank_image %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" height="24px" />
     		[% } else { %]
-		   		<img src="media://files/images/image-16.png" height="24px" alt="[%=name%]" border="0" />
+		   		<img src="assets://files/images/image-16.png" height="24px" alt="[%=name%]" border="0" />
 		    [% } %]
 		</td>
 		<td>

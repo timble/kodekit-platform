@@ -8,9 +8,9 @@
  */
 ?>
 
-<style src="media://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+<style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
-<script src="media://files/plupload/plupload.core.html5.flash.queue.js" />
+<script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
 
 <script>
 jQuery.noConflict();
@@ -31,7 +31,7 @@ window.addEvent('domready', function() {
 		dragdrop: true,
 		rename: true,
 		url: '', // this is added on the go in BeforeUpload event
-		flash_swf_url: 'media://files/plupload/plupload.flash.swf',
+		flash_swf_url: 'assets://files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
 			_action: 'add',

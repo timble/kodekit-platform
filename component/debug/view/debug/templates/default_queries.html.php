@@ -8,9 +8,9 @@
  */
 ?>
 
-<style src="media://debug/highlighter/prettify.css" />
-<script src="media://debug/highlighter/prettify.js" />
-<script src="media://debug/highlighter/lang-sql.js" />
+<style src="assets://debug/highlighter/prettify.css" />
+<script src="assets://debug/highlighter/prettify.js" />
+<script src="assets://debug/highlighter/lang-sql.js" />
 <script>
 window.addEvent('domready', prettyPrint);
 </script>

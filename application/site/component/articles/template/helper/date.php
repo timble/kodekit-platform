@@ -33,13 +33,13 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 
         if ($config->show_create_date) {
             $html[] = '<span class="timestamp">';
-            $html[] = $this->format(array('date'=> $article->ordering_date, 'format' => JText::_('DATE_FORMAT_LC5')));
+            $html[] = $this->format(array('date'=> $article->ordering_date, 'format' => $this->translate('DATE_FORMAT_LC5')));
         }
 
         if ($config->get('show_modify_date') && $config->show_create_date && ($modified_on = $article->modified_on) && (intval($modified_on) != 0))
         {
             $html[] = JText::sprintf('LAST_UPDATED2',
-                $this->format(array('date' => $article->modified_on, 'format' => JText::_('DATE_FORMAT_LC5'))));
+                $this->format(array('date' => $article->modified_on, 'format' => $this->translate('DATE_FORMAT_LC5'))));
         }
         
         if ($config->show_create_date) {

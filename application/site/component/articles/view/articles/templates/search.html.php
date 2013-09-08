@@ -8,6 +8,8 @@
  */
 ?>
 
+<title content="replace"><?= $category->title ?></title>
+
 <h1><?=translate('Search results')?></h1>
 
 <div class="well">
@@ -21,7 +23,7 @@
 </div>
 
 <? foreach ($articles as $article): ?>
-    <?= include('default_item.html', array('article' => $article)) ?>
+    <?= import('default_item.html', array('article' => $article)) ?>
 <? endforeach ?>
 
 <? if (count($articles) != $total) : ?>

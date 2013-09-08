@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerToolbarAbstract extends EventSubscriberAbstract implements ControllerToolbarInterface
+abstract class ControllerToolbarAbstract extends Command implements ControllerToolbarInterface
 {
     /**
      * Controller object
@@ -73,6 +73,31 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Command handler
+     *
+     * This function translates the command name to a command handler function of the format '_beforeController[Command]'
+     * or '_afterController[Command]. Command handler functions should be declared protected.
+     *
+     * @param 	string           $name	    The command name
+     * @param 	CommandContext  $context 	The command context
+     * @return 	boolean Always returns TRUE
+     */
+    final public function execute($name, CommandContext $context)
+    {
+        $identifier = clone $context->getSubject()->getIdentifier();
+        $type = array_shift($identifier->path);
+
+        $parts  = explode('.', $name);
+        $method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
+
+        if(method_exists($this, $method)) {
+            $this->$method($context);
+        }
+
+        return true;
     }
 
     /**

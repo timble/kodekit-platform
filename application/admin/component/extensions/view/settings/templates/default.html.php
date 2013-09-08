@@ -9,8 +9,8 @@
 ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
 <ktml:module position="actionbar">
@@ -24,7 +24,7 @@
             <input type="radio" id="tab-1" name="tab-group-1" checked="">
             <label for="tab-1"><?= translate('Global') ?></label>
             <div class="content">
-                <?= include('default_global.html',  array('settings' => $settings->system)); ?>
+                <?= import('default_global.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
             <input type="radio" id="tab-2" name="tab-group-1">
             <label for="tab-2"><?= translate('Site') ?></label>
             <div class="content">
-                <?= include('default_site.html',  array('settings' => $settings->system)); ?>
+                <?= import('default_site.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
             <input type="radio" id="tab-3" name="tab-group-1">
             <label for="tab-3"><?= translate('Mail') ?></label>
             <div class="content">
-                <?= include('default_mail.html',  array('settings' => $settings->system)); ?>
+                <?= import('default_mail.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
             <input type="radio" id="tab-<?= $setting->getName() ?>" name="tab-group-1">
             <label for="tab-<?= $setting->getName() ?>"><?= translate(ucfirst($setting->getName())) ?></label>
             <div class="content">
-                <?= include('default_extension.html', array('settings' => $setting)); ?>
+                <?= import('default_extension.html', array('settings' => $setting)); ?>
             </div>
         </div>
         <? endif; ?>

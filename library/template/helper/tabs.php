@@ -37,7 +37,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['tabs']))
         {
-            $html .= '<script src="media://js/tabs.js" />';
+            $html .= '<script src="assets://js/tabs.js" />';
             self::$_loaded['tabs'] = true;
         }
 
@@ -82,7 +82,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
             'translate' => true
         ));
 
-        $title   = $config->translate ? \JText::_($config->title) : $config->title;
+        $title   = $config->translate ? $this->translate($config->title) : $config->title;
         $attribs = $this->buildAttributes($config->attribs);
 
         return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
