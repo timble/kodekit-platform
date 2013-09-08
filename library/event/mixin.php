@@ -82,7 +82,7 @@ class EventMixin extends ObjectMixinAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'event_dispatcher'  => null,
+            'event_dispatcher'  => 'event.dispatcher',
             'event_subscribers' => array(),
             'event_listeners'   => array(),
         ));
@@ -116,7 +116,7 @@ class EventMixin extends ObjectMixinAbstract
     /**
      * Set the chain of command object
      *
-     * @param   object  $dispatcher An event dispatcher object
+     * @param   EventDispatcherInterface  $dispatcher An event dispatcher object
      * @return  Object  The mixer object
      */
     public function setEventDispatcher(EventDispatcherInterface $dispatcher)
