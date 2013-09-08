@@ -146,7 +146,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
         }
 
-        $mixed_methods =  $mixin->getMixableMethods($this);
+        $mixed_methods = $mixin->getMixableMethods($this);
 
         //Set the mixed methods
         $this->_mixed_methods = array_merge($this->_mixed_methods, $mixed_methods);
