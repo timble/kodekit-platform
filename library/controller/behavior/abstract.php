@@ -59,7 +59,7 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
         foreach ($this->getMethods() as $method)
         {
             if (substr($method, 0, 7) == '_action') {
-                $methods[strtolower(substr($method, 7))] = $this;
+                $methods[strtolower(substr($method, 7))] = strtolower(substr($method, 7));
             }
         }
 
