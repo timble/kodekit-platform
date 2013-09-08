@@ -55,12 +55,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 		
 		$this->_container = $config->container;
 		$this->_populate_from_request = $config->populate_from_request;
-		
-		$this->_file_controller = $this->getObject($config->file_controller, array(
-			'request' => array('container' => $this->_container)
-		));
         
-        $this->_file_controller = $this->getObject($config->file_controller, array(
+    $this->_file_controller = $this->getObject($config->file_controller, array(
 			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container

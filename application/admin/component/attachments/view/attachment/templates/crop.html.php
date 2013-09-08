@@ -9,7 +9,7 @@
     window.addEvent('domready', function() {
         new Attachments.List({
             container: 'attachment',
-            action: '<?= route('view=attachments') ?>',
+            action: '<?= route('view=attachment&format=json&layout=crop&id='.$attachment->id) ?>',
             token: '<?= $this->getObject('user')->getSession()->getToken() ?>'
         });
     });
@@ -18,11 +18,11 @@
 
 
 <div id="attachment">
-    <img id="target" src="attachments/<?= $attachment->path ?>" />
 
     <a class="btn btn-mini btn-success" href="#" data-action="crop" data-id="<?= $attachment->id; ?>">
         <i class="icon-ok icon-white"></i>
     </a>
+    <img id="target" src="attachments/<?= $attachment->path ?>" />
 </div>
 
 

@@ -33,6 +33,31 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 				$relation->save();
 			}
 		}
+
+        if ($this->x1 && $this->x2)
+        {
+            $file = $this->getObject('com:files.controller.file', array(
+                'request' => $this->getObject('lib:controller.request', array(
+                    'query' => array('container' => $this->container, 'name' => $this->path)
+                ))
+            ))->read();
+
+            $thumbnail = $this->getObject('com:files.controller.thumbnail', array(
+                'request' => $this->getObject('lib:controller.request', array(
+                    'query' => array('container' => $this->container, 'filename' => $this->path)
+                ))
+            ))->read();
+
+            $thumbnail->setData(array(
+                'source' => $file,
+                'x1' => $this->x1,
+                'x2' => $this->x2,
+                'y1' => $this->y1,
+                'y2' => $this->y2
+            ));
+
+            $thumbnail->save();
+        }
 		
 		return $return;
 	}
@@ -89,4 +114,13 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	    
 	    return parent::__get($name);
 	}
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        $data['thumbnail'] = $this->thumbnail ? $this->thumbnail->toArray() : null;
+
+        return $data;
+    }
 }

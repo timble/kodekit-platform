@@ -74,6 +74,13 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
             $imagine = new \Imagine\Gd\Imagine();
             $image   = $imagine->open($source->fullpath);
 
+            if ($this->x1 && $this->y1) {
+                $start = new \Imagine\Image\Point($this->x1, $this->y1);
+                $size  = new \Imagine\Image\Box($this->x2 - $this->x1, $this->y2 - $this->y1);
+
+                $image->crop($start, $size);
+            }
+
             if ($x && $y) {
                 $size = new \Imagine\Image\Box($x, $y);
             }

@@ -29,7 +29,7 @@ window.addEvent('domready', function() {
     <div id="attachments-list">
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
-        <div class="thumbnail">
+        <div class="thumbnail" data-id="<?= $item->id; ?>">
             <a class="modal" href="<?= route('view=attachment&format=file&id='.$item->id) ?>" rel="{handler: 'image'}">
                 <img src="<?= $item->thumbnail->thumbnail ?>" />
             </a>

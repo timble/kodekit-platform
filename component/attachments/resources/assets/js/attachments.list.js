@@ -29,13 +29,16 @@ Attachments.List = new Class({
 
     addCrop: function()
     {
-        jQuery('#target').Jcrop({
-            aspectRatio: 4 / 3,
-            minSize: [200, 150],
-            setSelect: [10, 10, 210, 160],
-            onSelect: this.setCoordinates.bind(this),
-            onChange: this.setCoordinates.bind(this)
-        });
+        var target = jQuery('#target');
+        if (target.length) {
+            target.Jcrop({
+                aspectRatio: 4 / 3,
+                minSize: [200, 150],
+                setSelect: [10, 10, 210, 160],
+                onSelect: this.setCoordinates.bind(this),
+                onChange: this.setCoordinates.bind(this)
+            });
+        }
     },
 
     setCoordinates: function(c)
@@ -74,15 +77,37 @@ Attachments.List = new Class({
 
     _actionCrop: function(uri)
     {
-        var form = new Koowa.Form({
-            method: 'post',
+        jQuery.ajax({
             url: uri.toString(),
-            params: {
-                _action: 'save',
-                _token: this.token
+            dataType: 'json',
+            method: 'post',
+            data: {
+                _action: 'edit',
+                _token: this.token,
+                x1: this.coordinates.x,
+                y1: this.coordinates.y,
+                x2: this.coordinates.x2,
+                y2: this.coordinates.y2
+            }
+        }).then(function(data, textStatus, xhr) {
+            if (xhr.status === 204) {
+                jQuery.ajax({
+                    url: uri.toString(),
+                    dataType: 'json',
+                    method: 'get'
+                }).then(function(data, textStatus, xhr) {
+                    if (xhr.status === 200 && typeof data.item.thumbnail === 'object') {
+                        var thumbnail = data.item.thumbnail.thumbnail;
+                        window.parent.jQuery('.thumbnail[data-id="'+data.item.id+'"] img').attr('src', thumbnail);
+
+                        if (window.parent.SqueezeBox) {
+                            window.parent.SqueezeBox.close();
+                        }
+                    }
+                });
+            } else {
+                alert('Unable to crop thumbnail');
             }
         });
-
-        form.submit();
     }
 });
