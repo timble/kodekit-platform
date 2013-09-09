@@ -18,7 +18,8 @@ VALUES
     (32, 'Cache', 'com_cache', '', 1),
     (34, 'Activities', 'com_activities', '', 1),
     (35, 'Dashboard', 'com_dashboard', '', 1),
-    (36, 'CK Editor', 'com_ckeditor', '', 1);
+    (36, 'CK Editor', 'com_ckeditor', '', 1),
+    (37, 'Comments', 'com_comments', '', 1);
 
 --
 -- Dumping data for table `languages`
