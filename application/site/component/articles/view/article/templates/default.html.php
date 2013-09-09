@@ -9,7 +9,9 @@
 ?>
 
 <title content="replace"><?= $article->title ?></title>
-
+<? if ($params->get('commentable')) : ?>
+    <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<? endif; ?>
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
 	    <? if (object('component')->getController()->canEdit()) : ?>
