@@ -22,7 +22,13 @@
                     <?= helper('grid.sort', array('column' => 'created_on', 'title' => 'Date')); ?>
                 </th>
                 <th>
-                    <?= helper('grid.sort', array('column' => 'text')); ?>
+                    <?= translate('From') ?>
+                </th>
+                <th>
+                    <?= translate('On') ?>
+                </th>
+                <th>
+                    <?= translate('Comment') ?>
                 </th>
             </tr>
         </thead>
@@ -40,15 +46,19 @@
                     <?= helper('grid.checkbox', array('row' => $comment)); ?>
                 </td>
                 <td>
-                    <?= helper('date.humanize', array('date' => $comment->created_on)) ?> by
+                    <?= helper('date.humanize', array('date' => $comment->created_on)) ?>
+                </td>
+                <td>
                     <a href="<?= route('option=com_users&view=user&id='.$comment->created_by) ?>">
                         <?= escape($comment->created_by_name); ?>
-                    </a> on
-                    <a href="<?= route('view=comment&table='.$comment->table."&row=".$comment->row); ?>">
+                    </a>
+                </td>
+                <td>
+                    <a href="<?= route('option=com_articles&view='.$comment->table.'&id='.$comment->row); ?>">
                         <?= escape($comment->title); ?>
                     </a>
                 </td>
-                <td style="width: 5%" class="class="ellipsis"">
+                <td style="width: 100%" class="ellipsis">
                     <a href="<?= route('view=comment&id='.$comment->id); ?>">
                         <?= escape(strip_tags($comment->text)); ?>
                     </a>
