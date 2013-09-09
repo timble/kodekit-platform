@@ -8,6 +8,7 @@ Attachments.List = new Class({
         this.url = options.action;
         this.token = options.token;
         this.coordinates = '';
+        this.trueSize = '';
 
         if(!this.element) {
             return;
@@ -30,15 +31,25 @@ Attachments.List = new Class({
     addCrop: function()
     {
         var target = jQuery('#target');
-        if (target.length) {
-            target.Jcrop({
-                aspectRatio: 4 / 3,
-                minSize: [200, 150],
-                setSelect: [10, 10, 210, 160],
-                onSelect: this.setCoordinates.bind(this),
-                onChange: this.setCoordinates.bind(this)
-            });
-        }
+        var img = new Image(), self = this;
+
+        img.onload = function() {
+            self.trueSize = [this.width, this.height];
+
+            if (target.length) {
+                target.Jcrop({
+                    boxWidth: 600,
+                    boxHeight: 600,
+                    trueSize: self.trueSize,
+                    aspectRatio: 4 / 3,
+                    minSize: [200, 150],
+                    setSelect: [0, 0, 200, 150],
+                    onSelect: self.setCoordinates.bind(self),
+                    onChange: self.setCoordinates.bind(self)
+                });
+            }
+        };
+        img.src = target.attr("src");
     },
 
     setCoordinates: function(c)
