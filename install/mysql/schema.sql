@@ -82,7 +82,8 @@ CREATE TABLE `attachments` (
   `modified_on` datetime DEFAULT NULL,
   `locked_by` int(11) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`attachments_attachment_id`)
+  PRIMARY KEY (`attachments_attachment_id`),
+  KEY `path` (`path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -229,7 +230,8 @@ CREATE TABLE `files_thumbnails` (
   `folder` varchar(255) NOT NULL,
   `filename` varchar(255) NOT NULL,
   `thumbnail` MEDIUMTEXT NOT NULL,
-  PRIMARY KEY (`files_thumbnail_id`)
+  PRIMARY KEY (`files_thumbnail_id`),
+  KEY `filename` (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

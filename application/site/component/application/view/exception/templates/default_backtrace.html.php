@@ -8,8 +8,11 @@
  */
 ?>
 
+<div class="alert">
+    <?= $message ?>
+</div>
+
 <table class="table table-striped">
-    <caption><?= $message ?></caption>
     <thead>
         <tr>
             <th>#</th>

@@ -21,7 +21,7 @@
         </div>
 
         <? if($parameters->get('description_login_text')) : ?>
-        <p><?= $parameters->get('description_login_text' ) ?></p>
+        <p><?= escape(translate($parameters->get('description_login_text'))) ?></p>
         <? endif ?>
 
         <fieldset>

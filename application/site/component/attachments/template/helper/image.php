@@ -22,7 +22,7 @@ class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
             'align' => 'right',
-            'class' => 'thumbnail article__thumbnail'
+            'class' => ''
         ));
 
         $image = $config->row;

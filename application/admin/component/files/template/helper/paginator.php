@@ -33,10 +33,10 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 
         $html = '';
         $html .= '<div class="pagination">';
-        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+        $html .= '<div class="limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
         $html .=  $this->pages($config);
-        $html .= '<div class="limit"> '.JText::_('Page').' <span class="page-current">1</span>';
-        $html .= ' '.JText::_('of').' <span class="page-total">1</span></div>';
+        $html .= '<div class="limit"> '.$this->translate('Page').' <span class="page-current">1</span>';
+        $html .= ' '.$this->translate('of').' <span class="page-total">1</span></div>';
         $html .= '</div>';
 
         return $html;

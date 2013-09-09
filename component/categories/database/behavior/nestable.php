@@ -25,8 +25,11 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach($config as $key => $value) {
-            $this->{'_'.$key} = $value;
+        foreach($config as $key => $value)
+        {
+            if(property_exists($this, '_'.$key)) {
+                $this->{'_'.$key} = $value;
+            }
         }
     }
 

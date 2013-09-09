@@ -10,7 +10,21 @@
 
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
-<?= import('default_head.html') ?>
+<head>
+    <title><?= translate('Error').': '.$code; ?></title>
 
-<?= import('default_body.html') ?>
+    <link href="assets://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <style src="assets://application/stylesheets/default.css" />
+
+    <ktml:style>
+</head>
+
+<body>
+    <div class="container">
+        <h1><?= translate('Error').': '.$code; ?></h1>
+        <? if(count($trace)) : ?>
+            <?= import('default_backtrace.html'); ?>
+        <? endif; ?>
+    </div>
+</body>
 </html>

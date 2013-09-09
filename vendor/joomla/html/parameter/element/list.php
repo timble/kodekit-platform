@@ -15,6 +15,8 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+use Nooku\Library;
+
 /**
  * Renders a list element
  *
@@ -35,8 +37,10 @@ class JElementList extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+
         $class  = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
-        $helper = Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select');
+        $helper = Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template));
 
         $options = array ();
         foreach ($node->children() as $option)
@@ -54,6 +58,7 @@ class JElementList extends JElement
             'attribs'  => array('class' => array($class))
         );
 
-        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select')->optionlist($config);
+
+        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
 	}
 }

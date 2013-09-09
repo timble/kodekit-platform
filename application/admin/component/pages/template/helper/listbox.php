@@ -41,7 +41,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('label' => JText::_($config->prompt)));
+            $options[] = $this->option(array('label' => $this->translate($config->prompt)));
         }
 
         $menus = $this->getObject('com:pages.model.menus')->getRowset();
@@ -96,7 +96,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $html[] = '<label class="radio" for="'.$config->name.'0">';
         $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.'0" value="0" '.$selected.' />';
-        $html[] = JText::_('Top').'</label>';
+        $html[] = $this->translate('Top').'</label>';
 
         foreach($pages as $page)
         {

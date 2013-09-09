@@ -712,7 +712,8 @@ CREATE TABLE `attachments` (
   `modified_on` datetime DEFAULT NULL,
   `locked_by` int(11) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`attachments_attachment_id`)
+  PRIMARY KEY (`attachments_attachment_id`),
+  KEY `path` (`path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `attachments_relations` (
@@ -753,3 +754,6 @@ CREATE TABLE `tags_relations` (
   `table` VARCHAR( 255 ) NOT NULL,
   PRIMARY KEY  (`tags_tag_id`,`row`,`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Improve files_thumbnails
+ALTER TABLE `files_thumbnails` ADD INDEX (`filename`);

@@ -12,6 +12,9 @@ namespace Nooku\Library;
 /**
  * Editable Controller Behavior
  *
+ * Behavior defines 'save', 'apply' and cancel functions. Functions are only executable if the request format is
+ * 'html'. For other formats, eg json use 'edit' and 'read' actions directly.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
@@ -30,11 +33,14 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $this->registerCallback('after.save'  , array($this, 'unlockEntity'));
         $this->registerCallback('after.cancel', array($this, 'unlockEntity'));
 
-        $this->registerCallback('before.read' , array($this, 'setReferrer'));
-        $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
-        $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
-        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-        $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+        if($this->getRequest()->getFormat() == 'html')
+        {
+            $this->registerCallback('before.read' , array($this, 'setReferrer'));
+            $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
+            $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
+            $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
+            $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+        }
     }
 
     /**
@@ -210,19 +216,22 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function canSave()
     {
-        if($this->getModel()->getState()->isUnique())
+        if($this->getRequest()->getFormat() == 'html')
         {
-            if($this->canEdit())
+            if($this->getModel()->getState()->isUnique())
             {
-                if($this->isLockable() && !$this->isLocked()) {
-                    return true;
+                if($this->canEdit())
+                {
+                    if($this->isLockable() && !$this->isLocked()) {
+                        return true;
+                    }
                 }
             }
-        }
-        else
-        {
-            if($this->canAdd()) {
-                return true;
+            else
+            {
+                if($this->canAdd()) {
+                    return true;
+                }
             }
         }
 
@@ -250,7 +259,11 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function canCancel()
     {
-        return $this->canRead();
+        if($this->getRequest()->getFormat() == 'html') {
+            return $this->canRead();
+        }
+
+        return false;
     }
 
     /**

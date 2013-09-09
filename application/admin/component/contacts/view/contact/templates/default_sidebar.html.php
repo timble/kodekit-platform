@@ -24,11 +24,9 @@
     </div>
 </fieldset>
 
-<fieldset class="categories group">
+<fieldset>
     <legend><?= translate('Category') ?></legend>
-    <div>
-        <?= helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
-    </div>
+    <?= helper('com:categories.radiolist.categories', array('row' => $contact, 'name' => 'categories_category_id')) ?>
 </fieldset>
 
 <? if($contact->isAttachable()) : ?>

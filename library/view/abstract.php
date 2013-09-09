@@ -27,7 +27,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * The uniform resource locator
      *
-     * @var object
+     * @var HttpUrl
      */
     protected $_url;
 

@@ -40,7 +40,8 @@ class JElementFolders extends JElement
 			$this->_addFolder($folder, $options);
 		}
 
-		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select')->optionlist(array(
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
 			'name'    => $el_name,
 			'options' => $options,
 			'showroot' => false,

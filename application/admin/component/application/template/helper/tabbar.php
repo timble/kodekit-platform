@@ -84,9 +84,9 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
         }
 
         if ($command->disabled) {
-			$html = '<span '.$this->buildAttributes($command->attribs).'>'.JText::_($command->label).'</span>';
+			$html = '<span '.$this->buildAttributes($command->attribs).'>'.$this->translate($command->label).'</span>';
 		} else {
-			$html = '<a '.$this->buildAttributes($command->attribs).'>'.JText::_($command->label).'</a>';
+			$html = '<a '.$this->buildAttributes($command->attribs).'>'.$this->translate($command->label).'</a>';
 		}
 
     	return $html;

@@ -88,7 +88,7 @@ class CommandMixin extends ObjectMixinAbstract
      */
     public function getCommandContext()
     {
-        $context = $this->_command_chain->getContext();
+        $context = $this->getCommandChain()->getContext();
         $context->setSubject($this->getMixer());
         
         return $context;
