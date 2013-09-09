@@ -10,7 +10,7 @@
 
 <?if(object('com:comments.controller.comment')->canDelete()):?>
     <?= helper('behavior.mootools') ?>
-    <script src="assets://comments/js/jquery-1.8.0.min.js" />
+    <script src="assets://application/js/jquery.js" />
     <script src="assets://comments/js/comments.js" />
 
     <script>
@@ -28,7 +28,7 @@
 <? endif ?>
 
 <?if(object('com:comments.controller.comment')->canAdd()):?>
-    <script src="assets://comments/js/jquery-1.8.0.min.js" />
+    <script src="assets://application/js/jquery.js" />
     <script src="assets://ckeditor/ckeditor/ckeditor.js" />
 
     <script>
