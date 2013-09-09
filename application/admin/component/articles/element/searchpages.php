@@ -28,7 +28,8 @@ class JElementSearchpages extends JElement
 
         );
 
-        $html = Library\ObjectManager::getInstance()->getObject('com:articles.template.helper.listbox')->searchpages($config);
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+        $html = Library\ObjectManager::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->searchpages($config);
         return $html;
     }
 }
