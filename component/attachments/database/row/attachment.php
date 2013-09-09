@@ -34,7 +34,7 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 			}
 		}
 
-        if ($this->x1 && $this->x2)
+        if (isset($this->x1) && isset($this->x2))
         {
             $file = $this->getObject('com:files.controller.file', array(
                 'request' => $this->getObject('lib:controller.request', array(
