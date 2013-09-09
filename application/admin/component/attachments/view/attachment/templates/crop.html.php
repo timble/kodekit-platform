@@ -15,14 +15,11 @@
     });
 </script>
 
-
-
 <div id="attachment">
-
-    <a class="btn btn-mini btn-success" href="#" data-action="crop" data-id="<?= $attachment->id; ?>">
-        <i class="icon-ok icon-white"></i>
-    </a>
     <img id="target" src="attachments/<?= $attachment->path ?>" />
+    <a class="btn btn-success btn-block" style="margin-top: 10px" href="#" data-action="crop" data-id="<?= $attachment->id; ?>">
+        Save
+    </a>
 </div>
 
 
