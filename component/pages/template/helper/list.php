@@ -129,7 +129,11 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
             }
             elseif ($next_level === false || $level > $next_level) {
                 // Last one of the level
-                $result .= "</li></ul>";
+                $result .= "</li>";
+
+                for($i = 0; $i < $level - $next_level; ++$i){
+                    $result .= "</ul></li>";
+                }
             }
 
             $last_level = $level;
