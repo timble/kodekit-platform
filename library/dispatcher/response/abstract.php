@@ -27,7 +27,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     /**
      * Stream resource
      *
-     * @var FileSystemStreamInterface
+     * @var FilesystemStreamInterface
      */
     protected $_stream;
 
