@@ -35,7 +35,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => DispatcherResponseTransport::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);
@@ -44,9 +44,10 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
     /**
      * Discard all output and send the file specified by the header instead using server internals.
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportRedirect
      */
-    public function sendContent()
+    public function sendContent(DispatcherResponseInterface $response)
     {
         return;
     }
@@ -64,18 +65,17 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
      * - Nginx     : X-Accel-Redirect
      * - Lightttpd : X-LIGHTTPD-send-file (v1.4) or X-Sendfile (v1.5)
      *
+     * @param DispatcherResponseInterface $response
      * @return boolean
      */
-    public function send()
+    public function send(DispatcherResponseInterface $response)
     {
-        $response = $this->getResponse();
-
         if($response->headers->has('X-Sendfile'))
         {
-            $path = $this->getResponse()->headers->get('X-Sendfile');
+            $path = $response->headers->get('X-Sendfile');
 
             if($path === true || $path === 1) {
-                $path = $this->getResponse()->getContent()->getPathname();
+                $path = $response->getContent()->getPathname();
             }
 
             if(is_file($path))
@@ -97,7 +97,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
                     $response->headers->remove('X-Sendfile');
                 }
 
-                return parent::send();
+                return parent::send($response);
             }
             else $response->headers->remove('X-Sendfile');
         }

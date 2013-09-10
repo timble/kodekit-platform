@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-interface DispatcherResponseInterface extends ControllerResponseInterface, DispatcherResponseTransportInterface
+interface DispatcherResponseInterface extends ControllerResponseInterface
 {
     /**
      * Send the response

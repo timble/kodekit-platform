@@ -28,7 +28,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => DispatcherResponseTransport::PRIORITY_LOW,
+            'priority' => self::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
@@ -37,14 +37,13 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
     /**
      * Send HTTP headers
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportAbstract
      */
-    public function sendHeaders()
+    public function sendHeaders(DispatcherResponseInterface $response)
     {
         if (!headers_sent())
         {
-            $response = $this->getResponse();
-
             //Send the status header
             header(sprintf('HTTP/%s %d %s', $response->getVersion(), $response->getStatusCode(), $response->getStatusMessage()));
 
@@ -76,11 +75,12 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
     /**
      * Sends content for the current web response.
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportAbstract
      */
-    public function sendContent()
+    public function sendContent(DispatcherResponseInterface $response)
     {
-        $this->getResponse()->getStream()->flush();
+        $response->getStream()->flush();
         return $this;
     }
 
@@ -91,13 +91,14 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      * it is compliant with RFC 2616 and calculates or modifies the cache-control header to a sensible and
      * conservative value
      *
-     * @see http://tools.ietf.org/html/rfc2616
+     * @link http://tools.ietf.org/html/rfc2616
+     *
+     * @param DispatcherResponseInterface $response
      * @return boolean  Returns true if the response has been send, otherwise FALSE
      */
-    public function send()
+    public function send(DispatcherResponseInterface $response)
     {
-        $response = $this->getResponse();
-        $request  = $this->getResponse()->getRequest();
+        $request = $response->getRequest();
 
         //Make sure we do not have body content for 204, 205 and 305 status codes
         $codes = array(HttpResponse::NO_CONTENT, HttpResponse::NOT_MODIFIED, HttpResponse::RESET_CONTENT);
@@ -186,22 +187,8 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         }
 
         //Send headers and content
-        $this->sendHeaders()
-             ->sendContent();
-
-        //Flush output to client
-        if (!function_exists('fastcgi_finish_request'))
-        {
-            if (PHP_SAPI !== 'cli')
-            {
-                for ($i = 0; $i < ob_get_level(); $i++) {
-                    ob_end_flush();
-                }
-
-                flush();
-            }
-        }
-        else fastcgi_finish_request();
+        $this->sendHeaders($response)
+             ->sendContent($response);
 
         return headers_sent();
     }

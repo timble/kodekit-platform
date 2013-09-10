@@ -54,7 +54,7 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     {
         $config->append(array(
             'chunk_size' => 8 * (1024*1024), //In Bytes
-            'priority'   => DispatcherResponseTransport::PRIORITY_NORMAL,
+            'priority'   => self::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);
@@ -63,24 +63,25 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     /**
      * Get the byte offset
      *
+     * @param DispatcherResponseInterface $response
      * @return int The byte offset
      * @throws HttpExceptionRangeNotSatisfied   If the byte offset is outside of the total size of the file
      */
-    public function getOffset()
+    public function getOffset(DispatcherResponseInterface $response)
     {
         if(!isset($this->_offset))
         {
             $offset = 0;
 
-            if($this->getResponse()->getRequest()->isStreaming())
+            if($response->getRequest()->isStreaming())
             {
-                $ranges = $this->getResponse()->getRequest()->getRanges();
+                $ranges = $response->getRequest()->getRanges();
 
                 if (!empty($ranges[0]['first'])) {
                     $offset = (int) $ranges[0]['first'];
                 }
 
-                if ($offset > $this->getFileSize()) {
+                if ($offset > $this->getFileSize($response)) {
                     throw new HttpExceptionRangeNotSatisfied('Invalid range');
                 }
             }
@@ -94,18 +95,19 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     /**
      * Get the byte range
      *
+     * @param DispatcherResponseInterface $response
      * @return int The last byte offset
      */
-    public function getRange()
+    public function getRange(DispatcherResponseInterface $response)
     {
         if(!isset($this->_range))
         {
-            $length = $this->getFileSize();
+            $length = $this->getFileSize($response);
             $range  = $length - 1;
 
-            if($this->getResponse()->getRequest()->isStreaming())
+            if($response->getRequest()->isStreaming())
             {
-                $ranges = $this->getResponse()->getRequest()->getRanges();
+                $ranges = $response->getRequest()->getRanges();
 
                 if (!empty($ranges[0]['last'])) {
                     $range = (int) $ranges[0]['last'];
@@ -125,6 +127,7 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     /**
      * Get the chunk size
      *
+     * @param DispatcherResponseInterface $response
      * @return int The chunk size in bytes
      */
     public function getChunkSize()
@@ -135,6 +138,7 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     /**
      * Set the chunk size
      *
+     * @param DispatcherResponseInterface $response
      * @return int The chunk size in bytes
      */
     public function setChunkSize($size)
@@ -146,11 +150,12 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     /**
      * Get the file size
      *
+     * @param DispatcherResponseInterface $response
      * @return int The file size in bytes
      */
-    public function getFileSize()
+    public function getFileSize(DispatcherResponseInterface $response)
     {
-        return $this->getResponse()->getStream()->getSize();
+        return $response->getStream()->getSize();
     }
 
     /**
@@ -159,11 +164,12 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
      * This functions returns a md5 hash of same format as Apache does. Eg "%ino-%size-%mtime" using the file info.
      * @link http://stackoverflow.com/questions/44937/how-do-you-make-an-etag-that-matches-apache
      *
+     * @param DispatcherResponseInterface $response
      * @return string
      */
-    public function getFileEtag()
+    public function getFileEtag(DispatcherResponseInterface $response)
     {
-        $info = $this->getResponse()->getStream()->getInfo();
+        $info = $response->getStream()->getInfo();
         $etag = sprintf('"%x-%x-%s"', $info['ino'], $info['size'],base_convert(str_pad($info['mtime'],16,"0"),10,16));
 
         return $etag;
@@ -175,11 +181,12 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
      * We flush the data to the output buffer based on the chunk size and range information provided in the request.
      * The default chunk size is 8 MB.
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportRedirect
      */
-    public function sendContent()
+    public function sendContent(DispatcherResponseInterface $response)
     {
-        if ($this->getResponse()->isSuccess())
+        if ($response->isSuccess())
         {
             //For a certain unmentionable browser
             if(ini_get('zlib.output_compression')) {
@@ -196,10 +203,10 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
                 @set_time_limit(0);
             }
 
-            $stream  = $this->getResponse()->getStream();
+            $stream  = $response->getStream();
 
-            $offset = $this->getOffset();
-            $range  = $this->getRange();
+            $offset = $this->getOffset($response);
+            $range  = $this->getRange($response);
             $chunk  = $this->getChunkSize();
 
             if ($offset > 0) {
@@ -212,18 +219,18 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
             return $this;
         }
 
-        parent::sendContent();
+        parent::sendContent($response);
     }
 
     /**
      * Send HTTP response
      *
+     * @param DispatcherResponseInterface $response
      * @return boolean
      */
-    public function send()
+    public function send(DispatcherResponseInterface $response)
     {
-        $response = $this->getResponse();
-        $request  = $this->getResponse()->getRequest();
+        $request  = $response->getRequest();
 
         if($response->isStreamable())
         {
@@ -231,7 +238,7 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
             $response->headers->set('Accept-Ranges', 'bytes');
 
             //Set a file etag
-            $response->headers->set('etag', $this->getFileEtag());
+            $response->headers->set('etag', $this->getFileEtag($response));
 
             if($request->isStreaming())
             {
@@ -246,9 +253,9 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
                     $response->headers->set('Transfer-Encoding', 'chunked');
 
                     //Content Range Headers
-                    $offset = $this->getOffset();
-                    $range  = $this->getRange();
-                    $size   = $this->getFileSize();
+                    $offset = $this->getOffset($response);
+                    $range  = $this->getRange($response);
+                    $size   = $this->getFileSize($response);
 
                     $response->setStatus(HttpResponse::PARTIAL_CONTENT);
                     $response->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $offset, $range, $size));
@@ -265,13 +272,13 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
                      */
                     if($response->getStatusCode() == HttpResponse::REQUESTED_RANGE_NOT_SATISFIED)
                     {
-                        $size = $this->getFileSize();
+                        $size = $this->getFileSize($response);
                         $response->headers->set('Content-Range', sprintf('bytes */%s', $size));
                     }
                 }
             }
 
-            return parent::send();
+            return parent::send($response);
         }
     }
 }

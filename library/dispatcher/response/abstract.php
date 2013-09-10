@@ -18,11 +18,11 @@ namespace Nooku\Library;
 class DispatcherResponseAbstract extends ControllerResponse implements DispatcherResponseInterface
 {
     /**
-     * The filter chain
+     * The transport queue
      *
-     * @var	TemplateFilterChain
+     * @var	ObjectQueue
      */
-    protected $_chain;
+    protected $_queue;
 
     /**
      * Stream resource
@@ -47,8 +47,8 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     {
         parent::__construct($config);
 
-        //Set the filter chain
-        $this->_chain = $config->transport_chain;
+        //Create the transport queue
+        $this->_queue = $this->getObject('lib:object.queue');
 
         //Set the response messages
         $this->_messages = $this->getUser()->getSession()->getContainer('message')->all();
@@ -77,9 +77,8 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'content'          => 'string://', //Empty content using default string stream protocol
-            'transports'       => array('redirect', 'json', 'http'),
-            'transport_chain'  => $this->getObject('lib:dispatcher.response.transport.chain'),
+            'content'     => 'string://', //Empty content using default string stream protocol
+            'transports'  => array('redirect', 'json', 'http'),
         ));
 
         parent::_initialize($config);
@@ -94,7 +93,32 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
      */
     public function send()
     {
-        return $this->_chain->send();
+        foreach($this->_queue as $transport)
+        {
+            if($transport instanceof DispatcherResponseTransportInterface)
+            {
+                if($transport->send($this) === true)
+                {
+                    //Cleanup and flush output to client
+                    if (!function_exists('fastcgi_finish_request'))
+                    {
+                        if (PHP_SAPI !== 'cli')
+                        {
+                            for ($i = 0; $i < ob_get_level(); $i++) {
+                                ob_end_flush();
+                            }
+
+                            flush();
+                        }
+                    }
+                    else fastcgi_finish_request();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -224,7 +248,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         }
 
         //Enqueue the transport handler in the command chain
-        $this->_chain->enqueue($transport);
+        $this->_queue->enqueue($transport, $transport->getPriority());
 
         return $this;
     }
@@ -301,8 +325,6 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     {
         parent::__clone();
 
-        $this->_chain  = clone $this->_chain;
+        $this->_queue  = clone $this->_queue;
     }
-
-
 }

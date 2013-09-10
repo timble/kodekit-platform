@@ -49,7 +49,7 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => DispatcherResponseTransport::PRIORITY_HIGH,
+            'priority' => self::PRIORITY_NORMAL,
             'padding'  => '',
         ));
 
@@ -88,12 +88,14 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp
      * Don't stop the transport handler chain to allow other transports handlers to continue processing the
      * response.
      *
-     * @see http://tools.ietf.org/html/rfc2616
+     * @link http://tools.ietf.org/html/rfc2616
+     *
+     * @param DispatcherResponseInterface $response
      * @return boolean
      */
-    public function send()
+    public function send(DispatcherResponseInterface $response)
     {
-        $request = $this->getResponse()->getRequest();
+        $request = $response->getRequest();
 
         //Force to use the json transport if format is json
         if($request->getFormat() == 'json')
@@ -106,13 +108,9 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp
                 }
             }
 
-            if (!empty($this->_padding))
-            {
-                $response = $this->getResponse();
+            if (!empty($this->_padding)) {
                 $response->setContent('string://'.sprintf('%s(%s);', $this->_padding, $response->getContent()));
             }
-
-            return parent::send();
         }
     }
 }

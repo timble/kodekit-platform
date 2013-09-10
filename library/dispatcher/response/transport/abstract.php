@@ -40,8 +40,6 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     {
         parent::__construct($config);
 
-        $this->setResponse($config->response);
-
         $this->_priority = $config->priority;
     }
 
@@ -56,7 +54,7 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'response' => null,
+            'priority' => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -71,26 +69,4 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     {
         return $this->_priority;
     }
-
-    /**
-     * Get the response object
-     *
-     * @return  object	The response object
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
-     * Get the response object
-     *
-     * @return  object	The response object
-     */
-    public function setResponse(DispatcherResponseInterface $response)
-    {
-        $this->_response = $response;
-        return $this;
-    }
-
 }

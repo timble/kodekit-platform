@@ -28,7 +28,7 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => DispatcherResponseTransport::PRIORITY_HIGH,
+            'priority' => self::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);
@@ -37,11 +37,11 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
     /**
      * Sends content for the current web response.
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportRedirect
      */
-    public function sendContent()
+    public function sendContent(DispatcherResponseInterface $response)
     {
-        $response = $this->getResponse();
         $session  = $response->getUser()->getSession();
 
         //Set the messages into the session
@@ -72,7 +72,7 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
             , htmlspecialchars($response->headers->get('Location'), ENT_QUOTES, 'UTF-8')
         ));
 
-        return parent::sendContent();
+        return parent::sendContent($response);
     }
 
     /**
@@ -80,12 +80,13 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
      *
      * If this is a redirect response, send the response and stop the transport handler chain.
      *
+     * @param DispatcherResponseInterface $response
      * @return boolean
      */
-    public function send()
+    public function send(DispatcherResponseInterface $response)
     {
-        if($this->getResponse()->isRedirect()) {
-            return parent::send();
+        if($response->isRedirect()) {
+            return parent::send($response);
         }
     }
 }
