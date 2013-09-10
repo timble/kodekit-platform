@@ -18,7 +18,7 @@ namespace Nooku\Library;
 class FilterChain extends Object implements FilterInterface
 {
     /**
-     * The transport queue
+     * The filter queue
      *
      * @var	ObjectQueue
      */
@@ -33,7 +33,7 @@ class FilterChain extends Object implements FilterInterface
     {
         parent::__construct($config);
 
-        //Create the transport queue
+        //Create the queue
         $this->_queue = $this->getObject('lib:object.queue');
     }
 
