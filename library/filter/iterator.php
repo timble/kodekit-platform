@@ -76,7 +76,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
      */
     public function getPriority()
     {
-        return $$this->getDelegate()->getPriority();
+        return $this->getDelegate()->getPriority();
     }
 
     /**
