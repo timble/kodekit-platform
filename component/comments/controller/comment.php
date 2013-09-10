@@ -21,9 +21,12 @@ abstract class ControllerComment extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array(
-            'model' => 'com:comments.model.comments'
-        ));
+
+        if(!$config->model){
+            $config->append(array(
+                'model' => 'com:comments.model.comments'
+            ));
+        }
 
         //Alias the permission
         $permission       = clone $this->getIdentifier();
@@ -49,7 +52,7 @@ abstract class ControllerComment extends Library\ControllerModel
 
 	        $this->getObject('manager')->registerAlias($layout, $alias);
 	    }
-	        
+
         return parent::_actionRender($context);
     }
 
