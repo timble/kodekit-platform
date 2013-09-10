@@ -56,11 +56,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_stack;
 
     /**
-     * The filter chain
+     * The filter queue
      *
-     * @var	TemplateFilterChain
+     * @var	ObjectQueue
      */
-    protected $_chain;
+    protected $_queue;
 
     /**
      * Constructor
@@ -79,8 +79,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         // Set the template data
         $this->_data = $config->data;
 
-        //Set the filter chain
-        $this->_chain = $config->filter_chain;
+        //Set the filter queue
+        $this->_queue = $this->getObject('lib:object.queue');
 
         //Attach the filters
         $filters = (array)ObjectConfig::unbox($config->filters);
@@ -111,7 +111,6 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $config->append(array(
             'data'          => array(),
             'view'          => null,
-            'filter_chain'  => $this->getObject('lib:template.filter.chain'),
             'filters'       => array(),
         ));
 
@@ -413,7 +412,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         //Enqueue the filter in the command chain
-        $this->_chain->enqueue($filter);
+        $this->_queue->enqueue($filter, $filter->getPriority());
 
         return $this;
     }
@@ -535,13 +534,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Parse and compile the template to PHP code
      *
-     * This function passes the template through read filter chain and returns the result.
+     * This function passes the template through compile filter queue and returns the result.
      *
      * @return string The parsed data
      */
     protected function _compile(&$content)
     {
-        $this->_chain->compile($content);
+        foreach($this->_queue as $filter)
+        {
+            if($filter instanceof TemplateFilterCompiler) {
+                $filter->compile($content);
+            }
+        }
     }
 
     /**
@@ -576,13 +580,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Process the template
      *
-     * This function passes the template through write filter chain and returns the result.
+     * This function passes the template through the render filter queue and returns the result.
      *
      * @return string  The rendered data
      */
     protected function _render(&$content)
     {
-        $this->_chain->render($content);
+        foreach($this->_queue as $filter)
+        {
+            if($filter instanceof TemplateFilterRenderer) {
+                $filter->render($content);
+            }
+        }
     }
 
     /**

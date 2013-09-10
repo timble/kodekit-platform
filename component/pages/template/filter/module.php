@@ -49,14 +49,14 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'modules'  => null,
-            'priority' => Library\TemplateFilter::PRIORITY_LOW,
+            'priority' => self::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);

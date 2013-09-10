@@ -30,7 +30,7 @@ class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateF
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => TemplateFilter::PRIORITY_HIGH,
+            'priority' => self::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);

@@ -30,7 +30,7 @@ class TemplateFilterWhitespace extends TemplateFilterAbstract implements Templat
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => TemplateFilter::PRIORITY_LOWEST,
+            'priority' => self::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);
