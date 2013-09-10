@@ -30,7 +30,7 @@ abstract class TemplateFilterTag extends TemplateFilterAbstract implements Templ
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => TemplateFilter::PRIORITY_LOW,
+            'priority' => self::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);

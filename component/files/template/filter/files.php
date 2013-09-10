@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Ckeditor;
+namespace Nooku\Component\Files;
 
 use Nooku\Library;
 
@@ -38,7 +38,10 @@ class TemplateFilterFiles extends Library\TemplateFilterUrl
         $path = $base->getPath().'/files/'.$site.'/files/';
 
         $config->append(array(
-            'aliases' => array('files/'  => $path)
+            'aliases' => array(
+                'files://' => $path,
+                '"files/'  => '"'.$path
+            )
         ));
 
         parent::_initialize($config);

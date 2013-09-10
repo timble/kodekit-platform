@@ -59,7 +59,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         $config->append(array(
             'template' => null,
-            'priority' => TemplateFilter::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
