@@ -20,6 +20,15 @@ namespace Nooku\Library;
 interface FilterInterface extends ObjectHandlable
 {
     /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
      * Validate a scalar or traversable value
      *
      * NOTE: This should always be a simple yes/no question (is $value valid?), so only true or false should be returned
