@@ -20,5 +20,5 @@ namespace Nooku\Library;
  */
 class HttpExceptionRangeNotSatisfied extends HttpExceptionAbstract
 {
-    protected $code = HttpResponse::REQUESTED_RANGE_NOT_SATISFIEDR;
+    protected $code = HttpResponse::REQUESTED_RANGE_NOT_SATISFIED;
 }
