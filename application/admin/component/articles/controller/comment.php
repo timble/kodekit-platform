@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Comments;
 
 /**
  * Category Controller Class
@@ -16,7 +17,15 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ArticlesControllerComment extends CommentsControllerComment
+class ArticlesControllerComment extends Comments\ControllerComment
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+
+        $config->append(array(
+            'model' => 'com:articles.model.comments',
+        ));
+        parent::_initialize($config);
+    }
 
 }

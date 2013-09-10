@@ -21,12 +21,15 @@ class CommentsControllerComment extends Comments\ControllerComment
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'behaviors' => array('com:activities.controller.behavior.loggable'),
+            'behaviors' => array(
+                'editable',
+                'com:activities.controller.behavior.loggable'
+            ),
         ));
+
+        parent::_initialize($config);
 
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:comments.controller.toolbar.comment');
-
-        parent::_initialize($config);
     }
 }

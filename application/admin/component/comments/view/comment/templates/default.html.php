@@ -8,15 +8,18 @@
  */
 ?>
 
+<?= helper('behavior.keepalive') ?>
+<?= helper('behavior.validator') ?>
+
+<!--
 <script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
+-->
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" id="comment-form" class="-koowa-form">
-    <input type="hidden" name="row" value="<?= $state->row ?>" />
-    <input type="hidden" name="table" value="<?= $state->table ?>" />
-
     <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'toolbar' => 'basic', 'text' => $comment->text)) ?>
 </form>
