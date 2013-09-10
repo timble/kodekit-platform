@@ -56,7 +56,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_stack;
 
     /**
-     * The filter queue
+     * Filter queue
      *
      * @var	ObjectQueue
      */
@@ -411,7 +411,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             $filter = $this->getFilter($filter, $config);
         }
 
-        //Enqueue the filter in the command chain
+        //Enqueue the filter
         $this->_queue->enqueue($filter, $filter->getPriority());
 
         return $this;

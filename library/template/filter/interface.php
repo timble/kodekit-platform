@@ -60,6 +60,13 @@ interface TemplateFilterInterface extends ObjectHandlable
     public function getTemplate();
 
     /**
+     * Get the priority of the filter
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority();
+
+    /**
      * Method to extract key/value pairs out of a string with xml style attributes
      *
      * @param   string  $string String containing xml style attributes
