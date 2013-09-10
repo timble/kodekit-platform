@@ -12,7 +12,7 @@ namespace Nooku\Component\Attachments;
 use Nooku\Library;
 
 /**
- * File Controller
+ * Attachment Controller
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Attachments
