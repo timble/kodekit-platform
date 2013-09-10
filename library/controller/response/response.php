@@ -39,16 +39,6 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
     protected $_messages;
 
     /**
-     * Flash messages types
-     *
-     * Note : Messages types
-     */
-    const FLASH_SUCCESS = 'success';
-    const FLASH_NOTICE  = 'notice';
-    const FLASH_WARNING = 'warning';
-    const FLASH_ERROR   = 'error';
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.

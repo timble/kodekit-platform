@@ -18,6 +18,16 @@ namespace Nooku\Library;
 interface ControllerResponseInterface extends HttpResponseInterface
 {
     /**
+     * Flash messages types
+     *
+     * Note : Messages types
+     */
+    const FLASH_SUCCESS = 'success';
+    const FLASH_NOTICE  = 'notice';
+    const FLASH_WARNING = 'warning';
+    const FLASH_ERROR   = 'error';
+
+    /**
      * Set the request object
      *
      * @param ControllerRequestInterface $request A request object

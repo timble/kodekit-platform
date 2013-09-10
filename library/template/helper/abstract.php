@@ -33,11 +33,26 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	{
 		parent::__construct($config);
 
-        //@TODO : Remove after refactoring JElement to TemplateForm
-        $this->_template = $config->template;
         // Set the template object
-        //$this->setTemplate($config->template);
+        $this->setTemplate($config->template);
 	}
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'template' => null,
+        ));
+
+        parent::_initialize($config);
+    }
 
     /**
      * Translates a string and handles parameter replacements
