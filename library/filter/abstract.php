@@ -29,6 +29,42 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     protected $_errors = array();
 
     /**
+     * The filter priority
+     *
+     * @var integer
+     */
+    protected $_priority;
+
+    /**
+     * Constructor.
+     *
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_priority = $config->priority;
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => self::PRIORITY_NORMAL,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
      * Force creation of a singleton
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
@@ -69,6 +105,16 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     public function sanitize($value)
     {
         return $value;
+    }
+
+    /**
+     * Get the priority of the filter
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority()
+    {
+        return $this->_priority;
     }
 
     /**

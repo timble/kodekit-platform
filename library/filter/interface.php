@@ -52,4 +52,11 @@ interface FilterInterface extends ObjectHandlable
      * @return array
      */
     public function getErrors();
+
+    /**
+     * Get the priority of the filter
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority();
 }

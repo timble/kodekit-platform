@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterChain extends Object implements FilterInterface
+class FilterChain extends FilterAbstract
 {
     /**
      * The filter queue
@@ -86,6 +86,7 @@ class FilterChain extends Object implements FilterInterface
      */
     public function addFilter(FilterInterface $filter, $priority = null)
     {
+        $priority = $priority == null ? $filter->getPriority() : $priority;
         $this->_queue->enqueue($filter, $priority);
         return $this;
     }
@@ -98,7 +99,7 @@ class FilterChain extends Object implements FilterInterface
     public function getErrors()
     {
         $errors = array();
-        foreach($this as $filter) {
+        foreach($this->_queue as $filter) {
             $errors = array_merge($errors, $filter->getErrors());
         }
 
