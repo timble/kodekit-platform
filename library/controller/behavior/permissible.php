@@ -85,8 +85,9 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
     {
         //Check if the action is allowed
         $method = 'can'.ucfirst($action);
+        $methods = $this->getMixer()->getMethods();
 
-        if(!in_array($method, $this->getMixer()->getMethods()))
+        if(!isset($methods[$method]))
         {
             $actions = $this->getActions();
             $actions = array_flip($actions);
