@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-class BootstrapperChain extends ObjectQueue implements BootstrapperInterface
+class BootstrapperChain extends BootstrapperAbstract
 {
    /**
      * The bootstrapper queue
@@ -60,6 +60,7 @@ class BootstrapperChain extends ObjectQueue implements BootstrapperInterface
      */
     public function addBootstrapper(BootstrapperInterface $bootstrapper, $priority = null)
     {
+        $priority = $priority == null ? $bootstrapper->getPriority() : $priority;
         $this->_queue->enqueue($bootstrapper, $priority);
         return $this;
     }
