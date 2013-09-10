@@ -10,7 +10,6 @@
 namespace Nooku\Component\Attachments;
 
 use Nooku\Library;
-use Nooku\Component\Files;
 
 /**
  * File Controller
@@ -18,7 +17,7 @@ use Nooku\Component\Files;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Attachments
  */
-class ControllerAttachment extends Files\ControllerFile
+class ControllerAttachment extends Library\ControllerModel
 {
 
 }
