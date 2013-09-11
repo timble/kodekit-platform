@@ -47,7 +47,7 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => BootstrapperChain::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);

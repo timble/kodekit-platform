@@ -7,14 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Files;
+namespace Nooku\Component\Attachments;
 
 use Nooku\Library;
 
 /**
- * Url Database Row Adapter Exception
+ * Attachment Controller
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package Nooku\Component\Files
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Attachments
  */
-class DatabaseRowUrlAdapterException extends DatabaseRowUrlException {}
+class ControllerAttachment extends Library\ControllerModel
+{
+
+}

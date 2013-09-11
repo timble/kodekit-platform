@@ -128,6 +128,74 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             $this->_name = array_pop($this->_path);
         }
     }
+    /**
+     * Serialize the identifier
+     *
+     * @return string 	The serialised identifier
+     */
+    public function serialize()
+    {
+        $data = array(
+            'type'		 => $this->_type,
+            'package'	 => $this->_package,
+            'path'		 => $this->_path,
+            'name'		 => $this->_name,
+            'identifier' => $this->_identifier,
+            'classpath'  => $this->classpath,
+            'classname'  => $this->classname,
+        );
+
+        return serialize($data);
+    }
+
+    /**
+     * Unserialize the identifier
+     *
+     * @return string $data	The serialised identifier
+     */
+    public function unserialize($data)
+    {
+        $data = unserialize($data);
+
+        foreach($data as $property => $value) {
+            $this->{'_'.$property} = $value;
+        }
+    }
+
+    /**
+     * Checks if the identifier extends a class, implements an interface or uses a trait
+     *
+     * @param string $identifier An identifier object or a class name
+     * @param boolean $autoload  Whether to allow this function to load the class automatically through the __autoload()
+     *                           magic method.
+     */
+    public function inherits($class, $autoload = true)
+    {
+        if($class instanceof ObjectIdentifier) {
+            $class = $class->classname;
+        }
+
+        //Check parent classes
+        if(array_key_exists($class, class_parents($this->classname, $autoload))) {
+            return true;
+        }
+
+        //Check interfaces
+        if(array_key_exists($class, class_implements($this->classname, $autoload))) {
+            return true;
+        }
+
+        //Check traits
+        if(function_exists('class_uses'))
+        {
+            if(array_key_exists($class, class_uses($this->classname, $autoload))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Get the identifier type
@@ -414,40 +482,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
 
         return $this->_identifier;
     }
-
-	/**
-	 * Serialize the identifier
-	 *
-	 * @return string 	The serialised identifier
-	 */
-	public function serialize()
-	{
-        $data = array(
-            'type'		 => $this->_type,
-            'package'	 => $this->_package,
-            'path'		 => $this->_path,
-            'name'		 => $this->_name,
-            'identifier' => $this->_identifier,
-            'classpath'  => $this->classpath,
-            'classname'  => $this->classname,
-        );
-
-        return serialize($data);
-	}
-
-	/**
-	 * Unserialize the identifier
-	 *
-	 * @return string $data	The serialised identifier
-	 */
-	public function unserialize($data)
-	{
-	    $data = unserialize($data);
-
-	    foreach($data as $property => $value) {
-	        $this->{'_'.$property} = $value;
-	    }
-	}
 
     /**
      * Implements the virtual class properties

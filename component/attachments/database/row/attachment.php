@@ -23,7 +23,8 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	{
 		$return = parent::save();
 			
-		if ($return && $this->row && $this->table) {
+		if ($return && $this->row && $this->table)
+        {
 			$relation = $this->getObject('com:attachments.database.row.relation');
 			$relation->attachments_attachment_id = $this->id;
 			$relation->table = $this->table;

@@ -7,19 +7,18 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Ckeditor;
-
 use Nooku\Library;
 
 /**
  * Url Template Filter
  *
- * Filter rewrites relative files/... paths as inserted by the editor to absolute paths /files/[site]/files/...
+ * Filter allows to create url aliases that are replaced on compile and render. A default assets:// alias is
+ * added that is rewritten to '<baseurl>/assets/'.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Ckeditor
+ * @package Nooku\Library\Template
  */
-class TemplateFilterFiles extends Library\TemplateFilterUrl
+class ApplicationTemplateFilterUrl extends Library\TemplateFilterUrl
 {
     /**
      * Initializes the options for the object
@@ -31,14 +30,9 @@ class TemplateFilterFiles extends Library\TemplateFilterUrl
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
-        //Make images paths absolute
-        $base = $this->getObject('request')->getBaseUrl();
-        $site = $this->getObject('application')->getSite();
-
-        $path = $base->getPath().'/files/'.$site.'/files/';
-
         $config->append(array(
-            'aliases' => array('files/'  => $path)
+            'priority' => self::PRIORITY_LOW,
+            'aliases'  => array('/assets/' => $this->getObject('request')->getBaseUrl().'/assets/'),
         ));
 
         parent::_initialize($config);

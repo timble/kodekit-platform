@@ -70,6 +70,16 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     }
 
     /**
+     * Get the priority of the filter
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority()
+    {
+        return $this->getDelegate()->getPriority();
+    }
+
+    /**
      * Get a list of error that occurred during sanitize or validate
      *
      * @return array

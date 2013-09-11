@@ -219,9 +219,9 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     }
 
     /**
-     * Checks if the object or one of it's mixin's inherits from a class.
+     * Checks if the object or one of it's mixin's inherits from a class, interface or trait
      *
-     * @param   string|object   $class The class to check
+     * @param   string|object   $class The class, interface or trait to check
      * @return  bool Returns TRUE if the object inherits from the class
      */
     public function inherits($class)

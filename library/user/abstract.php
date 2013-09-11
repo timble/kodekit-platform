@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
  */
-class UserAbstract extends Object implements UserInterface
+abstract class UserAbstract extends Object implements UserInterface
 {
     /**
      * Constructor
@@ -63,133 +63,6 @@ class UserAbstract extends Object implements UserInterface
     }
 
     /**
-     * Returns the id of the user
-     *
-     * @return int The id
-     */
-    public function getId()
-    {
-        return $this->getSession()->get('user.id');
-    }
-
-    /**
-     * Returns the email of the user
-     *
-     * @return string The email
-     */
-    public function getEmail()
-    {
-       return $this->getSession()->get('user.email');
-    }
-
-    /**
-     * Returns the name of the user
-     *
-     * @return string The name
-     */
-    public function getName()
-    {
-        return $this->getSession()->get('user.name');
-    }
-
-    /**
-     * Returns the role of the user
-     *
-     * @return int The role id
-     */
-    public function getRole()
-    {
-        return $this->getSession()->get('user.role');
-    }
-
-    /**
-     * Returns the groups the user is part of
-     *
-     * @return array An array of group id's
-     */
-    public function getGroups()
-    {
-        return $this->getSession()->get('user.groups');
-    }
-
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
-     * then compared to this value.
-     *
-     * @return string The password or NULL if no password defined
-     */
-    public function getPassword()
-    {
-        return null; //return NULL by default
-    }
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string The salt or NULL if no salt defined
-     */
-    public function getSalt()
-    {
-        return null; //return NULL by default
-    }
-
-    /**
-     * Checks whether the user is not logged in
-     *
-     * @return Boolean true if the user is not logged in, false otherwise
-     */
-    public function isAuthentic()
-    {
-        return $this->getSession()->get('user.authentic');
-    }
-
-    /**
-     * Checks whether the user is enabled.
-     *
-     * @return Boolean true if the user is not logged in, false otherwise
-     */
-    public function isEnabled()
-    {
-        return $this->getSession()->get('user.enabled');
-    }
-
-    /**
-     * Checks whether the user account has expired.
-     *
-     * @return Boolean
-     */
-    public function isExpired()
-    {
-        return $this->getSession()->get('user.expired');
-    }
-
-    /**
-     * Get the user session
-     *
-     * This function will create a session object if it hasn't been created yet.
-     *
-     * @return UserSessionInterface
-     */
-    public function getSession()
-    {
-        return $this->getObject('user.session');
-    }
-
-    /**
-     * Get the user data as an array
-     *
-     * @return array An associative array of data
-     */
-    public function toArray()
-    {
-        return $this->getSession()->get('user');
-    }
-
-    /**
      * Set the user data from an array
      *
      * @param  array $data An associative array of data
@@ -205,34 +78,145 @@ class UserAbstract extends Object implements UserInterface
         unset($data['object_manager']);
         unset($data['object_identifier']);
 
-        //Set the user data
-        $this->getSession()->set('user', ObjectConfig::unbox($data));
-
         return $this;
+    }
+
+    /**
+     * Returns the id of the user
+     *
+     * @return int The id
+     */
+    public function getId()
+    {
+        return $this->getConfig()->id;
+    }
+
+    /**
+     * Returns the email of the user
+     *
+     * @return string The email
+     */
+    public function getEmail()
+    {
+        return $this->getConfig()->email;
+    }
+
+    /**
+     * Returns the name of the user
+     *
+     * @return string The name
+     */
+    public function getName()
+    {
+        return $this->getConfig()->name;
+    }
+
+    /**
+     * Returns the role of the user
+     *
+     * @return int The role id
+     */
+    public function getRole()
+    {
+        return $this->getConfig()->role;
+    }
+
+    /**
+     * Returns the groups the user is part of
+     *
+     * @return array An array of group id's
+     */
+    public function getGroups()
+    {
+        return $this->getConfig()->groups;
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
+     * then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        return $this->getConfig()->password;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string The salt
+     */
+    public function getSalt()
+    {
+        return $this->getConfig()->salt;
+    }
+
+    /**
+     * The user has been successfully authenticated
+     *
+     * @return Boolean
+     */
+    public function isAuthentic()
+    {
+        return $this->getConfig()->authentic;
+    }
+
+    /**
+     * Checks whether the user account is enabled.
+     *
+     * @return Boolean
+     */
+    public function isEnabled()
+    {
+        return $this->getConfig()->enabled;
+    }
+
+    /**
+     * Checks whether the user account has expired.
+     *
+     * @return Boolean
+     */
+    public function isExpired()
+    {
+        return $this->getConfig()->expired;
     }
 
     /**
      * Get an user attribute
      *
      * @param   string  $identifier Attribute identifier, eg .foo.bar
-     * @param   mixed   $value      Default value when the attribute doesn't exist
+     * @param   mixed   $default Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null)
     {
-        return $this->getSession()->get('user.attributes'.$identifier, $default);
+        $attributes = $this->getConfig()->attributes;
+
+        $result = $default;
+        if(isset($attributes[$identifier])) {
+            $result = $attributes[$identifier];
+        }
+
+        return $result;
     }
 
     /**
      * Set an user attribute
      *
      * @param   mixed   $identifier Attribute identifier, eg foo.bar
-     * @param   mixed   $value Attribute value
-     * @return User
+     * @param   mixed   $value      Attribute value
+     * @return UserAbstract
      */
     public function set($identifier, $value)
     {
-        $this->getSession()->set('user.attributes'.$identifier, $value);
+        $attributes = $this->getConfig()->attributes;
+        $attributes[$identifier] = $value;
+
         return $this;
     }
 
@@ -244,7 +228,12 @@ class UserAbstract extends Object implements UserInterface
      */
     public function has($identifier)
     {
-        return $this->getSession()->has('user.attributes'.$identifier);
+        $attributes = $this->getConfig()->attributes;
+        if(isset($attributes[$identifier])) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -255,52 +244,20 @@ class UserAbstract extends Object implements UserInterface
      */
     public function remove($identifier)
     {
-        $this->getSession()->remove('user.attributes'.$identifier);
+        if(isset($attributes[$identifier])) {
+            unset($attributes[$identifier]);
+        }
+
         return $this;
     }
 
     /**
-     * Get a user attribute
+     * Get the user data as an array
      *
-     * @param   string $name  The attribute name.
-     * @return  string $value The attribute value.
+     * @return array An associative array of data
      */
-    public function __get($name)
+    public function toArray()
     {
-        return $this->getSession()->get('user.attributes'.$name);
-    }
-
-    /**
-     * Set a user attribute
-     *
-     * @param   string $name  The attribute name.
-     * @param   mixed  $value The attribute value.
-     * @return  void
-     */
-    public function __set($name, $value)
-    {
-        $this->getSession()->set('user.attributes'.$name, $value);
-    }
-
-    /**
-     * Test existence of a use attribute
-     *
-     * @param  string $name The attribute name.
-     * @return boolean
-     */
-    public function __isset($name)
-    {
-        return $this->getSession()->has('user.attributes'.$name);
-    }
-
-    /**
-     * Unset a user attribute
-     *
-     * @param   string $key  The attribute name.
-     * @return  void
-     */
-    public function __unset($name)
-    {
-        $this->getSession()->remove('user.attributes'.$name);
+        return ObjectConfig::unbox($this->getConfig());
     }
 }
