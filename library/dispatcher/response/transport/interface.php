@@ -18,9 +18,26 @@ namespace Nooku\Library;
 interface DispatcherResponseTransportInterface
 {
     /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
      * Send the response
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportInterface
      */
-    public function send();
+    public function send(DispatcherResponseInterface $response);
+
+    /**
+     * Get the priority of a behavior
+     *
+     * @return  integer The command priority
+     */
+    public function getPriority();
 }

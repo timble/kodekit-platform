@@ -38,7 +38,7 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => TemplateFilter::PRIORITY_LOWEST,
+            'priority' => self::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);

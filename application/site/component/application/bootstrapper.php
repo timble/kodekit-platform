@@ -20,7 +20,7 @@ class ApplicationBootstrapper extends Library\BootstrapperAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => Library\BootstrapperChain::PRIORITY_LOW,
+            'priority' => self::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);

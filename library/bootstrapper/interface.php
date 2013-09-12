@@ -15,12 +15,28 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-interface BootstrapperInterface
+interface BootstrapperInterface extends ObjectHandlable
 {
+    /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
     /**
      * Perform the bootstrapping
      *
      * @return void
      */
     public function bootstrap();
+
+    /**
+     * Get the priority of the bootstrapper
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority();
 }

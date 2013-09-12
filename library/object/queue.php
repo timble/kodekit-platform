@@ -123,7 +123,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      * Get the priority of an object in the queue
      *
      * @param   ObjectHandlable $object
-     * @return  integer|false The command priority or FALSE if the commnand isn't enqueued
+     * @return  integer|false The command priority or FALSE if the command isn't enqueued
      */
     public function getPriority(ObjectHandlable $object)
     {

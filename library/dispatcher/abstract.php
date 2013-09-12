@@ -255,26 +255,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
-     * Redirect
-     *
-     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
-     * redirect the dispatcher to another URL after a GET request.
-     *
-     * @param CommandContext $context   A command context object
-     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
-     */
-    protected function _actionRedirect(CommandContext $context)
-    {
-        $url = $context->param;
-
-        $context->response->setStatus(DispatcherResponse::MOVED_PERMANENTLY);
-        $context->response->setRedirect($url);
-        $this->send();
-
-        return false;
-    }
-
-    /**
      * Send the response
      *
      * @param CommandContext $context	A command context object

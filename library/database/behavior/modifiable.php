@@ -22,13 +22,13 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options
+     * @param 	ObjectConfig $config 	An optional ObjectConfig object with configuration options
      * @return void
      */
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => Command::PRIORITY_LOW,
+			'priority'   => self::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);

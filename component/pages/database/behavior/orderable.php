@@ -41,7 +41,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Library\Command::PRIORITY_LOWEST,
+            'priority'   => self::PRIORITY_LOWEST,
             'auto_mixin' => true,
             'strategy'   => 'flat',
             'table'      => null,
@@ -68,7 +68,6 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     public function getMixableMethods(Library\ObjectMixable $mixer = null)
     {
         $methods = array_merge(parent::getMixableMethods($mixer), $this->getStrategy()->getMixableMethods($mixer));
-        
         unset($methods['getStrategy']);
         
         return $methods;
@@ -87,5 +86,29 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     public function getStrategy()
     {
         return $this->_strategy;
+    }
+
+    public function __call($method, $arguments)
+    {
+        if(in_array($method, $this->getStrategy()->getMixableMethods()))
+        {
+            switch(count($arguments))
+            {
+                case 0:
+                    $return = $this->getStrategy()->$method();
+                    break;
+
+                case 1:
+                    $return = $this->getStrategy()->$method($arguments[0]);
+                    break;
+
+                default:
+                    $return = call_user_func_array(array($this->getStrategy(), $method), $arguments);
+                    break;
+            }
+        }
+        else $return = parent::__call($method, $arguments);
+
+        return $return;
     }
 }

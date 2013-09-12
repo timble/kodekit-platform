@@ -51,10 +51,6 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 		$url = $this->file;
 		$response = $this->_fetch($url);
 
-		if ($response === false) {
-			throw new DatabaseRowUrlException('File cannot be downloaded');
-		}
-
 		$this->contents = $response;
 
 		return true;
@@ -65,21 +61,21 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 		$response = false;
 		foreach ($this->_adapters as $i => $adapter)
 		{
-			try {
+			try
+            {
 				$function = '_fetch'.ucfirst($adapter);
 				$response = $this->$function($url);
 				break;
 			}
-			catch (DatabaseRowUrlAdapterException $e) {
+			catch (DatabaseExceptionRemoteAdapterNotAvailable $e) {
 				continue;
 			}
-			catch (DatabaseRowUrlException $e)
+			catch (DatabaseExceptionRemoteAdapterError $e)
 			{
 				if ($i+1 < count($this->_adapters)) {
 					continue;
-				}
-				else {
-					throw $e;
+				} else {
+                    throw $e;
 				}
 			}
 		}
@@ -90,7 +86,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 	protected function _fetchCurl($url)
 	{
 		if (!function_exists('curl_init')) {
-			throw new DatabaseRowUrlAdapterException('Adapter does not exist');
+			throw new DatabaseExceptionRemoteAdapterNotAvailable('Adapter does not exist');
 		}
 
 		$ch = curl_init();
@@ -104,7 +100,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 		$response = curl_exec($ch);
 
 		if (curl_errno($ch)) {
-			throw new DatabaseRowUrlException('Curl Error: '.curl_error($ch));
+			throw new DatabaseExceptionRemoteAdapterError('Curl Error: '.curl_error($ch));
 		}
 
 		$info = curl_getinfo($ch);
@@ -120,7 +116,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 	protected function _fetchFsockopen($url)
 	{
 		if (!in_array('tcp', stream_get_transports())) {
-			throw new DatabaseRowUrlAdapterException('Adapter does not exist');
+			throw new DatabaseExceptionRemoteAdapterNotAvailable('Adapter does not exist');
 		}
 
 		$uri = $this->getObject('lib:http.url', array('url' => $url));
@@ -133,7 +129,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 		if ($scheme == 'https://')
         {
 			if (!in_array('ssl', stream_get_transports())) {
-				throw new DatabaseRowUrlAdapterException('fsockopen does not support SSL');
+				throw new DatabaseExceptionRemoteAdapterNotAvailable('fsockopen does not support SSL');
 			}
 			$host = 'ssl://'.$host;
 			$port = 443;
@@ -150,7 +146,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 		$errstr = null;
 		$fp = @fsockopen($host, $port, $errno, $errstr, 120);
 		if (!$fp) {
-			throw new DatabaseRowUrlException('PHP Socket Error: '.$errstr);
+			throw new DatabaseExceptionRemoteAdapterError('PHP Socket Error: '.$errstr);
 		}
 		$out = "GET $path HTTP/1.1\r\n";
 		$out .= "Host: $host\r\n";
@@ -176,7 +172,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 	protected function _fetchFopen($url)
 	{
 		if (!ini_get('allow_url_fopen')) {
-			throw new DatabaseRowUrlAdapterException('Adapter does not exist');
+			throw new DatabaseExceptionRemoteAdapterNotAvailable('Adapter does not exist');
 		}
 
 		$response = @file_get_contents($url);

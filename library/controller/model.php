@@ -231,7 +231,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		        $context->response->setStatus(self::STATUS_UNCHANGED);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Entity could not be found');
+		else throw new ControllerExceptionNotFound('Resource could not be found');
 
 		return $entity;
 	}
@@ -260,7 +260,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(self::STATUS_CREATED);
 		}
-		else throw new ControllerExceptionBadRequest('Entity Already Exists');
+		else throw new ControllerExceptionBadRequest('Resource Already Exists');
 
 		return $entity;
 	}
@@ -294,7 +294,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(self::STATUS_UNCHANGED);
 		}
-		else throw new ControllerExceptionNotFound('Entity Not Found');
+		else throw new ControllerExceptionNotFound('Resource Not Found');
 
 		return $entity;
 	}

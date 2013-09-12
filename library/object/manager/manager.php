@@ -579,7 +579,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
         if ($this->getClassLoader()->loadClass($identifier->classname))
         {
-            if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
+            if (!$identifier->inherits(__NAMESPACE__.'\ObjectInterface', false))
             {
                 throw new ObjectExceptionInvalidObject(
                     'Object: '.$identifier->classname.' does not implement ObjectInterface'
@@ -590,7 +590,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             $config = $this->_configure($identifier, $config);
 
             // Delegate object instantiation.
-            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiable', class_implements($identifier->classname, false))) {
+            if ($identifier->inherits(__NAMESPACE__.'\ObjectInstantiable', false)) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, $this);
             } else {
                 $result = new $identifier->classname($config);

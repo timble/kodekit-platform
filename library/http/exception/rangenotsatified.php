@@ -10,25 +10,15 @@
 namespace Nooku\Library;
 
 /**
- * Template Filter Namespace
+ * Method Not Allowed Http Exception
+ *
+ * The request is out of bounds—that, none of the range values overlap the extent of the resource.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Template
+ * @package Nooku\Library\Http
+ * @see http://tools.ietf.org/html/rfc2616#section-10.4.17
  */
-class TemplateFilter
+class HttpExceptionRangeNotSatisfied extends HttpExceptionAbstract
 {
-	/**
-	 * Filter modes
-	 */
-	const MODE_COMPILE  = 1;
-	const MODE_RENDER   = 2;
-
-    /**
-     * Priority levels
-     */
-    const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
+    protected $code = HttpResponse::REQUESTED_RANGE_NOT_SATISFIED;
 }

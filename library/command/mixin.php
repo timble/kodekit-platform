@@ -71,9 +71,9 @@ class CommandMixin extends ObjectMixinAbstract
             'command_chain'     => null,
             'event_dispatcher'  => null,
             'dispatch_events'   => true,
-            'event_priority'    => Command::PRIORITY_LOWEST,
+            'event_priority'    => CommandInterface::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
-            'callback_priority' => Command::PRIORITY_HIGH,
+            'callback_priority' => CommandInterface::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);

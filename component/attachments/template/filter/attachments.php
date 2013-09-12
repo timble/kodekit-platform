@@ -10,6 +10,7 @@
 namespace Nooku\Component\Attachments;
 
 use Nooku\Library;
+use Nooku\Component\Files;
 
 /**
  * Url Template Filter
@@ -19,7 +20,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Attachments
  */
-class TemplateFilterAttachments extends Library\TemplateFilterUrl
+class TemplateFilterAttachments extends Files\TemplateFilterFiles
 {
     /**
      * Initializes the options for the object
@@ -38,7 +39,10 @@ class TemplateFilterAttachments extends Library\TemplateFilterUrl
         $path = $base->getPath().'/files/'.$site.'/attachments/';
 
         $config->append(array(
-            'aliases' => array('"attachments/'  => '"'.$path)
+            'aliases' => array(
+                'attachments://' => $path,
+                '"attachments/'  => '"'.$path
+            )
         ));
 
         parent::_initialize($config);

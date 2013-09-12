@@ -11,67 +11,77 @@ namespace Nooku\Library;
 /**
  * Http Response
  *
- * @see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+ *
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Http
  * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
+ * @link    http://tools.ietf.org/html/rfc2616
+ * @link    http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
 class HttpResponse extends HttpMessage implements HttpResponseInterface
 {
     /**
-     * The response status code
+     * The status code
      *
      * @var int Status code
      */
     protected $_status_code;
 
     /**
-     * The response status message
+     * The status message
      *
      * @var int Status code
      */
     protected $_status_message;
 
     /**
-     * The response content type
+     * The content type
      *
      * @var int Status code
      */
     protected $_content_type;
 
+    /**
+     * The content type
+     *
+     * @var int Status code
+     */
+    protected $_content_description;
+
     // [Successful 2xx]
-    const OK                        = 200;  
-    const CREATED                   = 201;  
-    const ACCEPTED                  = 202;   
-    const NO_CONTENT                = 204;  
-    const RESET_CONTENT             = 205;  
-    const PARTIAL_CONTENT           = 206;  
+    const OK                            = 200;
+    const CREATED                       = 201;
+    const ACCEPTED                      = 202;
+    const NO_CONTENT                    = 204;
+    const RESET_CONTENT                 = 205;
+    const PARTIAL_CONTENT               = 206;
     
     // [Redirection 3xx]  
-    const MOVED_PERMANENTLY         = 301;  
-    const FOUND                     = 302;  
-    const SEE_OTHER                 = 303;  
-    const NOT_MODIFIED              = 304;  
-    const USE_PROXY                 = 305;  
-    const TEMPORARY_REDIRECT        = 307;  
+    const MOVED_PERMANENTLY             = 301;
+    const FOUND                         = 302;
+    const SEE_OTHER                     = 303;
+    const NOT_MODIFIED                  = 304;
+    const USE_PROXY                     = 305;
+    const TEMPORARY_REDIRECT            = 307;
     
     // [Client Error 4xx]  
-    const BAD_REQUEST               = 400;  
-    const UNAUTHORIZED              = 401;  
-    const FORBIDDEN                 = 403;  
-    const NOT_FOUND                 = 404;  
-    const METHOD_NOT_ALLOWED        = 405;  
-    const NOT_ACCEPTABLE            = 406;  
-    const REQUEST_TIMEOUT           = 408;  
-    const CONFLICT                  = 409;  
-    const GONE                      = 410;  
-    const LENGTH_REQUIRED           = 411;  
-    const PRECONDITION_FAILED       = 412;  
-    const REQUEST_ENTITY_TOO_LARGE  = 413;  
-    const REQUEST_URI_TOO_LONG      = 414;  
-    const UNSUPPORTED_MEDIA_TYPE    = 415;  
-    const EXPECTATION_FAILED        = 417;  
+    const BAD_REQUEST                   = 400;
+    const UNAUTHORIZED                  = 401;
+    const FORBIDDEN                     = 403;
+    const NOT_FOUND                     = 404;
+    const METHOD_NOT_ALLOWED            = 405;
+    const NOT_ACCEPTABLE                = 406;
+    const REQUEST_TIMEOUT               = 408;
+    const CONFLICT                      = 409;
+    const GONE                          = 410;
+    const LENGTH_REQUIRED               = 411;
+    const PRECONDITION_FAILED           = 412;
+    const REQUEST_ENTITY_TOO_LARGE      = 413;
+    const REQUEST_URI_TOO_LONG          = 414;
+    const UNSUPPORTED_MEDIA_TYPE        = 415;
+    const REQUESTED_RANGE_NOT_SATISFIED = 416;
+    const EXPECTATION_FAILED            = 417;
     
     // [Server Error 5xx]  
     const INTERNAL_SERVER_ERROR     = 500;  
@@ -245,8 +255,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Sets the response content type
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.17
      * @param string $type Content type
      * @return HttpResponse
      */
@@ -261,9 +270,8 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Retrieves the response content type
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
-     *
-     * @return string Character set
+     * @link http://tools.ietf.org/html/rfc2616#section-14.17
+     * @return string Content type
      */
     public function getContentType()
     {
@@ -273,8 +281,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Returns the Date header as a DateTime instance.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.18
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.18
      * @return \DateTime A \DateTime instance
      * @throws \RuntimeException When the header is not parseable
      */
@@ -297,8 +304,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Sets the Date header.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.18
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.18
      * @param \DateTime $date A \DateTime instance
      * @return HttpResponse
      */
@@ -313,8 +319,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Returns the Last-Modified HTTP header as a DateTime instance.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.29
      * @return \DateTime A DateTime instance
      */
     public function getLastModified()
@@ -338,8 +343,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      *
      * If passed a null value, it removes the header.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.29
      * @param \DateTime $date A \DateTime instance
      * @return HttpResponse
      */
@@ -359,8 +363,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Returns the value of the Expires header as a DateTime instance.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.21
      * @return \DateTime A DateTime instance
      */
     public function getExpires()
@@ -384,8 +387,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      *
      * If passed a null value, it removes the header.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21
-     *
+     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21
      * @param \DateTime $date A \DateTime instance
      * @return HttpResponse
      */
@@ -405,8 +407,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Returns the literal value of the ETag HTTP header.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.19
-     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.19
      * @return string The ETag HTTP header
      */
     public function getEtag()
@@ -417,7 +418,8 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Sets the ETag value.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.19
+     * @link http://tools.ietf.org/html/rfc2616#section-14.19
+     * @link http://en.wikipedia.org/wiki/HTTP_ETag
      *
      * @param string  $etag The ETag unique identifier
      * @param Boolean $weak Whether you want a weak ETag or not
@@ -441,7 +443,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Returns the age of the response.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.6
+     * @link http://tools.ietf.org/html/rfc2616#section-14.6
      * @return integer The age of the response in seconds
      */
     public function getAge()
@@ -514,6 +516,24 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     }
 
     /**
+     * Returns true if the response is "stale".
+     *
+     * When the responses is stale, the response may not be served from cache without first re-validating with
+     * the origin.
+     *
+     * @return Boolean true if the response is stale, false otherwise
+     */
+    public function isStale()
+    {
+        $result = true;
+        if ($maxAge = $this->getMaxAge()) {
+            $result = ($maxAge - $this->getAge()) <= 0;
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns true if the response includes headers that can be used to validate the response with the origin
      * server using a conditional GET request.
      *
@@ -527,10 +547,10 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Returns true if the response is worth caching under any circumstance.
      *
-     * Responses with that are stale (Expired) or without cache validation (Last-Modified, ETag) heades are
-     * considered uncacheable.
+     * Responses with that are stale (Expired) or without cache validation (Last-Modified, ETag) headers
+     * are considered un cacheable.
      *
-     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1
+     * @link http://tools.ietf.org/html/rfc2616#section-14.9.1
      * @return Boolean true if the response is worth caching, false otherwise
      */
     public function isCacheable()
@@ -545,24 +565,6 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
         }
 
         return $this->isValidateable() || !$this->isStale();
-    }
-
-    /**
-     * Returns true if the response is "stale".
-     *
-     * When the responses is stale, the response may not be served from cache without first re-validating with
-     * the origin.
-     *
-     * @return Boolean true if the response is stale, false otherwise
-     */
-    public function isStale()
-    {
-        $result = true;
-        if ($maxAge = $this->getMaxAge()) {
-            $result = ($maxAge - $this->getAge()) <= O;
-        }
-
-        return $result;
     }
 
     /**

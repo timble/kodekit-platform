@@ -15,6 +15,8 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+use Nooku\Library;
+
 /**
  * Renders a radio element
  *
@@ -40,15 +42,16 @@ class JElementRadio extends JElement
 		{
 			$val	= $option->attributes('value');
 			$text	= $option->data();
-			$options[] = (object) array('id' => $val, 'title' => JText::_($text));
+			$options[] = (object) array('id' => $val, 'value' => $val, 'label' => JText::_($text));
 		}
 
         $config = array(
-            'list'     => (object) $options,
+            'options'     => (object) $options,
             'name'     => $control_name.'['.$name.']',
             'selected' => $value,
         );
 
-        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select')->radiolist($config);
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
 	}
 }
