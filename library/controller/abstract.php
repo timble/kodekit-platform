@@ -349,7 +349,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
      * to the KCommandChain mixin.
      *
-     * @return  KCommandChainInterface
+     * @return  CommandChainInterface
      */
     public function getCommandChain()
     {
