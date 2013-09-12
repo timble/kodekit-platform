@@ -51,7 +51,6 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-        	'controller' => $this->getIdentifier()->package,
             'behaviors'  => array('persistable', 'resettable'),
             'limit'      => array('max' => 1000, 'default' => 20)
          ));
@@ -163,6 +162,25 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         return $result;
 	}
+
+    /**
+     * Redirect
+     *
+     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
+     * redirect the dispatcher to another URL after a GET request.
+     *
+     * @param CommandContext $context   A command context object
+     */
+    protected function _actionRedirect(CommandContext $context)
+    {
+        $url = $context->param;
+
+        $context->response->setStatus(DispatcherResponse::MOVED_PERMANENTLY);
+        $context->response->setRedirect($url);
+        $this->send();
+
+        return false;
+    }
 
     /**
      * Get method
@@ -282,12 +300,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 $state = $controller->getModel()->getState()->getValues(true);
                 $entity->setData($state);
             }
-            else throw new ControllerExceptionBadRequest('Entity not found');
+            else throw new ControllerExceptionBadRequest('Resource not found');
         }
 
         //Throw exception if no action could be determined from the request
         if(!$action) {
-            throw new ControllerExceptionBadRequest('Action not found');
+            throw new ControllerExceptionBadRequest('Resource not found');
         }
 
         return $entity = $controller->execute($action, $context);
