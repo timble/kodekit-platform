@@ -212,7 +212,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Read data from the stream to another stream
+     * Copy data from one stream to another stream
      *
      * @param resource $stream The stream resource to copy the data too
      * @return bool Returns TRUE on success, FALSE on failure
@@ -240,6 +240,48 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         }
 
         return true;
+    }
+
+    /**
+     * Evaluate stream content as PHP code
+     *
+     * @param  array  $data         Data to extract in local scope
+     * @param integer $extract_type The way invalid/numeric keys and collisions are treated when extracting them into
+     *                              local scope.
+     * @return boolean Returns TRUE on success or FALSE on failure.
+     */
+    public function evaluate($data = array(), $extract_type = EXTR_SKIP)
+    {
+        $stream = $this->getObject('lib:filesystem.stream');
+
+        //Open a temp stream
+        $stream->open('buffer://temp');
+
+        //Copy content to temp stream
+        $this->copy($stream);
+
+        //Include the temp stream
+        extract($data, $extract_type);
+
+        ob_start();
+        include $stream->getPath();
+        $content = ob_get_clean();
+
+        //Replace content with result of include
+        $this->truncate(0)->write($content);
+
+        return true;
+    }
+
+    /**
+     * Truncates the stream to a given length
+     *
+     * @param integer $size The size to truncate
+     * @return Returns TRUE on success or FALSE on failure.
+     */
+    public function truncate($size)
+    {
+        return ftruncate($this->_resource, $size);
     }
 
     /**
@@ -346,12 +388,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getProtocol()
     {
-        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
-        {
-            $wrapper  = $this->getData('wrapper_data');
-            $protocol = $wrapper->getProtocol();
-        }
-        else
+        if(! $this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             $protocol = $this->getData('wrapper_type');
 
@@ -360,6 +397,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
                 $protocol = 'file';
             }
         }
+        else $protocol = $this->getData('wrapper_data')->getProtocol();
 
         return $protocol;
     }
@@ -371,7 +409,13 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getPath()
     {
-        return $this->getData('uri');
+        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface) {
+            $path = $this->getData('wrapper_data')->getPath();
+        } else {
+            $path = $this->getData('uri');
+        }
+
+        return $path;
     }
 
     /**
@@ -453,22 +497,19 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     /**
      * Get the stream type
      *
-     * @return string|false The stream type, see also the TYPE_* constants or FALSE if the type could not be found.
+     * @return string The stream type, see also the TYPE_* constants
      */
     public function getType()
     {
         $type = self::TYPE_UNKNOWN;
-        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
-        {
-            $wrapper = $this->getData('wrapper_data');
-            $type = $wrapper->getType();
-        }
-        else
+        if(!$this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             if($path = $this->getPath()) {
                 $type = filetype($path);
             }
+
         }
+        else $type = $this->getData('wrapper_data')->getType();
 
         return $type;
     }
