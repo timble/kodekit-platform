@@ -66,8 +66,7 @@ class ControllerFile extends ControllerAbstract
             //Set the data in the response
             $context->response
                 ->attachTransport('chunked')
-                ->setContent('file://'.$file->fullpath)
-                ->setContentType($file->mimetype);
+                ->setPath('file://'.$file->fullpath, $file->mimetype);
         }
         else parent::_actionRender($context);
     }

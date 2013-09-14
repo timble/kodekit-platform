@@ -57,7 +57,7 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
         }
 
         //Set the redirect into the response
-        $response->setContent('string://'.sprintf(
+        $response->setContent(sprintf(
             '<!DOCTYPE html>
                 <html>
                     <head>

@@ -5521,19 +5521,19 @@ body.com_contacts .editor-wrap {
 }
 /* line 506, components/_files.scss */
 #files-app .files-folder div.files-node-thumbnail a.navigate {
-  background-image: url("../../../../media/files/images/folder-64.png");
+  background-image: url("../../../../assets/files/images/folder-64.png");
 }
 /* line 510, components/_files.scss */
 #files-app .files-file div.files-node-thumbnail a.navigate,
 #files-app .files-image.nothumbnails div.files-node-thumbnail a.navigate {
-  background-image: url("../../../../media/files/images/document-64.png");
+  background-image: url("../../../../assets/files/images/document-64.png");
 }
 /* line 513, components/_files.scss */
 #files-app .files-image.thumbnails div.files-node-thumbnail a.navigate {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-  background: url("../../../../media/files/images/checker.png") repeat left top white;
+  background: url("../../../../assets/files/images/checker.png") repeat left top white;
 }
 /* line 520, components/_files.scss */
 #files-app .files-icons-controls {

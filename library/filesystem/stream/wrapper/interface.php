@@ -15,40 +15,68 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
-interface FilesystemStreamWrapperInterface
+interface FilesystemStreamWrapperInterface extends ObjectInterface, ObjectMultiton
 {
     /**
      * Register the stream wrapper
      *
      * @return bool
      */
-    public static function register();
+    public function register();
 
     /**
      * Un Register the stream wrapper
      *
      * @return bool
      */
-    public static function unregister();
+    public function unregister();
 
     /**
      * Check if the stream wrapper is registered
      *
      * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
      */
-    public static function isRegistered();
+    public function isRegistered();
 
     /**
      * Get the stream type
      *
      * @return string The stream type
      */
-    public static function getType();
+    public function getType();
 
     /**
      * Get the stream protocol used to register the stream with
      *
      * @return string The stream protocol
      */
-    public static function getProtocol();
+    public function getProtocol();
+
+    /**
+     * Set the stream options
+     *
+     * @return string The stream options
+     */
+    public function getOptions();
+
+    /**
+     * Set the stream options
+     *
+     * @param string $options Set the stream options
+     */
+    public function setOptions($options);
+
+    /**
+     * Set the stream mode
+     *
+     * @return string The stream mode
+     */
+    public function getMode();
+
+    /**
+     * Set the stream mode
+     *
+     * @param $mode
+     */
+    public function setMode($mode);
 }
