@@ -93,6 +93,24 @@ interface FilesystemStreamInterface
     public function copy($stream);
 
     /**
+     * Evaluate stream content as PHP code
+     *
+     * @param  array  $data         Data to extract in local scope
+     * @param integer $extract_type The way invalid/numeric keys and collisions are treated when extracting them into
+     *                              local scope.
+     * @return boolean Returns TRUE on success or FALSE on failure.
+     */
+    public function evaluate($data = array(), $extract_type = EXTR_SKIP);
+
+    /**
+     * Truncates the stream to a given length
+     *
+     * @param integer $size The size to truncate
+     * @return Returns TRUE on success or FALSE on failure.
+     */
+    public function truncate($size);
+
+    /**
      * Flush the data from the stream to another stream
      *
      * @param resource $stream The stream resource to flush the data too
