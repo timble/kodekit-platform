@@ -80,7 +80,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      */
     public function sendContent(DispatcherResponseInterface $response)
     {
-        $response->getStream()->flush();
+        echo $response->getStream()->getContent();
         return $this;
     }
 
