@@ -91,7 +91,7 @@ interface TemplateInterface
      * @param mixed  $view An object that implements ObjectInterface, ObjectIdentifier object
      *                     or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a view identifier
-     * @return TemplateAbstract
+     * @return TemplateInterface
      */
 	public function setView($view);
 
@@ -100,7 +100,7 @@ interface TemplateInterface
      *
      * @param   string  $file     The template path
      * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @return TemplateAbstract
+     * @return TemplateInterface
      */
 	public function loadFile($file, $data = array());
 
@@ -109,7 +109,7 @@ interface TemplateInterface
      *
      * @param  string   $string     The template contents
      * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @return TemplateAbstract
+     * @return TemplateInterface
      */
 	public function loadString($string, $data = array());
 
@@ -129,7 +129,7 @@ interface TemplateInterface
      * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @param   array $config  An optional associative array of configuration settings
-     * @return TemplateAbstract
+     * @return TemplateInterface
      */
     public function attachFilter($filter, $config = array());
 
