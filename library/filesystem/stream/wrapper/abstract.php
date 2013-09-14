@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
-class FilesystemStreamWrapperAbstract extends Object implements FilesystemStreamWrapperInterface
+abstract class FilesystemStreamWrapperAbstract extends Object implements FilesystemStreamWrapperInterface
 {
     /**
      * The wrapper protocol
