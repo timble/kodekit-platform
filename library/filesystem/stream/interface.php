@@ -12,6 +12,11 @@ namespace Nooku\Library;
 /**
  * FileSystem Stream Interface
  *
+ * The filesystem stream is an object oriented wrapper for the the PHP file system API. It wraps the file resource
+ * returned by @see fopen().
+ *
+ * @link http://www.php.net/manual/en/ref.filesystem.php
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
@@ -31,7 +36,7 @@ interface FilesystemStreamInterface
     CONST TYPE_LINK      = 'link';
     CONST TYPE_DIRECTORY = 'dir';
     CONST TYPE_FIFO      = 'fifo';
-    CONST TYPE_STRING    = 'string';
+    CONST TYPE_MEMORY    = 'memory';
     CONST TYPE_BLOCK     = 'block';
     CONST TYPE_SOCKET    = 'socket';
     CONST TYPE_UNKNOWN   = false;
@@ -328,9 +333,11 @@ interface FilesystemStreamInterface
     public function isConsumed();
 
     /**
-     * Check if the stream wrapper is registered
+    /**
+     * Check if the stream wrapper is registered for a specific protocol
      *
+     * @param string $protocol
      * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
      */
-    public function isRegistered();
+    public function isRegistered($protocol);
 }
