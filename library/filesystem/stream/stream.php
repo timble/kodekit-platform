@@ -133,8 +133,9 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
             'params'  => array(
                 'options' => array()
             ),
-            'filters'  => array(),
-            'wrappers' => array(),
+            'filters'    => array(),
+            'wrappers'   => array(),
+            'chunk_size' => '8192'
         ));
 
         parent::_initialize($config);
@@ -189,11 +190,11 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     /**
      * Read data from the stream advance the pointer
      *
-     * @param int $length Up to length number of bytes read.
      * @return string|bool Returns the data read from the stream or FALSE on failure or EOF
      */
-    public function read($length = '8192')
+    public function read()
     {
+        $length = $this->getChunkSize();
         return fread($this->_resource, $length);
     }
 
@@ -214,33 +215,30 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      * Read data from the stream to another stream
      *
      * @param resource $stream The stream resource to copy the data too
-     * @param int $length Up to length number of bytes read.
      * @return bool Returns TRUE on success, FALSE on failure
      */
-    public function copy($stream, $length)
+    public function copy($stream)
     {
-        return fwrite($stream, $this->read($length));
+        return fwrite($stream, $this->read());
     }
 
     /**
-     * Flush the data from the stream to the output buffer
+     * Flush the data from the stream to another stream
      *
-     * @param int $size   The chunk size in bytes to use when flushing. Default is 8Kb
-     * @param int $range  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
-     *                    should lie within the total size of the stream.
+     * @param resource $stream The stream resource to flush the data too
+     * @param int      $range  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
+     *                         should lie within the total size of the stream.
      * @return bool Returns TRUE on success, FALSE on failure
      */
-    public function flush($length = '8192', $range = -1)
+    public function flush($output, $range = -1)
     {
-        $output = fopen('php://output', 'wb');
-        $range  = $range < 0 ? $this->getSize() : $range;
+        $range = $range < 0 ? $this->getSize() : $range;
 
         //Send data chunk
         while (!$this->eof() && $this->peek() <= $range) {
-            $this->copy($output, $length);
+            $this->copy($output);
         }
 
-        fclose($output);
         return true;
     }
 
@@ -409,6 +407,28 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function setSize($size)
     {
         $this->_size = $size;
+        return $this;
+    }
+
+    /**
+     * Get the chunk size using during read operations
+     *
+     * @return integer The chunk size in bytes
+     */
+    public function getChunkSize()
+    {
+        return $this->getConfig()->chunk_size;
+    }
+
+    /**
+     * Set the chunk size using during read operation
+     *
+     * @param integer $size The chunk size in bytes
+     * @return FilesystemStream
+     */
+    public function setChunkSize($size)
+    {
+        $this->getConfig()->chunk_size = $size;
         return $this;
     }
 
