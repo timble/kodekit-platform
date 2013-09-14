@@ -42,7 +42,8 @@ class ViewHtml extends Library\ViewHtml
     public function render()
     {
         //Set the language information
-        $this->language  = \JFactory::getLanguage()->getTag();
+        $language = $this->getObject('application')->getCfg('language');
+        $this->language  = $language ? $language : 'en-GB';
         $this->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
         // Set the site information
