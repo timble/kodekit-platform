@@ -16,7 +16,7 @@
 </script>
 
 <div id="attachment">
-    <img id="target" src="attachments/<?= $attachment->path ?>" />
+    <img id="target" src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $attachment->path ?>" />
     <a class="btn btn-success btn-block" style="margin-top: 10px" href="#" data-action="crop" data-id="<?= $attachment->id; ?>">
         Save
     </a>

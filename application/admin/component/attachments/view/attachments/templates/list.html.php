@@ -30,7 +30,7 @@ window.addEvent('domready', function() {
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
         <div class="thumbnail" data-id="<?= $item->id; ?>">
-            <a class="modal" href="<?= route('view=attachment&format=file&id='.$item->id) ?>" rel="{handler: 'image'}">
+            <a class="modal" href="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
                 <img src="<?= $item->thumbnail->thumbnail ?>" />
             </a>
             <div class="thumbnail__caption">
