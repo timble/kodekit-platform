@@ -30,9 +30,13 @@ class ApplicationTemplateFilterUrl extends Library\TemplateFilterUrl
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
+        //Make asset paths absolute
+        $base = $this->getObject('request')->getBaseUrl();
+        $path = $this->getObject('request')->getBaseUrl()->getPath().'/assets/';
+
         $config->append(array(
             'priority' => self::PRIORITY_LOW,
-            'aliases'  => array('/assets/' => $this->getObject('request')->getBaseUrl().'/assets/'),
+            'aliases'  => array('"/assets/' => '"'.$path),
         ));
 
         parent::_initialize($config);

@@ -10,7 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * FileSystem Stream Interface
+ * FileSystem Stream
+ *
+ * The filesystem stream is an object oriented wrapper for the the PHP file system API. It wraps the file resource
+ * returned by @see fopen().
+ *
+ * @link http://www.php.net/manual/en/ref.filesystem.php
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\FileSystem
@@ -22,7 +27,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      *
      * @var resource
      */
-    protected $_stream;
+    protected $_resource;
 
     /**
      * Stream size
@@ -92,9 +97,6 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         //Create or set the context
         $this->setContext($config->params);
 
-        //Open the stream
-        $this->open($config->stream, $config->mode, $config->params);
-
         //Attach stream filters
         foreach($config->filters as $key => $filter)
         {
@@ -127,13 +129,12 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'stream'  => '',
             'mode'    => 'rb',
             'params'  => array(
                 'options' => array()
             ),
             'filters'  => array(),
-            'wrappers' => array('lib:filesystem.stream.wrapper.string'),
+            'wrappers' => array(),
         ));
 
         parent::_initialize($config);
@@ -146,7 +147,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      *
      * @param resource|string $stream Stream path or resource
      * @param string          $mode   The mode to open the stream with
-     * @return FilesystemStreamInterface
+     * @return Returns a file pointer resource on success, or FALSE on error.
      */
     public function open($stream, $mode = 'rb')
     {
@@ -154,9 +155,9 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         $this->close();
 
         if(!is_resource($stream)) {
-            $this->_stream = fopen($stream, $mode, false, $this->getContext());
+            $this->_resource = fopen($stream, $mode, false, $this->getContext());
         } else {
-            $this->_stream = $stream;
+            $this->_resource = $stream;
         }
 
         return $this;
@@ -172,7 +173,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        return $this->isSeekable() ? fseek($this->_stream, $offset, $whence) === 0 : false;
+        return $this->isSeekable() ? fseek($this->_resource, $offset, $whence) === 0 : false;
     }
 
     /**
@@ -182,7 +183,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function peek()
     {
-        return ftell($this->_stream);
+        return ftell($this->_resource);
     }
 
     /**
@@ -193,7 +194,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function read($length = '8192')
     {
-        return fread($this->_stream, $length);
+        return fread($this->_resource, $length);
     }
 
     /**
@@ -206,7 +207,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     {
         // Reset the size
         $this->_size = null;
-        return fwrite($this->_stream, $string);
+        return fwrite($this->_resource, $string);
     }
 
     /**
@@ -264,7 +265,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function eof()
     {
-        return feof($this->_stream);
+        return feof($this->_resource);
     }
 
     /**
@@ -274,9 +275,9 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function close()
     {
-        if (is_resource($this->_stream))
+        if (is_resource($this->_resource))
         {
-            fclose($this->_stream);
+            fclose($this->_resource);
 
             $this->_size = null;
             $this->_data = null;
@@ -297,7 +298,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         if ($this->isReadable() && $this->isSeekable())
         {
             $position = $this->peek();
-            $result   = stream_get_contents($this->_stream, -1, 0);
+            $result   = stream_get_contents($this->_resource, -1, 0);
             $this->seek($position);
         }
 
@@ -311,7 +312,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getResource()
     {
-        return $this->_stream;
+        return $$this->_resource;
     }
 
     /**
@@ -331,7 +332,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
             if ($this->seek(0) && in_array($algo, hash_algos()))
             {
                 $hash = hash_init($algo);
-                hash_update_stream($hash, $this->_stream);
+                hash_update_stream($hash, $this->_resource);
                 $result = hash_final($hash, (bool) $raw);
                 $this->seek($current);
             }
@@ -350,7 +351,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             $wrapper  = $this->getData('wrapper_data');
-            $protocol = $wrapper::getProtocol();
+            $protocol = $wrapper->getProtocol();
         }
         else
         {
@@ -440,7 +441,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             $wrapper = $this->getData('wrapper_data');
-            $type = $wrapper::getType();
+            $type = $wrapper->getType();
         }
         else
         {
@@ -461,7 +462,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getInfo()
     {
-        return fstat($this->_stream);
+        return fstat($this->_resource);
     }
 
     /**
@@ -475,7 +476,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function getData($key = null)
     {
         if(!$this->_data) {
-            $this->_data = stream_get_meta_data($this->_stream);
+            $this->_data = stream_get_meta_data($this->_resource);
         }
 
         return !$key ? $this->_data : (array_key_exists($key, $this->_data) ? $this->_data[$key] : null);
@@ -491,7 +492,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function setData($name, $value)
     {
         if(!$this->_data) {
-            $this->_data = stream_get_meta_data($this->_stream);
+            $this->_data = stream_get_meta_data($this->_resource);
         }
 
         $this->_data[$name] = $value;
@@ -531,7 +532,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
                 $this->_context = array_merge($this->_context, $context);
             }
 
-            $result = stream_context_set_params($this->_stream, $this->_context);
+            $result = stream_context_set_params($this->_resource, $this->_context);
         }
 
         return $result;
@@ -582,7 +583,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
                 $mode = $mode & STREAM_FILTER_WRITE;
             }
 
-            if($resource = stream_filter_append($this->_stream, $filter, $mode, $config))
+            if($resource = stream_filter_append($this->_resource, $filter, $mode, $config))
             {
                 $this->_filters[$filter] = $filter;
                 $result = true;
@@ -622,15 +623,17 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function registerWrapper($wrapper, $config = array() )
     {
-        $result = false;
-        $identifier = $this->getIdentifier($wrapper);
+        $result  = false;
+        $wrapper = $this->getObject($wrapper, $config);
 
-        if($identifier->inherits('Nooku\Library\FilesystemStreamWrapperInterface'))
+        if(!$wrapper instanceof FilesystemStreamWrapperInterface)
         {
-            $classname = $identifier->getClassName();
-            $result = $classname::register();
+            throw new \UnexpectedValueException(
+                'Wrapper: '.get_class($wrapper).' does not implement FilesystemStreamWrapperInterface'
+            );
         }
 
+        $result = $wrapper->register();
         return $result;
     }
 
@@ -642,15 +645,17 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function unregisterWrapper($wrapper)
     {
-        $result = false;
-        $identifier = $this->getIdentifier($wrapper);
+        $result  = false;
+        $wrapper = $this->getObject($wrapper);
 
-        if($identifier->inherits('Nooku\Library\FilesystemStreamWrapperInterface'))
+        if(!$wrapper instanceof FilesystemStreamWrapperInterface)
         {
-            $classname = $identifier->getClassName();
-            $result = $classname::unregister();
+            throw new \UnexpectedValueException(
+                'Wrapper: '.get_class($wrapper).' does not implement FilesystemStreamWrapperInterface'
+            );
         }
 
+        $result = $wrapper->unregister();
         return $result;
     }
 
@@ -708,7 +713,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function isLocal()
     {
-        return stream_is_local($this->_stream);
+        return stream_is_local($this->_resource);
     }
 
     /**
@@ -768,17 +773,14 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Check if the stream wrapper is registered
+     * Check if the stream wrapper is registered for a specific protocol
      *
+     * @param string $protocol
      * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
      */
-    public function isRegistered()
+    public function isRegistered($protocol)
     {
-        $result   = false;
-        if($protocol = $this->getProtocol()) {
-            $result = in_array($protocol, stream_get_wrappers());
-        }
-
+        $result = in_array($protocol, stream_get_wrappers());
         return $result;
     }
 

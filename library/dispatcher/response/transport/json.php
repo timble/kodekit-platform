@@ -109,7 +109,7 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp
             }
 
             if (!empty($this->_padding)) {
-                $response->setContent('string://'.sprintf('%s(%s);', $this->_padding, $response->getContent()));
+                $response->setContent(sprintf('%s(%s);', $this->_padding, $response->getContent()));
             }
         }
     }

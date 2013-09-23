@@ -77,7 +77,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'content'     => 'string://', //Empty content using default string stream protocol
+            'content'     => '',
             'transports'  => array('redirect', 'json', 'http'),
         ));
 
@@ -97,7 +97,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         {
             if($transport instanceof DispatcherResponseTransportInterface)
             {
-                if($transport->send($this) === true)
+                if($transport->send($this) == true)
                 {
                     //Cleanup and flush output to client
                     if (!function_exists('fastcgi_finish_request'))
@@ -122,37 +122,27 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     }
 
     /**
-     * Sets the response content using a stream path
+     * Sets the response content
      *
-     * Content needs to be of the form "scheme://..." and a wrapper for that scheme need to be registered. If no stream
-     * wrappers for that protocol are registered, an exception will be throw.
-     *
-     * The default wrapper is the string://[content]. This wrapper allows you to pass a string directly to the response
-     * transport to send it to the client. See @link http://www.php.net/manual/en/wrappers.php for a list of default
-     * PHP stream protocols and wrappers.
+     * The buffer:// stream wrapper will be used when setting content as a string. This wrapper allows to pass a
+     * string directly to the response transport and send it to the client.
      *
      * @param mixed  $content   The content
      * @param string $type      The content type
-     * @throws \InvalidArgumentException If the content is not a valid stream or no stream wrapper is registered for the
-     *                                   stream protocol
      * @return HttpMessage
      */
     public function setContent($content, $type = null)
     {
-        parent::setContent($content);
+        parent::setContent($content, $type);
 
-        $stream = empty($content) ?  'string://' : $content;
-        $stream = $this->getObject('lib:filesystem.stream', array('stream' => $stream));
+        $stream = $this->getStream();
 
-        if(!$stream->isRegistered())
-        {
-            throw new \InvalidArgumentException(
-                'Content is not a valid stream or no stream wrapper is registered for the stream protocol.'
-            );
-
+        if(!$stream->isRegistered('buffer')) {
+            $stream->registerWrapper('lib:filesystem.stream.wrapper.buffer');
         }
 
-        $this->_stream = $stream;
+        $stream->open('buffer://memory', 'w+b');
+        $stream->write($content);
 
         return $this;
     }
@@ -164,14 +154,42 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
      */
     public function getContent()
     {
-        $stream = $this->getStream();
-        if($stream instanceof FilesystemStreamInterface) {
-            $content = $stream->getContent();
-        } else {
-            $content = parent::getContent();
+        $content = $this->getStream()->getContent();
+        return $content;
+    }
+
+    /**
+     * Sets the response path
+     *
+     * Path needs to be of the form "scheme://..." and a wrapper for that protocol need to be registered. See @link
+     * http://www.php.net/manual/en/wrappers.php for a list of default PHP stream protocols and wrappers.
+     *
+     * @param mixed  $content   The content
+     * @param string $type      The content type
+     * @throws \InvalidArgumentException If the path is not a valid stream or no stream wrapper is registered for the
+     *                                   stream protocol
+     * @return HttpMessage
+     */
+    public function setPath($path, $type = null)
+    {
+        if($this->getStream()->open($path) === false) {
+            throw new \InvalidArgumentException('Path: '.$path.' is not a valid stream or no stream wrapper is registered.');
         }
 
-        return $content;
+        $this->setContentType($type);
+
+        return $this;
+    }
+
+    /**
+     * Get the response path
+     *
+     * @return string The response stream path.
+     */
+    public function getPath()
+    {
+        $path = $this->getStream()->getPath();
+        return $path;
     }
 
     /**
@@ -193,6 +211,10 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
      */
     public function getStream()
     {
+        if(!isset($this->_stream)) {
+            $this->_stream  = $this->getObject('lib:filesystem.stream');
+        }
+
         return $this->_stream;
     }
 
