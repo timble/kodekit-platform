@@ -32,7 +32,7 @@
 
         <? foreach($comments as $comment) : ?>
             <item>
-                <title><?= escape($article->title) ?></title>
+                <title><?= translate('Comment on').' '.escape($article->title).' '.translate('by').' '.$comment->created_by_name ?></title>
                 <link><?= helper('route.article', array('row' => $article)) ?> ?></link>
                 <dc:creator><?= $comment->created_by_name ?></dc:creator>
                 <guid isPermaLink="false"><?= helper('route.article', array('row' => $article)) ?> ?></guid>
