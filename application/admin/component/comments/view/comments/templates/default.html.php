@@ -55,7 +55,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="<?= route('option=com_articles&view='.$comment->table.'&id='.$comment->row); ?>">
+                    <a href="<?= route('option=com_'.$comment->table.'&view='.$comment->table.'&id='.$comment->row); ?>">
                         <?= escape($comment->title); ?>
                     </a>
                 </td>
