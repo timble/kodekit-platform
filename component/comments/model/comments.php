@@ -25,7 +25,7 @@ class ModelComments extends Library\ModelTable
 		parent::__construct($config);
 
         $this->getState()
-			->insert('table', 'cmd')
+			->insert('table', 'string', $this->getIdentifier()->package)
 			->insert('row'  , 'int')
             ->insert('search'  , 'cmd');
 	}
@@ -41,7 +41,6 @@ class ModelComments extends Library\ModelTable
 
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
-
         $query->join(array('creator' => 'users'), 'creator.users_user_id = tbl.created_by');
     }
 	

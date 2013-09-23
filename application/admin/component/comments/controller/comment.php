@@ -25,6 +25,7 @@ class CommentsControllerComment extends Comments\ControllerComment
                 'editable',
                 'com:activities.controller.behavior.loggable'
             ),
+            'model' => 'com:comments.model.comments'
         ));
 
         parent::_initialize($config);
