@@ -34,24 +34,11 @@ class ArticlesViewArticleRss extends Library\ViewRss
                 $this->tags($article->getTags());
             }
 
-            if($params->get('commentable')){
-                $this->comments = $this->getComments();
+            if ($article->isCommentable() && $params->get('commentable')) {
+                $this->comments($article->getComments());
             }
-
         }
 
         return parent::render();
-    }
-
-    public function getComments()
-    {
-        //Get the comments
-        return $this->getObject('com:comments.model.comments')
-            ->table('articles')
-            ->row($this->getModel()->getState()->id)
-            ->sort('created_on')
-            ->direction('desc')
-            ->getRowset();
-
     }
 }
