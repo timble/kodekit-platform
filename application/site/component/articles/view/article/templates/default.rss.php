@@ -6,11 +6,7 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
-
-use Nooku\Library;
 ?>
-
-
 
 <rss version="2.0"
      xmlns:atom="http://www.w3.org/2005/Atom"
@@ -18,7 +14,6 @@ use Nooku\Library;
      xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
 
     <channel>
-
         <title><?= escape($article->title) ?></title>
         <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
         <link><?= route() ?></link>
@@ -47,7 +42,5 @@ use Nooku\Library;
                 <dc:date><?= helper('date.format', array('date' => $comment->created_on)) ?></dc:date>
             </item>
         <? endforeach; ?>
-
     </channel>
-
 </rss>
