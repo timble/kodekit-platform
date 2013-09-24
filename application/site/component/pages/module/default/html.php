@@ -26,7 +26,7 @@ class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
     public function render()
     {
         // Load language
-        $this->getObject('translator')->load(array($this->module->name => $this->getIdentifier()->package));
+        $this->getObject('translator')->load($this->getIdentifier()->package, $this->module->name, JPATH_APPLICATION);
         return parent::render();
     }
 }
