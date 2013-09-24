@@ -194,7 +194,7 @@ class TranslatorInflector extends StringInflector
      * @param string $rule   A PHP callable
      * @param string $locale The locale
      *
-     * @throws LogicException
+     * @throws \LogicException
      * @return null
      */
     public static function setPluralRule($rule, $locale)
@@ -209,7 +209,7 @@ class TranslatorInflector extends StringInflector
         }
 
         if (!is_callable($rule)) {
-            throw new LogicException('The given rule can not be called');
+            throw new \LogicException('The given rule can not be called');
         }
 
         self::$position_rules[$locale] = $rule;
