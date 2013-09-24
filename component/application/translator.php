@@ -207,10 +207,12 @@ class Translator extends Library\Translator implements Library\ObjectInstantiabl
 
             foreach ($paths as $path)
             {
-                if ($file = $this->_getLanguageFile($signature, $path))
+                if (($file = $this->_getLanguageFile($signature,
+                        $path)) && ($translations = $this->_loadLanguageFile($file))
+                )
                 {
                     // Always override while importing through translator.
-                    $this->getCatalogue()->import($file, true);
+                    $this->getCatalogue()->import($translations, true);
                 }
             }
 
@@ -274,6 +276,34 @@ class Translator extends Library\Translator implements Library\ObjectInstantiabl
     protected function _getLanguageFolder($component)
     {
         return "/component/{$component}/resources/language/";
+    }
+
+    /**
+     * Language File loader.
+     *
+     * @param string $file The file path.
+     *
+     * @return array|bool The file content, false if not loaded.
+     */
+    protected function _loadLanguageFile($file)
+    {
+        $result = false;
+
+        if ($content = @file_get_contents($file))
+        {
+            //Take off BOM if present in the ini file
+            if ($content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF")
+            {
+                $content = substr($content, 3);
+            }
+
+            // TODO: Review other formats for language files and get rid of the JRegistry dependency afterwards.
+            $registry = new \JRegistry();
+            $registry->loadINI($content);
+            $result = $registry->toArray();
+        }
+
+        return $result;
     }
 
     /**
