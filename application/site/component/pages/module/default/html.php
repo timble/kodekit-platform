@@ -25,7 +25,8 @@ class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
      */
     public function render()
     {
-        JFactory::getLanguage()->load($this->getIdentifier()->package, $this->module->name);
+        // Load language
+        $this->getObject('translator')->load(array($this->module->name => $this->getIdentifier()->package));
         return parent::render();
     }
 }
