@@ -61,13 +61,11 @@ interface TranslatorInterface extends Library\TranslatorInterface
     public function getFallbackLocale();
 
     /**
-     * Components loader.
+     * Loads a component into the translator.
      *
-     * Load components into the translator.
-     *
-     * @param array $components The list of components to load. The array may be indexed, associative or a combination
-     *                          of both. If a non-numeric key is found, the key represents a subcomponent e.g. a module, while the value points
-     *                          to its component.
+     * @param string $component    The component name.
+     * @param mixed  $subcomponent The subcomponent name.
+     * @param mixed  $base_path    The base path to load language files from.
      */
-    public function load($components);
+    public function load($component, $subcomponent = null, $base_path = null);
 }

@@ -186,34 +186,7 @@ class Translator extends Library\Translator implements Library\ObjectInstantiabl
     /**
      * @see TranslatorInterface::load()
      */
-    public function load($components)
-    {
-        // Force array.
-        $components = (array) $components;
-
-        foreach ($components as $subcomponent => $component)
-        {
-            if (is_numeric($subcomponent))
-            {
-                $this->_load($component);
-            }
-            else
-            {
-                $this->_load($component, $subcomponent);
-            }
-        }
-    }
-
-    /**
-     * Loads a component.
-     *
-     * Languages will get imported from both the component and the application spaces. Application space
-     * translations will override translations from the component space if duplicates are found.
-     *
-     * @param string $component    The component name.
-     * @param mixed  $subcomponent The subcomponent name.
-     */
-    protected function _load($component, $subcomponent = null)
+    public function load($component, $subcomponent = null, $base_path = null)
     {
         $signature = $component;
 
@@ -224,7 +197,13 @@ class Translator extends Library\Translator implements Library\ObjectInstantiabl
 
         if (!isset($this->_loaded[$signature])) {
 
-            $paths = array(JPATH_ROOT, JPATH_APPLICATION);
+            if ($base_path) {
+                // Use provided base path only.
+                $paths = (array) $base_path;
+            } else {
+                // Default fallback/override sequence.
+                $paths = array(JPATH_ROOT, JPATH_APPLICATION);
+            }
 
             foreach ($paths as $path)
             {
