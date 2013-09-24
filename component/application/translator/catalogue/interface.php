@@ -20,14 +20,12 @@ use Nooku\Library;
 interface TranslatorCatalogueInterface extends Library\TranslatorCatalogueInterface
 {
     /**
-     * Import a file into the catalogue.
+     * Import a translations into the catalogue.
      *
-     * @param string $file     The path of the file to import.
-     * @param bool   $override Whether or not existing translations can be overridden during import.
-     *
-     * @return bool True if imported, false otherwise.
+     * @param array $translations     Associative array containing translations.
+     * @param bool  $override         Whether or not existing translations can be overridden during import.
      */
-    public function import($file, $override = false);
+    public function import($translations, $override = false);
 
     /**
      * Tells if a translation key is found in the catalogue.
