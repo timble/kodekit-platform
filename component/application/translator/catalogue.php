@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Koowa
  */
-class TranslatorCatalogue extends Library\ObjectArray implements TranslatorCatalogueInterface
+class TranslatorCatalogue extends Library\TranslatorCatalogue implements TranslatorCatalogueInterface
 {
     /**
      * @see TranslatorCatalogueInterface::import()
