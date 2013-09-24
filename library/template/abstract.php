@@ -160,7 +160,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function translate($string, array $parameters = array())
     {
-        return \JText::_($string);
+        return $this->getObject('translator')->translate($string, $parameters);
     }
 
     /**
