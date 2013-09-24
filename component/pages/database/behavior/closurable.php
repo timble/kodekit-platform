@@ -313,7 +313,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     $parent = $table->select((int) $row->parent_id, Library\Database::FETCH_ROW);
                     if($parent->isDescendantOf($row))
                     {
-                        $this->setStatusMessage(JText::_('You cannot move a node under one of its descendants'));
+                        $this->setStatusMessage($this->getObject('translator')->translate('You cannot move a node under one of its descendants'));
                         $this->setStatus(Library\Database::STATUS_FAILED);
                         return false;
                     }

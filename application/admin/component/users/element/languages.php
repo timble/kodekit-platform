@@ -21,10 +21,12 @@ class JElementLanguages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$user =  Library\ObjectManager::getInstance()->getObject('user');
+        $manager = Library\ObjectManager::getInstance();
+
+		$user =  $manager->getObject('user');
 
 		if(!($user->getRole() >= 23) && $node->attributes('client') == 'administrator') {
-			return JText::_('No Access');
+			return $manager->getObject('translator')->translate('No Access');
 		}
 
         return  Library\ObjectManager::getInstance()->getObject('com:users.template.helper.listbox')->languages(array(

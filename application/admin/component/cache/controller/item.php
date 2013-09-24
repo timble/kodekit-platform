@@ -19,11 +19,13 @@ class CacheControllerItem extends Library\ControllerModel
 { 
     protected function _actionPurge(Library\CommandContext $context)
     {
+        $translator = $this->getObject('translator');
+
         //Purge the cache
         if(JFactory::getCache('')->gc()) {
-            $message = JText::_( 'Expired items have been purged' );
+            $message = $translator->translate('Expired items have been purged');
         } else {
-           $message = JText::_('Error purging expired items');
+           $message = $translator->translate('Error purging expired items');
         }
 
         $context->response->setRedirect($context->request-getUrl(), $message);

@@ -91,7 +91,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             {
                 if($page->level > 2)
                 {
-                    $this->addCommand(JText::_((string) $page->title), array(
+                    $this->addCommand($this->getObject('translator')->translate($page->title), array(
                         'href'   => (string) $page->link_url,
                         'active' => (string) $view == Library\StringInflector::singularize($page->getLink()->query['view'])
                     ));

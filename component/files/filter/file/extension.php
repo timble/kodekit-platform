@@ -25,7 +25,7 @@ class FilterFileExtension extends Library\FilterAbstract
 		$value   = $row->extension;
 
 		if (is_array($allowed) && (empty($value) || !in_array(strtolower($value), $allowed))) {
-			return $this->_error(\JText::_('Invalid file extension'));
+			return $this->_error($this->getObject('translator')->translate('Invalid file extension'));
 		}
 	}
 }

@@ -19,7 +19,7 @@ class UsersViewSessionHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $title = JText::_('Login');
+        $title = $this->getObject('translator')->translate('Login');
         $this->getObject('application')->getPathway()->addItem($title);
 
         $this->user       = $this->getObject('user');;

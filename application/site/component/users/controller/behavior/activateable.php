@@ -37,17 +37,19 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
             $url = $context->request->getUrl()
                 ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $this->_getActivationUrl();
 
-            // TODO Uncomment and fix after Langauge support is re-factored.
-            //$subject = JText::_('User Account Activation');
-            //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-            //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
-            $subject = 'User Account Activation';
-            $message = $url;
+            $translator = $this->getObject('translator');
+
+            $subject = $translator->translate('User Account Activation');
+            $message = $translator->translate('SEND_MSG_ACTIVATE', array(
+                'name' => $user->name,
+                'site' => $this->getObject('application')->getCfg('sitename'),
+                'url'  => $url
+            ));
 
             if ($user->notify(array('subject' => $subject, 'message' => $message))) {
-                $context->response->addMessage('Activation E-mail sent');
+                $context->response->addMessage($translator->translate('Activation E-mail sent'));
             } else {
-                $context->reponse->addMessage('Failed to send activation E-mail', 'error');
+                $context->reponse->addMessage($translator->translate('Failed to send activation E-mail', 'error'));
             }
         }
     }

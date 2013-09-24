@@ -35,7 +35,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     public function getTypeTitle()
     {
         if(!isset($this->_type_title)) {
-            $this->_type_title = \JText::_('Component');
+            $this->_type_title = $this->getObject('translator')->translate('Component');
         }
 
         return $this->_type_title;
@@ -46,12 +46,14 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $query       = $this->getLink()->query;
         $description = $this->extension_name ? ucfirst(substr($this->extension_name, 4)) : ucfirst(substr($query['option'], 4));
 
+        $translator = $this->getObject('translator');
+
         if(isset($query['view'])) {
-            $description .= ' &raquo; '.\JText::_(ucfirst($query['view']));
+            $description .= ' &raquo; '. $translator->translate(ucfirst($query['view']));
         }
 
         if(isset($query['layout'])) {
-            $description .= ' / '.\JText::_(ucfirst($query['layout']));
+            $description .= ' / '. $translator->translate(ucfirst($query['layout']));
         }
 
         return $description;

@@ -33,11 +33,13 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
             ->email($this->id)
             ->getRow();
 
+        $translator = $this->getObject('translator');
+
         // Check if referenced user actually exists.
         if ($user->isNew())
         {
             $this->setStatus(Library\Database::STATUS_FAILED);
-            $this->setStatusMessage(\JText::sprintf('USER NOT FOUND', $this->id));
+            $this->setStatusMessage($translator->translate('User {email} was not found.', array('email' => $this->id)));
             return false;
         }
 
@@ -50,7 +52,8 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
             if (strlen($password) < $length)
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $length));
+                $this->setStatusMessage($translator->translate('You need to provide a password with at least {number} characters.',
+                    array('number' => $length)));
                 return false;
             }
 
@@ -60,7 +63,8 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
                 if ($this->verify($password))
                 {
                     $this->setStatus(Library\Database::STATUS_FAILED);
-                    $this->setStatusMessage(\JText::_('New and old passwords are the same'));
+                    $this->setStatusMessage($this->getObject('translator')
+                                            ->translate('New and old passwords are the same'));
                     return false;
                 }
             }

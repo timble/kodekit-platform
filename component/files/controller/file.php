@@ -60,7 +60,7 @@ class ControllerFile extends ControllerAbstract
             $file = $this->getModel()->getRow();
 
             if (!file_exists($file->fullpath)) {
-                throw new Library\ControllerExceptionNotFound(\JText::_('File not found'));
+                throw new Library\ControllerExceptionNotFound($this->getObject('translator')->translate('File not found'));
             }
 
             //Set the data in the response

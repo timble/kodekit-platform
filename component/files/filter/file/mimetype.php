@@ -40,7 +40,7 @@ class FilterFileMimetype extends Library\FilterAbstract
 			}
 
 			if ($mimetype && !in_array($mimetype, $mimetypes)) {
-				return $this->_error(\JText::_('Invalid Mimetype'));
+				return $this->_error($this->getObject('translator')->translate('Invalid Mimetype'));
 			}
 		}
 	}

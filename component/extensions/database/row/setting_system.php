@@ -53,7 +53,7 @@ class DatabaseRowSetting_System extends DatabaseRowSetting
             
 		    if (file_put_contents($this->getPath(), $config->toString('PHP', 'config', array('class' => 'JConfig'))) === false) 
 		    {
-			    $this->setStatusMessage(\JText::_('ERRORCONFIGFILE'));
+			    $this->setStatusMessage($this->getObject('translator')->translate('ERRORCONFIGFILE'));
 			    $this->setStatus(Library\Database::STATUS_FAILED);
 			
 			    return false;

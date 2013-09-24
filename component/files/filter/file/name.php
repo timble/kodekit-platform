@@ -24,7 +24,7 @@ class FilterFileName extends Library\FilterAbstract
 		$value = $this->sanitize($row->name);
 
 		if ($value == '') {
-			return $this->_error(\JText::_('Invalid file name'));
+			return $this->_error($this->getObject('translator')->translate('Invalid file name'));
 		}
 	}
 

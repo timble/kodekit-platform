@@ -80,11 +80,13 @@ class DatabaseRowUser extends Library\DatabaseRowTable
 
     public function save()
     {
+        $translator = $this->getObject('translator');
+
         // Validate name
         if ($this->isModified('name') && trim($this->name) == '')
         {
             $this->setStatus(Library\Database::STATUS_FAILED);
-            $this->setStatusMessage(\JText::_('Please enter a name'));
+            $this->setStatusMessage($translator->translate('Please enter a name'));
             return false;
         }
 
@@ -94,7 +96,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             if (!$this->getObject('lib:filter.email')->validate($this->email))
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
+                $this->setStatusMessage($translator->translate('Please enter a valid E-mail address'));
                 return false;
             }
 
@@ -106,7 +108,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             if ($this->getObject('com:users.database.table.users')->count($query))
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
+                $this->setStatusMessage($translator->translate('The provided E-mail address is already registered'));
                 return false;
             }
         }

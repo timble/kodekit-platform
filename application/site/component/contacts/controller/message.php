@@ -38,7 +38,9 @@ class ContactsControllerMessage extends Library\ControllerView
         $from_name   = $application->getCfg('fromname');
 
         // Create body text
-        $prefix      = JText::sprintf('This is an enquiry e-mail via %s from', $context->request->getBaseUrl());
+        $prefix = $this->getObject('translator')
+                  ->translate('This is an enquiry e-mail via {url} from',
+            array('url' => $context->request->getBaseUrl()));
         $body        = $prefix.' '.$name.' <'.$email_from.'>.'."\r\n\r\n".stripslashes($body);
 
         // Get recipient
@@ -66,7 +68,7 @@ class ContactsControllerMessage extends Library\ControllerView
             $mail->Send();
         }
 
-        $context->response->addMessage(JText::_('Thank you for your e-mail'));
+        $context->response->addMessage($this->getObject('translator')->translate('Thank you for your e-mail'));
         $context->response->setStatus(self::STATUS_RESET);
 	}
 }

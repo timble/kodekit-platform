@@ -47,7 +47,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->response->setRedirect($url, \JText::_('INVALID_REQUEST'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('INVALID_REQUEST'), 'error');
             $result = false;
         }
 
@@ -80,7 +80,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         if ($row->isNew() || !$row->enabled)
         {
             $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('COULD_NOT_FIND_USER'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('COULD_NOT_FIND_USER'), 'error');
             $result = false;
         }
         else
@@ -132,10 +132,11 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         $site_name = \JFactory::getConfig()->getValue('sitename');
 
-        $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-        // TODO Fix when language package is re-factored.
-        //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-        $message = $url;
+        $translator = $this->getObject('translator');
+
+        $subject = $translator->translate('Your {site} password reset request', array('site' => $site_name));
+        $message = $translator->translate('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT',
+            array('site' => $site_name, 'url' => $url));
 
         if (!$row->notify(array('subject' => $subject, 'message' => $message))) {
             $result = false;

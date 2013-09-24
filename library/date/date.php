@@ -78,6 +78,8 @@ class Date extends \DateTime implements DateInterface
         $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
         $now     = new \DateTime();
 
+        $translator = ObjectManager::getInstance()->getObject('translator');
+
         if($now != $this)
         {
             // TODO: Use DateTime::getTimeStamp().
@@ -110,9 +112,9 @@ class Date extends \DateTime implements DateInterface
             if($periods[$i] == 'day' && ($difference == 1 || $difference == 2))
             {
                 if($difference == 1) {
-                    $result = \JText::_('Today');
+                    $result = $translator->translate('Today');
                 } else {
-                    $result = $tense == 'ago' ? \JText::_('Yesterday') : \JText::_('Tomorrow');
+                    $result = $translator->translate($tense == 'ago' ? 'Yesterday' : 'Tomorrow');
                 }
             }
             else
@@ -121,10 +123,10 @@ class Date extends \DateTime implements DateInterface
                     $periods[$i] .= 's';
                 }
 
-                $result = sprintf(\JText::_('%d '.$periods[$i].' '.$tense), $difference);
+                $result = sprintf($translator->translate('%d '.$periods[$i].' '.$tense), $difference);
             }
         }
-        else $result = \JText::_('Now');
+        else $result = $translator->translate('Now');
 
         return $result;
     }
@@ -150,22 +152,24 @@ class Date extends \DateTime implements DateInterface
      */
     protected function _translate($matches)
     {
+        $translator = ObjectManager::getInstance()->getObject('translator');
+
         switch ($matches[0]) 
         {
             case 'D':
-                $replacement = \JText::_(strtoupper(parent::format('D')));
+                $replacement = $translator->translate(strtoupper(parent::format('D')));
                 break;
 
             case 'l':
-                $replacement = \JText::_(strtoupper(parent::format('l')));
+                $replacement = $translator->translate(strtoupper(parent::format('l')));
                 break;
 
             case 'F':
-                $replacement = \JText::_(strtoupper(parent::format('F')).'_SHORT');
+                $replacement = $translator->translate(strtoupper(parent::format('F')).'_SHORT');
                 break;
 
             case 'M':
-                $replacement = \JText::_(strtoupper(parent::format('F')));
+                $replacement = $translator->translate(strtoupper(parent::format('F')));
                 break;
         }
 

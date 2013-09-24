@@ -37,7 +37,7 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
 
     protected function _commandDefault(Library\ControllerToolbarCommand $command)
     {
-        $command->label = \JText::_('Make Default');
+        $command->label = $this->getObject('translator')->translate('Make Default');
 
         $command->append(array(
             'attribs' => array(

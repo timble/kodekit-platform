@@ -28,16 +28,19 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     protected function _afterControllerToken(Library\CommandContext $context)
     {
         $user = $context->user;
+
+        $translator = $this->getObject('translator');
+
         if (!$context->result)
         {
-            $message = JText::_('ERROR_SENDING_CONFIRMATION_EMAIL');
+            $message = $translator->translate('ERROR_SENDING_CONFIRMATION_EMAIL');
             $type    = 'error';
 
             $url = $context->request->getReferrer();
         }
         else
         {
-            $message = JText::_('CONFIRMATION_EMAIL_SUCCESS');
+            $message = $translator->translate('CONFIRMATION_EMAIL_SUCCESS');
             $type    = 'success';
 
             $url = $this->getObject('application.pages')->getHome()->getLink();
@@ -49,7 +52,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $message = JText::_('PASSWORD_RESET_SUCCESS');
+            $message = $this->getObject('translator')->translate('PASSWORD_RESET_SUCCESS');
 
             $url     = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);

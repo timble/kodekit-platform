@@ -51,7 +51,7 @@ class DatabaseRowArticle extends Library\DatabaseRowTable
         if(empty($this->title))
         {
             $this->_status          = Library\Database::STATUS_FAILED;
-            $this->_status_message  = JText::_('Article must have a title');
+            $this->_status_message  = $this->getObject('translator')->translate('Article must have a title');
 
             return false;
         }

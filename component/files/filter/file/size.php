@@ -34,7 +34,7 @@ class FilterFileSize extends Library\FilterAbstract
 			}
 
 			if ($size && $size > $max) {
-				return $this->_error(\JText::_('File is too big'));
+				return $this->_error($this->getObject('translate')->translate('File is too big'));
 			}
 		}
 	}

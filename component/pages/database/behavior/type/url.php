@@ -37,7 +37,7 @@ class DatabaseBehaviorTypeUrl extends DatabaseBehaviorTypeAbstract
     public function getTypeTitle()
     {
         if(!isset($this->_type_title)) {
-            $this->_type_title = \JText::_('External Link');
+            $this->_type_title = $this->getObject('translator')->translate('External Link');
         }
 
         return $this->_type_title;
@@ -46,7 +46,7 @@ class DatabaseBehaviorTypeUrl extends DatabaseBehaviorTypeAbstract
     public function getTypeDescription()
     {
         if(!isset($this->_type_description)) {
-            $this->_type_description = \JText::_('External Link');
+            $this->_type_description = $this->getObject('translator')->translate('External Link');
         }
 
         return $this->_type_description;
