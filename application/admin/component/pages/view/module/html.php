@@ -43,7 +43,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
             }
 
             $path = Library\ClassLoader::getInstance()->getApplication($module->application);
-            JFactory::getLanguage()->load(substr($module->extension_name, 4), $module->name, $path);
+            $this->getObject('translator')->load(substr($module->extension_name, 4), $module->name, $path);
         }
 
         // Build path to module config file
