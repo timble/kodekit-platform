@@ -33,6 +33,9 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	{
 		parent::__construct($config);
 
+        // Load language
+        $this->getObject('translator')->load($this->getIdentifier()->package);
+
         //Force the view to the information found in the request
         $this->_view = $config->view;
 
@@ -189,7 +192,6 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $view->setContent($context->response->getContent());
 
         //Render the view
-        \JFactory::getLanguage()->load($this->getIdentifier()->package);
         $content = $view->render();
 
         //Set the data in the response
