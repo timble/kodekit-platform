@@ -79,6 +79,9 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
                 $size  = new \Imagine\Image\Box($this->x2 - $this->x1, $this->y2 - $this->y1);
 
                 $image->crop($start, $size);
+
+                // Write the cropped file to the filesystem
+                $image->save($source->fullpath);
             }
 
             if ($x && $y) {
