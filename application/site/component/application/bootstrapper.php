@@ -40,5 +40,9 @@ class ApplicationBootstrapper extends Library\BootstrapperAbstract
         $manager->registerAlias('event.dispatcher'          , 'com:debug.event.dispatcher.debug');
 
         $manager->registerAlias('translator', 'com:application.translator');
+
+        $this->getClassLoader()
+        ->getLocator('psr')
+        ->registerNamespace('Symfony\Component\Yaml', JPATH_VENDOR.'/symfony/yaml');
     }
 }
