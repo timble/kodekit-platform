@@ -1,3 +1,2 @@
 # Ignore vendor directory for the file generator
-languagefilegenerator/vendor
-composer.phar
+vendor
