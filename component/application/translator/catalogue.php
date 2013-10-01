@@ -17,8 +17,17 @@ use Nooku\Library;
  * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Koowa
  */
-class TranslatorCatalogue extends Library\TranslatorCatalogue implements TranslatorCatalogueInterface
+class TranslatorCatalogue extends Library\TranslatorCatalogue implements TranslatorCatalogueInterface, Library\ObjectInstantiable
 {
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    {
+        $classname = $config->object_identifier->classname;
+        $instance  = new $classname($config);
+        $manager->setObject($config->object_identifier, $instance);
+
+        return $instance;
+    }
+
     /**
      * @see TranslatorCatalogueInterface::import()
      */
