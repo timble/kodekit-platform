@@ -49,7 +49,12 @@ Attachments.List = new Class({
                 });
             }
         };
-        img.src = target.attr("src");
+
+        var source = target.attr("src");
+        if (source) {
+            img.src = source;
+        }
+
     },
 
     setCoordinates: function(c)
@@ -107,9 +112,14 @@ Attachments.List = new Class({
                     dataType: 'json',
                     method: 'get'
                 }).then(function(data, textStatus, xhr) {
-                    if (xhr.status === 200 && typeof data.item.thumbnail === 'object') {
-                        var thumbnail = data.item.thumbnail.thumbnail;
-                        window.parent.jQuery('.thumbnail[data-id="'+data.item.id+'"] img').attr('src', thumbnail);
+                    if (xhr.status === 200 && typeof data.item === 'object') {
+                        var thumbnail = data.item.thumbnail,
+                            element   = window.parent.jQuery('.thumbnail[data-id="'+data.item.id+'"] img'),
+                            source    = element.attr('src');
+
+                        thumbnail = source.substring(0, source.lastIndexOf('/'))+'/'+thumbnail;
+
+                        element.attr('src', thumbnail);
 
                         if (window.parent.SqueezeBox) {
                             window.parent.SqueezeBox.close();
