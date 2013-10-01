@@ -89,8 +89,8 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
                 $height = $image_size->getHeight();
 
                 if ($width > $height) {
-                    $x = $height*4/3;
-                    $y = $height;
+                    $x = min($height*4/3, $width);
+                    $y = min($height, $x*3/4);
                 }
                 else {
                     $x = $width;
