@@ -31,7 +31,7 @@ window.addEvent('domready', function() {
     	<? if($item->file->isImage()) : ?>
         <div class="thumbnail" data-id="<?= $item->id; ?>">
             <a class="modal" href="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
-                <img src="<?= $item->thumbnail->thumbnail ?>" />
+                <img src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
             </a>
             <div class="thumbnail__caption">
                 <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
