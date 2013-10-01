@@ -35,29 +35,30 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 			}
 		}
 
-        // Crop the image
-        if (isset($this->x1) && isset($this->x2))
-        {
-            $crop = $this->getObject('com:files.database.row.thumbnail');
-            $crop->setData(array(
-                'source' => $this->file,
-                'x1' => $this->x1,
-                'x2' => $this->x2,
-                'y1' => $this->y1,
-                'y2' => $this->y2
-            ));
-
-            // generateThumbnail automatically saves cropped images
-            $crop->generateThumbnail();
-        }
-
         // Save the thumbnail
         $thumbnail = $this->getObject('com:files.database.row.thumbnail');
-        $thumbnail->setThumbnailSize(array('x' => null, 'y' => null));
         $thumbnail->source = $this->file;
 
-        $thumbnail->generateThumbnail()->save($this->thumbnail_fullpath);
+        if (!file_exists($this->thumbnail_fullpath))
+        {
+            $thumbnail->setThumbnailSize(4/3)
+                ->generateThumbnail()
+                ->save($this->thumbnail_fullpath);
+        }
 
+        if (isset($this->x1) && isset($this->x2))
+        {
+            // Cropping existing thumbnail
+            $thumbnail->setData(array(
+                    'source' => $this->file,
+                    'x1' => $this->x1,
+                    'x2' => $this->x2,
+                    'y1' => $this->y1,
+                    'y2' => $this->y2
+                ))
+                ->cropThumbnail()
+                ->save($this->thumbnail_fullpath);
+        }
 
         return $return;
 	}
