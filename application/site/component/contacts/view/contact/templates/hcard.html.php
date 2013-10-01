@@ -19,7 +19,7 @@
         <? foreach($contact->getAttachments() as $item) : ?>
             <? if($item->file->isImage()) : ?>
                 <figure>
-                    <img class="photo" src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
+                    <img width="200" align="right" class="photo" src="attachments://<?= $item->thumbnail ?>" />
                 </figure>
             <? endif ?>
         <? endforeach ?>
