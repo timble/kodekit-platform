@@ -27,7 +27,9 @@
 	    <? endif ?>
 	</header>
 
-    <?= helper('com:attachments.image.thumbnail', array('attachment' => $article->attachments_attachment_id, 'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
+    <?= helper('com:attachments.image.thumbnail', array(
+        'attachment' => $article->attachments_attachment_id,
+        'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
 
     <? if($article->fulltext) : ?>
         <div class="article__introtext">
