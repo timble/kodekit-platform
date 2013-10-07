@@ -22,7 +22,8 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
             'view'   => 'article',
-            'layout' => null
+            'layout' => null,
+            'format'    => 'html'
         ));
 
         $article = $config->row;
@@ -38,6 +39,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             'id'       => $article->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category,
+            'format'    => $config->format
         );
 
         if (($page = $this->_findPage($needles)) || ($article->isPageable() && ($page = $article->getPage()))) {
