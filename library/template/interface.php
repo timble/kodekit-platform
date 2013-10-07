@@ -17,9 +17,44 @@ namespace Nooku\Library;
   */
 interface TemplateInterface
 {
+    const STATUS_LOADED    = 1;
+    const STATUS_COMPILED  = 2;
+    const STATUS_EVALUATED = 4;
+    const STATUS_RENDERED  = 8;
+
+    /**
+     * Load a template by path
+     *
+     * @param   string  $path     The template path
+     * @param   array   $data     An associative array of data to be extracted in local template scope
+     * @param   integer $status   The template state
+     * @return TemplateInterface
+     */
+    public function load($path, $data = array(), $status = self::STATUS_LOADED);
+
+    /**
+     * Parse and compile the template to PHP code
+     *
+     * This function passes the template through compile filter queue and returns the result.
+     *
+     * @return string The parsed data
+     */
+    public function compile();
+
+    /**
+     * Evaluate the template using a simple sandbox
+     *
+     * This function writes the template to a temporary file and then includes it.
+     *
+     * @return string The evaluated data
+     * @see tempnam()
+     */
+    public function evaluate();
+
     /**
      * Render the template
      *
+     * @param  array    $data       An associative array of data to be extracted in local template scope
      * @return string    The rendered data
      */
     public function render();
@@ -44,13 +79,6 @@ interface TemplateInterface
     public function translate($string, array $parameters = array());
 
     /**
-     * Check if the template is in a render cycle
-     *
-     * @return boolean Return TRUE if the template is being rendered
-     */
-    public function isRendering();
-
-    /**
      * Get the template file identifier
      *
      * @return	string
@@ -70,6 +98,15 @@ interface TemplateInterface
      * @return  string
      */
     public function getContent();
+
+    /**
+     * Set the template content from a string
+     *
+     * @param  string   $string     The template content
+     * @param  integer  $status     The template state
+     * @return TemplateAbstract
+     */
+    public function setContent($content, $status = self::STATUS_LOADED);
 
     /**
      * Get the format
@@ -94,24 +131,6 @@ interface TemplateInterface
      * @return TemplateInterface
      */
 	public function setView($view);
-
-    /**
-     * Load a template by path
-     *
-     * @param   string  $file     The template path
-     * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @return TemplateInterface
-     */
-	public function loadFile($file, $data = array());
-
-    /**
-     * Load a template from a string
-     *
-     * @param  string   $string     The template contents
-     * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @return TemplateInterface
-     */
-	public function loadString($string, $data = array());
 
     /**
      * Get a filter by identifier
@@ -156,10 +175,45 @@ interface TemplateInterface
 	public function renderHelper($identifier, $config = array());
 
     /**
-     * Searches for the file
+     * Register a template locator
      *
-     * @param   string  $file The file path to look for.
-     * @return  mixed   The full path and file name for the target file, or FALSE if the file is not found
+     * @param TemplateLocatorInterface $locator
+     * @return TemplateAbstract
      */
-    public function findFile($file);
+    public function registerLocator(TemplateLocatorInterface $locator);
+
+    /**
+     * Get a registered template locator based on his type
+     *
+     * @return TemplateLocatorInterface|null  Returns the template locator or NULL if the locator can not be found.
+     */
+    public function getLocator($type, $config = array());
+
+    /**
+     * Check if the template is loaded
+     *
+     * @return boolean  Returns TRUE if the template is loaded. FALSE otherwise
+     */
+    public function isLoaded();
+
+    /**
+     * Check if the template is compiled
+     *
+     * @return boolean  Returns TRUE if the template is compiled. FALSE otherwise
+     */
+    public function isCompiled();
+
+    /**
+     * Check if the template is evaluated
+     *
+     * @return boolean  Returns TRUE if the template is evaluated. FALSE otherwise
+     */
+    public function isEvaluated();
+
+    /**
+     * Check if the template is rendered
+     *
+     * @return boolean  Returns TRUE if the template is rendered. FALSE otherwise
+     */
+    public function isRendered();
 }

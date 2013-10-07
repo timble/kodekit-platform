@@ -143,8 +143,10 @@ abstract class ViewTemplate extends ViewAbstract
         $identifier = clone $this->getIdentifier();
         $identifier->name = $layout.'.'.$format;
 
-        $this->_content = $this->getTemplate()
-            ->loadFile($identifier, $this->_data)
+        $this->_content = (string) $this->getTemplate()
+            ->load($identifier)
+            ->compile()
+            ->evaluate($this->_data)
             ->render();
 
         return parent::render();
