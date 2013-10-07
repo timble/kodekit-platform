@@ -14,9 +14,9 @@
      xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
 
     <channel>
-        <title><?= escape($article->title) ?></title>
+        <title><?= escape($article->title) ?> </title>
         <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
-        <link><?= route() ?></link>
+        <link><?= helper('route.article', array('row' => $article)) ?></link>
         <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
@@ -28,14 +28,14 @@
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
 
-        <atom:link href="<?= route() ?>" rel="self" type="application/rss+xml"/>
+        <atom:link href="<?= helper('route.article', array('row' => $article,'format' => 'rss')) ?>" rel="self" type="application/rss+xml"/>
 
         <? foreach($comments as $comment) : ?>
             <item>
                 <title><?= translate('Comment on').' '.escape($article->title).' '.translate('by').' '.$comment->created_by_name ?></title>
-                <link><?= helper('route.article', array('row' => $article)) ?> ?></link>
+                <link><?= helper('route.article', array('row' => $article)) ?></link>
                 <dc:creator><?= $comment->created_by_name ?></dc:creator>
-                <guid isPermaLink="false"><?= helper('route.article', array('row' => $article)) ?> ?></guid>
+                <guid isPermaLink="false"><?= helper('route.article', array('row' => $article)) ?> </guid>
                 <description><![CDATA[<?= $comment->text ?>]]></description>
 
                 <pubDate><?= helper('date.format', array('date' => $comment->created_on)) ?></pubDate>

@@ -21,7 +21,6 @@ class ArticlesViewArticleRss extends Library\ViewRss
     {
         $params = $this->getObject('application')->getParams();
 
-        echo '<?xml version="1.0" encoding="utf-8" ?>';
 
         if(is_numeric($this->getModel()->getState()->id)){
             $article = $this->getModel()->getRow();
