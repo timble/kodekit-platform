@@ -28,8 +28,8 @@
             	<option value="1">Show</option>
             </param>
             <param name="commentable" type="radio" default="0" label="Allow comments" description="">
-                <option value="0">NO</option>
-                <option value="1">YES</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
             </param>
         </params>
     </state>
