@@ -23,7 +23,10 @@ class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
 		$config->append(array(
 			'request' => array(
 				'view' => 'attachments'
-			)
+			),
+            'behaviors' => array(
+                'editable'
+            )
 		));
 		
 		parent::_initialize($config);

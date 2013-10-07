@@ -19,7 +19,7 @@
     	<? if($item->file->isImage() && !in_array($item->id, Nooku\Library\ObjectConfig::unbox($exclude))) : ?>
     	<li class="span3">
 	    	<a class="thumbnail modal" href="attachments://<?= $item->path; ?>" rel="{handler: 'image'}">
-	    	   <img src="<?= $item->thumbnail->thumbnail ?>" />
+	    	   <img src="attachments://<?= $item->thumbnail ?>" />
 	    	</a>
     	</li>
     	<? endif ?>

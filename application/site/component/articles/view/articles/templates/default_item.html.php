@@ -20,7 +20,9 @@
         <? endif ?>
     </header>
 
-    <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
+    <?= helper('com:attachments.image.thumbnail', array(
+        'attachment' => $article->attachments_attachment_id,
+        'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
 
     <? if ($article->introtext) : ?>
         <?= highlight($article->introtext) ?>

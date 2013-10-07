@@ -45,7 +45,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
         if(count($list)) {
             foreach($list as $item) {
                 if($item->file->isImage()) {
-                    $html[] = '<img '.$attribs.' src="'.$item->thumbnail->thumbnail.'" />';
+                    $html[] = '<img '.$attribs.' src="attachments://'.$item->thumbnail.'" />';
                 }
             }
     
