@@ -243,37 +243,6 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Evaluate stream content as PHP code
-     *
-     * @param  array  $data         Data to extract in local scope
-     * @param integer $extract_type The way invalid/numeric keys and collisions are treated when extracting them into
-     *                              local scope.
-     * @return boolean Returns TRUE on success or FALSE on failure.
-     */
-    public function evaluate($data = array(), $extract_type = EXTR_SKIP)
-    {
-        $stream = $this->getObject('lib:filesystem.stream');
-
-        //Open a temp stream
-        $stream->open('buffer://temp');
-
-        //Copy content to temp stream
-        $this->copy($stream);
-
-        //Include the temp stream
-        extract($data, $extract_type);
-
-        ob_start();
-        include $stream->getPath();
-        $content = ob_get_clean();
-
-        //Replace content with result of include
-        $this->truncate(0)->write($content);
-
-        return true;
-    }
-
-    /**
      * Truncates the stream to a given length
      *
      * @param integer $size The size to truncate
@@ -352,7 +321,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getResource()
     {
-        return $$this->_resource;
+        return $this->_resource;
     }
 
     /**

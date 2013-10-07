@@ -33,6 +33,7 @@ interface FilesystemStreamInterface
      * Type Constants
      */
     CONST TYPE_FILE      = 'file';
+    CONST TYPE_TEMP      = 'temp';
     CONST TYPE_LINK      = 'link';
     CONST TYPE_DIRECTORY = 'dir';
     CONST TYPE_FIFO      = 'fifo';
@@ -91,16 +92,6 @@ interface FilesystemStreamInterface
      * @return bool Returns TRUE on success, FALSE on failure
      */
     public function copy($stream);
-
-    /**
-     * Evaluate stream content as PHP code
-     *
-     * @param  array  $data         Data to extract in local scope
-     * @param integer $extract_type The way invalid/numeric keys and collisions are treated when extracting them into
-     *                              local scope.
-     * @return boolean Returns TRUE on success or FALSE on failure.
-     */
-    public function evaluate($data = array(), $extract_type = EXTR_SKIP);
 
     /**
      * Truncates the stream to a given length
