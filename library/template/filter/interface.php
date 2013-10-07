@@ -60,6 +60,13 @@ interface TemplateFilterInterface extends ObjectHandlable
     public function getTemplate();
 
     /**
+     * Set the template object
+     *
+     * @return  TemplateInterface $template	The template object
+     */
+    public function setTemplate(TemplateInterface $template);
+
+    /**
      * Get the priority of the filter
      *
      * @return  integer The priority level
