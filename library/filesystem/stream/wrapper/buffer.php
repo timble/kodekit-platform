@@ -46,13 +46,19 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
     {
         $parts = parse_url($path); //parse the path
 
-        $this->_mode     = 'w+b'; //override the mode
         $this->_path     = $path;
         $this->_protocol = $parts['scheme'];
         $this->_type     = $parts['host'];
+        $this->_mode     = 'w+b'; //force to writeable
         $this->_data     = '';
 
-        //Create temporay file
+        //Set the options
+        $this->setOptions($options);
+
+        //Set the mode
+        $this->setMode($this->_mode);
+
+        //Open the file or create a temp file
         if($this->_type == 'temp')
         {
             $this->_path = tempnam(sys_get_temp_dir(), 'temp');
@@ -63,11 +69,19 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
             }
         }
 
-        //Set the options
-        $this->setOptions($options);
+        //Copy the file content into the stream
+        if(isset($parts['path']))
+        {
+            $content = file_get_contents($parts['path']);
 
-        //Set the mode
-        $this->setMode($this->_mode);
+            if(is_resource($this->_data))
+            {
+                fwrite($this->_data, $content);
+                fseek($this->_data, 0);
+
+            }
+            else $this->_data = $content;
+        }
 
         return true;
     }
@@ -178,7 +192,11 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
         if(is_resource($this->_data))
         {
             fclose($this->_data);
-            unlink($this->getPath());
+
+            //Only unlink temporary files
+            if($this->_type == 'temp') {
+                unlink($this->getPath());
+            }
 
             $this->_data = '';
             $this->_path = '';
@@ -240,17 +258,22 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
      */
     public function stream_truncate($size)
     {
-        if(!is_resource($this->_data))
+        if($this->_write)
         {
-            if ($this->_length > $size) {
-                $this->_data = substr($this->_data, 0, $size);
-            } else {
-                $this->_data = str_pad($this->_data, $size, "\0", STR_PAD_RIGHT);
-            }
+            if(!is_resource($this->_data))
+            {
+                if ($this->_length > $size) {
+                    $this->_data = substr($this->_data, 0, $size);
+                } else {
+                    $this->_data = str_pad($this->_data, $size, "\0", STR_PAD_RIGHT);
+                }
 
-        } else ftruncate($this->_data, $size);
+            } else ftruncate($this->_data, $size);
 
-        return true;
+            return true;
+        }
+
+        return false;
     }
 
     /**
