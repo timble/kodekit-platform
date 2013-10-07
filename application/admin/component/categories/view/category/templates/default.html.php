@@ -32,18 +32,7 @@
 		        <input type="text" name="slug" maxlength="255" value="<?= $category->slug ?>" />
 		    </div>
 		</div>
-
-		<div class="scrollable">
-			<fieldset>
-				<legend><?= translate( 'Details' ); ?></legend>
-				<div>
-				    <label for=""><?= translate( 'Description' ); ?></label>
-				    <div>
-				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
-				    </div>
-				</div>
-			</fieldset>
-		</div>
+        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'description', 'text' => $category->description, 'toolbar' => 'basic')) ?>
 	</div>
 
     <div class="sidebar">

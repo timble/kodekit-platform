@@ -42,7 +42,6 @@ class TemplateHelperPaginator extends TemplateHelperSelect
         if($config->total > $config->limit)
         {
             $html = '';
-            $html .= '<style src="assets://css/koowa.css" />';
 
             $html .= '<div class="pagination">';
             if($config->show_limit) {

@@ -22,7 +22,7 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	public function save()
 	{
 		$return = parent::save();
-			
+
 		if ($return && $this->row && $this->table)
         {
 			$relation = $this->getObject('com:attachments.database.row.relation');
@@ -34,8 +34,33 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 				$relation->save();
 			}
 		}
-		
-		return $return;
+
+        // Save the thumbnail
+        $thumbnail = $this->getObject('com:files.database.row.thumbnail');
+        $thumbnail->source = $this->file;
+
+        if (!file_exists($this->thumbnail_fullpath))
+        {
+            $thumbnail->setThumbnailSize(4/3)
+                ->generateThumbnail()
+                ->save($this->thumbnail_fullpath);
+        }
+
+        if (isset($this->x1) && isset($this->x2))
+        {
+            // Cropping existing thumbnail
+            $thumbnail->setData(array(
+                    'source' => $this->file,
+                    'x1' => $this->x1,
+                    'x2' => $this->x2,
+                    'y1' => $this->y1,
+                    'y2' => $this->y2
+                ))
+                ->cropThumbnail()
+                ->save($this->thumbnail_fullpath);
+        }
+
+        return $return;
 	}
 	
 	public function delete()
@@ -44,15 +69,26 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 			
 		if ($return)
         {
-			$this->getObject('com:files.controller.file', array(
-				'request' => $this->getObject('lib:controller.request', array(
-                                'query' => array('container' => $this->container, 'name' => $this->path)
-                            ))
-			))->delete();
-			
-			$relations = $this->getObject('com:attachments.database.table.relations')
-				->select(array('attachments_attachment_id' => $this->id));
-			$relations->delete();
+            $request = $this->getObject('lib:controller.request', array(
+                'query' => array(
+                    'container' => $this->container,
+                    'name' => array(
+                        $this->path,
+                        $this->thumbnail
+                    )
+                )
+            ));
+
+            try {
+                $this->getObject('com:files.controller.file', array(
+                    'request' => $request
+                ))->delete();
+            }
+            catch (Library\ControllerExceptionNotFound $e) {}
+
+			$this->getObject('com:attachments.database.table.relations')
+				->select(array('attachments_attachment_id' => $this->id))
+                ->delete();
 		}
 
 		return $return;
@@ -70,24 +106,33 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	    {
 	    	$this->file = $this->getObject('com:files.model.files')
 	    					->container($this->container)
-	    					->folder($this->path)
-	    					->name($this->name)
+	    					->name($this->path)
 	    					->getRow();
 	    }
-	    
-	    if($name == 'thumbnail' && !isset($this->thumbnail))
+
+	    if($name == 'thumbnail' && !isset($this->thumbnail) && $this->file)
 	    {
-	    	$file = $this->file;
-	    	
-	    	if($file && $file->isImage())
-	    	{
-	    		$this->thumbnail = $this->getObject('com:files.controller.thumbnail')
-	    				->container($this->container)
-	    				->filename($this->path)
-	    				->read();
-	    	}
+            $path  = pathinfo($this->path);
+            $path['dirname'] = $path['dirname'] === '.' ? '' : $path['dirname'].'/';
+
+            $thumbnail = $path['dirname'].$path['filename'].'_thumb.'.$path['extension'];
+
+            $this->thumbnail = $thumbnail;
 	    }
+
+        if($name == 'thumbnail_fullpath' && $this->file) {
+            $this->thumbnail_fullpath = dirname($this->file->fullpath).'/'.$this->thumbnail;
+        }
 	    
 	    return parent::__get($name);
 	}
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        $data['thumbnail'] = $this->thumbnail;
+
+        return $data;
+    }
 }
