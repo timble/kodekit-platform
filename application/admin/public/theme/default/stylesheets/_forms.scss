@@ -19,6 +19,10 @@ fieldset {
   padding: 0;
   margin: 20px;
   border: 0;
+
+  fieldset {
+    margin: 0;
+  }
 }
 
 // Groups of fields with labels on top (legends)
