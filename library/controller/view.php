@@ -95,7 +95,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
      * an exception. This is a security measure to make sure we can only explicitly get data from views the have been
      * physically defined.
 	 *
-	 * @throws  ControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
+	 * @throws  ControllerExceptionNotFound If the view cannot be found. Only when controller is being dispatched.
      * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
 	 * @return	ViewInterface
 	 */
@@ -127,9 +127,12 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 			//Make sure the view exists if we are dispatching this controller
             if($this->isDispatched())
             {
-                //if(!file_exists(dirname($this->_view->getIdentifier()->classpath))) {
-                //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
-                //}
+                $class = $this->_view->getIdentifier()->getClassName();
+                $path  = $this->getObject('manager')->getClassLoader()->findPath($class);
+
+                if(!file_exists(dirname($path))) {
+                    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
+                }
             }
 		}
 
