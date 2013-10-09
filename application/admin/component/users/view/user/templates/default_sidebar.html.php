@@ -44,6 +44,6 @@
 <fieldset>
     <legend><?= translate('Role') ?></legend>
     <div>
-        <div><?= helper('select.groups', array('selected' => $user->role_id)); ?></div>
+        <div><?= helper('select.groups', array('selected' => $user->role_id, 'name' => 'role_id')); ?></div>
     </div>
 </fieldset>
