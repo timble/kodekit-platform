@@ -39,16 +39,6 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
     protected $_messages;
 
     /**
-     * Flash messages types
-     *
-     * Note : Messages types
-     */
-    const FLASH_SUCCESS = 'success';
-    const FLASH_NOTICE  = 'notice';
-    const FLASH_WARNING = 'warning';
-    const FLASH_ERROR   = 'error';
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
@@ -219,15 +209,16 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
      * Implement a virtual 'headers' class property to return their respective objects.
      *
      * @param   string $name  The property name.
-     * @return  string $value The property value.
+     * @return  mixed The property value.
      */
     public function __get($name)
     {
+        $result = null;
         if($name == 'headers') {
-            return $this->getHeaders();
+            $result = $this->getHeaders();
         }
 
-        return parent::__get($name);
+        return $result;
     }
 
     /**

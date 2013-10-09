@@ -53,10 +53,21 @@ class ControllerFile extends ControllerAbstract
 
     protected function _actionRender(Library\CommandContext $context)
     {
-        if($context->request->getFormat() == 'html') {
-            return Library\ControllerView::_actionRender($context);
-        }
+        $model = $this->getModel();
 
-        return parent::_actionRender($context);
+        if($model->getState()->isUnique())
+        {
+            $file = $this->getModel()->getRow();
+
+            if (!file_exists($file->fullpath)) {
+                throw new Library\ControllerExceptionNotFound(\JText::_('File not found'));
+            }
+
+            //Set the data in the response
+            $context->response
+                ->attachTransport('chunked')
+                ->setPath('file://'.$file->fullpath, $file->mimetype);
+        }
+        else parent::_actionRender($context);
     }
 }

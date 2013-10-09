@@ -35,7 +35,7 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Command::PRIORITY_HIGH,
+            'priority'   => self::PRIORITY_HIGH,
             'auto_mixin' => true
         ));
 

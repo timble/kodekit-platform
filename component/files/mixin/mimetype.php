@@ -53,39 +53,37 @@ class MixinMimetype extends Library\Object
 	{
 		$mimetype = false;
 
-		if (!file_exists($path)) {
-			return $mimetype;
-		}
-
-		foreach ($this->_adapters as $i => $adapter)
-		{
-			$function = '_detect'.ucfirst($adapter);
-			$return = $this->$function($path);
-
-			if (!empty($return) && $return !== MixinMimetype::NOT_AVAILABLE)
+		if (file_exists($path))
+        {
+            foreach ($this->_adapters as $i => $adapter)
             {
-				$mimetype = $return;
-				break;
-			}
+                $function = '_detect'.ucfirst($adapter);
+                $return = $this->$function($path);
+
+                if (!empty($return) && $return !== MixinMimetype::NOT_AVAILABLE)
+                {
+                    $mimetype = $return;
+                    break;
+                }
+            }
+
+            // strip charset from text files
+            if (!empty($mimetype) && strpos($mimetype, ';')) {
+                $mimetype = substr($mimetype, 0, strpos($mimetype, ';'));
+            }
+
+            // special case: empty text files
+            if ($mimetype == 'application/x-empty') {
+                $mimetype = 'text/plain';
+            }
 		}
 
-		// strip charset from text files
-		if (!empty($mimetype) && strpos($mimetype, ';')) {
-			$mimetype = substr($mimetype, 0, strpos($mimetype, ';'));
-		}
-
-		// special case: empty text files
-		if ($mimetype == 'application/x-empty') {
-			$mimetype = 'text/plain';
-		}
-
-		
 		return $mimetype;
 	}
 
 	protected function _detectImage($path)
 	{
-		if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), DatabaseRowFile::$image_extensions)
+        if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), DatabaseRowFile::$image_extensions)
 			&& $info = getimagesize($path)) {
 			return $info['mime'];
 		}

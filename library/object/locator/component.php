@@ -93,37 +93,4 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
 
         return $result;
     }
-
-    /**
-     * Find the identifier path
-     *
-     * @param  ObjectIdentifier $identifier  	An identifier object
-     * @return string	Returns the path
-     */
-    public function findPath(ObjectIdentifier $identifier)
-    {
-        $path  = '';
-        $parts = $identifier->path;
-
-        $component = strtolower($identifier->package);
-
-        if(!empty($identifier->name))
-        {
-            if(count($parts)) {
-                $path = implode('/', $parts).'/'.strtolower($identifier->name);
-            } else {
-                $path  = strtolower($identifier->name);
-            }
-        }
-
-        $path = 'component/'.$component.'/'.$path.'.php';
-
-        if(file_exists(JPATH_APPLICATION.'/'.$path)) {
-            $path = JPATH_APPLICATION.'/'.$path;
-        } else {
-            $path = JPATH_ROOT.'/'.$path;
-        }
-
-        return $path;
-    }
 }

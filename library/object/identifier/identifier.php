@@ -63,13 +63,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_name = '';
 
     /**
-     * The file path
-     *
-     * @var string
-     */
-    protected $_classpath = '';
-
-    /**
      * The classname
      *
      * @var string
@@ -128,6 +121,73 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             $this->_name = array_pop($this->_path);
         }
     }
+    /**
+     * Serialize the identifier
+     *
+     * @return string 	The serialised identifier
+     */
+    public function serialize()
+    {
+        $data = array(
+            'type'		 => $this->_type,
+            'package'	 => $this->_package,
+            'path'		 => $this->_path,
+            'name'		 => $this->_name,
+            'identifier' => $this->_identifier,
+            'classname'  => $this->classname,
+        );
+
+        return serialize($data);
+    }
+
+    /**
+     * Unserialize the identifier
+     *
+     * @return string $data	The serialised identifier
+     */
+    public function unserialize($data)
+    {
+        $data = unserialize($data);
+
+        foreach($data as $property => $value) {
+            $this->{'_'.$property} = $value;
+        }
+    }
+
+    /**
+     * Checks if the identifier extends a class, implements an interface or uses a trait
+     *
+     * @param string $identifier An identifier object or a class name
+     * @param boolean $autoload  Whether to allow this function to load the class automatically through the __autoload()
+     *                           magic method.
+     */
+    public function inherits($class, $autoload = true)
+    {
+        if($class instanceof ObjectIdentifier) {
+            $class = $class->classname;
+        }
+
+        //Check parent classes
+        if(array_key_exists($class, class_parents($this->classname, $autoload))) {
+            return true;
+        }
+
+        //Check interfaces
+        if(array_key_exists($class, class_implements($this->classname, $autoload))) {
+            return true;
+        }
+
+        //Check traits
+        if(function_exists('class_uses'))
+        {
+            if(array_key_exists($class, class_uses($this->classname, $autoload))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Get the identifier type
@@ -358,16 +418,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Get the identifier file path
-     *
-     * @return string
-     */
-    public function getClassPath()
-    {
-        return $this->classpath;
-    }
-
-    /**
      * Check if the object is a multiton
      *
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
@@ -415,40 +465,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         return $this->_identifier;
     }
 
-	/**
-	 * Serialize the identifier
-	 *
-	 * @return string 	The serialised identifier
-	 */
-	public function serialize()
-	{
-        $data = array(
-            'type'		 => $this->_type,
-            'package'	 => $this->_package,
-            'path'		 => $this->_path,
-            'name'		 => $this->_name,
-            'identifier' => $this->_identifier,
-            'classpath'  => $this->classpath,
-            'classname'  => $this->classname,
-        );
-
-        return serialize($data);
-	}
-
-	/**
-	 * Unserialize the identifier
-	 *
-	 * @return string $data	The serialised identifier
-	 */
-	public function unserialize($data)
-	{
-	    $data = unserialize($data);
-
-	    foreach($data as $property => $value) {
-	        $this->{'_'.$property} = $value;
-	    }
-	}
-
     /**
      * Implements the virtual class properties
      *
@@ -488,7 +504,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             //Reset the properties
             $this->_identifier = '';
             $this->_classname  = '';
-            $this->_classpath  = '';
         }
     }
 
@@ -503,10 +518,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         $result = null;
         if(isset($this->{'_'.$property}))
         {
-            if($property == 'classpath' && empty($this->_classpath)) {
-                $this->_classpath = $this->getLocator()->findPath($this);
-            }
-
             if($property == 'classname' && empty($this->_classname)) {
                 $this->_classname = $this->getLocator()->locate($this);
             }

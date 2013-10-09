@@ -72,13 +72,6 @@ interface UserInterface
     public function getSalt();
 
     /**
-     * Get the user session
-     *
-     * @return UserSessionInterface
-     */
-    public function getSession();
-
-    /**
      * The user has been successfully authenticated
      *
      * @return Boolean

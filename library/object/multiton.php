@@ -18,7 +18,4 @@ namespace Nooku\Library;
  * @package Nooku\Library\Object
  * @see     ObjectManager::getObject()
  */
-interface ObjectMultiton extends ObjectInterface
-{
-
-}
+interface ObjectMultiton extends ObjectInterface {}

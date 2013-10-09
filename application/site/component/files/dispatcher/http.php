@@ -45,18 +45,4 @@ class FilesDispatcherHttp extends Library\DispatcherHttp
             $context->response->setStatus('200');
         }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequest()
-    {
-        $request = parent::getRequest();
-
-        if ($request->getQuery()->get('view', 'cmd') === 'file') {
-            $request->setFormat('html');
-        }
-
-        return $request;
-    }
 }

@@ -18,6 +18,22 @@ namespace Nooku\Library;
 abstract class TemplateAbstract extends Object implements TemplateInterface
 {
     /**
+     * Tracks the status the template
+     *
+     * Available template status values are defined as STATUS_ constants
+     *
+     * @var string
+     */
+    protected $_status = null;
+
+    /**
+     * The template path
+     *
+     * @var string
+     */
+    protected $_path;
+
+    /**
      * The template data
      *
      * @var array
@@ -32,11 +48,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_content;
 
     /**
-     * The set of template filters for templates
+     * The template locators
      *
      * @var array
      */
-    protected $_filters;
+    protected $_locators;
 
     /**
      * View object or identifier
@@ -48,19 +64,26 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Template stack
      *
-     * Used to track recursive loadFile calls during template evaluation
+     * Used to track recursive load calls during template evaluation
      *
      * @var array
-     * @see loadFile()
+     * @see load()
      */
     protected $_stack;
 
     /**
-     * The filter chain
+     * List of template filters
      *
-     * @var	TemplateFilterChain
+     * @var array
      */
-    protected $_chain = null;
+    protected $_filters;
+
+    /**
+     * Filter queue
+     *
+     * @var	ObjectQueue
+     */
+    protected $_queue;
 
     /**
      * Constructor
@@ -79,11 +102,14 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         // Set the template data
         $this->_data = $config->data;
 
-        //Set the filter chain
-        $this->_chain = $config->filter_chain;
+        //Set the filter queue
+        $this->_queue = $this->getObject('lib:object.queue');
+
+        //Register the loaders
+        $this->_locators = ObjectConfig::unbox($config->locators);
 
         //Attach the filters
-        $filters = (array)ObjectConfig::unbox($config->filters);
+        $filters = ObjectConfig::unbox($config->filters);
 
         foreach ($filters as $key => $value)
         {
@@ -109,34 +135,155 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'          => array(),
-            'view'          => null,
-            'filter_chain'  => $this->getObject('lib:template.filter.chain'),
-            'filters'       => array(),
+            'data'     => array(),
+            'view'     => null,
+            'filters'  => array(),
+            'locators' => array('com' => 'lib:template.locator.component')
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Render the template
+     * Load a template by path
      *
-     * @return string  The rendered data
+     * @param   string  $path     The template path
+     * @param   array   $data     An associative array of data to be extracted in local template scope
+     * @throws \InvalidArgumentException If the template could not be found
+     * @return TemplateAbstract
+     */
+    public function load($path, $data = array(), $status = self::STATUS_LOADED)
+    {
+        $parts = parse_url( $path );
+
+        //Set the default type is not scheme can be found
+        if(!isset($parts['scheme'])) {
+            $type = 'com';
+        } else {
+            $type = $parts['scheme'];
+        }
+
+        //Check of the file exists
+        if (!$template = $this->getLocator($type)->locate($path)) {
+            throw new \InvalidArgumentException('Template "' . $path . '" not found');
+        }
+
+        //Push the path on the stack
+        array_push($this->_stack, $path);
+
+        //Set the status
+        $this->_status = $status;
+
+        //Load the file
+        $this->_content = $this->getObject('lib:filesystem.stream')->open($template)->getContent();
+
+        //Compile and evaluate partial templates
+        if(count($this->_stack) > 1)
+        {
+            if(!($status & self::STATUS_COMPILED)) {
+                $this->compile();
+            }
+
+            if(!($status & self::STATUS_EVALUATED)) {
+                $this->evaluate($data);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Parse and compile the template to PHP code
+     *
+     * This function passes the template through compile filter queue and returns the result.
+     *
+     * @return TemplateAbstract
+     */
+    public function compile()
+    {
+        if(!($this->_status & self::STATUS_COMPILED))
+        {
+            foreach($this->_queue as $filter)
+            {
+                if($filter instanceof TemplateFilterCompiler) {
+                    $filter->compile($this->_content);
+                }
+            }
+
+            //Set the status
+            $this->_status ^= self::STATUS_COMPILED;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Evaluate the template using a simple sandbox
+     *
+     * This function writes the template to a temporary file and then includes it.
+     *
+     * @param  array   $data  An associative array of data to be extracted in local template scope
+     * @return TemplateAbstract
+     * @see tempnam()
+     */
+    public function evaluate($data = array())
+    {
+        if(!($this->_status & self::STATUS_EVALUATED))
+        {
+            //Merge the data
+            $this->_data = array_merge((array) $this->_data, $data);
+
+            //Create temporary file
+            $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
+            $this->getObject('manager')->getClassLoader()->setAlias($this->getPath(), $tempfile);
+
+            //Write the template to the file
+            $handle = fopen($tempfile, "w+");
+            fwrite($handle, $this->_content);
+            fclose($handle);
+
+            //Include the file
+            extract($this->_data, EXTR_SKIP);
+
+            ob_start();
+            include $tempfile;
+            $this->_content = ob_get_clean();
+
+            unlink($tempfile);
+
+            //Remove the path from the stack
+            array_pop($this->_stack);
+
+            //Set the status
+            $this->_status ^= self::STATUS_EVALUATED;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Process the template
+     *
+     * This function passes the template through the render filter queue
+     *
+     * @return TemplateAbstract
      */
     public function render()
     {
-        //Parse the template
-        $this->_compile($this->_content);
+        if(!($this->_status & self::STATUS_RENDERED))
+        {
+            foreach($this->_queue as $filter)
+            {
+                if($filter instanceof TemplateFilterRenderer) {
+                    $filter->render($this->_content);
+                }
+            }
 
-        //Evaluate the template
-        $this->_evaluate($this->_content);
-
-        //Process the template only at the end of the render cycle.
-        if(!count($this->_stack)) {
-            $this->_render($this->_content);
+            //Set the status
+            $this->_status ^= self::STATUS_RENDERED;
         }
 
-        return $this->_content;
+        return $this;
     }
 
     /**
@@ -165,23 +312,13 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Get the template data
+     * Get the template path
      *
-     * @return  mixed
+     * @return	string
      */
-    public function getData()
+    public function getPath()
     {
-        return $this->_data;
-    }
-
-    /**
-     * Get the template content
-     *
-     * @return  string
-     */
-    public function getContent()
-    {
-        return $this->_content;
+        return end($this->_stack);
     }
 
     /**
@@ -195,13 +332,50 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Get the template file identifier
+     * Get the template data
      *
-     * @return	string
+     * @return  mixed
      */
-    public function getPath()
+    public function getData()
     {
-        return end($this->_stack);
+        return $this->_data;
+    }
+
+    /**
+     * Set the template data
+     *
+     * @param  array   $data     The template data
+     * @return TemplateAbstract
+     */
+    public function setData(array $data)
+    {
+        $this->_data = $data;
+        return $this;
+    }
+
+    /**
+     * Get the template content
+     *
+     * @return  string
+     */
+    public function getContent()
+    {
+        return $this->_content;
+    }
+
+    /**
+     * Set the template content from a string
+     *
+     * @param  string   $string     The template content
+     * @param  integer  $status     The template state
+     * @return TemplateAbstract
+     */
+    public function setContent($content, $status = self::STATUS_LOADED)
+    {
+        $this->_content = $content;
+        $this->_status  = $status;
+
+        return $this;
     }
 
     /**
@@ -261,107 +435,6 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Load a template by path
-     *
-     * @param   string  $path     The template path
-     * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @throws \InvalidArgumentException If the template could not be found
-     * @return TemplateAbstract
-     */
-    public function loadFile($file, $data = array())
-    {
-        if(strpos($file, 'com:') === 0)
-        {
-            $info  = pathinfo( $file );
-
-            //Get the path based on the identifier
-            $identifier = $this->getIdentifier($info['filename']);
-
-            $path  = implode('/', $identifier->path).'/'.strtolower($identifier->name);
-            $path = 'component/'.strtolower($identifier->package).'/'.$path.'.php';
-
-            //Add the templates folder
-            $path = dirname($path).'/templates/'.basename($path);
-
-            //Add the format
-            $path  = str_replace('.php', '.'.$info['extension'].'.php', $path);
-
-            if(file_exists(JPATH_APPLICATION.'/'.$path)) {
-                $path = JPATH_APPLICATION.'/'.$path;
-            } else {
-                $path = JPATH_ROOT.'/'.$path;
-            }
-        }
-        else $path = dirname($this->getPath()).'/'.$file.'.php';
-
-        //Theme override
-        $theme  = $this->getObject('application')->getTheme();
-        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
-        $theme .= str_replace(array(JPATH_APPLICATION.'/component', '/view', '/templates'), '', $path);
-
-        //Try to find the template
-        foreach(array($theme, $path) as $find)
-        {
-            $template = $this->findFile($find);
-            if($template !== false) {
-                break;
-            }
-        }
-
-        //Find the template
-        //$template = $this->findFile($path);
-
-        //Check of the file exists
-        if (!file_exists($template)) {
-            throw new \InvalidArgumentException('Template "' . $file . '" not found');
-        }
-
-        //Push the path on the stack
-        array_push($this->_stack, $path);
-
-        //Load the file
-        $contents = file_get_contents($template);
-        $this->loadString($contents, $data);
-
-        //Pop the path of the stack
-        array_pop($this->_stack);
-
-        return $this;
-    }
-
-    /**
-     * Load a template from a string
-     *
-     * @param  string   $string     The template contents
-     * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @return TemplateAbstract
-     */
-    public function loadString($string, $data = array())
-    {
-        $this->_content = $string;
-
-        //Merge the data
-        $this->_data = array_merge((array)$this->_data, $data);
-
-        //Render subtemplates
-        if(count($this->_stack)) {
-            $this->render();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Check if the template is in a render cycle
-     *
-     * @return boolean Return TRUE if the template is being rendered
-     */
-    public function isRendering()
-    {
-        return (bool) count($this->_stack);
-    }
-
-    /**
      * Get a filter by identifier
      *
      * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
@@ -412,8 +485,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             $filter = $this->getFilter($filter, $config);
         }
 
-        //Enqueue the filter in the command chain
-        $this->_chain->enqueue($filter);
+        //Enqueue the filter
+        $this->_queue->enqueue($filter, $filter->getPriority());
 
         return $this;
     }
@@ -502,94 +575,102 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Searches for the file
+     * Register a template locator
      *
-     * @param   string  $file The file path to look for.
-     * @return  mixed   The full path and file name for the target file, or FALSE if the file is not found
+     * @param TemplateLoaderInterface $locator
+     * @return TemplateAbstract
      */
-    public function findFile($file)
+    public function registerLocator(TemplateLocatorInterface $locator)
     {
-        $result = false;
-        $path = dirname($file);
+        $this->_locators[$locator->getType()] = $locator;
+        return $this;
+    }
 
-        // is the path based on a stream?
-        if (strpos($path, '://') === false)
+    /**
+     * Get a registered template locator based on his type
+     *
+     * @return TemplateLoaderInterface|null  Returns the template loader or NULL if the loader can not be found.
+     */
+    public function getLocator($type, $config = array())
+    {
+        $locator = null;
+        if(isset($this->_locators[$type]))
         {
-            // not a stream, so do a realpath() to avoid directory
-            // traversal attempts on the local file system.
-            $path = realpath($path); // needed for substr() later
-            $file = realpath($file);
+            $locator = $this->_locators[$type];
+
+            if(!$locator instanceof TemplateLocatorInterface)
+            {
+                //Create the complete identifier if a partial identifier was passed
+                if (is_string($locator) && strpos($locator, '.') === false)
+                {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = array('template', 'locator');
+                    $identifier->name = $locator;
+                }
+                else $identifier = $this->getIdentifier($locator);
+
+                $locator = $this->getObject($identifier, array_merge($config, array('template' => $this)));
+
+                if (!($locator instanceof TemplateLocatorInterface))
+                {
+                    throw new \UnexpectedValueException(
+                        "Template loader $identifier does not implement TemplateLocatorInterface"
+                    );
+                }
+
+                $this->_loaders[$type] = $locator;
+            }
         }
 
-        // The substr() check added to make sure that the realpath()
-        // results in a directory registered so that non-registered directories
-        // are not accessible via directory traversal attempts.
-        if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
-            $result = $file;
-        }
-
-        // could not find the file in the set of paths
-        return $result;
+        return $locator;
     }
 
     /**
-     * Parse and compile the template to PHP code
+     * Check if the template is loaded
      *
-     * This function passes the template through read filter chain and returns the result.
-     *
-     * @return string The parsed data
+     * @return boolean  Returns TRUE if the template is loaded. FALSE otherwise
      */
-    protected function _compile(&$content)
+    public function isLoaded()
     {
-        $this->_chain->compile($content);
+        return $this->_status & self::STATUS_LOADED;
     }
 
     /**
-     * Evaluate the template using a simple sandbox
+     * Check if the template is compiled
      *
-     * This function writes the template to a temporary file and then includes it.
-     *
-     * @return string The evaluated data
-     * @see tempnam()
+     * @return boolean  Returns TRUE if the template is compiled. FALSE otherwise
      */
-    protected function _evaluate(&$content)
+    public function isCompiled()
     {
-        //Create temporary file
-        $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
-        $this->getObject('manager')->getClassLoader()->setAlias($this->getPath(), $tempfile);
-
-        //Write the template to the file
-        $handle = fopen($tempfile, "w+");
-        fwrite($handle, $content);
-        fclose($handle);
-
-        //Include the file
-        extract($this->_data, EXTR_SKIP);
-
-        ob_start();
-        include $tempfile;
-        $content = ob_get_clean();
-
-        unlink($tempfile);
+        return $this->_status & self::STATUS_COMPILED;
     }
 
     /**
-     * Process the template
+     * Check if the template is evaluated
      *
-     * This function passes the template through write filter chain and returns the result.
-     *
-     * @return string  The rendered data
+     * @return boolean  Returns TRUE if the template is evaluated. FALSE otherwise
      */
-    protected function _render(&$content)
+    public function isEvaluated()
     {
-        $this->_chain->render($content);
+        return $this->_status & self::STATUS_EVALUATED;
+    }
+
+    /**
+     * Check if the template is rendered
+     *
+     * @return boolean  Returns TRUE if the template is rendered. FALSE otherwise
+     */
+    public function isRendered()
+    {
+        return $this->_status & self::STATUS_RENDERED;
     }
 
     /**
      * Returns the template contents
      *
+     * When casting to a string the template content will be compiled, evaluated and rendered.
+     *
      * @return  string
-     * @see getContents()
      */
     public function __toString()
     {

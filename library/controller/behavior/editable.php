@@ -12,6 +12,9 @@ namespace Nooku\Library;
 /**
  * Editable Controller Behavior
  *
+ * Behavior defines 'save', 'apply' and cancel functions. Functions are only executable if the request format is
+ * 'html'. For other formats, eg json use 'edit' and 'read' actions directly.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
@@ -26,15 +29,18 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.read'  , array($this, 'lockEntity'));
-        $this->registerCallback('after.save'  , array($this, 'unlockEntity'));
-        $this->registerCallback('after.cancel', array($this, 'unlockEntity'));
+        $this->registerCallback('after.read'  , array($this, 'lockResource'));
+        $this->registerCallback('after.save'  , array($this, 'unlockResource'));
+        $this->registerCallback('after.cancel', array($this, 'unlockResource'));
 
-        $this->registerCallback('before.read' , array($this, 'setReferrer'));
-        $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
-        $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
-        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-        $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+        if($this->getRequest()->getFormat() == 'html')
+        {
+            $this->registerCallback('before.read' , array($this, 'setReferrer'));
+            $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
+            $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
+            $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
+            $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+        }
     }
 
     /**
@@ -67,15 +73,15 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Lock the entity
+     * Lock the resource
      *
      * Only lock if the context contains a row object and if the user has an active session he can edit or delete the
-     * entity. Otherwise don't lock it.
+     * resource. Otherwise don't lock it.
      *
      * @param   CommandContext  $context The command context
      * @return  void
      */
-    public function lockEntity(CommandContext $context)
+    public function lockResource(CommandContext $context)
     {
         if($this->isLockable() && $this->canEdit()) {
             $context->result->lock();
@@ -83,12 +89,12 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Unlock the entity
+     * Unlock the resource
      *
      * @param  CommandContext  $context The command context
      * @return void
      */
-    public function unlockEntity(CommandContext $context)
+    public function unlockResource(CommandContext $context)
     {
         if($this->isLockable() && $this->canEdit()) {
             $context->result->unlock();
@@ -159,9 +165,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Check if the entity is locked
+     * Check if the resource is locked
      *
-     * @return bool Returns TRUE if the entity is locked, FALSE otherwise.
+     * @return bool Returns TRUE if the resource is locked, FALSE otherwise.
      */
     public function isLocked()
     {
@@ -178,9 +184,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Check if the entity is lockable
+     * Check if the resource is lockable
      *
-     * @return bool Returns TRUE if the entity is can be locked, FALSE otherwise.
+     * @return bool Returns TRUE if the resource is can be locked, FALSE otherwise.
      */
     public function isLockable()
     {
@@ -210,19 +216,22 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function canSave()
     {
-        if($this->getModel()->getState()->isUnique())
+        if($this->getRequest()->getFormat() == 'html')
         {
-            if($this->canEdit())
+            if($this->getModel()->getState()->isUnique())
             {
-                if($this->isLockable() && !$this->isLocked()) {
-                    return true;
+                if($this->canEdit())
+                {
+                    if($this->isLockable() && !$this->isLocked()) {
+                        return true;
+                    }
                 }
             }
-        }
-        else
-        {
-            if($this->canAdd()) {
-                return true;
+            else
+            {
+                if($this->canAdd()) {
+                    return true;
+                }
             }
         }
 
@@ -250,7 +259,11 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function canCancel()
     {
-        return $this->canRead();
+        if($this->getRequest()->getFormat() == 'html') {
+            return $this->canRead();
+        }
+
+        return false;
     }
 
     /**
@@ -332,7 +345,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Add a lock flash message if the entity is locked
+     * Add a lock flash message if the resource is locked
      *
      * @param   CommandContext	$context A command context object
      * @return 	void
@@ -341,7 +354,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         $entity = $context->result;
 
-        //Add the notice if the entity is locked
+        //Add the notice if the resource is locked
         if($this->canEdit() && $this->isLockable() && $this->isLocked())
         {
             //Prevent a re-render of the message
@@ -360,13 +373,13 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Prevent editing a locked entity
+     * Prevent editing a locked resource
      *
-     * If the entity is locked a Retry-After header indicating the time at which the conflicting edits are expected
+     * If the resource is locked a Retry-After header indicating the time at which the conflicting edits are expected
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
      * @param   CommandContext	$context A command context object
-     * @throws  ControllerExceptionConflict If the entity is locked
+     * @throws  ControllerExceptionConflict If the resource is locked
      * @return 	void
      */
     protected function _beforeControllerEdit(CommandContext $context)
@@ -374,18 +387,18 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($this->isLocked())
         {
             $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
-            throw new ControllerExceptionConflict('Entity is locked.');
+            throw new ControllerExceptionConflict('Resource is locked.');
         }
     }
 
     /**
-     * Prevent deleting a locked entity
+     * Prevent deleting a locked resource
      *
-     * If the entity is locked a Retry-After header indicating the time at which the conflicting edits are expected
+     * If the resource is locked a Retry-After header indicating the time at which the conflicting edits are expected
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
      * @param   CommandContext	$context A command context object
-     * @throws  ControllerExceptionConflict If the entity is locked
+     * @throws  ControllerExceptionConflict If the resource is locked
      * @return 	void
      */
     protected function _beforeControllerDelete(CommandContext $context)
@@ -393,7 +406,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($this->isLocked())
         {
             $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
-            throw new ControllerExceptionConflict('Entity is locked');
+            throw new ControllerExceptionConflict('Resource is locked');
         }
     }
 }
