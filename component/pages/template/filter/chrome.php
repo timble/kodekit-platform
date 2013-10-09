@@ -69,7 +69,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
 
         $identifier = $manager->getIdentifier($identifier);
 
-        if(class_exists($identifier->classname, true)) {
+        if($identifier->exists()) {
             $classname = $identifier->classname;
         } else {
             $classname = $config->object_identifier->classname;
