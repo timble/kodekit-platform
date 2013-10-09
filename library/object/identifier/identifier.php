@@ -188,6 +188,15 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         return false;
     }
 
+    /**
+     * Checks if the identifier has been defined
+     *
+     * @return bool Returns TRUE if the identifier exists, FALSE otherwise.
+     */
+    public function exists()
+    {
+        return $this->getLocator()->locate($this, false);
+    }
 
     /**
      * Get the identifier type
