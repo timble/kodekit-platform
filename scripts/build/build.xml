@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<!-- $Id$ -->
+<project name="Koowa" basedir="." default="build" description="Phing build script for Koowa package.">
+
+	<target name="config" description="Load configuration file">
+		<property file="build.properties"  override="false" />
+	</target>
+
+	<target name="build" description="Build installable package" depends="config, svn_lastrevision">
+		<mkdir dir="${dir.packages}" />
+		<mkdir dir="${dir.tmp}" />
+		<phingcall target="export_from_${dir.source}" />
+		<tar destfile="${dir.packages}/${file.package}${svn.lastrevision}${file.extension}" basedir="${dir.tmp}" compression="${file.compression}" />
+		<delete dir="${dir.tmp}" includeemptydirs="true" />
+	</target>
+	
+	<target name="export_from_wc" description="Export files from a local working copy" depends="config">
+		<copy todir="${dir.tmp}">
+			<fileset dir="${dir.local}">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="export_from_svn" description="Export files from an svn repository" depends="config, svn_config">
+		<svnexport username="${svn.username}" password="${svn.password}" repositoryurl="${svn.url}" todir="${svn.targetdir}" nocache="true" force="true" />
+	</target>
+		
+	<target name="svn_config" description="Get configuration for svn" depends="config">
+		<if>
+			<not><isset property="svn.url"/></not>
+			<then>
+				<input propertyname="svn.url"
+					defaultValue="" promptChar="?">${svn.projectname} SVN URL</input>
+			</then>
+		</if>
+		<if>
+			<not><isset property="svn.targetdir"/></not>
+			<then>
+				<input propertyname="svn.targetdir"
+					defaultValue="" promptChar="?">${svn.projectname} SVN target directory</input>
+			</then>
+		</if>
+		<if>
+			<not><isset property="svn.username"/></not>
+			<then>
+				<input propertyname="svn.username"
+					defaultValue="" promptChar="?">${svn.projectname} SVN Username</input>
+			</then>
+		</if>
+		<if>
+			<not><isset property="svn.password"/></not>
+			<then>
+				<input propertyname="svn.password"
+					defaultValue="" promptChar="?">${svn.projectname} SVN Password</input>
+			</then>
+		</if>
+	</target>
+	
+	<target name="svn_lastrevision" depends="config">
+		<svnlastrevision workingcopy="${dir.local}" propertyname="svn.lastrevision" />
+	</target>
+</project>
