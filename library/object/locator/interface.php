@@ -35,7 +35,8 @@ interface ObjectLocatorInterface
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
+     * @param bool  $fallback   Use the fallbacks to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
-	public function locate(ObjectIdentifier $identifier);
+	public function locate(ObjectIdentifier $identifier, $fallback = true);
 }

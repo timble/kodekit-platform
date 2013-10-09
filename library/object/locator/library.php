@@ -36,7 +36,6 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     {
         $config->append(array(
             'fallbacks' => array(
-                'Nooku\Library\<Package><Path><Name>',
                 'Nooku\Library\<Package><Path>Default',
             )
         ));
@@ -46,9 +45,10 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
+     * @param bool  $fallback   Use the fallbacks to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
-    public function locate(ObjectIdentifier $identifier)
+    public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
         $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
@@ -56,21 +56,30 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $name    = ucfirst($identifier->name);
 
+        //Check if the class exists
         $result = false;
-        foreach($this->_fallbacks as $fallback)
+        if(!class_exists('Nooku\Library\\'.$package.$class))
         {
-            $result = str_replace(
-                array('<Package>', '<Path>', '<Name>', '<Class>'),
-                array($package   , $path   , $name   , $class),
-                $fallback
-            );
+            //Use the fallbacks
+            if($fallback)
+            {
+                foreach($this->_fallbacks as $fallback)
+                {
+                    $result = str_replace(
+                        array('<Package>', '<Path>', '<Name>', '<Class>'),
+                        array($package   , $path   , $name   , $class),
+                        $fallback
+                    );
 
-            if(!class_exists($result)) {
-                $result = false;
-            } else {
-                break;
+                    if(!class_exists($result)) {
+                        $result = false;
+                    } else {
+                        break;
+                    }
+                }
             }
         }
+        else $result = 'Nooku\Library\\'.$package.$class;
 
         return $result;
     }
