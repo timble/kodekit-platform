@@ -20,7 +20,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	/**
 	 * Template object
 	 *
-	 * @var	object
+	 * @var	TemplateInterface
 	 */
     protected $_template;
 

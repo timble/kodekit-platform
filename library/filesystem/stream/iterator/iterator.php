@@ -32,23 +32,14 @@ class FilesystemStreamIterator implements \SeekableIterator
     protected $_chunk;
 
     /**
-     * Size of each chunk
-     *
-     * @var int
-     */
-    protected $_chunk_size;
-
-    /**
      * Constructor.
      *
-     * @param FilesystemStream $stream      A FilesystemStream object
-     * @para integer           $chunk_size  The chunk size to use.
+     * @param FilesystemStream $stream  A FilesystemStream object
      */
-    public function __construct(FilesystemStream $stream, $chunk_size = 8129)
+    public function __construct(FilesystemStream $stream)
     {
         $this->_chunk      = '';
-        $this->_chunk_size = $chunk_size;
-        $this->__stream = $stream;
+        $this->__stream    = $stream;
     }
 
     /**
@@ -93,7 +84,7 @@ class FilesystemStreamIterator implements \SeekableIterator
      */
     public function next()
     {
-        $this->_chunk = $this->getStream()->read($this->_chunk_size($this->getChunkSize()));
+        $this->_chunk = $this->getStream()->read();
     }
 
     /**
@@ -123,7 +114,7 @@ class FilesystemStreamIterator implements \SeekableIterator
      */
     public function getChunkSize()
     {
-        return $this->_chunk_size;
+        return $this->getStream()->getChunkSize();
     }
 
     /**

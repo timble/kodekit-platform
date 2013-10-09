@@ -170,13 +170,6 @@ interface ObjectIdentifierInterface extends \Serializable
     public function getClassName();
 
     /**
-     * Get the identifier file path
-     *
-     * @return string
-     */
-    public function getClassPath();
-
-    /**
      * Check if the object is a singleton
      *
      * @return boolean Returns TRUE if the object is a multiton, FALSE otherwise.

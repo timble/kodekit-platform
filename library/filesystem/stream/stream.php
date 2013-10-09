@@ -133,8 +133,9 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
             'params'  => array(
                 'options' => array()
             ),
-            'filters'  => array(),
-            'wrappers' => array(),
+            'filters'    => array(),
+            'wrappers'   => array(),
+            'chunk_size' => '8192'
         ));
 
         parent::_initialize($config);
@@ -189,11 +190,11 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     /**
      * Read data from the stream advance the pointer
      *
-     * @param int $length Up to length number of bytes read.
      * @return string|bool Returns the data read from the stream or FALSE on failure or EOF
      */
-    public function read($length = '8192')
+    public function read()
     {
+        $length = $this->getChunkSize();
         return fread($this->_resource, $length);
     }
 
@@ -211,37 +212,45 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Read data from the stream to another stream
+     * Copy data from one stream to another stream
      *
      * @param resource $stream The stream resource to copy the data too
-     * @param int $length Up to length number of bytes read.
      * @return bool Returns TRUE on success, FALSE on failure
      */
-    public function copy($stream, $length)
+    public function copy($stream)
     {
-        return fwrite($stream, $this->read($length));
+        return fwrite($stream, $this->read());
     }
 
     /**
-     * Flush the data from the stream to the output buffer
+     * Flush the data from the stream to another stream
      *
-     * @param int $size   The chunk size in bytes to use when flushing. Default is 8Kb
-     * @param int $range  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
-     *                    should lie within the total size of the stream.
+     * @param resource $stream The stream resource to flush the data too
+     * @param int      $range  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
+     *                         should lie within the total size of the stream.
      * @return bool Returns TRUE on success, FALSE on failure
      */
-    public function flush($length = '8192', $range = -1)
+    public function flush($output, $range = -1)
     {
-        $output = fopen('php://output', 'wb');
-        $range  = $range < 0 ? $this->getSize() : $range;
+        $range = $range < 0 ? $this->getSize() : $range;
 
         //Send data chunk
         while (!$this->eof() && $this->peek() <= $range) {
-            $this->copy($output, $length);
+            $this->copy($output);
         }
 
-        fclose($output);
         return true;
+    }
+
+    /**
+     * Truncates the stream to a given length
+     *
+     * @param integer $size The size to truncate
+     * @return Returns TRUE on success or FALSE on failure.
+     */
+    public function truncate($size)
+    {
+        return ftruncate($this->_resource, $size);
     }
 
     /**
@@ -312,7 +321,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getResource()
     {
-        return $$this->_resource;
+        return $this->_resource;
     }
 
     /**
@@ -348,12 +357,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getProtocol()
     {
-        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
-        {
-            $wrapper  = $this->getData('wrapper_data');
-            $protocol = $wrapper->getProtocol();
-        }
-        else
+        if(! $this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             $protocol = $this->getData('wrapper_type');
 
@@ -362,6 +366,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
                 $protocol = 'file';
             }
         }
+        else $protocol = $this->getData('wrapper_data')->getProtocol();
 
         return $protocol;
     }
@@ -373,7 +378,13 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getPath()
     {
-        return $this->getData('uri');
+        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface) {
+            $path = $this->getData('wrapper_data')->getPath();
+        } else {
+            $path = $this->getData('uri');
+        }
+
+        return $path;
     }
 
     /**
@@ -413,6 +424,28 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
+     * Get the chunk size using during read operations
+     *
+     * @return integer The chunk size in bytes
+     */
+    public function getChunkSize()
+    {
+        return $this->getConfig()->chunk_size;
+    }
+
+    /**
+     * Set the chunk size using during read operation
+     *
+     * @param integer $size The chunk size in bytes
+     * @return FilesystemStream
+     */
+    public function setChunkSize($size)
+    {
+        $this->getConfig()->chunk_size = $size;
+        return $this;
+    }
+
+    /**
      * Get the streams last modified, last accessed or created time.
      *
      * @param string $time One of the TIME_* constants
@@ -433,22 +466,19 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     /**
      * Get the stream type
      *
-     * @return string|false The stream type, see also the TYPE_* constants or FALSE if the type could not be found.
+     * @return string The stream type, see also the TYPE_* constants
      */
     public function getType()
     {
         $type = self::TYPE_UNKNOWN;
-        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
-        {
-            $wrapper = $this->getData('wrapper_data');
-            $type = $wrapper->getType();
-        }
-        else
+        if(!$this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             if($path = $this->getPath()) {
                 $type = filetype($path);
             }
+
         }
+        else $type = $this->getData('wrapper_data')->getType();
 
         return $type;
     }

@@ -74,26 +74,4 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
 
         return $result;
     }
-
-    /**
-     * Find the identifier path
-     *
-     * @param  ObjectIdentifier $identifier  	An identifier object
-     * @return string	Returns the path
-     */
-    public function findPath(ObjectIdentifier $identifier)
-    {
-        $path = '';
-
-        if(count($identifier->path)) {
-            $path .= implode('/',$identifier->path);
-        }
-
-        if(!empty($identifier->name)) {
-            $path .= '/'.$identifier->name;
-        }
-
-        $path = JPATH_ROOT.'/library/'.$path.'.php';
-        return $path;
-    }
 }
