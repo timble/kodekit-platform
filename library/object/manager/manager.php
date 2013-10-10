@@ -253,30 +253,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
-     * Load a file based on an identifier
-     *
-     * @param string|object $identifier  An ObjectIdentifier or identifier string
-     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     * @see ClassLoader::loadFile();
-     */
-    public function loadFile($identifier)
-    {
-        $result = false;
-
-        $identifier = $this->getIdentifier($identifier);
-
-        //Get the path
-        $path = $identifier->classpath;
-
-        if ($path !== false) {
-            $result = $this->getClassLoader()->loadFile($path);
-        }
-
-        return $result;
-    }
-
-    /**
      * Register a mixin for an identifier
      *
      * The mixin is mixed when the identified object is first instantiated see {@link get} The mixin is also mixed with
@@ -579,7 +555,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
         if ($this->getClassLoader()->loadClass($identifier->classname))
         {
-            if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
+            if (!$identifier->inherits(__NAMESPACE__.'\ObjectInterface', false))
             {
                 throw new ObjectExceptionInvalidObject(
                     'Object: '.$identifier->classname.' does not implement ObjectInterface'
@@ -590,7 +566,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             $config = $this->_configure($identifier, $config);
 
             // Delegate object instantiation.
-            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiable', class_implements($identifier->classname, false))) {
+            if ($identifier->inherits(__NAMESPACE__.'\ObjectInstantiable', false)) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, $this);
             } else {
                 $result = new $identifier->classname($config);

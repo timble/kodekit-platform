@@ -101,12 +101,12 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     public function getMethods()
     {
-        return array_fill_keys($this->_methods, $this);
+        return array_combine($this->_methods, $this->_methods);
     }
 
     public function getMixableMethods(Library\ObjectMixable $mixer = null)
     {
-        $methods = array_fill_keys($this->_mixable_methods, $this);
+        $methods = array_combine($this->_mixable_methods, $this->_mixable_methods);
         $methods['is'.ucfirst($this->getIdentifier()->name)] = function() { return true; };
 
         return $methods;

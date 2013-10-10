@@ -8,15 +8,15 @@
  */
 ?>
 
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-    <?= include('default_scopebar.html') ?>
+    <?= import('default_scopebar.html') ?>
 	<table>
 		<thead>
 			<tr>

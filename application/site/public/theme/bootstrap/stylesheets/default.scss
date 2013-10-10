@@ -27,6 +27,14 @@ h1 { font-size: 21px; }
 h2 { font-size: 19px; }
 h3 { font-size: 16px; }
 
+.is-hidden {
+  display: none;
+}
+.backtrace {
+  text-align: center;
+  margin: $gridGutterWidth 0;
+}
+
 article {
   header {
     @extend .page-header;

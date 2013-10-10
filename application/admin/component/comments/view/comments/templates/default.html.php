@@ -8,7 +8,7 @@
  */
 ?>
 
-<style src="media://comments/css/comments-default.css" />
+<style src="assets://comments/css/comments-default.css" />
 
 <div id="list" class="-koowa-box-flex">
 	<form action="<?= route()?>" method="post" name="adminForm">
@@ -34,7 +34,7 @@
 			</thead>
 			<tbody>
 			<? if (count($comments)) : ?>
-				<?= include('default_comments.html'); ?>
+				<?= import('default_comments.html'); ?>
 			<? else : ?>
 				<tr>
 					<td colspan="5" align="center">

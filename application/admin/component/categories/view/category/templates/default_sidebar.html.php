@@ -36,8 +36,8 @@
 <fieldset>
     <legend><?= translate('Image') ?></legend>
     <? if (!$category->isNew()) : ?>
-        <?= include('com:attachments.view.attachments.list.html', array('attachments' => $category->getAttachments(), 'attachments_attachment_id' => $category->attachments_attachment_id)) ?>
+        <?= import('com:attachments.view.attachments.list.html', array('attachments' => $category->getAttachments(), 'attachments_attachment_id' => $category->attachments_attachment_id)) ?>
     <? endif ?>
-    <?= include('com:attachments.view.attachments.upload.html') ?>
+    <?= import('com:attachments.view.attachments.upload.html') ?>
 </fieldset>
 <? endif ?>

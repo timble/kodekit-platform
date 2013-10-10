@@ -20,7 +20,7 @@ class ApplicationBootstrapper extends Library\BootstrapperAbstract
      protected function _initialize(Library\ObjectConfig $config)
      {
          $config->append(array(
-             'priority' => Library\BootstrapperChain::PRIORITY_LOW,
+             'priority' => self::PRIORITY_LOW,
          ));
 
          parent::_initialize($config);
@@ -38,5 +38,7 @@ class ApplicationBootstrapper extends Library\BootstrapperAbstract
 
         $manager->registerAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');
         $manager->registerAlias('event.dispatcher'          , 'com:debug.event.dispatcher.debug');
+
+        $manager->registerAlias('lib:template.locator.component', 'com:application.template.locator.component');
     }
 }

@@ -238,7 +238,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		        $context->response->setStatus(self::STATUS_UNCHANGED);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Entity could not be found');
+		else throw new ControllerExceptionNotFound('Resource could not be found');
 
 		return $entities;
 	}
@@ -252,18 +252,23 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionAdd(CommandContext $context)
 	{
-        $entity = $this->getModel()->create();
-        $entity->setProperties($context->request->data->toArray());
+        $entity = $this->getModel()->getRow();
 
-        //Only throw an error if the action explicitly failed.
-        if($entity->save() === false)
+        if($entity->isNew())
         {
-            $error = $entity->getStatusMessage();
-            throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
-        }
-        else $context->response->setStatus(self::STATUS_CREATED);
+            $entity->setData($context->request->data->toArray());
 
-		return $entity;
+            //Only throw an error if the action explicitly failed.
+            if($entity->save() === false)
+            {
+                $error = $entity->getStatusMessage();
+                throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
+            }
+            else $context->response->setStatus(self::STATUS_CREATED);
+        }
+        else throw new ControllerExceptionBadRequest('Resource Already Exists');
+
+        return $entity;
 	}
 
 	/**
@@ -291,7 +296,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(self::STATUS_UNCHANGED);
 		}
-		else throw new ControllerExceptionNotFound('Entity Not Found');
+		else throw new ControllerExceptionNotFound('Resource Not Found');
 
 		return $entities;
 	}

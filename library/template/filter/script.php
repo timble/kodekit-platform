@@ -90,6 +90,7 @@ class TemplateFilterScript extends TemplateFilterTag
     protected function _renderTag($attribs = array(), $content = null)
 	{
         $link = isset($attribs['src']) ? $attribs['src'] : false;
+        $condition = isset($attribs['condition']) ? $attribs['condition'] : false;
 
 		if(!$link)
 		{
@@ -102,9 +103,16 @@ class TemplateFilterScript extends TemplateFilterTag
 		else
         {
             unset($attribs['src']);
+            unset($attribs['condition']);
             $attribs = $this->buildAttributes($attribs);
 
-            $html = '<script src="'.$link.'" '.$attribs.'></script>'."\n";
+            if($condition)
+            {
+                $html  = '<!--['.$condition.']>';
+                $html .= '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
+                $html .= '<![endif]-->';
+            }
+            else $html  = '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
         }
 
 		return $html;

@@ -19,6 +19,23 @@ use Nooku\Component\Application;
 class ApplicationViewPageHtml extends Application\ViewPageHtml
 {
     /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'template_filters' => array('com:files.template.filter.files', 'com:attachments.template.filter.attachments'),
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
      * Get the title
      *
      * @return 	string 	The title of the view

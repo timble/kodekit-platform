@@ -19,9 +19,26 @@ use Nooku\Library;
  */
 class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
-	protected $_adapter;
+    /**
+     * The file adapter
+     *
+     * @var FilesAdapterLocalInterface
+     */
+    protected $_adapter;
 
+    /**
+     * The file container
+     *
+     * @var string
+     */
     protected $_container;
+
+    /**
+     * Chain of command object
+     *
+     * @var Library\CommandChain
+     */
+    protected $_command_chain;
 
 	public function __construct(Library\ObjectConfig $config)
 	{

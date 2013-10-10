@@ -11,7 +11,7 @@
 <?=helper('behavior.mootools');?>
 <?=helper('behavior.validator');?>
 
-<script src="media://js/koowa.js"/>
+<script src="assets://js/koowa.js"/>
 
 <div class="page-header">
     <h1><?= translate('Set your password');?></h1>

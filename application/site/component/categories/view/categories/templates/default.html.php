@@ -9,7 +9,7 @@
 ?>
 
 <? foreach($categories as $category) : ?>
-<article>
+<div>
     <div class="page-header">
         <h1>
             <a href="<?= helper('route.category', array('row' => $category)) ?>">
@@ -18,10 +18,12 @@
         </h1>
     </div>
 
-    <? if($category->thumbnail) : ?>
+    <? if($category->attachments_attachment_id) : ?>
         <a href="<?= helper('route.category', array('row' => $category)) ?>">
             <figure>
-                <img src="<?= $category->thumbnail ?>" />
+                <?= helper('com:attachments.image.thumbnail', array(
+                    'attachment' => $category->attachments_attachment_id,
+                    'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
             </figure>
         </a>
     <? endif ?>
@@ -31,5 +33,5 @@
     <? endif; ?>
 
     <a href="<?= helper('route.category', array('row' => $category)) ?>"><?= translate('Read more') ?></a>
-</article>
+</div>
 <? endforeach; ?>

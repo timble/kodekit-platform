@@ -29,9 +29,8 @@ class TemplateHelperDate extends TemplateHelperAbstract
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
-            'format'   => $this->getTemplate()->getFormat() == 'rss' ? Date::RSS : \JText::_('DATE_FORMAT_LC1'),
-            'default'  => '',
-            'attribs'  => array()
+            'format'   => $this->getTemplate()->getFormat() == 'rss' ? Date::RSS : $this->translate('DATE_FORMAT_LC1'),
+            'default'  => ''
         ));
 
         $return = $config->default;
@@ -40,15 +39,11 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try 
             {
-                $attribs = $this->buildAttributes($config->attribs);
-
                 $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
-                $return = '<time datetime="'.$date->format('Y-m-d').'" '.$attribs.'>';
-                $return .= $date->format($config->format);
-                $return .= '</time>';
-            }
+                $return = $date->format($config->format);
+            } 
             catch(\Exception $e) {}
         }
 
@@ -67,7 +62,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         $config->append(array(
             'date'            => 'now',
             'timezone'        => date_default_timezone_get(),
-            'default'         => \JText::_('Never'),
+            'default'         => $this->translate('Never'),
             'smallest_period' => 'second'
         ));
 

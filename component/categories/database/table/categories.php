@@ -27,6 +27,9 @@ class DatabaseTableCategories extends Library\DatabaseTableAbstract
             	'creatable', 'modifiable', 'lockable', 'sluggable', 'cascadable', 'nestable',
             	'orderable'  => array('parent_column' => 'parent_id'),
                 'com:attachments.database.behavior.attachable',
+            ),
+            'filters' => array(
+                'description'   => array('html', 'tidy')
             )
             ));
 

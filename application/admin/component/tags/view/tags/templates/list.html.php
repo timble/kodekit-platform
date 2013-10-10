@@ -8,8 +8,8 @@
  */
 ?>
 
-<script src="media://tags/js/tags.js" />
-<style src="media://tags/css/tags-list.css" />
+<script src="assets://tags/js/tags.js" />
+<style src="assets://tags/css/tags-list.css" />
 
 <? $disabled = $disabled ? 'disabled="disabled"' : ''; ?>
 

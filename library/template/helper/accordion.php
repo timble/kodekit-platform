@@ -104,7 +104,7 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 			'translate'	=> true
 		));
 
-		$title   = $config->translate ? \JText::_($config->title) : $config->title;
+		$title   = $config->translate ? $this->translate($config->title) : $config->title;
 		$attribs = $this->buildAttributes($config->attribs);
 
 		$html = '<div class="panel"><h3 class="jpane-toggler title" '.$attribs.'><span>'.$title.'</span></h3><div class="jpane-slider content">';

@@ -34,7 +34,7 @@ class BootstrapperApplication extends BootstrapperChain
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -61,7 +61,7 @@ class BootstrapperApplication extends BootstrapperChain
             }
 
             $bootstrapper = $this->getObject('com:'.$dir.'.bootstrapper');
-            $this->enqueue($bootstrapper);
+            $this->addBootstrapper($bootstrapper);
         }
 
         parent::bootstrap();

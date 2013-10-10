@@ -10,8 +10,10 @@
 
 <? $list = (isset($row) && isset($table)) ? $attachments->find(array('row' => $row, 'table' => $table)) : $attachments ?>
 
-<script src="media://attachments/js/attachments.list.js" />
-<script src="media://files/js/uri.js" />
+<?= helper('behavior.modal') ?>
+
+<script src="assets://attachments/js/attachments.list.js" />
+<script src="assets://files/js/uri.js" />
 
 <script>
 window.addEvent('domready', function() {
@@ -27,13 +29,16 @@ window.addEvent('domready', function() {
     <div id="attachments-list">
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
-        <div class="thumbnail">
-            <a class="modal" href="<?= route('view=attachment&format=file&id='.$item->id) ?>" rel="{handler: 'image'}">
-                <img src="<?= $item->thumbnail->thumbnail ?>" />
+        <div class="thumbnail" data-id="<?= $item->id; ?>">
+            <a class="modal" href="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
+                <img src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
             </a>
             <div class="thumbnail__caption">
                 <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
                     <i class="icon-trash icon-white"></i>
+                </a>
+                <a class="btn btn-mini modal" href="<?= route('view=attachment&layout=crop&tmpl=overlay&id='.$item->id) ?>" rel="{handler: 'iframe', size: {x: 600, y: 635}}">
+                    <i class="icon-resize-small icon-white"></i>
                 </a>
                 <? if(isset($attachments_attachment_id)) : ?>
                 <input type="radio" name="attachments_attachment_id" id="fav-<?= $item->id; ?>" value="<?= $item->id; ?>" <?= $item->id == $attachments_attachment_id ? 'checked' : '' ?>>

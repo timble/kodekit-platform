@@ -140,7 +140,7 @@ body {
 
         tbody,
         tbody tr,
-        tbody tr td
+        tbody tr td,
         tbody tr td iframe {
           @include flex(1);
         }
@@ -185,8 +185,21 @@ body {
 
       #activities-list {
         @include box-scrollable(scrollable);
-        @include flex(1);
         @include flex-direction(column);
+
+        .activity {
+          @include flex();
+
+          .activity__text {
+            @include flex-grow(1);
+          }
+
+          .activity__info {
+            white-space: nowrap;
+            overflow: hidden;
+            @include flex-shrink(0);
+          }
+        }
       }
     }
   }

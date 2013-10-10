@@ -5644,132 +5644,6 @@ input[type="submit"].btn.btn-mini {
   cursor: default;
 }
 
-/* line 6, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1040;
-  background-color: black;
-}
-/* line 15, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-backdrop.fade {
-  opacity: 0;
-}
-
-/* line 19, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-backdrop,
-.modal-backdrop.fade.in {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
-}
-
-/* line 24, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal {
-  position: fixed;
-  top: 10%;
-  left: 50%;
-  z-index: 1050;
-  width: 560px;
-  margin-left: -280px;
-  background-color: white;
-  border: 1px solid #999;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  *border: 1px solid #999;
-  /* IE6-7 */
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
-  outline: none;
-}
-/* line 41, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal.fade {
-  -webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
-  -moz-transition: opacity 0.3s linear, top 0.3s ease-out;
-  -o-transition: opacity 0.3s linear, top 0.3s ease-out;
-  transition: opacity 0.3s linear, top 0.3s ease-out;
-  top: -25%;
-}
-/* line 45, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal.fade.in {
-  top: 10%;
-}
-
-/* line 47, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-header {
-  padding: 9px 15px;
-  border-bottom: 1px solid #eee;
-}
-/* line 51, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-header .close {
-  margin-top: 2px;
-}
-/* line 53, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-header h3 {
-  margin: 0;
-  line-height: 30px;
-}
-
-/* line 60, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-body {
-  position: relative;
-  overflow-y: auto;
-  max-height: 400px;
-  padding: 15px;
-}
-
-/* line 67, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-form {
-  margin-bottom: 0;
-}
-
-/* line 72, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-footer {
-  padding: 14px 15px 15px;
-  margin-bottom: 0;
-  text-align: right;
-  background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: inset 0 1px 0 white;
-  -moz-box-shadow: inset 0 1px 0 white;
-  box-shadow: inset 0 1px 0 white;
-  *zoom: 1;
-}
-/* line 15, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.modal-footer:before, .modal-footer:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-/* line 22, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_mixins.scss */
-.modal-footer:after {
-  clear: both;
-}
-/* line 83, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-footer .btn + .btn {
-  margin-left: 5px;
-  margin-bottom: 0;
-}
-/* line 88, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-footer .btn-group .btn + .btn {
-  margin-left: -1px;
-}
-/* line 92, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_modals.scss */
-.modal-footer .btn-block + .btn-block {
-  margin-left: 0;
-}
-
 /* line 7, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_tooltip.scss */
 .tooltip {
   position: absolute;
@@ -8550,54 +8424,65 @@ h3 {
   font-size: 16px;
 }
 
-/* line 37, default.scss */
+/* line 30, default.scss */
+.is-hidden {
+  display: none;
+}
+
+/* line 33, default.scss */
+.backtrace {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* line 45, default.scss */
 .page-header h1, article header h1 {
   line-height: 21px;
   margin-bottom: 0;
 }
-/* line 42, default.scss */
+/* line 50, default.scss */
 .page-header .timestamp, article header .timestamp {
   color: #999;
   font-size: 12px;
 }
 
-/* line 49, default.scss */
+/* line 57, default.scss */
 #password-check.score1 {
   color: #FF0000;
 }
 
-/* line 50, default.scss */
+/* line 58, default.scss */
 #password-check.score2 {
   color: #FF5F5F;
 }
 
-/* line 51, default.scss */
+/* line 59, default.scss */
 #password-check.score3 {
   color: #56E500;
 }
 
-/* line 52, default.scss */
+/* line 60, default.scss */
 #password-check.score4 {
   color: #4DCD00;
 }
 
-/* line 53, default.scss */
+/* line 61, default.scss */
 #password-check.score5 {
   color: #399800;
 }
 
-/* line 55, default.scss */
+/* line 63, default.scss */
 .highlight {
   background-color: yellow;
 }
 
 /* com:application.view.page.login.html */
-/* line 60, default.scss */
+/* line 68, default.scss */
 body.login {
   background-color: #f5f5f5;
   padding-top: 60px;
 }
-/* line 64, default.scss */
+/* line 72, default.scss */
 body.login form {
   max-width: 300px;
   margin: 0 auto;
@@ -8606,21 +8491,21 @@ body.login form {
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 72, default.scss */
+/* line 80, default.scss */
 body.login form .form-content {
   padding: 10px 30px 0;
 }
-/* line 75, default.scss */
+/* line 83, default.scss */
 body.login form .form-content .page-header, body.login form .form-content article header, article body.login form .form-content header {
   margin-bottom: 10px;
 }
-/* line 80, default.scss */
+/* line 88, default.scss */
 body.login form .form-actions {
   margin-bottom: 0;
   padding: 19px 30px;
   border-radius: 0 0 5px 5px;
 }
-/* line 86, default.scss */
+/* line 94, default.scss */
 body.login form input {
   font-size: 16px;
   height: auto;
@@ -8628,28 +8513,28 @@ body.login form input {
   padding: 7px 9px;
 }
 
-/* line 96, default.scss */
+/* line 104, default.scss */
 .radio input[type="radio"].level2, .checkbox input[type="checkbox"].level2 {
   margin-left: 0px;
   margin-right: 6px;
 }
-/* line 97, default.scss */
+/* line 105, default.scss */
 .radio input[type="radio"].level3, .checkbox input[type="checkbox"].level3 {
   margin-left: 36px;
   margin-right: 6px;
 }
-/* line 98, default.scss */
+/* line 106, default.scss */
 .radio input[type="radio"].level4, .checkbox input[type="checkbox"].level4 {
   margin-left: 54px;
   margin-right: 6px;
 }
-/* line 99, default.scss */
+/* line 107, default.scss */
 .radio input[type="radio"].level5, .checkbox input[type="checkbox"].level5 {
   margin-left: 72px;
   margin-right: 6px;
 }
 
-/* line 102, default.scss */
+/* line 110, default.scss */
 .pagination {
   text-align: center;
 }

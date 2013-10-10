@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\View
  */
-class ViewCsv extends ViewFile
+class ViewCsv extends ViewAbstract
 {
 	/**
 	 * Character used for quoting
@@ -50,7 +50,6 @@ class ViewCsv extends ViewFile
 	{
 		$config->append(array(
 			'version'     => '1.0',
-			'disposition' => 'inline',
 			'quote'		  => '"',
 			'separator'	  => ',',
 			'eol'		  => "\n"

@@ -1,12 +1,29 @@
+/**
+ * Overrides for Moono skin
+ */
+
 .cke_chrome {
   border: 0px none !important;
   box-shadow: none !important;
 }
 
+.cke_button__source_label {
+  display: none !important;
+}
+
 .cke_dialog_contents_body {
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.cke_dialog_ui_vbox_child {
+  padding: 0 !important;
+}
+
+div.cke_dialog_ui_input_select {
+  border: 0 none !important;
+  box-shadow: none !important;
 }
 
 .navigation .files-node.active a,
@@ -14,10 +31,10 @@
   @extend .navigation__item--active;
 }
 
-div.cke_dialog_ui_input_select {
-  border: 0 none;
-  box-shadow: none;
-}
+
+/**
+ * Image/Document insert dialog
+ */
 
 #files-compact {
   .tab > label {

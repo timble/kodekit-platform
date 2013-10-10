@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= include('initialize.html');?>
+<?= import('initialize.html');?>
 
 <script>
 
@@ -28,9 +28,10 @@ window.addEvent('domready', function() {
 				}
 			},
 			tree: {
-				theme: 'media://files/images/mootree.png'
+				theme: 'assets://files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
+            site: <?= json_encode($site); ?>,
 			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
 			thumbnails: <?= json_encode($container ? $container->parameters->thumbnails : true); ?>
 		};
@@ -155,8 +156,8 @@ window.addEvent('domready', function() {
 </ktml:module>
 
 <div id="files-app">
-	<?= include('templates_icons.html'); ?>
-	<?= include('templates_details.html'); ?>
+	<?= import('templates_icons.html'); ?>
+	<?= import('templates_details.html'); ?>
 	
 	<ktml:module position="sidebar">
 		<div id="files-tree"></div>
@@ -178,7 +179,7 @@ window.addEvent('domready', function() {
 			<?= helper('paginator.pagination') ?>
 		</div>
 		
-		<?= include('uploader.html');?>
+		<?= import('uploader.html');?>
 	</div>
 </div>
 

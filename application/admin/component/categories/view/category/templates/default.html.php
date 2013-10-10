@@ -11,8 +11,8 @@
 <?= helper('behavior.validator') ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
 <ktml:module position="actionbar">
@@ -28,21 +28,10 @@
 		        <input type="text" name="slug" maxlength="255" value="<?= $category->slug ?>" />
 		    </div>
 		</div>
-
-		<div class="scrollable">
-			<fieldset>
-				<legend><?= translate( 'Details' ); ?></legend>
-				<div>
-				    <label for=""><?= translate( 'Description' ); ?></label>
-				    <div>
-				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
-				    </div>
-				</div>
-			</fieldset>
-		</div>
+        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'description', 'text' => $category->description, 'toolbar' => 'basic')) ?>
 	</div>
 
     <div class="sidebar">
-	    <?= include('default_sidebar.html'); ?>
+	    <?= import('default_sidebar.html'); ?>
     </div>
 </form>

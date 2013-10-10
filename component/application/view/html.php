@@ -26,7 +26,7 @@ class ViewHtml extends Library\ViewHtml
         $path  = $this->getObject('request')->getBaseUrl()->getPath();
         $path .= '/theme/'.$this->getObject('application')->getTheme().'/';
 
-        $this->getTemplate()->getFilter('url')->addAlias('/media/application/', $path);
+        $this->getTemplate()->getFilter('url')->addAlias('/assets/application/', $path);
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -42,7 +42,8 @@ class ViewHtml extends Library\ViewHtml
     public function render()
     {
         //Set the language information
-        $this->language  = \JFactory::getLanguage()->getTag();
+        $language = $this->getObject('application')->getCfg('language');
+        $this->language  = $language ? $language : 'en-GB';
         $this->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
         // Set the site information

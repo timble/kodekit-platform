@@ -24,7 +24,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  object
+     * @return  DatabaseBehaviorAbstract
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {

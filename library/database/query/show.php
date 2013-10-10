@@ -146,7 +146,7 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
      * @param  array  $matches Matches of preg_replace_callback.
      * @return string The replacement string.
      */
-    protected function _replaceParamsCallback($matches)
+    protected function _replaceParametersCallback($matches)
     {
         $key         = substr($matches[0], 1);
         $replacement = $this->getAdapter()->quoteValue($this->_parameters[$key]);

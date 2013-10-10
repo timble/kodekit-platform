@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Url Template Filter
  *
- * Filter allows to create url aliases that are replaced on compile and render. A default media:// alias is
+ * Filter allows to create url aliases that are replaced on compile and render. A default assets:// alias is
  * added that is rewritten to '/media/'.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
@@ -52,7 +52,7 @@ class TemplateFilterUrl extends TemplateFilterAbstract implements TemplateFilter
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'aliases' => array('media://' => '/media/'),
+            'aliases' => array('assets://' => '/assets/'),
         ));
 
         parent::_initialize($config);

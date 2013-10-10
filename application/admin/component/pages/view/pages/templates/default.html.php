@@ -9,8 +9,8 @@
 ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 <?= helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
@@ -19,11 +19,11 @@
 </ktml:module>
 
 <ktml:module position="sidebar">
-    <?= include('default_sidebar.html') ?>
+    <?= import('default_sidebar.html') ?>
 </ktml:module>
 
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
-    <?= include('default_scopebar.html') ?>
+    <?= import('default_scopebar.html') ?>
     <table>
         <thead>
             <tr>

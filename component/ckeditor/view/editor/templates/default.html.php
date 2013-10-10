@@ -8,17 +8,19 @@
  */
 ?>
 
-<script src="media://ckeditor/ckeditor/ckeditor.js" />
+<script src="assets://ckeditor/ckeditor/ckeditor.js" />
 
 <script>
     jQuery(document).ready(function() {
         CKEDITOR.replace( <?= $id ?>, {
-            toolbar: '<?= $settings->options->toolbar ?>',
-            language: '<?= $settings->language ?>',
-            height: '<?= $settings->height ?>',
-            width: '<?= $settings->width ?>',
-            contentsLangDirection: '<?= $settings->directionality ?>',
-            scayt_autoStartup: '<?= $settings->scayt_autoStartup ?>'
+            baseHref   : '<?= $settings->baseHref ?>',
+            toolbar    : '<?= $settings->options->toolbar ?>',
+            height     : '<?= $settings->height ?>',
+            width      : '<?= $settings->width ?>',
+            language   : '<?= $settings->language ?>',
+            contentsLanguage     : '<?= $settings->contentsLanguage ?>',
+            contentsLangDirection: '<?= $settings->contentsLangDirection ?>',
+            scayt_autoStartup    : '<?= $settings->scayt_autoStartup ?>'
         });
     });
 </script>

@@ -52,7 +52,7 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
         ));
 
         if($config->uncategorised) {
-            array_unshift($options, $this->option(array('label' => \JText::_('Uncategorized'), 'value' => '0', 'id' => '0')));
+            array_unshift($options, $this->option(array('label' => $this->translate('Uncategorized'), 'value' => '0', 'id' => '0')));
         }
 
         //Add the options to the config object

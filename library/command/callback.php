@@ -49,7 +49,7 @@ class CommandCallback extends ObjectMixinCallback implements CommandInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => Command::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);

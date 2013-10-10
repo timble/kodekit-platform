@@ -18,11 +18,13 @@
         <h4><?= helper('date.humanize', array('date' => $date)) ?></h4>
         <? foreach($activities as $activity) : ?>
         <div class="activity">
-            <i class="icon-<?= $activity->action ?>"></i>
-            <?= helper('activity.message', array('row' => $activity)) ?>
-            <span class="activity__info">
+            <div class="activity__text">
+                <i class="icon-<?= $activity->action ?>"></i>
+                <?= helper('activity.message', array('row' => $activity)) ?>
+            </div>
+            <div class="activity__info">
                 <?= $activity->package.' - '.$activity->name ?> | <?= date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
-            </span>
+            </div>
         </div>
         <? endforeach ?>
     <? endforeach ?>

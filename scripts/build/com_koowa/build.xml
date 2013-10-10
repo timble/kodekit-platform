@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>  
+<project name="Koowa Component" default="build">
+
+	<!-- Put username and password here, this file wont be stored on the svn -->
+	<property file="build.properties" />
+
+	<echo message="svn.path = ${svn.path}" />
+	<echo message="If you need to use a branch, call 'phing -Dsvn.path=branches/development'" />
+	
+	<target name="build">
+
+        
+        <!-- Cleanup existing temporary files to avoid broken packages -->
+        <if>
+         <equals arg1="${project.cleanup}" arg2="yes" />
+         <then>
+             <delete dir="tmp" includeemptydirs="true" />
+             
+             <!-- Get the koowa plugin -->
+             <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-framework/${svn.path}/code/" todir="tmp" nocache="true" force="true" />
+         </then>
+         <else>
+             <delete dir="tmp/administrator/components/com_koowa" includeemptydirs="true" />
+             <delete dir="tmp/media/com_koowa" includeemptydirs="true" />
+             
+             <!-- Do a new checkout but only if there isn't one already -->
+             <property name="svn.refresh" value="1" />
+             <available file="./tmp/libraries" type="dir" property="svn.refresh" value="0" />
+             <if>
+              <equals arg1="${svn.refresh}" arg2="1" />
+              <then>
+                  <!-- Get the koowa plugin -->
+                  <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-framework/${svn.path}/code/" todir="tmp" nocache="true" force="true" />
+              </then>
+             </if>
+         </else>
+        </if>
+
+		
+
+		<!-- Get the com_koowa code, locally if available, if not then from the repo -->
+		<property name="project.location" value="remote" />
+		<available file="../../../code/administrator/components/com_koowa" type="dir" property="project.location" value="local" />
+		<if>
+		 <equals arg1="${project.location}" arg2="local" />
+		 <then>
+		     <echo message="Using local checkout of com_koowa" />
+		     <copy todir="tmp/administrator/components/com_koowa">
+		     	<fileset dir="../../../code/administrator/components/com_koowa" />
+		     </copy>
+		     <copy todir="tmp/media/com_koowa">
+		     	<fileset dir="../../../code/media/com_koowa" />
+		     </copy>
+		 </then>
+		 <else>
+		     <echo message="No local checkout of com_koowa found, attempting to export from remote svn" />
+		     <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-components/trunk/code/administrator/components/com_koowa" todir="tmp/administrator/components/com_koowa" nocache="true" force="true" />
+		     <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-components/trunk/code/media/com_koowa" todir="tmp/media/com_koowa" nocache="true" force="true" />
+		 </else>
+		</if>		
+
+		<!-- Prepare the files before they're zipped up -->
+		<move file="tmp/administrator/components/com_koowa/manifest.xml" tofile="tmp/manifest.xml" overwrite="true" />
+		<copy todir="tmp/install">
+			<fileset dir="tmp/administrator/components/com_koowa/install/" />
+		</copy>
+		
+		<delete file="koowa${file.extension}" quiet="true" />
+		<tar destfile="koowa${file.extension}" basedir="tmp" compression="${file.compression}" />
+		<if>
+		 <equals arg1="${project.cleanup}" arg2="yes" />
+		 <then>
+		     <delete dir="tmp" includeemptydirs="true" />
+		 </then>
+		</if>
+		
+	</target>
+	
+</project>

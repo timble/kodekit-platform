@@ -9,7 +9,7 @@
 ?>
 
 <!--
-<script src="media://js/koowa.js" />
+<script src="assets://js/koowa.js" />
 -->
 
 <title content="replace"><?= $category->title ?></title>
@@ -43,7 +43,7 @@
         </tr>
     </thead>
     <tbody>
-        <?= include('default_items.html'); ?>
+        <?= import('default_items.html'); ?>
     </tbody>
 </table>
 

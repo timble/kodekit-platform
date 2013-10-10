@@ -64,8 +64,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		));
 
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->escape($config->search).'" />';
-        $html .= '<button class="btn">'.\JText::_('Go').'</button>';
-		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.\JText::_('Reset').'</button>';
+        $html .= '<button class="btn">'.$this->translate('Go').'</button>';
+		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
 
 	    return $html;
 	}
@@ -123,8 +123,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		}
 
 		$route = $this->getTemplate()->getView()->getRoute($route);
-		$html  = '<a href="'.$route.'" title="'.\JText::_('Click to sort by this column').'"  '.$class.'>';
-		$html .= \JText::_($config->title);
+		$html  = '<a href="'.$route.'" title="'.$this->translate('Click to sort by this column').'"  '.$class.'>';
+		$html .= $this->translate($config->title);
 		$html .= '</a>';
 
 		return $html;
@@ -147,8 +147,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		));
 
 		$img    = $config->row->{$config->field} ? 'icon-ok' : 'icon-remove';
-		$alt 	= $config->row->{$config->field} ? \JText::_( 'Enabled' ) : \JText::_( 'Disabled' );
-		$text 	= $config->row->{$config->field} ? \JText::_( 'Disable Item' ) : \JText::_( 'Enable Item' );
+		$alt 	= $config->row->{$config->field} ? $this->translate( 'Enabled' ) : $this->translate( 'Disabled' );
+		$text 	= $config->row->{$config->field} ? $this->translate( 'Disable Item' ) : $this->translate( 'Enable Item' );
 
 	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
@@ -216,14 +216,14 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			case 0 :
 			{
 				$color   = 'green';
-				$group   = \JText::_('Public');
+				$group   = $this->translate('Public');
 				$access  = 1;
 			} break;
 
 			case 1 :
 			{
 				$color   = 'red';
-				$group   = \JText::_('Registered');
+				$group   = $this->translate('Registered');
 				$access  = 2;
 			} break;
 		}

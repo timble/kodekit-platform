@@ -27,7 +27,9 @@
 	    <? endif ?>
 	</header>
 
-    <?= helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
+    <?= helper('com:attachments.image.thumbnail', array(
+        'attachment' => $article->attachments_attachment_id,
+        'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
 
     <? if($article->fulltext) : ?>
         <div class="article__introtext">
@@ -40,16 +42,10 @@
     <?= $article->fulltext ?>
 
     <? if($article->isTaggable()) : ?>
-    <?= include('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
+    <?= import('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
     <? endif; ?>
 
     <? if($article->isAttachable()) : ?>
-    <?= incude('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
+    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
     <? endif ?>
 </article>
-
-<? if($article->id && $article->isCommentable()) : ?>
-<div class="comments">
-    <?= object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
-</div>
-<? endif ?>

@@ -49,12 +49,16 @@ interface HttpMessageInterface
     public function getVersion();
 
     /**
-     * Set message content
+     * Sets the response content.
      *
-     * @param  mixed $value
-     * @return HttpMessageInterface
+     * Valid types are strings, numbers, and objects that implement a __toString() method.
+     *
+     * @param mixed  $content   The content
+     * @param string $type      The content type
+     * @throws \UnexpectedValueException If the content is not a string are cannot be casted to a string.
+     * @return HttpMessage
      */
-    public function setContent($value);
+    public function setContent($content, $type = null);
 
     /**
      * Get message content

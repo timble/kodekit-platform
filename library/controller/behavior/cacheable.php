@@ -44,7 +44,7 @@ class ControllerBehaviorCacheable extends ControllerBehaviorAbstract
             if($view instanceof ViewTemplate)
             {
                 $context->result = $view->getTemplate()
-                               ->loadString($data['component'], array(), false)
+                               ->setContent($data['component'])
                                ->render();
             } 
             else $context->result = $data['component'];

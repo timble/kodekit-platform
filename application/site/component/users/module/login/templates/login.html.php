@@ -28,7 +28,7 @@
 		<div class="controls">
 			<input id="modlgn_passwd" class="required" type="password" name="password" />
 			<span class="help-block">
-			    <small><a href="<?= helper('route.user', array('layout' => 'reset', 'access' => 0)); ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
+			    <small><a href="<?= helper('route.user', array('layout' => 'reset', 'access' => 0)); ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
 			</span>
 		</div>
 	</div>

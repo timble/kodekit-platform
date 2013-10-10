@@ -12,7 +12,7 @@
 <?= helper('behavior.validator') ?>
 
 <!--
-<script src="media://js/koowa.js" />
+<script src="assets://js/koowa.js" />
 -->
 <script>
     if(Form && Form.Validator) {
@@ -23,14 +23,6 @@
             }
         });
     }
-</script>
-
-<script>
-    window.addEvent('domready', (function(){
-    	<? if (!$article->id) : ?>
-            new Attachments.Upload({container: 'article-form'});
-        <? endif ?>
-    }));
 </script>
 
 <ktml:module position="actionbar">
@@ -58,7 +50,7 @@
         <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar no--scrollbar">
-        <?= include('default_sidebar.html'); ?>
+        <?= import('default_sidebar.html'); ?>
     </div>
 </form>
 

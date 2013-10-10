@@ -127,9 +127,12 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 			//Make sure the view exists if we are dispatching this controller
             if($this->isDispatched())
             {
-                //if(!file_exists(dirname($this->_view->getIdentifier()->classpath))) {
-                //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
-                //}
+                $class = $this->_view->getIdentifier()->getClassName();
+                $path  = $this->getObject('manager')->getClassLoader()->findPath($class);
+
+                if(!file_exists(dirname($path))) {
+                    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
+                }
             }
 		}
 
@@ -193,9 +196,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $content = $view->render();
 
         //Set the data in the response
-        $context->response
-                ->setContent($content)
-                ->setContentType($view->mimetype);
+        $context->response->setContent($content, $view->mimetype);
 
 	    return $content;
 	}

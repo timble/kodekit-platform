@@ -23,7 +23,7 @@
 </div>
 
 <? foreach ($articles as $article): ?>
-    <?= include('default_item.html', array('article' => $article)) ?>
+    <?= import('default_item.html', array('article' => $article)) ?>
 <? endforeach ?>
 
 <? if (count($articles) != $total) : ?>
