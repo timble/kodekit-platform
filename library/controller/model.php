@@ -256,7 +256,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
         if($entity->isNew())
         {
-            $entity->setData($context->request->data->toArray());
+            $entity->setProperties($context->request->data->toArray());
 
             //Only throw an error if the action explicitly failed.
             if($entity->save() === false)
