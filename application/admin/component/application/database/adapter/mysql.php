@@ -17,13 +17,6 @@ use Nooku\Library;
  */
 class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectMultiton
 {
-    /**
-	 * The cache object
-	 *
-	 * @var	JCache
-	 */
-    protected $_cache;
-
 	/**
 	 * Constructor
 	 *
@@ -34,10 +27,6 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
-
-		if(JFactory::getConfig()->getValue('config.caching')) {
-	        $this->_cache = JFactory::getCache('database', 'output');
-		}
 
         //Auto connect to the database
         $this->connect();
@@ -66,36 +55,4 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 
         parent::_initialize($config);
     }
-
-	/**
-	 * Retrieves the table schema information about the given table
-	 *
-	 * This function try to get the table schema from the cache. If it cannot be found
-	 * the table schema will be retrieved from the database and stored in the cache.
-	 *
-	 * @param 	string 	A table name or a list of table names
-	 * @return	Library\DatabaseSchemaTable
-	 */
-	public function getTableSchema($table)
-	{
-	    if(!isset($this->_table_schema[$table]) && isset($this->_cache))
-		{
-		    $database = $this->getDatabase();
-
-		    $identifier = md5($database.$table);
-
-	        if (!$schema = $this->_cache->get($identifier))
-	        {
-	            $schema = parent::getTableSchema($table);
-
-	            //Store the object in the cache
-		   	    $this->_cache->store(serialize($schema), $identifier);
-	        }
-	        else $schema = unserialize($schema);
-
-		    $this->_table_schema[$table] = $schema;
-	    }
-
-	    return parent::getTableSchema($table);
-	}
 }
