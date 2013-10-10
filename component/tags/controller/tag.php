@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Terms;
+namespace Nooku\Component\Tags;
 
 use Nooku\Library;
 
