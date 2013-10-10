@@ -324,7 +324,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Set the view url
      *
-     * @param KHttpUrl $url   A HttpUrl object or a string
+     * @param HttpUrl $url   A HttpUrl object or a string
      * @return  ViewAbstract
      */
     public function setUrl(HttpUrl $url)
