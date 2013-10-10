@@ -194,11 +194,11 @@ class ModelModules extends Library\ModelDatabase
                 }
 
                 //Set the total
-                $this->_total = count($modules);
+                $this->_count = count($modules);
 
                 //Apply limit and offset
                 if($this->getState()->limit) {
-                    $modules = array_slice($modules, $state->offset, $state->limit ? $state->limit : $this->_total);
+                    $modules = array_slice($modules, $state->offset, $state->limit ? $state->limit : $this->_count);
                 }
 
                 //Apply direction

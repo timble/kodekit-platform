@@ -65,7 +65,7 @@ class ViewRss extends ViewTemplate
 		    if(StringInflector::isPlural($name))
 			{
 		        $this->$name = $model->fetch();
-				$this->total = $model->getTotal();
+				$this->total = $model->count();
 		    }
 			else $this->$name = $model->fetch();
 		}

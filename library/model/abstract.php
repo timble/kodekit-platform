@@ -25,14 +25,14 @@ abstract class ModelAbstract extends Object implements ModelInterface
     private $__state;
 
     /**
-     * List total
+     * Entity count
      *
      * @var integer
      */
-    protected $_total;
+    protected $_count;
 
     /**
-     * Model list data
+     * Entity data
      *
      * @var DatabaseRowsetInterface
      */
@@ -104,6 +104,31 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
+     * Get the total amount of items
+     *
+     * @return  int
+     */
+    public function count()
+    {
+        if(!isset($this->_count))
+        {
+            $context = $this->getCommandContext();
+            $context->count = null;
+            $context->state = $this->getState();
+
+            if ($this->getCommandChain()->run('before.count', $context) !== false)
+            {
+                $context->count = $this->_count;
+                $this->getCommandChain()->run('after.count', $context);
+            }
+
+            $this->_count = ObjectConfig::unbox($context->count);
+        }
+
+        return $this->_count;
+    }
+
+    /**
      * Reset the model data and state
      *
      * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
@@ -112,7 +137,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     public function reset($default = true)
     {
         $this->_data  = null;
-        $this->_total = null;
+        $this->_count = null;
 
         $this->getState()->reset($default);
 
@@ -164,7 +189,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     public function onStateChange($name)
     {
         $this->_data  = null;
-        $this->_total = null;
+        $this->_count = null;
     }
 
     /**
@@ -178,16 +203,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
-    public function getTotal()
-    {
-        return $this->_total;
-    }
-
-    /**
      * Get the model paginator object
      *
      * @return  ModelPaginator  The model paginator object
@@ -197,7 +212,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
         $paginator = new ModelPaginator(array(
             'offset' => (int) $this->getState()->offset,
             'limit'  => (int) $this->getState()->limit,
-            'total'  => (int) $this->getTotal(),
+            'total'  => (int) $this->count(),
         ));
 
         return $paginator;

@@ -68,7 +68,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $identifier->name = Library\StringInflector::pluralize($this->getName());
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
             $folders          = $model->fetch();
-            $total            = $model->getTotal();
+            $total            = $model->count();
 
             if ($params->get('humanize_filenames', 1))
             {
@@ -113,7 +113,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $controller       = $this->getObject($identifier, array('request' => $request));
 
         $files = $controller->browse();
-        $total = $controller->getModel()->getTotal();
+        $total = $controller->getModel()->count();
 
         if ($params->get('humanize_filenames', 1))
         {

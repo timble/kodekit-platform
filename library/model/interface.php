@@ -25,6 +25,13 @@ interface ModelInterface
     public function fetch();
 
     /**
+     * Get the total amount of items
+     *
+     * @return  int
+     */
+    public function count();
+
+    /**
      * Reset the model data and state
      *
      * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
@@ -56,13 +63,6 @@ interface ModelInterface
      * @return void
      */
     public function onStateChange($name);
-
-    /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
-    public function getTotal();
 
     /**
      * Get the model paginator object

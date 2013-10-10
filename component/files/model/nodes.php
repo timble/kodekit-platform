@@ -82,7 +82,7 @@ class ModelNodes extends ModelAbstract
 					$limit_left--;
 				}
 
-				$total += $folders->getTotal();
+				$total += $folders->count();
 				$offset_left -= $total;
 			}
 
@@ -102,10 +102,10 @@ class ModelNodes extends ModelAbstract
 					$limit_left--;
 				}
 
-				$total += $files->getTotal();
+				$total += $files->count();
 			}
 
-			$this->_total = $total;
+			$this->_count = $total;
 			$this->_data  = $list;
 		}
 

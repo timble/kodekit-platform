@@ -44,13 +44,13 @@ class ModelFolders extends ModelNodes
         		throw new \UnexpectedValueException('Invalid folder');
         	}
 
-			$this->_total = count($folders);
+			$this->_count = count($folders);
 
 			if (strtolower($state->direction) == 'desc') {
 				$folders = array_reverse($folders);
 			}
 
-			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_total);
+			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_count);
 
 			$results = array();
 			foreach ($folders as $folder)

@@ -126,17 +126,51 @@ class ModelDatabase extends ModelAbstract
     public function create()
     {
         $context = $this->getCommandContext();
-        $context->data = null;
+        $context->data  = null;
+        $context->state = $this->getState();
 
         if ($this->getCommandChain()->run('before.fetch', $context) !== false)
         {
-            $context->data = $this->getTable()->createRow(array('state' => $this->getState()));
+            $context->data = $this->getTable()->createRow(array('state' => $context->state));
             $this->getCommandChain()->run('after.fetch', $context);
         }
 
         $this->_data = ObjectConfig::unbox($context->data);
 
         return $this->_data;
+    }
+
+    /**
+     * Get the total amount of items
+     *
+     * @return  int
+     */
+    public function count()
+    {
+        if(!isset($this->_count))
+        {
+            $context = $this->getCommandContext();
+            $context->count = null;
+            $context->state = $this->getState();
+
+            if ($this->getCommandChain()->run('before.count', $context) !== false)
+            {
+                $query = $this->getObject('lib:database.query.select');
+                $query->columns('COUNT(*)');
+
+                $this->_buildQueryTable($query);
+                $this->_buildQueryJoins($query);
+                $this->_buildQueryWhere($query);
+
+                $context->count = $this->getTable()->count($query, array('state' => $context->state));
+
+                $this->getCommandChain()->run('after.count', $context);
+            }
+
+            $this->_count = ObjectConfig::unbox($context->count);
+        }
+
+        return $this->_count;
     }
 
     /**
@@ -244,32 +278,6 @@ class ModelDatabase extends ModelAbstract
     }
 
     /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
-    public function getTotal()
-    {
-        // Get the data if it doesn't already exist
-        if (!isset($this->_total))
-        {
-            $state = $this->getState();
-
-            $query = $this->getObject('lib:database.query.select');
-            $query->columns('COUNT(*)');
-
-            $this->_buildQueryTable($query);
-            $this->_buildQueryJoins($query);
-            $this->_buildQueryWhere($query);
-
-            $total = $this->getTable()->count($query, array('state' => $state));
-            $this->_total = $total;
-        }
-
-        return $this->_total;
-    }
-
-    /**
      * Builds SELECT columns list for the query
      */
     protected function _buildQueryColumns(DatabaseQuerySelect $query)
@@ -359,7 +367,7 @@ class ModelDatabase extends ModelAbstract
         if($limit) 
         {
             $offset = $this->getState()->offset;
-            $total  = $this->getTotal();
+            $total  = $this->count();
 
             //If the offset is higher than the total recalculate the offset
             if($offset !== 0 && $total !== 0)        

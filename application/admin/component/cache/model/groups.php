@@ -77,7 +77,7 @@ class CacheModelGroups extends Library\ModelAbstract
                 }
 
                 //Set the total
-                $this->_total = count($data);
+                $this->_count = count($data);
 
                 //Apply limit and offset
                 if($state->limit) {
@@ -94,12 +94,12 @@ class CacheModelGroups extends Library\ModelAbstract
         return $this->_data;
     }
 
-    public function getTotal()
+    public function count()
     {
-        if(!isset($this->_total)) {
+        if(!isset($this->_count)) {
             $this->fetch();
         }
         
-        return $this->_total;
+        return $this->_count;
     }
 }
