@@ -15,7 +15,6 @@ VALUES
     (25, 'Pages', 'com_pages', '', 1),
     (28, 'Extensions', 'com_extensions', '', 1),
     (31, 'Users', 'com_users', 'allowUserRegistration=1\nnew_usertype=18\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
-    (32, 'Cache', 'com_cache', '', 1),
     (34, 'Activities', 'com_activities', '', 1),
     (35, 'Dashboard', 'com_dashboard', '', 1),
     (36, 'CK Editor', 'com_ckeditor', '', 1);
@@ -175,7 +174,6 @@ VALUES
 	(8, 2, NULL, 'Settings', 'settings', 'option=com_extensions&view=settings', NULL, 'component', 1, 0, 0, 28, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(9, 2, NULL, 'Tools', 'tools', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', NULL, 'component', 1, 0, 0, 34, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(11, 2, NULL, 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(12, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(13, 2, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=contacts', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(14, 2, NULL, 'Languages', 'languages', 'option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 23, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
@@ -190,8 +188,6 @@ VALUES
 	(23, 2, NULL, 'Modules', 'modules', 'option=com_pages&view=modules', NULL, 'component', 1, 0, 0, 25, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(24, 2, NULL, 'Users', 'users', 'option=com_users&view=users', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(25, 2, NULL, 'Groups', 'groups', 'option=com_users&view=groups', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(26, 2, NULL, 'Items', 'items', 'option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(27, 2, NULL, 'Groups', 'groups', 'option=com_cache&view=groups', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(28, 2, NULL, 'Tags', 'tags', 'option=com_articles&view=tags', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 
