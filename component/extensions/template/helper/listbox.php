@@ -46,31 +46,6 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         return $list;
     }
 
-    public function cache_handlers($config = array())
-    {
-        $config = new Library\ObjectConfig($config);
-        $config->append(array(
-            'name'		=> 'cache_handler',
-            'attribs'	=> array()
-        ));
-
-        jimport('joomla.cache.cache');
-        $rows = JCache::getStores();
-
-        foreach($rows as $row) {
-            $options[] 	= $this->option(array('label' => $this->translate(ucfirst($row)), 'value' => $row));
-        }
-
-        $list = $this->optionlist(array(
-            'options'   => $options,
-            'name'      => $config->name,
-            'selected'  => $config->selected,
-            'attribs'   => $config->attribs
-        ));
-
-        return $list;
-    }
-
     public function timezones($config = array())
     {
         $config = new Library\ObjectConfig($config);
