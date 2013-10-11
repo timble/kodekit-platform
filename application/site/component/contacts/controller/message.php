@@ -19,7 +19,10 @@ class ContactsControllerMessage extends Library\ControllerView
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('behaviors' => 'captchable'));
+        $config->append(array(
+            'behaviors' => 'captchable'
+        ));
+
         parent::_initialize($config);
     }
 
