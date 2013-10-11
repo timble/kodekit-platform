@@ -13,10 +13,15 @@ CKEDITOR.plugins.add('readmore',
                 }
             );
             var cmd = editor.addCommand('readmore.cmd', {
+
                exec : function(editor)
                {
-                 editor.insertHtml( '<hr id="system-readmore" />' );
+                   var readmore = editor.document.$.getElementsByTagName("hr");
+                   if(readmore.length == 0){
+                    editor.insertHtml( '<hr id="system-readmore" />' );
+                   }
                }
+
             });
 
         }

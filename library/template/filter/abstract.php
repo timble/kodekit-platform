@@ -27,7 +27,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Template object
      *
-     * @var object
+     * @var TemplateInterface
      */
     protected $_template;
 

@@ -53,7 +53,6 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'chunk_size' => 8 * (1024*1024), //In Bytes
             'priority'   => self::PRIORITY_HIGH,
         ));
 
@@ -125,29 +124,6 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     }
 
     /**
-     * Get the chunk size
-     *
-     * @param DispatcherResponseInterface $response
-     * @return int The chunk size in bytes
-     */
-    public function getChunkSize()
-    {
-        return $this->getConfig()->chunk_size;
-    }
-
-    /**
-     * Set the chunk size
-     *
-     * @param DispatcherResponseInterface $response
-     * @return int The chunk size in bytes
-     */
-    public function setChunkSize($size)
-    {
-        $this->getConfig()->chunk_size = $size;
-        return $this;
-    }
-
-    /**
      * Get the file size
      *
      * @param DispatcherResponseInterface $response
@@ -207,14 +183,15 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
 
             $offset = $this->getOffset($response);
             $range  = $this->getRange($response);
-            $chunk  = $this->getChunkSize();
 
             if ($offset > 0) {
                 $stream->seek($offset);
             }
 
-            $stream->flush($chunk, $range);
+            $output = fopen('php://output', 'w+');
+            $stream->flush($output, $range);
             $stream->close();
+            fclose($output);
 
             return $this;
         }

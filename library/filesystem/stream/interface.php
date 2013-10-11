@@ -33,6 +33,7 @@ interface FilesystemStreamInterface
      * Type Constants
      */
     CONST TYPE_FILE      = 'file';
+    CONST TYPE_TEMP      = 'temp';
     CONST TYPE_LINK      = 'link';
     CONST TYPE_DIRECTORY = 'dir';
     CONST TYPE_FIFO      = 'fifo';
@@ -72,10 +73,9 @@ interface FilesystemStreamInterface
     /**
      * Read data from the stream
      *
-     * @param int $length Up to length number of bytes read.
      * @return string|bool Returns the data read from the stream or FALSE on failure or EOF
      */
-    public function read($length);
+    public function read();
 
     /**
      * Write data to the stream
@@ -89,20 +89,27 @@ interface FilesystemStreamInterface
      * Read data from the stream to another stream
      *
      * @param resource $stream The stream resource to copy the data too
-     * @param int $length Up to length number of bytes read.
      * @return bool Returns TRUE on success, FALSE on failure
      */
-    public function copy($stream, $length);
+    public function copy($stream);
 
     /**
-     * Flush the data from the stream to the output buffer (php://output)
+     * Truncates the stream to a given length
      *
-     * @param int $size   The chunk size in bytes to use when flushing. Default is 8Kb
-     * @param int $limit  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
-     *                    should lie within the total size of the stream.
+     * @param integer $size The size to truncate
+     * @return Returns TRUE on success or FALSE on failure.
+     */
+    public function truncate($size);
+
+    /**
+     * Flush the data from the stream to another stream
+     *
+     * @param resource $stream The stream resource to flush the data too
+     * @param int      $range  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
+     *                         should lie within the total size of the stream.
      * @return bool Returns TRUE on success, FALSE on failure
      */
-    public function flush($chunk = '8192', $limit = -1);
+    public function flush($output, $range = -1);
 
     /**
      * Rewind to the beginning of the stream
@@ -168,6 +175,21 @@ interface FilesystemStreamInterface
      * @return int|bool
      */
     public function getSize();
+
+    /**
+     * Get the chunk size using during read operations
+     *
+     * @return integer The chunk size in bytes
+     */
+    public function getChunkSize();
+
+    /**
+     * Set the chunk size using during read operation
+     *
+     * @param integer $size The chunk size in bytes
+     * @return FilesystemStream
+     */
+    public function setChunkSize($size);
 
     /**
      * Get the streams last modified, last accessed or created time.

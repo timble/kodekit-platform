@@ -68,43 +68,6 @@ class JFactory
     }
 
     /**
-     * Get a cache object
-     *
-     * Returns a reference to the global {@link JCache} object
-     *
-     * @access public
-     * @param string The cache group name
-     * @param string The handler to use
-     * @param string The storage method
-     * @return object JCache
-     */
-    function &getCache($group = '', $handler = 'callback', $storage = null)
-    {
-        $handler = ($handler == 'function') ? 'callback' : $handler;
-
-        $conf =& JFactory::getConfig();
-
-        if (!isset($storage)) {
-            $storage = $conf->getValue('config.cache_handler', 'file');
-        }
-
-        $options = array(
-            'defaultgroup' => $group,
-            'cachebase' => $conf->getValue('config.cache_path'),
-            'lifetime' => $conf->getValue('config.cachetime') * 60, // minutes to seconds
-            'language' => $conf->getValue('config.language'),
-            'storage'  => $storage,
-            'site'     => Nooku\Library\ObjectManager::getInstance()->getObject('application')->getSite()
-        );
-
-        jimport('joomla.cache.cache');
-
-        $cache =& JCache::getInstance($handler, $options);
-        $cache->setCaching($conf->getValue('config.caching'));
-        return $cache;
-    }
-
-    /**
      * Get a mailer object
      *
      * Returns a reference to the global {@link JMail} object, only creating it

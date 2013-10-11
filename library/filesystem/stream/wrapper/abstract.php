@@ -81,13 +81,6 @@ abstract class FilesystemStreamWrapperAbstract extends Object implements Filesys
     protected $_write;
 
     /**
-     * Whether this stream should have UNIX-style newlines converted to Windows-style
-     *
-     * @var boolean
-     */
-    protected $_normaliseForWin = false;
-
-    /**
      * Options
      *
      * @var int
@@ -108,7 +101,6 @@ abstract class FilesystemStreamWrapperAbstract extends Object implements Filesys
 
             $this->_protocol = $config->protocol;
             $this->_type     = $config->type;
-
         }
     }
 
@@ -195,6 +187,16 @@ abstract class FilesystemStreamWrapperAbstract extends Object implements Filesys
     public function getProtocol()
     {
         return $this->_protocol;
+    }
+
+    /**
+     * Get the stream path
+     *
+     * @return string The stream protocol
+     */
+    public function getPath()
+    {
+        return $this->_path;
     }
 
     /**
@@ -293,213 +295,5 @@ abstract class FilesystemStreamWrapperAbstract extends Object implements Filesys
                     return false;
                 }
         }
-    }
-
-    /**
-     * Open stream
-     *
-     * @param string    $path
-     * @param string    $mode
-     * @param int       $options
-     * @param string    $opended_path
-     *
-     * @return boolean
-     */
-    public function stream_open($path, $mode, $options, &$opened_path)
-    {
-        $parts = parse_url($path); //parse the path
-
-        $this->_mode     = $mode;
-        $this->_path     = $path;
-        $this->_protocol = $parts['scheme'];
-        $this->_type     = $parts['host'];
-        $this->_data     = '';
-
-        //Set the options
-        $this->setOptions($options);
-
-        //Set the mode
-        $this->setMode($mode);
-
-        return true;
-    }
-
-    /**
-     * Read from the stream
-     *
-     * @param int $bytes Number of bytes to return
-     * @return string
-     */
-    public function stream_read($bytes)
-    {
-        if ($this->_read)
-        {
-            $read = substr($this->_data, $this->_position, $bytes);
-            $this->_position += strlen($read);
-            return $read;
-        }
-
-        return false;
-    }
-
-    /**
-     * Write to the stream
-     *
-     * @param string $data Data to write
-     * @return int
-     */
-    public function stream_write($data)
-    {
-        if (strpos($this->_mode, 't') && defined('PHP_WINDOWS_VERSION_MAJOR')) {
-            $data = preg_replace('/(?<!\r)\n/', "\r\n", $data);
-        }
-
-        if ($this->_write)
-        {
-            $left  = substr($this->_data, 0, $this->_position);
-            $right = substr($this->_data, $this->_position + strlen($data));
-
-            $this->_data = $left . $data . $right;
-            $this->_position += strlen($data);
-            $this->_length    = strlen($this->_data);
-
-            return strlen($data);
-        }
-
-        return 0;
-    }
-
-    /**
-     * Tells the current position in the stream.
-     *
-     * @return int
-     */
-    public function stream_tell()
-    {
-        return $this->_position;
-    }
-
-    /**
-     * Tells if we are at the end of the stream.
-     *
-     * @return boolean
-     */
-    public function stream_eof()
-    {
-        return $this->_position >= $this->_length;
-    }
-
-    /**
-     * Flushes the output
-     *
-     * @return boolean
-     */
-    public function stream_flush()
-    {
-        return false;
-    }
-
-    /**
-     * Close the stream
-     *
-     * @return void
-     */
-    public function stream_close()
-    {
-
-    }
-
-    /**
-     * Signal that stream_select is not supported by returning false
-     *
-     * @param  int   $cast_as Can be STREAM_CAST_FOR_SELECT or STREAM_CAST_AS_STREAM
-     * @return bool  Always returns false as there is no underlying resource to return.
-     */
-    public function stream_cast($cast_as)
-    {
-        return false;
-    }
-
-    /**
-     *  Seek to a specific position in the stream.
-     *
-     * @param int $offset
-     * @param int $whence Can be SEEK_SET, SEEK_CUR or SEEK_END
-     * @return boolean
-     */
-    public function stream_seek($offset, $whence)
-    {
-        switch ($whence)
-        {
-            case SEEK_SET:
-
-                $this->_position = $offset;
-                return true;
-                break;
-
-            case SEEK_CUR:
-
-                $this->_position += $offset;
-                return true;
-                break;
-
-            case SEEK_END:
-
-                $this->_position = $this->_length + $offset;
-                return true;
-                break;
-        }
-
-        return false;
-    }
-
-    /**
-     * Truncate to given size
-     *
-     * @param int $size
-     */
-    public function stream_truncate($size)
-    {
-        if ($this->_length > $size) {
-            $this->string = substr($this->_data, 0, $size);
-        } else {
-            $this->_data = str_pad($this->_data, $size, "\0", STR_PAD_RIGHT);
-        }
-
-        return true;
-    }
-
-    /**
-     * Return info about stream
-     *
-     * @return array
-     */
-    public function stream_stat()
-    {
-        return array('dev'     => 0,
-                     'ino'     => 0,
-                     'mode'    => 0,
-                     'nlink'   => 0,
-                     'uid'     => 0,
-                     'gid'     => 0,
-                     'rdev'    => 0,
-                     'size'    => $this->_length,
-                     'atime'   => time(),
-                     'mtime'   => time(),
-                     'ctime'   => time(),
-                     'blksize' => -1,
-                     'blocks'  => -1);
-    }
-
-    /**
-     * Return info about stream
-     *
-     * @param string    $path
-     * @param array     $options
-     * @return array
-     */
-    public function url_stat($path, $options)
-    {
-        return $this->stream_stat();
     }
 }

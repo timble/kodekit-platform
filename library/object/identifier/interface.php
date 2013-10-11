@@ -27,7 +27,14 @@ interface ObjectIdentifierInterface extends \Serializable
      * @param boolean $autoload  Whether to allow this function to load the class automatically through the __autoload()
      *                           magic method.
      */
-    public function inherits($class);
+    public function inherits($class, $autoload = true);
+
+    /**
+     * Checks if the identifier has been defined
+     *
+     * @return bool Returns TRUE if the identifier exists, FALSE otherwise.
+     */
+    public function exists();
 
     /**
      * Get the identifier type
@@ -168,13 +175,6 @@ interface ObjectIdentifierInterface extends \Serializable
      * @return string
      */
     public function getClassName();
-
-    /**
-     * Get the identifier file path
-     *
-     * @return string
-     */
-    public function getClassPath();
 
     /**
      * Check if the object is a singleton

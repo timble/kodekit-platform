@@ -10,7 +10,7 @@
 use Nooku\Library;
 
 /**
- * Session Controller Permission Class
+ * Session Controller Permission
  *
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users

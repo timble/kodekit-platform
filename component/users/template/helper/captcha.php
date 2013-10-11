@@ -22,9 +22,6 @@ class TemplateHelperCaptcha extends Library\TemplateHelperDefault
     /**
      * Renders the reCAPTCHA widget.
      *
-     * @param string  $error   The error message given by reCAPTCHA.
-     * @param boolean $ssl     Determines is the request should be made over SSL.
-     *
      * @return string - The HTML to be embedded in the user's form.
      */
     public function render($config = array())
@@ -34,45 +31,34 @@ class TemplateHelperCaptcha extends Library\TemplateHelperDefault
         $params = $this->getObject('application.extensions')->users->params;
 
         $config->append(array(
-            'captcha'        => array(
-                'public_key'        => $params->get('recaptcha_public_key', null),
-                'api_server'        => 'http://www.google.com/recaptcha/api',
-                'api_secure_server' => 'https://www.google.com/recaptcha/api',
-                'options'           => array(
-                    'theme' => 'clean',
-                    'lang'  => 'en')),
-            'error'          => '',
-            'ssl'            => false));
-
-        $captcha = $config->captcha;
+            'public_key' => $params->get('recaptcha_public_key', null),
+            'server'     => 'http://www.google.com/recaptcha/api',
+            'error'      => '',
+            'options'    => array(
+                'theme' => 'clean',
+                'lang'  => 'en'
+            )
+        ));
 
         $html = '';
-
-        if ($public_key = $captcha->public_key) {
-            if ($config->ssl) {
-                $server = $captcha->api_secure_server;
-            } else {
-                $server = $captcha->api_server;
-            }
-
+        if ($public_key = $config->public_key)
+        {
             if ($config->error) {
                 $config->error = '&amp;error=' . $config->error;
             }
 
             // Use options if any.
-            if (count($options = $captcha->options)) {
-                $options = Library\ObjectConfig::unbox($options);
-                $html .= '<script type="text/javascript">';
-                $html .= 'var RecaptchaOptions = ' . json_encode($options);
-                $html .= '</script> ';
-            }
+            $options = Library\ObjectConfig::unbox($config->options);
+            $html .= '<script type="text/javascript">';
+            $html .= 'var RecaptchaOptions = ' . json_encode($options);
+            $html .= '</script> ';
 
-            $html .= '<script data-inline type="text/javascript" src="' . $server . '/challenge?k=' . $public_key . $config->error . '"></script>
-	<noscript>
-  		<iframe src="' . $server . '/noscript?k=' . $public_key . $config->error . '" height="300" width="500" frameborder="0"></iframe><br/>
-  		<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
-  		<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
-	</noscript>';
+            $html .= '<script data-inline type="text/javascript" src="' . $config->server . '/challenge?k=' . $public_key . $config->error . '"></script>';
+	        $html .= '<noscript>';
+  		    $html .= '<iframe src="' . $config->server . '/noscript?k=' . $public_key . $config->error . '" height="300" width="500" frameborder="0"></iframe><br/>';
+  		    $html .= '<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>';
+  		    $html .= '<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>';
+	        $html .= '</noscript>';
         }
 
         return $html;

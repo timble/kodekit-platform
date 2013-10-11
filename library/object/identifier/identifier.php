@@ -63,13 +63,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_name = '';
 
     /**
-     * The file path
-     *
-     * @var string
-     */
-    protected $_classpath = '';
-
-    /**
      * The classname
      *
      * @var string
@@ -141,7 +134,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             'path'		 => $this->_path,
             'name'		 => $this->_name,
             'identifier' => $this->_identifier,
-            'classpath'  => $this->classpath,
             'classname'  => $this->classname,
         );
 
@@ -196,6 +188,15 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         return false;
     }
 
+    /**
+     * Checks if the identifier has been defined
+     *
+     * @return bool Returns TRUE if the identifier exists, FALSE otherwise.
+     */
+    public function exists()
+    {
+        return $this->getLocator()->locate($this, false);
+    }
 
     /**
      * Get the identifier type
@@ -426,16 +427,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Get the identifier file path
-     *
-     * @return string
-     */
-    public function getClassPath()
-    {
-        return $this->classpath;
-    }
-
-    /**
      * Check if the object is a multiton
      *
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
@@ -522,7 +513,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             //Reset the properties
             $this->_identifier = '';
             $this->_classname  = '';
-            $this->_classpath  = '';
         }
     }
 
@@ -537,10 +527,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         $result = null;
         if(isset($this->{'_'.$property}))
         {
-            if($property == 'classpath' && empty($this->_classpath)) {
-                $this->_classpath = $this->getLocator()->findPath($this);
-            }
-
             if($property == 'classname' && empty($this->_classname)) {
                 $this->_classname = $this->getLocator()->locate($this);
             }

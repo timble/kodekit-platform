@@ -53,6 +53,13 @@ interface FilesystemStreamWrapperInterface extends ObjectInterface, ObjectMultit
     public function getProtocol();
 
     /**
+     * Get the stream path
+     *
+     * @return string The stream protocol
+     */
+    public function getPath();
+
+    /**
      * Set the stream options
      *
      * @return string The stream options

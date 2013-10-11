@@ -462,7 +462,6 @@ INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published
   ('menubar', 'Settings', 'settings', 'option=com_extensions&view=settings', 'component', 1, 28, 1, @base + 5, 1, ''),
   ('menubar', 'Tools', 'tools', NULL, 'separator', 1, NULL, 7, 0, 0, ''),
   ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_extension_id` FROM `extensions` WHERE `name` = 'com_activities'), 1, @base + 7, 1, ''),
-  ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1, ''),
   ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1, ''),
   ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1, ''),
   ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 4, @base + 2, 1, ''),
@@ -476,9 +475,7 @@ INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published
   ('menubar', 'Menus', 'menus', 'option=com_pages&view=menus', 'component', 1, 25, 2, @base + 1, 1, ''),
   ('menubar', 'Modules', 'modules', 'option=com_pages&view=modules', 'component', 1, 25, 3, @base + 1, 1, ''),
   ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 1, @base + 4, 1, ''),
-  ('menubar', 'Groups', 'groups', 'option=com_users&view=groups', 'component', 1, 31, 2, @base + 4, 1, ''),
-  ('menubar', 'Items', 'items', 'option=com_cache&view=items', 'component', 1, 32, 1, @base + 9, 2, ''),
-  ('menubar', 'Groups', 'groups', 'option=com_cache&view=groups', 'component', 1, 32, 2, @base + 9, 2, '');
+  ('menubar', 'Groups', 'groups', 'option=com_users&view=groups', 'component', 1, 31, 2, @base + 4, 1, '');
 
 ALTER TABLE `pages` ADD COLUMN `pages_menu_id` INT UNSIGNED NOT NULL AFTER `pages_page_id`;
 UPDATE `pages` AS `pages`, `pages_menus` AS `menus` SET `pages`.`pages_menu_id` = `menus`.`pages_menu_id` WHERE `menus`.`slug` = `pages`.`menutype`;

@@ -26,8 +26,9 @@ class ContactsControllerBehaviorCaptchable extends Users\ControllerBehaviorCaptc
             $container = $session->getContainer('captcha');
             if ($container->has('data'))
             {
-                // Push data to the view.
-                $this->getView()->captcha_data = $container->get('data');
+                // Push the captcha into the view.
+                $this->getView()->captcha = $container->get('data');
+
                 // Cleanup.
                 $container->clear();
             }
