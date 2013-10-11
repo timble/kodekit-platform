@@ -42,8 +42,13 @@ class DatabaseRowGroup extends Library\DatabaseRowTable
             foreach ($this->getObject('com:users.model.groups_users')->group_id($this->id)->fetch() as $group_user)
             {
                 // Remove all users that are no longer selected
-                if (!in_array($group_user->user_id, $this->users)) {
-                    $row = $this->getObject('com:users.model.groups_users')->group_id($this->id)->user_id($group_user->user_id)->getRow();
+                if (!in_array($group_user->user_id, $this->users))
+                {
+                    $row = $this->getObject('com:users.model.groups_users')
+                        ->group_id($this->id)
+                        ->user_id($group_user->user_id)
+                        ->fetch();
+
                     $row->delete();
                 }
             }
@@ -53,7 +58,11 @@ class DatabaseRowGroup extends Library\DatabaseRowTable
             // @TODO: Bug, this should work by using the entire rowset instead of getting a row object for each row
             foreach ($this->getObject('com:users.model.groups_users')->group_id($this->id)->fetch() as $group_user)
             {
-                $row = $this->getObject('com:users.model.groups_users')->group_id($this->id)->user_id($group_user->user_id)->getRow();
+                $row = $this->getObject('com:users.model.groups_users')
+                    ->group_id($this->id)
+                    ->user_id($group_user->user_id)
+                    ->fetch();
+
                 $row->delete();
             }
         }

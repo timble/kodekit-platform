@@ -20,7 +20,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
     public function render()
     {
         $model  = $this->getModel();
-        $module = $model->getRow();
+        $module = $model->fetch();
 
         if($this->getLayout() == 'modal')
         {

@@ -57,7 +57,7 @@ class ControllerFile extends ControllerAbstract
 
         if($model->getState()->isUnique())
         {
-            $file = $this->getModel()->getRow();
+            $file = $this->getModel()->fetch();
 
             if (!file_exists($file->fullpath)) {
                 throw new Library\ControllerExceptionNotFound(\JText::_('File not found'));

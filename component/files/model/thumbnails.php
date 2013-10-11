@@ -49,7 +49,7 @@ class ModelThumbnails extends Library\ModelDatabase
         if(!isset($this->_container))
         {
             //Set the container
-            $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->getRow();
+            $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->fetch();
 
             if (!is_object($container) || $container->isNew()) {
                 throw new \UnexpectedValueException('Invalid container');

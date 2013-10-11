@@ -185,7 +185,7 @@ class DatabaseRowFile extends DatabaseRowNode
             ->container($this->container)
             ->folder($this->folder)
             ->filename($this->name)
-			->getRow();
+			->fetch();
 
 		$result = $thumb->delete();
 

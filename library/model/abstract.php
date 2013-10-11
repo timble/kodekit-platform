@@ -50,9 +50,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
         // Set the state identifier
         $this->__state = $config->state;
 
-        // Mixin the command interface
-        $this->mixin('lib:command.mixin', $config);
-
         // Mixin the behavior interface
         $this->mixin('lib:behavior.mixin', $config);
     }
@@ -99,6 +96,30 @@ abstract class ModelAbstract extends Object implements ModelInterface
 
             $this->_data = ObjectConfig::unbox($context->data);
         }
+
+        return $this->_data;
+    }
+
+    /**
+     * Create a new entity
+     *
+     * This function will reset the model state and create a new entity
+     *
+     * @return  DatabaseRowInterface
+     */
+    public function create()
+    {
+        $context = $this->getCommandContext();
+        $context->data  = null;
+        $context->state = $this->getState();
+
+        if ($this->getCommandChain()->run('before.fetch', $context) !== false)
+        {
+            $context->data = $this->_data;
+            $this->getCommandChain()->run('after.fetch', $context);
+        }
+
+        $this->_data = ObjectConfig::unbox($context->data);
 
         return $this->_data;
     }
@@ -190,16 +211,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
     {
         $this->_data  = null;
         $this->_count = null;
-    }
-
-    /**
-     * Method to get a item
-     *
-     * @return  object
-     */
-    public function getRow()
-    {
-        return $this->_data;
     }
 
     /**

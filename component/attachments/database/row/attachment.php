@@ -110,7 +110,7 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	    	$this->file = $this->getObject('com:files.model.files')
 	    					->container($this->container)
 	    					->name($this->path)
-	    					->getRow();
+	    					->fetch();
 	    }
  
 	    if($property == 'thumbnail' && !isset($this->thumbnail) && $this->file)

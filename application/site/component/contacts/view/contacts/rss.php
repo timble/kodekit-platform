@@ -27,7 +27,7 @@ class ContactsViewContactsRss extends Library\ViewRss
         // Get the attachments container
         $container = $this->getObject('com:files.model.containers')
             ->slug('attachments-attachments')
-            ->getRow();
+            ->fetch();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))

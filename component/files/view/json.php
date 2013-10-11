@@ -21,7 +21,7 @@ class ViewJson extends Library\ViewJson
 {
     protected function _getItem()
     {
-        $row  = $this->getModel()->getRow();
+        $row  = $this->getModel()->fetch();
         $data = parent::_getItem();
 
         $status = $row->getStatus() !== Library\Database::STATUS_FAILED;

@@ -173,7 +173,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         if($this->getModel()->getState()->isUnique())
         {
-            $entity = $this->getModel()->getRow();
+            $entity = $this->getModel()->fetch();
 
             if($entity->isLockable() && $entity->isLocked()) {
                 return true;
@@ -196,7 +196,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         {
             if($this->getModel()->getState()->isUnique())
             {
-                $entity = $this->getModel()->getRow();
+                $entity = $this->getModel()->fetch();
 
                 if($entity->isLockable()) {
                     return true;

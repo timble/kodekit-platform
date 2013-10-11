@@ -244,40 +244,6 @@ class ModelDatabase extends ModelAbstract
 	}
 
     /**
-     * Method to get a item object which represents a table row
-     *
-     * If the model state is unique a row is fetched from the database based on the state. If not, an empty row is be
-     * returned instead.
-     *
-     * @return DatabaseRowInterface
-     */
-    public function getRow()
-    {
-        if(!isset($this->_data))
-        {
-            $query = null;
-            $state = $this->getState();
-
-            if($state->isUnique())
-            {
-                $query = $this->getObject('lib:database.query.select');
-
-                $this->_buildQueryColumns($query);
-                $this->_buildQueryTable($query);
-                $this->_buildQueryJoins($query);
-                $this->_buildQueryWhere($query);
-                $this->_buildQueryGroup($query);
-                $this->_buildQueryHaving($query);
-
-                $this->_data = $this->getTable()->select($query, Database::FETCH_ROW, array('state' => $state));
-            }
-            else $this->_data = $this->getTable()->createRow(array('state' => $state));
-        }
-
-        return $this->_data;
-    }
-
-    /**
      * Builds SELECT columns list for the query
      */
     protected function _buildQueryColumns(DatabaseQuerySelect $query)

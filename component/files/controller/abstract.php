@@ -47,7 +47,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 	protected function _actionCopy(Library\CommandContext $context)
 	{
-		$entity = $this->getModel()->getRow();
+		$entity = $this->getModel()->fetch();
 
 		if(!$entity->isNew())
 		{
@@ -73,7 +73,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 	protected function _actionMove(Library\CommandContext $context)
 	{
-		$entity = $this->getModel()->getRow();
+		$entity = $this->getModel()->fetch();
 
 		if(!$entity->isNew())
 		{

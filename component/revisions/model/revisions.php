@@ -30,46 +30,32 @@ class ModelRevisions extends Library\ModelDatabase
     /**
      * Get a revision item
      *
-     * When gettig revision number X, this method will transparently build the data from revision 1 to X and return
+     * When getting revision number X, this method will transparently build the data from revision 1 to X and return
      * a complete row. This is done because revision X always contains just the changes from the previous revision,
      * so the rest needs to be built.
      *
      * @return Library\DatabaseRowInterface
      */
-    public function getRow()
+    public function fetch()
     {
         if (!isset($this->_data))
         {
-            if ($this->getState()->revision > 1) {
-                $this->_data = $this->getRevision();
+            if ($this->getState()->revision > 1)
+            {
+                $revisions = parent::fetch();
+                $data      = array();
+
+                foreach ($revisions as $revision) {
+                    $data = array_merge(json_decode($revision->data, true), $data);
+                }
+
+                $revisions->data = json_encode((object)$data);
+
+                $this->_data = $revisions;
             }
         }
 
-        return parent::getRow();
-    }
-
-    /**
-     * Get a complete revision row, merging data from all previous revisions
-     *
-     * @return Library\DatabaseRowInterface
-     */
-    public function getRevision()
-    {
-        $revisions = $this->fetch();
-        $data      = array();
-
-        foreach ($revisions as $row)
-        {
-            if (!isset($revision)) {
-                $revision = $row;
-            }
-
-            $data = array_merge(json_decode($row->data, true), $data);
-        }
-
-        $revision->data = json_encode((object)$data);
-
-        return $revision;
+        return parent::fetch();
     }
 
     protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)

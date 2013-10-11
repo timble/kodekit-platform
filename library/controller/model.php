@@ -252,7 +252,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionAdd(CommandContext $context)
 	{
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
         if($entity->isNew())
         {

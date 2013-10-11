@@ -30,7 +30,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $this->files = $files['items'];
         $this->total = $files['total'];
 
-        $folder = $this->getModel()->getRow();
+        $folder = $this->getModel()->fetch();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
 		{
@@ -129,7 +129,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 	{
 		if ($this->parent !== null)
 		{
-            $folder = $this->getModel()->getRow();
+            $folder = $this->getModel()->fetch();
 
 			$pathway = $this->getObject('application')->getPathway();
 			$path    = $folder->path;

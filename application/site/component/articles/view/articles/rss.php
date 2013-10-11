@@ -24,7 +24,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
 
         $container = $this->getObject('com:files.model.containers')
             ->slug('attachments-attachments')
-            ->getRow();
+            ->fetch();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))

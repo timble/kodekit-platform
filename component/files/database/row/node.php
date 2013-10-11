@@ -197,7 +197,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         if(!isset($this->_container))
         {
             //Set the container
-            $container = $this->getObject('com:files.model.containers')->slug($this->container)->getRow();
+            $container = $this->getObject('com:files.model.containers')->slug($this->container)->fetch();
 
             if (!is_object($container) || $container->isNew()) {
                 throw new \UnexpectedValueException('Invalid container');
