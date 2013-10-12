@@ -98,8 +98,11 @@ class ContactsRouter extends Library\DispatcherRouter
             $vars['view'] = 'contact';
         }
 
-        if(count($path) && $path[0] == 'message') {
-            $vars['view'] = 'message';
+        if(count($path) && $path[0] == 'message')
+        {
+            $vars['view']    = 'message';
+            $vars['contact'] = $vars['id'];
+            unset($vars['id']);
         }
 
         return $vars;

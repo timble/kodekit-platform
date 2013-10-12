@@ -46,7 +46,7 @@ class ContactsControllerMessage extends Library\ControllerView
 
         // Get recipient
         $email_to = $this->getObject('com:contacts.model.contacts')
-            ->id($context->request->query->get('id', 'int'))
+            ->id($context->request->query->get('contact', 'int'))
             ->getRow()
             ->email_to;
 

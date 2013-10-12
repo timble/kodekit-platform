@@ -17,39 +17,11 @@ use Nooku\Library;
  */
 class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 {
-    public function message($config = array())
-    {
-        $config   = new Library\ObjectConfig($config);
-        $config->append(array(
-            'layout'   => null,
-            'category' => null
-        ));
-
-        $contact = $config->row;
-
-        $needles = array(
-            array('view' => 'contact' , 'id' => $contact->id),
-            array('view' => 'category', 'id' => $contact->category),
-        );
-
-        $route = array(
-            'view'     => 'message',
-            'id'       => $contact->getSlug(),
-            'layout'   => $config->layout,
-            'category' => $config->category
-        );
-
-        if($item = $this->_findPage($needles)) {
-            $route['Itemid'] = $item->id;
-        };
-
-        return $this->getTemplate()->getView()->getRoute($route);
-    }
-
     public function contact($config = array())
 	{
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
+            'view'     => 'contact',
             'layout'   => null,
             'category' => null
         ));
@@ -62,14 +34,14 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 		);
 
         $route = array(
-            'view'     => 'contact',
+            'view'     => $config->view,
             'id'       => $contact->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category
         );
 
-		if($item = $this->_findPage($needles)) {
-			$route['Itemid'] = $item->id;
+		if($page = $this->_findPage($needles)) {
+			$route['Itemid'] = $page->id;
 		};
 
 		return $this->getTemplate()->getView()->getRoute($route);
@@ -79,6 +51,7 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
     {
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
+            'view'   => 'contacts',
             'layout' => null
         ));
 
@@ -89,7 +62,7 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
         );
 
         $route = array(
-            'view'     => 'contacts',
+            'view'     => $config->view,
             'category' => $category->getSlug(),
             'layout'   => $config->layout
         );

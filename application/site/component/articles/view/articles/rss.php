@@ -19,7 +19,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
 {
     public function render()
     {
-        //Get the category
+        echo '<?xml version="1.0" encoding="utf-8" ?>';
         $this->category = $this->getCategory();
         return parent::render();
     }

@@ -43,7 +43,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         if ($article->id && $article->isAttachable()) {
             $this->attachments($article->getAttachments());
         }
-        
+
         if ($article->id && $article->isTaggable()) {
             $this->tags($article->getTags());
         }

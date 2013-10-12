@@ -8,21 +8,25 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Comments;
 
 /**
  * Comment Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Component\Comments
+ * @author    	Terry Visser <http://nooku.assembla.com/profile/terryvisser>
+ * @package     Component\Comments
  */
-abstract class CommentsControllerComment extends Library\ControllerModel
-{ 
+class CommentsControllerComment extends Comments\ControllerComment
+{
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array('editable'),
+            'behaviors' => array(
+                'editable'
+            ),
+            'model' => 'com:comments.model.comments'
         ));
-        
+
         parent::_initialize($config);
     }
 }
