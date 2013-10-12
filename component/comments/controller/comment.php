@@ -21,18 +21,18 @@ abstract class ControllerComment extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
-
-        if(!$config->model){
-            $config->append(array(
-                'model' => 'com:comments.model.comments'
-            ));
-        }
+        $config->append(array(
+            'model' => 'com:comments.model.comments'
+        ));
 
         //Alias the permission
         $permission       = clone $this->getIdentifier();
         $permission->path = array('controller', 'permission');
 
-        $this->getObject('manager')->registerAlias('com:'.$permission->package.'controller.permission.comment', 'com:comments.controller.permission.comment');
+        $this->getObject('manager')->registerAlias(
+            'com:'.$permission->package.'controller.permission.comment',
+            'com:comments.controller.permission.comment'
+        );
 
         parent::_initialize($config);
     }

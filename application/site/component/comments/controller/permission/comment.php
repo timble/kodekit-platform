@@ -35,9 +35,12 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
         $comment = $this->getModel()->getRow();
 
         // If the user is manager he can moderator comments
-        if($comment->created_by == $this->getUser()->getId()) {
+        if($this->getUser()->getRole() >= 23) {
             $result = true;
-        }elseif($this->getUser()->getRole() >= 23) {
+        }
+
+        // If the user is the owner of a comment he can delete it.
+        if($comment->created_by == $this->getUser()->getId()) {
             $result = true;
         }
 
@@ -49,10 +52,13 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
         $comment = $this->getModel()->getRow();
         $result = false;
 
-        // If the user is the owner of a comment he delete it.
+        // If the user is author he can moderator comments
         if($this->getUser()->getRole() > 18) {
             $result = true;
-        }elseif($comment->created_by == $this->getUser()->getId()) {
+        }
+
+        // If the user is the owner of a comment he can delete it.
+        if($comment->created_by == $this->getUser()->getId()) {
             $result = false;
         }
 
