@@ -8,27 +8,23 @@
  */
 
 use Nooku\Library;
-use Nooku\Component\Comments;
 
 /**
- * Comment Controller
+ * Group Controller
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Component\Comments
+ * @package Component\Users
  */
-class CommentsControllerComment extends Comments\ControllerComment
+class UsersControllerGroup extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
                 'editable',
-                'com:activities.controller.behavior.loggable'
-            ),
+                'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
+            )
         ));
-
-        //Force the toolbars
-        $config->toolbars = array('menubar', 'com:comments.controller.toolbar.comment');
 
         parent::_initialize($config);
     }

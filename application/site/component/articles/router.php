@@ -117,7 +117,9 @@ class ArticlesRouter extends Library\DispatcherRouter
 
             $vars['view']    = 'comments';
             $vars['article'] = $segment;
-            unset($vars['id']);
+
+            //Remove the (parent resource) id to prevent an edit action from being executed if the page url is unique.
+            $vars['id']      = null;
         }
 
         return $vars;

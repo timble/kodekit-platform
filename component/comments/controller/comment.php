@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Comments;
@@ -14,8 +14,8 @@ use Nooku\Library;
 /**
  * Comment Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Comments
+ * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package     Nooku\Component\Comments
  */
 abstract class ControllerComment extends Library\ControllerModel
 { 
@@ -29,15 +29,18 @@ abstract class ControllerComment extends Library\ControllerModel
         $permission       = clone $this->getIdentifier();
         $permission->path = array('controller', 'permission');
 
-        $this->getObject('manager')->registerAlias($permission, 'com:comments.controller.permission.comment');
-        
+        $this->getObject('manager')->registerAlias(
+            'com:'.$permission->package.'controller.permission.comment',
+            'com:comments.controller.permission.comment'
+        );
+
         parent::_initialize($config);
     }
     
     protected function _actionRender(Library\CommandContext $context)
     {
         $view = $this->getView();
-        
+
 	    //Alias the view layout
         if($view instanceof Library\ViewTemplate)
 	    {
@@ -49,7 +52,7 @@ abstract class ControllerComment extends Library\ControllerModel
 
 	        $this->getObject('manager')->registerAlias($layout, $alias);
 	    }
-	        
+
         return parent::_actionRender($context);
     }
 

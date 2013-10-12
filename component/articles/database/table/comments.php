@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-use Nooku\Library;
+namespace Nooku\Component\Articles;
 
+use Nooku\Library;
+use Nooku\Component\Comments;
 /**
- * Comment Controller
+ * Comments Database Table
  *
- * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package Components\Articles
+ * @author  Terry Visser <https://nooku.assembla.com/profile/stevenrombauts>
+ * @package Nooku\Component\Comments
  */
-class ArticlesControllerComment extends CommentsControllerComment
+class DatabaseTableComments extends Comments\DatabaseTableComments
 {
 
 }

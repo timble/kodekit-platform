@@ -11,7 +11,9 @@
 <form action="<?= helper('com:comments.route.comment', array('row' => $row)) ?>" method="post">
     <input type="hidden" name="row" value="<?= $state->row ?>" />
 
-    <textarea type="text" name="text" placeholder="<?= translate('Add new comment here ...') ?>" id="new-comment-text"></textarea>
-    <br />
-    <input class="button" type="submit" value="<?= translate('Submit') ?>"/>
+    <?= object('com:ckeditor.controller.editor')->render(
+        array('name' => 'text', 'text' => "", 'toolbar' => 'basic')
+    ); ?>
+
+    <input class="btn btn-primary" type="submit" value="<?= translate('Comment') ?>"/>
 </form>

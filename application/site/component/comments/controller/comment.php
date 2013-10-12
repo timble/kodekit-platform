@@ -14,8 +14,7 @@ use Nooku\Component\Comments;
  * Comment controller class.
  *
  * @author     Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package    Nooku_Server
- * @subpackage Comments
+ * @package    Component\Comments
  */
 class CommentsControllerComment extends Comments\ControllerComment
 {

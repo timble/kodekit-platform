@@ -719,13 +719,14 @@ cite {
 }
 
 /* line 31, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_type.scss */
-.muted {
+.muted, .comment .comment__header {
   color: #999999;
 }
 
 /* line 33, ../../../../../../vendor/jlong/sass-twitter-bootstrap/lib/_type.scss */
-a.muted:hover,
-a.muted:focus {
+a.muted:hover, .comment a.comment__header:hover,
+a.muted:focus,
+.comment a.comment__header:focus {
   color: gray;
 }
 
@@ -8176,6 +8177,79 @@ article img[align="right"] {
   margin-bottom: 20px;
 }
 
+/* line 1, blocks/_comments.scss */
+.comments {
+  margin-bottom: 20px;
+}
+/* line 5, blocks/_comments.scss */
+.comments form textarea {
+  resize: vertical;
+}
+/* line 9, blocks/_comments.scss */
+.comments form .cke {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-color: #e3e3e3;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+/* line 16, blocks/_comments.scss */
+.comments form .cke_inner {
+  background: white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 21, blocks/_comments.scss */
+.comments form .cke_top {
+  background: whitesmoke;
+  border-bottom-color: #e3e3e3;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+/* line 27, blocks/_comments.scss */
+.comments form .cke_top .cke_toolgroup {
+  background: none;
+  border: 0 none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/* line 32, blocks/_comments.scss */
+.comments form .cke_top .cke_toolgroup .cke_button:hover {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #e3e3e3;
+}
+/* line 39, blocks/_comments.scss */
+.comments form .cke_bottom {
+  display: none;
+}
+
+/* line 45, blocks/_comments.scss */
+.comment {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e3e3e3;
+}
+/* line 50, blocks/_comments.scss */
+.comment .comment__header {
+  font-size: 11.9px;
+  margin-bottom: 10px;
+}
+/* line 60, blocks/_comments.scss */
+.comment .comment__header--right {
+  float: right;
+}
+
 /* Extend Bootstrap to optimise nested navigation */
 /* line 2, blocks/_sidebar.scss */
 .nav-list ul {
@@ -8399,90 +8473,90 @@ article img[align="right"] {
     left: 0;
   }
 }
-/* line 16, default.scss */
+/* line 17, default.scss */
 html {
   overflow-y: scroll;
 }
 
-/* line 20, default.scss */
+/* line 21, default.scss */
 body {
   margin-top: 20px;
 }
 
-/* line 26, default.scss */
+/* line 27, default.scss */
 h1 {
   font-size: 21px;
 }
 
-/* line 27, default.scss */
+/* line 28, default.scss */
 h2 {
   font-size: 19px;
 }
 
-/* line 28, default.scss */
+/* line 29, default.scss */
 h3 {
   font-size: 16px;
 }
 
-/* line 30, default.scss */
+/* line 31, default.scss */
 .is-hidden {
   display: none;
 }
 
-/* line 33, default.scss */
+/* line 34, default.scss */
 .backtrace {
   text-align: center;
   margin: 20px 0;
 }
 
-/* line 45, default.scss */
+/* line 46, default.scss */
 .page-header h1, article header h1 {
   line-height: 21px;
   margin-bottom: 0;
 }
-/* line 50, default.scss */
+/* line 51, default.scss */
 .page-header .timestamp, article header .timestamp {
   color: #999;
   font-size: 12px;
 }
 
-/* line 57, default.scss */
+/* line 58, default.scss */
 #password-check.score1 {
   color: #FF0000;
 }
 
-/* line 58, default.scss */
+/* line 59, default.scss */
 #password-check.score2 {
   color: #FF5F5F;
 }
 
-/* line 59, default.scss */
+/* line 60, default.scss */
 #password-check.score3 {
   color: #56E500;
 }
 
-/* line 60, default.scss */
+/* line 61, default.scss */
 #password-check.score4 {
   color: #4DCD00;
 }
 
-/* line 61, default.scss */
+/* line 62, default.scss */
 #password-check.score5 {
   color: #399800;
 }
 
-/* line 63, default.scss */
+/* line 64, default.scss */
 .highlight {
   background-color: yellow;
 }
 
 /* com:application.view.page.login.html */
-/* line 68, default.scss */
+/* line 69, default.scss */
 body.login {
   background-color: #f5f5f5;
   padding-top: 60px;
 }
-/* line 72, default.scss */
+/* line 73, default.scss */
 body.login form {
   max-width: 300px;
   margin: 0 auto;
@@ -8491,21 +8565,21 @@ body.login form {
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 80, default.scss */
+/* line 81, default.scss */
 body.login form .form-content {
   padding: 10px 30px 0;
 }
-/* line 83, default.scss */
+/* line 84, default.scss */
 body.login form .form-content .page-header, body.login form .form-content article header, article body.login form .form-content header {
   margin-bottom: 10px;
 }
-/* line 88, default.scss */
+/* line 89, default.scss */
 body.login form .form-actions {
   margin-bottom: 0;
   padding: 19px 30px;
   border-radius: 0 0 5px 5px;
 }
-/* line 94, default.scss */
+/* line 95, default.scss */
 body.login form input {
   font-size: 16px;
   height: auto;
@@ -8513,28 +8587,28 @@ body.login form input {
   padding: 7px 9px;
 }
 
-/* line 104, default.scss */
+/* line 105, default.scss */
 .radio input[type="radio"].level2, .checkbox input[type="checkbox"].level2 {
   margin-left: 0px;
   margin-right: 6px;
 }
-/* line 105, default.scss */
+/* line 106, default.scss */
 .radio input[type="radio"].level3, .checkbox input[type="checkbox"].level3 {
   margin-left: 36px;
   margin-right: 6px;
 }
-/* line 106, default.scss */
+/* line 107, default.scss */
 .radio input[type="radio"].level4, .checkbox input[type="checkbox"].level4 {
   margin-left: 54px;
   margin-right: 6px;
 }
-/* line 107, default.scss */
+/* line 108, default.scss */
 .radio input[type="radio"].level5, .checkbox input[type="checkbox"].level5 {
   margin-left: 72px;
   margin-right: 6px;
 }
 
-/* line 110, default.scss */
+/* line 111, default.scss */
 .pagination {
   text-align: center;
 }

@@ -31,24 +31,14 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
                 'com:languages.database.behavior.translatable',
                 'com:attachments.database.behavior.attachable',
                 'com:categories.database.behavior.categorizable',
-                'com:tags.database.behavior.taggable'
+                'com:tags.database.behavior.taggable',
+                'com:comments.database.behavior.commentable'
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),
                 'fulltext'    => array('html', 'tidy'),
 		    )
         ));
-
-        $params = $this->getObject('application.extensions')->getExtension('articles')->params;
-
-        if ($params->get('discussible'))
-        {
-            $config->append(array(
-                'behaviors'  => array(
-                    'com:comments.database.behavior.commentable'
-                )
-            ));
-        }
 
         parent::_initialize($config);
     }

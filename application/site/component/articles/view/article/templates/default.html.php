@@ -10,6 +10,10 @@
 
 <title content="replace"><?= $article->title ?></title>
 
+<? if ($params->get('commentable')) : ?>
+    <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<? endif; ?>
+
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
 	    <? if (object('component')->getController()->canEdit()) : ?>
@@ -49,3 +53,7 @@
     <?= import('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
     <? endif ?>
 </article>
+
+<? if($article->id && $params->get('commentable')) : ?>
+    <?= object('com:articles.controller.comment')->row($article->id)->sort('created_on')->render(array('row' => $article));?>
+<? endif ?>

@@ -10,12 +10,12 @@
 use Nooku\Library;
 
 /**
- * Comment Controller
+ * Comment Controller Permission
  *
  * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package Components\Articles
+ * @package Component\Articles
  */
-class ArticlesControllerComment extends CommentsControllerComment
+class ArticlesControllerPermissionComment extends CommentsControllerPermissionComment
 {
 
 }
