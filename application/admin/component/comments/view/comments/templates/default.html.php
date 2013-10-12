@@ -7,6 +7,10 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
+
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
+
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
 </ktml:module>
