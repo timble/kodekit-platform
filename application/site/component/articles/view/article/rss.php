@@ -21,9 +21,9 @@ class ArticlesViewArticleRss extends Library\ViewRss
     {
         $params = $this->getObject('application')->getParams();
 
-
-        if(is_numeric($this->getModel()->getState()->id)){
-            $article = $this->getModel()->getRow();
+        if(is_numeric($this->getModel()->getState()->id))
+        {
+            $article = $this->getModel()->fetch();
 
             if ($article->isAttachable()) {
                 $this->attachments($article->getAttachments());
