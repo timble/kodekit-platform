@@ -22,8 +22,7 @@ class CommentsControllerComment extends Comments\ControllerComment
     {
         $config->append(array(
             'behaviors' => array(
-                'editable',
-                'com:activities.controller.behavior.loggable'
+                'editable'
             ),
             'model' => 'com:comments.model.comments'
         ));
