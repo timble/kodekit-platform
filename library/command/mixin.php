@@ -45,14 +45,14 @@ class CommandMixin extends ObjectMixinAbstract
         //Enqueue the callback command
         if($config->enable_callbacks)
         {
-            $command = $this->getMixer()->mixin('lib:command.callback', $config);
+            $command = $this->getMixer()->mixin('lib:command.invoker.callback', $config);
             $this->getCommandChain()->enqueue($command, $config->callback_priority);
         }
         
         //Enqueue the event command
         if($config->dispatch_events) 
         {
-            $command = $this->getMixer()->mixin('lib:command.event', $config);
+            $command = $this->getMixer()->mixin('lib:command.invoker.event', $config);
             $this->getCommandChain()->enqueue($command, $config->event_priority);
         }
     }
@@ -71,29 +71,14 @@ class CommandMixin extends ObjectMixinAbstract
             'command_chain'     => null,
             'event_dispatcher'  => null,
             'dispatch_events'   => true,
-            'event_priority'    => CommandInterface::PRIORITY_LOWEST,
+            'event_priority'    => Event::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
-            'callback_priority' => CommandInterface::PRIORITY_HIGH,
+            'callback_priority' => CommandInvokerInterface::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);
     }
-    
-    /**
-     * Get the command chain context
-     * 
-     * This functions sets the command subject as the mixer in the context
-     *
-     * @return  CommandContext
-     */
-    public function getCommandContext()
-    {
-        $context = $this->getCommandChain()->getContext();
-        $context->setSubject($this->getMixer());
-        
-        return $context;
-    }
-    
+
     /**
      * Get the chain of command object
      *
