@@ -54,7 +54,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\Command $context)
     {
         if ($this->_expirable) {
             $this->resetExpiration(false);

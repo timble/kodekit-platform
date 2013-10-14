@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerBehaviorRevisable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeBrowse(Library\CommandContext $context)
+    protected function _beforeBrowse(Library\Command $context)
 	{
         $state = $context->getSubject()->getModel()->getState();
 

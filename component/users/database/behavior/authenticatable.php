@@ -28,7 +28,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\Command $context)
     {
         $data = $context->data;
 
@@ -41,7 +41,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\Command $context)
     {
         $data = $context->data;
 
@@ -59,7 +59,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\Command $context)
     {
         $data = $context->data;
 

@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 {			
-	protected function _saveRelations(Library\CommandContext $context)
+	protected function _saveRelations(Library\Command $context)
     {
 		if ($context->error) {
 			return;
@@ -58,17 +58,17 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 		return true;
 	}
 	
-	protected function _afterAdd(Library\CommandContext $context)
+	protected function _afterAdd(Library\Command $context)
     {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterEdit(Library\CommandContext $context)
+	protected function _afterEdit(Library\Command $context)
     {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterDelete(Library\CommandContext $context)
+	protected function _afterDelete(Library\Command $context)
     {
         $status = $context->result->getStatus();
 

@@ -212,10 +212,10 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Add level and path columns to the query
      * 
-     * @param  Library\CommandContext $context A command context object.
+     * @param  Library\Command $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _beforeSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\Command $context)
     {
         $query = $context->query;
         if($query && !$query->isCountQuery())
@@ -249,10 +249,10 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Insert relations into the relation table
      * 
-     * @param  Library\CommandContext $context A command context object.
+     * @param  Library\Command $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _afterInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\Command $context)
     {
         if($context->affected !== false)
         {
@@ -296,10 +296,10 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * 
      * @link http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
      * 
-     * @param  Library\CommandContext $context A command context object.
+     * @param  Library\Command $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _afterUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\Command $context)
     {
         if($context->affected !== false)
         {
@@ -356,10 +356,10 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Delete the row and its children
      *
-     * @param  Library\CommandContext $context A command context object.
+     * @param  Library\Command $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _beforeDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\Command $context)
     {
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();

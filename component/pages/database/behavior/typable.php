@@ -112,7 +112,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         return $methods;
     }
 
-    public function execute($name, Library\CommandContext $context)
+    public function execute($name, Library\Command $context)
     {
         if($name == 'before.insert' || $name == 'before.update')
         {

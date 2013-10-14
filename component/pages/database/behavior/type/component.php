@@ -188,7 +188,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         return $xml;
     }
 
-    protected function _setLinkBeforeSave(Library\CommandContext $context)
+    protected function _setLinkBeforeSave(Library\Command $context)
     {
         if($this->isModified('link_url'))
         {
@@ -210,12 +210,12 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         }
     }
 
-    protected function _beforeInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\Command $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\Command $context)
     {
         $this->_setLinkBeforeSave($context);
     }
