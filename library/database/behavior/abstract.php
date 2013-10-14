@@ -51,10 +51,10 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * '_after[Command]. Command handler functions should be declared protected.
      *
      * @param     string            $name  The command name
-     * @param     CommandContext    $context The command context
+     * @param     Command    $context The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, CommandContext $context)
+    public function execute($name, Command $context)
     {
         if ($context->data instanceof DatabaseRowInterface) {
             $this->setMixer($context->data);

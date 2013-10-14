@@ -45,7 +45,7 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _beforeInsert(CommandContext $context)
+    protected function _beforeInsert(Command $context)
     {
         if($this->has('created_by') && empty($this->created_by)) {
             $this->created_by  = (int) $this->getObject('user')->getId();

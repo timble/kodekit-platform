@@ -45,10 +45,10 @@ class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
      * Method will only set the redirect for none AJAX requests and only if the controller has a returned a 2xx status
      * code. In all other cases no redirect will be set.
 	 *
-	 * @param 	CommandContext $context The active command context
+	 * @param 	Command $context The active command context
 	 * @return 	void
 	 */
-	protected function _afterDispatch(CommandContext $context)
+	protected function _afterDispatch(Command $context)
 	{
         if(!$context->request->isAjax() && $context->response->isSuccess()) {
             $context->response->setRedirect($context->request->getReferrer());

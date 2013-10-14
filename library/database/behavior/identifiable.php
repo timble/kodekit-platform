@@ -89,7 +89,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _afterSelect(CommandContext $context)
+    protected function _afterSelect(Command $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
@@ -111,7 +111,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _beforeInsert(CommandContext $context)
+    protected function _beforeInsert(Command $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface)
         {

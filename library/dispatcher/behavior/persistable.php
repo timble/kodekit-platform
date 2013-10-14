@@ -42,10 +42,10 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 	 * This functions merges the request information with any model state information that was saved in the session
      * and returns the result.
 	 *
-	 * @param 	CommandContext $context The active command context
+	 * @param 	Command $context The active command context
 	 * @return 	void
 	 */
-	protected function _beforeBrowse(CommandContext $context)
+	protected function _beforeBrowse(Command $context)
 	{
 		$model = $this->getController()->getModel();
 
@@ -63,10 +63,10 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 	/**
 	 * Saves the model state in the session.
 	 *
-	 * @param 	CommandContext $context The active command context
+	 * @param 	Command $context The active command context
 	 * @return 	void
 	 */
-	protected function _afterBrowse(CommandContext $context)
+	protected function _afterBrowse(Command $context)
 	{
         $model  = $this->getController()->getModel();
 		$state  = $model->getState();

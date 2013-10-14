@@ -24,10 +24,10 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      * '_action[Action]'
      *
      * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
+     * @param   Command  $context  The command context
      * @return  boolean  Can return both true or false.
      */
-    public function execute($name, CommandContext $context)
+    public function execute($name, Command $context)
     {
         $this->setMixer($context->getSubject());
 

@@ -151,7 +151,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _afterInsert(CommandContext $context)
+    protected function _afterInsert(Command $context)
     {
         if ($this->_createSlug()) {
             $this->save();
@@ -168,7 +168,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _beforeUpdate(CommandContext $context)
+    protected function _beforeUpdate(Command $context)
     {
         if ($this->_updatable) {
             $this->_createSlug();
