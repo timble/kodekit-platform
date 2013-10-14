@@ -25,29 +25,16 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
      *
      * @var boolean
      */
-    protected $_enabled = true;
-
-    /**
-     * The chain's break condition
-     *
-     * @see run()
-     * @var boolean
-     */
-    protected $_break_condition = false;
-
-    /**
-     * The command context object
-     *
-     * @var CommandContext
-     */
-    protected $_context = null;
+    protected $_enabled;
 
     /**
      * The chain stack
      *
-     * @var    ObjectStack
+     * Used to track recursive chain nesting.
+     *
+     * @var ObjectStack
      */
-    protected $_stack;
+    private $__stack;
 
     /**
      * Constructor
@@ -59,10 +46,8 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     {
         parent::__construct($config);
 
-        $this->_break_condition = (boolean)$config->break_condition;
-        $this->_enabled = (boolean)$config->enabled;
-        $this->_context = $config->context;
-        $this->_stack   = $config->stack;
+        $this->_enabled = (boolean) $config->enabled;
+        $this->__stack = $this->getObject('lib:object.stack');
     }
 
     /**
@@ -76,31 +61,28 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'stack'     => $this->getObject('lib:object.stack'),
-            'context'   => new CommandContext(),
-            'enabled'   => true,
-            'break_condition' => false,
+            'enabled' => true,
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Attach a command to the chain
+     * Attach a command invoker to the chain
      *
      * The priority parameter can be used to override the command priority while enqueueing the command.
      *
-     * @param   CommandInterface   $command
-     * @param   integer             $priority The command priority, usually between 1 (high priority) and 5 (lowest),
+     * @param   CommandInvokerInterface  $command
+     * @param   integer                  $priority The command priority, usually between 1 (high priority) and 5 (lowest),
      *                                        default is 3. If no priority is set, the command priority will be used
      *                                        instead.
      * @return CommandChain
-     * @throws \InvalidArgumentException if the object doesn't implement CommandInterface
+     * @throws \InvalidArgumentException if the object doesn't implement CommandInvokerInterface
      */
     public function enqueue(ObjectHandlable $command, $priority = null)
     {
-        if (!$command instanceof CommandInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInterface');
+        if (!$command instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
         }
 
         $priority = is_int($priority) ? $priority : $command->getPriority();
@@ -108,32 +90,32 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     }
 
     /**
-     * Removes a command from the queue
+     * Removes a command invoker from the queue
      *
-     * @param   CommandInterface $command
+     * @param   CommandInvokerInterface $command
      * @return  boolean    TRUE on success FALSE on failure
-     * @throws  \InvalidArgumentException if the object implement CommandInterface
+     * @throws  \InvalidArgumentException if the object implement CommandInvokerInterface
      */
     public function dequeue(ObjectHandlable $command)
     {
-        if (!$command instanceof CommandInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInterface');
+        if (!$command instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
         }
 
         return parent::dequeue($command);
     }
 
     /**
-     * Check if the queue does contain a given object
+     * Check if the queue does contain a given command invoker
      *
-     * @param  CommandInterface $object
+     * @param  CommandInvokerInterface $command
      * @return bool
-     * @throws  \InvalidArgumentException if the object implement CommandInterface
+     * @throws  \InvalidArgumentException if the object implement CommandInvokerInterface
      */
     public function contains(ObjectHandlable $command)
     {
-        if (!$command instanceof CommandInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInterface');
+        if (!$command instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
         }
 
         return parent::contains($command);
@@ -142,28 +124,47 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     /**
      * Run the commands in the chain
      *
-     * If a command returns the 'break condition' the executing is halted.
+     * If a command returns the 'break condition' the executing is halted. If no break condition is specified the
+     * command chain will pass the command invokers, regardless of the invoker result returned.
      *
-     * @param   string          $name
-     * @param   CommandContext $context
-     * @return  void|boolean    If the chain breaks, returns the break condition. Default returns void.
+     * @param   string  $name
+     * @param   Command $command
+     * @param   mixed   $condition The break condition
+     * @return  void|mixed If the chain breaks, returns the break condition. If the chain is not enabled will void
      */
-    public function run($name, CommandContext $context)
+    public function run($name, Command $command, $condition = null)
     {
         if ($this->_enabled)
         {
-            $this->getStack()->push(clone $this);
+            $this->__stack->push(clone $this);
 
-            foreach ($this->getStack()->top() as $command)
+            foreach ($this->__stack->top() as $invoker)
             {
-                if ($command->execute($name, $context) === $this->_break_condition)
+                if($condition === self::CONDITION_EXCEPTION)
                 {
-                    $this->getStack()->pop();
-                    return $this->_break_condition;
+                    try
+                    {
+                        $invoker->execute($name, $command);
+                    }
+                    catch (CommandExceptionInvoker $e)
+                    {
+                        $this->__stack->pop();
+                        return $e;
+                    }
+                }
+                else
+                {
+                    $result = $invoker->execute($name, $command);
+
+                    if($condition && $result === $condition)
+                    {
+                        $this->__stack->pop();
+                        return $condition;
+                    }
                 }
             }
 
-            $this->getStack()->pop();
+            $this->__stack->pop();
         }
     }
 
@@ -192,55 +193,35 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     }
 
     /**
-     * Set the priority of a command
+     * Set the priority of a command invoker
      *
-     * @param CommandInterface $command
-     * @param integer           $priority
+     * @param CommandInvokerInterface $invoker
+     * @param integer $priority
      * @return CommandChain
-     * @throws \InvalidArgumentException if the object doesn't implement CommandInterface
+     * @throws \InvalidArgumentException if the object doesn't implement CommandInvokerInterface
      */
-    public function setPriority(ObjectHandlable $command, $priority)
+    public function setPriority(ObjectHandlable $invoker, $priority)
     {
-        if (!$command instanceof CommandInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInterface');
+        if (!$invoker instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
         }
 
-        return parent::setPriority($command, $priority);
+        return parent::setPriority($invoker, $priority);
     }
 
     /**
-     * Get the priority of a command
+     * Get the priority of a command invoker
      *
-     * @param  CommandInterface $object
+     * @param  CommandInvokerInterface $invoker
      * @return integer The command priority
-     * @throws \InvalidArgumentException if the object doesn't implement CommandInterface
+     * @throws \InvalidArgumentException if the object doesn't implement CommandInvokerInterface
      */
-    public function getPriority(ObjectHandlable $command)
+    public function getPriority(ObjectHandlable $invoker)
     {
-        if (!$command instanceof CommandInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInterface');
+        if (!$invoker instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
         }
 
-        return parent::getPriority($command);
-    }
-
-    /**
-     * Factory method for a command context.
-     *
-     * @return  CommandContext
-     */
-    public function getContext()
-    {
-        return clone $this->_context;
-    }
-
-    /**
-     * Get the chain object stack
-     *
-     * @return     ObjectStack
-     */
-    public function getStack()
-    {
-        return $this->_stack;
+        return parent::getPriority($invoker);
     }
 }
