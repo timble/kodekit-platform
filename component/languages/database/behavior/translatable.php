@@ -84,7 +84,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         return $translations;
     }
     
-    protected function _beforeSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\Command $context)
     {
         if($query = $context->query)
         {
@@ -129,7 +129,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\Command $context)
     {
         if($context->affected)
         {
@@ -182,7 +182,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _beforeUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\Command $context)
     {
         $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
@@ -193,7 +193,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\Command $context)
     {
         $languages = $this->getObject('application.languages');
         $primary   = $languages->getPrimary();
@@ -251,7 +251,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _beforeDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\Command $context)
     {
         $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
@@ -262,7 +262,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\Command $context)
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {

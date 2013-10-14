@@ -22,9 +22,9 @@ class ControllerToolbarTable extends Library\ControllerToolbarActionbar
     /**
      * Add default toolbar commands
      * .
-     * @param	Library\CommandContext	$context A command context object
+     * @param	Library\Command	$context A command context object
      */
-    protected function _afterBrowse(Library\CommandContext $context)
+    protected function _afterBrowse(Library\Command $context)
     {
         parent::_afterBrowse($context);
         
