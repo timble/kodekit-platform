@@ -35,12 +35,12 @@ class DatabaseRowFolder extends DatabaseRowNode
 
 	public function save()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false)
+		if ($this->getCommandChain()->run('before.save', $context, false) !== false)
 		{
 			if ($this->isNew()) {
 				$context->result = $this->_adapter->create();

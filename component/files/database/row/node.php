@@ -69,17 +69,12 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		parent::_initialize($config);
 	}
 
-	public function isNew()
-	{
-		return empty($this->name) || !$this->_adapter->exists();
-	}
-
 	public function copy()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.copy', $context) !== false)
+		if ($this->getCommandChain()->run('before.copy', $context, false) !== false)
 		{
 			$context->result = $this->_adapter->copy($this->destination_fullpath);
 			$this->getCommandChain()->run('after.copy', $context);
@@ -103,10 +98,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
 	public function move()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.move', $context) !== false)
+		if ($this->getCommandChain()->run('before.move', $context, false) !== false)
 		{
 			$context->result = $this->_adapter->move($this->destination_fullpath);
 			$this->getCommandChain()->run('after.move', $context);
@@ -131,10 +126,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
 	public function delete()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.delete', $context) !== false)
+		if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
 		{
 			$context->result = $this->_adapter->delete();
 			$this->getCommandChain()->run('after.delete', $context);
@@ -209,6 +204,14 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         return $this->_container;
     }
 
+    public function getContext()
+    {
+        $context = new Command();
+        $context->setSubject($this);
+
+        return $context;
+    }
+
 	public function setAdapter()
 	{
 		$type      = $this->getIdentifier()->name;
@@ -223,6 +226,32 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
 		return $this;
 	}
+
+    /**
+     * Get the chain of command object
+     *
+     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
+     * to the CommandChain mixin.
+     *
+     * @return  CommandChainInterface
+     */
+    public function getCommandChain()
+    {
+        if(!$this->_command_chain instanceof CommandChainInterface)
+        {
+            //Ask the parent the relay the call to the mixin
+            $this->_command_chain = parent::getCommandChain();
+
+            if(!$this->_command_chain instanceof CommandChainInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
+                );
+            }
+        }
+
+        return $this->_command_chain;
+    }
 
 	public function setData($data, $modified = true)
 	{
@@ -259,5 +288,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
     public function isLockable()
     {
     	return false;
+    }
+
+    public function isNew()
+    {
+        return empty($this->name) || !$this->_adapter->exists();
     }
 }
