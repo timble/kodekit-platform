@@ -171,10 +171,10 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
      *
      * This function will also set the rendered output in the response.
 	 *
-	 * @param	CommandContext	$context    A command context object
+	 * @param	Command	$context    A command context object
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
-	protected function _actionRender(CommandContext $context)
+	protected function _actionRender(Command $context)
 	{
         $view = $this->getView();
 
