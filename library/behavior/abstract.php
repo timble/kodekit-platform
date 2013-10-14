@@ -129,11 +129,11 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * '_after[Command]. Command handler functions should be declared protected.
      *
      * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
+     * @param   Command  $context  The command context
      *
      * @return  mixed  Method result if the method exists, NULL otherwise.
      */
-    public function execute($name, CommandContext $context)
+    public function execute($name, Command $context)
     {
         $result = null;
 
