@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerToolbarAbstract extends Command implements ControllerToolbarInterface
+abstract class ControllerToolbarAbstract extends CommandInvokerAbstract implements ControllerToolbarInterface
 {
     /**
      * Controller object
@@ -82,10 +82,10 @@ abstract class ControllerToolbarAbstract extends Command implements ControllerTo
      * or '_after[Command]. Command handler functions should be declared protected.
      *
      * @param 	string           $name	    The command name
-     * @param 	CommandContext  $context 	The command context
+     * @param 	Command  $context 	The command context
      * @return 	boolean Always returns TRUE
      */
-    final public function execute($name, CommandContext $context)
+    final public function execute($name, Command $context)
     {
         $identifier = clone $context->getSubject()->getIdentifier();
         $type = array_shift($identifier->path);
