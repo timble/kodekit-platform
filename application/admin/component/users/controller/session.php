@@ -47,7 +47,7 @@ class UsersControllerSession extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    public function authenticate(Library\CommandContext $context)
+    public function authenticate(Library\Command $context)
     {
         //Load the user
         $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))->getRow();
@@ -76,7 +76,7 @@ class UsersControllerSession extends Library\ControllerModel
         return true;
     }
 
-    public function authorize(Library\CommandContext $context)
+    public function authorize(Library\Command $context)
     {
         //If the user is blocked, redirect with an error
         if (!$context->user->isEnabled()) {
@@ -86,7 +86,7 @@ class UsersControllerSession extends Library\ControllerModel
         return true;
     }
 
-    protected function _actionAdd(Library\CommandContext $context)
+    protected function _actionAdd(Library\Command $context)
     {
         //Start the session (if not started already)
         $session = $context->user->session;
@@ -124,7 +124,7 @@ class UsersControllerSession extends Library\ControllerModel
         return $entity;
     }
 
-    protected function _actionDelete(Library\CommandContext $context)
+    protected function _actionDelete(Library\Command $context)
     {
         //Force logout from site and administrator
         $context->request->query->application = array('site', 'admin');

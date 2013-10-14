@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class UsersDispatcherHttp extends Library\DispatcherHttp
 {
-    protected function _actionDispatch(Library\CommandContext $context)
+    protected function _actionDispatch(Library\Command $context)
 	{        	
         if($context->user->isAuthentic())
         {  

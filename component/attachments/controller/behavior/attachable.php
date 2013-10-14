@@ -100,7 +100,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return $this->_attachments;
     }
 
-    protected function _populateFilesFromRequest(Library\CommandContext $context)
+    protected function _populateFilesFromRequest(Library\Command $context)
     {
         if ($this->_populate_from_request)
         {
@@ -132,7 +132,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         }
     }
 
-    protected function _saveFile(Library\CommandContext $context, $attachment)
+    protected function _saveFile(Library\Command $context, $attachment)
     {
         $row = $context->result;
 
@@ -179,7 +179,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _saveFiles(Library\CommandContext $context)
+    protected function _saveFiles(Library\Command $context)
     {
         if ($context->error) {
             return;
@@ -213,23 +213,23 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _beforeAdd(Library\CommandContext $context) {
+    protected function _beforeAdd(Library\Command $context) {
         $this->_populateFilesFromRequest($context);
     }
 
-    protected function _beforeEdit(Library\CommandContext $context) {
+    protected function _beforeEdit(Library\Command $context) {
         $this->_populateFilesFromRequest($context);
     }
 
-    protected function _afterAdd(Library\CommandContext $context) {
+    protected function _afterAdd(Library\Command $context) {
         $this->_saveFiles($context);
     }
 
-    protected function _afterEdit(Library\CommandContext $context) {
+    protected function _afterEdit(Library\Command $context) {
         $this->_saveFiles($context);
     }
 
-    protected function _afterDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\Command $context)
     {
         $status = $context->result->getStatus();
 

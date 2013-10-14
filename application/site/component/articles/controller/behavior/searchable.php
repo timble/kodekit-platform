@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeBrowse(Library\CommandContext $context)
+    protected function _beforeBrowse(Library\Command $context)
     {
         $request = $this->getRequest();
 

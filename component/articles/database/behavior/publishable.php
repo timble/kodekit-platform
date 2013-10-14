@@ -62,7 +62,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterSelect(Library\CommandContext $context)
+    protected function _afterSelect(Library\Command $context)
     {
         $data = $context->data;
 
@@ -75,13 +75,13 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\Command $context)
     {
         // Same as update.
         $this->_beforeUpdate($context);
     }
 
-    protected function _beforeUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\Command $context)
     {
         $data = $context->data;
 

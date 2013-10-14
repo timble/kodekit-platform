@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class LanguagesControllerExtension extends Library\ControllerView
 {
-    protected function _actionEdit(Library\CommandContext $context)
+    protected function _actionEdit(Library\Command $context)
     {
         if($context->request->data->has('id'))
         {

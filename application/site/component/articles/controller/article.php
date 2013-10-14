@@ -69,7 +69,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
         return $request;
     }
 
-    protected function _actionAdd(Library\CommandContext $context)
+    protected function _actionAdd(Library\Command $context)
     {
         //Force article to unpublished if you cannot edit
         if (!$this->canEdit()) {
