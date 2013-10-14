@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Event Command
+ * Event Command Invoker
  *
  * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
  * to any registered event handlers.
@@ -21,7 +21,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandEvent extends EventMixin implements CommandInterface
+class CommandInvokerEvent extends EventMixin implements CommandInvokerInterface
 {
     /**
      * The command priority
@@ -52,7 +52,7 @@ class CommandEvent extends EventMixin implements CommandInterface
      * @param   object  $context The command context
      * @return  void
      */
-    public function execute($name, CommandContext $context)
+    public function execute($name, Command $context)
     {
         $type = '';
 
