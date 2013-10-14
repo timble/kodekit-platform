@@ -21,11 +21,18 @@ interface ControllerInterface
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string     $action  The action to execute
-     * @param   object	   $context  A command context object
+     * @param   object	   $context  A command object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
-    public function execute($action, CommandContext $context);
+    public function execute($action, Command $context);
+
+    /**
+     * Get the controller context
+     *
+     * @return  Command
+     */
+    public function getContext();
 
     /**
      * Gets the available actions in the controller.
