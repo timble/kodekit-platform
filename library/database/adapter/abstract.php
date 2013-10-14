@@ -253,7 +253,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
      * to the KCommandChain mixin.
      *
-     * @return  KCommandChainInterface
+     * @return  CommandChainInterface
      */
     public function getCommandChain()
     {
@@ -271,6 +271,19 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         }
 
         return $this->_command_chain;
+    }
+
+    /**
+     * Get the adapter context
+     *
+     * @return  Command
+     */
+    public function getContext()
+    {
+        $context = new Command();
+        $context->setSubject($this);
+
+        return $context;
     }
 
     /**
@@ -292,12 +305,12 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             throw new \InvalidArgumentException('Query must be an instance of DatabaseQuerySelect or DatabaseQueryShow');
         }
 
-        $context  = $this->getCommandContext();
+        $context  = $this->getContext();
         $context->query     = $query;
         $context->operation = Database::OPERATION_SELECT;
         $context->mode      = $mode;
 
-        if ($this->getCommandChain()->run('before.select', $context) !== false)
+        if ($this->getCommandChain()->run('before.select', $context, false) !== false)
         {
             if ($result = $this->execute($context->query, Database::RESULT_USE))
             {
@@ -347,11 +360,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      */
     public function insert(DatabaseQueryInsert $query)
     {
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_INSERT;
         $context->query = $query;
 
-        if ($this->getCommandChain()->run('before.insert', $context) !== false)
+        if ($this->getCommandChain()->run('before.insert', $context, false) !== false)
         {
             //Check if we have valid data to insert, if not return false
             if ($context->query->values)
@@ -377,11 +390,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      */
     public function update(DatabaseQueryUpdate $query)
     {
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_UPDATE;
         $context->query     = $query;
 
-        if ($this->getCommandChain()->run('before.update', $context) !== false)
+        if ($this->getCommandChain()->run('before.update', $context, false) !== false)
         {
             if (!empty($context->query->values))
             {
@@ -405,11 +418,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      */
     public function delete(DatabaseQueryDelete $query)
     {
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_DELETE;
         $context->query     = $query;
 
-        if ($this->getCommandChain()->run('before.delete', $context) !== false)
+        if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
         {
             //Execute the query
             $context->result = $this->execute($context->query);
