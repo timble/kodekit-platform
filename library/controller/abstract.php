@@ -142,11 +142,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string         $action  The action to execute
-     * @param   CommandContext $context A command context object
+     * @param   Command $context A command context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
-    public function execute($action, CommandContext $context)
+    public function execute($action, Command $context)
     {
         $action = strtolower($action);
 
@@ -162,7 +162,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         }
 
         //Execute the action
-        if ($this->getCommandChain()->run('before.' . $command, $context) !== false)
+        if ($this->getCommandChain()->run('before.' . $command, $context, false) !== false)
         {
             $method = '_action' . ucfirst($command);
 
@@ -370,17 +370,14 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     }
 
     /**
-     * Get the command chain context
+     * Get the controller context
      *
-     * Overrides CommandMixin::getCommandContext() to insert the request and response objects into the controller
-     * command context.
-     *
-     * @return  CommandContext
-     * @see CommandMixin::getCommandContext
+     * @return  Command
      */
-    public function getCommandContext()
+    public function getContext()
     {
-        $context = parent::getCommandContext();
+        $context = new Command();
+        $context->setSubject($this);
 
         $context->request    = $this->getRequest();
         $context->user       = $this->getUser();
@@ -431,9 +428,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
                 $data = !empty($args) ? $args[0] : array();
 
                 //Create a context object
-                if (!($data instanceof CommandContextInterface))
+                if (!($data instanceof CommandInterface))
                 {
-                    $context = $this->getCommandContext();
+                    $context = $this->getContext();
 
                     //Store the parameters in the context
                     $context->param = $data;
