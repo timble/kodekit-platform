@@ -10,96 +10,55 @@
 namespace Nooku\Library;
 
 /**
- * Command
- *
- * The command handler will translate the command name into a function format and call it for the object class to handle
- * it if the method exists.
+ * Command Context
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class Command extends Object implements CommandInterface
+class Command extends ObjectConfig implements CommandInterface
 {
     /**
-     * The command priority
+     * The command subject
      *
-     * @var integer
+     * @var  object
      */
-    protected $_priority;
+    protected $_subject;
 
     /**
-     * Object constructor
+     * Get the command subject
      *
-     * @param ObjectConfig $config Configuration options
-     * @throws \InvalidArgumentException
+     * @return object	The command subject
      */
-    public function __construct(ObjectConfig $config)
+    public function getSubject()
     {
-        parent::__construct($config);
-
-        //Set the command priority
-        $this->_priority = $config->priority;
+        return $this->_subject;
     }
 
     /**
-     * Initializes the options for the object
+     * Set the command subject
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
+     * @param ObjectInterface $subject The command subject
+     * @return Command
+     */
+    public function setSubject(ObjectInterface $subject)
+    {
+        $this->_subject = $subject;
+        return $this;
+    }
+
+    /**
+     * Set a command property
      *
-     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
-    protected function _initialize(ObjectConfig $config)
+    public function set($name, $value)
     {
-        $config->append(array(
-            'priority' => self::PRIORITY_NORMAL,
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
-     * Command handler
-     *
-     * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
-     *
-     * @return  mixed  Method result if the method exists, NULL otherwise.
-     */
-    public function execute($name, CommandContext $context)
-    {
-        $type   = '';
-        $result = null;
-
-        if ($context->getSubject())
-        {
-            $identifier = clone $context->getSubject()->getIdentifier();
-
-            if ($identifier->path) {
-                $type = array_shift($identifier->path);
-            } else {
-                $type = $identifier->name;
-            }
+        if (is_array($value)) {
+            $this->_data[$name] = new ObjectConfig($value);
+        } else {
+            $this->_data[$name] = $value;
         }
-
-        $parts = explode('.', $name);
-        $method = !empty($type) ? '_' . $type . ucfirst(StringInflector::implode($parts)) : '_' . lcfirst(StringInflector::implode($parts));
-
-        //If the method exists call the method and return the result
-        if (in_array($method, $this->getMethods())) {
-            $result = $this->$method($context);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Get the priority of the command
-     *
-     * @return  integer The command priority
-     */
-    public function getPriority()
-    {
-        return $this->_priority;
     }
 }
