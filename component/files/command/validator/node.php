@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class CommandValidatorNode extends Library\Command
 {
-	protected function _databaseBeforeSave(Library\CommandContext $context)
+	protected function _databaseBeforeSave(Library\Command $context)
 	{
 		$row = $context->getSubject();
 
@@ -32,7 +32,7 @@ class CommandValidatorNode extends Library\Command
 		return true;
 	}
 
-	protected function _databaseBeforeCopy(Library\CommandContext $context)
+	protected function _databaseBeforeCopy(Library\Command $context)
 	{
 		$row = $context->getSubject();
 
@@ -67,7 +67,7 @@ class CommandValidatorNode extends Library\Command
 		return true;
 	}
 
-	protected function _databaseBeforeMove(Library\CommandContext $context)
+	protected function _databaseBeforeMove(Library\Command $context)
 	{
 		return $this->_databaseBeforeCopy($context);
 	}

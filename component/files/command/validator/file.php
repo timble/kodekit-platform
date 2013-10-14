@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class CommandValidatorFile extends CommandValidatorNode
 {
-	protected function _databaseBeforeSave(Library\CommandContext $context)
+	protected function _databaseBeforeSave(Library\Command $context)
 	{
 		$row = $context->getSubject();
 

@@ -42,7 +42,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\Command $context)
     {
         if($context->getSubject() instanceof Library\DatabaseAdapterInterface)
         {
@@ -64,7 +64,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterSelect(Library\CommandContext $context)
+    protected function _afterSelect(Library\Command $context)
     {
         if($context->getSubject() instanceof Library\DatabaseAdapterInterface)
         {

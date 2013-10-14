@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
 {
-    protected function _afterBrowse(Library\CommandContext $context)
+    protected function _afterBrowse(Library\Command $context)
     {
         $container = $this->getModel()->getContainer();
 

@@ -57,9 +57,9 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      * unchanged.
      * Inserts space in order sequence of new section if section changed.
      *
-     * @param   Library\CommandContext Context
+     * @param   Library\Command Context
      */
-    protected function _beforeUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\Command $context)
     {
         $this->_table = $context->getSubject();
         if(isset($this->ordering))
@@ -85,9 +85,9 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
     /**
      * Reorders the old section if record has changed sections
      *
-     * @param   Library\CommandContext Context
+     * @param   Library\Command Context
      */
-    protected function _afterUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\Command $context)
     {
         $this->_table = $context->getSubject();
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
@@ -103,7 +103,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      *
      * If the $this->_parent_column is set, this will modify the query to add the column needed by the behavior
      */
-    protected function _beforeSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\Command $context)
     {
         $this->_table = $context->getSubject();
         if($parent_column = $this->_parent_column)
