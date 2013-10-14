@@ -49,7 +49,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeControllerRender(Library\CommandContext $context)
+    protected function _beforeRender(Library\CommandContext $context)
     {
         $row = $this->getModel()->getRow();
 
@@ -68,7 +68,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         }
     }
 
-    protected function _beforeControllerActivate(Library\CommandContext $context)
+    protected function _beforeActivate(Library\CommandContext $context)
     {
         $activation = $context->request->data->get('activation', $this->_filter);
         $row        = $this->getModel()->getRow();
@@ -98,7 +98,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _afterControllerActivate(Library\CommandContext $context)
+    protected function _afterActivate(Library\CommandContext $context)
     {
         $url = $this->getObject('application.pages')->getHome()->getLink();
         $this->getObject('application')->getRouter()->build($url);
@@ -112,7 +112,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         $context->response->setRedirect($url);
     }
 
-    protected function _beforeControllerAdd(Library\CommandContext $context)
+    protected function _beforeAdd(Library\CommandContext $context)
     {
         // Set activation on new records.
         if ($this->_enable)

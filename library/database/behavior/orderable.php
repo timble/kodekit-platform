@@ -168,7 +168,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      *
      * @return DatabaseRowAbstract
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(CommandContext $context)
     {
         if($this->has('ordering'))
         {
@@ -186,7 +186,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      *
      * @param   CommandContext Context
      */
-    protected function _beforeTableUpdate(CommandContext $context)
+    protected function _beforeUpdate(CommandContext $context)
     {
         if(isset($this->order) && $this->has('ordering')) {
             $this->order($this->order);
@@ -198,7 +198,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      *
      * @param   CommandContext Context
      */
-    protected function _afterTableDelete(CommandContext $context)
+    protected function _afterDelete(CommandContext $context)
     {
         $this->reorder();
     }

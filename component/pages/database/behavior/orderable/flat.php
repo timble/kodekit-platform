@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract implements DatabaseBehaviorOrderableInterface
 {
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\CommandContext $context)
     {
         $query = $this->getObject('lib:database.query.select')
             ->columns('MAX(ordering)');
@@ -30,7 +30,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         $context->data->ordering = $max + 1;
     }
     
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\CommandContext $context)
     {
         $row = $context->data;
         if($row->order)
@@ -65,14 +65,14 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         }
     }
     
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\CommandContext $context)
     {
         if($context->affected === false) {
             $this->_reorder($context);
         }
     }
     
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\CommandContext $context)
     {
         if($context->affected) {
             $this->_reorder($context);

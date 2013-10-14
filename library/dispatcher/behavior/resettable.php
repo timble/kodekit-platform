@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * When a user sends a POST request (e.g. after submitting a form), their browser will try to protect them from sending
  * the POST again, breaking the back button, causing browser warnings and pop-ups, and sometimes reposting the form.
- * Instead, when receiving a POST we should redirect the user to a GET request.
+ * Instead, when receiving a POST we should redirect the user through a GET request to prevent this.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
@@ -48,7 +48,7 @@ class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
 	 * @param 	CommandContext $context The active command context
 	 * @return 	void
 	 */
-	protected function _afterControllerDispatch(CommandContext $context)
+	protected function _afterDispatch(CommandContext $context)
 	{
         if(!$context->request->isAjax() && $context->response->isSuccess()) {
             $context->response->setRedirect($context->request->getReferrer());

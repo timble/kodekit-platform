@@ -21,14 +21,14 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      * Set to true if uuid should be auto-generated
      *
      * @var boolean
-     * @see _afterTableSelect()
+     * @see _afterSelect()
      */
     protected $_auto_generate;
 
     /**
      * Constructor.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -47,7 +47,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config   An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -89,7 +89,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _afterTableSelect(CommandContext $context)
+    protected function _afterSelect(CommandContext $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
@@ -111,7 +111,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(CommandContext $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface)
         {

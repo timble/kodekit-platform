@@ -78,8 +78,8 @@ abstract class ControllerToolbarAbstract extends Command implements ControllerTo
     /**
      * Command handler
      *
-     * This function translates the command name to a command handler function of the format '_beforeController[Command]'
-     * or '_afterController[Command]. Command handler functions should be declared protected.
+     * This function translates the command name to a command handler function of the format '_before[Command]'
+     * or '_after[Command]. Command handler functions should be declared protected.
      *
      * @param 	string           $name	    The command name
      * @param 	CommandContext  $context 	The command context
@@ -91,7 +91,7 @@ abstract class ControllerToolbarAbstract extends Command implements ControllerTo
         $type = array_shift($identifier->path);
 
         $parts  = explode('.', $name);
-        $method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
+        $method = '_'.$parts[0].ucfirst($parts[1]);
 
         if(method_exists($this, $method)) {
             $this->$method($context);

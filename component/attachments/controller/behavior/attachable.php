@@ -213,23 +213,23 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _beforeControllerAdd(Library\CommandContext $context) {
+    protected function _beforeAdd(Library\CommandContext $context) {
         $this->_populateFilesFromRequest($context);
     }
 
-    protected function _beforeControllerEdit(Library\CommandContext $context) {
+    protected function _beforeEdit(Library\CommandContext $context) {
         $this->_populateFilesFromRequest($context);
     }
 
-    protected function _afterControllerAdd(Library\CommandContext $context) {
+    protected function _afterAdd(Library\CommandContext $context) {
         $this->_saveFiles($context);
     }
 
-    protected function _afterControllerEdit(Library\CommandContext $context) {
+    protected function _afterEdit(Library\CommandContext $context) {
         $this->_saveFiles($context);
     }
 
-    protected function _afterControllerDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\CommandContext $context)
     {
         $status = $context->result->getStatus();
 

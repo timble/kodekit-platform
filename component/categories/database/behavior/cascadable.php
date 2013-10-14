@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseBehaviorCascadable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeTableDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\CommandContext $context)
     {
         $result = true;
 

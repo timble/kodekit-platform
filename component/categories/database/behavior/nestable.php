@@ -42,113 +42,117 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\CommandContext $context)
     {
-        if($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
+        if($context->getSubject() instanceof Library\DatabaseAdapterInterface)
         {
-            $this->_table = $context->getSubject();
+            $context->limit  = $context->query->limit;
+            $context->offset = $context->query->offset;
 
-            $this->_table->getAdapter()
-                         ->getCommandChain()
-                         ->enqueue($this, $this->getPriority());
+            $context->query->limit(0);
+        }
+        else
+        {
+            if($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
+            {
+                $this->_table = $context->getSubject();
+
+                $this->_table->getAdapter()
+                    ->getCommandChain()
+                    ->enqueue($this, $this->getPriority());
+            }
         }
     }
 
-    protected function _afterTableSelect(Library\CommandContext $context)
+    protected function _afterSelect(Library\CommandContext $context)
     {
-        if(isset($this->_table))
+        if($context->getSubject() instanceof Library\DatabaseAdapterInterface)
         {
-            $this->_table->getAdapter()
-                        ->getCommandChain()
-                        ->dequeue($this);
+            //Get the data
+            $rows = Library\ObjectConfig::unbox($context->result);
 
-            $this->_table = null;
-        }
-    }
-
-    protected function _beforeAdapterSelect(Library\CommandContext $context)
-    {
-        $context->limit  = $context->query->limit;
-        $context->offset = $context->query->offset;
-
-        $context->query->limit(0);
-    }
-
-    protected function _afterAdapterSelect(Library\CommandContext $context)
-    {
-        //Get the data
-        $rows = Library\ObjectConfig::unbox($context->result);
-
-        if(is_array($rows))
-        {
-            $children = array();
-            $result = array();
-
-            /*
-            * Create the children array
-            */
-            foreach($rows as $key => $row)
+            if(is_array($rows))
             {
-                $path   = array();
-                $parent = $row['parent_id'];
-
-                //Store node by parent
-                if(!empty($parent) && isset($rows[$parent])) {
-                    $children[$parent][] = $key;
-                }
-            }
-
-            /*
-             * Create the result array
-             */
-            foreach($rows as $key => $row)
-            {
-                if(empty($row['parent_id']))
-                {
-                    $result[$key] = $row;
-
-                    if(isset($children[$key])) {
-                        $this->_getChildren($rows, $children, $key, $result);
-                    }
-                }
-            }
-
-            /*
-             * If we have not been able to match all children to their parents don't perform
-             * the path enumeration for the children.
-             */
-            if(count($result) == count($rows))
-            {
-                if($context->limit) {
-                    $result = array_slice( $result, $context->offset, $context->limit, true);
-                }
+                $children = array();
+                $result = array();
 
                 /*
-                  * Create the paths of each node
-                  */
-                foreach($result as $key => $row)
+                * Create the children array
+                */
+                foreach($rows as $key => $row)
                 {
                     $path   = array();
                     $parent = $row['parent_id'];
 
-                    if(!empty($parent))
+                    //Store node by parent
+                    if(!empty($parent) && isset($rows[$parent])) {
+                        $children[$parent][] = $key;
+                    }
+                }
+
+                /*
+                 * Create the result array
+                 */
+                foreach($rows as $key => $row)
+                {
+                    if(empty($row['parent_id']))
                     {
-                        $table  = $this->_table;
+                        $result[$key] = $row;
 
-                        //Create node path
-                        $path = $result[$parent]['path'];
-                        $id   = $result[$parent][$table->getIdentityColumn()];
+                        if(isset($children[$key])) {
+                            $this->_getChildren($rows, $children, $key, $result);
+                        }
+                    }
+                }
 
-                        $path[] = $id;
+                /*
+                 * If we have not been able to match all children to their parents don't perform
+                 * the path enumeration for the children.
+                 */
+                if(count($result) == count($rows))
+                {
+                    if($context->limit) {
+                        $result = array_slice( $result, $context->offset, $context->limit, true);
                     }
 
-                    //Set the node path
-                    $result[$key]['path'] = $path;
-                }
-            }
-            else $result = $rows;
+                    /*
+                      * Create the paths of each node
+                      */
+                    foreach($result as $key => $row)
+                    {
+                        $path   = array();
+                        $parent = $row['parent_id'];
 
-            $context->result = $result;
+                        if(!empty($parent))
+                        {
+                            $table  = $this->_table;
+
+                            //Create node path
+                            $path = $result[$parent]['path'];
+                            $id   = $result[$parent][$table->getIdentityColumn()];
+
+                            $path[] = $id;
+                        }
+
+                        //Set the node path
+                        $result[$key]['path'] = $path;
+                    }
+                }
+                else $result = $rows;
+
+                $context->result = $result;
+            }
+        }
+        else
+        {
+            if(isset($this->_table))
+            {
+                $this->_table->getAdapter()
+                    ->getCommandChain()
+                    ->dequeue($this);
+
+                $this->_table = null;
+            }
         }
     }
 

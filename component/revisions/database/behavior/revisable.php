@@ -91,7 +91,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 	 *
 	 * @return void|false
 	 */
-	protected function _beforeTableSelect(Library\CommandContext $context)
+	protected function _beforeSelect(Library\CommandContext $context)
 	{
         $query = $context->query;
 
@@ -131,7 +131,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * @param   Library\CommandContext $context
      * @return  void
      */
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\CommandContext $context)
     {
         if($this->_countRevisions(Library\Database::STATUS_CREATED) == 0) {
     		$this->_insertRevision();
@@ -146,7 +146,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context
      * @return void
      */
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\CommandContext $context)
     {
     	if(!$context->getSubject()->count($context->data->id))
     	{
@@ -185,7 +185,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * @param   Library\CommandContext $context
      * @return  void
      */
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\CommandContext $context)
     {
         // Only insert new revision if the database was updated
         if ((bool) $context->affected) {
@@ -202,7 +202,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context
      * @return void
      */
-    protected function _beforeTableDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\CommandContext $context)
     {
    		if (!$context->getSubject()->count($context->data->id))
    		{
@@ -236,7 +236,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context
      * @return void
      */
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\CommandContext $context)
     {
     	//Insert the revision
         $this->_insertRevision();

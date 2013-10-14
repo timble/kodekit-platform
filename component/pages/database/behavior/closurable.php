@@ -215,7 +215,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\CommandContext $context)
     {
         $query = $context->query;
         if($query && !$query->isCountQuery())
@@ -252,7 +252,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\CommandContext $context)
     {
         if($context->affected !== false)
         {
@@ -299,7 +299,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\CommandContext $context)
     {
         if($context->affected !== false)
         {
@@ -359,7 +359,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _beforeTableDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\CommandContext $context)
     {
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();

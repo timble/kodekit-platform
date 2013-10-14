@@ -33,12 +33,12 @@ abstract class DatabaseBehaviorTypeAbstract extends Library\DatabaseBehaviorAbst
         return null;
     }
 
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\CommandContext $context)
     {
         return null;
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\CommandContext $context)
     {
         // Set home.
         if($this->isModified('home') && $this->home == 1)

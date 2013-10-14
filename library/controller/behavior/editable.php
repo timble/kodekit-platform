@@ -350,7 +350,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * @param   CommandContext	$context A command context object
      * @return 	void
      */
-    protected function _afterControllerRead(CommandContext $context)
+    protected function _afterRead(CommandContext $context)
     {
         $entity = $context->result;
 
@@ -382,7 +382,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * @throws  ControllerExceptionConflict If the resource is locked
      * @return 	void
      */
-    protected function _beforeControllerEdit(CommandContext $context)
+    protected function _beforeEdit(CommandContext $context)
     {
         if($this->isLocked())
         {
@@ -401,7 +401,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * @throws  ControllerExceptionConflict If the resource is locked
      * @return 	void
      */
-    protected function _beforeControllerDelete(CommandContext $context)
+    protected function _beforeDelete(CommandContext $context)
     {
         if($this->isLocked())
         {

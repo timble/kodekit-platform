@@ -62,7 +62,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	 *
 	 * @return void
 	 */
-	protected function _beforeTableUpdate(CommandContext $context)
+	protected function _beforeUpdate(CommandContext $context)
 	{
 		//Get the modified columns
 		$modified = $this->getTable()->filter($this->getModified());

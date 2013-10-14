@@ -58,17 +58,17 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 		return true;
 	}
 	
-	protected function _afterControllerAdd(Library\CommandContext $context)
+	protected function _afterAdd(Library\CommandContext $context)
     {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterControllerEdit(Library\CommandContext $context)
+	protected function _afterEdit(Library\CommandContext $context)
     {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterControllerDelete(Library\CommandContext $context)
+	protected function _afterDelete(Library\CommandContext $context)
     {
         $status = $context->result->getStatus();
 

@@ -59,7 +59,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      *
      * @param   Library\CommandContext Context
      */
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if(isset($this->ordering))
@@ -87,7 +87,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      *
      * @param   Library\CommandContext Context
      */
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
@@ -103,7 +103,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      *
      * If the $this->_parent_column is set, this will modify the query to add the column needed by the behavior
      */
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if($parent_column = $this->_parent_column)

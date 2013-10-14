@@ -18,7 +18,7 @@ use Nooku\Component\Users;
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
-    protected function _beforeControllerAdd(Library\CommandContext $context)
+    protected function _beforeAdd(Library\CommandContext $context)
     {
         // Force a password reset.
         if (!$context->request->data->get('password', 'string')) {
@@ -26,7 +26,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         }
     }
 
-    protected function _afterControllerAdd(Library\CommandContext $context)
+    protected function _afterAdd(Library\CommandContext $context)
     {
         $user = $context->result;
         if ($context->request->data->get('password_reset', 'boolean') && $user->getStatus() !== Library\Database::STATUS_FAILED)
@@ -37,8 +37,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         }
     }
 
-    protected function _afterControllerEdit(Library\CommandContext $context)
+    protected function _afterEdit(Library\CommandContext $context)
     {
-        return $this->_afterControllerAdd($context);
+        return $this->_afterAdd($context);
     }
 }

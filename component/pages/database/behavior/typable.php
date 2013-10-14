@@ -28,8 +28,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         'getTypeDescription',
         'getParams',
         'getLink',
-        '_beforeTableInsert',
-        '_beforeTableUpdate'
+        '_beforeInsert',
+        '_beforeUpdate'
     );
 
     protected $_mixable_methods = array(

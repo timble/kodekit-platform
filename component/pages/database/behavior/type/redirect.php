@@ -59,12 +59,12 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
         }
     }
 
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }

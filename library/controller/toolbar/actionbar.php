@@ -39,7 +39,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
 	 * .
 	 * @param	CommandContext	$context A command context object
 	 */
-    protected function _afterControllerRead(CommandContext $context)
+    protected function _afterRead(CommandContext $context)
     {
         $controller = $this->getController();
 
@@ -61,7 +61,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
 	 * .
 	 * @param	CommandContext	$context A command context object
 	 */
-    protected function _afterControllerBrowse(CommandContext $context)
+    protected function _afterBrowse(CommandContext $context)
     {
         $controller = $this->getController();
 

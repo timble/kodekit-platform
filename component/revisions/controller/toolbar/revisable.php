@@ -24,7 +24,7 @@ class ControllerToolbarRevisable extends Library\ControllerToolbarDecorator
      * .
      * @param	Library\CommandContext	$context A command context object
      */
-    protected function _afterControllerBrowse(Library\CommandContext $context)
+    protected function _afterBrowse(Library\CommandContext $context)
     {
         $controller = $this->getController();
 

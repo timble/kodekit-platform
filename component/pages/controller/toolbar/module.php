@@ -24,9 +24,9 @@ class ControllerToolbarModule extends Library\ControllerToolbarActionbar
      * .
      * @param	Library\CommandContext	$context A command context object
      */
-    protected function _afterControllerBrowse(Library\CommandContext $context)
+    protected function _afterBrowse(Library\CommandContext $context)
     {
-        parent::_afterControllerBrowse($context);
+        parent::_afterBrowse($context);
         
         $this->addSeparator();
         $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));

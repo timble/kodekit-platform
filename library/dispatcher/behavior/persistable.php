@@ -45,7 +45,7 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 	 * @param 	CommandContext $context The active command context
 	 * @return 	void
 	 */
-	protected function _beforeControllerBrowse(CommandContext $context)
+	protected function _beforeBrowse(CommandContext $context)
 	{
 		$model = $this->getController()->getModel();
 
@@ -66,7 +66,7 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 	 * @param 	CommandContext $context The active command context
 	 * @return 	void
 	 */
-	protected function _afterControllerBrowse(CommandContext $context)
+	protected function _afterBrowse(CommandContext $context)
 	{
         $model  = $this->getController()->getModel();
 		$state  = $model->getState();

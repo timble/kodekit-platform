@@ -19,21 +19,21 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\CommandContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\CommandContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\CommandContext $context)
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
