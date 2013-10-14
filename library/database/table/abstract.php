@@ -496,6 +496,19 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
+     * Get the table context
+     *
+     * @return  Command
+     */
+    public function getContext()
+    {
+        $context = new Command();
+        $context->setSubject($this);
+
+        return $context;
+    }
+
+    /**
      * Table select method
      *
      * This function will return an empty rowset if called without a parameter.
@@ -541,14 +554,14 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         }
 
         //Create commandchain context
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_SELECT;
         $context->table     = $this->getBase();
         $context->query     = $query;
         $context->mode      = $mode;
         $context->options   = $options;
 
-        if ($this->getCommandChain()->run('before.select', $context) !== false)
+        if ($this->getCommandChain()->run('before.select', $context, false) !== false)
         {
             if ($context->query)
             {
@@ -664,14 +677,14 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                       ->table($this->getBase());
 
         //Create commandchain context
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_INSERT;
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
         $context->affected = false;
 
-        if ($this->getCommandChain()->run('before.insert', $context) !== false)
+        if ($this->getCommandChain()->run('before.insert', $context, false) !== false)
         {
             // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData());
@@ -713,14 +726,14 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                       ->table($this->getBase());
 
         // Create commandchain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_UPDATE;
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.update', $context) !== false)
+        if ($this->getCommandChain()->run('before.update', $context, false) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -767,14 +780,14 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                       ->table($this->getBase());
 
         //Create commandchain context
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->operation = Database::OPERATION_DELETE;
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.delete', $context) !== false)
+        if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -805,10 +818,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         $result = null;
 
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.lock', $context) !== false)
+        if ($this->getCommandChain()->run('before.lock', $context, false) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->lock($this->getBase());
@@ -829,10 +842,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         $result = null;
 
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.unlock', $context) !== false)
+        if ($this->getCommandChain()->run('before.unlock', $context, false) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->unlock();
