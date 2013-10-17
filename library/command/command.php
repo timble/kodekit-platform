@@ -18,20 +18,13 @@ namespace Nooku\Library;
 class Command extends ObjectConfig implements CommandInterface
 {
     /**
-     * The command subject
-     *
-     * @var  object
-     */
-    protected $_subject;
-
-    /**
      * Get the command subject
      *
      * @return object	The command subject
      */
     public function getSubject()
     {
-        return $this->_subject;
+        return $this->get('subject');
     }
 
     /**
@@ -42,7 +35,7 @@ class Command extends ObjectConfig implements CommandInterface
      */
     public function setSubject(ObjectInterface $subject)
     {
-        $this->_subject = $subject;
+        $this->set('subject', $subject);
         return $this;
     }
 
@@ -59,6 +52,41 @@ class Command extends ObjectConfig implements CommandInterface
             $this->_data[$name] = new ObjectConfig($value);
         } else {
             $this->_data[$name] = $value;
+        }
+    }
+
+    /**
+     * Get a command property
+     *
+     * @param  string $name
+     * @return mixed  The property value
+     */
+    public function __get($name)
+    {
+        $getter = 'get'.ucfirst($name);
+        if(method_exists($this, $getter)) {
+            $value = $this->$getter();
+        } else {
+            $value = parent::__get($name);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Set a command property
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $setter = 'set'.ucfirst($name);
+        if(method_exists($this, $setter)) {
+            $this->$setter($value);
+        } else {
+            parent::__set($name, $value);
         }
     }
 }
