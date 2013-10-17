@@ -11,7 +11,7 @@ namespace Nooku\Library;
 use Imagine\Exception\RuntimeException;
 
 /**
- * Invoker Command Exception
+ * Command Invoker Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
