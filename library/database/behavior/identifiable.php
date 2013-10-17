@@ -87,9 +87,10 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      * Requires an 'uuid' column, if the column type is char the uuid will be a string, if the column type is binary a
      * hex value will be returned.
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _afterSelect(Command $context)
+    protected function _afterSelect(DatabaseContext $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
@@ -109,9 +110,10 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      * Requires an 'uuid' column, if the column type is char the uuid will be a string, if the column type is binary a
      * hex value will be returned.
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeInsert(Command $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface)
         {

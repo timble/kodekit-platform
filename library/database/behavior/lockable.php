@@ -145,7 +145,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * @return boolean True if row can be updated, false otherwise
 	 */
-	protected function _beforeUpdate(Command $context)
+	protected function _beforeUpdate(DatabaseContext $context)
 	{
 		return (bool) !$this->isLocked();
 	}
@@ -158,7 +158,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * @return boolean True if row can be deleted, false otherwise
 	 */
-	protected function _beforeDelete(Command $context)
+	protected function _beforeDelete(DatabaseContext $context)
 	{
 		return (bool) !$this->isLocked();
 	}

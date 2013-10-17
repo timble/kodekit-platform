@@ -166,9 +166,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      * This performs an intelligent insert/update and reloads the properties
      * with fresh data from the table on success.
      *
-     * @return DatabaseRowAbstract
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _beforeInsert(Command $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
         if($this->has('ordering'))
         {
@@ -184,9 +184,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position.
      *
-     * @param   Command Context
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _beforeUpdate(Command $context)
+    protected function _beforeUpdate(DatabaseContext $context)
     {
         if(isset($this->order) && $this->has('ordering')) {
             $this->order($this->order);
@@ -196,9 +196,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     /**
      * Clean up the ordering after an item was deleted
      *
-     * @param   Command Context
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _afterDelete(Command $context)
+    protected function _afterDelete(DatabaseContext $context)
     {
         $this->reorder();
     }

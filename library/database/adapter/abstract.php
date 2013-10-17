@@ -274,13 +274,13 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     }
 
     /**
-     * Get the adapter context
+     * Get a database context object
      *
-     * @return  Command
+     * @return  DatabaseContext
      */
     public function getContext()
     {
-        $context = new Command();
+        $context = new DatabaseContext();
         $context->setSubject($this);
 
         return $context;

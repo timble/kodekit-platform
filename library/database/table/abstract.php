@@ -496,13 +496,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
-     * Get the table context
+     * Get a database context object
      *
-     * @return  Command
+     * @return DatabaseContext
      */
     public function getContext()
     {
-        $context = new Command();
+        $context = new DatabaseContext();
         $context->setSubject($this);
 
         return $context;

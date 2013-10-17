@@ -149,9 +149,10 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Requires a 'slug' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _afterInsert(Command $context)
+    protected function _afterInsert(DatabaseContext $context)
     {
         if ($this->_createSlug()) {
             $this->save();
@@ -166,9 +167,10 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Requires a 'slug' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeUpdate(Command $context)
+    protected function _beforeUpdate(DatabaseContext $context)
     {
         if ($this->_updatable) {
             $this->_createSlug();
