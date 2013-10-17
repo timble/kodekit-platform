@@ -17,9 +17,9 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class CommandValidatorNode extends Library\Command
+class DatabaseValidatorNode extends Library\CommandInvokerAbstract
 {
-	protected function _databaseBeforeSave(Library\Command $context)
+	protected function _beforeSave(Library\DatabaseContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -32,7 +32,7 @@ class CommandValidatorNode extends Library\Command
 		return true;
 	}
 
-	protected function _databaseBeforeCopy(Library\Command $context)
+	protected function _beforeCopy(Library\DatabaseContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -67,8 +67,8 @@ class CommandValidatorNode extends Library\Command
 		return true;
 	}
 
-	protected function _databaseBeforeMove(Library\Command $context)
+	protected function _beforeMove(Library\DatabaseContext $context)
 	{
-		return $this->_databaseBeforeCopy($context);
+		return $this->_beforeCopy($context);
 	}
 }

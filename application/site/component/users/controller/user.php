@@ -22,8 +22,7 @@ class UsersControllerUser extends Library\ControllerModel
         parent::__construct($config);
 
         $this->registerCallback('before.edit', array($this, 'sanitizeRequest'))
-             ->registerCallback('before.add' , array($this, 'sanitizeRequest'))
-             ->registerCallback('after.add'  , array($this, 'redirect'));
+             ->registerCallback('before.add' , array($this, 'sanitizeRequest'));
 	}
     
     protected function _initialize(Library\ObjectConfig $config)
@@ -49,7 +48,7 @@ class UsersControllerUser extends Library\ControllerModel
         return $request;
     }
 
-    public function sanitizeRequest(Library\Command $context)
+    public function sanitizeRequest(Library\ControllerContext $context)
     {
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
@@ -57,15 +56,25 @@ class UsersControllerUser extends Library\ControllerModel
         }
     }
 
-    protected function _actionAdd(Library\Command $context)
+    protected function _actionAdd(Library\ControllerContext $context)
     {
         $params = $this->getObject('application.extensions')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
 
-        return parent::_actionAdd($context);
+        $user = parent::_actionAdd($context);
+
+        if ($user->getStatus() == Library\Database::STATUS_CREATED)
+        {
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
+
+            $context->response->setRedirect($url);
+        }
+
+        return $user;
     }
 
-    protected function _actionEdit(Library\Command $context)
+    protected function _actionEdit(Library\ControllerContext $context)
     {
         $entity = parent::_actionEdit($context);
 
@@ -77,18 +86,5 @@ class UsersControllerUser extends Library\ControllerModel
         }
 
         return $entity;
-    }
-
-    public function redirect(Library\Command $context)
-    {
-        $user = $context->result;
-
-        if ($user->getStatus() == Library\Database::STATUS_CREATED)
-        {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
-            $this->getObject('application')->getRouter()->build($url);
-
-            $context->response->setRedirect($url);
-        }
     }
 }

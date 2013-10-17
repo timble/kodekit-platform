@@ -18,7 +18,7 @@ use Nooku\Library, Nooku\Component\Users;
  */
 class ContactsControllerBehaviorCaptchable extends Users\ControllerBehaviorCaptchable
 {
-    protected function _beforeRender(Library\Command $context)
+    protected function _beforeRender(Library\ControllerContext $context)
     {
         $session = $context->user->getSession();
         if ($session->isActive())
@@ -35,7 +35,7 @@ class ContactsControllerBehaviorCaptchable extends Users\ControllerBehaviorCaptc
         }
     }
 
-    protected function _beforeAdd(Library\Command $context)
+    protected function _beforeAdd(Library\ControllerContext $context)
     {
         $result = parent::_beforeAdd($context);
 

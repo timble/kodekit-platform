@@ -49,7 +49,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		if ($config->validator !== false)
 		{
 			if ($config->validator === true) {
-				$config->validator = 'com:files.command.validator.'.$this->getIdentifier()->name;
+				$config->validator = 'com:files.database.validator.'.$this->getIdentifier()->name;
 			}
 
 			$this->getCommandChain()->enqueue($this->getObject($config->validator));
@@ -206,7 +206,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
     public function getContext()
     {
-        $context = new Command();
+        $context = new Library\Command();
         $context->setSubject($this);
 
         return $context;
@@ -237,12 +237,12 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
      */
     public function getCommandChain()
     {
-        if(!$this->_command_chain instanceof CommandChainInterface)
+        if(!$this->_command_chain instanceof Library\CommandChainInterface)
         {
             //Ask the parent the relay the call to the mixin
             $this->_command_chain = parent::getCommandChain();
 
-            if(!$this->_command_chain instanceof CommandChainInterface)
+            if(!$this->_command_chain instanceof Library\CommandChainInterface)
             {
                 throw new \UnexpectedValueException(
                     'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'

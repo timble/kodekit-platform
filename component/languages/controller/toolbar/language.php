@@ -22,9 +22,9 @@ class ControllerToolbarLanguage extends Library\ControllerToolbarActionbar
     /**
      * Add default toolbar commands
      * .
-     * @param	Library\Command	$context A command context object
+     * @param	Library\ControllerContext	$context A controller context object
      */
-    protected function _afterBrowse(Library\Command $context)
+    protected function _afterBrowse(Library\ControllerContext $context)
     {
         parent::_afterBrowse($context);
 

@@ -33,12 +33,12 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
         $this->_user = $this->getObject('com:users.model.users')->id($config->user)->getRow();
     }
 
-    protected function _beforeSelect(Library\Command $context)
+    protected function _beforeSelect(Library\DatabaseContext $context)
     {
         $this->_filterByPages($context);
     }
 
-    protected function _filterByPages(Library\Command $context)
+    protected function _filterByPages(Library\DatabaseContext $context)
     {
         $base_where = '';
 

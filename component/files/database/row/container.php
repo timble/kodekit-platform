@@ -32,44 +32,35 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 		{
 			$result = $this->_data['path'];
 			// Prepend with site root if it is a relative path
-			if ($this->adapter === 'local' && !preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
+			if (!preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
 				$result = JPATH_FILES.'/'.$result;
 			}
 
 			$result = rtrim(str_replace('\\', '/', $result), '\\');
 			return $result;
 		}
-		else if ($column == 'relative_path') {
-		    return $this->getRelativePath();
+
+        if ($column == 'relative_path') {
+            return $this->_data['path'];
 		}
-		else if ($column == 'path_value') {
+
+        if ($column == 'path_value') {
 			return $this->_data['path'];
 		}
-		else if ($column == 'parameters' && !is_object($this->_data['parameters'])) {
+
+        if ($column == 'parameters' && !is_object($this->_data['parameters'])) {
 			return $this->getParameters();
-		} else if ($column == 'adapter') {
-		    if (strpos($this->_data['path'], '://') !== false) {
-		        return substr($this->_data['path'], 0, strpos($this->_data['path'], '://'));
-		    } else {
-		        return 'local';
-		    }
 		}
+
+
 
 		return parent::__get($column);
 	}
 
-	public function getRelativePath()
-	{
-	    if ($this->adapter === 'local') {
-	        return $this->_data['path'];
-	    }
-	    
-	    return null;
-	}
-
 	public function getParameters()
 	{
-		if (empty($this->_parameters)) {
+		if (empty($this->_parameters))
+        {
 			$this->_parameters = $this->getObject('com:files.database.row.config')
 				->setData(json_decode($this->_data['parameters'], true));
 		}
@@ -81,9 +72,9 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 	{
 		$data = parent::toArray();
 
-		$data['path'] = $this->path_value;
-		$data['parameters'] = $this->parameters->toArray();
-		$data['relative_path'] = $this->getRelativePath();
+		$data['path']          = $this->path_value;
+		$data['parameters']    = $this->parameters->toArray();
+		$data['relative_path'] = $this->relative_path;
 
 		return $data;
 	}
@@ -101,6 +92,6 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 
 	public function getAdapter($type, array $config = array())
 	{
-	    return $this->getObject('com:files.adapter.'.$this->adapter.'.'.$type, $config);
+	    return $this->getObject('com:files.adapter.'.$type, $config);
 	}
 }

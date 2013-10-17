@@ -12,12 +12,12 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Folder Local Adapter
+ * Folder Adapter
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class AdapterLocalFolder extends AdapterLocalAbstract
+class AdapterFolder extends AdapterAbstract
 {
 	public function move($target)
 	{

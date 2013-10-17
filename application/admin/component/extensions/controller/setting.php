@@ -27,7 +27,7 @@ class ExtensionsControllerSetting extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionRead(Library\Command $context)
+    protected function _actionRead(Library\ControllerContext $context)
     {
         $name = ucfirst($this->getView()->getName());
 

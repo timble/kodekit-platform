@@ -38,7 +38,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         parent::__construct($config);
 
         $this->_expiration = $config->expiration;
-        $this->_expirable     = $config->expirable;
+        $this->_expirable  = $config->expirable;
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -54,7 +54,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeInsert(Library\Command $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         if ($this->_expirable) {
             $this->resetExpiration(false);

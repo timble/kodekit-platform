@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesDispatcherHttp extends Library\DispatcherHttp
 {
-    protected function _actionDispatch(Library\Command $context)
+    protected function _actionDispatch(Library\DispatcherContext $context)
     {
         $view = $context->request->query->get('view', 'cmd', $this->_controller);
 

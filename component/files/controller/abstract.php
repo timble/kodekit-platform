@@ -45,7 +45,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 		return $request;
 	}
 
-	protected function _actionCopy(Library\Command $context)
+	protected function _actionCopy(Library\ControllerContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -71,7 +71,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 		return $entity;
 	}
 
-	protected function _actionMove(Library\Command $context)
+	protected function _actionMove(Library\ControllerContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 

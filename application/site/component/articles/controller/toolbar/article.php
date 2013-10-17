@@ -24,7 +24,7 @@ class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionba
         parent::_initialize($config);
     }
 
-    protected function _afterRead(Library\Command $context)
+    protected function _afterRead(Library\ControllerContext $context)
     {
         $controller = $this->getController();
         $view       = $controller->getView();

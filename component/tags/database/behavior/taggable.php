@@ -45,7 +45,7 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 	 * If the query's where information includes a tag property, auto-join the tags tables with the query and select
      * all the rows that are tagged with a term.
 	 */
-	protected function _beforeSelect(Library\Command $context)
+	protected function _beforeSelect(Library\DatabaseContext $context)
 	{
 		$query = $context->query;
 		

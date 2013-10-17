@@ -40,7 +40,7 @@ class UsersControllerSession extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    public function authenticate(Library\Command $context)
+    public function authenticate(Library\ControllerContext $context)
     {
         $user = $this->getObject('com:users.model.users')
             ->email($context->request->data->get('email', 'email'))
@@ -70,7 +70,7 @@ class UsersControllerSession extends Library\ControllerModel
         return true;
     }
 
-    public function authorize(Library\Command $context)
+    public function authorize(Library\ControllerContext $context)
     {
         //If the user is blocked, redirect with an error
         if (!$context->user->isEnabled()) {
@@ -80,7 +80,7 @@ class UsersControllerSession extends Library\ControllerModel
         return true;
     }
 
-    public function redirect(Library\Command $context)
+    public function redirect(Library\ControllerContext $context)
     {
         if ($context->result !== false)
         {
@@ -106,7 +106,7 @@ class UsersControllerSession extends Library\ControllerModel
         }
     }
 
-    protected function _actionAdd(Library\Command $context)
+    protected function _actionAdd(Library\ControllerContext $context)
     {
         $session = $context->user->session;
 
@@ -142,7 +142,7 @@ class UsersControllerSession extends Library\ControllerModel
         return $entity;
     }
 
-    protected function _actionDelete(Library\Command $context)
+    protected function _actionDelete(Library\ControllerContext $context)
     {
         //Force logout from site only
         $context->request->query->application = array('site');

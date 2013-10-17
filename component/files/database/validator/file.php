@@ -17,9 +17,9 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class CommandValidatorFile extends CommandValidatorNode
+class DatabaseValidatorFile extends DatabaseValidatorNode
 {
-	protected function _databaseBeforeSave(Library\Command $context)
+	protected function _beforeSave(Library\DatabaseContext $context)
 	{
 		$row = $context->getSubject();
 

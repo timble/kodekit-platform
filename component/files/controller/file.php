@@ -36,7 +36,7 @@ class ControllerFile extends ControllerAbstract
 		parent::_initialize($config);
 	}
 
-	public function addFile(Library\Command $context)
+	public function addFile(Library\ControllerContext $context)
 	{
 		$file = $context->request->data->get('file', 'raw');
 		$name = $context->request->data->get('name', 'raw');
@@ -51,7 +51,7 @@ class ControllerFile extends ControllerAbstract
 		}
 	}
 
-    protected function _actionRender(Library\Command $context)
+    protected function _actionRender(Library\ControllerContext $context)
     {
         $model = $this->getModel();
 

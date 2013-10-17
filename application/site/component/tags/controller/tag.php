@@ -26,7 +26,7 @@ abstract class TagsControllerTag extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionRender(Library\Command $context)
+    protected function _actionRender(Library\ControllerContext $context)
     {
         $view = $this->getView();
 

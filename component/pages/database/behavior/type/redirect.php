@@ -52,19 +52,19 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
         return $this->_type_description;
     }
 
-    protected function _setLinkBeforeSave(Library\Command $context)
+    protected function _setLinkBeforeSave(Library\DatabaseContext $context)
     {
         if($this->link_type) {
             $this->link_type == 'id' ? $this->link_url = null : $this->link_id = null;
         }
     }
 
-    protected function _beforeInsert(Library\Command $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeUpdate(Library\Command $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }

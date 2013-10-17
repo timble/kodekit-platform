@@ -26,7 +26,7 @@ class ContactsControllerMessage extends Library\ControllerView
         parent::_initialize($config);
     }
 
-    protected function _actionAdd(Library\Command $context)
+    protected function _actionAdd(Library\ControllerContext $context)
 	{
         // Get data from form
         $data        = $context->request->data;
