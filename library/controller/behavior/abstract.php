@@ -23,7 +23,7 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      * This function translates the command name that starts with 'action' to a command handler function of the format
      * '_action[Action]'
      *
-     * @param   string          $name     The command name
+     * @param   string   $name     The command name
      * @param   Command  $context  The command context
      * @return  boolean  Can return both true or false.
      */

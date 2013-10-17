@@ -376,12 +376,12 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      */
     public function getContext()
     {
-        $context = new Command();
-        $context->setSubject($this);
+        $context = new ControllerContext();
 
-        $context->request    = $this->getRequest();
-        $context->user       = $this->getUser();
-        $context->response   = $this->getResponse();
+        $context->subject  = $this;
+        $context->request  = $this->getRequest();
+        $context->response = $this->getResponse();
+
 
         return $context;
     }

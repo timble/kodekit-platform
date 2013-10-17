@@ -165,10 +165,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      * This function translates a render request into a read or browse action. If the view name is singular a read
      * action will be executed, if plural a browse action will be executed.
      *
-     * @param	Command	$context A command context object
+     * @param	ControllerContext	$context A controller context object
      * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
      */
-    protected function _actionRender(Command $context)
+    protected function _actionRender(ControllerContext $context)
     {
         //Check if we are reading or browsing
         $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
@@ -182,10 +182,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic browse action, fetches a list
 	 *
-	 * @param	Command	$context A command context object
+	 * @param	ControllerContext	$context A controller context object
 	 * @return 	DatabaseRowsetInterface A rowset object containing the selected rows
 	 */
-	protected function _actionBrowse(Command $context)
+	protected function _actionBrowse(ControllerContext $context)
 	{
 		$entity = $this->getModel()->getRowset();
 		return $entity;
@@ -194,10 +194,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic read action, fetches an item
 	 *
-	 * @param	Command	$context A command context object
+	 * @param	ControllerContext	$context A controller context object
 	 * @return 	DatabaseRowInterface A row object containing the selected row
 	 */
-	protected function _actionRead(Command $context)
+	protected function _actionRead(ControllerContext $context)
 	{
 	    $entity = $this->getModel()->getRow();
 	    $name   = ucfirst($this->getView()->getName());
@@ -212,11 +212,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic edit action, saves over an existing item
 	 *
-	 * @param	Command	$context A command context object
+	 * @param	ControllerContext	$context A controller context object
      * @throws  ControllerExceptionNotFound   If the entity could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
-	protected function _actionEdit(Command $context)
+	protected function _actionEdit(ControllerContext $context)
 	{
 	    $entity = $this->getModel()->getData();
 
@@ -239,12 +239,12 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic add action, saves a new item
 	 *
-	 * @param	Command	$context A command context object
+	 * @param	ControllerContext	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
      * @throws  ControllerExceptionBadRequest   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
-	protected function _actionAdd(Command $context)
+	protected function _actionAdd(ControllerContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -268,11 +268,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic delete function
 	 *
-	 * @param	Command	$context A command context object
+	 * @param	ControllerContext	$context A controller context object
      * @throws  ControllerExceptionActionFailed 	If the delete action failed on the data entity
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the deleted row(s)
 	 */
-	protected function _actionDelete(Command $context)
+	protected function _actionDelete(ControllerContext $context)
 	{
 	    $entity = $this->getModel()->getData();
 
