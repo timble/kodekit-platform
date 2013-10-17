@@ -72,53 +72,53 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
      *
      * The priority parameter can be used to override the command priority while enqueueing the command.
      *
-     * @param   CommandInvokerInterface  $command
+     * @param   CommandInvokerInterface  $invoker
      * @param   integer                  $priority The command priority, usually between 1 (high priority) and 5 (lowest),
      *                                        default is 3. If no priority is set, the command priority will be used
      *                                        instead.
      * @return CommandChain
      * @throws \InvalidArgumentException if the object doesn't implement CommandInvokerInterface
      */
-    public function enqueue(ObjectHandlable $command, $priority = null)
+    public function enqueue(ObjectHandlable $invoker, $priority = null)
     {
-        if (!$command instanceof CommandInvokerInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
+        if (!$invoker instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Invoker needs to implement CommandInvokerInterface');
         }
 
-        $priority = is_int($priority) ? $priority : $command->getPriority();
-        return parent::enqueue($command, $priority);
+        $priority = is_int($priority) ? $priority : $invoker->getPriority();
+        return parent::enqueue($invoker, $priority);
     }
 
     /**
      * Removes a command invoker from the queue
      *
-     * @param   CommandInvokerInterface $command
+     * @param   CommandInvokerInterface $invoker
      * @return  boolean    TRUE on success FALSE on failure
      * @throws  \InvalidArgumentException if the object implement CommandInvokerInterface
      */
-    public function dequeue(ObjectHandlable $command)
+    public function dequeue(ObjectHandlable $invoker)
     {
-        if (!$command instanceof CommandInvokerInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
+        if (!$invoker instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Invoker needs to implement CommandInvokerInterface');
         }
 
-        return parent::dequeue($command);
+        return parent::dequeue($invoker);
     }
 
     /**
      * Check if the queue does contain a given command invoker
      *
-     * @param  CommandInvokerInterface $command
+     * @param  CommandInvokerInterface $invoker
      * @return bool
      * @throws  \InvalidArgumentException if the object implement CommandInvokerInterface
      */
-    public function contains(ObjectHandlable $command)
+    public function contains(ObjectHandlable $invoker)
     {
-        if (!$command instanceof CommandInvokerInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
+        if (!$invoker instanceof CommandInvokerInterface) {
+            throw new \InvalidArgumentException('Invoker needs to implement CommandInvokerInterface');
         }
 
-        return parent::contains($command);
+        return parent::contains($invoker);
     }
 
     /**
@@ -203,7 +203,7 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     public function setPriority(ObjectHandlable $invoker, $priority)
     {
         if (!$invoker instanceof CommandInvokerInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
+            throw new \InvalidArgumentException('Invoker needs to implement CommandInvokerInterface');
         }
 
         return parent::setPriority($invoker, $priority);
@@ -219,7 +219,7 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     public function getPriority(ObjectHandlable $invoker)
     {
         if (!$invoker instanceof CommandInvokerInterface) {
-            throw new \InvalidArgumentException('Command needs to implement CommandInvokerInterface');
+            throw new \InvalidArgumentException('Invoker needs to implement CommandInvokerInterface');
         }
 
         return parent::getPriority($invoker);
