@@ -128,7 +128,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * This function translated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param   string          $name     The command name
+     * @param   string   $name     The command name
      * @param   Command  $context  The command context
      *
      * @return  mixed  Method result if the method exists, NULL otherwise.
