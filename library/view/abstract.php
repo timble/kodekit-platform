@@ -115,7 +115,8 @@ abstract class ViewAbstract extends Object implements ViewInterface
     final public function render($data = array())
     {
         $context = $this->getContext();
-        $context->data = $data;
+        $context->data   = $data;
+        $context->action = 'render';
 
         if ($this->getCommandChain()->run('before.render', $context, false) !== false)
         {
