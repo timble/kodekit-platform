@@ -141,8 +141,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Execute an action by triggering a method in the derived class.
      *
-     * @param   string         $action  The action to execute
-     * @param   ConntrollerContext $context A controller context object
+     * @param   string            $action  The action to execute
+     * @param   ControllerContext $context A controller context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
