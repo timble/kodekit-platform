@@ -32,13 +32,6 @@ abstract class ViewTemplate extends ViewAbstract
     protected $_auto_assign;
 
     /**
-     * The assigned data
-     *
-     * @var boolean
-     */
-    protected $_data;
-
-    /**
      * Layout name
      *
      * @var string
@@ -48,7 +41,7 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -56,9 +49,6 @@ abstract class ViewTemplate extends ViewAbstract
 
         //Set the auto assign state
         $this->_auto_assign = $config->auto_assign;
-
-        //Set the data
-        $this->_data = ObjectConfig::unbox($config->data);
 
         //Set the layout
         $this->setLayout($config->layout);
@@ -93,7 +83,6 @@ abstract class ViewTemplate extends ViewAbstract
         $identifier = clone $this->getIdentifier();
 
         $config->append(array(
-            'data'             => array(),
             'layout'           => '',
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
@@ -104,41 +93,16 @@ abstract class ViewTemplate extends ViewAbstract
     }
 
     /**
-     * Set a view data property
-     *
-     * @param   string  $property The property name.
-     * @param   mixed   $value    The property value.
-     */
-    public function __set($property, $value)
-    {
-        $this->_data[$property] = $value;
-    }
-
-    /**
-     * Get a view data property
-     *
-     * @param   string  $property The property name.
-     * @return  string  The property value.
-     */
-    public function __get($property)
-    {
-        $result = null;
-        if (isset($this->_data[$property])) {
-            $result = $this->_data[$property];
-        }
-
-        return $result;
-    }
-
-    /**
      * Return the views output
      *
-     * @return string     The output of the view
+     * @param ViewContext	$context A view context object
+     * @return string  The output of the view
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         $layout     = $this->getLayout();
         $format     = $this->getFormat();
+        $data       = $this->getData();
 
         $identifier = clone $this->getIdentifier();
         $identifier->name = $layout.'.'.$format;
@@ -146,32 +110,10 @@ abstract class ViewTemplate extends ViewAbstract
         $this->_content = (string) $this->getTemplate()
             ->load($identifier)
             ->compile()
-            ->evaluate($this->_data)
+            ->evaluate($data)
             ->render();
 
-        return parent::render();
-    }
-
-    /**
-     * Sets the view data
-     *
-     * @param   array $data The view data
-     * @return  ViewAbstract
-     */
-    public function setData(array $data)
-    {
-        $this->_data = $data;
-        return $this;
-    }
-
-    /**
-     * Get the view data
-     *
-     * @return  array   The view data
-     */
-    public function getData()
-    {
-        return $this->_data;
+        return parent::_actionRender($context);
     }
 
     /**
@@ -278,42 +220,5 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         return $route;
-    }
-
-    /**
-     * Execute and return the views output
-     *
-     * @return  string
-     */
-    public function __toString()
-    {
-        return $this->render();
-    }
-
-    /**
-     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view by using the variable
-     * name as the method name. If the method name is a setter method the setter will be called instead.
-     *
-     * For example : $view->layout('foo')->title('name')->render().
-     *
-     * @param   string  $method Method name
-     * @param   array   $args   Array containing all the arguments for the original call
-     * @return  ViewAbstract
-     *
-     * @see http://martinfowler.com/bliki/FluentInterface.html
-     */
-    public function __call($method, $args)
-    {
-        //If one argument is passed we assume a setter method is being called 
-        if (count($args) == 1)
-        {
-            if (method_exists($this, 'set' . ucfirst($method))) {
-                return $this->{'set' . ucfirst($method)}($args[0]);
-            } else {
-                return $this->$method = $args[0];
-            }
-        }
-
-        return parent::__call($method, $args);
     }
 }
