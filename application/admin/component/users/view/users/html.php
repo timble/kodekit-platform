@@ -17,12 +17,12 @@ use Nooku\Library;
  */
 class UsersViewUsersHtml extends Library\ViewHtml
 {
-	public function render()
+    public function setData(Library\ObjectConfigInterface $data)
 	{
-	    $this->groups       = $this->getObject('com:users.model.groups')->getRowset();
-		$this->roles        = $this->getObject('com:users.model.roles')->getRowset();
-		$this->groups_users = $this->getObject('com:users.model.groups_users')->getRowset();
+	    $data->groups       = $this->getObject('com:users.model.groups')->getRowset();
+		$data->roles        = $this->getObject('com:users.model.roles')->getRowset();
+		$data->groups_users = $this->getObject('com:users.model.groups_users')->getRowset();
 
-		return parent::render();
+		return parent::setData($data);
 	}
 }

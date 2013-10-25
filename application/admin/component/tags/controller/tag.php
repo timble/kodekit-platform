@@ -32,7 +32,7 @@ abstract class TagsControllerTag extends Library\ControllerModel
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:tags.controller.toolbar.tag');
     }
-    
+
     protected function _actionRender(Library\ControllerContext $context)
     {
         $view = $this->getView();

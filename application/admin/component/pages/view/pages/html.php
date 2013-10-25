@@ -17,11 +17,11 @@ use Nooku\Library;
  */
 class PagesViewPagesHtml extends Library\ViewHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
-        $this->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
-        $this->menus        = $this->getObject('com:pages.model.menus')->getRowset();
+        $data->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
+        $data->menus        = $this->getObject('com:pages.model.menus')->getRowset();
         
-        return parent::render();
+        return parent::setData($data);
     }
 }

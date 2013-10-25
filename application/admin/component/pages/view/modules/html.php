@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesViewModulesHtml extends Library\ViewHtml
 {
-	public function render()
+    protected function _actionRender(Library\ViewContext $context)
 	{
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
@@ -29,6 +29,6 @@ class PagesViewModulesHtml extends Library\ViewHtml
 		    }
 		} 
 
-        return parent::render();
+        return parent::_actionRender($context);
 	}
 }

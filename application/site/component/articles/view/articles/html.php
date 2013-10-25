@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesHtml extends ArticlesViewHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
         //Get the parameters
         $params = $this->getObject('application')->getParams();
@@ -31,10 +31,10 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
             $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
 
-        $this->params   = $params;
-        $this->category = $category;
+        $data->params   = $params;
+        $data->category = $category;
 
-        return parent::render();
+        return parent::setData($data);
     }
 
     public function getCategory()

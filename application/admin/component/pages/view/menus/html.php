@@ -17,9 +17,9 @@ use Nooku\Library;
  */
 class PagesViewMenusHtml extends Library\ViewHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
-        $this->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
-        return parent::render();
+        $data->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
+        return parent::setData($data);
     }
 }

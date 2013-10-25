@@ -22,7 +22,7 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
      *
      * @return string
      */
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
         // Preparing the sort and direction model states.
         switch ($this->module->params->get('sort_by', 'newest'))
@@ -68,12 +68,12 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
             'category'  => $category))
             ->getRowset();
 
-        $this->articles   = $articles;
-        $this->show_title = $this->module->params->get('show_title', false);
+        $data->articles   = $articles;
+        $data->show_title = $this->module->params->get('show_title', false);
 
         // Set layout based on params.
         $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');
 
-        return parent::render();
+        return parent::setData($data);
     }
 }

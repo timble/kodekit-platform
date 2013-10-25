@@ -17,22 +17,10 @@ use Nooku\Library;
  */
 class PagesViewModuleHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         $model  = $this->getModel();
         $module = $model->getRow();
-
-        if($this->getLayout() == 'modal')
-        {
-            $this->menus   = $this->getObject('com:pages.model.menus')
-                                  ->sort('title')->getRowset();
-
-            $this->pages   = $this->getObject('com:pages.model.pages')
-                                  ->application('site')->getRowset();
-
-            $this->modules = $this->getObject('com:pages.model.modules')
-                                  ->application('site')->getRowset();
-        }
 
         if($this->getModel()->getState()->isUnique())
         {
@@ -46,6 +34,25 @@ class PagesViewModuleHtml extends Library\ViewHtml
             JFactory::getLanguage()->load(substr($module->extension_name, 4), $module->name, $path);
         }
 
+        return parent::_actionRender($context);
+    }
+
+    public function setData(Library\ObjectConfigInterface $data)
+    {
+        $module  = $this->getModel()->getRow();
+
+        if($this->getLayout() == 'modal')
+        {
+            $data->menus   = $this->getObject('com:pages.model.menus')
+                                  ->sort('title')->getRowset();
+
+            $data->pages   = $this->getObject('com:pages.model.pages')
+                                  ->application('site')->getRowset();
+
+            $data->modules = $this->getObject('com:pages.model.modules')
+                                  ->application('site')->getRowset();
+        }
+
         // Build path to module config file
         $path  = Library\ClassLoader::getInstance()->getApplication('site');
         $path .= '/component/'.substr($module->extension_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
@@ -53,8 +60,8 @@ class PagesViewModuleHtml extends Library\ViewHtml
         $params = new \JParameter( null, $path );
         $params->loadArray($module->params->toArray());
 
-        $this->params = $params;
+        $data->params = $params;
 
-        return parent::render();
+        return parent::setData($data);
     }
 }
