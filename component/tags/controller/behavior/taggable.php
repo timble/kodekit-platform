@@ -63,7 +63,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterEdit(Library\ControllerContextt $context)
+	protected function _afterEdit(Library\ControllerContext $context)
     {
 		$this->_saveRelations($context);
 	}
