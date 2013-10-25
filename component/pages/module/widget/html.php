@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModuleWidgetHtml extends ModuleDefaultHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
     	$function = '_'.$this->module->params->get('layout', 'overlay');
     	return $this->$function();
