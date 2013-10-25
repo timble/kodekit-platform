@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewPageJson extends ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         return $this->content;
     }
