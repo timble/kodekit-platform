@@ -162,7 +162,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		}
 	}
 
-	public function saveThumbnail(Library\ControllerContext $context = null)
+	public function saveThumbnail(Library\Command $context = null)
 	{
         $result = null;
 		if ($this->isImage() && $this->getContainer()->getParameters()->thumbnails)
@@ -178,7 +178,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		return $result;
 	}
 
-	public function deleteThumbnail(Library\ControllerContext $context = null)
+	public function deleteThumbnail(Library\Command $context = null)
 	{
 		$thumb = $this->getObject('com:files.model.thumbnails')
             ->container($this->container)
