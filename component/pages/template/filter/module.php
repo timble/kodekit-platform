@@ -220,7 +220,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
 
             //Render the module
             $content = $this->getObject($module->identifier)
-                ->data(array('module' => $module))
+                ->module($module)
                 ->content($module->content)
                 ->render();
 
