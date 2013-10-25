@@ -142,11 +142,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string         $action  The action to execute
-     * @param   Command $context A command context object
+     * @param   ConntrollerContext $context A controller context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
-    public function execute($action, Command $context)
+    public function execute($action, ControllerContext $context)
     {
         $action = strtolower($action);
 
@@ -372,7 +372,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the controller context
      *
-     * @return  Command
+     * @return  ControllerContext
      */
     public function getContext()
     {
@@ -381,7 +381,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         $context->subject  = $this;
         $context->request  = $this->getRequest();
         $context->response = $this->getResponse();
-
+        $context->user     = $this->getUser();
 
         return $context;
     }
