@@ -36,22 +36,21 @@ class ViewEditorHtml extends Library\ViewHtml
             )
 		)));
 
-
 		parent::_initialize($config);
     }
-    
-	public function render()
+
+    public function setData(Library\ObjectConfigInterface $data)
 	{
-		if(!$this->id) {
-		    $this->id = $this->name;
+		if(!$data->id) {
+		    $data->id = $data->name;
 		}
 
         $settings = clone $this->getConfig()->settings;
         $settings->editor_selector = 'editable-'.$this->id;
         $settings->options->toolbar = $this->toolbar ? $this->toolbar : 'standard';
 
-		$this->settings = $settings;
+		$data->settings = $settings;
 
-		return parent::render();
+		return parent::setData($data);
 	}
 }

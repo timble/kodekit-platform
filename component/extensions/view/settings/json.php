@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewSettingsJson extends Library\ViewJson
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $model = $this->getModel();
 
@@ -31,6 +31,6 @@ class ViewSettingsJson extends Library\ViewJson
 
         $this->setContent($data);
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 }
