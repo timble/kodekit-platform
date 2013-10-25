@@ -178,22 +178,21 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	{
         $view = $this->getView();
 
-        //Push the params in the view
-        $param = ObjectConfig::unbox($context->param);
-
-        if(is_array($param))
-        {
-            foreach($context->param as $name => $value) {
-                $view->set($name, $value);
-            }
-        }
-
         //Push the content in the view
         $view->setContent($context->response->getContent());
 
         //Render the view
         \JFactory::getLanguage()->load($this->getIdentifier()->package);
-        $content = $view->render();
+
+        $param = ObjectConfig::unbox($context->param);
+
+        if(is_array($param)) {
+            $data = (array) $param;
+        } else {
+            $data = array();
+        }
+
+        $content = $view->render($data);
 
         //Set the data in the response
         $context->response->setContent($content, $view->mimetype);
