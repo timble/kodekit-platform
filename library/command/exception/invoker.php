@@ -8,7 +8,6 @@
  */
 
 namespace Nooku\Library;
-use Imagine\Exception\RuntimeException;
 
 /**
  * Command Invoker Exception
