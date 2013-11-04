@@ -45,7 +45,7 @@
 				<div>
 				    <label for="email_to"><?= translate( 'E-mail' ); ?></label>
 				    <div>
-				        <input type="text" name="email_to" maxlength="255" value="<?= $contact->email_to; ?>" />
+				        <input type="text" name="email_to" maxlength="255" class="validate-email" value="<?= $contact->email_to; ?>" />
 				    </div>
 				</div>
 				<div>
