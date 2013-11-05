@@ -577,7 +577,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Register a template locator
      *
-     * @param TemplateLoaderInterface $locator
+     * @param TemplateLocatorInterface $locator
      * @return TemplateAbstract
      */
     public function registerLocator(TemplateLocatorInterface $locator)
@@ -589,7 +589,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Get a registered template locator based on his type
      *
-     * @return TemplateLoaderInterface|null  Returns the template loader or NULL if the loader can not be found.
+     * @return TemplateLocatorInterface|null  Returns the template loader or NULL if the loader can not be found.
      */
     public function getLocator($type, $config = array())
     {
