@@ -100,7 +100,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return $this->_attachments;
     }
 
-    protected function _populateFilesFromRequest(Library\CommandContext $context)
+    protected function _populateFilesFromRequest(Library\ControllerContext $context)
     {
         if ($this->_populate_from_request)
         {
@@ -132,7 +132,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         }
     }
 
-    protected function _saveFile(Library\CommandContext $context, $attachment)
+    protected function _saveFile(Library\ControllerContext $context, $attachment)
     {
         $row = $context->result;
 
@@ -179,7 +179,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _saveFiles(Library\CommandContext $context)
+    protected function _saveFiles(Library\ControllerContext $context)
     {
         if ($context->error) {
             return;
@@ -213,23 +213,23 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _beforeControllerAdd(Library\CommandContext $context) {
+    protected function _beforeAdd(Library\ControllerContext $context) {
         $this->_populateFilesFromRequest($context);
     }
 
-    protected function _beforeControllerEdit(Library\CommandContext $context) {
+    protected function _beforeEdit(Library\ControllerContext $context) {
         $this->_populateFilesFromRequest($context);
     }
 
-    protected function _afterControllerAdd(Library\CommandContext $context) {
+    protected function _afterAdd(Library\ControllerContext $context) {
         $this->_saveFiles($context);
     }
 
-    protected function _afterControllerEdit(Library\CommandContext $context) {
+    protected function _afterEdit(Library\ControllerContext $context) {
         $this->_saveFiles($context);
     }
 
-    protected function _afterControllerDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\ControllerContext $context)
     {
         $status = $context->result->getStatus();
 

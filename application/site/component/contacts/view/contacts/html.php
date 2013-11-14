@@ -17,30 +17,25 @@ use Nooku\Library;
  */
 class ContactsViewContactsHtml extends Library\ViewHtml
 {
-    /**
-     * Display the view
-     *
-     * @return	string	The output of the view
-     */
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
-        //Get the parameters
-        $params = $this->getObject('application')->getParams();
-
-        //Get the category
-        $category = $this->getCategory();
-
         //Set the pathway
         $page = $this->getObject('application.pages')->getActive();
-        if($page->getLink()->query['view'] == 'categories' ) {
+        if($page->getLink()->query['view'] == 'categories' )
+        {
+            $category = $this->getCategory();
             $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
 
-        //Set the breadcrumbs
-        $this->params   = $params;
-        $this->category = $category;
-        
-        return parent::render();
+        return parent::_actionRender($context);
+    }
+
+    public function setData(Library\ObjectConfigInterface $data)
+    {
+        $data->params   = $this->getObject('application')->getParams();
+        $data->category = $this->getCategory();
+
+        return parent::setData($data);
     }
 
     public function getCategory()

@@ -17,9 +17,9 @@ use Nooku\Library;
  */
 class CategoriesViewCategoriesHtml extends Library\ViewHtml
 {
-	public function render()
+    public function setData(Library\ObjectConfigInterface $data)
 	{
-		$this->params = $this->getObject('application')->getParams();
-		return parent::render();
+		$data->params = $this->getObject('application')->getParams();
+		return parent::setData($data);
 	}
 }

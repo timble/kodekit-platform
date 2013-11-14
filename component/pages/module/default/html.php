@@ -24,7 +24,7 @@ class ModuleDefaultHtml extends Library\ViewHtml
      *
      * @return ModuleDefaultHtml
      */
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome))
@@ -35,6 +35,6 @@ class ModuleDefaultHtml extends Library\ViewHtml
             ));
         }
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 }

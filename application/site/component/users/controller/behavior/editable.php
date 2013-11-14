@@ -18,7 +18,7 @@ use Nooku\Component\Extensions;
  */
 class UsersControllerBehaviorEditable extends Extensions\ControllerBehaviorEditable
 {
-    protected function _actionSave(Library\CommandContext $context)
+    protected function _actionSave(Library\ControllerContext $context)
     {
         $entity = parent::_actionSave($context);
 

@@ -25,8 +25,8 @@ class LanguagesViewExtensionsHtml extends Library\ViewHtml
         
         parent::_initialize($config);
     }
-    
-    public function render()
+
+    public function setData(Library\ObjectConfigInterface $data)
     {
         $tables     = $this->getObject('com:languages.model.tables')->getRowset();
         $extensions = $this->getObject('com:extensions.model.extensions')
@@ -37,9 +37,9 @@ class LanguagesViewExtensionsHtml extends Library\ViewHtml
             $extensions->find($table->extensions_extension_id)->enabled = $table->enabled;
         }
         
-        $this->extension = $extensions;
-        $this->total      = count($extensions);
+        $data->extension = $extensions;
+        $data->total     = count($extensions);
         
-        return parent::render();
+        return parent::setData($data);
     }
 }

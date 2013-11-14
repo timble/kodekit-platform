@@ -17,11 +17,8 @@ use Nooku\Library;
  */
 class ContactsViewContactHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
-        //Get the parameters
-        $params = $this->getObject('application')->getParams();
-        
         //Get the contact
         $contact = $this->getModel()->getData();
 
@@ -44,10 +41,15 @@ class ContactsViewContactHtml extends Library\ViewHtml
             $pathway->addItem($contact->name, '');
         }
 
-        $this->params   = $params;
-        $this->category = $category;
+        return parent::_actionRender($context);
+    }
 
-        return parent::render();
+    public function setData(Library\ObjectConfigInterface $data)
+    {
+        $data->params   = $this->getObject('application')->getParams();
+        $data->category = $this->getCategory();
+
+        return parent::setData($data);
     }
 
     public function getCategory()

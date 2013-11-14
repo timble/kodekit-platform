@@ -18,41 +18,47 @@ use Nooku\Library;
  */
 class FilesViewDirectoryHtml extends Library\ViewHtml
 {
-	public function render()
+    protected function _actionRender(Library\ViewContext $context)
 	{
+		$this->setPathway();
+
+		return parent::_actionRender($context);
+	}
+
+    public function setData(Library\ObjectConfigInterface $data)
+    {
         $page = $this->getObject('application.pages')->getActive();
         $params = new JParameter($page->params);
 
         $folders       = $this->_getFolders();
-        $this->folders = $folders['items'];
+        $data->folders = $folders['items'];
 
         $files       = $this->_getFiles();
-        $this->files = $files['items'];
-        $this->total = $files['total'];
+        $data->files = $files['items'];
+        $data->total = $files['total'];
 
         $folder = $this->getModel()->getRow();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
-		{
-			$path   = explode('/', $folder->path);
-			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
+        {
+            $path   = explode('/', $folder->path);
+            $parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
 
             $params->set('page_title', ucfirst(end($path)));
-		} else {
+        }
+        else
+        {
             $parent = null;
-
             $params->set('page_title', $page->title);
         }
 
-        $this->parent         = $parent;
-        $this->params         = $params;
-        $this->page           = $page;
-        $this->thumbnail_size = array('x' => 200, 'y' => 150);
+        $data->parent         = $parent;
+        $data->params         = $params;
+        $data->page           = $page;
+        $data->thumbnail_size = array('x' => 200, 'y' => 150);
 
-		$this->setPathway();
-
-		return parent::render();
-	}
+        return parent::setData($data);
+    }
 
     protected function _getFolders()
     {

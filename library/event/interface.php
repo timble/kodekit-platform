@@ -18,6 +18,15 @@ namespace Nooku\Library;
 interface EventInterface
 {
     /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
      * Get the event name
      *
      * @return string	The event name

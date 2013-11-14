@@ -18,18 +18,18 @@ use Nooku\Component\Files;
  */
 class FilesViewFilesHtml extends Files\ViewFilesHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
         $base = clone $this->getObject('request')->getBaseUrl();
 
-        $this->sitebase = (string) $base;
+        $data->sitebase = (string) $base;
 
         // FIXME: take out the hardcoded Itemid
         $base->setQuery(array('option' => 'com_files', 'Itemid' => 56));
         $this->getObject('application')->getRouter()->build($base);
 
-        $this->base = (string) $base;
+        $data->base = (string) $base;
 
-        return parent::render();
+        return parent::setDate($data);
     }
 }

@@ -128,12 +128,12 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * This function translated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
+     * @param   string   $name     The command name
+     * @param   Command  $context  The command context
      *
      * @return  mixed  Method result if the method exists, NULL otherwise.
      */
-    public function execute($name, CommandContext $context)
+    public function execute($name, Command $context)
     {
         $result = null;
 
@@ -141,7 +141,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
         $type = array_pop($identifier->path);
 
         $parts = explode('.', $name);
-        $method = '_' . $parts[0] . ucfirst($type) . ucfirst($parts[1]);
+        $method = '_' . $parts[0] . ucfirst($parts[1]);
 
         //If the method exists call the method and return the result
         if (method_exists($this, $method)) {
@@ -155,7 +155,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * Get an object handle
      *
      * This function only returns a valid handle if one or more command handler functions are defined. A commend handler
-     * function needs to follow the following format : '_afterX[Event]' or '_beforeX[Event]' to be recognised.
+     * function needs to follow the following format : '_after[Command]' or '_before[Command]' to be recognised.
      *
      * @return string A string that is unique, or NULL
      * @see execute()

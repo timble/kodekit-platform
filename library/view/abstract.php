@@ -39,6 +39,20 @@ abstract class ViewAbstract extends Object implements ViewInterface
     protected $_content;
 
     /**
+     * Chain of command object
+     *
+     * @var CommandChain
+     */
+    protected $_command_chain;
+
+    /**
+     * The view data
+     *
+     * @var boolean
+     */
+    protected $_data;
+
+    /**
      * The mimetype
      *
      * @var string
@@ -54,11 +68,17 @@ abstract class ViewAbstract extends Object implements ViewInterface
     {
         parent::__construct($config);
 
+        //Set the data
+        $this->_data = ObjectConfig::unbox($config->data);
+
         $this->setUrl($config->url);
         $this->setContent($config->contents);
         $this->mimetype = $config->mimetype;
 
         $this->setModel($config->model);
+
+        // Mixin the behavior interface
+        $this->mixin('lib:behavior.mixin', $config);
     }
 
     /**
@@ -72,6 +92,11 @@ abstract class ViewAbstract extends Object implements ViewInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'data'              => array(),
+            'command_chain'     => 'lib:command.chain',
+            'dispatch_events'   => true,
+            'event_dispatcher'  => 'event.dispatcher',
+            'enable_callbacks'  => true,
             'model'    => 'lib:model.empty',
             'contents' => '',
             'mimetype' => '',
@@ -82,11 +107,37 @@ abstract class ViewAbstract extends Object implements ViewInterface
     }
 
     /**
+     * Execute an action by triggering a method in the derived class.
+     *
+     * @param   array $data The view data
+     * @return  string  The output of the view
+     */
+    final public function render($data = array())
+    {
+        $context = $this->getContext();
+        $context->data   = $data;
+        $context->action = 'render';
+
+        if ($this->getCommandChain()->run('before.render', $context, false) !== false)
+        {
+            //Push the data in the view
+            $this->setData($context->data);
+
+            //Render the view
+            $context->result = $this->_actionRender($context);
+            $this->getCommandChain()->run('after.render', $context);
+        }
+
+        return $context->result;
+    }
+
+    /**
      * Render the view
      *
+     * @param ViewContext	$context A view context object
      * @return string  The output of the view
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         $contents = $this->getContent();
         return trim($contents);
@@ -101,7 +152,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
      */
     public function set($property, $value)
     {
-        $this->$property = $value;
+        $this->_data[$property] = $value;
         return $this;
     }
 
@@ -113,7 +164,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
      */
     public function get($property)
     {
-        return isset($this->$property) ? $this->$property : null;
+        return isset($this->_data[$property]) ? $this->_data[$property] : null;
     }
 
     /**
@@ -125,6 +176,31 @@ abstract class ViewAbstract extends Object implements ViewInterface
     public function has($property)
     {
         return isset($this->$property);
+    }
+
+    /**
+     * Sets the view data
+     *
+     * @param   ObjectConfigInterface $data The view data
+     * @return  ViewAbstract
+     */
+    public function setData(ObjectConfigInterface $data)
+    {
+        foreach($data as $name => $value) {
+            $this->set($name, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the view data
+     *
+     * @return  array   The view data
+     */
+    public function getData()
+    {
+        return $this->_data;
     }
 
     /**
@@ -324,8 +400,8 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Set the view url
      *
-     * @param KHttpUrl $url   A HttpUrl object or a string
-     * @return  ViewAbstract
+     * @param  HttpUrl $url   A HttpUrl object or a string
+     * @return ViewAbstract
      */
     public function setUrl(HttpUrl $url)
     {
@@ -338,6 +414,68 @@ abstract class ViewAbstract extends Object implements ViewInterface
     }
 
     /**
+     * Get the chain of command object
+     *
+     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
+     * to the CommandChain mixin.
+     *
+     * @return  CommandChainInterface
+     */
+    public function getCommandChain()
+    {
+        if(!$this->_command_chain instanceof CommandChainInterface)
+        {
+            //Ask the parent the relay the call to the mixin
+            $this->_command_chain = parent::getCommandChain();
+
+            if(!$this->_command_chain instanceof CommandChainInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
+                );
+            }
+        }
+
+        return $this->_command_chain;
+    }
+
+    /**
+     * Get the view context
+     *
+     * @return  ViewContext
+     */
+    public function getContext()
+    {
+        $context = new ViewContext();
+        $context->subject  = $this;
+
+        return $context;
+    }
+
+    /**
+     * Set a view data property
+     *
+     * @param   string  $property The property name.
+     * @param   mixed   $value    The property value.
+     */
+    public function __set($property, $value)
+    {
+        $this->set($property, $value);
+    }
+
+    /**
+     * Get a view data property
+     *
+     * @param   string  $property The property name.
+     * @return  string  The property value.
+     */
+    public function __get($property)
+    {
+        return $this->get($property);
+    }
+
+
+    /**
      * Returns the views output
      *
      * @return string
@@ -345,5 +483,33 @@ abstract class ViewAbstract extends Object implements ViewInterface
     public function __toString()
     {
         return $this->render();
+    }
+
+    /**
+     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view by using the variable
+     * name as the method name. If the method name is a setter method the setter will be called instead.
+     *
+     * For example : $view->data(array('foo' => 'bar'))->title('name')->render().
+     *
+     * @param   string  $method Method name
+     * @param   array   $args   Array containing all the arguments for the original call
+     * @return  ViewAbstract
+     *
+     * @see http://martinfowler.com/bliki/FluentInterface.html
+     */
+    public function __call($method, $args)
+    {
+        //If one argument is passed we assume a setter method is being called
+        if (count($args) == 1)
+        {
+            if (!method_exists($this, 'set' . ucfirst($method)))
+            {
+                $this->$method = $args[0];
+                return $this;
+            }
+            else return $this->{'set' . ucfirst($method)}($args[0]);
+        }
+
+        return parent::__call($method, $args);
     }
 }

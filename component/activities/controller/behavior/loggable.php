@@ -44,7 +44,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'     => Library\Command::PRIORITY_LOWEST,
+            'priority'     => self::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));
@@ -52,7 +52,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public function execute($name, Library\CommandContext $context)
+    public function execute($name, Library\Command $context)
     {
         if(in_array($name, $this->_actions))
         {

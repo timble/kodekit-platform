@@ -83,7 +83,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         return $query;
     }
     
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\DatabaseContext $context)
     {
         if($query = $context->query)
         {
@@ -113,7 +113,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->getStatus() != Library\Database::STATUS_FAILED)
@@ -130,7 +130,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->isModified('parent_id')) {
@@ -138,7 +138,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->getStatus() != Library\Database::STATUS_FAILED)
@@ -157,7 +157,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->getStatus() != Library\Database::STATUS_FAILED)

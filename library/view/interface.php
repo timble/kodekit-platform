@@ -18,11 +18,12 @@ namespace Nooku\Library;
 interface ViewInterface
 {
     /**
-     * Render the view
+     * Execute an action by triggering a method in the derived class.
      *
-     * @return string The output of the view
+     * @param   array $data The view data
+     * @return  string  The output of the view
      */
-    public function render();
+    public function render($data = array());
 
     /**
      * Set a view property
@@ -48,6 +49,21 @@ interface ViewInterface
      * @return  boolean TRUE if the property exists, FALSE otherwise
      */
     public function has($property);
+
+    /**
+     * Sets the view data
+     *
+     * @param   ObjectConfigInterface $data The view data
+     * @return  ViewAbstract
+     */
+    public function setData(ObjectConfigInterface $data);
+
+    /**
+     * Get the view data
+     *
+     * @return  array   The view data
+     */
+    public function getData();
 
     /**
 	 * Get the name
@@ -133,4 +149,21 @@ interface ViewInterface
 	 * @return 	string 	The route
 	 */
 	public function getRoute($route, $fqr = null, $escape = null);
+
+    /**
+     * Get the chain of command object
+     *
+     * To increase performance a reference to the command chain is stored in object scope to prevent slower calls
+     * to the CommandChain mixin.
+     *
+     * @return  CommandChainInterface
+     */
+    public function getCommandChain();
+
+    /**
+     * Get the view context
+     *
+     * @return  ViewContext
+     */
+    public function getContext();
 }

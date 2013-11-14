@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerImage extends ControllerAbstract
 {
-    protected function _actionRender(Library\CommandContext $context)
+    protected function _actionRender(Library\ControllerContext $context)
     {
        return Library\ControllerView::_actionRender($context);
     }

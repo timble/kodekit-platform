@@ -17,15 +17,20 @@ use Nooku\Library;
  */
 class UsersViewSessionHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $title = JText::_('Login');
         $this->getObject('application')->getPathway()->addItem($title);
 
-        $this->user       = $this->getObject('user');;
-        $this->parameters = $this->getParameters();
+        return parent::_actionRender($context);
+    }
 
-        return parent::render();
+    public function setData(Library\ObjectConfigInterface $data)
+    {
+        $data->user       = $this->getObject('user');;
+        $data->parameters = $this->getParameters();
+
+        return parent::setData($data);
     }
     
     public function getParameters()

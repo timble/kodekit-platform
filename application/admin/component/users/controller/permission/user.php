@@ -20,7 +20,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canAdd()
     {
         $user    = $this->getUser();
-        $context = $this->getMixer()->getCommandContext();
+        $context = $this->getMixer()->getContext();
         $role_id = $context->request->data->get('role_id', 'int');
 
         // New user role must be less or equal than logged user role

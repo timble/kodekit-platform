@@ -161,6 +161,13 @@ interface DatabaseAdapterInterface
     public function getTableSchema($table);
 
     /**
+     * Get the adapter context
+     *
+     * @return  Command
+     */
+    public function getContext();
+
+    /**
      * Safely quotes a value for an SQL statement.
      *
      * If an array is passed as the value, the array values are quoted

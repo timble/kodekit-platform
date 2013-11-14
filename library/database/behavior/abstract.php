@@ -51,10 +51,10 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * '_after[Command]. Command handler functions should be declared protected.
      *
      * @param     string            $name  The command name
-     * @param     CommandContext    $context The command context
+     * @param     Command    $context The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, CommandContext $context)
+    public function execute($name, Command $context)
     {
         if ($context->data instanceof DatabaseRowInterface) {
             $this->setMixer($context->data);
@@ -110,7 +110,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
      * behavior is callable.
      *
-     * @param ObjectInterface The mixer requesting the mixable methods.
+     * @param ObjectInterface $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
     public function getMixableMethods(ObjectMixable $mixer = null)

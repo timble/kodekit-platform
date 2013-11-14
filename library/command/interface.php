@@ -10,35 +10,25 @@
 namespace Nooku\Library;
 
 /**
- * Command Interface
+ * Command Context Interface
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-interface CommandInterface extends ObjectHandlable
+interface CommandInterface
 {
     /**
-     * Priority levels
-     */
-    const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
+    * Get the command subject 
+    *     
+    * @return ObjectInterface The command subject
+    */
+    public function getSubject();
 
     /**
-	 * Generic Command handler
-	 *
-	 * @param 	string 	       $name     The command name
-	 * @param 	CommandContext $context  The command context
-	 * @return	boolean
-	 */
-	public function execute( $name, CommandContext $context);
-
-	/**
-	 * Get the priority of the command
-	 *
-	 * @return	integer The command priority
-	 */
-  	public function getPriority();
+     * Set the command subject
+     *
+     * @param ObjectInterface $subject The command subject
+     * @return CommandInterface
+     */
+    public function setSubject(ObjectInterface $subject);
 }

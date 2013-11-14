@@ -27,7 +27,7 @@ class ViewFilesHtml extends Library\ViewHtml
 		parent::_initialize($config);
 	}
 
-	public function render()
+    public function setData(Library\ObjectConfigInterface $data)
 	{
 	    $state = $this->getModel()->getState();
 
@@ -36,15 +36,10 @@ class ViewFilesHtml extends Library\ViewHtml
 	        $state->limit = $this->getObject('application')->getCfg('list_limit');
 	    }
 
-        //Set the container
-        $this->container = $this->getModel()->getContainer();
+        $data->container = $this->getModel()->getContainer();
+        $data->site      = $this->getObject('application')->getSite();
+		$data->token     = $this->getObject('user')->getSession()->getToken();
 
-        //Set the site
-        $this->site = $this->getObject('application')->getSite();
-
-        //Set the token
-		$this->token  = $this->getObject('user')->getSession()->getToken();
-
-		return parent::render();
+		return parent::setData($data);
 	}
 }

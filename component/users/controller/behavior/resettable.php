@@ -38,7 +38,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeControllerReset(Library\CommandContext $context)
+    protected function _beforeReset(Library\ControllerContext $context)
     {
         $result = true;
 
@@ -54,7 +54,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionReset(Library\CommandContext $context)
+    protected function _actionReset(Library\ControllerContext $context)
     {
         $result = true;
 
@@ -71,7 +71,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeControllerToken(Library\CommandContext $context)
+    protected function _beforeToken(Library\ControllerContext $context)
     {
         $row = $this->getObject('com:users.model.users')
                ->email($context->request->data->get('email', 'email'))
@@ -92,7 +92,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _isTokenValid(Library\CommandContext $context)
+    protected function _isTokenValid(Library\ControllerContext $context)
     {
         $result = false;
 
@@ -107,7 +107,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionToken(Library\CommandContext $context)
+    protected function _actionToken(Library\ControllerContext $context)
     {
         $result = true;
 

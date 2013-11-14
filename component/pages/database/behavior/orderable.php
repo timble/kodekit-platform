@@ -73,7 +73,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function execute($name, Library\CommandContext $context)
+    public function execute($name, Library\Command $context)
     {
         return $this->getStrategy()->execute($name, $context);
     }

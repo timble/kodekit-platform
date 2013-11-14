@@ -12,12 +12,12 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Abstract Local Adapter
+ * Abstract Adapter
  *
  * @author   Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-abstract class AdapterLocalAbstract extends Library\Object
+abstract class AdapterAbstract extends Library\Object
 {
 	/**
 	 * Path to the node

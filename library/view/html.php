@@ -41,9 +41,10 @@ class ViewHtml extends ViewTemplate
      * This function will always assign the model state to the template. Model data will only be assigned if the
      * auto_assign property is set to TRUE.
      *
+     * @param ViewContext	$context A view context object
      * @return string The output of the view
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         $model = $this->getModel();
 
@@ -65,7 +66,7 @@ class ViewHtml extends ViewTemplate
             else $this->$name = $model->getRow();
         }
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 
     /**
