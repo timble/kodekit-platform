@@ -20,6 +20,7 @@ class PagesModuleCustomHtml extends PagesModuleDefaultHtml
     public function setData(Library\ObjectConfigInterface $data)
     {        
         $data->show_title = $this->module->params->get('show_title', false);
+        $data->class      = $this->module->params->get('class', false);
         
         return parent::setData($data);
     }

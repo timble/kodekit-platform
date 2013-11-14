@@ -618,7 +618,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
                     );
                 }
 
-                $this->_loaders[$type] = $locator;
+                $this->_locators[$type] = $locator;
             }
         }
 
