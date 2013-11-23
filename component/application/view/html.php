@@ -39,16 +39,16 @@ class ViewHtml extends Library\ViewHtml
         parent::_initialize($config);
     }
 
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
         //Set the language information
         $language = $this->getObject('application')->getCfg('language');
-        $this->language  = $language ? $language : 'en-GB';
-        $this->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
+        $data->language  = $language ? $language : 'en-GB';
+        $data->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
         // Set the site information
-        $this->site  = $this->getObject('application')->getSite();
+        $data->site  = $this->getObject('application')->getSite();
 
-        return parent::render();
+        return parent::setData($data);
     }
 }

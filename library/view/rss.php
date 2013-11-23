@@ -43,12 +43,12 @@ class ViewRss extends ViewTemplate
 	/**
 	 * Return the views output
 	 *
-	 * This function will auto assign the model data to the view if the auto_assign
-	 * property is set to TRUE.
+	 * This function will auto assign the model data to the view if the auto_assign property is set to TRUE.
  	 *
+     * @param ViewContext	$context A view context object
 	 * @return string 	The output of the view
 	 */
-	public function render()
+	protected function _actionRender(ViewContext $context)
 	{
 	    $model = $this->getModel();
 
@@ -70,7 +70,7 @@ class ViewRss extends ViewTemplate
 			else $this->$name = $model->getRow();
 		}
 
-		return parent::render();
+		return parent::_actionRender($context);
 	}
 
     /**

@@ -12,12 +12,12 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * File Local Adapter
+ * File Adapter
  *
  * @author   Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class AdapterLocalFile extends AdapterLocalAbstract
+class AdapterFile extends AdapterAbstract
 {
 	protected $_metadata;
 

@@ -17,12 +17,11 @@ use Nooku\Library;
  */
 class UsersViewUserHtml extends Library\ViewHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
-        $this->parameters = $this->getObject('application')->getParams();
-        $this->page = $this->getObject('application.pages')->getActive();
+        $data->parameters = $this->getObject('application')->getParams();
+        $data->page = $this->getObject('application.pages')->getActive();
 
-        //JFactory::getDocument()->setTitle($this->parameters->get('page_title'));
-        return parent::render();
+        return parent::setData($data);
     }
 }

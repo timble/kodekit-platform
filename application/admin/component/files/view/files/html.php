@@ -18,17 +18,17 @@ use Nooku\Component\Files;
  */
 class FilesViewFilesHtml extends Files\ViewFilesHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {
         $base = clone $this->getObject('request')->getBaseUrl();
 
-        $this->sitebase = (string) $base;
+        $data->sitebase = (string) $base;
 
         $base->setQuery(array('option' => 'com_files'));
         $this->getObject('application')->getRouter()->build($base);
 
-        $this->base = (string) $base;
+        $data->base = (string) $base;
 
-        return parent::render();
+        return parent::setData($data);
     }
 }

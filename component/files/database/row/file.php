@@ -31,15 +31,15 @@ class DatabaseRowFile extends DatabaseRowNode
 
 	public function save()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false)
+		if ($this->getCommandChain()->run('before.save', $context, false) !== false)
 		{
 			$context->result = $this->_adapter->write(!empty($this->contents) ? $this->contents : $this->file);
-			$this->getCommandChain()->run('after.save', $context);
+			$this->getCommandChain()->run('after.save', $context, false);
         }
 
 		if ($context->result === false) {
@@ -162,7 +162,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		}
 	}
 
-	public function saveThumbnail(Library\CommandContext $context = null)
+	public function saveThumbnail(Library\Command $context = null)
 	{
         $result = null;
 		if ($this->isImage() && $this->getContainer()->getParameters()->thumbnails)
@@ -178,7 +178,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		return $result;
 	}
 
-	public function deleteThumbnail(Library\CommandContext $context = null)
+	public function deleteThumbnail(Library\Command $context = null)
 	{
 		$thumb = $this->getObject('com:files.model.thumbnails')
             ->container($this->container)

@@ -17,12 +17,8 @@ use Nooku\Library;
  */
 class ArticlesViewArticleHtml extends ArticlesViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
-        //Get the parameters
-        $params = $this->getObject('application')->getParams();
-
-        //Get the contact
         $article = $this->getModel()->getData();
 
         //Set the breadcrumbs
@@ -39,17 +35,25 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         if($page->getLink()->query['view'] == 'articles') {
             $pathway->addItem($article->title, '');
         }
-        
+
+        return parent::_actionRender($context);
+    }
+
+    public function setData(Library\ObjectConfigInterface $data)
+    {
+        $article = $this->getModel()->getData();
+
         if ($article->id && $article->isAttachable()) {
-            $this->attachments($article->getAttachments());
+            $data->attachments = $article->getAttachments();
         }
 
         if ($article->id && $article->isTaggable()) {
-            $this->tags($article->getTags());
+            $data->tags = $article->getTags();
         }
 
-        $this->params = $params;
-        return parent::render();
+        $data->params = $this->getObject('application')->getParams();;
+
+        return parent::setData($data);
     }
 
     public function getCategory()

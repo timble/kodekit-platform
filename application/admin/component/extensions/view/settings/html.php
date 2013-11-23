@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ExtensionsViewSettingsHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $settings = $this->getModel()->getRowset();
         
@@ -28,6 +28,6 @@ class ExtensionsViewSettingsHtml extends Library\ViewHtml
 	    	}
         } 
        
-        return parent::render();
+        return parent::_actionRender($context);
     }
 }

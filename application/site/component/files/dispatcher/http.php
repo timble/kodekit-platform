@@ -28,7 +28,7 @@ class FilesDispatcherHttp extends Library\DispatcherHttp
         $this->getObject('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
     }
 
-    public function renderResponse(Library\CommandContext $context)
+    public function renderResponse(Library\DispatcherContext $context)
     {
         if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
             $this->getController()->execute('render', $context);
@@ -39,7 +39,7 @@ class FilesDispatcherHttp extends Library\DispatcherHttp
      * We need to return 200 even if an error happens in requests using Plupload.
      * Otherwise we cannot get the error message and display it to the user interface
      */
-    public function setStatusForPlupload(Library\CommandContext $context)
+    public function setStatusForPlupload(Library\DispatcherContext $context)
     {
         if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int')) {
             $context->response->setStatus('200');

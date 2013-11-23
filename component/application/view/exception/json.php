@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewExceptionJson extends Library\ViewJson
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $properties = array(
             'message' => $this->message,
@@ -45,6 +45,6 @@ class ViewExceptionJson extends Library\ViewJson
 
         $this->setContent($content);
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 }

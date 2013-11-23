@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Callback Object Mixin
+ * Callback Command Invoker
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class CommandCallback extends ObjectMixinCallback implements CommandInterface
+class CommandInvokerCallback extends ObjectMixinCallback implements CommandInvokerInterface
 {
     /**
      * The command priority
@@ -63,10 +63,10 @@ class CommandCallback extends ObjectMixinCallback implements CommandInterface
      * directly.
      *
      * @param string         $name     The command name
-     * @param CommandContext $context  The command context
+     * @param Command $context  The command context
      * @return boolean
      */
-    public function execute( $name, CommandContext $context)
+    public function execute( $name, Command $context)
     {
         $result    = true;
         $callbacks = $this->getCallbacks($name);

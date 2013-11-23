@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewContactVcard extends Library\ViewVcard
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $contact = $this->getModel()->getRow();
        
@@ -59,6 +59,6 @@ class ViewContactVcard extends Library\ViewVcard
             $this->setURL($contact->webpage);
         }
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 }

@@ -71,6 +71,13 @@ interface DatabaseTableInterface
     public function getSchema();
 
     /**
+     * Get the table context
+     *
+     * @return  Command
+     */
+    public function getContext();
+
+    /**
      * Get a column by name
      *
      * @param  boolean  If TRUE, get the column information from the base table.

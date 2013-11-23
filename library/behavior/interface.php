@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
  */
-interface BehaviorInterface extends CommandInterface, ObjectInterface
+interface BehaviorInterface extends CommandInvokerInterface, ObjectInterface
 {
     /**
      * Get the behavior name

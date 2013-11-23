@@ -17,11 +17,11 @@ use Nooku\Library;
  */
 class PagesModuleCustomHtml extends PagesModuleDefaultHtml
 {
-    public function render()
+    public function setData(Library\ObjectConfigInterface $data)
     {        
-        $this->show_title = $this->module->params->get('show_title', false);
-        $this->class      = $this->module->params->get('class', false);
+        $data->show_title = $this->module->params->get('show_title', false);
+        $data->class      = $this->module->params->get('class', false);
         
-        return parent::render();
+        return parent::setData($data);
     }
 } 

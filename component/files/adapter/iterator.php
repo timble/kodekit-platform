@@ -12,12 +12,12 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Iterator Local Adapter
+ * Iterator Adapter
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class AdapterLocalIterator extends Library\Object
+class AdapterIterator extends Library\Object
 {
 	public function getFiles(array $config = array())
 	{
@@ -33,7 +33,7 @@ class AdapterLocalIterator extends Library\Object
 
 	public function getNodes(array $config = array())
 	{
-		$config['path'] = $this->getObject('com:files.adapter.local.folder',
+		$config['path'] = $this->getObject('com:files.adapter.folder',
 					array('path' => $config['path']))->getRealPath();
 
 		try {

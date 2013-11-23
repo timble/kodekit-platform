@@ -17,9 +17,9 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class CommandValidatorFolder extends CommandValidatorNode
+class DatabaseValidatorFolder extends DatabaseValidatorNode
 {
-	protected function _databaseBeforeSave($context)
+	protected function _beforeSave($context)
 	{
         $result = parent::_databaseBeforeSave($context);
 

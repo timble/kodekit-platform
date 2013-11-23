@@ -10,96 +10,83 @@
 namespace Nooku\Library;
 
 /**
- * Command
- *
- * The command handler will translate the command name into a function format and call it for the object class to handle
- * it if the method exists.
+ * Command Context
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class Command extends Object implements CommandInterface
+class Command extends ObjectConfig implements CommandInterface
 {
     /**
-     * The command priority
+     * Get the command subject
      *
-     * @var integer
+     * @return object	The command subject
      */
-    protected $_priority;
-
-    /**
-     * Object constructor
-     *
-     * @param ObjectConfig $config Configuration options
-     * @throws \InvalidArgumentException
-     */
-    public function __construct(ObjectConfig $config)
+    public function getSubject()
     {
-        parent::__construct($config);
-
-        //Set the command priority
-        $this->_priority = $config->priority;
+        return $this->get('subject');
     }
 
     /**
-     * Initializes the options for the object
+     * Set the command subject
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
+     * @param ObjectInterface $subject The command subject
+     * @return Command
+     */
+    public function setSubject(ObjectInterface $subject)
+    {
+        $this->set('subject', $subject);
+        return $this;
+    }
+
+    /**
+     * Set a command property
      *
-     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
-    protected function _initialize(ObjectConfig $config)
+    public function set($name, $value)
     {
-        $config->append(array(
-            'priority' => self::PRIORITY_NORMAL,
-        ));
-
-        parent::_initialize($config);
+        if (is_array($value)) {
+            $this->_data[$name] = new ObjectConfig($value);
+        } else {
+            $this->_data[$name] = $value;
+        }
     }
 
     /**
-     * Command handler
+     * Get a command property
      *
-     * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
-     *
-     * @return  mixed  Method result if the method exists, NULL otherwise.
+     * @param  string $name
+     * @return mixed  The property value
      */
-    public function execute($name, CommandContext $context)
+    public function __get($name)
     {
-        $type   = '';
-        $result = null;
-
-        if ($context->getSubject())
-        {
-            $identifier = clone $context->getSubject()->getIdentifier();
-
-            if ($identifier->path) {
-                $type = array_shift($identifier->path);
-            } else {
-                $type = $identifier->name;
-            }
+        $getter = 'get'.ucfirst($name);
+        if(method_exists($this, $getter)) {
+            $value = $this->$getter();
+        } else {
+            $value = parent::__get($name);
         }
 
-        $parts = explode('.', $name);
-        $method = !empty($type) ? '_' . $type . ucfirst(StringInflector::implode($parts)) : '_' . lcfirst(StringInflector::implode($parts));
-
-        //If the method exists call the method and return the result
-        if (in_array($method, $this->getMethods())) {
-            $result = $this->$method($context);
-        }
-
-        return $result;
+        return $value;
     }
 
     /**
-     * Get the priority of the command
+     * Set a command property
      *
-     * @return  integer The command priority
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
      */
-    public function getPriority()
+    public function __set($name, $value)
     {
-        return $this->_priority;
+        $setter = 'set'.ucfirst($name);
+        if(method_exists($this, $setter)) {
+            $this->$setter($value);
+        } else {
+            parent::__set($name, $value);
+        }
     }
 }

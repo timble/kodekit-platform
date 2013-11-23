@@ -22,11 +22,11 @@ class ControllerToolbarUser extends Library\ControllerToolbarActionbar
     /**
      * Add default toolbar commands
      * .
-     * @param	Library\CommandContext	$context A command context object
+     * @param	Library\ControllerContext	$context A controller context object
      */
-    protected function _afterControllerBrowse(Library\CommandContext $context)
+    protected function _afterBrowse(Library\ControllerContext $context)
     {
-        parent::_afterControllerBrowse($context);
+        parent::_afterBrowse($context);
         
         $this->addSeparator();
 		$this->addEnable();

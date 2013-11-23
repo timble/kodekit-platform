@@ -173,9 +173,9 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function begin()
     {
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.begin', $context) !== false)
+        if($this->getCommandChain()->run('before.begin', $context, false) !== false)
         {
             $context->result = $this->getConnection()->beginTransaction();
             $this->getCommandChain()->run('after.begin', $context);
@@ -192,9 +192,9 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function commit()
     {
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.commit', $context) !== false)
+        if($this->getCommandChain()->run('before.commit', $context, false) !== false)
         {
             $context->result = $this->getConnection()->commit();
             $this->getCommandChain()->run('after.commit', $context);
@@ -211,9 +211,9 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function rollback()
     {
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.rollback', $context) !== false)
+        if($this->getCommandChain()->run('before.rollback', $context, false) !== false)
         {
             $context->result = $this->getConnection()->rollBack();
             $this->getCommandChain()->run('after.rollback', $context);
@@ -233,11 +233,11 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $query = 'LOCK TABLES '.$this->quoteIdentifier($table).' WRITE';
 
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = $table;
         $context->query = $query;
 
-        if($this->getCommandChain()->run('before.lock', $context) !== false)
+        if($this->getCommandChain()->run('before.lock', $context, false) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
             $this->getCommandChain()->run('after.lock', $context);
@@ -256,11 +256,11 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $query = 'UNLOCK TABLES';
 
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = null;
         $context->query = $query;
 
-        if($this->getCommandChain()->run('before.unlock', $context) !== false)
+        if($this->getCommandChain()->run('before.unlock', $context, false) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
             $this->getCommandChain()->run('after.unlock', $context);

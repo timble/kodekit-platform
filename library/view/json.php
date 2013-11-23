@@ -59,9 +59,10 @@ class ViewJson extends ViewAbstract
      * If the view 'content'  is empty the output will be generated based on the model data, if it set it will
      * be returned instead.
      *
+     * @param ViewContext	$context A view context object
      * @return string A RFC4627-compliant JSON string, which may also be embedded into HTML.
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         if (empty($this->_content))
         {
@@ -80,7 +81,7 @@ class ViewJson extends ViewAbstract
             $this->_content = json_encode($this->_content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         }
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 
     /**
