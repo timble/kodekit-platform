@@ -22,7 +22,7 @@ class ContactsControllerContact extends Library\ControllerModel
 		$request = parent::getRequest();
 
 		//Display only published items
-		$request->query->enabled = 1;
+		$request->query->published = 1;
 		
 		return $request;
 	}
