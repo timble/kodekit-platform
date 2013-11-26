@@ -29,7 +29,7 @@
     <ul>
     <? foreach($list as $item) : ?>
     	<? if(!$item->file->isImage()) : ?>
-    	<li><a href="attachments://<?= $item->path; ?>"><?= escape($item->name) ?></a> </li>
+        <li><a href="attachments://<?= $item->path; ?>"><?= escape($item->name) ?></a> (<?= helper('com:files.filesize.humanize', array('size' => $item->file->size));?>, <?= $item->file->extension ?>)</li>
     	<? endif ?>
     <? endforeach ?>
     </ul>
