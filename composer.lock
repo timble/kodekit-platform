@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5dbf29b0e718fc3f039a7ed7adacd02f",
+    "hash": "312d8e467e81e22d7667f9c1523414f8",
     "packages": [
         {
             "name": "imagine/imagine",
@@ -53,21 +53,20 @@
             "time": "2012-12-13 18:31:18"
         },
         {
-            "name": "jlong/sass-twitter-bootstrap",
+            "name": "jlong/sass-bootstrap",
             "version": "v2.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jlong/sass-twitter-bootstrap.git",
-                "reference": "v2.3.2"
+                "url": "https://github.com/jlong/sass-bootstrap.git",
+                "reference": "c4d7cbce669f4f6e5838e75e847a443c9f59bb37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jlong/sass-twitter-bootstrap/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/jlong/sass-bootstrap/zipball/c4d7cbce669f4f6e5838e75e847a443c9f59bb37",
+                "reference": "c4d7cbce669f4f6e5838e75e847a443c9f59bb37",
                 "shasum": ""
             },
             "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -78,20 +77,24 @@
                 "css",
                 "sass"
             ],
-            "time": "2013-05-21 19:52:16"
+            "support": {
+                "source": "https://github.com/jlong/sass-bootstrap/tree/v2.3.2",
+                "issues": "https://github.com/jlong/sass-bootstrap/issues"
+            },
+            "time": "2013-05-25 10:55:13"
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "v5.0.1"
+                "reference": "f3917ecef35a4e4d98b303eb9fee463bc983f379"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/v5.0.1",
-                "reference": "v5.0.1",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/f3917ecef35a4e4d98b303eb9fee463bc983f379",
+                "reference": "f3917ecef35a4e4d98b303eb9fee463bc983f379",
                 "shasum": ""
             },
             "require": {
@@ -127,7 +130,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2013-06-17 13:32:32"
+            "time": "2013-08-30 12:35:21"
         }
     ],
     "packages-dev": [
