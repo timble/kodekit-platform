@@ -760,7 +760,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
             // Set the query in the context.
             if ($context->affected !== false) {
-                $context->data->setStatus($context->affected ? Database::STATUS_DELETED : Database::STATUS_FALIED);
+                $context->data->setStatus($context->affected ? Database::STATUS_DELETED : Database::STATUS_FAILED);
             }
 
             $this->invokeCommand('after.delete', $context);
