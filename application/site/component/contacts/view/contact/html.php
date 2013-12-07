@@ -44,12 +44,12 @@ class ContactsViewContactHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
-        $data->params   = $this->getObject('application')->getParams();
-        $data->category = $this->getCategory();
+        $context->data->params   = $this->getObject('application')->getParams();
+        $context->data->category = $this->getCategory();
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 
     public function getCategory()

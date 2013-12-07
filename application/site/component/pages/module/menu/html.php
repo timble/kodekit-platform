@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesModuleMenuHtml extends PagesModuleDefaultHtml
 {
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         $start    = $this->module->params->get('start_level');
         $end      = $this->module->params->get('end_level');
@@ -28,10 +28,10 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
         // Make sure that pages without an assigned group are also included.
         $groups[] = 0;
 
-        $data->active = $pages->getActive();
-        $data->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
+        $context->data->active = $pages->getActive();
+        $context->data->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
 
-        foreach(clone $data->pages as $page)
+        foreach(clone $context->data->pages as $page)
         {
             $extract = false;
             
@@ -48,19 +48,19 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
             // Extract if path is not in the active branch.
             if(!$extract && $children == 'active' && $page->level > 1)
             {
-                if(implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $data->active->path), 0, count($page->getParentIds())))) {
+                if(implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $context->data->active->path), 0, count($page->getParentIds())))) {
                     $extract = true;
                 }
             }
             
             if($extract) {
-                $data->pages->extract($page);
+                $context->data->pages->extract($page);
             }
         }
 
-        $data->show_title = $this->module->params->get('show_title', false);
-        $data->class      = $this->module->params->get('class', 'nav');
-        
-        return parent::setData($data);
+        $context->data->show_title = $this->module->params->get('show_title', false);
+        $context->data->class      = $this->module->params->get('class', 'nav');
+
+        return parent::fetchData($context);
     }
 }

@@ -28,15 +28,15 @@ class ViewPageHtml extends ViewHtml
         parent::_initialize($config);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         // Build the sorted message list
-        $data->messages = $this->getObject('response')->getMessages();
+        $context->data->messages = $this->getObject('response')->getMessages();
 
         //Set the component and layout information
-        $data->extension = $this->getObject('component')->getIdentifier()->package;
-        $data->layout    = $this->getObject('component')->getController()->getView()->getLayout();
+        $context->data->extension = $this->getObject('component')->getIdentifier()->package;
+        $context->data->layout    = $this->getObject('component')->getController()->getView()->getLayout();
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 }

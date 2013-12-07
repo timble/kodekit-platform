@@ -25,17 +25,17 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		return parent::_actionRender($context);
 	}
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         $page = $this->getObject('application.pages')->getActive();
         $params = new JParameter($page->params);
 
         $folders       = $this->_getFolders();
-        $data->folders = $folders['items'];
+        $context->data->folders = $folders['items'];
 
         $files       = $this->_getFiles();
-        $data->files = $files['items'];
-        $data->total = $files['total'];
+        $context->data->files = $files['items'];
+        $context->data->total = $files['total'];
 
         $folder = $this->getModel()->getRow();
 
@@ -52,12 +52,12 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $params->set('page_title', $page->title);
         }
 
-        $data->parent         = $parent;
-        $data->params         = $params;
-        $data->page           = $page;
-        $data->thumbnail_size = array('x' => 200, 'y' => 150);
+        $context->data->parent         = $parent;
+        $context->data->params         = $params;
+        $context->data->page           = $page;
+        $context->data->thumbnail_size = array('x' => 200, 'y' => 150);
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 
     protected function _getFolders()
