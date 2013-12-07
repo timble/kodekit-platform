@@ -109,9 +109,9 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     /**
      * Run the application
      *
-     * @param Library\DispatcherContext $context	A dispatcher context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionRun(Library\DispatcherContext $context)
+    protected function _actionRun(Library\DispatcherContextInterface $context)
     {
         //Set the site error reporting
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
@@ -133,9 +133,9 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     /**
      * Route the request
      *
-     * @param Library\DispatcherContext $context	A dispatcher context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionRoute(Library\DispatcherContext $context)
+    protected function _actionRoute(Library\DispatcherContextInterface $context)
     {
         $url = clone $context->request->getUrl();
 
@@ -193,9 +193,9 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     /**
      * Dispatch the request
      *
-     * @param Library\DispatcherContext $context	A dispatcher context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionDispatch(Library\DispatcherContext $context)
+    protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
@@ -216,9 +216,9 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
      * Render an exception
      *
      * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
-     * @param Library\DispatcherContext $context	A dispatcher context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionException(Library\DispatcherContext $context)
+    protected function _actionException(Library\DispatcherContextInterface $context)
     {
         //Check an exception was passed
         if(!isset($context->param) && !$context->param instanceof Library\Exception)
@@ -319,10 +319,10 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     /**
      * Load the application language
      *
-     * @param Library\DispatcherContext $context	A dispatcher context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return	void
      */
-    public function loadLanguage(Library\DispatcherContext $context)
+    public function loadLanguage(Library\DispatcherContextInterface $context)
     {
         $languages = $this->getObject('application.languages');
         $language = null;
