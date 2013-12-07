@@ -160,11 +160,12 @@ abstract class ViewAbstract extends Object implements ViewInterface
      * Get a view property
      *
      * @param   string  $property The property name.
+     * @param   mixed   $default  Default value to return.
      * @return  string  The property value.
      */
-    public function get($property)
+    public function get($property, $default = null)
     {
-        return isset($this->_data[$property]) ? $this->_data[$property] : null;
+        return isset($this->_data[$property]) ? $this->_data[$property] : $default;
     }
 
     /**
@@ -175,16 +176,16 @@ abstract class ViewAbstract extends Object implements ViewInterface
      */
     public function has($property)
     {
-        return isset($this->$property);
+        return isset($this->_data[$property]);
     }
 
     /**
      * Sets the view data
      *
-     * @param   ObjectConfigInterface $data The view data
+     * @param   array $data The view data
      * @return  ViewAbstract
      */
-    public function setData(ObjectConfigInterface $data)
+    public function setData($data)
     {
         foreach($data as $name => $value) {
             $this->set($name, $value);
@@ -354,7 +355,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
 
         //Add the format information to the route only if it's not 'html'
         if (!isset($parts['format'])) {
-            $parts['format'] = $this->getIdentifier()->name;
+            $parts['format'] = $this->getFormat();
         }
 
         //Add the model state only for routes to the same view
@@ -363,7 +364,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
             $states = array();
             foreach($this->getModel()->getState() as $name => $state)
             {
-                if($state->default != $state->value) {
+                if($state->default != $state->value && !$state->internal) {
                     $states[$name] = $state->value;
                 }
             }
@@ -447,7 +448,8 @@ abstract class ViewAbstract extends Object implements ViewInterface
     public function getContext()
     {
         $context = new ViewContext();
-        $context->subject  = $this;
+        $context->setSubject($this);
+        $context->setData($this->_data);
 
         return $context;
     }
@@ -473,7 +475,6 @@ abstract class ViewAbstract extends Object implements ViewInterface
     {
         return $this->get($property);
     }
-
 
     /**
      * Returns the views output
