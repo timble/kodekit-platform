@@ -118,8 +118,9 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         if($response->isDownloadable())
         {
             //Last-Modified header
-            $time = $response->getStream()->getTime(FilesystemStream::TIME_MODIFIED);
-            $response->setLastModified($time);
+            if($time = $response->getStream()->getTime(FilesystemStream::TIME_MODIFIED)) {
+                $response->setLastModified($time);
+            };
 
             //Disposition header
             $response->headers->set('Content-Disposition', array(
@@ -186,10 +187,16 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
             }
         }
 
+        // Prevent caching: Cache-control needs to be empty for IE on SSL.
+        // See: http://support.microsoft.com/default.aspx?scid=KB;EN-US;q316431
+        if ($request->isSecure() && preg_match('#(?:MSIE |Internet Explorer/)(?:[0-9.]+)#', $request->getAgent())) {
+            header('Cache-Control: ');
+        }
+
         //Send headers and content
         $this->sendHeaders($response)
              ->sendContent($response);
 
-        return headers_sent();
+        return true;
     }
 }
