@@ -224,10 +224,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      * Forward to another dispatcher internally. Method makes an internal sub-request, calling the specified
      * dispatcher and passing along the context.
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
      */
-    protected function _actionForward(DispatcherContext $context)
+    protected function _actionForward(DispatcherContextInterface $context)
     {
         //Get the dispatcher identifier
         if(is_string($context->param) && strpos($context->param, '.') === false )
@@ -262,10 +262,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
      * the request and passing along the context.
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @return	mixed
      */
-    protected function _actionDispatch(DispatcherContext $context)
+    protected function _actionDispatch(DispatcherContextInterface $context)
     {
         //Send the response
         $this->send($context);
@@ -274,9 +274,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     /**
      * Send the response
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    public function _actionSend(DispatcherContext $context)
+    public function _actionSend(DispatcherContextInterface $context)
     {
         $context->response->send();
         exit(0);
