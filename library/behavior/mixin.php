@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Behavior Mixin
  *
- * Behaviors are attached in FIFO order during construction to allow to allow a behavior that is added by
- * a sub class to remix a previously mixed method to one of it's own methods.
+ * Behaviors are attached in FIFO order during construction. Behaviors are added by name and, at runtime behaviors
+ * cannot be overridden by attaching a behaviors with the same.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
@@ -48,10 +48,10 @@ class BehaviorMixin extends CommandMixin
         //Set the auto mixin state
         $this->_auto_mixin = $config->auto_mixin;
 
-        //Add the behaviors in FIFO order (allow behavior remixing).
+        //Add the behaviors in FIFO order
         $behaviors = (array) ObjectConfig::unbox($config->behaviors);
 
-        foreach (array_reverse($behaviors) as $key => $value)
+        foreach ($behaviors as $key => $value)
         {
             if (is_numeric($key)) {
                 $this->attachBehavior($value);
@@ -127,58 +127,54 @@ class BehaviorMixin extends CommandMixin
      */
     public function attachBehavior($behavior, $config = array())
     {
-        if (!($behavior instanceof BehaviorInterface)) {
-            $behavior = $this->createBehavior($behavior, $config);
+        if (!($behavior instanceof BehaviorInterface))
+        {
+            if (!($behavior instanceof ObjectIdentifier))
+            {
+                //Create the complete identifier if a partial identifier was passed
+                if (is_string($behavior) && strpos($behavior, '.') === false)
+                {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = array($identifier->path[0], 'behavior');
+                    $identifier->name = $behavior;
+                }
+                else $identifier = $this->getIdentifier($behavior);
+            }
+            else $identifier = $behavior;
+        }
+        else $identifier = $behavior->getIdentifier();
+
+        //Attach the behavior if it doesn't exist yet
+        if(!$this->hasBehavior($identifier->name))
+        {
+            //Create the behavior object
+            if (!($behavior instanceof KBehaviorInterface))
+            {
+                $config['mixer'] = $this->getMixer();
+                $behavior = $this->getObject($identifier, $config);
+            }
+
+            if (!($behavior instanceof BehaviorInterface)) {
+                throw new \UnexpectedValueException("Behavior $identifier does not implement BehaviorInterface");
+            }
+
+            //Store the behavior to allow for named lookups
+            $this->_behaviors[$behavior->getName()] = $behavior;
+
+            //Force set the mixer
+            $behavior->setMixer($this->getMixer());
+
+            //Enqueue the behavior
+            $this->getCommandChain()->enqueue($behavior);
+
+            //Mixin the behavior
+            if ($this->_auto_mixin) {
+                $this->mixin($behavior);
+            }
         }
 
-        //Store the behavior to allow for name lookups
-        $this->_behaviors[$behavior->getName()] = $behavior;
 
-        //Force set the mixer
-        $behavior->setMixer($this->getMixer());
-
-        //Enqueue the behavior
-        $this->getCommandChain()->enqueue($behavior);
-
-        //Mixin the behavior
-        if ($this->_auto_mixin) {
-            $this->mixin($behavior);
-        }
 
         return $this->getMixer();
-    }
-
-    /**
-     * Create a behavior by identifier
-     *
-     * @param   mixed   $behavior  An ObjectIdentifier or a valid identifier string
-     * @param   array   $config    An optional associative array of configuration settings
-     * @throws \UnexpectedValueException    If the behavior does not implement the BehaviorInterface
-     * @return BehaviorInterface
-     */
-    public function createBehavior($behavior, $config = array())
-    {
-        if (!($behavior instanceof ObjectIdentifier))
-        {
-            //Create the complete identifier if a partial identifier was passed
-            if (is_string($behavior) && strpos($behavior, '.') === false)
-            {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array($identifier->path[0], 'behavior');
-                $identifier->name = $behavior;
-            }
-            else $identifier = $this->getIdentifier($behavior);
-        }
-        else $identifier = $behavior;
-
-        //Create the behavior object
-        $config['mixer'] = $this->getMixer();
-        $behavior = $this->getObject($identifier, $config);
-
-        if (!($behavior instanceof BehaviorInterface)) {
-            throw new \UnexpectedValueException("Behavior $identifier does not implement BehaviorInterface");
-        }
-
-        return $behavior;
     }
 }
