@@ -152,7 +152,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeAdd(Library\ControllerContext $context)
+    protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
         $result = true;
         $config =  $this->getConfig()->captcha;
@@ -168,7 +168,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeEdit(Library\ControllerContext $context)
+    protected function _beforeEdit(Library\ControllerContextInterface $context)
     {
         // Same as add.
         return $this->_beforeAdd($context);
