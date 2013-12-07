@@ -29,7 +29,7 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * @var boolean
      */
-    protected $_auto_assign;
+    protected $_auto_fetch;
 
     /**
      * Layout name
@@ -48,13 +48,13 @@ abstract class ViewTemplate extends ViewAbstract
         parent::__construct($config);
 
         //Set the auto assign state
-        $this->_auto_assign = $config->auto_assign;
+        $this->_auto_fetch = $config->auto_fetch;
 
         //Set the layout
         $this->setLayout($config->layout);
 
         //Set the template object
-        $this->_template = $config->template;
+        $this->setTemplate($config->template);
 
         //Attach the template filters
         $filters = (array)ObjectConfig::unbox($config->template_filters);
@@ -67,6 +67,9 @@ abstract class ViewTemplate extends ViewAbstract
                 $this->getTemplate()->attachFilter($key, $value);
             }
         }
+
+        //Fetch the view data before rendering
+        $this->registerCallback('before.render' , array($this, 'fetchData'));
     }
 
     /**
@@ -86,7 +89,7 @@ abstract class ViewTemplate extends ViewAbstract
             'layout'           => '',
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
-            'auto_assign'      => true,
+            'auto_fetch'       => true,
         ));
 
         parent::_initialize($config);
@@ -104,16 +107,54 @@ abstract class ViewTemplate extends ViewAbstract
         $format     = $this->getFormat();
         $data       = $this->getData();
 
-        $identifier = clone $this->getIdentifier();
-        $identifier->name = $layout.'.'.$format;
+        //Handle partial layout paths
+        if (is_string($layout) && strpos($layout, '.') === false)
+        {
+            $identifier = clone $this->getIdentifier();
+            $identifier->name = $layout;
+
+            $layout = (string) $identifier;
+        }
 
         $this->_content = (string) $this->getTemplate()
-            ->load($identifier)
+            ->load((string) $layout.'.'.$format)
             ->compile()
             ->evaluate($data)
             ->render();
 
         return parent::_actionRender($context);
+    }
+
+    /**
+     * Fetch the view data
+     *
+     * This function will always fetch the model state. Model data will only be fetched if the auto_fetch property is
+     * set to TRUE.
+     *
+     * @param ViewContext	$context A view context object
+     * @return void
+     */
+    public function fetchData(ViewContext $context)
+    {
+        $model = $this->getModel();
+
+        //Auto-assign the state to the view
+        $context->data->state = $model->getState();
+
+        //Auto-assign the data from the model
+        if($this->_auto_fetch)
+        {
+            //Get the view name
+            $name = $this->getName();
+
+            //Assign the data of the model to the view
+            if(StringInflector::isPlural($name))
+            {
+                $context->data->$name = $model->getRowset();
+                $context->data->total = $model->getTotal();
+            }
+            else $context->data->$name = $model->getRow();
+        }
     }
 
     /**
