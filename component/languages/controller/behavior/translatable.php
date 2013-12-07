@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerBehaviorTranslatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeGet(Library\ControllerContext $context)
+    protected function _beforeRender(Library\ControllerContextInterface $context)
     {
         $model = $this->getModel();
 

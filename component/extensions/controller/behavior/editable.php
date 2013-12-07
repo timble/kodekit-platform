@@ -31,7 +31,7 @@ class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
         return $this->canEdit();
     }
     
-	protected function _actionSave(Library\ControllerContext $context)
+	protected function _actionSave(Library\ControllerContextInterface $context)
 	{
 		$entity = $context->getSubject()->execute('edit', $context);
 	    
@@ -39,13 +39,13 @@ class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 		return $entity;
 	}
     
-	protected function _actionCancel(Library\ControllerContext $context)
+	protected function _actionCancel(Library\ControllerContextInterface $context)
 	{
         $context->response->setRedirect($this->getReferrer($context));
 		return;
 	}
 
-	protected function _actionApply(Library\ControllerContext $context)
+	protected function _actionApply(Library\ControllerContextInterface $context)
 	{
 		$entity = $context->getSubject()->execute('edit', $context);
 
