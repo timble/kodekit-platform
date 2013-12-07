@@ -42,50 +42,56 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 	 * This functions merges the request information with any model state information that was saved in the session
      * and returns the result.
 	 *
-	 * @param DispatcherContext $context	A dispatcher context object
+	 * @param DispatcherContextInterface $context	A dispatcher context object
 	 * @return 	void
 	 */
-	protected function _beforeBrowse(DispatcherContext $context)
+	protected function _beforeGet(DispatcherContextInterface $context)
 	{
-		$model = $this->getController()->getModel();
+        if($this->getController() instanceof ControllerModellable)
+        {
+            $model = $this->getController()->getModel();
 
-		// Built the session identifier based on the action
-		$identifier  = $model->getIdentifier().'.'.$context->action;
-		$state       = $context->user->session->get($identifier, array());
+            // Built the session identifier based on the action
+            $identifier  = $model->getIdentifier();
+            $state       = $context->user->session->get($identifier, array());
 
-		//Append the data to the request object
-		$context->request->query->add($state);
+            //Append the data to the request object
+            $context->request->query->add($state);
 
-		//Push the request in the model
-		$model->getState()->setValues($context->request->query->toArray());
+            //Push the request in the model
+            $model->getState()->setValues($context->request->query->toArray());
+        }
 	}
 
 	/**
 	 * Saves the model state in the session.
 	 *
-	 * @param DispatcherContext $context	A dispatcher context object
+	 * @param DispatcherContextInterface $context	A dispatcher context object
 	 * @return 	void
 	 */
-	protected function _afterBrowse(DispatcherContext $context)
+	protected function _afterGet(DispatcherContextInterface $context)
 	{
-        $model  = $this->getController()->getModel();
-		$state  = $model->getState();
+        if($this->getController() instanceof ControllerModellable)
+        {
+            $model  = $this->getController()->getModel();
+            $state  = $model->getState();
 
-	    $vars = array();
-	    foreach($state->toArray() as $var)
-	    {
-	        if(!$var->unique) {
-	            $vars[$var->name] = $var->value;
-	        }
-	    }
+            $vars = array();
+            foreach($state->toArray() as $var)
+            {
+                if(!$var->unique) {
+                    $vars[$var->name] = $var->value;
+                }
+            }
 
-		// Built the session identifier based on the action
-		$identifier = $model->getIdentifier().'.'.$context->action;
+            // Built the session identifier based on the action
+            $identifier = $model->getIdentifier();
 
-        //Prevent unused state information from being persisted
-        $context->user->session->remove($identifier);
+            //Prevent unused state information from being persisted
+            $context->user->session->remove($identifier);
 
-        //Set the state in the session
-        $context->user->session->set($identifier, $vars);
+            //Set the state in the session
+            $context->user->session->set($identifier, $vars);
+        }
 	}
 }
