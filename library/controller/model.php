@@ -63,6 +63,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     /**
      * Get the view object attached to the controller
      *
+     * If the view is not an object, an object identifier or a fully qualified identifier string and the request does
+     * not contain view information try to get the view from based on the model state instead. If the model is unique
+     * use a singular view name, if not unique use a plural view name.
+     *
      * @return	ViewInterface
      */
     public function getView()
@@ -71,17 +75,22 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         {
             if(!$this->_view instanceof ObjectIdentifier)
             {
-                if(!$this->getRequest()->query->has('view'))
+                //View identifier is not fully qualified
+                if(is_string($this->_view) && strpos($this->_view, '.') === false )
                 {
-                    $view = $this->getIdentifier()->name;
+                    if(!$this->getRequest()->query->has('view'))
+                    {
+                        $view = $this->getIdentifier()->name;
 
-                    if($this->getModel()->getState()->isUnique()) {
-                        $view = StringInflector::singularize($view);
-                    } else {
-                        $view = StringInflector::pluralize($view);
+                        if($this->getModel()->getState()->isUnique()) {
+                            $view = KStringInflector::singularize($view);
+                        } else {
+                            $view = KStringInflector::pluralize($view);
+                        }
                     }
+                    else $view = $this->getRequest()->query->get('view', 'cmd');
                 }
-                else $view = $this->getRequest()->query->get('view', 'cmd');
+                else $view = $this->_view;
 
                 //Set the view
                 $this->setView($view);
@@ -113,15 +122,15 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
             $this->_model = $this->getObject($this->_model);
 
-            //Inject the request into the model state
-            $this->_model->setState($this->getRequest()->query->toArray());
-
             if(!$this->_model instanceof ModelInterface)
             {
                 throw new \UnexpectedValueException(
                     'Model: '.get_class($this->_model).' does not implement ModelInterface'
                 );
             }
+
+            //Inject the request into the model state
+            $this->_model->setState($this->getRequest()->query->toArray());
         }
 
         return $this->_model;
@@ -165,10 +174,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      * This function translates a render request into a read or browse action. If the view name is singular a read
      * action will be executed, if plural a browse action will be executed.
      *
-     * @param	ControllerContext	$context A controller context object
+     * @param	ControllerContextInterface	$context A controller context object
      * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
      */
-    protected function _actionRender(ControllerContext $context)
+    protected function _actionRender(ControllerContextInterface $context)
     {
         //Check if we are reading or browsing
         $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
@@ -182,10 +191,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic browse action, fetches a list
 	 *
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 * @return 	DatabaseRowsetInterface A rowset object containing the selected rows
 	 */
-	protected function _actionBrowse(ControllerContext $context)
+	protected function _actionBrowse(ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRowset();
 		return $entity;
@@ -194,10 +203,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic read action, fetches an item
 	 *
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 * @return 	DatabaseRowInterface A row object containing the selected row
 	 */
-	protected function _actionRead(ControllerContext $context)
+	protected function _actionRead(ControllerContextInterface $context)
 	{
 	    $entity = $this->getModel()->getRow();
 	    $name   = ucfirst($this->getView()->getName());
@@ -212,11 +221,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic edit action, saves over an existing item
 	 *
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionNotFound   If the entity could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
-	protected function _actionEdit(ControllerContext $context)
+	protected function _actionEdit(ControllerContextInterface $context)
 	{
 	    $entity = $this->getModel()->getData();
 
@@ -239,12 +248,12 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic add action, saves a new item
 	 *
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
      * @throws  ControllerExceptionBadRequest   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
-	protected function _actionAdd(ControllerContext $context)
+	protected function _actionAdd(ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -268,11 +277,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic delete function
 	 *
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed 	If the delete action failed on the data entity
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the deleted row(s)
 	 */
-	protected function _actionDelete(ControllerContext $context)
+	protected function _actionDelete(ControllerContextInterface $context)
 	{
 	    $entity = $this->getModel()->getData();
 
@@ -307,7 +316,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      *
      * @param	string	$method Method name
      * @param	array	$args   Array containing all the arguments for the original call
-     * @return	ControllerView
+     * @return	ControllerModel
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html
      */
