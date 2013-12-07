@@ -38,9 +38,10 @@ interface ViewInterface
      * Get a view property
      *
      * @param   string  $property   The property name.
+     * @param  mixed  $default  Default value to return.
      * @return  string  The property value.
      */
-    public function get($property);
+    public function get($property, $default = null);
 
     /**
      * Check if a view property exists
@@ -53,10 +54,10 @@ interface ViewInterface
     /**
      * Sets the view data
      *
-     * @param   ObjectConfigInterface $data The view data
+     * @param   array $data The view data
      * @return  ViewAbstract
      */
-    public function setData(ObjectConfigInterface $data);
+    public function setData($data);
 
     /**
      * Get the view data
