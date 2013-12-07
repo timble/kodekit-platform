@@ -78,8 +78,28 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
      */
     public function attachToolbar($toolbar, $config = array(), $priority = null)
     {
-        if (!($toolbar instanceof ControllerToolbarInterface)) {
-            $toolbar = $this->createToolbar($toolbar, $config);
+        if (!($toolbar instanceof ControllerToolbarInterface))
+        {
+            if (!($toolbar instanceof ObjectIdentifier))
+            {
+                //Create the complete identifier if a partial identifier was passed
+                if (is_string($toolbar) && strpos($toolbar, '.') === false)
+                {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = array('controller', 'toolbar');
+                    $identifier->name = $toolbar;
+                }
+                else $identifier = $this->getIdentifier($toolbar);
+            }
+            else $identifier = $toolbar;
+
+            $config['controller'] = $this->getMixer();
+            $toolbar = $this->getObject($identifier, $config);
+
+            if (!($toolbar instanceof ControllerToolbarInterface)) {
+                throw new \UnexpectedValueException("Controller toolbar $identifier does not implement ControllerToolbarInterface");
+            }
+
         }
 
         //Store the toolbar to allow for name lookups
@@ -148,35 +168,5 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
     public function getToolbars()
     {
         return $this->_toolbars;
-    }
-
-    /**
-     * Get a toolbar by identifier
-     *
-     * @return ControllerToolbarInterface
-     */
-    public function createToolbar($toolbar, $config = array())
-    {
-        if (!($toolbar instanceof ObjectIdentifier))
-        {
-            //Create the complete identifier if a partial identifier was passed
-            if (is_string($toolbar) && strpos($toolbar, '.') === false)
-            {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('controller', 'toolbar');
-                $identifier->name = $toolbar;
-            }
-            else $identifier = $this->getIdentifier($toolbar);
-        }
-        else $identifier = $toolbar;
-
-        $config['controller'] = $this->getMixer();
-        $toolbar = $this->getObject($identifier, $config);
-
-        if (!($toolbar instanceof ControllerToolbarInterface)) {
-            throw new \UnexpectedValueException("Controller toolbar $identifier does not implement ControllerToolbarInterface");
-        }
-
-        return $toolbar;
     }
 }
