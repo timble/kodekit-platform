@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ArticlesViewArticleRss extends Library\ViewRss
 {
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         if(is_numeric($this->getModel()->getState()->id))
         {
@@ -25,18 +25,18 @@ class ArticlesViewArticleRss extends Library\ViewRss
             $params = $this->getObject('application')->getParams();
 
             if ($article->isAttachable()) {
-                $data->attachments = $article->getAttachments();
+                $context->data->attachments = $article->getAttachments();
             }
 
             if ($article->isTaggable()) {
-                $data->tags = $article->getTags();
+                $context->data->tags = $article->getTags();
             }
 
             if ($article->isCommentable() && $params->get('commentable')) {
-                $data->comments = $article->getComments();
+                $context->data->comments = $article->getComments();
             }
         }
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 }

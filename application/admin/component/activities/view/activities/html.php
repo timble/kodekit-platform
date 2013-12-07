@@ -17,14 +17,14 @@ use Nooku\Library;
  */
 class ActivitiesViewActivitiesHtml extends Library\ViewHtml
 {
-	public function setData(Library\ObjectConfigInterface $data)
+	public function fetchData(Library\ViewContext $context)
 	{
         if ($this->getLayout() == 'default')
 		{
 			$model = $this->getObject($this->getModel()->getIdentifier());
-            $data->packages = $model->distinct(true)->column('package')->getRowset();
+            $context->data->packages = $model->distinct(true)->column('package')->getRowset();
 		} 
 		
-		return parent::setData($data);
+		return parent::fetchData($context);
 	}
 }

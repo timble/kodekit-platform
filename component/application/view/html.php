@@ -32,23 +32,23 @@ class ViewHtml extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_assign'      => false,
+            'auto_fetch'       => false,
             'template_filters' => array('script', 'style', 'link', 'meta', 'title'),
         ));
 
         parent::_initialize($config);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         //Set the language information
         $language = $this->getObject('application')->getCfg('language');
-        $data->language  = $language ? $language : 'en-GB';
-        $data->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
+        $context->data->language  = $language ? $language : 'en-GB';
+        $context->data->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
         // Set the site information
-        $data->site  = $this->getObject('application')->getSite();
+        $context->data->site  = $this->getObject('application')->getSite();
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 }

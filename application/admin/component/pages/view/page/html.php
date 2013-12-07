@@ -29,7 +29,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         // Load components.
         $state = $this->getModel()->getState();
@@ -57,14 +57,14 @@ class PagesViewPageHtml extends Library\ViewHtml
             ->select($query);
 
         //Assign the modules
-        $data->modules = (object) array('available' => $available, 'assigned' => $assigned);
+        $context->data->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
         // Assign menu.
-        $data->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->getRow();
+        $context->data->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->getRow();
 
         // Assign parent ID
-        $data->parent_id = $page->getParentId();
+        $context->data->parent_id = $page->getParentId();
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 }

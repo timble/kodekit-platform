@@ -22,12 +22,12 @@ class ViewFilesHtml extends Library\ViewHtml
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{
-		$config->auto_assign = false;
+		$config->auto_fetch = false;
 
 		parent::_initialize($config);
 	}
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
 	{
 	    $state = $this->getModel()->getState();
 
@@ -36,10 +36,10 @@ class ViewFilesHtml extends Library\ViewHtml
 	        $state->limit = $this->getObject('application')->getCfg('list_limit');
 	    }
 
-        $data->container = $this->getModel()->getContainer();
-        $data->site      = $this->getObject('application')->getSite();
-		$data->token     = $this->getObject('user')->getSession()->getToken();
+        $context->data->container = $this->getModel()->getContainer();
+        $context->data->site      = $this->getObject('application')->getSite();
+		$context->data->token     = $this->getObject('user')->getSession()->getToken();
 
-		return parent::setData($data);
+		return parent::fetchData($context);
 	}
 }

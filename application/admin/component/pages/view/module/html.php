@@ -37,19 +37,19 @@ class PagesViewModuleHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         $module  = $this->getModel()->getRow();
 
         if($this->getLayout() == 'modal')
         {
-            $data->menus   = $this->getObject('com:pages.model.menus')
+            $context->data->menus   = $this->getObject('com:pages.model.menus')
                                   ->sort('title')->getRowset();
 
-            $data->pages   = $this->getObject('com:pages.model.pages')
+            $context->data->pages   = $this->getObject('com:pages.model.pages')
                                   ->application('site')->getRowset();
 
-            $data->modules = $this->getObject('com:pages.model.modules')
+            $context->data->modules = $this->getObject('com:pages.model.modules')
                                   ->application('site')->getRowset();
         }
 
@@ -60,8 +60,8 @@ class PagesViewModuleHtml extends Library\ViewHtml
         $params = new \JParameter( null, $path );
         $params->loadArray($module->params->toArray());
 
-        $data->params = $params;
+        $context->data->params = $params;
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 }

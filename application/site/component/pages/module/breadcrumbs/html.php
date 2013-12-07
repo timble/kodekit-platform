@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
 {
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         $list   = (array) $this->getObject('application')->getPathway()->items;
         $params = $this->module->params;
@@ -33,8 +33,8 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
             array_unshift($list, $item);
         }
 
-        $data->list = $list;
+        $context->data->list = $list;
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 } 

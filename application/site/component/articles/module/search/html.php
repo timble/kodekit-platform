@@ -17,14 +17,14 @@ use Nooku\Library;
  */
 class ArticlesModuleSearchHtml extends PagesModuleDefaultHtml
 {
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
-        $data->form_class   = $this->module->params->get('form_class', 'form-search');
-        $data->input_class  = $this->module->params->get('input_class', 'span2 search-query');
-        $data->button_class = $this->module->params->get('button_class', 'btn');
-        $data->placeholder  = $this->module->params->get('placeholder', 'Search articles');
-        $data->item_id      = $this->module->params->get('item_id', null);
+        $context->data->form_class   = $this->module->params->get('form_class', 'form-search');
+        $context->data->input_class  = $this->module->params->get('input_class', 'span2 search-query');
+        $context->data->button_class = $this->module->params->get('button_class', 'btn');
+        $context->data->placeholder  = $this->module->params->get('placeholder', 'Search articles');
+        $context->data->item_id      = $this->module->params->get('item_id', null);
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 }

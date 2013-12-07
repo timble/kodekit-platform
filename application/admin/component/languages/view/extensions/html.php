@@ -20,13 +20,13 @@ class LanguagesViewExtensionsHtml extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_assign' => false
+            'auto_fetch' => false
         ));
         
         parent::_initialize($config);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         $tables     = $this->getObject('com:languages.model.tables')->getRowset();
         $extensions = $this->getObject('com:extensions.model.extensions')
@@ -37,9 +37,9 @@ class LanguagesViewExtensionsHtml extends Library\ViewHtml
             $extensions->find($table->extensions_extension_id)->enabled = $table->enabled;
         }
         
-        $data->extension = $extensions;
-        $data->total     = count($extensions);
-        
-        return parent::setData($data);
+        $context->data->extension = $extensions;
+        $context->data->total     = count($extensions);
+
+        return parent::fetchData($context);
     }
 }

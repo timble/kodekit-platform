@@ -39,21 +39,21 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         return parent::_actionRender($context);
     }
 
-    public function setData(Library\ObjectConfigInterface $data)
+    public function fetchData(Library\ViewContext $context)
     {
         $article = $this->getModel()->getData();
 
         if ($article->id && $article->isAttachable()) {
-            $data->attachments = $article->getAttachments();
+            $context->data->attachments = $article->getAttachments();
         }
 
         if ($article->id && $article->isTaggable()) {
-            $data->tags = $article->getTags();
+            $context->data->tags = $article->getTags();
         }
 
-        $data->params = $this->getObject('application')->getParams();;
+        $context->data->params = $this->getObject('application')->getParams();;
 
-        return parent::setData($data);
+        return parent::fetchData($context);
     }
 
     public function getCategory()
