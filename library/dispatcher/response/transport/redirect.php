@@ -70,7 +70,7 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
                     </body>
                 </html>'
             , htmlspecialchars($response->headers->get('Location'), ENT_QUOTES, 'UTF-8')
-        ));
+        ), 'text/html');
 
         return parent::sendContent($response);
     }
