@@ -35,8 +35,8 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         $this->registerCallback('after.get' , array($this, 'signResponse'));
 
         //Force the controller to the information found in the request
-        if($config->request->query->has('view')) {
-            $this->_controller = $config->request->query->get('view', 'alpha');
+        if($this->getRequest()->query->has('view')) {
+            $this->_controller = $this->getRequest()->query->get('view', 'alpha');
         }
 	}
 
@@ -86,10 +86,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * Method will always perform a referrer and cookie token check. If a user session is active a session token check
      * will also be done. If any of the checks fail an forbidden exception  being thrown.
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    public function authenticateRequest(DispatcherContext $context)
+    public function authenticateRequest(DispatcherContextInterface $context)
     {
         $request = $context->request;
         $user    = $context->user;
@@ -118,9 +118,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     /**
      * Sign the response with a token
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    public function signResponse(DispatcherContext $context)
+    public function signResponse(DispatcherContextInterface $context)
     {
         if(!$context->response->isError())
         {
@@ -142,10 +142,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
      * the request and passing along the context.
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @return	mixed
      */
-	protected function _actionDispatch(DispatcherContext $context)
+	protected function _actionDispatch(DispatcherContextInterface $context)
 	{
         //Redirect if no view information can be found in the request
         if(!$context->request->query->has('view'))
@@ -169,9 +169,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
      * redirect the dispatcher to another URL after a GET request.
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionRedirect(DispatcherContext $context)
+    protected function _actionRedirect(DispatcherContextInterface $context)
     {
         $url = $context->param;
 
@@ -188,10 +188,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * This function translates a GET request into a render action. If the request contains a limit the limit will
      * be set the enforced to the maximum limit. Default max limit is 100.
      *
-     * @param DispatcherContext $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
-    protected function _actionGet(DispatcherContext $context)
+    protected function _actionGet(DispatcherContextInterface $context)
     {
         $controller = $this->getController();
 
@@ -227,14 +227,14 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * If an _action parameter exists in the request data it will be used instead. If no action can be found an bad
      * request exception will be thrown.
      *
-     * @param   DispatcherContext $context	A dispatcher context object
+     * @param   DispatcherContextInterface $context	A dispatcher context object
      * @throws  DispatcherExceptionMethodNotAllowed    The action specified in the request is not allowed for the
      *          entity identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested entity.
      *          ControllerExceptionBadRequest           The action could not be found based on the info in the request.
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
-    protected function _actionPost(DispatcherContext $context)
+    protected function _actionPost(DispatcherContextInterface $context)
     {
         $action     = null;
         $controller = $this->getController();
@@ -273,11 +273,11 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      *
      * If the entity already exists it will be completely replaced based on the data available in the request.
      *
-     * @param   DispatcherContext $context	A dispatcher context object
+     * @param   DispatcherContextInterface $context	A dispatcher context object
      * @throws  ControllerExceptionBadRequest 	If the model state is not unique
      * @return 	DatabaseRow(set)Ineterface	    A row(set) object containing the modified data
      */
-    protected function _actionPut(DispatcherContext $context)
+    protected function _actionPut(DispatcherContextInterface $context)
     {
         $action     = null;
         $controller = $this->getController();
@@ -316,10 +316,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      *
      * This function translates a DELETE request into a delete action.
      *
-     * @param   DispatcherContext $context	A dispatcher context object
+     * @param   DispatcherContextInterface $context	A dispatcher context object
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
-    protected function _actionDelete(DispatcherContext $context)
+    protected function _actionDelete(DispatcherContextInterface $context)
     {
         $controller = $this->getController();
         return $controller->execute('delete', $context);
@@ -328,10 +328,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     /**
      * Options method
      *
-     * @param   DispatcherContext $context	A dispatcher context object
+     * @param   DispatcherContextInterface $context	A dispatcher context object
      * @return  string  The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
      */
-    protected function _actionOptions(DispatcherContext $context)
+    protected function _actionOptions(DispatcherContextInterface $context)
     {
         $methods = array();
 
