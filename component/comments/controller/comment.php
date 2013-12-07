@@ -40,7 +40,7 @@ abstract class ControllerComment extends Library\ControllerModel
         parent::_initialize($config);
     }
     
-    protected function _actionRender(Library\ControllerContext $context)
+    protected function _actionRender(Library\ControllerContextInterface $context)
     {
         $view = $this->getView();
 
