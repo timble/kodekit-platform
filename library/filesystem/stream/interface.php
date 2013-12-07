@@ -362,4 +362,12 @@ interface FilesystemStreamInterface
      * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
      */
     public function isRegistered($protocol);
+
+    /**
+     * Check if the stream wrapper for a registered protocol is supported
+     *
+     * @param string $protocol
+     * @return bool TRUE if the protocol is a registered stream wrapper and is supported, FALSE otherwise.
+     */
+    public function isSupported($protocol);
 }
