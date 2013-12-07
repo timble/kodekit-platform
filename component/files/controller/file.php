@@ -65,7 +65,7 @@ class ControllerFile extends ControllerAbstract
                     ->attachTransport('stream')
                     ->setPath($file->fullpath, $file->mimetype);
             }
-            catch (InvalidArgumentException $e) {
+            catch (\InvalidArgumentException $e) {
                 throw new Library\ControllerExceptionNotFound('File not found');
             }
         }
