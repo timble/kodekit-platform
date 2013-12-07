@@ -21,16 +21,16 @@ interface ControllerInterface
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string     $action  The action to execute
-     * @param   ConntrollerContext $context A controller context object
+     * @param   ControllerContext $context A controller context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
-    public function execute($action, ControllerContext $context);
+    public function execute($action, ControllerContextInterface $context);
 
     /**
      * Get the controller context
      *
-     * @return  Command
+     * @return  ControllerContextInterface
      */
     public function getContext();
 
@@ -85,15 +85,6 @@ interface ControllerInterface
      * @return ControllerUserInterface
      */
     public function getUser();
-
-    /**
-     * Register (map) an action to a method in the class.
-     *
-     * @param   string  $alias  The action.
-     * @param   string  $action The name of the method in the derived class to perform for this action.
-     * @return  ControllerAbstract
-     */
-    public function registerActionAlias($alias, $action);
 
     /**
      * Has the controller been dispatched
