@@ -17,5 +17,25 @@ namespace Nooku\Library;
  */
 class ViewContext extends Command implements ViewContextInterface
 {
+    /**
+     * Set the view data
+     *
+     * @param array $data
+     * @return ViewContext
+     */
+    public function setData($data)
+    {
+        $this->set('data', $data);
+        return $this;
+    }
 
+    /**
+     * Get the view data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->get('data');
+    }
 }
