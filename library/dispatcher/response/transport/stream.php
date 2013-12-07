@@ -249,6 +249,7 @@ class DispatcherResponseTransportStream extends DispatcherResponseTransportHttp
                     $size   = $this->getFileSize($response);
 
                     $response->setStatus(HttpResponse::PARTIAL_CONTENT);
+                    $response->headers->set('Content-Length', $range - $offset + 1);
                     $response->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $offset, $range, $size));
                 }
 
@@ -268,8 +269,8 @@ class DispatcherResponseTransportStream extends DispatcherResponseTransportHttp
                     }
                 }
             }
-        }
 
-        return parent::send($response);
+            return parent::send($response);
+        }
     }
 }
