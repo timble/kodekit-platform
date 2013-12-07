@@ -110,8 +110,9 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
 			//Create the view
 			$config = array(
-			    'url'	  => $this->getObject('request')->getUrl(),
-                'layout'  => $this->getRequest()->getQuery()->get('layout', 'alpha')
+			    'url'	     => $this->getObject('request')->getUrl(),
+                'layout'     => $this->getRequest()->getQuery()->get('layout', 'identifier'),
+                'auto_fetch' => $this instanceof ControllerModellable
 			);
 
 			$this->_view = $this->getObject($this->_view, $config);
@@ -125,7 +126,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
             }
 
 			//Make sure the view exists if we are dispatching this controller
-            if($this->isDispatched())
+            /*if($this->isDispatched())
             {
                 $class = $this->_view->getIdentifier()->getClassName();
                 $path  = $this->getObject('manager')->getClassLoader()->findPath($class);
@@ -133,7 +134,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
                 if(!file_exists(dirname($path))) {
                     throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
                 }
-            }
+            }*/
 		}
 
 		return $this->_view;
@@ -171,10 +172,10 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
      *
      * This function will also set the rendered output in the response.
 	 *
-	 * @param	ControllerContext	$context    A controller context object
+	 * @param	ControllerContextInterface	$context    A controller context object
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
-	protected function _actionRender(ControllerContext $context)
+	protected function _actionRender(ControllerContextInterface $context)
 	{
         $view = $this->getView();
 
@@ -216,14 +217,17 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	{
         if(!isset($this->_mixed_methods[$method]))
         {
-		    //Check for layout, view or format property
-            if(in_array($method, array('layout', 'format')))
+            if(in_array($method, array('layout', 'view', 'format')))
             {
+                if($method == 'view') {
+                    $this->setView($args[0]);
+                }
+
                 $this->getRequest()->query->set($method, $args[0]);
                 return $this;
             }
         }
 
-		return parent::__call($method, $args);
+        return parent::__call($method, $args);
 	}
 }
