@@ -34,7 +34,7 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
         $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
     
-    protected function _actionRender(Library\ControllerContext $context)
+    protected function _actionRender(Library\ControllerContextInterface $context)
     {
         $view = $this->getView();
         
