@@ -52,7 +52,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
             'request'    => 'dispatcher.request',
             'response'   => 'dispatcher.response',
             'user'       => 'dispatcher.user',
-            'behaviors'  => array('permissible'),
          ));
 
         parent::_initialize($config);

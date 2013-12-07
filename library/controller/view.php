@@ -58,7 +58,6 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     {
         $config->append(array(
             'view'      => $this->getIdentifier()->name,
-            'behaviors' => array('permissible'),
             'toolbars'  => array()
         ));
 
