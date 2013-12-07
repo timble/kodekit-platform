@@ -45,7 +45,7 @@ class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
      * Method will only set the redirect for none AJAX requests and only if the controller has a returned a 2xx status
      * code. In all other cases no redirect will be set.
 	 *
-	 * @param DispatcherContext $context	A dispatcher context object
+	 * @param DispatcherContextInterface $context	A dispatcher context object
 	 * @return 	void
 	 */
 	protected function _afterDispatch(DispatcherContext $context)
