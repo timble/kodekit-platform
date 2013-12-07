@@ -25,6 +25,18 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
     protected $_permission;
 
     /**
+     * Constructor.
+     *
+     * @param  ObjectConfig $config Configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_permission = $config->permission;
+    }
+
+    /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -36,6 +48,7 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
     {
         $config->append(array(
             'priority'   => self::PRIORITY_HIGH,
+            'permission' => null
         ));
 
         parent::_initialize($config);
@@ -111,36 +124,29 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
     {
         parent::onMixin($mixer);
 
-        //Mixin the permission
-        if(!$this->getPermission())
+        //Create and mixin the permission if it's doesn't exist yet
+        if (!$this->_permission instanceof ControllerPermissionInterface)
         {
-            $permission       = clone $mixer->getIdentifier();
-            $permission->path = array('controller', 'permission');
+            $permission = $this->_permission;
 
-            $this->setPermission($mixer->mixin($permission));
+            if (!$permission || (is_string($permission) && strpos($permission, '.') === false))
+            {
+                $identifier = clone $mixer->getIdentifier();
+                $identifier->path = array('controller', 'permission');
+
+                if ($permission) {
+                    $identifier->name = $permission;
+                }
+
+                $permission = $identifier;
+            }
+
+            if (!$permission instanceof ObjectIdentifierInterface) {
+                $permission = $this->getIdentifier($permission);
+            }
+
+            $this->_permission = $mixer->mixin($permission);
         }
-    }
-
-    /**
-     * Get the permission
-     *
-     * @return ControllerPermissionInterface
-     */
-    public function getPermission()
-    {
-        return $this->_permission;
-    }
-
-    /**
-     * Set the permission
-     *
-     * @param  ControllerPermissionInterface $permission The controller permission object
-     * @return ControllerBehaviorPermissible
-     */
-    public function setPermission(ControllerPermissionInterface $permission)
-    {
-        $this->_permission = $permission;
-        return $this;
     }
 
     /**
