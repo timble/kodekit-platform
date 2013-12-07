@@ -52,8 +52,6 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 			return $this->getParameters();
 		}
 
-
-
 		return parent::__get($column);
 	}
 
