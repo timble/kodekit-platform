@@ -17,5 +17,10 @@ namespace Nooku\Library;
  */
 interface ViewContextInterface extends CommandInterface
 {
-
+    /**
+     * Get the view data
+     *
+     * @return array
+     */
+    public function getData();
 }
