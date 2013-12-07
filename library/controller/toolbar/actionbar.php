@@ -37,9 +37,9 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 */
-    protected function _afterRead(ControllerContext $context)
+    protected function _afterRead(ControllerContextInterface $context)
     {
         $controller = $this->getController();
 
@@ -59,7 +59,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     /**
 	 * Add default toolbar commands
 	 * .
-	 * @param	ControllerContext	$context A controller context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 */
     protected function _afterBrowse(Command $context)
     {
