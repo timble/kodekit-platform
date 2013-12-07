@@ -198,7 +198,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             $instance = $this->_decorate($identifier, $instance);
 
             //Auto register the object
-            if($instance instanceof ObjectMultiton) {
+            if($identifier->isMultiton()) {
                 $this->setObject($identifier, $instance);
             }
         }
