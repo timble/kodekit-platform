@@ -28,7 +28,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         parent::_initialize($config);
     }
 
-    protected function _afterAdd(Library\ControllerContext $context)
+    protected function _afterAdd(Library\ControllerContextInterface $context)
     {
         $user = $context->result;
 

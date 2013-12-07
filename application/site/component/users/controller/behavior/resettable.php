@@ -17,7 +17,7 @@ use Nooku\Library, Nooku\Component\Users;
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
-    protected function _beforeRead(Library\ControllerContext $context)
+    protected function _beforeRead(Library\ControllerContextInterface $context)
     {
         // Push the token to the view.
         if ($token = $context->request->query->get('token', $this->_filter)) {
@@ -25,7 +25,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         }
     }
 
-    protected function _afterToken(Library\ControllerContext $context)
+    protected function _afterToken(Library\ControllerContextInterface $context)
     {
         $user = $context->user;
         if (!$context->result)
@@ -45,7 +45,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         }
     }
 
-    protected function _afterReset(Library\ControllerContext $context)
+    protected function _afterReset(Library\ControllerContextInterface $context)
     {
         if ($context->result)
         {

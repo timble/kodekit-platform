@@ -23,9 +23,9 @@ class ControllerException extends Library\ControllerView
      * Render an exception
      *
      * @throws \InvalidArgumentException If the action parameter is not an instance of Library\Exception
-     * @param Library\ControllerContext $context	A controller context object
+     * @param Library\ControllerContextInterface $context	A controller context object
      */
-    protected function _actionRender(Library\ControllerContext $context)
+    protected function _actionRender(Library\ControllerContextInterface $context)
     {
         //Check an exception was passed
         if(!isset($context->param) && !$context->param instanceof Library\Exception)
