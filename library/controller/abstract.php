@@ -27,13 +27,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     protected $_actions = array();
 
     /**
-     * Array of controller methods to call for a given action.
-     *
-     * @var array
-     */
-    protected $_action_map = array();
-
-    /**
      * Chain of command object
      *
      * @var CommandChain
@@ -85,6 +78,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         parent::__construct($config);
 
+        //Set the dispatched state
+        $this->_dispatched = $config->dispatched;
+
         //Force load the controller actions
         $this->_actions = $this->getActions();
 
@@ -97,8 +93,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         // Set the user identifier
         $this->_user = $config->user;
 
-        //Set the dispatched state
-        $this->_dispatched = $config->dispatched;
+        //Set the query in the request
+        if(!empty($config->query)) {
+            $this->getRequest()->query->add(ObjectConfig::unbox($config->query));
+        }
 
         // Mixin the behavior interface
         $this->mixin('lib:behavior.mixin', $config);
@@ -123,6 +121,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
             'request'           => 'lib:controller.request',
             'response'          => 'lib:controller.response',
             'user'              => 'lib:controller.user',
+            'behaviors'         => array(),
+            'query'             => array(),
         ));
 
         parent::_initialize($config);
@@ -142,42 +142,41 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string            $action  The action to execute
-     * @param   ControllerContext $context A controller context object
+     * @param   ControllerContextInterface $context A controller context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
-    public function execute($action, ControllerContext $context)
+    public function execute($action, ControllerContextInterface $context)
     {
         $action = strtolower($action);
 
-        //Update the context
-        $context->action  = $action;
+        //Set the context subject
+        $context_subject = $context->getSubject();
         $context->setSubject($this);
 
-        //Find the mapped action
-        if (isset($this->_action_map[$action])) {
-            $command = $this->_action_map[$action];
-        } else {
-            $command = $action;
-        }
+        //Set the context action
+        $context->action  = $action;
 
         //Execute the action
-        if ($this->getCommandChain()->run('before.' . $command, $context, false) !== false)
+        if ($this->getCommandChain()->run('before.' . $action, $context, false) !== false)
         {
-            $method = '_action' . ucfirst($command);
+            $method = '_action' . ucfirst($action);
 
             if (!method_exists($this, $method))
             {
-                if (isset($this->_mixed_methods[$command])) {
-                    $context->result = $this->_mixed_methods[$command]->execute('action.' . $command, $context);
+                if (isset($this->_mixed_methods[$action])) {
+                    $context->result = $this->_mixed_methods[$action]->execute('action.' . $action, $context);
                 } else {
-                    throw new ControllerExceptionNotImplemented("Can't execute '$command', method: '$method' does not exist");
+                    throw new ControllerExceptionNotImplemented("Can't execute '$action', method: '$method' does not exist");
                 }
             }
             else  $context->result = $this->$method($context);
 
-            $this->getCommandChain()->run('after.' . $command, $context);
+            $this->getCommandChain()->run('after.' . $action, $context);
         }
+
+        //Reset the context subject
+        $context->setSubject($context_subject);
 
         return $context->result;
     }
@@ -203,7 +202,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
                 }
             }
 
-            $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
+            $this->_actions = array_unique($this->_actions);
         }
 
         return parent::mixin($mixin, $config);
@@ -227,7 +226,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
                 }
             }
 
-            $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
+            $this->_actions = array_unique($this->_actions);
         }
 
         return $this->_actions;
@@ -269,43 +268,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     }
 
     /**
-     * Set the user object
-     *
-     * @param ControllerUserInterface $user A request object
-     * @return ControllerUser
-     */
-    public function setUser(ControllerUserInterface $user)
-    {
-        $this->_user = $user;
-        return $this;
-    }
-
-    /**
-     * Get the user object
-     *
-     * @throws	\UnexpectedValueException	If the user doesn't implement the ControllerUserInterface
-     * @return ControllerUserInterface
-     */
-    public function getUser()
-    {
-        if(!$this->_user instanceof ControllerUserInterface)
-        {
-            $this->_user = $this->getObject($this->_user, array(
-                'request' => $this->getRequest(),
-            ));
-
-            if(!$this->_user instanceof ControllerUserInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'User: '.get_class($this->_user).' does not implement ControllerUserInterface'
-                );
-            }
-        }
-
-        return $this->_user;
-    }
-
-    /**
      * Set the response object
      *
      * @param ControllerResponseInterface $request A request object
@@ -344,6 +306,43 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     }
 
     /**
+     * Set the user object
+     *
+     * @param ControllerUserInterface $user A request object
+     * @return ControllerUser
+     */
+    public function setUser(ControllerUserInterface $user)
+    {
+        $this->_user = $user;
+        return $this;
+    }
+
+    /**
+     * Get the user object
+     *
+     * @throws	\UnexpectedValueException	If the user doesn't implement the ControllerUserInterface
+     * @return ControllerUserInterface
+     */
+    public function getUser()
+    {
+        if(!$this->_user instanceof ControllerUserInterface)
+        {
+            $this->_user = $this->getObject($this->_user, array(
+                'request' => $this->getRequest(),
+            ));
+
+            if(!$this->_user instanceof ControllerUserInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'User: '.get_class($this->_user).' does not implement ControllerUserInterface'
+                );
+            }
+        }
+
+        return $this->_user;
+    }
+
+    /**
      * Get the chain of command object
      *
      * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
@@ -372,7 +371,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the controller context
      *
-     * @return  ControllerContext
+     * @return  ControllerContextInterface
      */
     public function getContext()
     {
@@ -384,27 +383,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         $context->user     = $this->getUser();
 
         return $context;
-    }
-
-    /**
-     * Register (map) an action to a method in the class.
-     *
-     * @param   string  $alias   The action.
-     * @param   string  $action  The name of the method in the derived class to perform for this action.
-     * @return  ControllerAbstract
-     */
-    public function registerActionAlias($alias, $action)
-    {
-        $alias = strtolower($alias);
-
-        if (!in_array($alias, $this->getActions())) {
-            $this->_action_map[$alias] = $action;
-        }
-
-        //Force reload of the actions
-        $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
-
-        return $this;
     }
 
     /**
