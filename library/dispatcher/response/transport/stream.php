@@ -10,23 +10,37 @@
 namespace Nooku\Library;
 
 /**
- * Chunked Stream Dispatcher Response Transport
+ * Stream Dispatcher Response Transport
  *
- * Streaming or chunked transfer encoding is a data transfer mechanism in version HTTP 1.1 in which a web server serves
- * content in a series of chunks. This uses the Transfer-Encoding HTTP response header instead of the Content-Length
- * header, which the protocol would otherwise require. Because the Content-Length header is not used, the server does
- * not need to know the length of the content before it starts transmitting a response to the client.
+ * Streaming is a data transfer mechanism in version HTTP 1.1 in which a web server serves content in a series of chunks.
+ * Two mechanism exist to do this : range serving and chunk serving.
+ *
+ * -- Range Serving
+ *
+ * This mechanism is the process of sending only a portion of the data from a server to a client. Range-serving uses
+ * the Range HTTP request header and the Accept-Ranges and Content-Range HTTP response headers.
+ *
+ * Clients which request range-serving might do so in cases in which a large file has been only partially delivered and
+ * a limited portion of the file is needed in a particular range. Range Serving is therefore a method of bandwidth
+ * optimization
+ *
+ * -- Chunk Serving
+ *
+ * This mechanism uses the Transfer-Encoding HTTP response header instead of the Content-Length header, which the protocol
+ * would otherwise require. Because the Content-Length header is not used, the server does not need to know the length of
+ * the content before it starts transmitting a response to the client.
  *
  * Web servers can begin transmitting responses with dynamically-generated content before knowing the total size of
  * that content. The size of each chunk is sent right before the chunk itself so that a client can tell when it has
  * finished receiving data for that chunk. The data transfer is terminated by a final chunk of length zero.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Dispatcher
+ * @author  Johan Janssens <https://github.com/johanjanssens>
+ * @package Koowa\Library\Dispatcher
+ * @see http://en.wikipedia.org/wiki/Byte_serving
  * @see http://en.wikipedia.org/wiki/Chunked_transfer_encoding
  * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
  */
-class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
+class DispatcherResponseTransportStream extends DispatcherResponseTransportHttp
 {
     /**
      * Byte offset
@@ -154,8 +168,8 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
     /**
      * Sends content for the current web response.
      *
-     * We flush the data to the output buffer based on the chunk size and range information provided in the request.
-     * The default chunk size is 8 MB.
+     * We flush(stream) the data to the output buffer based on the chunk size and range information provided in the
+     * request. The default chunk size is 8 MB.
      *
      * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportRedirect
@@ -178,6 +192,9 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
             if(!ini_get('safe_mode')) {
                 @set_time_limit(0);
             }
+
+            // Clear buffer
+            while (@ob_end_clean());
 
             $stream  = $response->getStream();
 
@@ -226,9 +243,6 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
                         $response->headers->set('Content-Type', 'application/octet-stream');
                     }
 
-                    //Transfer Encoding Headers
-                    $response->headers->set('Transfer-Encoding', 'chunked');
-
                     //Content Range Headers
                     $offset = $this->getOffset($response);
                     $range  = $this->getRange($response);
@@ -254,8 +268,8 @@ class DispatcherResponseTransportChunked extends DispatcherResponseTransportHttp
                     }
                 }
             }
-
-            return parent::send($response);
         }
+
+        return parent::send($response);
     }
 }
