@@ -19,17 +19,17 @@ use Nooku\Library;
  */
 class ControllerBehaviorClosurable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeGet(Library\ControllerContext $context)
+    protected function _beforeRender(Library\ControllerContextInterface $context)
     {
         $model = $this->getModel();
         if($model->getTable()->isClosurable())
         {
             $state = $model->getState();
-            
+
             if(!isset($state->parent)) {
                 $state->insert('parent', 'int');
             }
-            
+
             if(!isset($state->level)) {
                 $state->insert('level', 'int');
             }

@@ -19,15 +19,6 @@ use Nooku\Library;
  */
 abstract class ControllerAbstract extends Library\ControllerModel
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'persistable'   => false,
-		));
-
-		parent::_initialize($config);
-	}
-
 	public function getRequest()
 	{
 		$request = parent::getRequest();
@@ -45,7 +36,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 		return $request;
 	}
 
-	protected function _actionCopy(Library\ControllerContext $context)
+	protected function _actionCopy(Library\ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -71,7 +62,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 		return $entity;
 	}
 
-	protected function _actionMove(Library\ControllerContext $context)
+	protected function _actionMove(Library\ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRow();
 

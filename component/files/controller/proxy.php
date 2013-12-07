@@ -22,7 +22,7 @@ use Nooku\Library;
  */
  class ControllerProxy extends Library\ControllerView
 {
-	public function _actionRender(Library\ControllerContext $context)
+	public function _actionRender(Library\ControllerContextInterface $context)
 	{
         $data = array(
 			'url'            => $context->request->query->get('url', 'url'),
