@@ -37,7 +37,7 @@ class UsersControllerUser extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionDelete(Library\ControllerContext $context)
+    protected function _actionDelete(Library\ControllerContextInterface $context)
     {
         $entity = parent::_actionDelete($context);
 
@@ -49,7 +49,7 @@ class UsersControllerUser extends Library\ControllerModel
         return $entity;
     }
 
-    protected function _actionEdit(Library\ControllerContext $context)
+    protected function _actionEdit(Library\ControllerContextInterface $context)
     {
         $entity = parent::_actionEdit($context);
         $user = $this->getObject('user');
@@ -62,7 +62,7 @@ class UsersControllerUser extends Library\ControllerModel
         return $entity;
     }
 
-    public function expire(Library\ControllerContext $context)
+    public function expire(Library\ControllerContextInterface $context)
     {
         $entity = $context->result;
 
