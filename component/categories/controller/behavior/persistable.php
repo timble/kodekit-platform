@@ -25,10 +25,10 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	 * This functions merges the request information with any model state information
 	 * that was saved in the session and returns the result.
 	 *
-	 * @param 	Library\ControllerContext $context A controller context object
+	 * @param 	Library\ControllerContextInterface $context A controller context object
 	 * @return 	void
 	 */
-	protected function _beforeBrowse(Library\ControllerContext $context)
+	protected function _beforeBrowse(Library\ControllerContextInterface $context)
 	{
 		 // Built the session identifier based on the action
         $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
@@ -44,10 +44,10 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	/**
 	 * Saves the model state in the session
 	 *
-	 * @param 	Library\ControllerContext $context A controller context object
+	 * @param 	Library\ControllerContextInterface $context A controller context object
 	 * @return 	void
 	 */
-	protected function _afterBrowse(Library\ControllerContext $context)
+	protected function _afterBrowse(Library\ControllerContextInterface $context)
 	{
 		$model = $this->getModel();
         $state = $model->getState();

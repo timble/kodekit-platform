@@ -48,7 +48,7 @@ class UsersControllerUser extends Library\ControllerModel
         return $request;
     }
 
-    public function sanitizeRequest(Library\ControllerContext $context)
+    public function sanitizeRequest(Library\ControllerContextInterface $context)
     {
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
@@ -56,7 +56,7 @@ class UsersControllerUser extends Library\ControllerModel
         }
     }
 
-    protected function _actionAdd(Library\ControllerContext $context)
+    protected function _actionAdd(Library\ControllerContextInterface $context)
     {
         $params = $this->getObject('application.extensions')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
@@ -74,7 +74,7 @@ class UsersControllerUser extends Library\ControllerModel
         return $user;
     }
 
-    protected function _actionEdit(Library\ControllerContext $context)
+    protected function _actionEdit(Library\ControllerContextInterface $context)
     {
         $entity = parent::_actionEdit($context);
 
