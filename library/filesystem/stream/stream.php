@@ -815,6 +815,26 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
+     * Check if the stream wrapper for a registered protocol is supported
+     *
+     * @param string $protocol
+     * @return bool TRUE if the protocol is a registered stream wrapper and is supported, FALSE otherwise.
+     */
+    public function isSupported($protocol)
+    {
+        $result = $this->isRegistered($protocol);
+
+        if(!ini_get('allow_url_fopen'))
+        {
+            if(in_array(array('ftp', 'sftp', 'http', 'https'), $protocol)) {
+                $result = false;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Convert the stream to a string if the stream is readable and the stream is seekable.
      *
      * @return string
