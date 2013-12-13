@@ -22,7 +22,7 @@ class ViewPageHtml extends ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters' => array('expire','module'),
+            'template_filters' => array('module'),
         ));
 
         parent::_initialize($config);

@@ -112,10 +112,11 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
         parent::onMixin($mixer);
 
         //Mixin the permission
-        $permission       = clone $mixer->getIdentifier();
-        $permission->path = array('controller', 'permission');
+        if(!$this->getPermission())
+        {
+            $permission       = clone $mixer->getIdentifier();
+            $permission->path = array('controller', 'permission');
 
-        if($permission !== $this->getPermission()) {
             $this->setPermission($mixer->mixin($permission));
         }
     }
