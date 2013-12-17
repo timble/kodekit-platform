@@ -30,6 +30,6 @@ class ApplicationTemplateFilterTitle extends Application\TemplateFilterTitle
             $title = $this->_renderTag(array(), $params->get('page_title'));
         }
 
-        $text = str_replace('<ktml:title>'.PHP_EOL, $title, $text);
+        $text = str_replace('<ktml:title>', $title, $text);
     }
 }
