@@ -53,7 +53,7 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 
             // Built the session identifier based on the action
             $identifier  = $model->getIdentifier();
-            $state       = $context->user->session->get($identifier, array());
+            $state       = $context->user->getSession()->get($identifier, array());
 
             //Append the data to the request object
             $context->request->query->add($state);
@@ -88,10 +88,10 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
             $identifier = $model->getIdentifier();
 
             //Prevent unused state information from being persisted
-            $context->user->session->remove($identifier);
+            $context->user->getSession()->remove($identifier);
 
             //Set the state in the session
-            $context->user->session->set($identifier, $vars);
+            $context->user->getSession()->set($identifier, $vars);
         }
 	}
 }

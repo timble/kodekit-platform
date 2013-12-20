@@ -74,15 +74,15 @@ interface ControllerInterface
     /**
      * Set the user object
      *
-     * @param ControllerUserInterface $user A request object
+     * @param UserInterface $user A request object
      * @return ControllerUser
      */
-    public function setUser(ControllerUserInterface $user);
+    public function setUser(UserInterface $user);
 
     /**
      * Get the user object
      *
-     * @return ControllerUserInterface
+     * @return UserInterface
      */
     public function getUser();
 

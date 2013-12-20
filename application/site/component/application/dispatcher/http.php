@@ -275,7 +275,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
      */
     public function getUser()
     {
-        if(!$this->_user instanceof Library\DispatcherUserInterface)
+        if(!$this->_user instanceof Library\UserInterface)
         {
             $user    =  parent::getUser();
             $session =  $user->getSession();
