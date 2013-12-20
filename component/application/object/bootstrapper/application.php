@@ -7,22 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Nooku\Component\Application;
+
+use Nooku\Library;
 
 /**
- * Application Bootstrapper
+ * Application Object Bootstrapper
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-class BootstrapperApplication extends BootstrapperChain
+class ObjectBootstrapperApplication extends Library\ObjectBootstrapperChain
 {
     /**
      * Constructor.
      *
-     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @param Library\ObjectConfig $config An optional ObjectConfig object with configuration options
      */
-    public function __construct(ObjectConfig $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -34,10 +36,10 @@ class BootstrapperApplication extends BootstrapperChain
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(ObjectConfig $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'directory' => '',
@@ -60,8 +62,11 @@ class BootstrapperApplication extends BootstrapperChain
                 continue;
             }
 
-            $bootstrapper = $this->getObject('com:'.$dir.'.bootstrapper');
-            $this->addBootstrapper($bootstrapper);
+            if(file_exists($dir->getRealPath().'/bootstrapper.php'))
+            {
+                $bootstrapper = $this->getObject('com:'.$dir.'.bootstrapper');
+                $this->addBootstrapper($bootstrapper);
+            }
         }
 
         parent::bootstrap();

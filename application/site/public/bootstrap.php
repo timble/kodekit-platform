@@ -54,6 +54,6 @@ Library\ClassLoader::getInstance()->addApplication('site' , JPATH_ROOT.'/applica
 Library\ClassLoader::getInstance()->addApplication('admin', JPATH_ROOT.'/application/admin');
 
 //Bootstrap the components
-Library\ObjectManager::getInstance()->getObject('lib:bootstrapper.application', array(
+Library\ObjectManager::getInstance()->getObject('com:application.object.bootstrapper.application', array(
     'directory' => JPATH_APPLICATION.'/component'
 ))->bootstrap();

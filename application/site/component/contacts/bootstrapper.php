@@ -15,11 +15,16 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Contacts
  */
- class ContactsBootstrapper extends Library\BootstrapperAbstract
+class ContactsBootstrapper extends Library\ObjectBootstrapperComponent
 {
-    public function bootstrap()
-    {
-        $manager = $this->getObjectManager();
-        $manager->registerAlias('com:contacts.model.categories', 'com:categories.model.categories');
-    }
+     protected function _initialize(Library\ObjectConfig $config)
+     {
+         $config->append(array(
+             'aliases'  => array(
+                 'com:contacts.model.categories' => 'com:categories.model.categories',
+             )
+         ));
+
+         parent::_initialize($config);
+     }
 }

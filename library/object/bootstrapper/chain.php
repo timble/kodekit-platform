@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Bootstrapper Chain
+ * Object Bootstrapper Chain
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-class BootstrapperChain extends BootstrapperAbstract
+class ObjectBootstrapperChain extends ObjectBootstrapperAbstract
 {
    /**
      * The bootstrapper queue
@@ -52,13 +52,13 @@ class BootstrapperChain extends BootstrapperAbstract
     /**
      * Add a bootsstrapper to the queue based on priority
      *
-     * @param BootstrapperInterface $bootstrapper A bootstrapper object
+     * @param ObjectBootstrapperInterface $bootstrapper A bootstrapper object
      * @param integer	            $priority   The bootstrapper priority, usually between 1 (high priority) and 5 (lowest),
      *                                          default is 3. If no priority is set, the bootstrapper priority will be used
      *                                          instead.
-     * @return BootstrapperChain
+     * @return ObjectBootstrapperChain
      */
-    public function addBootstrapper(BootstrapperInterface $bootstrapper, $priority = null)
+    public function addBootstrapper(ObjectBootstrapperInterface $bootstrapper, $priority = null)
     {
         $priority = $priority == null ? $bootstrapper->getPriority() : $priority;
         $this->_queue->enqueue($bootstrapper, $priority);

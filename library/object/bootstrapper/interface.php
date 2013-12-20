@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Bootstrapper Interface
+ * Object Bootstrapper Interface
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-interface BootstrapperInterface extends ObjectHandlable
+interface ObjectBootstrapperInterface extends ObjectHandlable
 {
     /**
      * Priority levels

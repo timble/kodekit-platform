@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Bootstrapper
+ * Abstract Object Bootstrapper
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-abstract class BootstrapperAbstract extends Object implements BootstrapperInterface
+abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootstrapperInterface
 {
     /**
      * The bootstrapper priority
@@ -23,6 +23,13 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
      * @var integer
      */
     protected $_priority;
+
+    /**
+     * The object manager
+     *
+     * @var ObjectManagerInterface
+     */
+    protected $_object_manager;
 
     /**
      * Constructor.
@@ -33,7 +40,8 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
     {
         parent::__construct($config);
 
-        $this->_priority = $config->priority;
+        $this->_priority       = $config->priority;
+        $this->_object_manager = $config->object_manager;
     }
 
     /**
@@ -54,20 +62,13 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
     }
 
     /**
-     * Bootstrap the object manager
-     *
-     * @return void
-     */
-    abstract public function bootstrap();
-
-    /**
      * Get the object manager
      *
      * @return ObjectManagerInterface
      */
     public function getObjectManager()
     {
-        return $this->getObject('manager');
+        return $this->_object_manager;
     }
 
     /**
@@ -77,7 +78,7 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
      */
     public function getClassLoader()
     {
-        return $this->getObject('manager')->getClassLoader();
+        return $this->getObjectManager()->getClassLoader();
     }
 
     /**

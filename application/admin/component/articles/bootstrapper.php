@@ -15,14 +15,18 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Articles
  */
- class ArticlesBootstrapper extends Library\BootstrapperAbstract
+ class ArticlesBootstrapper extends Library\ObjectBootstrapperComponent
 {
-    public function bootstrap()
-    {
-        $manager = $this->getObjectManager();
+     protected function _initialize(Library\ObjectConfig $config)
+     {
+         $config->append(array(
+             'aliases'  => array(
+                 'com:articles.model.tags'            => 'com:tags.model.tags',
+                 'com:articles.model.categories'      => 'com:categories.model.categories',
+                 'com:articles.controller.attachment' => 'com:attachments.controller.attachment',
+             )
+         ));
 
-        $manager->registerAlias('com:articles.model.tags'           , 'com:tags.model.tags');
-        $manager->registerAlias('com:articles.model.categories'     , 'com:categories.model.categories');
-        $manager->registerAlias('com:articles.controller.attachment', 'com:attachments.controller.attachment');
-    }
+         parent::_initialize($config);
+     }
 }
