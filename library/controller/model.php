@@ -83,9 +83,9 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
                         $view = $this->getIdentifier()->name;
 
                         if($this->getModel()->getState()->isUnique()) {
-                            $view = KStringInflector::singularize($view);
+                            $view = StringInflector::singularize($view);
                         } else {
-                            $view = KStringInflector::pluralize($view);
+                            $view = StringInflector::pluralize($view);
                         }
                     }
                     else $view = $this->getRequest()->query->get('view', 'cmd');
