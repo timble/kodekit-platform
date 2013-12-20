@@ -34,8 +34,8 @@ class ViewPageHtml extends ViewHtml
         $context->data->messages = $this->getObject('response')->getMessages();
 
         //Set the component and layout information
-        $context->data->extension = $this->getObject('component')->getIdentifier()->package;
-        $context->data->layout    = $this->getObject('component')->getController()->getView()->getLayout();
+        $context->data->extension = $this->getObject('dispatcher')->getIdentifier()->package;
+        $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
 
         return parent::fetchData($context);
     }
