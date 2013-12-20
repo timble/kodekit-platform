@@ -74,7 +74,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('component', $config->object_identifier);
+            $manager->registerAlias('dispatcher', $config->object_identifier);
         }
 
         return $manager->getObject($config->object_identifier);
@@ -83,8 +83,8 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     /**
      * Check the request token to prevent CSRF exploits
      *
-     * Method will always perform a referrer and cookie token check. If a user session is active a session token check
-     * will also be done. If any of the checks fail an forbidden exception  being thrown.
+     * Method will always perform a referrer check and a token cookie token check if the user is not authentic or a
+     * session token check if the user is authentic. If any of the checks fail a forbidden exception is thrown.
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
@@ -94,21 +94,23 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         $request = $context->request;
         $user    = $context->user;
 
-        //Check referrer
-        if(!$request->getReferrer()) {
-            throw new ControllerExceptionForbidden('Invalid Request Referrer');
-        }
-
-        //Check cookie token
-        if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-            throw new ControllerExceptionForbidden('Invalid Cookie Token');
-        }
-
-        //Check session token
-        if($user->isAuthentic())
+        if(!$user->isAuthentic())
         {
-            if( $request->getToken() !== $user->session->getToken()) {
-                throw new ControllerExceptionForbidden('Invalid Session Token');
+            //Check referrer
+            if(!$request->getReferrer()) {
+                throw new KControllerExceptionForbidden('Invalid Request Referrer');
+            }
+
+            //Check cookie token
+            if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
+                throw new KControllerExceptionForbidden('Invalid Cookie Token');
+            }
+        }
+        else
+        {
+            //Check session token
+            if( $request->getToken() !== $user->getSession()->getToken()) {
+                throw new KControllerExceptionForbidden('Invalid Session Token');
             }
         }
 
@@ -124,7 +126,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     {
         if(!$context->response->isError())
         {
-            $token = $context->user->session->getToken();
+            $token = $context->user->getSession()->getToken();
 
             $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
                 'name'   => '_token',
@@ -373,5 +375,25 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         }
 
         $context->response->headers->set('Allow', $result);
+    }
+
+    /**
+     * Return the affected entities in the payload for AJAX POST and PUT requests
+     *
+     * {@inheritdoc}
+     */
+    protected function _actionSend(DispatcherContextInterface $context)
+    {
+        $request  = $this->getRequest();
+        $response = $this->getResponse();
+
+        if ($request->isAjax() && !$request->isGet())
+        {
+            if ($response->isSuccess() && $response->getStatusCode() !== HttpResponse::NO_CONTENT) {
+                $context->result = $this->getController()->execute('render', $context);
+            }
+        }
+
+        parent::_actionSend($context);
     }
 }
