@@ -48,7 +48,7 @@ class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
 	 * @param DispatcherContextInterface $context	A dispatcher context object
 	 * @return 	void
 	 */
-	protected function _afterDispatch(DispatcherContext $context)
+	protected function _beforeSend(DispatcherContext $context)
 	{
         if(!$context->request->isAjax() && $context->response->isSuccess()) {
             $context->response->setRedirect($context->request->getReferrer());
