@@ -72,8 +72,8 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
 
         if(count($menu))
         {
-            $package    = $this->getObject('component')->getIdentifier()->package;
-            $view       = $this->getObject('component')->getController()->getIdentifier()->name;
+            $package    = $this->getObject('dispatcher')->getIdentifier()->package;
+            $view       = $this->getObject('dispatcher')->getController()->getIdentifier()->name;
             $extension  = $this->getObject('application.extensions')->getExtension($package);
             $groups     = $this->getObject('user')->getGroups();
 
