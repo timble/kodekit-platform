@@ -175,9 +175,9 @@ class User extends UserAbstract implements ObjectInstantiable, ObjectSingleton
      * @param  array $data An associative array of data
      * @return User
      */
-    public function values(array $data)
+    public function setData($data)
     {
-        parent::values($data);
+        parent::setData($data);
 
         //Set the user data
         $this->getSession()->set('user', ObjectConfig::unbox($data));
