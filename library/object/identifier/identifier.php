@@ -195,7 +195,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function exists()
     {
-        return $this->getLocator()->locate($this, false);
+        return class_exists($this->getLocator()->locate($this, false));
     }
 
     /**
