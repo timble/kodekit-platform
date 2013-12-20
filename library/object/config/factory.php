@@ -107,7 +107,7 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
     public function registerFormat($format, $class)
     {
         if(!class_exists($class, true)) {
-            throw new \InvalidArgumentException('Class : $class cannot does not exist.');
+            throw new \InvalidArgumentException('Class : '.$class.' cannot does not exist.');
         }
 
         $this->_formats[$format] = $class;
