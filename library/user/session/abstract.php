@@ -20,14 +20,6 @@ namespace Nooku\Library;
 class UserSessionAbstract extends Object implements UserSessionInterface
 {
     /**
-     * Is the session active
-     *
-     * @var boolean
-     * @see isActive()
-     */
-    protected $_active;
-
-    /**
      * The session handler
      *
      * @var UserSessionHandlerInterface
@@ -101,27 +93,31 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             register_shutdown_function('session_write_close');
         }
 
-        //Set the session options
-        $this->setOptions($config->options);
+        //Only configure the session if it's not active yet
+        if(!$this->isActive())
+        {
+            //Set the session options
+            $this->setOptions($config->options);
 
-        //Set the session name
-        if (!empty($config->name)) {
-            $this->setName($config->name);
+            //Set the session name
+            if (!empty($config->name)) {
+                $this->setName($config->name);
+            }
+
+            //Set the session identifier
+            if (!empty($config->id)) {
+                $this->setId($config->id);
+            }
+
+            //Set the session handler
+            $this->setHandler($config->handler, ObjectConfig::unbox($config));
         }
-
-        //Set the session identifier
-        if (!empty($config->id)) {
-            $this->setId($config->id);
-        }
-
-        //Set the session namespace
-        $this->setNamespace($config->namespace);
 
         //Set lifetime time
         $this->getContainer('metadata')->setLifetime($config->lifetime);
 
-        //Set the session handler
-        $this->setHandler($config->handler, ObjectConfig::unbox($config));
+        //Set the session namespace
+        $this->setNamespace($config->namespace);
     }
 
     /**
@@ -167,9 +163,14 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      *
      * @param array $options Session ini directives array(key => value)
      * @see http://php.net/session.configuration
+     * @throws \LogicException    When setting the options of an active session
      */
     public function setOptions($options)
     {
+        if ($this->isActive()) {
+            throw new \LogicException('Cannot change the name of an active session');
+        }
+
         $valid = array_flip(self::$_valid_options);
 
         //Sets session.* ini variables.
@@ -280,23 +281,23 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * Set the global session namespace
      *
      * This specifies namespace that is used when storing or retrieving attributes from the $_SESSION global. The
-     * namespace prevents session conflicts when the session is shared.
+     * namespace prevents session conflicts when the session is shared with other applications.
      *
      * @param string $namespace The session namespace
-     * @throws \LogicException When changing the namespace of an active session
      * @return UserSession
      */
     public function setNamespace($namespace)
     {
-        if ($this->isActive()) {
-            throw new \LogicException('Cannot change the name of an active session');
-        }
+        if($namespace != $this->_namespace)
+        {
+            //Set the global session namespace
+            $this->_namespace = $namespace;
 
-        //Set the global session namespace
-        $this->_namespace = $namespace;
+            if(!isset($_SESSION[$namespace])) {
+                $_SESSION[$namespace] = array();
+            }
 
-        foreach($this->_containers as $name => $container ) {
-            $container->setNamespace($namespace.'_'.$name);
+            $this->refresh();
         }
 
         return $this;
@@ -403,8 +404,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
 
         if (!isset($this->_containers[$identifier->name]))
         {
-            $namespace = $this->getNamespace().'_'.$identifier->name;
-            $container = $this->getObject($identifier, array('namespace' => $namespace));
+            $container = $this->getObject($identifier);
 
             if (!($container instanceof UserSessionContainerInterface))
             {
@@ -412,6 +412,10 @@ class UserSessionAbstract extends Object implements UserSessionInterface
                     'Container: '. get_class($container) .' does not implement UserSessionContainerInterface'
                 );
             }
+
+            //Load the container from the session
+            $namespace = $this->getNamespace();
+            $container->loadSession($_SESSION[$namespace]);
 
             $this->_containers[$container->getIdentifier()->name] = $container;
         }
@@ -466,14 +470,32 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             }
 
             //Re-load the session containers
-            foreach($this->_containers as $container) {
-                $container->loadSession();
-            }
+            $this->refresh();
 
             // Destroy an expired session
             if ($this->getContainer('metadata')->isExpired()) {
                 $this->destroy();
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Refresh the session data in the memory containers
+     *
+     * This function will load the data from $_SESSION in the various registered containers, based on the container
+     * namespace.
+     *
+     * @return UserSession
+     */
+    public function refresh()
+    {
+        //Re-load the session containers
+        foreach($this->_containers as $container)
+        {
+            $namespace = $this->getNamespace();
+            $container->loadSession($_SESSION[$namespace]);
         }
 
         return $this;
@@ -513,12 +535,12 @@ class UserSessionAbstract extends Object implements UserSessionInterface
         session_unset();
 
         //Clear out the session data
-        $_SESSION = array();
+        $namespace = $this->getNamespace();
+        unset($_SESSION[$namespace]);
+        $_SESSION[$namespace] = array();
 
         //Re-load the session containers
-        foreach($this->_containers as $container) {
-            $container->loadSession();
-        }
+        $this->refresh();
 
         return $this;
     }

@@ -47,17 +47,11 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     {
         parent::__construct($config);
 
-        //@TODO : Fix this. If we don't hardcode it, it gets set to __nooku.
-        $config->namespace = '__nooku_'.$this->getIdentifier()->name;
-
         //Set the attribute session namespace
         $this->setNamespace($config->namespace);
 
         //Set the attribute session separator
         $this->_separator = $config->separator;
-
-        //Load the session data
-        $this->loadSession();
     }
 
     /**
@@ -71,7 +65,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'namespace' => '__nooku_'.$this->getIdentifier()->name,
+            'namespace' => '__'.$this->getIdentifier()->name,
             'separator' => '.',
         ));
 
