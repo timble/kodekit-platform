@@ -109,8 +109,6 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function getReferrer(ControllerContextInterface $context)
     {
-        $identifier = $this->getMixer()->getIdentifier();
-
         $referrer = $this->getObject('lib:http.url',
             array('url' => $context->request->cookies->get('referrer', 'url'))
         );
@@ -390,7 +388,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         if($this->isLocked())
         {
-            $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
+            $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
             throw new ControllerExceptionConflict('Resource is locked.');
         }
     }
@@ -409,7 +407,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         if($this->isLocked())
         {
-            $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
+            $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
             throw new ControllerExceptionConflict('Resource is locked');
         }
     }

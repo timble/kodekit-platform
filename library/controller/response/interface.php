@@ -45,15 +45,15 @@ interface ControllerResponseInterface extends HttpResponseInterface
     /**
      * Set the user object
      *
-     * @param ControllerUserInterface $user A request object
+     * @param UserInterface $user A request object
      * @return ControllerResponse
      */
-    public function setUser(ControllerUserInterface $user);
+    public function setUser(UserInterface $user);
 
     /**
      * Get the user object
      *
-     * @return ControllerUserInterface
+     * @return UserInterface
      */
     public function getUser();
 

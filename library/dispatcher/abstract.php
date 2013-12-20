@@ -51,7 +51,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         	'controller' => $this->getIdentifier()->package,
             'request'    => 'dispatcher.request',
             'response'   => 'dispatcher.response',
-            'user'       => 'dispatcher.user',
          ));
 
         parent::_initialize($config);
@@ -104,29 +103,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         }
 
         return $this->_response;
-    }
-
-    /**
-     * Get the user object
-     *
-     * @throws	\UnexpectedValueException	If the user doesn't implement the DispatcherUserInterface
-     * @return DispatcherUserInterface
-     */
-    public function getUser()
-    {
-        if(!$this->_user instanceof DispatcherUserInterface)
-        {
-            $this->_user = parent::getUser();
-
-            if(!$this->_user instanceof DispatcherUserInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'User: '.get_class($this->_user).' does not implement DispatcherUserInterface'
-                );
-            }
-        }
-
-        return $this->_user;
     }
 
 	/**
@@ -275,7 +251,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    public function _actionSend(DispatcherContextInterface $context)
+    protected function _actionSend(DispatcherContextInterface $context)
     {
         $context->response->send();
         exit(0);

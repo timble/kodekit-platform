@@ -34,7 +34,7 @@ interface ControllerContextInterface extends CommandInterface
     /**
      * Get the user object
      *
-     * @return ControllerUserInterface
+     * @return UserInterface
      */
     public function getUser();
 }

@@ -64,7 +64,7 @@ class ControllerContext extends Command implements ControllerContextInterface
     /**
      * Get the user object
      *
-     * @return ControllerUserInterface
+     * @return UserInterface
      */
     public function getUser()
     {
@@ -74,10 +74,10 @@ class ControllerContext extends Command implements ControllerContextInterface
     /**
      * Set the user object
      *
-     * @param ControllerResponseInterface $response
+     * @param UserInterface $response
      * @return ControllerContext
      */
-    public function setUser(ControllerUserInterface $user)
+    public function setUser(UserInterface $user)
     {
         $this->set('user', $user);
         return $this;

@@ -60,10 +60,10 @@ class UsersControllerSession extends Library\ControllerModel
             }
 
             //Start the session (if not started already)
-            $context->user->session->start();
+            $context->user->getSession()->start();
 
             //Set user data in context
-            $context->user->values($user->getSessionData(true));
+            $context->user->setData($user->getSessionData(true));
         }
         else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 
@@ -108,7 +108,7 @@ class UsersControllerSession extends Library\ControllerModel
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
     {
-        $session = $context->user->session;
+        $session = $context->user->getSession();
 
         //Insert the session into the database
         if(!$session->isActive()) {
@@ -154,7 +154,7 @@ class UsersControllerSession extends Library\ControllerModel
         {
             // Destroy the php session for this user if we are logging out ourselves
             if($context->user->getEmail() == $entity->email) {
-                $context->user->session->destroy();
+                $context->user->getSession()->destroy();
             }
         }
 

@@ -120,7 +120,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
             'dispatched'        => false,
             'request'           => 'lib:controller.request',
             'response'          => 'lib:controller.response',
-            'user'              => 'lib:controller.user',
+            'user'              => 'lib:user',
             'behaviors'         => array('permissible'),
             'query'             => array(),
         ));
@@ -308,10 +308,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Set the user object
      *
-     * @param ControllerUserInterface $user A request object
-     * @return ControllerUser
+     * @param UserInterface $user A request object
+     * @return User
      */
-    public function setUser(ControllerUserInterface $user)
+    public function setUser(UserInterface $user)
     {
         $this->_user = $user;
         return $this;
@@ -320,21 +320,21 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the user object
      *
-     * @throws	\UnexpectedValueException	If the user doesn't implement the ControllerUserInterface
-     * @return ControllerUserInterface
+     * @throws	\UnexpectedValueException	If the user doesn't implement the UserInterface
+     * @return UserInterface
      */
     public function getUser()
     {
-        if(!$this->_user instanceof ControllerUserInterface)
+        if(!$this->_user instanceof UserInterface)
         {
             $this->_user = $this->getObject($this->_user, array(
                 'request' => $this->getRequest(),
             ));
 
-            if(!$this->_user instanceof ControllerUserInterface)
+            if(!$this->_user instanceof UserInterface)
             {
                 throw new \UnexpectedValueException(
-                    'User: '.get_class($this->_user).' does not implement ControllerUserInterface'
+                    'User: '.get_class($this->_user).' does not implement UserInterface'
                 );
             }
         }
