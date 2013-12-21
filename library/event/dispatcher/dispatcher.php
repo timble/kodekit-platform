@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventDispatcher extends EventDispatcherException implements ObjectInstantiable, ObjectSingleton
+class EventDispatcher extends EventDispatcherAbstract implements ObjectInstantiable, ObjectSingleton
 {
     /**
      * Force creation of a singleton

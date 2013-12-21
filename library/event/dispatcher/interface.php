@@ -89,7 +89,7 @@ interface EventDispatcherInterface
     /**
      * Check if the handler is connected to a dispatcher
      *
-     * @param  object  The event dispatcher
+     * @param EventSubscriberInterface $subscriber  The event dispatcher
      * @return boolean TRUE if the handler is already connected to the dispatcher. FALSE otherwise.
      */
     public function isSubscribed(EventSubscriberInterface $subscriber);
