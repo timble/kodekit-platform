@@ -134,7 +134,7 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
      */
     public function run($name, Command $command, $condition = null)
     {
-        if ($this->_enabled)
+        if ($this->isEnabled())
         {
             $this->__stack->push(clone $this);
 
@@ -171,7 +171,7 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     /**
      * Enable the chain
      *
-     * @return  void
+     * @return  CommandChain
      */
     public function enable()
     {
@@ -184,7 +184,7 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
      *
      * If the chain is disabled running the chain will always return TRUE
      *
-     * @return  void
+     * @return  CommandChain
      */
     public function disable()
     {
@@ -223,5 +223,15 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
         }
 
         return parent::getPriority($invoker);
+    }
+
+    /**
+     * Check of the command chain is enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->_enabled;
     }
 }

@@ -73,7 +73,7 @@ interface CommandChainInterface
    /**
     * Enable the chain
     *
-    * @return  void
+    * @return  CommandChain
     */
     public function enable();
 
@@ -82,7 +82,7 @@ interface CommandChainInterface
      *
      * If the chain is disabled running the chain will always return TRUE
      *
-     * @return  void
+     * @return  CommandChain
      */
     public function disable();
 
@@ -104,4 +104,11 @@ interface CommandChainInterface
      * @throws \InvalidArgumentException if the object doesn't implement CommandInvokerInterface
      */
     public function getPriority(ObjectHandlable $invoker);
+
+    /**
+     * Check of the command chain is enabled
+     *
+     * @return bool
+     */
+    public function isEnabled();
 }
