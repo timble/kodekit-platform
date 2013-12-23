@@ -84,7 +84,9 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function offsetSet($offset, $value)
     {
-        apc_store($this->_namespace.'-'.$offset, serialize($value));
+        if($value instanceof ObjectIdentifierInterface) {
+            apc_store($this->_namespace.'-'.$offset, serialize($value));
+        }
 
         parent::offsetSet($offset, $value);
     }
