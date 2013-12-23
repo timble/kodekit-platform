@@ -32,14 +32,14 @@ class ClassLoader implements ClassLoaderInterface
     protected $_locators = array();
 
     /**
-     * The file container
+     * The class registry
      *
      * @var array
      */
     protected $_registry = null;
 
     /**
-     * File aliases
+     * Class aliases
      *
      * @var    array
      */
@@ -121,7 +121,7 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function register($prepend = false)
     {
-        spl_autoload_register(array($this, 'loadClass'), true, $prepend);
+        spl_autoload_register(array($this, 'load'), true, $prepend);
     }
 
     /**
@@ -131,7 +131,75 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function unregister()
     {
-        spl_autoload_unregister(array($this, 'loadClass'));
+        spl_autoload_unregister(array($this, 'load'));
+    }
+
+    /**
+     * Load a class based on a class name
+     *
+     * @param string    $class    The class name
+     * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
+     */
+    public function load($class)
+    {
+        $result = true;
+
+        if(!$this->isDeclared($class))
+        {
+            //Get the path
+            $path = $this->find( $class );
+
+            if ($path !== false)
+            {
+                if (!in_array($path, get_included_files()) && file_exists($path)){
+                    require $path;
+                } else {
+                    $result = false;
+                }
+
+            }
+            else $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the path based on a class name
+     *
+     * @param   string $class   The class name
+     * @return  string|false    Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     */
+    public function find($class)
+    {
+        $result = false;
+
+        //Recursively resolve the real class if an alias was passed
+        while(array_key_exists((string) $class, $this->_aliases)) {
+            $class = $this->_aliases[(string) $class];
+        }
+
+        if(!$this->_registry->offsetExists($class))
+        {
+            //Locate the class
+            foreach($this->_locators as $locator)
+            {
+                if(false !== $result = $locator->locate($class)) {
+                    break;
+                };
+            }
+
+            if ($result !== false)
+            {
+                //Get the canonicalized absolute pathname
+                if($result = realpath($result)) {
+                    $this->_registry->offsetSet($class, $result);
+                }
+            }
+        }
+        else $result = $this->_registry->offsetGet($class);
+
+        return $result;
     }
 
     /**
@@ -173,38 +241,28 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Set an file path alias
+     * Register an alias for a class
      *
-     * @param string  $alias    The alias
-     * @param string  $path     The path
+     * @param string  $class The original
+     * @param string  $alias The alias name for the class.
      */
-    public function setAlias($alias, $path)
+    public function registerAlias($class, $alias)
     {
         $alias = trim($alias);
-        $path  = trim($path);
+        $class = trim($class);
 
-        $this->_aliases[$alias] = $path;
+        $this->_aliases[$alias] = $class;
     }
 
     /**
-     * Get the path from an alias
+     * Get the registered alias for a class
      *
-     * @param  string $path The path
-     * @return string|false Return the file alias if one exists. Otherwise returns FALSE.
+     * @param  string $class The class
+     * @return array   An array of aliases
      */
-    public function getAlias($alias)
+    public function getAliases($class)
     {
-        return isset($this->_aliases[$alias]) ? $this->_aliases[$alias] : false;
-    }
-
-    /**
-     * Get a list of path aliases
-     *
-     * @return array
-     */
-    public function getAliases()
-    {
-        return $this->_aliases;
+        return isset($this->_aliases[$class]) ? $this->_aliases[$class] : array();
     }
 
     /**
@@ -238,99 +296,6 @@ class ClassLoader implements ClassLoaderInterface
     public function getApplications()
     {
         return $this->_applications;
-    }
-
-    /**
-     * Load a class based on a class name
-     *
-     * @param string    $class    The class name
-     * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
-     */
-    public function loadClass($class)
-    {
-        $result = true;
-
-        if(!$this->isDeclared($class))
-        {
-            //Get the path
-            $path = self::findPath( $class );
-
-            if ($path !== false) {
-                $result = $this->loadFile($path);
-            } else {
-                $result = false;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Load a class based on a path
-     *
-     * @param string	$path The file path
-     * @return boolean  Returns TRUE if the file could be loaded, otherwise returns FALSE.
-     */
-    public function loadFile($path)
-    {
-        //Don't re-include files and stat the file if it exists.
-        if (!in_array($path, get_included_files()) && file_exists($path)) {
-            require $path;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get the path based on a class name
-     *
-     * @param   string $class   The class name
-     * @return  string|false    Returns canonicalized absolute pathname or FALSE of the class could not be found.
-     */
-    public function findPath($class)
-    {
-        $result = false;
-
-        if(!$this->_registry->offsetExists($class))
-        {
-            //Locate the class
-            foreach($this->_locators as $locator)
-            {
-                if(false !== $result = $locator->locate($class)) {
-                    break;
-                };
-            }
-
-            if ($result !== false)
-            {
-                //Get the canonicalized absolute pathname
-                if($result = realpath($result)) {
-                    $this->_registry->offsetSet($class, $result);
-                }
-            }
-        }
-        else $result = $this->_registry->offsetGet($class);
-
-        return $result;
-    }
-
-    /**
-     * Get a path from an file
-     *
-     * Function will check if the path is an alias and return the real file path
-     *
-     * @param  string $path The path
-     * @return string The real file path
-     */
-    public function realPath($path)
-    {
-        //Find the path by checking the alias map
-        while(array_key_exists((string) $path, $this->_aliases)) {
-            $path = $this->_aliases[(string) $path];
-        }
-
-        //Realpath is needed to resolve symbolic links.
-        return realpath($path);
     }
 
     /**
