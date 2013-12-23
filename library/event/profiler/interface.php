@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-interface EventProfilerInterface extends EventDispatcherInterface
+interface EventProfilerInterface
 {
     /**
      * Disables the profiler.

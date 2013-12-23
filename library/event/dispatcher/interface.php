@@ -12,6 +12,9 @@ namespace Nooku\Library;
 /**
  * Event Dispatcher Interface
  *
+ * API interface inspired upon the DOM Level 2 Event spec and Symfony 2 EventDispatcher component. Implementation
+ * provides a priority based event capturing approach. Higher priority event listeners are called first.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
@@ -24,7 +27,7 @@ interface EventDispatcherInterface
      * @param   object|array   $event An array, a ObjectConfig or a Event object
      * @return  Event
      */
-    public function dispatchEvent($name, $event = array());
+    public function dispatch($name, $event = array());
 
     /**
      * Add an event listener
@@ -34,18 +37,18 @@ interface EventDispatcherInterface
      * @param  integer   $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
      *                               default is 3. If no priority is set, the command priority will be used
      *                               instead.
-     * @return EventDispatcherAbstract
+     * @return EventDispatcherInterface
      */
-    public function addEventListener($name, $listener, $priority = Event::PRIORITY_NORMAL);
+    public function addListener($name, $listener, $priority = Event::PRIORITY_NORMAL);
 
     /**
      * Remove an event listener
      *
      * @param   string    $name      The event name
      * @param   callable  $listener  The listener
-     * @return  EventDispatcherAbstract
+     * @return  EventDispatcherInterface
      */
-    public function removeEventListener($name, $listener);
+    public function removeListener($name, $listener);
 
     /**
      * Get a list of listeners for a specific event
@@ -67,17 +70,20 @@ interface EventDispatcherInterface
      * Add an event subscriber
      *
      * @param  EventSubscriberInterface $subscriber The event subscriber to add
-     * @return  EventDispatcherAbstract
+     * @param  integer   $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                               default is 3. If no priority is set, the command priority will be used
+     *                               instead.
+     * @return  EventDispatcherInterface
      */
-    public function addEventSubscriber(EventSubscriberInterface $subscriber, $priority = null);
+    public function addSubscriber(EventSubscriberInterface $subscriber, $priority = null);
 
     /**
      * Remove an event subscriber
      *
      * @param  EventSubscriberInterface $subscriber The event subscriber to remove
-     * @return  EventDispatcherAbstract
+     * @return  EventDispatcherInterface
      */
-    public function removeEventSubscriber(EventSubscriberInterface $subscriber);
+    public function removeSubscriber(EventSubscriberInterface $subscriber);
 
     /**
      * Gets the event subscribers
@@ -102,7 +108,7 @@ interface EventDispatcherInterface
      * @param  integer  $priority  The event priority
      * @return  EventDispatcherInterface
      */
-    public function setEventPriority($name, $listener, $priority);
+    public function setPriority($name, $listener, $priority);
 
     /**
      * Get the priority of an event
@@ -111,7 +117,5 @@ interface EventDispatcherInterface
      * @param   callable  $listener  The listener
      * @return  integer|false The event priority or FALSE if the event isn't listened for.
      */
-    public function getEventPriority($name, $listener);
-
-
+    public function getPriority($name, $listener);
 }

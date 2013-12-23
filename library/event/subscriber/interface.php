@@ -12,6 +12,10 @@ namespace Nooku\Library;
 /**
  * Event Handler Interface
  *
+ * An EventSubscriber knows himself what events he is interested in. If an EventSubscriber is added to an
+ * EventDispatcherInterface, the dispatcher invokes {@link getListeners} and registers the subscriber
+ * as a listener for all returned events.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
@@ -25,11 +29,14 @@ interface EventSubscriberInterface
     public function getPriority();
           
     /**
-     * Get a list of subscribed events 
-     *       
-     * Event handlers always start with 'on' and need to be public methods
-     * 
-     * @return array An array of public methods
+     * Get a list of subscribed events
+     *
+     * The array keys are event names and the value is an associative array composed of a callable and an optional
+     * priority. If no priority is defined the dispatcher is responsible to set a default.
+     *
+     * eg  array('eventName' => array('calla' => array($object, 'methodName'), 'priority' => $priority))
+     *
+     * @return array The event names to listen to
      */
-    public function getSubscriptions();
+    public function getListeners();
 }

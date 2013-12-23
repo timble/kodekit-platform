@@ -137,7 +137,7 @@ class EventMixin extends ObjectMixinAbstract
      */
     public function addEventListener($event, $listener, $priority = Event::PRIORITY_NORMAL)
     {
-        $this->getEventDispatcher()->addEventListener($event, $listener, $priority);
+        $this->getEventDispatcher()->addListener($event, $listener, $priority);
         return $this->getMixer();
     }
 
@@ -150,7 +150,7 @@ class EventMixin extends ObjectMixinAbstract
      */
     public function removeEventListener($event, $listener)
     {
-        $this->getEventDispatcher()->removeEventListener($event, $listener);
+        $this->getEventDispatcher()->removeListener($event, $listener);
         return $this->getMixer();
     }
 
@@ -172,7 +172,7 @@ class EventMixin extends ObjectMixinAbstract
         }
 
         $priority = is_int($priority) ? $priority : $subscriber->getPriority();
-        $this->getEventDispatcher()->addEventSubscriber($subscriber, $priority);
+        $this->getEventDispatcher()->addSubscriber($subscriber, $priority);
 
         return $this;
     }
@@ -190,7 +190,7 @@ class EventMixin extends ObjectMixinAbstract
             $subscriber = $this->getEventSubscriber($subscriber);
         }
 
-        $this->getEventDispatcher()->removeEventSubscriber($subscriber);
+        $this->getEventDispatcher()->removeSubscriber($subscriber);
         return $this->getMixer();
     }
 

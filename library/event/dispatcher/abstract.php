@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Event Dispatcher
  *
- * API interface inspired upon the DOM Level 2 Event spec. Implementation provides a priority based event capturing
- * approach. Higher priority event listeners are called first.
+ * API interface inspired upon the DOM Level 2 Event spec and Symfony 2 EventDispatcher component. Implementation
+ * provides a priority based event capturing approach. Higher priority event listeners are called first.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
@@ -42,13 +42,6 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     protected $_subscribers;
 
     /**
-     * The event object
-     *
-     * @var Event
-     */
-    protected $_event = null;
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
@@ -66,14 +59,14 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      *
      * @param   string         $name  The event name
      * @param   object|array   $event An array, a ObjectConfig or a Event object
-     * @return  Event
+     * @return  EventInterface
      */
-    public function dispatchEvent($name, $event = array())
+    public function dispatch($name, $event = array())
     {
         $result = array();
 
         //Make sure we have an event object
-        if (!$event instanceof Event) {
+        if (!$event instanceof EventInterface) {
             $event = new Event($event);
         }
 
@@ -106,7 +99,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      * @throws \InvalidArgumentException If the listener is not a callable
      * @return EventDispatcherAbstract
      */
-    public function addEventListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
+    public function addListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
     {
         if (!is_callable($listener))
         {
@@ -129,7 +122,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      * @throws \InvalidArgumentException If the listener is not a callable
      * @return  EventDispatcherAbstract
      */
-    public function removeEventListener($name, $listener)
+    public function removeListener($name, $listener)
     {
         if (!is_callable($listener))
         {
@@ -190,19 +183,29 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      * Add an event subscriber
      *
      * @param  EventSubscriberInterface $subscriber The event subscriber to add
+     * @param  integer   $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                               default is 3. If no priority is set, the command priority will be used
+     *                               instead.
      * @return  EventDispatcherAbstract
      */
-    public function addEventSubscriber(EventSubscriberInterface $subscriber, $priority = null)
+    public function addSubscriber(EventSubscriberInterface $subscriber, $priority = null)
     {
         $handle = $subscriber->getHandle();
 
         if (!isset($this->_subscribers[$handle]))
         {
-            $subscriptions = $subscriber->getSubscriptions();
+            $listeners = $subscriber->getListeners();
             $priority = is_int($priority) ? $priority : $subscriber->getPriority();
 
-            foreach ($subscriptions as $name => $listener) {
-                $this->addEventListener($name, $listener, $priority);
+            foreach ($listeners as $name => $listener)
+            {
+                $listener = $listener['listener'];
+
+                if(!is_int($priority)) {
+                    $priority = isset($listener['priority']) ? $listener['priority'] : $subscriber->getPriority();
+                }
+
+                $this->addListener($name, $listener, $priority);
             }
 
             $this->_subscribers[$handle] = $subscriber;
@@ -217,16 +220,16 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      * @param  EventSubscriberInterface $subscriber The event subscriber to remove
      * @return  EventDispatcherAbstract
      */
-    public function removeEventSubscriber(EventSubscriberInterface $subscriber)
+    public function removeSubscriber(EventSubscriberInterface $subscriber)
     {
         $handle = $subscriber->getHandle();
 
         if (isset($this->_subscribers[$handle]))
         {
-            $subscriptions = $subscriber->getSubscriptions();
+            $subscriptions = $subscriber->getListeners();
 
             foreach ($subscriptions as $name => $listener) {
-                $this->removeEventListener($name, $listener);
+                $this->removeListener($name, $listener);
             }
 
             unset($this->_subscribers[$handle]);
@@ -260,12 +263,12 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Set the priority of an event
      *
-     * @param  string   $name      The event name
-     * @param  object   $listener  The listener
-     * @param  integer  $priority  The event priority
+     * @param  string    $name      The event name
+     * @param  callable  $listener  The listener
+     * @param  integer   $priority  The event priority
      * @return  EventDispatcherAbstract
      */
-    public function setEventPriority($name, $listener, $priority)
+    public function setPriority($name, $listener, $priority)
     {
         if (!is_callable($listener))
         {
@@ -274,9 +277,9 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
             );
         }
 
-        if (isset($this->listeners[$name]))
+        if ($this->hasListeners($name))
         {
-            foreach ($this->_listeners[$name] as $priority => $listeners)
+            foreach ($this->getListeners($name) as $priority => $listeners)
             {
                 if (false !== ($key = array_search($listener, $listeners)))
                 {
@@ -292,11 +295,11 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Get the priority of an event
      *
-     * @param   string   $name      The event name
-     * @param   object   $listener  The listener
+     * @param   string    $name      The event name
+     * @param   callable  $listener  The listener
      * @return  integer|false The event priority or FALSE if the event isn't listened for.
      */
-    public function getEventPriority($name, $listener)
+    public function getPriority($name, $listener)
     {
         $result = false;
 
@@ -307,9 +310,9 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
             );
         }
 
-        if (isset($this->listeners[$name]))
+        if ($this->hasListeners($name))
         {
-            foreach ($this->_listeners[$name] as $priority => $listeners)
+            foreach ($this->getListeners($name) as $priority => $listeners)
             {
                 if (false !== ($key = array_search($listener, $listeners)))
                 {
