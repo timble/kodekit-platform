@@ -74,7 +74,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('dispatcher', $config->object_identifier);
+            $manager->registerAlias($config->object_identifier, 'dispatcher');
         }
 
         return $manager->getObject($config->object_identifier);
