@@ -104,4 +104,14 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
 
         return parent::setDelegate($delegate);
     }
+
+    /**
+     * Set the decorated object
+     *
+     * @return FilterInterface
+     */
+    public function getDelegate()
+    {
+        return parent::getDelegate();
+    }
 }
