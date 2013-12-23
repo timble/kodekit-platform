@@ -35,8 +35,8 @@ class DispatcherRequest extends DispatcherRequestAbstract implements ObjectInsta
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('dispatcher.request', $config->object_identifier);
-            $manager->registerAlias('request', 'dispatcher.request');
+            $manager->registerAlias($config->object_identifier, 'dispatcher.request');
+            $manager->registerAlias('dispatcher.request', 'request');
         }
 
         return $manager->getObject('dispatcher.request');
