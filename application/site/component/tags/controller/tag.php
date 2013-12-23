@@ -39,7 +39,7 @@ abstract class TagsControllerTag extends Library\ControllerModel
             $alias = clone $layout;
             $alias->package = 'tags';
 
-            $this->getObject('manager')->registerAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($alias, $layout);
         }
 
         return parent::_actionRender($context);
