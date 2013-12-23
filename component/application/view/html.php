@@ -33,7 +33,6 @@ class ViewHtml extends Library\ViewHtml
     {
         $config->append(array(
             'auto_fetch'       => false,
-            'template_filters' => array('script', 'style', 'link', 'meta', 'title'),
         ));
 
         parent::_initialize($config);
