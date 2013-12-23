@@ -114,12 +114,12 @@ interface ObjectManagerInterface
     /**
      * Register an alias for an identifier
      *
-     * @param string $alias      The alias
      * @param mixed  $identifier The class identifier or identifier object
+     * @param string $alias      The alias
      * @return ObjectManagerInterface
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function registerAlias($alias, $identifier);
+    public function registerAlias($identifier, $alias);
 
     /**
      * Get the aliases for an identifier
