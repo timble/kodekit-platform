@@ -35,6 +35,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		//Set the controller
 		$this->_controller = $config->controller;
+
+        //Register the default exception handler
+        $this->addEventListener('onException', array($this, 'fail'), Event::PRIORITY_LOW);
 	}
 
     /**
@@ -232,6 +235,45 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
+     * Handle errors and exceptions
+     *
+     * @throws \InvalidArgumentException If the action parameter is not an instance of Exception or ExceptionError
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     */
+    protected function _actionFail(DispatcherContextInterface $context)
+    {
+        //Check an exception was passed
+        if(!isset($context->param) && !$context->param instanceof Exception)
+        {
+            throw new \InvalidArgumentException(
+                "Action parameter 'exception' [Exception] is required"
+            );
+        }
+
+        //Get the exception object
+        if($context->param instanceof EventException) {
+            $exception = $context->param->getException();
+        } else {
+            $exception = $context->param;
+        }
+
+        //If the error code does not correspond to a status message, use 500
+        $code = $exception->getCode();
+        if(!isset(HttpResponse::$status_messages[$code])) {
+            $code = '500';
+        }
+
+        //Get the error message
+        $message = HttpResponse::$status_messages[$code];
+
+        //Set the response status
+        $context->response->setStatus($code , $message);
+
+        //Send the response
+        $this->send($context);
+    }
+
+    /**
      * Dispatch the request
      *
      * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
@@ -254,6 +296,12 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected function _actionSend(DispatcherContextInterface $context)
     {
         $context->response->send();
-        exit(0);
+
+        $status = 0;
+        if(!$context->response->isSuccess) {
+            $status = (int) $context->response->getStatusCode();
+        }
+
+        exit($status);
     }
 }
