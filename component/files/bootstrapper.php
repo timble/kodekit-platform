@@ -19,14 +19,23 @@ use Nooku\Library;
  */
  class Bootstrapper extends Library\BootstrapperAbstract
 {
+     protected function _initialize(Library\ObjectConfig $config)
+     {
+         $config->append(array(
+             'priority' => self::PRIORITY_LOW,
+             'aliases'  => array(
+                 'com:files.database.rowset.directories'  => 'com:files.database.rowset.folders',
+                 'com:files.database.row.directory'       => 'com:files.database.row.folder',
+             ),
+         ));
+
+         parent::_initialize($config);
+     }
+
     public function bootstrap()
     {
         $this->getClassLoader()
              ->getLocator('psr')
              ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/imagine/lib');
-
-        $manager = $this->getObjectManager();
-        $manager->registerAlias('com:files.database.rowset.directories', 'com:files.database.rowset.folders');
-        $manager->registerAlias('com:files.database.row.directory', 'com:files.database.row.folder');
     }
 }
