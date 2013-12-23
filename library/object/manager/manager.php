@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSingleton
 {
     /**
+     * The object identifier
+     *
+     * @var ObjectIdentifier
+     */
+    private $__object_identifier;
+
+    /**
      * The object registry
      *
      * @var ObjectRegistry
@@ -56,7 +63,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         else $this->_registry = new ObjectRegistry();
 
         //Create the object identifier
-        $this->__object_identifier = $this->getIdentifier('lib:object.manager');
+        $this->__object_identifier = $this->getIdentifier('object.manager');
 
         //Manually register the library loader
         $config = new ObjectConfig(array(
@@ -70,8 +77,8 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         $this->registerLocator('lib:object.locator.component');
 
         //Register self and set a 'manager' alias
-        $this->setObject('lib:object.manager', $this);
-        $this->registerAlias('lib:object.manager', 'manager');
+        $this->setObject('object.manager', $this);
+        $this->registerAlias('object.manager', 'manager');
     }
 
     /**
