@@ -24,11 +24,11 @@ class EventSubscriberApplication extends Library\EventSubscriberAbstract
 	    //Intercept the events for profiling
 	    if($this->getObject('application')->getCfg('debug'))
 	    {
-	        //Replace the event dispatcher
-	        $this->getObject('manager')->registerAlias('event.dispatcher', 'com:debug.event.profiler');
+	        //Profile the event dispatcher
+	        $this->getObject('event.dispatcher')->decorate('event.profiler');
 	          
-	        //Add the database tracer
-	        $this->getObject('application.database')->addEventSubscriber('com:debug.event.subscriber.database');
+	        //Trace database queries
+	        $this->getObject('event.dispatcher')->addEventSubscriber('com:debug.event.subscriber.database');
 		}
 		
 		parent::__construct($config);
