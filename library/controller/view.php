@@ -128,7 +128,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
             /*if($this->isDispatched())
             {
                 $class = $this->_view->getIdentifier()->getClassName();
-                $path  = $this->getObject('manager')->getClassLoader()->findPath($class);
+                $path  = $this->getObject('manager')->getClassLoader()->find($class);
 
                 if(!file_exists(dirname($path))) {
                     throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
