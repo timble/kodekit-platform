@@ -42,9 +42,5 @@
     </div>
 </div>
 
-<? if(object('application')->getCfg('debug')) : ?>
-    <?= object('com:debug.controller.debug')->render(); ?>
-<? endif; ?>
-
 </body>
 </html>
