@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventProfiler extends ObjectDecorator implements EventProfilerInterface
+class EventProfiler extends ObjectDecorator implements EventProfilerInterface, EventDispatcherInterface
 {
    /**
     * The start time
@@ -99,7 +99,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @param   object|array  $event An array, a Library\ObjectConfig or a Library\Event object
      * @return  EventDispatcher
      */
-    public function dispatchEvent($name, $event = array())
+    public function dispatch($name, $event = array())
     {
         if($this->isEnabled())
         {
@@ -111,7 +111,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
             );
         }
 
-        return $this->getDelegate()->dispatchEvent($name, $event);
+        return $this->getDelegate()->dispatch($name, $event);
     }
 
     /**
@@ -125,9 +125,9 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @throws \InvalidArgumentException If the listener is not a callable
      * @return EventDispatcherAbstract
      */
-    public function addEventListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
+    public function addListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
     {
-        $this->getDelegate()->addEventListener($name, $listener, $priority);
+        $this->getDelegate()->addListener($name, $listener, $priority);
         return $this;
     }
 
@@ -139,9 +139,9 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @throws \InvalidArgumentException If the listener is not a callable
      * @return  EventDispatcherAbstract
      */
-    public function removeEventListener($name, $listener)
+    public function removeListener($name, $listener)
     {
-        $this->getDelegate()->removeEventListener($name, $listener);
+        $this->getDelegate()->removeListener($name, $listener);
         return $this;
     }
 
@@ -173,9 +173,9 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @param  EventSubscriberInterface $subscriber The event subscriber to add
      * @return  EventDispatcherAbstract
      */
-    public function addEventSubscriber(EventSubscriberInterface $subscriber, $priority = null)
+    public function addSubscriber(EventSubscriberInterface $subscriber, $priority = null)
     {
-        $this->getDelegate()->addEventSubscriber($subscriber);
+        $this->getDelegate()->addSubscriber($subscriber);
         return $this;
     }
 
@@ -185,9 +185,9 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @param  EventSubscriberInterface $subscriber The event subscriber to remove
      * @return  EventDispatcherAbstract
      */
-    public function removeEventSubscriber(EventSubscriberInterface $subscriber)
+    public function removeSubscriber(EventSubscriberInterface $subscriber)
     {
-        $this->getDelegate()->removeEventSubscriber($subscriber);
+        $this->getDelegate()->removeSubscriber($subscriber);
         return $this;
     }
 
@@ -220,9 +220,9 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @param  integer  $priority  The event priority
      * @return  EventDispatcherAbstract
      */
-    public function setEventPriority($name, $listener, $priority)
+    public function setPriority($name, $listener, $priority)
     {
-        return $this->getDelegate()->setEventPriority($name, $listener, $priority);
+        return $this->getDelegate()->setPriority($name, $listener, $priority);
     }
 
     /**
@@ -232,9 +232,9 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
      * @param   object   $listener  The listener
      * @return  integer|false The event priority or FALSE if the event isn't listened for.
      */
-    public function getEventPriority($name, $listener)
+    public function getPriority($name, $listener)
     {
-        return $this->getDelegate()->getEventPriority($name, $listener);
+        return $this->getDelegate()->getPriority($name, $listener);
     }
 
     /**
@@ -295,5 +295,15 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface
         }
 
         return parent::setDelegate($delegate);
+    }
+
+    /**
+     * Set the decorated object
+     *
+     * @return EventDispatcherInterface
+     */
+    public function getDelegate()
+    {
+        return parent::getDelegate();
     }
 }

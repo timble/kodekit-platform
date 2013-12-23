@@ -12,17 +12,21 @@ namespace Nooku\Library;
 /**
  * Abstract Event Subscriber
  *
+ * An EventSubscriber knows himself what events he is interested in. If an EventSubscriber is added to an
+ * EventDispatcherInterface, the dispatcher invokes {@link getSubscribedEvents} and registers the subscriber
+ * as a listener for all returned events.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
 abstract class EventSubscriberAbstract extends Object implements EventSubscriberInterface
 {
  	/**
-     * List of subscribed events
+     * List of event listeners
      *
      * @var array
      */
-    private $__subscriptions;
+    private $__listeners;
     
     /**
      * The event priority
@@ -73,28 +77,32 @@ abstract class EventSubscriberAbstract extends Object implements EventSubscriber
     /**
      * Get a list of subscribed events 
      *       
-     * Event handlers always start with 'on' and need to be public methods
+     * Event listeners always start with 'on' and need to be public methods.
      * 
      * @return array An array of public methods
      */
-    public function getSubscriptions()
+    public function getListeners()
     {
-        if(!$this->__subscriptions)
+        if(!$this->__listeners)
         {
-            $subscriptions  = array();
+            $listeners = array();
             
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method)
             {
-                if(substr($method->name, 0, 2) == 'on') {
-                    $subscriptions[$method->name] = array($this, $method->name);
+                if(substr($method->name, 0, 2) == 'on')
+                {
+                    $listeners[$method->name] = array(
+                        'listener' => array($this, $method->name),
+                        'priority' => $this->getPriority()
+                    );
                 }
             }
             
-            $this->__subscriptions = $subscriptions;
+            $this->__listeners = $listeners;
         }
           
-        return $this->__subscriptions;
+        return $this->__listeners;
     }
 }
