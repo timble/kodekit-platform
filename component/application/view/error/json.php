@@ -12,12 +12,12 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Exception Json View
+ * Error Json View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ViewExceptionJson extends Library\ViewJson
+class ViewErrorJson extends Library\ViewJson
 {
     protected function _actionRender(Library\ViewContext $context)
     {

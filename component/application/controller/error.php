@@ -12,12 +12,12 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Exception Controller
+ * Error Controller
  *   
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ControllerException extends Library\ControllerView
+class ControllerError extends Library\ControllerView
 {
     /**
      * Render an exception
@@ -47,18 +47,10 @@ class ControllerException extends Library\ControllerView
         $message = Library\HttpResponse::$status_messages[$code];
         $traces = $exception->getTrace();
 
-        //Find the real file path
-        $aliases = $this->getObject('manager')->getClassLoader()->getAliases();
-
         //Cleanup the traces information
         foreach($traces as $key => $trace)
         {
-            if(isset($trace['file']))
-            {
-                if($alias = array_search($trace['file'], $aliases)) {
-                    $trace['file'] = $alias;
-                };
-
+            if(isset($trace['file'])) {
                 $traces[$key]['file'] = str_replace(JPATH_ROOT, '', $trace['file']);
             }
         }
@@ -92,11 +84,6 @@ class ControllerException extends Library\ControllerView
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
 
-        //Find and use file alias if it exists
-        if($alias = array_search($file, $aliases)) {
-            $file = str_replace(JPATH_ROOT, '', $alias);;
-        };
-
         //Create the exception message
         if(ini_get('display_errors')) {
             $message = "Exception '".get_class($exception) ."' with message '".$message."' in ".$file.":".$line;
@@ -119,9 +106,6 @@ class ControllerException extends Library\ControllerView
 
         //Render the exception
         $result = parent::_actionRender($context);
-
-        //Set the response status
-        $context->response->setStatus($code , $message);
 
         return $result;
     }
