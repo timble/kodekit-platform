@@ -28,7 +28,6 @@ class ApplicationBootstrapper extends Library\ObjectBootstrapperComponent
                  'application.pages'              => 'com:application.database.rowset.pages',
                  'application.modules'            => 'com:application.database.rowset.modules',
                  'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
-                 'event.dispatcher'               => 'com:debug.event.dispatcher.debug',
                  'lib:template.locator.component' => 'com:application.template.locator.component',
              ),
          ));
