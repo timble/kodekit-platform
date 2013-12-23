@@ -32,6 +32,13 @@ interface DispatcherPermissionInterface
     public function canDispatch();
 
     /**
+     * Permission handler for fail actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canFail();
+
+    /**
      * Permission handler for redirect actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
