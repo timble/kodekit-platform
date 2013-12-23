@@ -8,14 +8,15 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
- * Http Dispatcher
+ * Application Http Dispatcher
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
+class ApplicationDispatcherHttp extends Application\DispatcherHttp
 {
     /**
      * The site identifier.
@@ -32,12 +33,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
-
-        //Set the base url in the request
-        $this->getRequest()->setBaseUrl($config->base_url);
-
-        //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
 
         //Set the site name
         if(empty($config->site)) {
@@ -62,9 +57,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'controller'        => 'page',
-            'base_url'          => '/administrator',
-            'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
+            'base_url' => '/administrator',
             'site'     => null,
             'options'  => array(
                 'session_name' => 'admin',
@@ -77,22 +70,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        // Check if an instance with this identifier already exists
-        if (!$manager->isRegistered('application'))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->setObject($config->object_identifier, $instance);
-
-            //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('application', $config->object_identifier);
-        }
-
-        return $manager->getObject('application');
-    }
-
     /**
      * Run the application
      *
@@ -101,7 +78,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
         //Set the site error reporting
-        $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
+        $this->getEventDispatcher()->setErrorLevel($this->getCfg('debug_mode'));
 
         //Set the paths
         $params = $this->getObject('application.extensions')->files->params;
@@ -138,56 +115,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
 
         //Dispatch the request
         $this->dispatch();
-    }
-
-    /**
-     * Dispatch the controller
-     *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
-    {
-        //Render the page
-        if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
-        {
-            //Render the page
-            $config = array('response' => $context->response);
-
-            $layout = $context->request->query->get('tmpl', 'cmd', 'default');
-            $this->getObject('com:application.controller.page', $config)
-                ->layout($layout)
-                ->render();
-        }
-
-        parent::_actionDispatch($context);
-    }
-
-    /**
-     * Render an exception
-     *
-     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _actionException(Library\DispatcherContextInterface $context)
-    {
-        //Check an exception was passed
-        if(!isset($context->param) && !$context->param instanceof Exception)
-        {
-            throw new \InvalidArgumentException(
-                "Action parameter 'exception' [Library\EventException] is required"
-            );
-        }
-
-        $config = array(
-            'request'  => $this->getRequest(),
-            'response' => $this->getResponse()
-        );
-
-        $this->getObject('com:application.controller.exception',  $config)
-             ->render($context->param->getException());
-
-        //Send the response
-        $this->send($context);
     }
 
     /**
