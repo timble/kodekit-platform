@@ -36,8 +36,8 @@ class DispatcherResponse extends DispatcherResponseAbstract implements ObjectIns
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias('dispatcher.response', $config->object_identifier);
-            $manager->registerAlias('response', 'dispatcher.response');
+            $manager->registerAlias($config->object_identifier, 'dispatcher.response');
+            $manager->registerAlias('dispatcher.response', 'response');
         }
 
         return $manager->getObject('dispatcher.response');
