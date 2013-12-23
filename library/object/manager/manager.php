@@ -71,7 +71,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
         //Register self and set a 'manager' alias
         $this->setObject('lib:object.manager', $this);
-        $this->registerAlias('manager', 'lib:object.manager');
+        $this->registerAlias('lib:object.manager', 'manager');
     }
 
     /**
@@ -357,15 +357,15 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     /**
      * Register an alias for an identifier
      *
-     * @param string $alias      The alias
      * @param mixed  $identifier The class identifier or identifier object
+     * @param string $alias      The alias
      * @return ObjectManagerInterface
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function registerAlias($alias, $identifier)
+    public function registerAlias($identifier, $alias)
     {
-        $alias      = trim((string) $alias);
         $identifier = $this->getIdentifier($identifier);
+        $alias      = trim((string) $alias);
 
         $this->_registry->alias($alias, $identifier);
 
@@ -553,7 +553,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         $result = null;
 
-        if ($this->getClassLoader()->loadClass($identifier->classname))
+        if ($this->getClassLoader()->load($identifier->classname))
         {
             if (!$identifier->inherits(__NAMESPACE__.'\ObjectInterface', false))
             {

@@ -36,7 +36,7 @@ class User extends UserAbstract implements ObjectInstantiable, ObjectSingleton
             $instance  = new $classname($config);
             $manager->setObject($config->object_identifier, $instance);
 
-            $manager->registerAlias('user', $config->object_identifier);
+            $manager->registerAlias($config->object_identifier, 'user');
         }
 
         return $manager->getObject('user');
