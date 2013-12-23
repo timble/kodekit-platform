@@ -10,13 +10,20 @@
 namespace Nooku\Library;
 
 /**
- * Error Event Dispatcher
+ * Exception Dispatcher
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
 class EventDispatcherException extends EventDispatcherAbstract
 {
+    /**
+     * Error levels
+     */
+    const ERROR_SYSTEM       = null;
+    const ERROR_DEVELOPMENT  = -1; //E_ALL   | E_STRICT  | ~E_DEPRECATED
+    const ERROR_PRODUCTION   = 7;  //E_ERROR | E_WARNING | E_PARSE
+
     /**
      * The error level.
      *
@@ -33,18 +40,19 @@ class EventDispatcherException extends EventDispatcherAbstract
     {
         parent::__construct($config);
 
+        //Set the error level
         $this->setErrorLevel($config->error_level);
 
         if($config->catch_user_errors) {
-            $this->registerErrorHandler();
+            $this->catchUserErrors();
         }
 
-        if($config->catch_core_errors) {
-            $this->registerShutdownHandler();
+        if($config->catch_fatal_errors) {
+            $this->catchFatalErrors();
         }
 
         if($config->catch_exceptions) {
-            $this->registerExceptionHandler();
+            $this->catchExceptions();
         }
     }
 
@@ -59,106 +67,13 @@ class EventDispatcherException extends EventDispatcherAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'catch_exceptions'  => true,
-            'catch_user_errors' => true,
-            'catch_core_errors' => true,
-            'error_level'       => null,
+            'catch_exceptions'   => true,
+            'catch_user_errors'  => true,
+            'catch_fatal_errors' => true,
+            'error_level'        => self::ERROR_SYSTEM,
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Set the error level
-     *
-     * @param int $level If NULL, will reset the level to the system default.
-     */
-    public function setErrorLevel($level)
-    {
-        $this->_error_level = null === $level ? error_reporting() : $level;
-    }
-
-    /**
-     * Get the error level
-     *
-     * @return int The error level
-     */
-    public function getErrorLevel($level)
-    {
-        return $this->_error_level;
-    }
-
-    /**
-     * Register the exception handler.
-     *
-     * @return  string|null Returns the name of the previously defined exception handler, or NULL if no previous handler
-     *                      was defined.
-     */
-    public function registerExceptionHandler()
-    {
-        $self = $this; //Cannot use $this as a lexical variable in PHP 5.3
-
-        $previous = set_exception_handler(function($exception) use ($self) {
-            $self->dispatchException('onException', array('exception' => $exception));
-        });
-
-        return $previous;
-    }
-
-    /**
-     * Register the error handler.
-     *
-     * @return  string|null Returns the name of the previously defined error handler, or NULL if no previous handler
-     *                      was defined.
-     */
-    public function registerErrorHandler()
-    {
-        $error_level = $this->_error_level;
-        $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
-
-        $previous = set_error_handler(function($level, $message, $file, $line, $context) use ($self, $error_level)
-        {
-            if (0 === $error_level) {
-                return false;
-            }
-
-            if (error_reporting() & $level && $error_level & $level)
-            {
-                $exception = new ExceptionError($message, 500, $level, $file, $line);
-                $self->dispatchException('onException', array(
-                    'exception' => $exception,
-                    'context'   => $context
-                ));
-            }
-
-            //Let the normal error flow continue
-            return false;
-        });
-
-        return $previous;
-    }
-
-    /**
-     * Register a shutdown handler.
-     *
-     * @return  void
-     */
-    public function registerShutdownHandler()
-    {
-        $error_level = $this->_error_level;
-        $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
-
-        register_shutdown_function(function() use ($self, $error_level)
-        {
-            $error = error_get_last();
-            $level = $error['type'];
-
-            if (error_reporting() & $level && $error_level & $level)
-            {
-                $exception = new ExceptionError($error['message'], 500, $level, $error['file'], $error['line']);
-                $self->dispatchException('onException', array('exception' => $exception));
-            }
-        });
     }
 
     /**
@@ -168,11 +83,10 @@ class EventDispatcherException extends EventDispatcherAbstract
      * exception instead.
      *
      * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
-     * @param   string  $name  The event name
      * @param   object|array   An array, a ObjectConfig or a Event object
      * @return  EventException
      */
-    public function dispatchException($name, $event = array())
+    public function dispatchException($event = array())
     {
         try
         {
@@ -181,7 +95,7 @@ class EventDispatcherException extends EventDispatcherAbstract
                 $event = new EventException($event);
             }
 
-            parent::dispatchEvent($name, $event);
+            $this->dispatch('onException', $event);
         }
         catch (\Exception $e)
         {
@@ -200,5 +114,95 @@ class EventDispatcherException extends EventDispatcherAbstract
         }
 
         return $event;
+    }
+
+    /**
+     * Set the error level
+     *
+     * @param int $level If NULL, will reset the level to the system default.
+     */
+    public function setErrorLevel($level)
+    {
+        $this->_error_level = null === $level ? error_reporting() : $level;
+    }
+
+    /**
+     * Get the error level
+     *
+     * @return int The error level
+     */
+    public function getErrorLevel()
+    {
+        return $this->_error_level;
+    }
+
+    /**
+     * Catch exceptions during runtime
+     *
+     * @return  string|null Returns the name of the previously defined exception handler, or NULL if no previous handler
+     *                      was defined.
+     */
+    public function catchExceptions()
+    {
+        $self = $this; //Cannot use $this as a lexical variable in PHP 5.3
+
+        $previous = set_exception_handler(function($exception) use ($self) {
+            $self->dispatchException(array('exception' => $exception));
+        });
+
+        return $previous;
+    }
+
+    /**
+     * Catch user errors during runtime
+     *
+     * @return  string|null Returns the name of the previously defined error handler, or NULL if no previous handler
+     *                      was defined.
+     */
+    public function catchUserErrors()
+    {
+        $error_level = $this->_error_level;
+        $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
+
+        $previous = set_error_handler(function($level, $message, $file, $line, $context) use ($self, $error_level)
+        {
+            if (0 === $error_level) {
+                return false;
+            }
+
+            if (error_reporting() & $level && $error_level & $level)
+            {
+                $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
+                $self->dispatchException(array('exception' => $exception,'context' => $context));
+            }
+
+            //Let the normal error flow continue
+            return false;
+        });
+
+        return $previous;
+    }
+
+    /**
+     * Catch fatal errors after shutdown.
+     *
+     * @return  void
+     */
+    public function catchFatalErrors()
+    {
+        $error_level = $this->_error_level;
+        $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
+
+        register_shutdown_function(function() use ($self, $error_level)
+        {
+            $error = error_get_last();
+            $level = $error['type'];
+
+            if (error_reporting() & $level && $error_level & $level)
+            {
+                $exception = new ExceptionError($error['message'], HttpResponse::INTERNAL_SERVER_ERROR , $level, $error['file'], $error['line']);
+                $self->dispatchException(array('exception' => $exception));
+            }
+        });
     }
 }
