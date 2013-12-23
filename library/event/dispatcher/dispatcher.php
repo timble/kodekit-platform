@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventDispatcher extends EventDispatcherAbstract implements ObjectInstantiable, ObjectSingleton
+class EventDispatcher extends EventDispatcherException implements ObjectInstantiable, ObjectSingleton
 {
     /**
      * Force creation of a singleton
@@ -35,7 +35,7 @@ class EventDispatcher extends EventDispatcherAbstract implements ObjectInstantia
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('event.dispatcher', $config->object_identifier);
+            $manager->registerAlias($config->object_identifier, 'event.dispatcher');
         }
 
         return $manager->getObject('event.dispatcher');
