@@ -79,7 +79,7 @@ class CommandInvokerEvent extends EventMixin implements CommandInvokerInterface
         $event = new Event($event);
         $event->setTarget($context->getSubject());
 
-        $this->getEventDispatcher()->dispatchEvent($name, $event);
+        $this->getEventDispatcher()->dispatch($name, $event);
     }
 
     /**
