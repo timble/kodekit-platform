@@ -98,8 +98,8 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ));
 
         $options[] 	= $this->option(array('label' => 'Server Defaults', 'value' => 0));
-        $options[] 	= $this->option(array('label' => 'Development', 'value' => 1));
-        $options[] 	= $this->option(array('label' => 'Production' , 'value' => 2));
+        $options[] 	= $this->option(array('label' => 'Development', 'value' => -1));
+        $options[] 	= $this->option(array('label' => 'Production' , 'value' =>  7));
 
         $list = $this->optionlist(array(
             'options'   => $options,
