@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ControllerPermissionException extends Library\ControllerPermissionAbstract
+class ControllerPermissionError extends Library\ControllerPermissionAbstract
 {
     public function canRender()
     {

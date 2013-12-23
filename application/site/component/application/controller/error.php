@@ -16,7 +16,7 @@ use Nooku\Component\Application;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerException extends Application\ControllerException
+class ApplicationControllerError extends Application\ControllerError
 {
     public function getRequest()
     {
