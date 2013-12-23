@@ -77,8 +77,8 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         $this->registerLocator('lib:object.locator.component');
 
         //Register self and set a 'manager' alias
-        $this->setObject('object.manager', $this);
-        $this->registerAlias('object.manager', 'manager');
+        $this->setObject('lib:object.manager', $this);
+        $this->registerAlias('lib:object.manager', 'manager');
     }
 
     /**
