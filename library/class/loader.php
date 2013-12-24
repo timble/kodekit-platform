@@ -39,13 +39,6 @@ class ClassLoader implements ClassLoaderInterface
     protected $_registry = null;
 
     /**
-     * Class aliases
-     *
-     * @var    array
-     */
-    protected $_aliases = array();
-
-    /**
      * List of applications
      *
      * @var array
@@ -174,12 +167,7 @@ class ClassLoader implements ClassLoaderInterface
     {
         $result = false;
 
-        //Recursively resolve the real class if an alias was passed
-        while(array_key_exists((string) $class, $this->_aliases)) {
-            $class = $this->_aliases[(string) $class];
-        }
-
-        if(!$this->_registry->offsetExists($class))
+        if(!$this->_registry->has($class))
         {
             //Locate the class
             foreach($this->_locators as $locator)
@@ -193,11 +181,11 @@ class ClassLoader implements ClassLoaderInterface
             {
                 //Get the canonicalized absolute pathname
                 if($result = realpath($result)) {
-                    $this->_registry->offsetSet($class, $result);
+                    $this->_registry->set($class, $result);
                 }
             }
         }
-        else $result = $this->_registry->offsetGet($class);
+        else $result = $this->_registry->get($class);
 
         return $result;
     }
@@ -251,7 +239,7 @@ class ClassLoader implements ClassLoaderInterface
         $alias = trim($alias);
         $class = trim($class);
 
-        $this->_aliases[$alias] = $class;
+        $this->_registry->alias($class, $alias);
     }
 
     /**
@@ -262,7 +250,7 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function getAliases($class)
     {
-        return isset($this->_aliases[$class]) ? $this->_aliases[$class] : array();
+        return array_search($class, $this->_registry->getAliases());
     }
 
     /**
