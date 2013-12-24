@@ -374,7 +374,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         $identifier = $this->getIdentifier($identifier);
         $alias      = trim((string) $alias);
 
-        $this->_registry->alias($alias, $identifier);
+        $this->_registry->alias($identifier, $alias);
 
         return $this;
     }
