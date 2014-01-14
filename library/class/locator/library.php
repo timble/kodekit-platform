@@ -27,23 +27,22 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
     /**
      *  Get a fully qualified path based on a class name
      *
-     * @param  string   $class The class name
+     * @param  string $class     The class name
+     * @param  string $basepath  The base path
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-	public function locate($class)
+    public function locate($class, $basepath = null)
 	{
-		$path = false;
-
-        foreach($this->_namespaces as $namespace => $paths)
+        foreach($this->_namespaces as $namespace => $basepath)
         {
-            if(strpos('\\'.$class, $namespace) !== 0) {
+            if(strpos('\\'.$class, '\\'.$namespace) !== 0) {
                 continue;
             }
 
             $pos       = strrpos($class, '\\');
             $namespace = substr($class, 0, $pos);
             $class     = substr($class, $pos + 1);
-            $paths     = $this->_namespaces['\\'.$namespace];
+            $basepath  = $this->_namespaces[$namespace];
 
             /*
              * Exception rule for Exception classes
@@ -63,19 +62,12 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
                 $path = $path.'/'.$path;
             }
 
-            foreach ($paths as $basepath)
-            {
-                $file = $basepath.'/'.$path.'.php';
-                if(is_file($file)) {
-                    return $file;
-                }
-
+            $file = $basepath.'/'.$path.'.php';
+            if(!is_file($file)) {
                 $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
-                if (is_file($file)) {
-                    return $file;
-                }
             }
 
+            return $file;
         }
 
 		return false;

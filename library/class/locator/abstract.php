@@ -50,14 +50,14 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
     /**
      * Register a namespace
      *
-     * @param  string|array $namespaces
-     * @param  string|array $paths The location(s) of the namespace
+     * @param  string $namespace
+     * @param  string $path The location of the namespace
      * @return ClassLocatorInterface
      */
-    public function registerNamespace($namespace, $paths)
+    public function registerNamespace($namespace, $path)
     {
         $namespace = trim($namespace, '\\');
-        $this->_namespaces['\\'.$namespace] = (array) $paths;
+        $this->_namespaces[$namespace] = $path;
 
         krsort($this->_namespaces, SORT_STRING);
 
@@ -72,25 +72,22 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
      */
     public function registerNamespaces(array $namespaces)
     {
-        foreach ($namespaces as $namespace => $paths)
-        {
-            $namespace = trim($namespace, '\\');
-            $this->_namespaces['\\'.$namespace] = (array) $paths;
+        foreach ($namespaces as $namespace => $path) {
+            $this->registerNamespace($namespace, $path);
         }
-
-        krsort($this->_namespaces, SORT_STRING);
 
         return $this;
     }
 
     /**
-     * Get the type
+     * Get a the namespace paths
      *
-     * @return string
+     * @param string $namespace The namespace
+     * @return string The namespace path
      */
-    public function getType()
+    public function getNamespace($namespace)
     {
-        return $this->_type;
+        return isset($this->_namespaces[$namespace]) ?  $this->_namespaces[$namespace] : null;
     }
 
     /**
@@ -101,5 +98,15 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
     public function getNamespaces()
     {
         return $this->_namespaces;
+    }
+
+    /**
+     * Get the type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_type;
     }
 }

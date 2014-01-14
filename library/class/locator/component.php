@@ -27,17 +27,16 @@ class ClassLocatorComponent extends ClassLocatorAbstract
     /**
      *  Get a fully qualified path based on a class name
      *
-     * @param  string   $class The class name
+     * @param  string $class     The class name
+     * @param  string $basepath  The base path
      * @return string|false   Returns canonicalized absolute pathname or FALSE if the class could not be found.
      */
-	public function locate($class)
+    public function locate($class, $basepath = null)
 	{
-        $path = false;
-
         //Find the class
-        foreach($this->_namespaces as $namespace => $paths)
+        foreach($this->_namespaces as $namespace => $basepath)
         {
-            if(strpos('\\'.$class, $namespace) !== 0) {
+            if(strpos('\\'.$class, '\\'.$namespace) !== 0) {
                 continue;
             }
 
@@ -65,13 +64,7 @@ class ClassLocatorComponent extends ClassLocatorAbstract
                 $path = $file;
             }
 
-            foreach ($paths as $basepath)
-            {
-                $file = $basepath.'/'.$component.'/'.$path.'.php';
-                if (is_file($file)) {
-                    return $file;
-                }
-            }
+            return $basepath.'/'.$component.'/'.$path.'.php';
         }
 
 		return false;

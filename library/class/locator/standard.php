@@ -29,15 +29,16 @@ class ClassLocatorStandard extends ClassLocatorAbstract
     /**
      * Get the path based on a class name
      *
-     * @param  string   $class The class name
+     * @param  string $class     The class name
+     * @param  string $basepath  The base path
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-	public function locate($class)
+    public function locate($class, $basepath = null)
 	{
         //Find the class
-        foreach($this->_namespaces as $namespace => $paths)
+        foreach($this->_namespaces as $namespace => $basepath)
         {
-            if(strpos('\\'.$class, $namespace) !== 0) {
+            if(strpos('\\'.$class, '\\'.$namespace) !== 0) {
                 continue;
             }
 
@@ -50,13 +51,7 @@ class ClassLocatorStandard extends ClassLocatorAbstract
             $path  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             $path .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
 
-            foreach ($paths as $basepath)
-            {
-                $file = $basepath.'/'.$path;
-                if (is_file($file)) {
-                    return $file;
-                }
-            }
+            return $basepath.'/'.$path;
         }
 
         return false;
