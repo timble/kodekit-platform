@@ -104,17 +104,16 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         //Get the parts
         if(!is_array($identifier))
         {
-            //Get the parts
             if(false === $parts = parse_url($identifier)) {
-                throw new ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
+                throw new \ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
             }
 
             // Set the type
-            $this->type = isset($parts['scheme']) ? $parts['scheme'] : 'lib';
+            $this->_type = isset($parts['scheme']) ? $parts['scheme'] : 'lib';
 
             //Set the domain
             if(isset($parts['host'])) {
-                $this->domain = $parts['host'];
+                $this->_domain = $parts['host'];
             }
 
             // Set the path
@@ -132,9 +131,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         else
         {
             $parts = $identifier;
-
             foreach ($parts as $key => $value) {
-                $this->$key = $value;
+                $this->{'_'.$key} = $value;
+
             }
 
             $identifier = $this->toString();
@@ -152,6 +151,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function serialize()
     {
         $data = $this->toArray();
+        $data['identifier'] = $this->_identifier;
+        $data['class']      = $this->_class;
+
         return serialize($data);
     }
 
@@ -403,54 +405,22 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             'package'	  => $this->_package,
             'path'		  => $this->_path,
             'name'		  => $this->_name,
-            'class'       => $this->_class,
-            'identifier'  => $this->_identifier,
         );
 
         return $data;
     }
 
     /**
-     * Implements the virtual class properties
-     *
-     * This functions creates a string representation of the identifier.
-     *
-     * @param   string  $property The virtual property to set.
-     * @param   string  $value    Set the virtual property to this value.
-     * @throws  ObjectExceptionInvalidIdentifier If the type is unknown
-     */
-    public function __set($property, $value)
-    {
-        if(isset($this->{'_'.$property}))
-        {
-            //Force the path to an array
-            if($property == 'path')
-            {
-                if(is_scalar($value)) {
-                     $value = (array) $value;
-                }
-            }
-
-            //Set the properties
-            $this->{'_'.$property} = $value;
-
-            //Reset the properties
-            $this->_identifier = '';
-            $this->_class      = '';
-        }
-    }
-
-    /**
-     * Implements access to virtual properties by reference so that it appears to be a public property.
+     * Implements access to virtual properties so that it appears to be a read-only public property.
      *
      * @param   string  $property The virtual property to return.
      * @return  array   The value of the virtual property.
      */
-    public function &__get($property)
+    public function __get($property)
     {
         $result = null;
         if(isset($this->{'_'.$property})) {
-            $result =& $this->{'_'.$property};
+            $result = $this->{'_'.$property};
         }
 
         return $result;
@@ -471,7 +441,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Allow casting of the identfiier to a string
+     * Allow casting of the identifiier to a string
      *
      * @return string
      */
