@@ -158,7 +158,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
                 $identifier['path']	= array('model');
                 $identifier['name']	= $model;
 
-                $identifier = ObjectIdentifier::fromArray($identifier);
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($model);
 

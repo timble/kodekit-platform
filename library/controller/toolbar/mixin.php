@@ -89,7 +89,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
                     $identifier['path'] = array('controller', 'toolbar');
                     $identifier['name'] = $toolbar;
 
-                    $identifier = ObjectIdentifier::fromArray($identifier);
+                    $identifier = $this->getIdentifier($identifier);
                 }
                 else $identifier = $this->getIdentifier($toolbar);
             }

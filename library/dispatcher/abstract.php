@@ -166,7 +166,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 			    $identifier['path']	= array('controller');
 			    $identifier['name']	= $controller;
 
-                $identifier = ObjectIdentifier::fromArray($identifier);
+                $identifier = $this->getIdentifier($identifier);
 			}
 		    else $identifier = $this->getIdentifier($controller);
 

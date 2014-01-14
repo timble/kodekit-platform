@@ -391,28 +391,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Build the identifier from a string
-     *
-     * Partial identifiers are also accepted. fromString tries its best to parse them correctly.
-     *
-     * @param   string  $identifier
-     * @throws  |UnexpectedValueException If the identifier is not a string or cannot be casted to one.
-     * @return  ObjectIdentifier
-     */
-    public static function fromString($identifier)
-    {
-        if (!is_string($identifier) && !is_numeric($identifier) && !is_callable(array($identifier, '__toString')))
-        {
-            throw new \UnexpectedValueException(
-                'The identifier must be a string or object implementing __toString(), "'.gettype($identifier).'" given.'
-            );
-        }
-
-        $identifier = new static($identifier);
-        return $identifier;
-    }
-
-    /**
      * Formats the identifier as an associative array
      *
      * @return array
@@ -430,18 +408,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         );
 
         return $data;
-    }
-
-    /**
-     * Build the identifier from an array
-     *
-     * @param   array  $parts Associative array like toArray() returns.
-     * @return  ObjectIdentifier
-     */
-    public static function fromArray(array $parts)
-    {
-        $identifier = new static($parts);
-        return $identifier;
     }
 
     /**

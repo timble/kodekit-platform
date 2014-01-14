@@ -164,7 +164,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
                 }
 
                 if(is_array($identifier)) {
-                    $identifier = ObjectIdentifier::fromArray($identifier);
+                    $identifier = new ObjectIdentifier($identifier);
                 }
             }
 
@@ -172,7 +172,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             if (!$result = $this->_registry->find($identifier))
             {
                 if (is_string($identifier)) {
-                    $result = new ObjectIdentifier($identifier, $this);
+                    $result = new ObjectIdentifier($identifier);
                 } else {
                     $result = $identifier;
                 }
