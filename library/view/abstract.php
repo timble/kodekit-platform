@@ -302,9 +302,11 @@ abstract class ViewAbstract extends Object implements ViewInterface
                     $model = StringInflector::pluralize($model);
                 }
 
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('model');
-                $identifier->name	= $model;
+                $identifier			= $this->getIdentifier()->toArray();
+                $identifier['path']	= array('model');
+                $identifier['name']	= $model;
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($model);
 

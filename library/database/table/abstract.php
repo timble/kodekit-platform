@@ -432,9 +432,9 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      */
     public function getRow(array $options = array())
     {
-        $identifier = clone $this->getIdentifier();
-        $identifier->path = array('database', 'row');
-        $identifier->name = StringInflector::singularize($this->getIdentifier()->name);
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('database', 'row');
+        $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
 
         //Force the table
         $options['table'] = $this;
@@ -455,8 +455,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      */
     public function getRowset(array $options = array())
     {
-        $identifier = clone $this->getIdentifier();
-        $identifier->path = array('database', 'rowset');
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('database', 'rowset');
 
         //Force the table
         $options['table'] = $this;

@@ -162,9 +162,11 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 				    $controller = StringInflector::singularize($controller);
 			    }
 
-			    $identifier			= clone $this->getIdentifier();
-			    $identifier->path	= array('controller');
-			    $identifier->name	= $controller;
+			    $identifier			= $this->getIdentifier()->toArray();
+			    $identifier['path']	= array('controller');
+			    $identifier['name']	= $controller;
+
+                $identifier = ObjectIdentifier::fromArray($identifier);
 			}
 		    else $identifier = $this->getIdentifier($controller);
 
@@ -210,8 +212,8 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         //Get the dispatcher identifier
         if(is_string($context->param) && strpos($context->param, '.') === false )
         {
-            $identifier			 = clone $this->getIdentifier();
-            $identifier->package = $context->param;
+            $identifier			   = $this->getIdentifier()->toArray();
+            $identifier['package'] = $context->param;
         }
         else $identifier = $this->getIdentifier($context->param);
 

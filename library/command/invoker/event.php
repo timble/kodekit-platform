@@ -58,12 +58,12 @@ class CommandInvokerEvent extends EventMixin implements CommandInvokerInterface
 
         if ($context->getSubject())
         {
-            $identifier = clone $context->getSubject()->getIdentifier();
+            $identifier = $context->getSubject()->getIdentifier()->toArray();
 
-            if ($identifier->path) {
-                $type = array_shift($identifier->path);
+            if ($identifier['path']) {
+                $type = array_shift($identifier['path']);
             } else {
-                $type = $identifier->name;
+                $type = $identifier['name'];
             }
         }
 

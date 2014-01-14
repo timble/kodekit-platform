@@ -327,9 +327,11 @@ class UserSessionAbstract extends Object implements UserSessionInterface
         {
             if (is_string($handler) && strpos($handler, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('session', 'handler');
-                $identifier->name = $handler;
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('session', 'handler');
+                $identifier['name'] = $handler;
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($handler);
 
@@ -394,9 +396,11 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             //Create the complete identifier if a partial identifier was passed
             if (is_string($name) && strpos($name, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('session', 'container');
-                $identifier->name = $name;
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('session', 'container');
+                $identifier['name'] = $name;
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($name);
         }

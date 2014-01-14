@@ -85,9 +85,11 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($toolbar) && strpos($toolbar, '.') === false)
                 {
-                    $identifier = clone $this->getIdentifier();
-                    $identifier->path = array('controller', 'toolbar');
-                    $identifier->name = $toolbar;
+                    $identifier = $this->getIdentifier()->toArray();
+                    $identifier['path'] = array('controller', 'toolbar');
+                    $identifier['name'] = $toolbar;
+
+                    $identifier = ObjectIdentifier::fromArray($identifier);
                 }
                 else $identifier = $this->getIdentifier($toolbar);
             }

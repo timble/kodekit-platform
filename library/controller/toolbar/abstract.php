@@ -87,8 +87,8 @@ abstract class ControllerToolbarAbstract extends CommandInvokerAbstract implemen
      */
     final public function execute($name, Command $context)
     {
-        $identifier = clone $context->getSubject()->getIdentifier();
-        $type = array_shift($identifier->path);
+        $identifier = $context->getSubject()->getIdentifier()->toArray();
+        $type = array_shift($identifier['path']);
 
         $parts  = explode('.', $name);
         $method = '_'.$parts[0].ucfirst($parts[1]);

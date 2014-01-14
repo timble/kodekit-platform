@@ -131,11 +131,11 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
 
             if (!$permission || (is_string($permission) && strpos($permission, '.') === false))
             {
-                $identifier = clone $mixer->getIdentifier();
-                $identifier->path = array('controller', 'permission');
+                $identifier = $mixer->getIdentifier()->toArray();
+                $identifier['path'] = array('controller', 'permission');
 
                 if ($permission) {
-                    $identifier->name = $permission;
+                    $identifier['name'] = $permission;
                 }
 
                 $permission = $identifier;

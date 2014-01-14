@@ -28,15 +28,15 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        $classname = $config->object_identifier->classname;
-        $instance  = new $classname($config);
+        $class     = $manager->getClass($config->object_identifier);
+        $instance  = new $class($config);
 
         //If the behavior is auto mixed also lazy mix it into related row objects.
         if ($config->auto_mixin)
         {
-            $identifier = clone $instance->getMixer()->getIdentifier();
-            $identifier->path = array('database', 'row');
-            $identifier->name = StringInflector::singularize($identifier->name);
+            $identifier = $instance->getMixer()->getIdentifier()->toArray();
+            $identifier['path'] = array('database', 'row');
+            $identifier['name'] = StringInflector::singularize($identifier['name']);
 
             $manager->registerMixin($identifier, $instance);
         }

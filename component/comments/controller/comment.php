@@ -29,8 +29,8 @@ abstract class ControllerComment extends Library\ControllerModel
         ));
 
         //Alias the permission
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array('controller', 'permission');
+        $permission         = $this->getIdentifier();
+        $permission['path'] = array('controller', 'permission');
 
         $this->getObject('manager')->registerAlias(
             'com:comments.controller.permission.comment',
@@ -47,11 +47,11 @@ abstract class ControllerComment extends Library\ControllerModel
 	    //Alias the view layout
         if($view instanceof Library\ViewTemplate)
 	    {
-	        $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
+	        $layout = $view->getIdentifier()->toArray();
+            $layout['name']  = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'comments';
+            $alias = $layout;
+            $alias['package'] = 'comments';
 
 	        $this->getObject('manager')->registerAlias($layout, $alias);
 	    }

@@ -134,9 +134,11 @@ class BehaviorMixin extends CommandMixin
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($behavior) && strpos($behavior, '.') === false)
                 {
-                    $identifier = clone $this->getIdentifier();
-                    $identifier->path = array($identifier->path[0], 'behavior');
-                    $identifier->name = $behavior;
+                    $identifier = $this->getIdentifier()->toArray();
+                    $identifier['path'] = array($identifier['path'][0], 'behavior');
+                    $identifier['name'] = $behavior;
+
+                    $identifier = $this->getIdentifier($identifier);
                 }
                 else $identifier = $this->getIdentifier($behavior);
             }
@@ -148,7 +150,7 @@ class BehaviorMixin extends CommandMixin
         if(!$this->hasBehavior($identifier->name))
         {
             //Create the behavior object
-            if (!($behavior instanceof KBehaviorInterface))
+            if (!($behavior instanceof BehaviorInterface))
             {
                 $config['mixer'] = $this->getMixer();
                 $behavior = $this->getObject($identifier, $config);
@@ -172,8 +174,6 @@ class BehaviorMixin extends CommandMixin
                 $this->mixin($behavior);
             }
         }
-
-
 
         return $this->getMixer();
     }

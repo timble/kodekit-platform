@@ -137,8 +137,8 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     {
         $result = null;
 
-        $identifier = clone $context->getSubject()->getIdentifier();
-        $type = array_pop($identifier->path);
+        $identifier = $context->getSubject()->getIdentifier()->toArray();
+        $type = array_pop($identifier['path']);
 
         $parts = explode('.', $name);
         $method = '_' . $parts[0] . ucfirst($parts[1]);

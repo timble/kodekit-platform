@@ -210,9 +210,11 @@ class EventMixin extends ObjectMixinAbstract
             //Create the complete identifier if a partial identifier was passed
             if (is_string($subscriber) && strpos($subscriber, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('event', 'subscriber');
-                $identifier->name = $subscriber;
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('event', 'subscriber');
+                $identifier['name'] = $subscriber;
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($subscriber);
         }
