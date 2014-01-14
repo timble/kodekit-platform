@@ -56,7 +56,7 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $name    = ucfirst($identifier->name);
 
-        //The complete classname
+        //The complete class
         $result = 'Nooku\Library\\'.$package.$class;
 
         //Find fallback, if no fallback found return FALSE

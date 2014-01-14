@@ -75,7 +75,7 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
             $name = '';
         }
 
-        //The complete classname
+        //The complete class
         $result = $package.$class;
 
         //Find fallback, if no fallback found return FALSE
