@@ -43,18 +43,30 @@ interface ClassLoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param string $class   The class name
-     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param string $class    The class name
+     * @param string $basepath The basepath name
+     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function find($class);
+    public function getPath($class, $basepath = null);
+
+    /**
+     * Set the path based for a class
+     *
+     * @param string $class    The class name
+     * @param string $path     The class path
+     * @param string $basepath The basepath name
+     * @return void
+     */
+    public function setPath($class, $path, $basepath = null);
 
     /**
      * Register a class locator
      *
-     * @param ClassLocatorInterface $locator
+     * @param  ClassLocatorInterface $locator
+     * @param  bool $prepend If true, the locator will be prepended instead of appended.
      * @return void
      */
-    public function registerLocator(ClassLocatorInterface $locator);
+    public function registerLocator(ClassLocatorInterface $locator, $prepend = false );
 
     /**
      * Get a registered class locator based on his type
@@ -79,6 +91,30 @@ interface ClassLoaderInterface
      * @return array   An array of aliases
      */
     public function getAliases($class);
+
+    /**
+     * Register a basepath by name
+     *
+     * @param string $name The name of the basepath
+     * @param string $path The path
+     * @return void
+     */
+    public function registerBasepath($name, $path);
+
+    /**
+     * Get a basepath by name
+     *
+     * @param string $name The name of the application
+     * @return string The path of the application
+     */
+    public function getBasepath($name);
+
+    /**
+     * Get a list of basepaths
+     *
+     * @return array
+     */
+    public function getBasepaths();
 
     /**
      * Tells if a class, interface or trait exists.
