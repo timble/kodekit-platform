@@ -76,8 +76,8 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         // Check if an instance with this identifier already exists
         if (!$manager->isRegistered('application'))
         {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
+            $class     = $manager->getClass($config->object_identifier);
+            $instance  = new $class($config);
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton

@@ -64,18 +64,18 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      */
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
-        $identifier = clone $config->object_identifier;
-        $identifier->package = $config->module->package;
+        $identifier = $config->object_identifier->toArray();
+        $identifier['package'] = $config->module->package;
 
         $identifier = $manager->getIdentifier($identifier);
 
-        if($identifier->exists()) {
-            $classname = $identifier->classname;
+        if($manager->getClass($identifier, false)) {
+            $class = $manager->getClass($identifier);
         } else {
-            $classname = $config->object_identifier->classname;
+            $class = $manager->getClass($config->object_identifier);
         }
 
-        $instance  = new $classname($config);
+        $instance  = new $class($config);
         return $instance;
     }
 

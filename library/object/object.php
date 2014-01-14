@@ -136,7 +136,8 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $config = new ObjectConfig($config);
             $config->mixer = $this;
 
-            $mixin = new $identifier->classname($config);
+            $class = $this->getObject('manager')->getClass($identifier);
+            $mixin = new $class($config);
 
             if(!$mixin instanceof ObjectMixinInterface)
             {
@@ -198,7 +199,8 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $config = new ObjectConfig($config);
             $config->delegate = $this;
 
-            $decorator = new $identifier->classname($config);
+            $class     = $this->getObject('manager')->getClass($identifier);
+            $decorator = new $class($config);
 
             /*
              * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
