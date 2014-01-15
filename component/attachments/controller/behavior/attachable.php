@@ -56,7 +56,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         $this->_container = $config->container;
         $this->_populate_from_request = $config->populate_from_request;
 
-    $this->_file_controller = $this->getObject($config->file_controller, array(
+        $this->_file_controller = $this->getObject($config->file_controller, array(
             'request' => $this->getObject('lib:controller.request', array(
                 'query' => array(
                     'container' => $this->_container
@@ -112,7 +112,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
                 // Why do you return such a weird array for files PHP? why?
                 for ($i = 0, $n = count($attachments['name']); $i < $n; $i++)
                 {
-                    if ($attachments['error'][$i] === UPLOAD_ERR_NO_FILE) {
+                    if ($attachments['error'][$i] == UPLOAD_ERR_NO_FILE) {
                         continue;
                     }
 
