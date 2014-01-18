@@ -65,17 +65,17 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     }
 
     /**
-     * Attach the toolbars to the controller
+     * Add the toolbars to the controller
      *
      * @param array $toolbars A list of toolbars
      * @return ControllerView
      */
-    public function attachToolbars($toolbars)
+    public function addToolbars($toolbars)
     {
         if($this->getView() instanceof ViewHtml)
         {
             foreach($toolbars as $toolbar) {
-                $this->attachToolbar($toolbar);
+                $this->addToolbar($toolbar);
             }
 
             if($toolbars = $this->getToolbars())
