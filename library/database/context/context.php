@@ -18,28 +18,6 @@ namespace Nooku\Library;
 class DatabaseContext extends Command implements DatabaseContextInterface
 {
     /**
-     * Get the request object
-     *
-     * @return string The database operation
-     */
-    public function getOperation()
-    {
-        return $this->get('operation');
-    }
-
-    /**
-     * Set the database operation
-     *
-     * @param string $operation
-     * @return DatabaseContext
-     */
-    public function setOperation($operation)
-    {
-        $this->set('operation', $operation);
-        return $this;
-    }
-
-    /**
      * Get the response object
      *
      * @return DatabaseQueryInterface

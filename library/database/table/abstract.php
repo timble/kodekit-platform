@@ -555,7 +555,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         //Create commandchain context
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_SELECT;
         $context->table     = $this->getBase();
         $context->query     = $query;
         $context->mode      = $mode;
@@ -678,7 +677,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         //Create commandchain context
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_INSERT;
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
@@ -727,7 +725,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         // Create commandchain context.
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_UPDATE;
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
@@ -781,7 +778,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         //Create commandchain context
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_DELETE;
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;

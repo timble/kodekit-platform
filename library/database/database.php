@@ -18,15 +18,6 @@ namespace Nooku\Library;
 class Database
 {
 	/**
-	 * Database operations
-	 */
-	const OPERATION_SELECT = 'select';
-	const OPERATION_INSERT = 'insert';
-	const OPERATION_UPDATE = 'update';
-	const OPERATION_DELETE = 'delete';
-	const OPERATION_SHOW   = 'show';
-
-	/**
 	 * Database result mode
 	 */
 	const RESULT_STORE = 0;

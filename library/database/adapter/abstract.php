@@ -307,7 +307,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
 
         $context  = $this->getContext();
         $context->query     = $query;
-        $context->operation = Database::OPERATION_SELECT;
         $context->mode      = $mode;
 
         if ($this->getCommandChain()->run('before.select', $context, false) !== false)
@@ -361,7 +360,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     public function insert(DatabaseQueryInsert $query)
     {
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_INSERT;
         $context->query = $query;
 
         if ($this->getCommandChain()->run('before.insert', $context, false) !== false)
@@ -391,8 +389,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     public function update(DatabaseQueryUpdate $query)
     {
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_UPDATE;
-        $context->query     = $query;
+        $context->query = $query;
 
         if ($this->getCommandChain()->run('before.update', $context, false) !== false)
         {
@@ -419,8 +416,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     public function delete(DatabaseQueryDelete $query)
     {
         $context = $this->getContext();
-        $context->operation = Database::OPERATION_DELETE;
-        $context->query     = $query;
+        $context->query = $query;
 
         if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
         {
