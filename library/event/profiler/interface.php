@@ -41,13 +41,14 @@ interface EventProfilerInterface
      * @link PHP_MANUAL#memory_get_usage
      */
     public function getMemoryUsage();
-    
-	/**
-	 * Gets the total time elapsed for all calls of this timer.
-	 *
-	 * @return float Time in seconds
-	 */
-    public function getElapsedTime();
+
+    /**
+     * Returns information about a listener
+     *
+     * @param callable $listener  The listener
+     * @return array Information about the listener
+     */
+    public function getListenerInfo($listener);
 
     /**
      * Check of the profiler is enabled

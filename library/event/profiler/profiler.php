@@ -15,57 +15,21 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventProfiler extends ObjectDecorator implements EventProfilerInterface, EventDispatcherInterface
+class EventProfiler extends ObjectDecorator implements EventProfilerInterface, EventPublisherInterface
 {
-   /**
-    * The start time
-    * 
-    * @var int
-    */
-    protected $_start = 0;
-
     /**
      * Enabled status of the profiler
      *
      * @var boolean
      */
-    protected $_enabled;
-    
+    private $__enabled;
+
     /**
-     * Array of event profiles
+     * Array of profile marks
      *
      * @var array
      */
-    protected $_profiles;
- 	
- 	/**
-     * Constructor.
-     *
-     * @param ObjectConfig $config An optional Library\ObjectConfig object with configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {          
-        parent::__construct($config);
-        
-        $this->_start = $config->start;
-    }
-    
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
-     * @return void
-	 */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-        	'start'   => microtime(true),
-        ));
-
-       parent::_initialize($config);
-    }
+    private $__profiles;
 
     /**
      * Enable the profiler
@@ -74,7 +38,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      */
     public function enable()
     {
-        $this->_enabled = true;
+        $this->__enabled = true;
         return $this;
     }
 
@@ -85,156 +49,129 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      */
     public function disable()
     {
-        $this->_enabled = false;
+        $this->__enabled = false;
         return $this;
     }
 
     /**
-     * Dispatches an event by dispatching arguments to all listeners that handle the event and returning their return
-     * values.
+     * Publish an event by calling all listeners that have registered to receive it.
      *
-     * This function will add a mark to the profiler for each event dispatched
-     *
-     * @param   string        $name  The event name
-     * @param   object|array  $event An array, a Library\ObjectConfig or a Library\Event object
-     * @return  EventDispatcher
+     * @param  string|EventInterface  $event     The event name or a KEventInterface object
+     * @param  array|\Traversable     $attributes An associative array or a Traversable object
+     * @param  ObjectInterface        $target    The event target
+     * @return null|EventInterface Returns the event object. If the chain is not enabled will return NULL.
      */
-    public function dispatch($name, $event = array())
+    public function publishEvent($event, $attributes = array(), $target = null)
     {
-        if($this->isEnabled())
+        if ($this->isEnabled())
         {
-            $this->_profiles[] = array(
-                'message' => $name,
-                'time'    => $this->getElapsedTime(),
-                'memory'  => $this->getMemoryUsage(),
-                'target'  => $event->getTarget()->getIdentifier()
-            );
-        }
+            //Make sure we have an event object
+            if (!$event instanceof EventInterface) {
+                $event = new Event($event, $attributes, $target);
+            }
 
-        return $this->getDelegate()->dispatch($name, $event);
+            //Notify the listeners
+            $listeners = $this->getListeners($event->getName());
+
+            foreach ($listeners as $listener)
+            {
+                $start = microtime(true);
+
+                call_user_func($listener, $event, $this);
+
+                $this->__profiles[] = array(
+                    'message'  => $event->getName(),
+                    'period'   => microtime(true) - $start,
+                    'time'     => microtime(true),
+                    'memory'   => $this->getMemoryUsage(),
+                    'target'   => $target instanceof ObjectInterface ? $target->getIdentifier() : $target,
+                    'listener' => $listener
+                );
+
+                if (!$event->canPropagate()) {
+                    break;
+                }
+            }
+
+            return $event;
+        }
+        else $this->getDelegate()->publishEvent($event, $attributes, $target);
+
+        return null;
     }
 
     /**
      * Add an event listener
      *
-     * @param  string    $name       The event name
-     * @param  callable  $listener   The listener
-     * @param  integer   $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
-     *                               default is 3. If no priority is set, the command priority will be used
-     *                               instead.
+     * @param string|EventInterface  $event     The event name or a KEventInterface object
+     * @param callable               $listener  The listener
+     * @param integer                $priority  The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                                            default is 3 (normal)
      * @throws \InvalidArgumentException If the listener is not a callable
-     * @return EventDispatcherAbstract
+     * @throws \InvalidArgumentException If the event is not a string or does not implement the KEventInterface
+     * @return EventPublisherAbstract
      */
-    public function addListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
+    public function addListener($event, $listener, $priority = EventInterface::PRIORITY_NORMAL)
     {
-        $this->getDelegate()->addListener($name, $listener, $priority);
+        $this->getDelegate()->addListener($event, $listener, $priority);
         return $this;
     }
 
     /**
      * Remove an event listener
      *
-     * @param   string    $name      The event name
-     * @param   callable  $listener  The listener
+     * @param string|EventInterface  $event     The event name or a KEventInterface object
+     * @param callable               $listener  The listener
      * @throws \InvalidArgumentException If the listener is not a callable
-     * @return  EventDispatcherAbstract
+     * @throws \InvalidArgumentException If the event is not a string or does not implement the KEventInterface
+     * @return EventPublisherAbstract
      */
-    public function removeListener($name, $listener)
+    public function removeListener($event, $listener)
     {
-        $this->getDelegate()->removeListener($name, $listener);
+        $this->getDelegate()->removeListener($event, $listener);
         return $this;
     }
 
     /**
      * Get a list of listeners for a specific event
      *
-     * @param   string  $name  The event name
-     * @return  ObjectQueue    An object queue containing the listeners
+     * @param string|EventInterface  $event     The event name or a KEventInterface object
+     * @throws \InvalidArgumentException  If the event is not a string or does not implement the KEventInterface
+     * @return array An array containing the listeners ordered by priority
      */
-    public function getListeners($name)
+    public function getListeners($event)
     {
-        return $this->getDelegate()->getListeners($name);
+        return $this->getDelegate()->getListeners($event);
     }
 
     /**
-     * Check if we are listening to a specific event
+     * Set the priority of a listener
      *
-     * @param   string  $name The event name
-     * @return  boolean  TRUE if we are listening for a specific event, otherwise FALSE.
+     * @param  string|EventInterface  $event      The event name or a KEventInterface object
+     * @param  callable                $listener  The listener
+     * @param  integer                 $priority  The event priority
+     * @throws \InvalidArgumentException If the listener is not a callable
+     * @throws \InvalidArgumentException If the event is not a string or does not implement the KEventInterface
+     * @return EventPublisherAbstract
      */
-    public function hasListeners($name)
+    public function setListenerPriority($event, $listener, $priority)
     {
-        return $this->getDelegate()->hasListeners($name);
-    }
-
-    /**
-     * Add an event subscriber
-     *
-     * @param  EventSubscriberInterface $subscriber The event subscriber to add
-     * @return  EventDispatcherAbstract
-     */
-    public function addSubscriber(EventSubscriberInterface $subscriber, $priority = null)
-    {
-        $this->getDelegate()->addSubscriber($subscriber);
+        $this->getDelegate()->setListenerPriority($event, $listener, $priority);
         return $this;
-    }
-
-    /**
-     * Remove an event subscriber
-     *
-     * @param  EventSubscriberInterface $subscriber The event subscriber to remove
-     * @return  EventDispatcherAbstract
-     */
-    public function removeSubscriber(EventSubscriberInterface $subscriber)
-    {
-        $this->getDelegate()->removeSubscriber($subscriber);
-        return $this;
-    }
-
-    /**
-     * Gets the event subscribers
-     *
-     * @return array    An associative array of event subscribers, keys are the subscriber handles
-     */
-    public function getSubscribers()
-    {
-        return $this->getDelegate()->getSubscribers();
-    }
-
-    /**
-     * Check if the handler is connected to a dispatcher
-     *
-     * @param  EventSubscriberInterface $subscriber  The event subscriber
-     * @return boolean TRUE if the handler is already connected to the dispatcher. FALSE otherwise.
-     */
-    public function isSubscribed(EventSubscriberInterface $subscriber)
-    {
-        return $this->getDelegate()->isSubscribed($subscriber);
-    }
-
-    /**
-     * Set the priority of an event
-     *
-     * @param  string   $name      The event name
-     * @param  object   $listener  The listener
-     * @param  integer  $priority  The event priority
-     * @return  EventDispatcherAbstract
-     */
-    public function setPriority($name, $listener, $priority)
-    {
-        return $this->getDelegate()->setPriority($name, $listener, $priority);
     }
 
     /**
      * Get the priority of an event
      *
-     * @param   string   $name      The event name
-     * @param   object   $listener  The listener
-     * @return  integer|false The event priority or FALSE if the event isn't listened for.
+     * @param string|EventInterface  $event      The event name or a KEventInterface object
+     * @param callable                $listener  The listener
+     * @throws \InvalidArgumentException If the listener is not a callable
+     * @throws \InvalidArgumentException  If the event is not a string or does not implement the KEventInterface
+     * @return integer|false The event priority or FALSE if the event isn't listened for.
      */
-    public function getPriority($name, $listener)
+    public function getListenerPriority($event, $listener)
     {
-        return $this->getDelegate()->getPriority($name, $listener);
+        return $this->getDelegate()->getListenerPriority($event, $listener);
     }
 
     /**
@@ -244,10 +181,10 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      */
     public function getProfiles()
     {
-        return $this->_profiles;
+        return $this->__profiles;
     }
-    
-	/**
+
+    /**
      * Get information about current memory usage.
      *
      * @return int The memory usage
@@ -257,41 +194,110 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
     {
         $size = memory_get_usage(true);
         $unit = array('b','kb','mb','gb','tb','pb');
-                
+
         return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
-    }
-    
-	/**
-	 * Gets the total time elapsed for all calls of this timer.
-	 *
-	 * @return float Time in seconds
-	 */
-    public function getElapsedTime()
-    {
-        return microtime(true) - $this->_start;
     }
 
     /**
-     * Check of the command chain is enabled
+     * Returns information about a listener
+     *
+     * @param callable $listener  The listener
+     * @return array Information about the listener
+     */
+    public function getListenerInfo($listener)
+    {
+        $info = array();
+
+        if(is_callable($listener))
+        {
+            if ($listener instanceof \Closure)
+            {
+                $info += array(
+                    'type'   => 'Closure',
+                    'pretty' => 'closure'
+                );
+            }
+
+            if (is_string($listener))
+            {
+                try
+                {
+                    $r = new \ReflectionFunction($listener);
+                    $file = $r->getFileName();
+                    $line = $r->getStartLine();
+                }
+                catch (\ReflectionException $e)
+                {
+                    $file = null;
+                    $line = null;
+                }
+
+                $info += array
+                (
+                    'type'  => 'Function',
+                    'function' => $listener,
+                    'file'  => $file,
+                    'line'  => $line,
+                    'pretty' => $listener,
+                );
+            }
+
+            if (is_array($listener) || (is_object($listener)))
+            {
+                if (!is_array($listener)) {
+                    $listener = array($listener, '__invoke');
+                }
+
+                $class = is_object($listener[0]) ? get_class($listener[0]) : $listener[0];
+
+                try
+                {
+                    $r = new \ReflectionMethod($class, $listener[1]);
+                    $file = $r->getFileName();
+                    $line = $r->getStartLine();
+                }
+                catch (\ReflectionException $e)
+                {
+                    $file = null;
+                    $line = null;
+                }
+
+                $info += array
+                (
+                    'type'   => 'Method',
+                    'class'  => $class,
+                    'method' => $listener[1],
+                    'file'   => $file,
+                    'line'   => $line,
+                    'pretty' => $class.'::'.$listener[1],
+                );
+            }
+        }
+
+        return $info;
+    }
+
+    /**
+     * Check of the event profiler is enabled
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return $this->_enabled;
+        return $this->__enabled;
     }
 
     /**
      * Set the decorated event dispatcher
      *
-     * @param   EventDispatcherInterface $delegate The decorated event dispatcher
-     * @return  ObjectDecoratorAbstract
-     * @throws  \InvalidArgumentException If the delegate is not an event dispatcher
+     * @param   EventPublisherInterface $delegate The decorated event publisher
+     * @return  EventProfiler
+     * @throws \InvalidArgumentException If the delegate is not an event publisher
      */
     public function setDelegate($delegate)
     {
-        if (!$delegate instanceof EventDispatcherInterface) {
-            throw new \InvalidArgumentException('EventDispatcher: '.get_class($delegate).' does not implement EventDispatcherInterface');
+        if (!$delegate instanceof EventPublisherInterface) {
+            throw new \InvalidArgumentException('EventPublisher: '.get_class($delegate).' does not implement EventPublisherInterface');
         }
 
         return parent::setDelegate($delegate);
@@ -300,7 +306,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
     /**
      * Set the decorated object
      *
-     * @return EventDispatcherInterface
+     * @return EventPublisherInterface
      */
     public function getDelegate()
     {
