@@ -27,7 +27,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
      *
      * @var    array
      */
-    protected $_behaviors = array();
+    private $__behaviors = array();
 
     /**
      * Auto mixin behaviors
@@ -123,7 +123,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
             }
 
             //Store the behavior to allow for named lookups
-            $this->_behaviors[$behavior->getName()] = $behavior;
+            $this->__behaviors[$behavior->getName()] = $behavior;
 
             //Force set the mixer
             $behavior->setMixer($this->getMixer());
@@ -148,7 +148,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
      */
     public function hasBehavior($name)
     {
-        return isset($this->_behaviors[$name]);
+        return isset($this->__behaviors[$name]);
     }
 
     /**
@@ -161,8 +161,8 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
     {
         $result = null;
 
-        if(isset($this->_behaviors[$name])) {
-            $result = $this->_behaviors[$name];
+        if(isset($this->__behaviors[$name])) {
+            $result = $this->__behaviors[$name];
         }
 
         return $result;
@@ -175,7 +175,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
      */
     public function getBehaviors()
     {
-        return array_valus($this->_behaviors);
+        return array_valus($this->__behaviors);
     }
 
 
