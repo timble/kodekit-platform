@@ -80,12 +80,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      */
     protected $_charset;
 
-    /**
-     * Chain of command object
-     *
-     * @var CommandChain
-     */
-    protected $_command_chain;
 
     /**
      * Constructor.
@@ -139,8 +133,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             'options'          => array(),
             'charset'          => 'UTF8',
             'command_chain'    => 'lib:command.chain',
-            'dispatch_events'  => true,
-            'event_dispatcher' => 'event.dispatcher',
+            'event_publisher'  => 'event.publisher',
+            'enable_events'    => true,
             'enable_callbacks' => false,
             'connection'       => null,
         ));
@@ -248,32 +242,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     }
 
     /**
-     * Get the chain of command object
-     *
-     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
-     * to the KCommandChain mixin.
-     *
-     * @return  CommandChainInterface
-     */
-    public function getCommandChain()
-    {
-        if(!$this->_command_chain instanceof CommandChainInterface)
-        {
-            //Ask the parent the relay the call to the mixin
-            $this->_command_chain = parent::getCommandChain();
-
-            if(!$this->_command_chain instanceof CommandChainInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
-                );
-            }
-        }
-
-        return $this->_command_chain;
-    }
-
-    /**
      * Get a database context object
      *
      * @return  DatabaseContext
@@ -291,7 +259,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      *
      * Use for SELECT and anything that returns rows.
      *
-     * @param    DatabaseQuerySelect The query object.
+     * @param    DatabaseQuerySelect $query The query object.
      * @param   integer    $query The fetch mode. Controls how the result will be returned to the subject. This
      *                             value must be one of the Database::FETCH_* constants.
      * @param   string     $mode The column name of the index to use.
@@ -309,7 +277,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context->query     = $query;
         $context->mode      = $mode;
 
-        if ($this->getCommandChain()->run('before.select', $context, false) !== false)
+        if ($this->invokeCommand('before.select', $context, false) !== false)
         {
             if ($result = $this->execute($context->query, Database::RESULT_USE))
             {
@@ -344,7 +312,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
                 }
             }
 
-            $this->getCommandChain()->run('after.select', $context);
+            $this->invokeCommand('after.select', $context);
         }
 
         return ObjectConfig::unbox($context->result);
@@ -362,7 +330,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context = $this->getContext();
         $context->query = $query;
 
-        if ($this->getCommandChain()->run('before.insert', $context, false) !== false)
+        if ($this->invokeCommand('before.insert', $context, false) !== false)
         {
             //Check if we have valid data to insert, if not return false
             if ($context->query->values)
@@ -371,7 +339,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
                 $context->result = $this->execute($context->query);
                 $context->affected = $this->_affected_rows;
 
-                $this->getCommandChain()->run('after.insert', $context);
+                $this->invokeCommand('after.insert', $context);
             }
             else $context->affected = false;
         }
@@ -391,7 +359,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context = $this->getContext();
         $context->query = $query;
 
-        if ($this->getCommandChain()->run('before.update', $context, false) !== false)
+        if ($this->invokeCommand('before.update', $context, false) !== false)
         {
             if (!empty($context->query->values))
             {
@@ -399,7 +367,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
                 $context->result = $this->execute($context->query);
                 $context->affected = $this->_affected_rows;
 
-                $this->getCommandChain()->run('after.update', $context);
+                $this->invokeCommand('after.update', $context);
             }
             else $context->affected = false;
         }
@@ -418,13 +386,13 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context = $this->getContext();
         $context->query = $query;
 
-        if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
+        if ($this->invokeCommand('before.delete', $context, false) !== false)
         {
             //Execute the query
             $context->result = $this->execute($context->query);
             $context->affected = $this->_affected_rows;
 
-            $this->getCommandChain()->run('after.delete', $context);
+            $this->invokeCommand('after.delete', $context);
         }
 
         return $context->affected;
