@@ -128,24 +128,19 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * This function translated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param   string   $name     The command name
      * @param   Command  $context  The command context
-     *
      * @return  mixed  Method result if the method exists, NULL otherwise.
      */
-    public function execute($name, Command $context)
+    public function execute(CommandInterface $command)
     {
         $result = null;
 
-        $identifier = $context->getSubject()->getIdentifier()->toArray();
-        $type = array_pop($identifier['path']);
-
-        $parts = explode('.', $name);
+        $parts = explode('.', $command->getName());
         $method = '_' . $parts[0] . ucfirst($parts[1]);
 
         //If the method exists call the method and return the result
         if (method_exists($this, $method)) {
-            $result = $this->$method($context);
+            $result = $this->$method($command);
         }
 
         return $result;
