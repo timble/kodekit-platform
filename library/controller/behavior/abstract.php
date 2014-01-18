@@ -23,25 +23,24 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      * This function translates the command name that starts with 'action' to a command handler function of the format
      * '_action[Action]'
      *
-     * @param   string   $name     The command name
-     * @param   Command  $context  The command context
+     * @param   CommandInterface  $command  The command object
      * @return  boolean  Can return both true or false.
      */
-    public function execute($name, Command $context)
+    public function execute(CommandInterface $command)
     {
-        $this->setMixer($context->getSubject());
+        $this->setMixer($command->getSubject());
 
-        $parts = explode('.', $name);
+        $parts = explode('.', $command->getName());
         if ($parts[0] == 'action')
         {
             $method = '_action' . ucfirst($parts[1]);
 
             if (method_exists($this, $method)) {
-                return $this->$method($context);
+                return $this->$method($command);
             }
         }
 
-        return parent::execute($name, $context);
+        return parent::execute($command);
     }
 
     /**

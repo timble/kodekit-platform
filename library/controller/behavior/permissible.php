@@ -59,15 +59,14 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
      *
      * Only handles before.action commands to check authorization rules.
      *
-     * @param   string $name     The command name
-     * @param   object $context  The command context
+     * @param   CommandInterface $command  The command object
      * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
      * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function execute( $name, Command $context)
+    public function execute(CommandInterface $command)
     {
-        $parts = explode('.', $name);
+        $parts = explode('.', $command->getName());
 
         if($parts[0] == 'before')
         {
@@ -75,13 +74,11 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
 
             if($this->canExecute($action) === false)
             {
-                if($context->user->isAuthentic()) {
+                if($this->getUser()->isAuthentic()) {
                     throw new ControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
                 } else {
                     throw new ControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
                 }
-
-                return false;
             }
         }
 
