@@ -152,16 +152,6 @@ interface ViewInterface
 	public function getRoute($route, $fqr = null, $escape = null);
 
     /**
-     * Get the chain of command object
-     *
-     * To increase performance a reference to the command chain is stored in object scope to prevent slower calls
-     * to the CommandChain mixin.
-     *
-     * @return  CommandChainInterface
-     */
-    public function getCommandChain();
-
-    /**
      * Get the view context
      *
      * @return  ViewContext
