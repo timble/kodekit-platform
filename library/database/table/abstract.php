@@ -62,13 +62,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     protected $_defaults;
 
     /**
-     * Chain of command object
-     *
-     * @var CommandChain
-     */
-    protected $_command_chain;
-
-    /**
      * Object constructor
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options.
@@ -141,9 +134,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             'behaviors'         => array(),
             'identity_column'   => null,
             'command_chain'     => 'lib:command.chain',
-            'dispatch_events'   => false,
-            'event_dispatcher'  => null,
             'enable_callbacks'  => false,
+            'enable_events'     => false,
         ))->append(
             array('base' => $config->name)
         );
@@ -470,32 +462,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
-     * Get the chain of command object
-     *
-     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
-     * to the KCommandChain mixin.
-     *
-     * @return CommandChainInterface
-     */
-    public function getCommandChain()
-    {
-        if(!$this->_command_chain instanceof CommandChainInterface)
-        {
-            //Ask the parent the relay the call to the mixin
-            $this->_command_chain = parent::getCommandChain();
-
-            if(!$this->_command_chain instanceof CommandChainInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
-                );
-            }
-        }
-
-        return $this->_command_chain;
-    }
-
-    /**
      * Get a database context object
      *
      * @return DatabaseContext
@@ -560,7 +526,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->mode      = $mode;
         $context->options   = $options;
 
-        if ($this->getCommandChain()->run('before.select', $context, false) !== false)
+        if ($this->invokeCommand('before.select', $context, false) !== false)
         {
             if ($context->query)
             {
@@ -614,7 +580,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                     $context->data = $data;
             }
 
-            $this->getCommandChain()->run('after.select', $context);
+            $this->invokeCommand('after.select', $context);
         }
 
         return ObjectConfig::unbox($context->data);
@@ -682,7 +648,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->query     = $query;
         $context->affected = false;
 
-        if ($this->getCommandChain()->run('before.insert', $context, false) !== false)
+        if ($this->invokeCommand('before.insert', $context, false) !== false)
         {
             // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData());
@@ -705,7 +671,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 else $context->data->setStatus(Database::STATUS_FAILED);
             }
 
-            $this->getCommandChain()->run('after.insert', $context);
+            $this->invokeCommand('after.insert', $context);
         }
 
         return $context->affected;
@@ -730,7 +696,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.update', $context, false) !== false)
+        if ($this->invokeCommand('before.update', $context, false) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -758,7 +724,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 }
             }
 
-            $this->getCommandChain()->run('after.update', $context);
+            $this->invokeCommand('after.update', $context);
         }
 
         return $context->affected;
@@ -783,7 +749,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
+        if ($this->invokeCommand('before.delete', $context, false) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -799,7 +765,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 $context->data->setStatus($context->affected ? Database::STATUS_DELETED : Database::STATUS_FALIED);
             }
 
-            $this->getCommandChain()->run('after.delete', $context);
+            $this->invokeCommand('after.delete', $context);
         }
 
         return $context->affected;
@@ -817,13 +783,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.lock', $context, false) !== false)
+        if ($this->invokeCommand('before.lock', $context, false) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->lock($this->getBase());
             }
 
-            $this->getCommandChain()->run('after.lock', $context);
+            $this->invokeCommand('after.lock', $context);
         }
 
         return $context->result;
@@ -841,13 +807,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.unlock', $context, false) !== false)
+        if ($this->invokeCommand('before.unlock', $context, false) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->unlock();
             }
 
-            $this->getCommandChain()->run('after.unlock', $context);
+            $this->invokeCommand('after.unlock', $context);
         }
 
         return $context->result;
