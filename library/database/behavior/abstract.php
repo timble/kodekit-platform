@@ -50,17 +50,16 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string            $name  The command name
-     * @param     Command    $context The command context
+     * @param     CommandInterface    $command The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, Command $context)
+    public function execute(CommandInterface $command)
     {
-        if ($context->data instanceof DatabaseRowInterface) {
-            $this->setMixer($context->data);
+        if ($command->data instanceof DatabaseRowInterface) {
+            $this->setMixer($command->data);
         }
 
-        return parent::execute($name, $context);
+        return parent::execute($command);
     }
 
     /**
