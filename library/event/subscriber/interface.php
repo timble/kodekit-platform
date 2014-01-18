@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Event Handler Interface
  *
- * An EventSubscriber knows himself what events he is interested in. If an EventSubscriber is added to an
- * EventDispatcherInterface, the dispatcher invokes {@link getListeners} and registers the subscriber
- * as a listener for all returned events.
+ * An EventSusbcriber knows himself what events he is interested in. Classes implementing this interface may be adding
+ * listeners to an EventDispatcher through the {@link subscribe()} method.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
@@ -22,21 +21,28 @@ namespace Nooku\Library;
 interface EventSubscriberInterface
 {
     /**
-     * Get the priority of the subscriber
+     * Register one or more listeners
      *
-     * @return	integer The event priority
+     * @param  EventPublisherInterface $publisher
+     * @param  integer                 $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                                 default is 3 (normal)
+     * @return array An array of public methods that have been attached
      */
-    public function getPriority();
-          
+    public function subscribe(EventPublisherInterface $publisher, $priority = EventInterface::PRIORITY_NORMAL);
+
     /**
-     * Get a list of subscribed events
+     * Unsubscribe all previously registered listeners
      *
-     * The array keys are event names and the value is an associative array composed of a callable and an optional
-     * priority. If no priority is defined the dispatcher is responsible to set a default.
-     *
-     * eg  array('eventName' => array('calla' => array($object, 'methodName'), 'priority' => $priority))
-     *
-     * @return array The event names to listen to
+     * @param EventPublisherInterface $dispatcher The event dispatcher
+     * @return void
      */
-    public function getListeners();
+    public function unsubscribe(EventPublisherInterface $publisher);
+
+    /**
+     * Check if the subscriber is already subscribed to the dispatcher
+     *
+     * @param  EventPublisherInterface $dispatcher  The event dispatcher
+     * @return boolean TRUE if the subscriber is already subscribed to the dispatcher. FALSE otherwise.
+     */
+    public function isSubscribed(EventPublisherInterface $publisher);
 }
