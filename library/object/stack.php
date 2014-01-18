@@ -11,13 +11,17 @@ namespace Nooku\Library;
 
  /**
   * Object Stack
-  * 
-  * Implements a simple stack collection (LIFO) 
+  *
+  * A stack is a data type or collection in which the principal (or only) operations on the collection are the addition
+  * of an object to the collection, known as push and removal of an entity, known as pop. The relation between the push
+  * and pop operations is such that the stack is a Last-In-First-Out (LIFO) data structure.
+  *
+  * @link http://en.wikipedia.org/wiki/Stack_(abstract_data_type)
   *
   * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
   * @package Nooku\Library\Object
   */
-class ObjectStack extends Object implements \Countable
+class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
 { 
     /**
      * The object container
@@ -58,10 +62,6 @@ class ObjectStack extends Object implements \Countable
      */
     public function push($object)
     {
-        if(!$object instanceof ObjectInterface) {
-            throw new \InvalidArgumentException('Object needs to extend from ObjectInterface');
-        }
-
         $this->_object_stack[] = $object;
         return $this;
     }
@@ -74,16 +74,118 @@ class ObjectStack extends Object implements \Countable
     public function pop()
     {
         return array_pop($this->_object_stack);
-    } 
-    
-	/**
+    }
+
+    /**
      * Counts the number of elements
-     * 
+     *
+     * Required by the Countable interface
+     *
      * @return integer	The number of elements
      */
     public function count()
     {
         return count($this->_object_stack);
+    }
+
+    /**
+     * Rewind the Iterator to the top
+     *
+     * Required by the Iterator interface
+     *
+     * @return	object KObjectQueue
+     */
+    public function rewind()
+    {
+        reset($this->_object_stack);
+        return $this;
+    }
+
+    /**
+     * Check whether the stack contains more objects
+     *
+     * Required by the Iterator interface
+     *
+     * @return	boolean
+     */
+    public function valid()
+    {
+        return !is_null(key($this->_object_stack));
+    }
+
+    /**
+     * Return current object index
+     *
+     * Required by the Iterator interface
+     *
+     * @return	mixed
+     */
+    public function key()
+    {
+        return key($this->_object_stack);
+    }
+
+    /**
+     * Return current object pointed by the iterator
+     *
+     * Required by the Iterator interface
+     *
+     * @return	mixed
+     */
+    public function current()
+    {
+        return $this->_object_stack[$this->key()];
+    }
+
+    /**
+     * Move to the next object
+     *
+     * Required by the Iterator interface
+     *
+     * @return	mixed
+     */
+    public function next()
+    {
+        return next($this->_object_stack);
+    }
+
+    /**
+     * Serialize
+     *
+     * Required by the Serializable interface
+     *
+     * @return string
+     */
+    public function serialize()
+    {
+        return serialize($this->toArray());
+    }
+
+    /**
+     * Unserialize
+     *
+     * Required by the Serializable interface
+     *
+     * @param  string $data
+     * @return void
+     */
+    public function unserialize($data)
+    {
+        $data = array_reverse(unserialize($data));
+
+        foreach ($data as $item) {
+            $this->push($item);
+        }
+    }
+
+    /**
+     * Serialize to an array representing the stack
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->_object_stack;
     }
 
     /**
