@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
  */
-class BehaviorMixin extends CommandMixin
+class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
 {
     /**
      * List of behaviors
@@ -54,9 +54,9 @@ class BehaviorMixin extends CommandMixin
         foreach ($behaviors as $key => $value)
         {
             if (is_numeric($key)) {
-                $this->attachBehavior($value);
+                $this->addBehavior($value);
             } else {
-                $this->attachBehavior($key, $value);
+                $this->addBehavior($key, $value);
             }
         }
     }
@@ -80,44 +80,6 @@ class BehaviorMixin extends CommandMixin
     }
 
     /**
-     * Check if a behavior exists
-     *
-     * @param   string  $name The name of the behavior
-     * @return  boolean TRUE if the behavior exists, FALSE otherwise
-     */
-    public function hasBehavior($name)
-    {
-        return isset($this->_behaviors[$name]);
-    }
-
-    /**
-     * Get a behavior by name
-     *
-     * @param  string  $name   The behavior name
-     * @return BehaviorInterface
-     */
-    public function getBehavior($name)
-    {
-        $result = null;
-
-        if(isset($this->_behaviors[$name])) {
-            $result = $this->_behaviors[$name];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Gets the behaviors of the table
-     *
-     * @return array An associative array of table behaviors, keys are the behavior names
-     */
-    public function getBehaviors()
-    {
-        return $this->_behaviors;
-    }
-
-    /**
      * Add a behavior
      *
      * @param   mixed $behavior   An object that implements BehaviorInterface, an ObjectIdentifier
@@ -125,7 +87,7 @@ class BehaviorMixin extends CommandMixin
      * @param   array $config    An optional associative array of configuration settings
      * @return  Object The mixer object
      */
-    public function attachBehavior($behavior, $config = array())
+    public function addBehavior($behavior, $config = array())
     {
         if (!($behavior instanceof BehaviorInterface))
         {
@@ -167,7 +129,7 @@ class BehaviorMixin extends CommandMixin
             $behavior->setMixer($this->getMixer());
 
             //Enqueue the behavior
-            $this->getCommandChain()->enqueue($behavior);
+            $this->addCommandInvoker($behavior);
 
             //Mixin the behavior
             if ($this->_auto_mixin) {
@@ -177,4 +139,44 @@ class BehaviorMixin extends CommandMixin
 
         return $this->getMixer();
     }
+
+    /**
+     * Check if a behavior exists
+     *
+     * @param   string  $name The name of the behavior
+     * @return  boolean TRUE if the behavior exists, FALSE otherwise
+     */
+    public function hasBehavior($name)
+    {
+        return isset($this->_behaviors[$name]);
+    }
+
+    /**
+     * Get a behavior by name
+     *
+     * @param  string  $name   The behavior name
+     * @return BehaviorInterface
+     */
+    public function getBehavior($name)
+    {
+        $result = null;
+
+        if(isset($this->_behaviors[$name])) {
+            $result = $this->_behaviors[$name];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Gets the behaviors of the table
+     *
+     * @return array An associative array of table behaviors, keys are the behavior names
+     */
+    public function getBehaviors()
+    {
+        return $this->_behaviors;
+    }
+
+
 }
