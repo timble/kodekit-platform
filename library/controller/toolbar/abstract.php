@@ -81,20 +81,16 @@ abstract class ControllerToolbarAbstract extends CommandInvokerAbstract implemen
      * This function translates the command name to a command handler function of the format '_before[Command]'
      * or '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param 	string           $name	    The command name
-     * @param 	Command  $context 	The command context
+     * @param 	CommandInterface  $command 	The command object
      * @return 	boolean Always returns TRUE
      */
-    final public function execute($name, Command $context)
+    final public function execute(CommandInterface $command)
     {
-        $identifier = $context->getSubject()->getIdentifier()->toArray();
-        $type = array_shift($identifier['path']);
-
-        $parts  = explode('.', $name);
+        $parts  = explode('.', $command->getName());
         $method = '_'.$parts[0].ucfirst($parts[1]);
 
         if(method_exists($this, $method)) {
-            $this->$method($context);
+            $this->$method($command);
         }
 
         return true;
