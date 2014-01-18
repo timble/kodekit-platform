@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Exception Dispatcher
+ * Exception Event Publisher
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventDispatcherException extends EventDispatcherAbstract
+class EventPublisherException extends EventPublisherAbstract
 {
     /**
      * Error levels
@@ -77,25 +77,25 @@ class EventDispatcherException extends EventDispatcherAbstract
     }
 
     /**
-     * Dispatches an exception by dispatching arguments to all listeners that handle the event.
+     * Publish an event by calling all listeners that have registered to receive it.
      *
-     * Function will avoid a recursive loop when an exception is thrown during even dispatching and output a generic
+     * Function will avoid a recursive loop when an exception is thrown during even publishing and output a generic
      * exception instead.
      *
-     * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
-     * @param   object|array   An array, a ObjectConfig or a Event object
-     * @return  EventException
+     * @param  \Exception           $exception  The exception to be published.
+     * @param  array|\Traversable   $attributes An associative array or a Traversable object
+     * @param  mixed                $target     The event target
+     * @return EventException
      */
-    public function dispatchException($event = array())
+    public function publishException(Exception $exception, $attributes = array(), $target = null)
     {
         try
         {
             //Make sure we have an event object
-            if (!$event instanceof EventException) {
-                $event = new EventException($event);
-            }
+            $event = new EventException('onException', $attributes, $target);
+            $event->setException($exception);
 
-            $this->dispatch('onException', $event);
+            parent::publishEvent($event);
         }
         catch (\Exception $e)
         {
@@ -147,7 +147,7 @@ class EventDispatcherException extends EventDispatcherAbstract
         $self = $this; //Cannot use $this as a lexical variable in PHP 5.3
 
         $previous = set_exception_handler(function($exception) use ($self) {
-            $self->dispatchException(array('exception' => $exception));
+            $self->publishException($exception);
         });
 
         return $previous;
@@ -173,7 +173,7 @@ class EventDispatcherException extends EventDispatcherAbstract
             if (error_reporting() & $level && $error_level & $level)
             {
                 $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
-                $self->dispatchException(array('exception' => $exception,'context' => $context));
+                $self->publishException($exception, array('context' => $context));
             }
 
             //Let the normal error flow continue
@@ -201,7 +201,7 @@ class EventDispatcherException extends EventDispatcherAbstract
             if (error_reporting() & $level && $error_level & $level)
             {
                 $exception = new ExceptionError($error['message'], HttpResponse::INTERNAL_SERVER_ERROR , $level, $error['file'], $error['line']);
-                $self->dispatchException(array('exception' => $exception));
+                $self->publishException($exception);
             }
         });
     }
