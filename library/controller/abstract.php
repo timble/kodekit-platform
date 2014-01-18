@@ -27,13 +27,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     protected $_actions = array();
 
     /**
-     * Chain of command object
-     *
-     * @var CommandChain
-     */
-    protected $_command_chain;
-
-    /**
      * Response object or identifier
      *
      * @var	string|object
@@ -113,16 +106,16 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'command_chain'     => 'lib:command.chain',
-            'dispatch_events'   => true,
-            'event_dispatcher'  => 'event.dispatcher',
-            'enable_callbacks'  => true,
-            'dispatched'        => false,
-            'request'           => 'lib:controller.request',
-            'response'          => 'lib:controller.response',
-            'user'              => 'lib:user',
-            'behaviors'         => array('permissible'),
-            'query'             => array(),
+            'command_chain'    => 'lib:command.chain',
+            'event_publisher'  => 'event.publisher',
+            'enable_events'    => true,
+            'enable_callbacks' => true,
+            'dispatched'       => false,
+            'request'          => 'lib:controller.request',
+            'response'         => 'lib:controller.response',
+            'user'             => 'lib:user',
+            'behaviors'        => array('permissible'),
+            'query'            => array(),
         ));
 
         parent::_initialize($config);
@@ -157,22 +150,27 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         //Set the context action
         $context->action  = $action;
 
-        //Execute the action
-        if ($this->getCommandChain()->run('before.' . $action, $context, false) !== false)
+        if($this->invokeCommand('before.'.$action, $context, false) !== false)
         {
             $method = '_action' . ucfirst($action);
 
             if (!method_exists($this, $method))
             {
-                if (isset($this->_mixed_methods[$action])) {
-                    $context->result = $this->_mixed_methods[$action]->execute('action.' . $action, $context);
-                } else {
-                    throw new ControllerExceptionNotImplemented("Can't execute '$action', method: '$method' does not exist");
+                if (isset($this->_mixed_methods[$action]))
+                {
+                    $context->setName('action.' . $action);
+                    $context->result = $this->_mixed_methods[$action]->execute($context);
+                }
+                else
+                {
+                    throw new ControllerExceptionNotImplemented(
+                        "Can't execute '$action', method: '$method' does not exist"
+                    );
                 }
             }
             else  $context->result = $this->$method($context);
 
-            $this->getCommandChain()->run('after.' . $action, $context);
+            $this->invokeCommand('after.'.$action, $context);
         }
 
         //Reset the context subject
@@ -340,32 +338,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         }
 
         return $this->_user;
-    }
-
-    /**
-     * Get the chain of command object
-     *
-     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
-     * to the KCommandChain mixin.
-     *
-     * @return  CommandChainInterface
-     */
-    public function getCommandChain()
-    {
-        if(!$this->_command_chain instanceof CommandChainInterface)
-        {
-            //Ask the parent the relay the call to the mixin
-            $this->_command_chain = parent::getCommandChain();
-
-            if(!$this->_command_chain instanceof CommandChainInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
-                );
-            }
-        }
-
-        return $this->_command_chain;
     }
 
     /**
