@@ -24,7 +24,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
      *
      * @var    array
      */
-    protected $_toolbars = array();
+    protected $__toolbars = array();
 
     /**
      * Constructor
@@ -101,7 +101,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
         }
 
         //Store the toolbar to allow for name lookups
-        $this->_toolbars[$toolbar->getType()] = $toolbar;
+        $this->__toolbars[$toolbar->getType()] = $toolbar;
 
         if ($this->inherits('Nooku\Library\CommandMixin')) {
             $$this->addCommandInvoker($toolbar);
@@ -120,7 +120,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
     {
         if($this->hasToolbar($toolbar->getType()))
         {
-            unset($this->_toolbars[$toolbar->getType()]);
+            unset($this->__toolbars[$toolbar->getType()]);
 
             if ($this->inherits('Nooku\Library\CommandMixin')) {
                 $this->removeCommandInvoker($toolbar);
@@ -138,7 +138,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
      */
     public function hasToolbar($type)
     {
-        return isset($this->_toolbars[$type]);
+        return isset($this->__toolbars[$type]);
     }
 
     /**
@@ -151,8 +151,8 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
     {
         $result = null;
 
-        if(isset($this->_toolbars[$type])) {
-            $result = $this->_toolbars[$type];
+        if(isset($this->__toolbars[$type])) {
+            $result = $this->__toolbars[$type];
         }
 
         return $result;
@@ -165,6 +165,6 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
      */
     public function getToolbars()
     {
-        return array_values($this->_toolbars);
+        return array_values($this->__toolbars);
     }
 }
