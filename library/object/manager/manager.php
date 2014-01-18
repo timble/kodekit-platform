@@ -182,11 +182,9 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         }
         else $result = $this->__object_identifier;
 
-        //Get the class
-        if($autolocate)
-        {
-            $class = $this->getClass($result);
-            $result->setClass($class);
+        //Get the class name and set it in the identifier
+        if($autolocate) {
+            $this->getClass($result);
         }
 
         return $result;
