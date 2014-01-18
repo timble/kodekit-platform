@@ -175,7 +175,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
      */
     public function getBehaviors()
     {
-        return $this->_behaviors;
+        return array_valus($this->_behaviors);
     }
 
 
