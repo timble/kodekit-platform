@@ -12,7 +12,8 @@ namespace Nooku\Library;
 /**
  * Standard Class Locator
  *
- * PSR-0 compliant autoloader. Allows autoloading of namespaced classes.
+ * PSR-0 compliant autoloader. Allows autoloading of namespaced and prefixed classes. Standard class names are not case
+ * sensitive and follow the PSR-0 naming convention. Classes must be namespaced using a class name prefix or namespace.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Class
@@ -42,11 +43,8 @@ class ClassLocatorStandard extends ClassLocatorAbstract
                 continue;
             }
 
-            if ($pos = strrpos($class, '\\'))
-            {
-                $namespace = substr($class, 0, $pos);
-                $class     = substr($class, $pos + 1);
-            }
+            //Remove the namespace from the class name
+            $class = ltrim(substr($class, strlen($namespace)), '\\');
 
             $path  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             $path .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
