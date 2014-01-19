@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Event Profiler
+ * Event Publisher Profiler
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventProfiler extends ObjectDecorator implements EventProfilerInterface, EventPublisherInterface
+class EventPublisherProfiler extends ObjectDecorator implements EventPublisherInterface
 {
     /**
      * Enabled status of the profiler
@@ -34,7 +34,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
     /**
      * Enable the profiler
      *
-     * @return  EventProfiler
+     * @return EventPublisherProfiler
      */
     public function enable()
     {
@@ -45,7 +45,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
     /**
      * Disable the profiler
      *
-     * @return  EventProfiler
+     * @return EventPublisherProfiler
      */
     public function disable()
     {
@@ -109,7 +109,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      *                                            default is 3 (normal)
      * @throws \InvalidArgumentException If the listener is not a callable
      * @throws \InvalidArgumentException If the event is not a string or does not implement the KEventInterface
-     * @return EventPublisherAbstract
+     * @return EventPublisherProfiler
      */
     public function addListener($event, $listener, $priority = EventInterface::PRIORITY_NORMAL)
     {
@@ -124,7 +124,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      * @param callable               $listener  The listener
      * @throws \InvalidArgumentException If the listener is not a callable
      * @throws \InvalidArgumentException If the event is not a string or does not implement the KEventInterface
-     * @return EventPublisherAbstract
+     * @return EventPublisherProfiler
      */
     public function removeListener($event, $listener)
     {
@@ -152,7 +152,7 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      * @param  integer                 $priority  The event priority
      * @throws \InvalidArgumentException If the listener is not a callable
      * @throws \InvalidArgumentException If the event is not a string or does not implement the KEventInterface
-     * @return EventPublisherAbstract
+     * @return EventPublisherProfiler
      */
     public function setListenerPriority($event, $listener, $priority)
     {
@@ -291,13 +291,13 @@ class EventProfiler extends ObjectDecorator implements EventProfilerInterface, E
      * Set the decorated event dispatcher
      *
      * @param   EventPublisherInterface $delegate The decorated event publisher
-     * @return  EventProfiler
+     * @return  EventPublisherProfiler
      * @throws \InvalidArgumentException If the delegate is not an event publisher
      */
     public function setDelegate($delegate)
     {
         if (!$delegate instanceof EventPublisherInterface) {
-            throw new \InvalidArgumentException('EventPublisher: '.get_class($delegate).' does not implement EventPublisherInterface');
+            throw new \InvalidArgumentException('Delegate: '.get_class($delegate).' does not implement EventPublisherInterface');
         }
 
         return parent::setDelegate($delegate);
