@@ -64,7 +64,7 @@ interface UserSessionContainerInterface
      * @param array $attributes An array of attributes
      * @return  UserSessionContainerInterface
      */
-    public function values(array $attributes);
+    public function add(array $attributes);
 
     /**
      * Get all attributes
