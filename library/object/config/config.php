@@ -24,28 +24,16 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * @var array
      */
-    private $__options;
+    private $__options = array();
 
     /**
      * Constructor.
      *
-     * @param   array|ObjectConfig An associative array of configuration options or a KObjectConfig instance.
+     * @param   array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
      */
-    public function __construct( $config = array() )
+    public function __construct( $options = array() )
     {
-        if ($config instanceof ObjectConfig) {
-            $data = $config->toArray();
-        } else {
-            $data = $config;
-        }
-
-        $this->__options = array();
-        if (is_array($data))
-        {
-            foreach ($data as $key => $value) {
-                $this->set($key, $value);
-            }
-        }
+        $this->add($options);
     }
 
     /**
@@ -108,22 +96,42 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
+     * Add options
+     *
+     * This method will overwrite keys that already exist, keys that don't exist yet will be added.
+     *
+     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
+     * @return ObjectConfig
+     */
+    public function add($options)
+    {
+        $options = self::unbox($options);
+
+        if (is_array($options))
+        {
+            foreach ($options as $key => $value) {
+                $this->set($key, $value);
+            }
+        }
+    }
+
+    /**
      * Append values
      *
      * This method only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  mixed    $config A value of an or array of values to be appended
+     * @param  array|ObjectConfig    $config A ObjectConfig object an or array of options to be appended
      * @return ObjectConfig
      */
-    public function append($config)
+    public function append($options)
     {
-        $config = ObjectConfig::unbox($config);
+        $options = self::unbox($options);
 
-        if(is_array($config))
+        if(is_array($options))
         {
-            if(!is_numeric(key($config)))
+            if(!is_numeric(key($options)))
             {
-                foreach($config as $key => $value)
+                foreach($options as $key => $value)
                 {
                     if(array_key_exists($key, $this->__options))
                     {
@@ -136,7 +144,7 @@ class ObjectConfig implements ObjectConfigInterface
             }
             else
             {
-                foreach($config as $value)
+                foreach($options as $value)
                 {
                     if (!in_array($value, $this->__options, true)) {
                         $this->__options[] = $value;
@@ -151,7 +159,7 @@ class ObjectConfig implements ObjectConfigInterface
     /**
      * Return the data
      *
-     * If the data being passed is an instance of KObjectConfig the data will be transformed to an associative array.
+     * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
      *
      * @param mixed ObjectConfig $data
      * @return mixed|array
