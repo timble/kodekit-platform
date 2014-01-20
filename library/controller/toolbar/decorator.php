@@ -26,7 +26,7 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
      * @param 	Command  $context 	The command context
      * @return 	boolean Always returns TRUE
      */
-    final public function execute(CommandInterface $command)
+    final public function executeCommand(CommandInterface $command, $condition = null)
     {
         $parts  = explode('.', $command->getName());
         $method = '_'.$parts[0].ucfirst($parts[1]);
@@ -34,10 +34,8 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
         if(method_exists($this, $method)) {
             $this->$method($command);
         } else {
-            $this->getDelegate()->execute($command);
+            $this->getDelegate()->executeCommand($command, $condition);
         }
-
-        return true;
     }
 
     /**
