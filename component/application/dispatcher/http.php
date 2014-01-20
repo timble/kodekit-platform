@@ -39,10 +39,10 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         $this->getRequest()->setBaseUrl($config->base_url);
 
         //Render the page before sending the response
-        $this->registerCallback('before.send', array($this, 'renderPage'));
+        $this->addCommandHandler('before.send', '_renderPage');
 
         //Render an exception before sending the response
-        $this->registerCallback('before.fail', array($this, 'renderError'));
+        $this->addCommandHandler('before.fail', '_renderError');
     }
 
     /**
@@ -92,7 +92,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
      *
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    public function renderPage(Library\DispatcherContextInterface $context)
+    protected function _renderPage(Library\DispatcherContextInterface $context)
     {
         $request   = $context->request;
         $response  = $context->response;
@@ -116,7 +116,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
      * @throws \InvalidArgumentException If the action parameter is not an instance of Library\Exception
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    public function renderError(Library\DispatcherContextInterface $context)
+    protected function _renderError(Library\DispatcherContextInterface $context)
     {
         $request   = $context->request;
         $response  = $context->response;

@@ -43,7 +43,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         $this->loadConfig();
 
-        $this->registerCallback('before.run', array($this, 'loadLanguage'));
+        $this->addCommandHandler('before.run', 'loadLanguage');
     }
 
     /**

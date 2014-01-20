@@ -29,75 +29,17 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.read'  , array($this, 'lockResource'));
-        $this->registerCallback('after.save'  , array($this, 'unlockResource'));
-        $this->registerCallback('after.cancel', array($this, 'unlockResource'));
+        $this->addCommandHandler('after.read'  , array($this, '_lockResource'));
+        $this->addCommandHandler('after.save'  , array($this, '_unlockResource'));
+        $this->addCommandHandler('after.cancel', array($this, '_unlockResource'));
 
         if($this->getRequest()->getFormat() == 'html')
         {
-            $this->registerCallback('before.read' , array($this, 'setReferrer'));
-            $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
-            $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
-            $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-            $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
-        }
-    }
-
-    /**
-     * Lock the referrer from updates
-     *
-     * @param  ControllerContextInterface  $context A controller context object
-     * @return void
-     */
-    public function lockReferrer(ControllerContextInterface $context)
-    {
-        $cookie = $this->getObject('lib:http.cookie', array(
-            'name'   => 'referrer_locked',
-            'value'  => true,
-            'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
-        ));
-
-        $context->response->headers->addCookie($cookie);
-    }
-
-    /**
-     * Unlock the referrer for updates
-     *
-     * @param   ControllerContextInterface  $context A controller context object
-     * @return void
-     */
-    public function unlockReferrer(ControllerContextInterface $context)
-    {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
-        $context->response->headers->clearCookie('referrer_locked', $path);
-    }
-
-    /**
-     * Lock the resource
-     *
-     * Only lock if the context contains a row object and if the user has an active session he can edit or delete the
-     * resource. Otherwise don't lock it.
-     *
-     * @param   ControllerContextInterface  $context A controller context object
-     * @return  void
-     */
-    public function lockResource(ControllerContextInterface $context)
-    {
-        if($this->isLockable() && $this->canEdit()) {
-            $context->result->lock();
-        }
-    }
-
-    /**
-     * Unlock the resource
-     *
-     * @param  ControllerContextInterface  $context A controller context object
-     * @return void
-     */
-    public function unlockResource(ControllerContextInterface $context)
-    {
-        if($this->isLockable() && $this->canEdit()) {
-            $context->result->unlock();
+            $this->addCommandHandler('before.read' , 'setReferrer');
+            $this->addCommandHandler('after.apply' , '_lockReferrer');
+            $this->addCommandHandler('after.read'  , '_unlockReferrer');
+            $this->addCommandHandler('after.save'  , '_unsetReferrer');
+            $this->addCommandHandler('after.cancel', '_unsetReferrer');
         }
     }
 
@@ -152,14 +94,72 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
+     * Lock the referrer from updates
+     *
+     * @param  ControllerContextInterface  $context A controller context object
+     * @return void
+     */
+    protected function _lockReferrer(ControllerContextInterface $context)
+    {
+        $cookie = $this->getObject('lib:http.cookie', array(
+            'name'   => 'referrer_locked',
+            'value'  => true,
+            'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
+        ));
+
+        $context->response->headers->addCookie($cookie);
+    }
+
+    /**
+     * Unlock the referrer for updates
+     *
+     * @param   ControllerContextInterface  $context A controller context object
+     * @return void
+     */
+    protected function _unlockReferrer(ControllerContextInterface $context)
+    {
+        $path = $context->request->getBaseUrl()->getPath() ?: '/';
+        $context->response->headers->clearCookie('referrer_locked', $path);
+    }
+
+    /**
      * Unset the referrer
      *
      * @return void
      */
-    public function unsetReferrer(ControllerContextInterface $context)
+    protected function _unsetReferrer(ControllerContextInterface $context)
     {
         $path = $context->request->getBaseUrl()->getPath() ?: '/';
         $context->response->headers->clearCookie('referrer', $path);
+    }
+
+    /**
+     * Lock the resource
+     *
+     * Only lock if the context contains a row object and if the user has an active session he can edit or delete the
+     * resource. Otherwise don't lock it.
+     *
+     * @param   ControllerContextInterface  $context A controller context object
+     * @return  void
+     */
+    protected function _lockResource(ControllerContextInterface $context)
+    {
+        if($this->isLockable() && $this->canEdit()) {
+            $context->result->lock();
+        }
+    }
+
+    /**
+     * Unlock the resource
+     *
+     * @param  ControllerContextInterface  $context A controller context object
+     * @return void
+     */
+    protected function _unlockResource(ControllerContextInterface $context)
+    {
+        if($this->isLockable() && $this->canEdit()) {
+            $context->result->unlock();
+        }
     }
 
     /**

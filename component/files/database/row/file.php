@@ -25,8 +25,8 @@ class DatabaseRowFile extends DatabaseRowNode
 	{
 		parent::__construct($config);
 
-		$this->registerCallback('after.save'  , array($this, 'saveThumbnail'));
-		$this->registerCallback('after.delete', array($this, 'deleteThumbnail'));
+		$this->addCommandHandler('after.save'  , 'saveThumbnail');
+		$this->addCommandHandler('after.delete', 'deleteThumbnail');
 	}
 
 	public function save()

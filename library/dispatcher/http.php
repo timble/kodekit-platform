@@ -27,12 +27,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 		parent::__construct($config);
 
         //Authenticate none safe requests
-        $this->registerCallback('before.post'  , array($this, 'authenticateRequest'));
-        $this->registerCallback('before.put'   , array($this, 'authenticateRequest'));
-        $this->registerCallback('before.delete', array($this, 'authenticateRequest'));
+        $this->addCommandHandler('before.post'  , '_authenticateRequest');
+        $this->addCommandHandler('before.put'   , '_authenticateRequest');
+        $this->addCommandHandler('before.delete', '_authenticateRequest');
 
         //Sign GET request with a cookie token
-        $this->registerCallback('after.get' , array($this, 'signResponse'));
+        $this->addCommandHandler('after.get' , '_signResponse');
 
         //Force the controller to the information found in the request
         if($this->getRequest()->query->has('view')) {
@@ -89,7 +89,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * @param DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    public function authenticateRequest(DispatcherContextInterface $context)
+    protected function _authenticateRequest(DispatcherContextInterface $context)
     {
         $request = $context->request;
         $user    = $context->user;
@@ -98,19 +98,19 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         {
             //Check referrer
             if(!$request->getReferrer()) {
-                throw new KControllerExceptionForbidden('Invalid Request Referrer');
+                throw new ControllerExceptionForbidden('Invalid Request Referrer');
             }
 
             //Check cookie token
             if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-                throw new KControllerExceptionForbidden('Invalid Cookie Token');
+                throw new ControllerExceptionForbidden('Invalid Cookie Token');
             }
         }
         else
         {
             //Check session token
             if( $request->getToken() !== $user->getSession()->getToken()) {
-                throw new KControllerExceptionForbidden('Invalid Session Token');
+                throw new ControllerExceptionForbidden('Invalid Session Token');
             }
         }
 
@@ -122,7 +122,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    public function signResponse(DispatcherContextInterface $context)
+    protected function _signResponse(DispatcherContextInterface $context)
     {
         if(!$context->response->isError())
         {
