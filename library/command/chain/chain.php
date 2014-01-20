@@ -66,8 +66,8 @@ class CommandChain extends Object implements CommandChainInterface
         //Set the chain break condition
         $this->_condition = $config->command_condition;
 
-        $this->__stack = $this->getObject('koowa:object.stack');
-        $this->__queue = $this->getObject('koowa:object.queue');
+        $this->__stack = $this->getObject('lib:object.stack');
+        $this->__queue = $this->getObject('lib:object.queue');
     }
 
     /**
