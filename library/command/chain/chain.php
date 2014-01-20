@@ -148,10 +148,12 @@ class CommandChain extends Object implements CommandChainInterface
 
             foreach ($this->__stack->peek() as $invoker)
             {
+                $identifier = (string) $invoker->getIdentifier();
+
                 try {
-                    $result[$invoker->getIdentifier()] = $invoker->executeCommand($command, $this->_condition);
+                    $result[$identifier] = $invoker->executeCommand($command, $this->_condition);
                 } catch (CommandExceptionInvoker $e) {
-                    $result[$invoker->getIdentifier()] = $e;
+                    $result[$identifier] = $e;
                 }
 
                 if($this->_condition !== null && current($result) === $this->_condition)
