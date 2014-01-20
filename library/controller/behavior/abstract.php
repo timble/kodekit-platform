@@ -26,7 +26,7 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      * @param   CommandInterface  $command  The command object
      * @return  boolean  Can return both true or false.
      */
-    public function execute(CommandInterface $command)
+    public function executeCommand(CommandInterface $command, $condition = null)
     {
         $this->setMixer($command->getSubject());
 
@@ -40,7 +40,7 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
             }
         }
 
-        return parent::execute($command);
+        return parent::executeCommand($command);
     }
 
     /**

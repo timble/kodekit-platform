@@ -53,13 +53,13 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * @param     CommandInterface    $command The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute(CommandInterface $command)
+    public function executeCommand(CommandInterface $command, $condition = null)
     {
         if ($command->data instanceof DatabaseRowInterface) {
             $this->setMixer($command->data);
         }
 
-        return parent::execute($command);
+        return parent::executeCommand($command, $condition);
     }
 
     /**

@@ -64,7 +64,7 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
      * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function execute(CommandInterface $command)
+    public function executeCommand(CommandInterface $command, $condition = null)
     {
         $parts = explode('.', $command->getName());
 

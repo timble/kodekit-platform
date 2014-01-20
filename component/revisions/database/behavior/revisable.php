@@ -66,21 +66,20 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string             $name       The command name
-     * @param     Library\Command    $context    The command context
+     * @param     Library\Command    $command  The command
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, Library\Command $context)
+    public function executeCommand(Library\CommandInterface $command, $condition = null)
     {
-        $parts = explode('.', $name);
+        $parts = explode('.', $command->getName());
         if($parts[0] == 'after')
         {
-            if ($context->data instanceof Library\DatabaseRowInterface) {
-                $this->setMixer(clone $context->data);
+            if ($command->data instanceof Library\DatabaseRowInterface) {
+                $this->setMixer(clone $command->data);
             }
         }
 
-        return Library\BehaviorAbstract::execute($name, $context);
+        return Library\BehaviorAbstract::executeCommand($command);
     }
 
 	/**

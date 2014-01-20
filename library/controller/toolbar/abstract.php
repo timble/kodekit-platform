@@ -84,7 +84,7 @@ abstract class ControllerToolbarAbstract extends CommandInvokerAbstract implemen
      * @param 	CommandInterface  $command 	The command object
      * @return 	boolean Always returns TRUE
      */
-    final public function execute(CommandInterface $command)
+    final public function executeCommand(CommandInterface $command, $condition = null)
     {
         $parts  = explode('.', $command->getName());
         $method = '_'.$parts[0].ucfirst($parts[1]);
