@@ -45,8 +45,9 @@ interface CommandChainInterface
      * @param  string|CommandInterface  $command    The command name or a KCommandInterface object
      * @param  array|\Traversable       $attributes An associative array or a Traversable object
      * @param  ObjectInterface          $subject    The command subject
-     * @return array|mixed Returns an array of the command results in FIFO order. If the chain breaks, and the break
-     *                     condition is not NULL returns the break condition instead.
+     * @return array|mixed Returns an array of the command results in FIFO order where the key holds the invoker identifier
+     *                     and the value the result returned by the invoker. If the chain breaks, and the break condition
+     *                     is not NULL returns the break condition instead.
      */
     public function invokeCommand($command, $attributes = array(), $subject = null);
 

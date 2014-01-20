@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-interface CommandMixin
+interface CommandMixinInterface
 {
     /**
      * Invoke a command by calling all registered invokers
@@ -28,8 +28,9 @@ interface CommandMixin
      * @param  string|CommandInterface  $command    The command name or a CommandInterface object
      * @param  array|\Traversable       $attributes An associative array or a Traversable object
      * @param  ObjectInterface          $subject    The command subject
-     * @return array|mixed Returns an array of the command results in FIFO order. If the chain breaks, and the break
-     *                     condition is not NULL returns the break condition.
+     * @return array|mixed Returns an array of the command results in FIFO order where the key holds the invoker identifier
+     *                     and the value the result returned by the invoker. If the chain breaks, and the break condition
+     *                     is not NULL returns the break condition instead.
      */
     public function invokeCommand($command, $attributes = null, $subject = null);
 
