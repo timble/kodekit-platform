@@ -114,7 +114,7 @@ class Event extends ObjectConfig implements EventInterface
         if (!is_array($attributes) || $attributes instanceof \Traversable)
         {
             throw new \InvalidArgumentException(sprintf(
-                'Event arguments must be an array or an object implementing the Traversable interface; received "%s"', gettype($attributes)
+                'Event attributes must be an array or an object implementing the Traversable interface; received "%s"', gettype($attributes)
             ));
         }
 
