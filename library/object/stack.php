@@ -48,7 +48,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      *
      * @return mixed The value of the top element
      */
-    public function top()
+    public function peek()
     {
         return end($this->_object_stack);
     }
