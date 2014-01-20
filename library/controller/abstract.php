@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerAbstract extends Object implements ControllerInterface
+abstract class ControllerAbstract extends CommandInvokerAbstract implements ControllerInterface
 {
     /**
      * The controller actions
@@ -93,6 +93,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
 
         // Mixin the behavior interface
         $this->mixin('lib:behavior.mixin', $config);
+
+        // Mixin the event interface
+        $this->mixin('lib:event.mixin', $config);
     }
 
     /**
@@ -107,9 +110,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         $config->append(array(
             'command_chain'    => 'lib:command.chain',
-            'event_publisher'  => 'event.publisher',
-            'enable_events'    => true,
-            'enable_callbacks' => true,
+            'command_invokers' => array('lib:command.invoker.event'),
             'dispatched'       => false,
             'request'          => 'lib:controller.request',
             'response'         => 'lib:controller.response',
@@ -150,7 +151,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         //Set the context action
         $context->action  = $action;
 
-        if($this->invokeCommand('before.'.$action, $context, false) !== false)
+        if($this->invokeCommand('before.'.$action, $context) !== false)
         {
             $method = '_action' . ucfirst($action);
 
