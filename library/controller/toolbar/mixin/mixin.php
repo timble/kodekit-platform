@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerToolbarMixinInterafce
+class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerToolbarMixinInterface
 {
     /**
      * List of toolbars
