@@ -104,7 +104,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
         $this->__toolbars[$toolbar->getType()] = $toolbar;
 
         if ($this->inherits('Nooku\Library\CommandMixin')) {
-            $$this->addCommandInvoker($toolbar);
+            $this->addCommandInvoker($toolbar);
         }
 
         return $this->getMixer();
