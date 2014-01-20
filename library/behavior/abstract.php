@@ -243,9 +243,8 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     /**
      * Get an object handle
      *
-     * This function only returns a valid handle if one or more command handler functions are added or defined in the
-     * behavior interface. An interface command handler function needs to follow the following format : '_after[Command]'
-     * or '_before[Command]' to be recognised.
+     * Function will return a valid object handle if one or more command handlers have been registered. If no command
+     * handlers are registered the function will return NULL.
      *
      * @return string A string that is unique, or NULL
      * @see executeCommand()
@@ -253,14 +252,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     public function getHandle()
     {
         if(!empty($this->__command_handlers)) {
-            return parent::getHandle();
-        }
-
-        foreach($this->getMethods() as $method)
-        {
-            if (substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
-                return parent::getHandle();
-            }
+            return ObjectMixinAbstract::getHandle();
         }
 
         return null;

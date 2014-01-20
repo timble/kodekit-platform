@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
+abstract class DatabaseBehaviorAbstract extends BehaviorDynamic implements ObjectInstantiable
 {
     /**
      * Instantiate the object
@@ -47,11 +47,10 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
     /**
      * Command handler
      *
-     * This function translates the command name to a command handler function of the format '_before[Command]' or
-     * '_after[Command]. Command handler functions should be declared protected.
-     *
-     * @param     CommandInterface    $command The command context
-     * @return    boolean   Can return both true or false.
+     * @param  CommandInterface $command    The command
+     * @param  mixed            $condition  The break condition
+     * @return array|mixed Returns an array of the callback results in FIFO order. If a handler breaks and the break
+     *                     condition is not NULL returns the break condition.
      */
     public function executeCommand(CommandInterface $command, $condition = null)
     {

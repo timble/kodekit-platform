@@ -15,34 +15,8 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerBehaviorAbstract extends BehaviorAbstract
+abstract class ControllerBehaviorAbstract extends BehaviorDynamic
 {
-    /**
-     * Command handler
-     *
-     * This function translates the command name that starts with 'action' to a command handler function of the format
-     * '_action[Action]'
-     *
-     * @param   CommandInterface  $command  The command object
-     * @return  boolean  Can return both true or false.
-     */
-    public function executeCommand(CommandInterface $command, $condition = null)
-    {
-        $this->setMixer($command->getSubject());
-
-        $parts = explode('.', $command->getName());
-        if ($parts[0] == 'action')
-        {
-            $method = '_action' . ucfirst($parts[1]);
-
-            if (method_exists($this, $method)) {
-                return $this->$method($command);
-            }
-        }
-
-        return parent::executeCommand($command);
-    }
-
     /**
      * Get the methods that are available for mixin based
      *
