@@ -91,7 +91,7 @@ abstract class ControllerAbstract extends CommandInvokerAbstract implements Cont
             $this->getRequest()->query->add(ObjectConfig::unbox($config->query));
         }
 
-        // Mixin the behavior interface
+        // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
 
         // Mixin the event interface
