@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Beheavior Exception Interface
+ * Behavior Exception Interface
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
