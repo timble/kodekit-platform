@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectMultiton
+abstract class DatabaseTableAbstract extends CommandInvokerAbstract implements DatabaseTableInterface, ObjectMultiton
 {
     /**
      * Real name of the table in the db schema
@@ -109,7 +109,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
         }
 
-        // Mixin the behavior interface
+        // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
     }
 
@@ -134,8 +134,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             'behaviors'         => array(),
             'identity_column'   => null,
             'command_chain'     => 'lib:command.chain',
-            'enable_callbacks'  => false,
-            'enable_events'     => false,
         ))->append(
             array('base' => $config->name)
         );
@@ -526,7 +524,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->mode      = $mode;
         $context->options   = $options;
 
-        if ($this->invokeCommand('before.select', $context, false) !== false)
+        if ($this->invokeCommand('before.select', $context) !== false)
         {
             if ($context->query)
             {
@@ -648,7 +646,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->query     = $query;
         $context->affected = false;
 
-        if ($this->invokeCommand('before.insert', $context, false) !== false)
+        if ($this->invokeCommand('before.insert', $context) !== false)
         {
             // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData());
@@ -696,7 +694,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->invokeCommand('before.update', $context, false) !== false)
+        if ($this->invokeCommand('before.update', $context) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -749,7 +747,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->invokeCommand('before.delete', $context, false) !== false)
+        if ($this->invokeCommand('before.delete', $context) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -783,7 +781,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->invokeCommand('before.lock', $context, false) !== false)
+        if ($this->invokeCommand('before.lock', $context) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->lock($this->getBase());
@@ -807,7 +805,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->invokeCommand('before.unlock', $context, false) !== false)
+        if ($this->invokeCommand('before.unlock', $context) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->unlock();
