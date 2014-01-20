@@ -174,7 +174,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         // Create command chain context.
         $context = $this->getContext();
 
-        if($this->invokeCommand('before.begin', $context, false) !== false)
+        if($this->invokeCommand('before.begin', $context) !== false)
         {
             $context->result = $this->getConnection()->beginTransaction();
             $this->invokeCommand('after.begin', $context);
@@ -193,7 +193,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         // Create command chain context.
         $context = $this->getContext();
 
-        if($this->invokeCommand('before.commit', $context, false) !== false)
+        if($this->invokeCommand('before.commit', $context) !== false)
         {
             $context->result = $this->getConnection()->commit();
             $this->invokeCommand('after.commit', $context);
@@ -212,7 +212,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         // Create command chain context.
         $context = $this->getContext();
 
-        if($this->invokeCommand('before.rollback', $context, false) !== false)
+        if($this->invokeCommand('before.rollback', $context) !== false)
         {
             $context->result = $this->getConnection()->rollBack();
             $this->invokeCommand('after.rollback', $context);
@@ -236,7 +236,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $context->table = $table;
         $context->query = $query;
 
-        if($this->invokeCommand('before.lock', $context, false) !== false)
+        if($this->invokeCommand('before.lock', $context) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
             $this->invokeCommand('after.lock', $context);
@@ -259,7 +259,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $context->table = null;
         $context->query = $query;
 
-        if($this->invokeCommand('before.unlock', $context, false) !== false)
+        if($this->invokeCommand('before.unlock', $context) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
             $this->invokeCommand('after.unlock', $context);

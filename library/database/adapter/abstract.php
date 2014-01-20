@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface
+abstract class DatabaseAdapterAbstract extends CommandInvokerAbstract implements DatabaseAdapterInterface
 {
     /**
      * Active state of the connection
@@ -133,9 +133,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             'options'          => array(),
             'charset'          => 'UTF8',
             'command_chain'    => 'lib:command.chain',
-            'event_publisher'  => 'event.publisher',
-            'enable_events'    => true,
-            'enable_callbacks' => false,
             'connection'       => null,
         ));
 
@@ -277,7 +274,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context->query     = $query;
         $context->mode      = $mode;
 
-        if ($this->invokeCommand('before.select', $context, false) !== false)
+        if ($this->invokeCommand('before.select', $context) !== false)
         {
             if ($result = $this->execute($context->query, Database::RESULT_USE))
             {
@@ -330,7 +327,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context = $this->getContext();
         $context->query = $query;
 
-        if ($this->invokeCommand('before.insert', $context, false) !== false)
+        if ($this->invokeCommand('before.insert', $context) !== false)
         {
             //Check if we have valid data to insert, if not return false
             if ($context->query->values)
@@ -359,7 +356,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context = $this->getContext();
         $context->query = $query;
 
-        if ($this->invokeCommand('before.update', $context, false) !== false)
+        if ($this->invokeCommand('before.update', $context) !== false)
         {
             if (!empty($context->query->values))
             {
@@ -386,7 +383,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context = $this->getContext();
         $context->query = $query;
 
-        if ($this->invokeCommand('before.delete', $context, false) !== false)
+        if ($this->invokeCommand('before.delete', $context) !== false)
         {
             //Execute the query
             $context->result = $this->execute($context->query);
