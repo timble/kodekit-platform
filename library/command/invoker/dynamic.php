@@ -12,8 +12,9 @@ namespace Nooku\Library;
 /**
  * Abstract Dynamic Command Invoker
  *
- * The dynamic command invoker will translate the command name to a method name format and add push it onto the command
- * handlers stack before executing the command.
+ * The dynamic command invoker will translate the command name to a method name format (eg, _before[Command] or
+ * _after[Command]) and add push it onto the command handlers stack before executing the command. Dynamic command
+ * handlers should be declared protected.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
@@ -22,9 +23,6 @@ abstract class CommandInvokerDynamic extends CommandInvokerAbstract
 {
     /**
      * Command handler
-     *
-     *  This function translates the command name to a command handler function of the format '_before[Command]' or
-     * '_after[Command]. Command handler functions should be declared protected.
      *
      * @param  CommandInterface $command    The command
      * @param  mixed            $condition  The break condition

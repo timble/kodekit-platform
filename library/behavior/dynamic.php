@@ -12,6 +12,10 @@ namespace Nooku\Library;
 /**
  * Abstract Dynamic Behavior
  *
+ * The dynamic behavior will translate the command name to a method name format (eg, _before[Command] or _after[Command])
+ * and add push it onto the command handlers stack before executing the command. Dynamic command handlers should be
+ * declared protected.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
  */
@@ -42,10 +46,6 @@ abstract class BehaviorDynamic extends BehaviorAbstract
 
     /**
      * Get an object handle
-     *
-     * This function only returns a valid handle if one or more command handler functions are added or defined in the
-     * behavior interface. An interface command handler function needs to follow the following format : '_after[Command]'
-     * or '_before[Command]' to be recognised.
      *
      * @return string A string that is unique, or NULL
      * @see executeCommand()
