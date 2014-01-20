@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\View
  */
-abstract class ViewAbstract extends Object implements ViewInterface
+abstract class ViewAbstract extends CommandInvokerAbstract implements ViewInterface
 {
     /**
      * Model object or identifier
@@ -70,8 +70,11 @@ abstract class ViewAbstract extends Object implements ViewInterface
 
         $this->setModel($config->model);
 
-        // Mixin the behavior interface
+        // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
+
+        // Mixin the event interface
+        $this->mixin('lib:event.mixin', $config);
     }
 
     /**
@@ -87,9 +90,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
         $config->append(array(
             'data'              => array(),
             'command_chain'     => 'lib:command.chain',
-            'event_publisher'  => 'event.publisher',
-            'enable_events'     => true,
-            'enable_callbacks'  => true,
+            'command_invokers'  => array('lib:command.invoker.event'),
             'model'    => 'lib:model.empty',
             'contents' => '',
             'mimetype' => '',
@@ -111,7 +112,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
         $context->data   = $data;
         $context->action = 'render';
 
-        if ($this->invokeCommand('before.render', $context, false) !== false)
+        if ($this->invokeCommand('before.render', $context) !== false)
         {
             //Push the data in the view
             $this->setData($context->data);
