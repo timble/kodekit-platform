@@ -37,13 +37,10 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $this->_view = $config->view;
 
 		// Mixin the toolbar
-		if($config->dispatch_events)
-        {
-            $this->mixin('lib:controller.toolbar.mixin');
+		$this->mixin('lib:controller.toolbar.mixin');
 
-            //Attach the toolbars
-            $this->registerCallback('before.render' , array($this, 'attachToolbars'), array($config->toolbars));
-		}
+        //Attach the toolbars
+        $this->addCommandHandler('before.render' , '_addToolbars', array('toolbars' => $config->toolbars));
 	}
 	
 	/**
@@ -67,14 +64,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     /**
      * Add the toolbars to the controller
      *
-     * @param array $toolbars A list of toolbars
+     * @param ControllerContextInterface $context
      * @return ControllerView
      */
-    public function addToolbars($toolbars)
+    protected function _addToolbars(ControllerContextInterface $context)
     {
         if($this->getView() instanceof ViewHtml)
         {
-            foreach($toolbars as $toolbar) {
+            foreach($context->toolbars as $toolbar) {
                 $this->addToolbar($toolbar);
             }
 
