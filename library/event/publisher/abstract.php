@@ -99,7 +99,7 @@ abstract class EventPublisherAbstract extends Object implements EventPublisherIn
     {
         if ($this->isEnabled())
         {
-            if (!is_array($event) && !$event instanceof EventInterface)
+            if (!is_string($event) && !$event instanceof EventInterface)
             {
                 throw new \InvalidArgumentException(
                     'The event must be a string or implement the EventInterface, "'.gettype($event).'" given.'
