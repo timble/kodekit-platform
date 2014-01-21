@@ -44,7 +44,7 @@ class DatabaseContext extends Command implements DatabaseContextInterface
      *
      * @return integer
      */
-    public function getAffected($affected)
+    public function getAffected()
     {
         return $this->get('affected');
     }

@@ -37,7 +37,7 @@ interface DatabaseContextInterface extends CommandInterface
      *
      * @return integer
      */
-    public function getAffected($affected);
+    public function getAffected();
 
     /**
      * Get the number of affected rows
