@@ -29,7 +29,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      */
     public function __construct( Library\ObjectConfig $config )
     {
@@ -43,7 +43,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -75,7 +75,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
             $class = $manager->getClass($config->object_identifier);
         }
 
-        $instance  = new $class($config);
+        $instance = new $class($config);
         return $instance;
     }
 
