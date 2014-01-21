@@ -37,7 +37,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $module  = $this->getModel()->getRow();
 
@@ -62,6 +62,6 @@ class PagesViewModuleHtml extends Library\ViewHtml
 
         $context->data->params = $params;
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

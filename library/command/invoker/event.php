@@ -12,23 +12,31 @@ namespace Nooku\Library;
 /**
  * Event Command Invoker
  *
- * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
- * to any registered event handlers.
+ * The event invoker will translate the command name to a onCommandName format and let the event publisher publish
+ * to any registered event listeners.
  *
- * The 'clone_context' config option defines if the context is clone before being passed to the event dispatcher or
- * it passed by reference instead. By default the context is cloned.
+ * The 'immutable' config option defines if the context is clone before being passed to the event publisher or
+ * it passed by reference instead. By default the context is cloned and changes to the event will not impact the
+ * command context.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandInvokerEvent extends EventMixin implements CommandInvokerInterface
+class CommandInvokerEvent extends CommandInvokerAbstract implements CommandInvokerInterface
 {
     /**
      * The command priority
      *
-     * @var integer
+     * @var EventPublisherInterface
      */
-    protected $_priority;
+    private $__event_publisher;
+
+    /**
+     * Is the event immutable
+     *
+     * @var boolean
+     */
+    protected $_immutable;
 
     /**
      * Object constructor
@@ -39,8 +47,70 @@ class CommandInvokerEvent extends EventMixin implements CommandInvokerInterface
     {
         parent::__construct($config);
 
-        //Set the command priority
-        $this->_priority = $config->priority;
+        if (is_null($config->event_publisher)) {
+            throw new \InvalidArgumentException('event_publisher [EventPublisherInterface] config option is required');
+        }
+
+        //Set the event dispatcher
+        $this->__event_publisher = $config->event_publisher;
+
+        //Set the immutable state of the invoker
+        $this->_immutable = $config->immutable;
+
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority'        => self::PRIORITY_LOWEST,
+            'event_publisher' => 'event.publisher',
+            'immutable'       => true,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Get the event publisher
+     *
+     * @throws \UnexpectedValueException
+     * @return EventPublisherInterface
+     */
+    public function getEventPublisher()
+    {
+        if(!$this->__event_publisher instanceof EventPublisherInterface)
+        {
+            $this->__event_publisher = $this->getObject($this->__event_publisher);
+
+            if(!$this->__event_publisher instanceof EventPublisherInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'EventPublisher: '.get_class($this->__event_publisher).' does not implement EventPublisherInterface'
+                );
+            }
+        }
+
+        return $this->__event_publisher;
+    }
+
+    /**
+     * Set the event publisher
+     *
+     * @param   EventPublisherInterface  $publisher An event publisher object
+     * @return CommandInvokerEvent
+     */
+    public function setEventPublisher(EventPublisherInterface $publisher)
+    {
+        $this->__event_publisher = $publisher;
+        return $this;
     }
 
     /**
@@ -48,63 +118,61 @@ class CommandInvokerEvent extends EventMixin implements CommandInvokerInterface
      *
      * This functions returns void to prevent is from breaking the chain.
      *
-     * @param   string  $name    The command name
-     * @param   object  $context The command context
+     * @param   CommandInterface $command The command
      * @return  void
      */
-    public function execute($name, Command $context)
+    public function executeCommand(CommandInterface $command, $condition = null)
     {
-        $type = '';
+        $type    = '';
+        $package = '';
+        $subject = '';
 
-        if ($context->getSubject())
+        if ($command->getSubject())
         {
-            $identifier = clone $context->getSubject()->getIdentifier();
+            $identifier = $command->getSubject()->getIdentifier()->toArray();
+            $package    = $identifier['package'];
 
-            if ($identifier->path) {
-                $type = array_shift($identifier->path);
-            } else {
-                $type = $identifier->name;
+            if ($identifier['path'])
+            {
+                $type    = array_shift($identifier['path']);
+                $subject = $identifier['name'];
             }
+            else $type = $identifier['name'];
         }
 
-        $parts = explode('.', $name);
-        $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . StringInflector::implode($parts);
+        $parts  = explode('.', $command->getName());
+        $when   = array_shift($parts);               // Before or After
+        $name   = StringInflector::implode($parts); // Read Dispatch Select etc.
 
-        if($this->getConfig()->clone_context) {
-            $event = clone($context);
+        // Create Specific and Generic event names
+        $event_specific = 'on'.ucfirst($when).ucfirst($package).ucfirst($subject).ucfirst($type).$name;
+        $event_generic  = 'on'.ucfirst($when).ucfirst($type).$name;
+
+        // Clone the context
+        if($this->_immutable) {
+            $event = clone($command);
         } else {
-            $event = $context;
+            $event = $command;
         }
 
-        $event = new Event($event);
-        $event->setTarget($context->getSubject());
+        // Create event object to check for propagation
+        $event = $this->getEventPublisher()->publishEvent($event_specific, $command->getAttributes(), $command->getSubject());
 
-        $this->getEventDispatcher()->dispatch($name, $event);
+        // Ensure event can be propagated and event name is different
+        if ($event->canPropagate() && $event_specific != $event_generic)
+        {
+            $event->setName($event_generic);
+            $this->getEventPublisher()->publishEvent($event);
+        }
     }
 
-    /**
-     * Get the methods that are available for mixin.
+    /*
+     * Is the command context immutable
      *
-     * @param  Object $mixer Mixer object
-     * @return array An array of methods
+     * @return bool
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function isImmutable()
     {
-        $methods = parent::getMixableMethods();
-
-        unset($methods['execute']);
-        unset($methods['getPriority']);
-
-        return $methods;
-    }
-
-    /**
-     * Get the priority of a behavior
-     *
-     * @return	integer The command priority
-     */
-    public function getPriority()
-    {
-        return $this->_priority;
+        return $this->_immutable;
     }
 }

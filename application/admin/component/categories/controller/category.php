@@ -21,7 +21,7 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
+                'editable', 'persistable',
                 'com:activities.controller.behavior.loggable',
                 'com:attachments.controller.behavior.attachable',
             ),
@@ -41,11 +41,11 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
 	    //Set the layout
         if($view instanceof Library\ViewTemplate)
 	    {
-	        $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
+	        $layout = $view->getIdentifier()->toArray();
+            $layout['name'] = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'categories';
+            $alias = $layout;
+            $alias['package'] = 'categories';
 
 	        $this->getObject('manager')->registerAlias($alias, $layout);
 	    }
@@ -56,7 +56,6 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
     public function getRequest()
 	{
 		$request = parent::getRequest();
-
         $request->query->table  = $this->getIdentifier()->package;
 
 	    return $request;

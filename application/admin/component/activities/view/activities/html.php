@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ActivitiesViewActivitiesHtml extends Library\ViewHtml
 {
-	public function fetchData(Library\ViewContext $context)
+	protected function _fetchData(Library\ViewContext $context)
 	{
         if ($this->getLayout() == 'default')
 		{
@@ -25,6 +25,6 @@ class ActivitiesViewActivitiesHtml extends Library\ViewHtml
             $context->data->packages = $model->distinct(true)->column('package')->getRowset();
 		} 
 		
-		return parent::fetchData($context);
+		parent::_fetchData($context);
 	}
 }

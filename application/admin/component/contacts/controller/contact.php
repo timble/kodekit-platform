@@ -21,7 +21,7 @@ class ContactsControllerContact extends Library\ControllerModel
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
+                'editable', 'persistable',
                 'com:activities.controller.behavior.loggable',
                 'com:attachments.controller.behavior.attachable'
             ),

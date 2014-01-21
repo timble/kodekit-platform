@@ -29,28 +29,28 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
         if(strpos($path, ':') === false)
         {
             if(!$base = $this->getTemplate()->getPath()) {
-                throw new RuntimeException('Cannot qualify partial template path');
+                throw new \RuntimeException('Cannot qualify partial template path');
             }
 
-            $identifier = clone $this->getIdentifier($base);
+            $identifier = $this->getIdentifier($base)->toArray();
 
             $format    = pathinfo($path, PATHINFO_EXTENSION);
             $template  = pathinfo($path, PATHINFO_FILENAME);
 
-            $parts     = $identifier->path;
+            $parts     = $identifier['path'];
             array_pop($parts);
         }
         else
         {
             // Need to clone here since we use array_pop and it modifies the cached identifier
-            $identifier = clone $this->getIdentifier($path);
+            $identifier = $this->getIdentifier($path)->toArray();
 
-            $format    = $identifier->name;
-            $template  = array_pop($identifier->path);
-            $parts     = $identifier->path;
+            $format    = $identifier['name'];
+            $template  = array_pop($identifier['path']);
+            $parts     = $identifier['path'];
         }
 
-        $filepath  = strtolower($identifier->package).'/'.implode('/', $parts).'/templates';
+        $filepath  = strtolower($identifier['package']).'/'.implode('/', $parts).'/templates';
         $fullpath  = $filepath.'/'.$template.'.'.$format.'.php';
 
         //Find the file

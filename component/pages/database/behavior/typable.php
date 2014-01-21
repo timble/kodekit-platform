@@ -112,11 +112,13 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         return $methods;
     }
 
-    public function execute($name, Library\Command $context)
+    public function executeCommand(Library\CommandInterface $command, $condition = null)
     {
+        $name = $command->getName();
+
         if($name == 'before.insert' || $name == 'before.update')
         {
-            $this->setMixer($context->data);
+            $this->setMixer($command->data);
 
             if(is_array($this->getType()))
             {
@@ -126,7 +128,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
             else $type = $this->type;
 
             $this->setStrategy($type);
-            $return = $this->getStrategy()->setMixer($context->data)->execute($name, $context);
+            $return = $this->getStrategy()->setMixer($command->data)->executeCommand($command, $condition);
         }
         else $return = true;
 

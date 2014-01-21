@@ -26,7 +26,7 @@ class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbs
             $this->getView()->setLayout('search');
 
             $this->getModel()->getTable()
-                ->attachBehavior('com:articles.database.behavior.pageable', array('user' => $this->getUser()->getId()));
+                ->addBehavior('com:articles.database.behavior.pageable', array('user' => $this->getUser()->getId()));
         }
     }
 }

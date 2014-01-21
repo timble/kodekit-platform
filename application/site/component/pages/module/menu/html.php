@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesModuleMenuHtml extends PagesModuleDefaultHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $start    = $this->module->params->get('start_level');
         $end      = $this->module->params->get('end_level');
@@ -61,6 +61,6 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
         $context->data->show_title = $this->module->params->get('show_title', false);
         $context->data->class      = $this->module->params->get('class', 'nav');
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

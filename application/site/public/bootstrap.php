@@ -50,8 +50,8 @@ Library\ClassLoader::getInstance()->getLocator('com')->registerNamespaces(
 );
 
 //Add the different applications
-Library\ClassLoader::getInstance()->addApplication('site' , JPATH_ROOT.'/application/site');
-Library\ClassLoader::getInstance()->addApplication('admin', JPATH_ROOT.'/application/admin');
+Library\ClassLoader::getInstance()->registerBasepath('site' , JPATH_ROOT.'/application/site');
+Library\ClassLoader::getInstance()->registerBasepath('admin', JPATH_ROOT.'/application/admin');
 
 //Bootstrap the components
 Library\ObjectManager::getInstance()->getObject('com:application.object.bootstrapper.application', array(

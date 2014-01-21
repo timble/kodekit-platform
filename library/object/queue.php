@@ -12,8 +12,17 @@ namespace Nooku\Library;
 /**
  * Object Queue
  *
- * ObjectQueue is a type of container adaptor implemented as a double linked list and specifically designed such that
- * its first element is always the greatest of the elements it contains based on the priority of the element.
+ * A queue a data type or collection in which the entities in the collection are kept in order and the principal
+ * (or only) operations on the collection are the addition of entities to the rear terminal position, known as
+ * enqueue, and removal of entities from the front terminal position, known as dequeue. This makes the queue a
+ * First-In-First-Out (FIFO) data structure.
+ *
+ * Additionally each element can have a "priority" associated with it prioritisin the order of the element in the
+ * queue. An element with high priority is served before an element with low priority. If two elements have the same
+ * priority, they are served according to their order in the queue.
+ *
+ * @link http://en.wikipedia.org/wiki/Queue_(abstract_data_type)
+ * @link http://en.wikipedia.org/wiki/Priority_queue
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
@@ -258,6 +267,21 @@ class ObjectQueue extends Object implements \Iterator, \Countable
         }
 
         return $object;
+    }
+
+    /**
+     * Return an array representing the queue
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = array();
+        foreach ($this as $item) {
+            $array[] = $item;
+        }
+
+        return $array;
     }
 
     /**

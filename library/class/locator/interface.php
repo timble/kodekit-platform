@@ -18,17 +18,19 @@ namespace Nooku\Library;
 interface ClassLocatorInterface
 {
     /**
-     * Constructor
+     * Get the path based on a class name
      *
-     * @param array $config Array of configuration options.
+     * @param  string $classname    The class name
+     * @param  string $basepath     The base path
+     * @return string|false         Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function __construct($config = array());
+    public function locate($classname, $basepath = null);
 
     /**
      * Register a namespace
      *
      * @param  string $namespace
-     * @param  string $paths The location(s) of the namespace
+     * @param  string $path The location of the namespace
      * @return ClassLocatorInterface
      */
     public function registerNamespace($namespace, $paths);
@@ -40,6 +42,14 @@ interface ClassLocatorInterface
      * @return ClassLocatorInterface
      */
     public function registerNamespaces(array $namespaces);
+
+    /**
+     * Get a the namespace paths
+     *
+     * @param string $namespace The namespace
+     * @return array The namespace paths
+     */
+    public function getNamespace($namespace);
 
     /**
      * Get the registered namespaces
@@ -54,12 +64,4 @@ interface ClassLocatorInterface
      * @return string
      */
     public function getType();
-
-    /**
-     * Get a fully qualified path based on a class name
-     *
-     * @param  string  $classname The class name
-     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
-     */
-    public function locate($class);
 }

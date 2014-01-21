@@ -17,10 +17,10 @@ use Nooku\Library;
  */
 class UsersViewUserHtml extends Library\ViewHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $context->data->params = $this->getObject('application.extensions')->users->params;
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
 }

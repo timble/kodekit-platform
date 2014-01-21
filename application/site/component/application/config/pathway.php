@@ -30,7 +30,7 @@ class ApplicationConfigPathway extends Library\ObjectConfig
         $item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
         $item->link = $link;
 
-        $this->_data['items'][] = $item;
+        $this->append(array('items' => array($item)));
 
         return $this;
     }

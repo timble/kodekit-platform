@@ -30,8 +30,8 @@ class DispatcherRequest extends DispatcherRequestAbstract implements ObjectInsta
     {
         if (!$manager->isRegistered('dispatcher.request'))
         {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
+            $class     = $manager->getClass($config->object_identifier);
+            $instance  = new $class($config);
             $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton

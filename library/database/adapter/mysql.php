@@ -118,7 +118,6 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     /**
      * Connects to the database
      *
-     * @throws DatabaseAdapterException  If connection failed.
      * @return DatabaseAdapterMysql
      */
     public function connect()
@@ -175,10 +174,10 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         // Create command chain context.
         $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.begin', $context, false) !== false)
+        if($this->invokeCommand('before.begin', $context) !== false)
         {
             $context->result = $this->getConnection()->beginTransaction();
-            $this->getCommandChain()->run('after.begin', $context);
+            $this->invokeCommand('after.begin', $context);
         }
 
         return $context->result;
@@ -194,10 +193,10 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         // Create command chain context.
         $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.commit', $context, false) !== false)
+        if($this->invokeCommand('before.commit', $context) !== false)
         {
             $context->result = $this->getConnection()->commit();
-            $this->getCommandChain()->run('after.commit', $context);
+            $this->invokeCommand('after.commit', $context);
         }
 
         return $context->result;
@@ -213,10 +212,10 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         // Create command chain context.
         $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.rollback', $context, false) !== false)
+        if($this->invokeCommand('before.rollback', $context) !== false)
         {
             $context->result = $this->getConnection()->rollBack();
-            $this->getCommandChain()->run('after.rollback', $context);
+            $this->invokeCommand('after.rollback', $context);
         }
 
         return $context->result;
@@ -237,10 +236,10 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $context->table = $table;
         $context->query = $query;
 
-        if($this->getCommandChain()->run('before.lock', $context, false) !== false)
+        if($this->invokeCommand('before.lock', $context) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
-            $this->getCommandChain()->run('after.lock', $context);
+            $this->invokeCommand('after.lock', $context);
         }
 
         return $context->result;
@@ -260,10 +259,10 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $context->table = null;
         $context->query = $query;
 
-        if($this->getCommandChain()->run('before.unlock', $context, false) !== false)
+        if($this->invokeCommand('before.unlock', $context) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
-            $this->getCommandChain()->run('after.unlock', $context);
+            $this->invokeCommand('after.unlock', $context);
         }
 
         return $context->result;

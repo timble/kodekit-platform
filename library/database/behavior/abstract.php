@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
+abstract class DatabaseBehaviorAbstract extends BehaviorDynamic implements ObjectInstantiable
 {
     /**
      * Instantiate the object
@@ -28,15 +28,15 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        $classname = $config->object_identifier->classname;
-        $instance  = new $classname($config);
+        $class     = $manager->getClass($config->object_identifier);
+        $instance  = new $class($config);
 
         //If the behavior is auto mixed also lazy mix it into related row objects.
         if ($config->auto_mixin)
         {
-            $identifier = clone $instance->getMixer()->getIdentifier();
-            $identifier->path = array('database', 'row');
-            $identifier->name = StringInflector::singularize($identifier->name);
+            $identifier = $instance->getMixer()->getIdentifier()->toArray();
+            $identifier['path'] = array('database', 'row');
+            $identifier['name'] = StringInflector::singularize($identifier['name']);
 
             $manager->registerMixin($identifier, $instance);
         }
@@ -47,20 +47,18 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
     /**
      * Command handler
      *
-     * This function translates the command name to a command handler function of the format '_before[Command]' or
-     * '_after[Command]. Command handler functions should be declared protected.
-     *
-     * @param     string            $name  The command name
-     * @param     Command    $context The command context
-     * @return    boolean   Can return both true or false.
+     * @param  CommandInterface $command    The command
+     * @param  mixed            $condition  The break condition
+     * @return array|mixed Returns an array of the callback results in FIFO order. If a handler breaks and the break
+     *                     condition is not NULL returns the break condition.
      */
-    public function execute($name, Command $context)
+    public function executeCommand(CommandInterface $command, $condition = null)
     {
-        if ($context->data instanceof DatabaseRowInterface) {
-            $this->setMixer($context->data);
+        if ($command->data instanceof DatabaseRowInterface) {
+            $this->setMixer($command->data);
         }
 
-        return parent::execute($name, $context);
+        return parent::executeCommand($command, $condition);
     }
 
     /**

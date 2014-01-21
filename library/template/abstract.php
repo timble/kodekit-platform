@@ -419,9 +419,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         {
             if(is_string($view) && strpos($view, '.') === false )
             {
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('view', $view);
-                $identifier->name = 'html';
+                $identifier			= $this->getIdentifier()->toArray();
+                $identifier['path']	= array('view', $view);
+                $identifier['name'] = 'html';
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($view);
 
@@ -446,9 +448,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         //Create the complete identifier if a partial identifier was passed
         if (is_string($filter) && strpos($filter, '.') === false)
         {
-            $identifier = clone $this->getIdentifier();
-            $identifier->path = array('template', 'filter');
-            $identifier->name = $filter;
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('template', 'filter');
+            $identifier['name'] = $filter;
+
+            $identifier = $this->getIdentifier($identifier);
         }
         else $identifier = $this->getIdentifier($filter);
 
@@ -502,9 +506,9 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         //Create the complete identifier if a partial identifier was passed
         if (is_string($helper) && strpos($helper, '.') === false)
         {
-            $identifier = clone $this->getIdentifier();
-            $identifier->path = array('template', 'helper');
-            $identifier->name = $helper;
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('template', 'helper');
+            $identifier['name'] = $helper;
         }
         else $identifier = $this->getIdentifier($helper);
 
@@ -602,9 +606,9 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($locator) && strpos($locator, '.') === false)
                 {
-                    $identifier = clone $this->getIdentifier();
-                    $identifier->path = array('template', 'locator');
-                    $identifier->name = $locator;
+                    $identifier = $this->getIdentifier()->toArray();
+                    $identifier['path'] = array('template', 'locator');
+                    $identifier['name'] = $locator;
                 }
                 else $identifier = $this->getIdentifier($locator);
 

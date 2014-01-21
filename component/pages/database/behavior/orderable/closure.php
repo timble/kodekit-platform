@@ -201,7 +201,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
         switch($operation)
         {
-            case Library\Database::OPERATION_INSERT:
+            case 'insert':
             {
                 $query = $this->_buildQuery($row)
                     ->columns('orderings.custom')
@@ -214,7 +214,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                     ->setData(array('custom' => $max + 1))->save();
             } break;
 
-            case Library\Database::OPERATION_UPDATE:
+            case 'update':
             {
                 if($row->order)
                 {
@@ -251,7 +251,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                 }
             } break;
 
-            case Library\Database::OPERATION_DELETE:
+            case 'delete':
             {
                 $table->getAdapter()->execute('SET @index := 0');
 

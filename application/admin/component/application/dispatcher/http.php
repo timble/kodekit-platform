@@ -8,15 +8,14 @@
  */
 
 use Nooku\Library;
-use Nooku\Component\Application;
 
 /**
- * Application Http Dispatcher
+ * Http Dispatcher
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcherHttp extends Application\DispatcherHttp
+class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
      * The site identifier.
@@ -43,7 +42,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         $this->loadConfig();
 
-        $this->registerCallback('before.run', array($this, 'loadLanguage'));
+        $this->addCommandHandler('before.run', 'loadLanguage');
     }
 
     /**
@@ -78,7 +77,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
         //Set the site error reporting
-        $this->getEventDispatcher()->setErrorLevel($this->getCfg('debug_mode'));
+        $this->getEventPublisher()->setErrorLevel($this->getCfg('debug_mode'));
 
         //Set the paths
         $params = $this->getObject('application.extensions')->files->params;

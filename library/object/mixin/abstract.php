@@ -110,8 +110,6 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
     /**
      * Get a list of all the available methods
      *
-     * This function returns an array of all the methods, both native and mixed in
-     *
      * @return array An array
      */
     public function getMethods()

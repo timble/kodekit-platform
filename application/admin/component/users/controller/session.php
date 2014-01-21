@@ -22,18 +22,18 @@ class UsersControllerSession extends Library\ControllerModel
         parent::__construct($config);
 
         //Only authenticate POST requests
-        $this->registerCallback('before.add' , array($this, 'authenticate'));
+        $this->addCommandHandler('before.add' , 'authenticate');
 
         //Authorize the user before adding
-        $this->registerCallback('before.add' , array($this, 'authorize'));
+        $this->addCommandHandler('before.add' , 'authorize');
 
         //Lock the referrer to prevent it from being overridden for read requests
-        if ($this->isDispatched() && !$this->getRequest()->isAjax())
+        /*if ($this->isDispatched() && !$this->getRequest()->isAjax())
         {
             if($this->isEditable()) {
-                $this->registerCallback('after.delete' , array($this, 'lockReferrer'));
+                $this->addCommandHandler('after.delete' , 'lockReferrer');
             }
-        }
+        }*/
     }
 
     protected function _initialize(Library\ObjectConfig $config)

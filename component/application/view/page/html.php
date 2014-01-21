@@ -28,7 +28,7 @@ class ViewPageHtml extends ViewHtml
         parent::_initialize($config);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         // Build the sorted message list
         $context->data->messages = $this->getObject('response')->getMessages();
@@ -37,6 +37,6 @@ class ViewPageHtml extends ViewHtml
         $context->data->extension = $this->getObject('dispatcher')->getIdentifier()->package;
         $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

@@ -20,7 +20,7 @@ class ExtensionsControllerSetting extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'behaviors' => array('editable'),
+            'behaviors' => array('editable', 'persistable'),
             'request'   => array('view' => 'settings')
         ));
 

@@ -33,11 +33,11 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
         //Set the layout
         if($view instanceof Library\ViewTemplate)
         {
-            $layout = clone $view->getIdentifier();
+            $layout = $view->getIdentifier()->toArray();
             $layout->name  = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'categories';
+            $alias = $layout;
+            $alias['package'] = 'categories';
 
             $this->getObject('manager')->registerAlias($alias, $layout);
         }

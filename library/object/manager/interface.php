@@ -33,6 +33,24 @@ interface ObjectManagerInterface
     public function getIdentifier($identifier = null);
 
     /**
+     * Get the identifier class
+     *
+     * @param mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @param bool  $fallback   Use fallbacks when locating the class. Default is TRUE.
+     * @return string
+     */
+    public function getClass($identifier, $fallback = true);
+
+    /**
+     * Get the identifier class
+     *
+     * @param mixed  $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @param string $class      The class name
+     * @return string
+     */
+    public function setClass($identifier, $class);
+
+    /**
      * Get an object instance based on an object identifier
      *
      * If the object implements the ObjectSingleton interface the object will be automatically registered in the
@@ -82,7 +100,7 @@ interface ObjectManagerInterface
     public function setConfig($identifier, array $config = null);
 
     /**
-     * Register a mixin or an array of mixins for an identifier
+     * Register a mixin for an identifier
      *
      * The mixin is mixed when the identified object is first instantiated see {@link get} The mixin is also mixed with
      * with the represented by the identifier if the object is registered in the object manager. This mostly applies to
@@ -90,14 +108,15 @@ interface ObjectManagerInterface
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
+     * @param array $config     Configuration for the mixin
      * @return ObjectManagerInterface
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     * @see ObjectMixable::mixin()
+     * @see Object::mixin()
      */
-    public function registerMixin($identifier, $mixins);
+    public function registerMixin($identifier, $mixin, array $config = array());
 
     /**
-     * Register a decorator or an array of decorators for an identifier
+     * Register a decorator  for an identifier
      *
      * The object is decorated when it's first instantiated see {@link get} The object represented by the identifier is
      * also decorated if the object is registered in the object manager. This mostly applies to singletons but can also
@@ -105,11 +124,12 @@ interface ObjectManagerInterface
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
-     * @return ObjectManagerInterface
+     * @param array $config     Configuration for the decorator
+     * @return ObjectManager
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     * @see ObjectDecoratable::decorate()
+     * @see Object::decorate()
      */
-    public function registerDecorator($identifier, $decorator);
+    public function registerDecorator($identifier, $decorator, array $config = array());
 
     /**
      * Register an alias for an identifier

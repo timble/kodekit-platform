@@ -116,7 +116,7 @@ interface DatabaseAdapterInterface
 	/**
 	 * Use and other queries that don't return rows
 	 *
-	 * @param  string 	The query to run. Data inside the query should be properly escaped. 
+	 * @param  string 	The query to run. Data inside the query should be properly escaped.
 	 * @param  integer 	The result made, either the constant Database::RESULT_USE or Database::RESULT_STORE
      * 					depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
      * 					use Database::RESULT_USE all subsequent calls will return error Commands out of sync

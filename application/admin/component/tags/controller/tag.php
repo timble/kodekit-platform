@@ -21,7 +21,7 @@ abstract class TagsControllerTag extends Library\ControllerModel
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
+                'editable', 'persistable',
                 //'com:activities.controller.behavior.loggable'
             ),
             'model'     => 'com:tags.model.tags'
@@ -40,11 +40,11 @@ abstract class TagsControllerTag extends Library\ControllerModel
 	    //Set the layout
         if($view instanceof Library\ViewTemplate)
 	    {
-	        $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
+	        $layout = $view->getIdentifier()->toArray();
+            $layout['name']  = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'tags';
+            $alias = $layout;
+            $alias['package'] = 'tags';
 
 	        $this->getObject('manager')->registerAlias($alias, $layout);
 	    }

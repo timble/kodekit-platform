@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\View
  */
-abstract class ViewAbstract extends Object implements ViewInterface
+abstract class ViewAbstract extends CommandInvokerAbstract implements ViewInterface
 {
     /**
      * Model object or identifier
@@ -37,13 +37,6 @@ abstract class ViewAbstract extends Object implements ViewInterface
      * @var string
      */
     protected $_content;
-
-    /**
-     * Chain of command object
-     *
-     * @var CommandChain
-     */
-    protected $_command_chain;
 
     /**
      * The view data
@@ -77,8 +70,11 @@ abstract class ViewAbstract extends Object implements ViewInterface
 
         $this->setModel($config->model);
 
-        // Mixin the behavior interface
+        // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
+
+        // Mixin the event interface
+        $this->mixin('lib:event.mixin', $config);
     }
 
     /**
@@ -94,9 +90,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
         $config->append(array(
             'data'              => array(),
             'command_chain'     => 'lib:command.chain',
-            'dispatch_events'   => true,
-            'event_dispatcher'  => 'event.dispatcher',
-            'enable_callbacks'  => true,
+            'command_invokers'  => array('lib:command.invoker.event'),
             'model'    => 'lib:model.empty',
             'contents' => '',
             'mimetype' => '',
@@ -118,14 +112,14 @@ abstract class ViewAbstract extends Object implements ViewInterface
         $context->data   = $data;
         $context->action = 'render';
 
-        if ($this->getCommandChain()->run('before.render', $context, false) !== false)
+        if ($this->invokeCommand('before.render', $context) !== false)
         {
             //Push the data in the view
             $this->setData($context->data);
 
             //Render the view
             $context->result = $this->_actionRender($context);
-            $this->getCommandChain()->run('after.render', $context);
+            $this->invokeCommand('after.render', $context);
         }
 
         return $context->result;
@@ -302,9 +296,11 @@ abstract class ViewAbstract extends Object implements ViewInterface
                     $model = StringInflector::pluralize($model);
                 }
 
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('model');
-                $identifier->name	= $model;
+                $identifier			= $this->getIdentifier()->toArray();
+                $identifier['path']	= array('model');
+                $identifier['name']	= $model;
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($model);
 
@@ -412,32 +408,6 @@ abstract class ViewAbstract extends Object implements ViewInterface
 
         $this->_url = $url;
         return $this;
-    }
-
-    /**
-     * Get the chain of command object
-     *
-     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
-     * to the CommandChain mixin.
-     *
-     * @return  CommandChainInterface
-     */
-    public function getCommandChain()
-    {
-        if(!$this->_command_chain instanceof CommandChainInterface)
-        {
-            //Ask the parent the relay the call to the mixin
-            $this->_command_chain = parent::getCommandChain();
-
-            if(!$this->_command_chain instanceof CommandChainInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
-                );
-            }
-        }
-
-        return $this->_command_chain;
     }
 
     /**

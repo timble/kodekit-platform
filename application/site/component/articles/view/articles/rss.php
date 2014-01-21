@@ -17,11 +17,11 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesRss extends Library\ViewRss
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $context->data->category = $this->getCategory();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
     public function getCategory()

@@ -12,97 +12,84 @@ namespace Nooku\Library;
 /**
  * Abstract Event Subscriber
  *
- * An EventSubscriber knows himself what events he is interested in. If an EventSubscriber is added to an
- * EventDispatcherInterface, the dispatcher invokes {@link getSubscribedEvents} and registers the subscriber
- * as a listener for all returned events.
+ * An EventSusbcriber knows himself what events he is interested in. Classes extending the abstract implementation may
+ * be adding listeners to an EventDispatcher through the {@link subscribe()} method.
+ *
+ * Listeners must be public class methods following a camel Case naming convention starting with 'on', eg onFooBar. The
+ * listener priority is usually between 1 (high priority) and 5 (lowest), default is 3 (normal)
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
 abstract class EventSubscriberAbstract extends Object implements EventSubscriberInterface
 {
- 	/**
+    /**
      * List of event listeners
      *
      * @var array
      */
     private $__listeners;
-    
-    /**
-     * The event priority
-     *
-     * @var int
-     */
-    protected $_priority;
-    
-	/**
-	 * Constructor.
-	 *
-	 * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
-	 */
-	public function __construct(ObjectConfig $config)
-	{
-		parent::__construct($config);
-		
-		$this->_priority = $config->priority;
-	}
- 	
- 	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	ObjectConfig $config 	An optional ObjectConfig object with configuration options.
-     * @return 	void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-    		'priority' => Event::PRIORITY_NORMAL
-        ));
 
-        parent::_initialize($config);
-    }
-    
     /**
-     * Get the priority of the handler
+     * Attach one or more listeners
      *
-     * @return	integer The event priority
-     */
-    public function getPriority()
-    {
-        return $this->_priority;
-    }
-        
-    /**
-     * Get a list of subscribed events 
-     *       
      * Event listeners always start with 'on' and need to be public methods.
-     * 
-     * @return array An array of public methods
+     *
+     * @param  EventPublisherInterface $publisher
+     * @param  integer                 $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                                 default is 3 (normal)
+     * @return array An array of public methods that have been attached
      */
-    public function getListeners()
+    public function subscribe(EventPublisherInterface $publisher, $priority = Event::PRIORITY_NORMAL)
     {
-        if(!$this->__listeners)
+        $handle = $publisher->getHandle();
+
+        if(!$this->isSubscribed($publisher));
         {
-            $listeners = array();
-            
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method)
             {
                 if(substr($method->name, 0, 2) == 'on')
                 {
-                    $listeners[$method->name] = array(
-                        'listener' => array($this, $method->name),
-                        'priority' => $this->getPriority()
-                    );
+                    $publisher->addListener($method->name, array($this, $method->name), $priority);
+                    $this->__listeners[$handle][] = $method->name;
                 }
             }
-            
-            $this->__listeners = $listeners;
         }
-          
+
         return $this->__listeners;
+    }
+
+    /**
+     * Detach all previously attached listeners for the specific dispatcher
+     *
+     * @param EventPublisherInterface $publisher
+     * @return void
+     */
+    public function unsubscribe(EventPublisherInterface $publisher)
+    {
+        $handle = $publisher->getHandle();
+
+        if($this->isSubscribed($publisher));
+        {
+            foreach ($this->_listeners[$handle] as $index => $listener)
+            {
+                $publisher->removeListener($listener, array($this, $listener));
+                unset($this->__listeners[$handle][$index]);
+            }
+        }
+    }
+
+    /**
+     * Check if the subscriber is already subscribed to the dispatcher
+     *
+     * @param  EventPublisherInterface $dispatcher  The event dispatcher
+     * @return boolean TRUE if the subscriber is already subscribed to the dispatcher. FALSE otherwise.
+     */
+    public function isSubscribed(EventPublisherInterface $publisher)
+    {
+        $handle = $publisher->getHandle();
+        return isset($this->_listeners[$handle]);
     }
 }

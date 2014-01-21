@@ -17,12 +17,12 @@ use Nooku\Library;
  */
 class ContactsViewContactsHtml extends Library\ViewHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         // Enable sortable
         $state = $this->getModel()->getState();
         $context->data->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

@@ -57,7 +57,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         $this->loadConfig();
 
-        $this->registerCallback('before.run', array($this, 'loadLanguage'));
+        $this->addCommandHandler('before.run', 'loadLanguage');
     }
 
     /**
@@ -92,7 +92,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
         //Set the site error reporting
-        $this->getEventDispatcher()->setErrorLevel($this->getCfg('debug_mode'));
+        $this->getEventPublisher()->setErrorLevel($this->getCfg('debug_mode'));
 
         //Set the paths
         $params = $this->getObject('application.extensions')->files->params;

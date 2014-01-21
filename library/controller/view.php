@@ -37,13 +37,10 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $this->_view = $config->view;
 
 		// Mixin the toolbar
-		if($config->dispatch_events)
-        {
-            $this->mixin('lib:controller.toolbar.mixin');
+		$this->mixin('lib:controller.toolbar.mixin');
 
-            //Attach the toolbars
-            $this->registerCallback('before.render' , array($this, 'attachToolbars'), array($config->toolbars));
-		}
+        //Attach the toolbars
+        $this->addCommandHandler('before.render' , '_addToolbars', array('toolbars' => $config->toolbars));
 	}
 	
 	/**
@@ -65,17 +62,17 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     }
 
     /**
-     * Attach the toolbars to the controller
+     * Add the toolbars to the controller
      *
-     * @param array $toolbars A list of toolbars
+     * @param ControllerContextInterface $context
      * @return ControllerView
      */
-    public function attachToolbars($toolbars)
+    protected function _addToolbars(ControllerContextInterface $context)
     {
         if($this->getView() instanceof ViewHtml)
         {
-            foreach($toolbars as $toolbar) {
-                $this->attachToolbar($toolbar);
+            foreach($context->toolbars as $toolbar) {
+                $this->addToolbar($toolbar);
             }
 
             if($toolbars = $this->getToolbars())
@@ -128,7 +125,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
             /*if($this->isDispatched())
             {
                 $class = $this->_view->getIdentifier()->getClassName();
-                $path  = $this->getObject('manager')->getClassLoader()->find($class);
+                $path  = $this->getObject('manager')->getClassLoader()->getPath($class);
 
                 if(!file_exists(dirname($path))) {
                     throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
@@ -152,9 +149,11 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 		{
 			if(is_string($view) && strpos($view, '.') === false )
 		    {
-                $identifier			= clone $this->getIdentifier();
-			    $identifier->path	= array('view', $view);
-			    $identifier->name	= $this->getRequest()->getFormat();
+                $identifier			= $this->getIdentifier()->toArray();
+			    $identifier['path']	= array('view', $view);
+			    $identifier['name']	= $this->getRequest()->getFormat();
+
+                $identifier = $this->getIdentifier($identifier);
 			}
 			else $identifier = $this->getIdentifier($view);
 

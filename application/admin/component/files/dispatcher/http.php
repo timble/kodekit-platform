@@ -17,29 +17,28 @@ use Nooku\Library;
  */
 class FilesDispatcherHttp extends Library\DispatcherHttp
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
-	
-		// Return JSON response when possible
-		$this->registerCallback('after.post' , array($this, 'renderResponse'));
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        // Return JSON response when possible
+        $this->addCommandHandler('after.post' , '_afterPost');
 
         // Return correct status code for plupload
-        $this->getObject('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
-	}
-	
-	public function renderResponse(Library\DispatcherContextInterface $context)
-	{
-		if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
-			$this->getController()->execute('render', $context);
-		}
-	}
+        $this->addCommandHandler('before.send', '_beforeSend');
+    }
+
+    protected function _afterPost(Library\DispatcherContextInterface $context)
+    {
+        if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
+            $this->getController()->execute('render', $context);
+        }
+    }
 
     /**
-     * Return 200 even if an error happens in requests using Plupload. Otherwise we cannot get the error message and
-     * display it to the user interface
+     * Plupload do not pass the error to our application if the status code is not 200
      */
-    public function setStatusForPlupload(Library\DispatcherContextInterface $context)
+    protected function _beforeSend(Library\DispatcherContextInterface $context)
     {
         if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int')) {
             $context->response->setStatus('200');

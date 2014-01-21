@@ -136,14 +136,19 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $config = new ObjectConfig($config);
             $config->mixer = $this;
 
-            $mixin = new $identifier->classname($config);
+            $class = $this->getObject('manager')->getClass($identifier);
+            $mixin = new $class($config);
+        }
 
-            if(!$mixin instanceof ObjectMixinInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'Mixin: '.get_class($mixin).' does not implement ObjectMixinInterface'
-                );
-            }
+        /*
+         * Check if the mixin extends from ObjectMixin to ensure it's implementing the
+         * ObjectMixinInterface and ObjectHandable interfaces.
+         */
+        if(!$mixin instanceof ObjectMixinInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Mixin: '.get_class($mixin).' does not implement ObjectMixinInterface'
+            );
         }
 
         //Set the mixed methods
@@ -198,18 +203,19 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $config = new ObjectConfig($config);
             $config->delegate = $this;
 
-            $decorator = new $identifier->classname($config);
+            $class     = $this->getObject('manager')->getClass($identifier);
+            $decorator = new $class($config);
+        }
 
-            /*
-             * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
-             * ObjectInterface, ObjectHandable, ObjectMixable and ObjectDecoratable interfaces.
-             */
-            if(!$decorator instanceof ObjectDecorator)
-            {
-                throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($decorator).' does not extend from ObjectDecorator'
-                );
-            }
+        /*
+         * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
+         * ObjectInterface, ObjectHandable, ObjectMixable and ObjectDecoratable interfaces.
+         */
+        if(!$decorator instanceof ObjectDecorator)
+        {
+            throw new \UnexpectedValueException(
+                'Decorator: '.get_class($decorator).' does not extend from ObjectDecorator'
+            );
         }
 
         //Notify the decorator

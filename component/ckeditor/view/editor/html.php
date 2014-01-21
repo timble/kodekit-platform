@@ -39,7 +39,7 @@ class ViewEditorHtml extends Library\ViewHtml
 		parent::_initialize($config);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
 	{
 		if(!$context->data->id) {
 		    $context->data->id = $context->data->name;
@@ -51,6 +51,6 @@ class ViewEditorHtml extends Library\ViewHtml
 
 		$context->data->settings = $settings;
 
-		return parent::fetchData($context);
+		parent::_fetchData($context);
 	}
 }

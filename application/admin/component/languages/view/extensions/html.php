@@ -26,7 +26,7 @@ class LanguagesViewExtensionsHtml extends Library\ViewHtml
         parent::_initialize($config);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $tables     = $this->getObject('com:languages.model.tables')->getRowset();
         $extensions = $this->getObject('com:extensions.model.extensions')
@@ -40,6 +40,6 @@ class LanguagesViewExtensionsHtml extends Library\ViewHtml
         $context->data->extension = $extensions;
         $context->data->total     = count($extensions);
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

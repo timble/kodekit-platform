@@ -25,7 +25,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		return parent::_actionRender($context);
 	}
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $page = $this->getObject('application.pages')->getActive();
         $params = new JParameter($page->params);
@@ -57,7 +57,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $context->data->page           = $page;
         $context->data->thumbnail_size = array('x' => 200, 'y' => 150);
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
     protected function _getFolders()
@@ -69,9 +69,10 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         {
             $state = $this->getModel()->getState();
 
-            $identifier       = clone $this->getIdentifier();
-            $identifier->path = array('model');
-            $identifier->name = Library\StringInflector::pluralize($this->getName());
+            $identifier         = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('model');
+            $identifier['name'] = Library\StringInflector::pluralize($this->getName());
+
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
             $folders          = $model->getRowset();
             $total            = $model->getTotal();
@@ -113,10 +114,10 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $request->query->set('container', $state->container);
         $request->query->set('limit', $state->limit);
 
-        $identifier       = clone $this->getIdentifier();
-        $identifier->path = array('controller');
-        $identifier->name = 'file';
-        $controller       = $this->getObject($identifier, array('request' => $request));
+        $identifier         = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('controller');
+        $identifier['name'] = 'file';
+        $controller         = $this->getObject($identifier, array('request' => $request));
 
         $files = $controller->browse();
         $total = $controller->getModel()->getTotal();

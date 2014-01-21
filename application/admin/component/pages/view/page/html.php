@@ -29,7 +29,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         // Load components.
         $state = $this->getModel()->getState();
@@ -65,6 +65,6 @@ class PagesViewPageHtml extends Library\ViewHtml
         // Assign parent ID
         $context->data->parent_id = $page->getParentId();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

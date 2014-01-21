@@ -38,7 +38,7 @@ class ViewHtml extends Library\ViewHtml
         parent::_initialize($config);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         //Set the language information
         $language = $this->getObject('application')->getCfg('language');
@@ -48,6 +48,6 @@ class ViewHtml extends Library\ViewHtml
         // Set the site information
         $context->data->site  = $this->getObject('application')->getSite();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

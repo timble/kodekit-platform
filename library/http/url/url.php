@@ -539,7 +539,7 @@ class HttpUrl extends Object
      */
     public static function fromArray(array $parts)
     {
-        $url = new static(array('components' => $parts));
+        $url = new static(new ObjectConfig(array('url' => $parts)));
         return $url;
     }
 

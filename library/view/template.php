@@ -69,7 +69,7 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         //Fetch the view data before rendering
-        $this->registerCallback('before.render' , array($this, 'fetchData'));
+        $this->addCommandHandler('before.render', '_fetchData');
     }
 
     /**
@@ -82,9 +82,6 @@ abstract class ViewTemplate extends ViewAbstract
      */
     protected function _initialize(ObjectConfig $config)
     {
-        //Clone the identifier
-        $identifier = clone $this->getIdentifier();
-
         $config->append(array(
             'layout'           => '',
             'template'         => $this->getName(),
@@ -110,10 +107,10 @@ abstract class ViewTemplate extends ViewAbstract
         //Handle partial layout paths
         if (is_string($layout) && strpos($layout, '.') === false)
         {
-            $identifier = clone $this->getIdentifier();
-            $identifier->name = $layout;
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['name'] = $layout;
 
-            $layout = (string) $identifier;
+            $layout = (string) $this->getIdentifier($identifier);
         }
 
         $this->_content = (string) $this->getTemplate()
@@ -134,7 +131,7 @@ abstract class ViewTemplate extends ViewAbstract
      * @param ViewContext	$context A view context object
      * @return void
      */
-    public function fetchData(ViewContext $context)
+    protected function _fetchData(ViewContext $context)
     {
         $model = $this->getModel();
 
@@ -225,9 +222,9 @@ abstract class ViewTemplate extends ViewAbstract
         {
             if (is_string($template) && strpos($template, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('template');
-                $identifier->name = $template;
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('template');
+                $identifier['name'] = $template;
             }
             else $identifier = $this->getIdentifier($template);
 

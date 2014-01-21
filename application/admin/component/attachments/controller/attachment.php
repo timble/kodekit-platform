@@ -25,7 +25,7 @@ class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
 				'view' => 'attachments'
 			),
             'behaviors' => array(
-                'editable'
+                'editable', 'persistable',
             )
 		));
 		

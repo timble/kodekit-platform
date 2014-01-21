@@ -39,18 +39,11 @@ class ClassLoader implements ClassLoaderInterface
     protected $_registry = null;
 
     /**
-     * Class aliases
-     *
-     * @var    array
-     */
-    protected $_aliases = array();
-
-    /**
-     * List of applications
+     * An associative array of basepaths
      *
      * @var array
      */
-    protected $_applications = array();
+    protected $_basepaths = array();
 
     /**
      * Constructor
@@ -137,17 +130,18 @@ class ClassLoader implements ClassLoaderInterface
     /**
      * Load a class based on a class name
      *
-     * @param string    $class    The class name
+     * @param string  $class    The class name
+     * @param string $basepath The basepath name
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
-    public function load($class)
+    public function load($class, $basepath = null)
     {
         $result = true;
 
         if(!$this->isDeclared($class))
         {
             //Get the path
-            $path = $this->find( $class );
+            $path = $this->getPath( $class, $basepath);
 
             if ($path !== false)
             {
@@ -167,24 +161,25 @@ class ClassLoader implements ClassLoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param   string $class   The class name
-     * @return  string|false    Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param string $class    The class name
+     * @param string $basepath The basepath name
+     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function find($class)
+    public function getPath($class, $basepath = null)
     {
+        static $base;
         $result = false;
 
-        //Recursively resolve the real class if an alias was passed
-        while(array_key_exists((string) $class, $this->_aliases)) {
-            $class = $this->_aliases[(string) $class];
-        }
+        //Switch the base
+        $prefix = $basepath ? $basepath.'-' : $base;
 
-        if(!$this->_registry->offsetExists($class))
+        if(!$this->_registry->has($prefix.$class))
         {
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                if(false !== $result = $locator->locate($class)) {
+                $path = $this->getBasepath($basepath);
+                if(false !== $result = $locator->locate($class, $path)) {
                     break;
                 };
             }
@@ -193,13 +188,27 @@ class ClassLoader implements ClassLoaderInterface
             {
                 //Get the canonicalized absolute pathname
                 if($result = realpath($result)) {
-                    $this->_registry->offsetSet($class, $result);
+                    $this->_registry->set($prefix.$class, $result);
                 }
             }
-        }
-        else $result = $this->_registry->offsetGet($class);
+
+        } else $result = $this->_registry->get($prefix.$class);
 
         return $result;
+    }
+
+    /**
+     * Set the path based for a class
+     *
+     * @param string $class    The class name
+     * @param string $path     The class path
+     * @param string $basepath The basepath name
+     * @return void
+     */
+    public function setPath($class, $path, $basepath = null)
+    {
+        $prefix = $basepath ? $basepath.'-' : '';
+        $this->_registry->set($prefix.$class, $path);
     }
 
     /**
@@ -212,15 +221,22 @@ class ClassLoader implements ClassLoaderInterface
         return $this->_registry;
     }
 
- 	/**
+    /**
      * Register a class locator
      *
-     * @param ClassLocatorInterface $locator
+     * @param  ClassLocatorInterface $locator
+     * @param  bool $prepend If true, the locator will be prepended instead of appended.
      * @return void
      */
-    public function registerLocator(ClassLocatorInterface $locator)
+    public function registerLocator(ClassLocatorInterface $locator, $prepend = false )
     {
-        $this->_locators[$locator->getType()] = $locator;
+        $array = array($locator->getType() => $locator);
+
+        if($prepend) {
+            $this->_locators = $array + $this->_locators;
+        } else {
+            $this->_locators = $this->_locators + $array;
+        }
     }
 
     /**
@@ -251,7 +267,7 @@ class ClassLoader implements ClassLoaderInterface
         $alias = trim($alias);
         $class = trim($class);
 
-        $this->_aliases[$alias] = $class;
+        $this->_registry->alias($class, $alias);
     }
 
     /**
@@ -262,40 +278,40 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function getAliases($class)
     {
-        return isset($this->_aliases[$class]) ? $this->_aliases[$class] : array();
+        return array_search($class, $this->_registry->getAliases());
     }
 
     /**
-     * Add an application
+     * Register a basepath by name
      *
-     * @param string $name The name of the application
-     * @param string $path The path of the application
+     * @param string $name The name of the basepath
+     * @param string $path The path
      * @return void
      */
-    public function addApplication($name, $path)
+    public function registerBasepath($name, $path)
     {
-        $this->_applications[$name] = $path;
+        $this->_basepaths[$name] = $path;
     }
 
     /**
-     * Get an application path
+     * Get a basepath by name
      *
      * @param string $name The name of the application
      * @return string The path of the application
      */
-    public function getApplication($name)
+    public function getBasepath($name)
     {
-        return isset($this->_applications[$name]) ? $this->_applications[$name] : null;
+        return isset($this->_basepaths[$name]) ? $this->_basepaths[$name] : null;
     }
 
     /**
-     * Get a list of applications
+     * Get a list of basepaths
      *
      * @return array
      */
-    public function getApplications()
+    public function getBasepaths()
     {
-        return $this->_applications;
+        return $this->_basepaths;
     }
 
     /**

@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class TagsViewTagsHtml extends Library\ViewHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
 	{
 		//If no row exists assign an empty array
 		if($this->getModel()->getState()->row) {
@@ -26,6 +26,6 @@ class TagsViewTagsHtml extends Library\ViewHtml
 			$context->data->disabled = true;
 		}
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
 	}
 }

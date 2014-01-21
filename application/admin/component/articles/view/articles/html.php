@@ -17,13 +17,13 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesHtml extends Library\ViewHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {        
         $state = $this->getModel()->getState();
         
         // Enable sortable
         $context->data->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }
