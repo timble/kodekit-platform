@@ -29,9 +29,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->addCommandHandler('after.read'  , array($this, '_lockResource'));
-        $this->addCommandHandler('after.save'  , array($this, '_unlockResource'));
-        $this->addCommandHandler('after.cancel', array($this, '_unlockResource'));
+        $this->addCommandHandler('after.read'  , '_lockResource');
+        $this->addCommandHandler('after.save'  , '_unlockResource');
+        $this->addCommandHandler('after.cancel', '_unlockResource');
 
         if($this->getRequest()->getFormat() == 'html')
         {
