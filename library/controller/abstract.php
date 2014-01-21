@@ -160,7 +160,7 @@ abstract class ControllerAbstract extends CommandInvokerAbstract implements Cont
                 if (isset($this->_mixed_methods[$action]))
                 {
                     $context->setName('action.' . $action);
-                    $context->result = $this->_mixed_methods[$action]->execute($context);
+                    $context->result = current($this->_mixed_methods[$action]->executeCommand($context));
                 }
                 else
                 {
