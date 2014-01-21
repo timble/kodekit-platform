@@ -179,7 +179,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = Library\ClassLoader::getInstance()->getApplication('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $path =  $this->getObject('manager')->getClassLoader()->getBasepath('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
