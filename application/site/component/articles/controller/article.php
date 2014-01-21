@@ -53,13 +53,8 @@ class ArticlesControllerArticle extends Library\ControllerModel
                 $request->query->limit = (int) $params->get('articles_per_page', 3);
 
                 $sort_by = $sort_by_map[$params->get('sort_by', 'newest')];
-                $request->query->sort = key($sort_by);
-                $request->query->direction   = current($sort_by);
-            }
-
-            // Allow editors (and above) to view unpublished items on lists.
-            if (!$this->canEdit()) {
-                $request->query->published = 1;
+                $request->query->sort      = key($sort_by);
+                $request->query->direction = current($sort_by);
             }
 
             //Always show child category articles
@@ -67,6 +62,14 @@ class ArticlesControllerArticle extends Library\ControllerModel
         }
 
         return $request;
+    }
+
+    protected function _actionBrowse(Library\ControllerContextInterface $context)
+    {
+        // Allow editors (and above) to view unpublished items on lists.
+        if (!$this->canEdit()) {
+            $context->request->query->published = 1;
+        }
     }
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
