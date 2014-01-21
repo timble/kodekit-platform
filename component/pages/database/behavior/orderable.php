@@ -73,9 +73,9 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function executeCommand(Library\CommandInterface $command)
+    public function executeCommand(Library\CommandInterface $command, $condition = null)
     {
-        return $this->getStrategy()->executeCommand($command);
+        return $this->getStrategy()->executeCommand($command, $condition);
     }
     
     public function setStrategy(DatabaseBehaviorOrderableInterface $strategy)

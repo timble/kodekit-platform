@@ -128,7 +128,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
             else $type = $this->type;
 
             $this->setStrategy($type);
-            $return = $this->getStrategy()->setMixer($command->data)->executeCommand($command);
+            $return = $this->getStrategy()->setMixer($command->data)->executeCommand($command, $condition);
         }
         else $return = true;
 

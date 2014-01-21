@@ -79,7 +79,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
             }
         }
 
-        return Library\BehaviorAbstract::executeCommand($command);
+        return Library\BehaviorAbstract::executeCommand($command, $condition);
     }
 
 	/**
