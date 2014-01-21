@@ -22,7 +22,7 @@ class CommentsControllerComment extends Comments\ControllerComment
     {
         $config->append(array(
             'behaviors' => array(
-                'editable'
+                'editable', 'persistable',
             ),
             'model' => 'com:comments.model.comments'
         ));

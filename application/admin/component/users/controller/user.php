@@ -29,7 +29,7 @@ class UsersControllerUser extends Library\ControllerModel
     {
         $config->append(array(
             'behaviors' => array(
-                'editable', 'resettable',
+                'editable', 'persistable', 'resettable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));

@@ -51,7 +51,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-            'behaviors'  => array('persistable', 'resettable'),
+            'behaviors'  => array('resettable'),
             'limit'      => array('max' => 1000, 'default' => 20)
          ));
 
