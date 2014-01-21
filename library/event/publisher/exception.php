@@ -87,7 +87,7 @@ class EventPublisherException extends EventPublisherAbstract
      * @param  mixed                $target     The event target
      * @return EventException
      */
-    public function publishException(Exception $exception, $attributes = array(), $target = null)
+    public function publishException(\Exception $exception, $attributes = array(), $target = null)
     {
         try
         {
