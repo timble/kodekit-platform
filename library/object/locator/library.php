@@ -56,27 +56,30 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $name    = ucfirst($identifier->name);
 
-        //The complete class
-        $result = 'Nooku\Library\\'.$package.$class;
-
-        //Find fallback, if no fallback found return FALSE
-        if(!class_exists($result) && $fallback)
+        //Check if the class exists
+        $result = false;
+        if(!class_exists('Nooku\Library\\'.$package.$class) && $fallback)
         {
-            foreach($this->_fallbacks as $fallback)
+            //Use the fallbacks
+            if($fallback)
             {
-                $result = str_replace(
-                    array('<Package>', '<Path>', '<Name>', '<Class>'),
-                    array($package   , $path   , $name   , $class),
-                    $fallback
-                );
+                foreach($this->_fallbacks as $fallback)
+                {
+                    $result = str_replace(
+                        array('<Package>', '<Path>', '<Name>', '<Class>'),
+                        array($package   , $path   , $name   , $class),
+                        $fallback
+                    );
 
-                if(!class_exists($result)) {
-                    $result = false;
-                } else {
-                    break;
+                    if(!class_exists($result)) {
+                        $result = false;
+                    } else {
+                        break;
+                    }
                 }
             }
         }
+        else $result = 'Nooku\Library\\'.$package.$class;
 
         return $result;
     }
