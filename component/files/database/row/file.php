@@ -21,15 +21,14 @@ class DatabaseRowFile extends DatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
-		$this->addCommandHandler('after.save'  , 'saveThumbnail');
-		$this->addCommandHandler('after.delete', 'deleteThumbnail');
-	}
+        $this->addBehavior('com:files.database.behavior.thumbnail');
+    }
 
-	public function save()
+    public function save()
 	{
 		$context = $this->getContext();
 		$context->result = false;
@@ -160,34 +159,5 @@ class DatabaseRowFile extends DatabaseRowNode
 			default:
 				return array('width' => $width, 'height' => $height);
 		}
-	}
-
-	public function saveThumbnail(Library\Command $context = null)
-	{
-        $result = null;
-		if ($this->isImage() && $this->getContainer()->getParameters()->thumbnails)
-		{
-			$parameters      = $this->getContainer()->getParameters();
-			$thumbnails_size = isset($parameters['thumbnail_size']) ? $parameters['thumbnail_size'] : array();
-			$thumb           = $this->getObject('com:files.database.row.thumbnail', array('thumbnail_size' => $thumbnails_size));
-			$thumb->source = $this;
-
-			$result = $thumb->save();
-		}
-
-		return $result;
-	}
-
-	public function deleteThumbnail(Library\Command $context = null)
-	{
-		$thumb = $this->getObject('com:files.model.thumbnails')
-            ->container($this->container)
-            ->folder($this->folder)
-            ->filename($this->name)
-			->getRow();
-
-		$result = $thumb->delete();
-
-		return $result;
 	}
 }
