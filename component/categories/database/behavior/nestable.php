@@ -144,10 +144,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         {
             if(isset($this->_table))
             {
-                $this->_table->getAdapter()
-                    ->getCommandChain()
-                    ->dequeue($this);
-
+                $this->_table->getAdapter()->removeCommandInvoker($this);
                 $this->_table = null;
             }
         }
