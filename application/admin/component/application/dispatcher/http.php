@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
  * Http Dispatcher
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
+class ApplicationDispatcherHttp extends Application\DispatcherHttp
 {
     /**
      * The site identifier.
