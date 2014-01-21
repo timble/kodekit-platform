@@ -58,7 +58,7 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
 
         //Check if the class exists
         $result = false;
-        if(!class_exists('Nooku\Library\\'.$package.$class) && $fallback)
+        if(!class_exists('Nooku\Library\\'.$package.$class))
         {
             //Use the fallbacks
             if($fallback)
