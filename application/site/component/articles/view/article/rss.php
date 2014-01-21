@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ArticlesViewArticleRss extends Library\ViewRss
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         if(is_numeric($this->getModel()->getState()->id))
         {
@@ -37,6 +37,6 @@ class ArticlesViewArticleRss extends Library\ViewRss
             }
         }
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

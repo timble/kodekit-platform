@@ -69,7 +69,7 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         //Fetch the view data before rendering
-        $this->addCommandHandler('before.render', 'fetchData');
+        $this->addCommandHandler('before.render', '_fetchData');
     }
 
     /**
@@ -131,7 +131,7 @@ abstract class ViewTemplate extends ViewAbstract
      * @param ViewContext	$context A view context object
      * @return void
      */
-    public function fetchData(ViewContext $context)
+    protected function _fetchData(ViewContext $context)
     {
         $model = $this->getModel();
 

@@ -18,7 +18,7 @@ use Nooku\Component\Files;
  */
 class FilesViewFilesHtml extends Files\ViewFilesHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $base = clone $this->getObject('request')->getBaseUrl();
 
@@ -29,6 +29,6 @@ class FilesViewFilesHtml extends Files\ViewFilesHtml
 
         $context->data->base = (string) $base;
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

@@ -25,12 +25,12 @@ class UsersViewSessionHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $context->data->user       = $this->getObject('user');;
         $context->data->parameters = $this->getParameters();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
     
     public function getParameters()

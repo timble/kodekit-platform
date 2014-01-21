@@ -17,11 +17,11 @@ use Nooku\Library;
  */
 class UsersViewUserHtml extends Library\ViewHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $context->data->parameters = $this->getObject('application')->getParams();
         $context->data->page = $this->getObject('application.pages')->getActive();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

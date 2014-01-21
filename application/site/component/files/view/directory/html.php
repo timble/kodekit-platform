@@ -25,7 +25,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		return parent::_actionRender($context);
 	}
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $page = $this->getObject('application.pages')->getActive();
         $params = new JParameter($page->params);
@@ -57,7 +57,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $context->data->page           = $page;
         $context->data->thumbnail_size = array('x' => 200, 'y' => 150);
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
     protected function _getFolders()

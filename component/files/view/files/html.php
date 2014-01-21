@@ -27,7 +27,7 @@ class ViewFilesHtml extends Library\ViewHtml
 		parent::_initialize($config);
 	}
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
 	{
 	    $state = $this->getModel()->getState();
 
@@ -40,6 +40,6 @@ class ViewFilesHtml extends Library\ViewHtml
         $context->data->site      = $this->getObject('application')->getSite();
 		$context->data->token     = $this->getObject('user')->getSession()->getToken();
 
-		return parent::fetchData($context);
+		parent::_fetchData($context);
 	}
 }

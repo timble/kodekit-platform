@@ -39,7 +39,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         return parent::_actionRender($context);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $article = $this->getModel()->getData();
 
@@ -53,7 +53,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
 
         $context->data->params = $this->getObject('application')->getParams();;
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
     public function getCategory()

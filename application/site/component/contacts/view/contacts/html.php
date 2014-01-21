@@ -30,12 +30,12 @@ class ContactsViewContactsHtml extends Library\ViewHtml
         return parent::_actionRender($context);
     }
 
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         $context->data->params   = $this->getObject('application')->getParams();
         $context->data->category = $this->getCategory();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
     public function getCategory()

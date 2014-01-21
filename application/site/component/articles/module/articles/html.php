@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         // Preparing the sort and direction model states.
         switch ($this->module->params->get('sort_by', 'newest'))
@@ -69,6 +69,6 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
         // Set layout based on params.
         $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }

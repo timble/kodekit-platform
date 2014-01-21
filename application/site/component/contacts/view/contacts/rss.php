@@ -18,12 +18,12 @@ use Nooku\Library;
  */
 class ContactsViewContactsRss extends Library\ViewRss
 {
-    public function fetchData(Library\ViewContext $context)
+    protected function _fetchData(Library\ViewContext $context)
     {
         //Get the category
         $context->data->category = $this->getCategory();
 
-        return parent::fetchData($context);
+        parent::_fetchData($context);
     }
 
     public function getCategory()
