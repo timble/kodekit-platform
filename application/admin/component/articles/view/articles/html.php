@@ -24,6 +24,6 @@ class ArticlesViewArticlesHtml extends Library\ViewHtml
         // Enable sortable
         $context->data->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
 
-        parent::fetchData($context);
+        parent::_fetchData($context);
     }
 }
