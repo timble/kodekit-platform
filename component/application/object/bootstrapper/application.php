@@ -62,9 +62,11 @@ class ObjectBootstrapperApplication extends Library\ObjectBootstrapperChain
                 continue;
             }
 
-            if(file_exists($dir->getRealPath().'/bootstrapper.php'))
+            $identifier = 'com:'.$dir.'.bootstrapper';
+
+            if($this->getObjectManager()->getClass($identifier))
             {
-                $bootstrapper = $this->getObject('com:'.$dir.'.bootstrapper');
+                $bootstrapper = $this->getObject($identifier);
                 $this->addBootstrapper($bootstrapper);
             }
         }
