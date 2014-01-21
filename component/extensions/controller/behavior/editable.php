@@ -23,7 +23,7 @@ class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
     { 
         parent::__construct($config);
         
-        $this->addCommandHandler('before.browse', array($this, 'setReferrer'));
+        $this->addCommandHandler('before.browse', 'setReferrer');
     }
 
     public function canSave()
