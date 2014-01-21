@@ -128,7 +128,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
             //Force set the mixer
             $behavior->setMixer($this->getMixer());
 
-            //Enqueue the behavior
+            //Add the behavior
             $this->addCommandInvoker($behavior);
 
             //Mixin the behavior

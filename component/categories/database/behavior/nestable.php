@@ -56,10 +56,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
             if($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
             {
                 $this->_table = $context->getSubject();
-
-                $this->_table->getAdapter()
-                    ->getCommandChain()
-                    ->enqueue($this, $this->getPriority());
+                $this->_table->getAdapter()->addCommandInvoker($this);
             }
         }
     }

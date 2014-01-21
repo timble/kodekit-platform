@@ -33,18 +33,11 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
      */
     protected $_container;
 
-    /**
-     * Chain of command object
-     *
-     * @var Library\CommandChain
-     */
-    protected $_command_chain;
-
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->mixin('lib:command.mixin', $config);
+		$this->mixin('lib:behavior.mixin', $config);
 
 		if ($config->validator !== false)
 		{
@@ -52,17 +45,13 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 				$config->validator = 'com:files.database.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue($this->getObject($config->validator));
+            $this->addCommandInvoker($this->getObject($config->validator));
 		}
 	}
 
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => 'lib:command.chain',
-			'dispatch_events'   => false,
-			'event_dispatcher'  => 'event.dispatcher',
-			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));
 
@@ -74,10 +63,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.copy', $context, false) !== false)
+		if ($this->invokeCommand('before.copy', $context) !== false)
 		{
 			$context->result = $this->_adapter->copy($this->destination_fullpath);
-			$this->getCommandChain()->run('after.copy', $context);
+            $this->invokeCommand->run('after.copy', $context);
         }
 
 		if ($context->result !== false)
@@ -101,10 +90,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.move', $context, false) !== false)
+		if ($this->invokeCommand('before.move', $context) !== false)
 		{
 			$context->result = $this->_adapter->move($this->destination_fullpath);
-			$this->getCommandChain()->run('after.move', $context);
+            $this->invokeCommand('after.move', $context);
         }
 
 		if ($context->result !== false)
@@ -129,10 +118,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.delete', $context, false) !== false)
+		if ($this->invokeCommand('before.delete', $context) !== false)
 		{
 			$context->result = $this->_adapter->delete();
-			$this->getCommandChain()->run('after.delete', $context);
+            $this->invokeCommand('after.delete', $context);
         }
 
 		if ($context->result === false) {
@@ -226,32 +215,6 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
 		return $this;
 	}
-
-    /**
-     * Get the chain of command object
-     *
-     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
-     * to the CommandChain mixin.
-     *
-     * @return  CommandChainInterface
-     */
-    public function getCommandChain()
-    {
-        if(!$this->_command_chain instanceof Library\CommandChainInterface)
-        {
-            //Ask the parent the relay the call to the mixin
-            $this->_command_chain = parent::getCommandChain();
-
-            if(!$this->_command_chain instanceof Library\CommandChainInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
-                );
-            }
-        }
-
-        return $this->_command_chain;
-    }
 
 	public function setData($data, $modified = true)
 	{

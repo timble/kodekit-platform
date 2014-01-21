@@ -35,10 +35,10 @@ class DatabaseRowFile extends DatabaseRowNode
 
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context, false) !== false)
+		if ($this->invokeCommand('before.save', $context) !== false)
 		{
 			$context->result = $this->_adapter->write(!empty($this->contents) ? $this->contents : $this->file);
-			$this->getCommandChain()->run('after.save', $context, false);
+            $this->invokeCommand('after.save', $context);
         }
 
 		if ($context->result === false) {
