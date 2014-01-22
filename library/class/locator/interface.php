@@ -41,7 +41,7 @@ interface ClassLocatorInterface
      * @param array $namespaces An array of namespaces (namespaces as keys and locations as values)
      * @return ClassLocatorInterface
      */
-    public function registerNamespaces(array $namespaces);
+    public function registerNamespaces($namespaces);
 
     /**
      * Get a the namespace paths

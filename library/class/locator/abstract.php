@@ -70,7 +70,7 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
      * @param array $namespaces An array of namespaces (namespaces as keys and locations as values)
      * @return ClassLocatorInterface
      */
-    public function registerNamespaces(array $namespaces)
+    public function registerNamespaces($namespaces)
     {
         foreach ($namespaces as $namespace => $path) {
             $this->registerNamespace($namespace, $path);
