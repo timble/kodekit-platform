@@ -35,7 +35,7 @@
     <ktml:modules position="actionbar">
     <div id="panel-toolbar">
         <ktml:modules:content>
-        <?= import('page_message.html') ?>
+        <ktml:messages>
     </div>
     </ktml:modules>
 

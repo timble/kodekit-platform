@@ -34,7 +34,7 @@
         </aside>
         <div class="span9">
             <ktml:modules position="breadcrumb">
-            <?= import('page_message.html') ?>
+            <ktml:messages>
             <section>
                 <ktml:content>
             </section>
