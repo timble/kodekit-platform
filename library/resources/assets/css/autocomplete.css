@@ -21,9 +21,7 @@ license: MIT-style license
 	visibility: hidden;
 	overflow-y: auto;
 	overflow-x: hidden;
-	-webkit-box-shadow: hsla(0, 0%, 0%, .6) 0 5px 10px, black 0 0 1px;
-	-webkit-border-radius: 1px;
-	-moz-border-radius: 1px;
+	box-shadow: hsla(0, 0%, 0%, .6) 0 5px 10px, black 0 0 1px;
 	border-radius: 1px;
 	padding: 2px 0;
     z-index: 100;
@@ -36,21 +34,13 @@ license: MIT-style license
 }
 .ma-container .top {
 	border-bottom-width: 0;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
 }
 .ma-container .bottom {
 	border-top-width: 0;
-	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-	-moz-border-radius-bottomleft: 5px;
-	-moz-border-radius-bottomright: 5px;
 }
 .ma-container ul{
 	list-style: none;
