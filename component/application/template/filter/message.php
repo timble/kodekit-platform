@@ -21,54 +21,23 @@ use Nooku\Library;
  */
 class TemplateFilterMessage extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
 {
-    /**
-     * The messages
-     *
-     * @var array
-     */
-    protected $_messages;
-
-    /**
-     * Constructor.
-     *
-     * @param Library\ObjectConfig $config An optional ObjectConfig object with configuration options
-     */
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_messages = $config->messages;
-    }
-
-    /**
-     * Initializes the default configuration for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  Library\ObjectConfig $config  An optional ObjectConfig object with configuration options.
-     * @return void
-     */
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'messages' => $this->getObject('response')->getMessages(),
-        ));
-
-        parent::_initialize($config);
-    }
-
     public function render(&$text)
     {
-        $messages = '';
-        foreach ($this->_messages as $type => $message)
+        if (strpos($text, '<ktml:messages>') !== false)
         {
-            $messages .= '<div class="alert alert-'.strtolower($type).'">';
-            foreach ($message as $line) {
-                $messages .= '<div class="alert__text">'.$line.'</div>';
-            }
-            $messages .= '</div>';
-        }
+            $output   = '';
+            $messages = $this->getObject('response')->getMessages();
 
-        $text = str_replace('<ktml:messages>', $messages, $text);
+            foreach ($messages as $type => $message)
+            {
+                $output .= '<div class="alert alert-'.strtolower($type).'">';
+                foreach ($message as $line) {
+                    $output .= '<div class="alert__text">'.$line.'</div>';
+                }
+                $output .= '</div>';
+            }
+
+            $text = str_replace('<ktml:messages>', $output, $text);
+        }
     }
 }
