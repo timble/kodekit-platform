@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package Nooku\Library\String
  * @static
  */
-class StringInflector
+class StringInflector implements StringInflectorInterface
 {
    	/**
 	 * Rules for pluralizing and singularizing of nouns.

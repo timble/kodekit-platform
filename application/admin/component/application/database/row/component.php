@@ -36,7 +36,7 @@ class ApplicationDatabaseRowComponent extends Library\DatabaseRowAbstract
     {
         if($name == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-            $path = Library\ClassLoader::getInstance()->getApplication('admin');
+            $path = $this->getObject('manager')->getClassLoader()->getBasepath('admin');
             $file = $path.'/component/'.$this->option.'/resources/config/settings.xml';
 
             $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );

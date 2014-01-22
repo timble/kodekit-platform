@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Files
  */
- class Bootstrapper extends Library\BootstrapperAbstract
+ class Bootstrapper extends Library\ObjectBootstrapperComponent
 {
      protected function _initialize(Library\ObjectConfig $config)
      {
@@ -34,6 +34,8 @@ use Nooku\Library;
 
     public function bootstrap()
     {
+        parent::bootstrap();
+
         $this->getClassLoader()
              ->getLocator('psr')
              ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/imagine/lib');

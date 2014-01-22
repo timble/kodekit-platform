@@ -52,7 +52,7 @@ class ModelSettings extends Library\ModelAbstract
 
             foreach($extensions as $extension)
             {
-                $path  = Library\ClassLoader::getInstance()->getApplication('admin');
+                $path  =  $this->getObject('manager')->getClassLoader()->getBasepath('admin');
                 $path .= '/component/'.substr($extension->name, 4).'/resources/config/settings.xml';
 
                 if(file_exists($path))

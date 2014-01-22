@@ -28,6 +28,21 @@ class UserSessionContainerMetadata extends UserSessionContainerAbstract
     protected $_lifetime;
 
     /**
+     * Load the attributes from the $_SESSION global
+     *
+     * @return UserSessionContainerAbstract
+     */
+    public function load(array &$session)
+    {
+        parent::load($session);
+
+        //Update the session timers
+        $this->_updateTimers();
+
+        return $this;
+    }
+
+    /**
      * Set the session life time
      *
      * This specifies the number of seconds after which data will expire. An expired session will be destroyed
@@ -65,21 +80,6 @@ class UserSessionContainerMetadata extends UserSessionContainerAbstract
         }
 
         return $this->token;
-    }
-
-    /**
-     * Load the attributes from the $_SESSION global
-     *
-     * @return UserSessionContainerAbstract
-     */
-    public function loadSession(array &$session = null)
-    {
-        parent::loadSession($session);
-
-        //Update the session timers
-        $this->_updateTimers();
-
-        return $this;
     }
 
     /**

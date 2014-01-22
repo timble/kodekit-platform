@@ -28,19 +28,6 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     protected $_previous = array();
 
-    /**
-     * Constructor
-     *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return  UserSessionContainerAbstract
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_previous = $this->toArray();
-        $this->clear();
-    }
 
     /**
      * Get all the previous flash messages and flush them from the container
@@ -145,6 +132,27 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     {
         return array_keys($this->_data);
     }
+
+    /**
+     *  Load the attributes from the $_SESSION global
+     *
+     * After starting a session, PHP retrieves the session data through the session handler and populates $_SESSION
+     * with the result automatically. This function can load the attributes from the $_SESSION global by reference
+     * by passing the $_SESSION to this function.
+     *
+     * @param array $session The session data to load by reference.
+     * @return UserSessionContainerAbstract
+     */
+    public function load(array &$session)
+    {
+        parent::load($session);
+
+        $this->_previous = $this->toArray();
+        $this->clear();
+
+        return $this;
+    }
+
     /**
      * Get an item from the array by offset
      *

@@ -113,11 +113,11 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             $this->setHandler($config->handler, ObjectConfig::unbox($config));
         }
 
+        //Set the session namespace (before doing anything else)
+        $this->setNamespace($config->namespace);
+
         //Set lifetime time
         $this->getContainer('metadata')->setLifetime($config->lifetime);
-
-        //Set the session namespace
-        $this->setNamespace($config->namespace);
     }
 
     /**
@@ -288,15 +288,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      */
     public function setNamespace($namespace)
     {
-        if($namespace != $this->_namespace)
+        if($namespace !== $this->_namespace)
         {
-            //Set the global session namespace
             $this->_namespace = $namespace;
-
-            if(!isset($_SESSION[$namespace])) {
-                $_SESSION[$namespace] = array();
-            }
-
             $this->refresh();
         }
 
@@ -419,7 +413,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
 
             //Load the container from the session
             $namespace = $this->getNamespace();
-            $container->loadSession($_SESSION[$namespace]);
+            $container->load($_SESSION[$namespace]);
 
             $this->_containers[$container->getIdentifier()->name] = $container;
         }
@@ -495,11 +489,18 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      */
     public function refresh()
     {
+        //Create the namespace if it doesn't exist
+        $namespace = $this->getNamespace();
+
+        if(!isset($_SESSION[$namespace])) {
+            $_SESSION[$namespace] = array();
+        }
+
         //Re-load the session containers
         foreach($this->_containers as $container)
         {
             $namespace = $this->getNamespace();
-            $container->loadSession($_SESSION[$namespace]);
+            $container->load($_SESSION[$namespace]);
         }
 
         return $this;
@@ -541,7 +542,6 @@ class UserSessionAbstract extends Object implements UserSessionInterface
         //Clear out the session data
         $namespace = $this->getNamespace();
         unset($_SESSION[$namespace]);
-        $_SESSION[$namespace] = array();
 
         //Re-load the session containers
         $this->refresh();

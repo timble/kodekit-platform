@@ -41,7 +41,7 @@ class ModelTypes extends Library\ModelAbstract
             // Iterate through the extensions.
             foreach($extensions as $extension)
             {
-                $path  = Library\ClassLoader::getInstance()->getApplication($this->getState()->application);
+                $path  =  $this->getObject('manager')->getClassLoader()->getBasepath($this->getState()->application);
                 $path .= '/component/'.substr($extension->name, 4).'/view';
 
                 if(!is_dir($path)) {

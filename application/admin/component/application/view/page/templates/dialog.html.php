@@ -14,7 +14,7 @@
 <?= import('page_head.html') ?>
 
 <body id="tmpl-dialog" class="com_<?= $extension ?>">
-    <?= import('page_message.html') ?>
+    <ktml:messages>
     <ktml:content>
 </body>
 
