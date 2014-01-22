@@ -78,7 +78,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
         //Set the site error reporting
-        $this->getEventPublisher()->setErrorLevel($this->getCfg('debug_mode'));
+        $this->getObject('exception.handler')->setErrorLevel($this->getCfg('debug_mode'));
 
         //Set the paths
         $params = $this->getObject('application.extensions')->files->params;

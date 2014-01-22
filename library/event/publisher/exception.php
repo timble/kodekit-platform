@@ -12,24 +12,20 @@ namespace Nooku\Library;
 /**
  * Exception Event Publisher
  *
+ * Exception publisher will publish an 'onException' event wrapping the Exception as a EventException and passing it to all
+ * the listeners.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
 class EventPublisherException extends EventPublisherAbstract
 {
     /**
-     * Error levels
-     */
-    const ERROR_SYSTEM       = null;
-    const ERROR_DEVELOPMENT  = -1; //E_ALL   | E_STRICT  | ~E_DEPRECATED
-    const ERROR_PRODUCTION   = 7;  //E_ERROR | E_WARNING | E_PARSE
-
-    /**
-     * The error level.
+     * The exception handler
      *
-     * @var int
+     * @var ExceptionHandlerInterface
      */
-    protected $_error_level;
+    private $__exception_handler;
 
     /**
      * Constructor.
@@ -40,19 +36,10 @@ class EventPublisherException extends EventPublisherAbstract
     {
         parent::__construct($config);
 
-        //Set the error level
-        $this->setErrorLevel($config->error_level);
+        $this->__exception_handler = $config->exception_handler;
 
-        if($config->catch_user_errors) {
-            $this->catchUserErrors();
-        }
-
-        if($config->catch_fatal_errors) {
-            $this->catchFatalErrors();
-        }
-
-        if($config->catch_exceptions) {
-            $this->catchExceptions();
+        if($this->isEnabled()) {
+            $this->enable();
         }
     }
 
@@ -67,142 +54,91 @@ class EventPublisherException extends EventPublisherAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'catch_exceptions'   => true,
-            'catch_user_errors'  => true,
-            'catch_fatal_errors' => true,
-            'error_level'        => self::ERROR_SYSTEM,
+            'exception_handler' => 'exception.handler'
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Publish an event by calling all listeners that have registered to receive it.
+     * Enable the publisher
      *
-     * Function will avoid a recursive loop when an exception is thrown during even publishing and output a generic
-     * exception instead.
+     * @return  EventPublisherException
+     */
+    public function enable()
+    {
+        $this->getExceptionHandler()->addHandler(array($this, 'publishException'));
+        return parent::enable();
+    }
+
+    /**
+     * Disable the publisher
      *
-     * @param  \Exception           $exception  The exception to be published.
+     * @return  EventPublisherException
+     */
+    public function disable()
+    {
+        $this->getExceptionHandler()->removeHandler(array($this, 'publishException'));
+        return parent::enable();
+    }
+
+    /**
+     * Publish an 'onException' event by calling all listeners that have registered to receive it.
+     *
+     * @param   Exception           $exception  The exception to be published.
      * @param  array|\Traversable   $attributes An associative array or a Traversable object
      * @param  mixed                $target     The event target
-     * @return EventException
+     * @return  EventException
      */
-    public function publishException(\Exception $exception, $attributes = array(), $target = null)
+    public function publishException(Exception $exception, $attributes = array(), $target = null)
     {
-        try
+        //Make sure we have an event object
+        $event = new EventException('onException', $attributes, $target);
+        $event->setException($exception);
+
+        parent::publishEvent($event);
+    }
+
+    /**
+     * Get the chain of command object
+     *
+     * @throws \UnexpectedValueException
+     * @return ExceptionHandlerInterface
+     */
+    public function getExceptionHandler()
+    {
+        if(!$this->__exception_handler instanceof ExceptionHandlerInterface)
         {
-            //Make sure we have an event object
-            $event = new EventException('onException', $attributes, $target);
-            $event->setException($exception);
+            $this->__exception_handler = $this->getObject($this->__exception_handler);
 
-            parent::publishEvent($event);
-        }
-        catch (\Exception $e)
-        {
-            $message = "<strong>Exception</strong> '%s' thrown while dispatching error: %s in <strong>%s</strong> on line <strong>%s</strong> %s";
-            $message = sprintf($message, get_class($e), $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());
-
-            if (ini_get('display_errors')) {
-                echo $message;
-            }
-
-            if (ini_get('log_errors')) {
-                error_log($message);
-            }
-
-            exit(0);
-        }
-
-        return $event;
-    }
-
-    /**
-     * Set the error level
-     *
-     * @param int $level If NULL, will reset the level to the system default.
-     */
-    public function setErrorLevel($level)
-    {
-        $this->_error_level = null === $level ? error_reporting() : $level;
-    }
-
-    /**
-     * Get the error level
-     *
-     * @return int The error level
-     */
-    public function getErrorLevel()
-    {
-        return $this->_error_level;
-    }
-
-    /**
-     * Catch exceptions during runtime
-     *
-     * @return  string|null Returns the name of the previously defined exception handler, or NULL if no previous handler
-     *                      was defined.
-     */
-    public function catchExceptions()
-    {
-        $self = $this; //Cannot use $this as a lexical variable in PHP 5.3
-
-        $previous = set_exception_handler(function($exception) use ($self) {
-            $self->publishException($exception);
-        });
-
-        return $previous;
-    }
-
-    /**
-     * Catch user errors during runtime
-     *
-     * @return  string|null Returns the name of the previously defined error handler, or NULL if no previous handler
-     *                      was defined.
-     */
-    public function catchUserErrors()
-    {
-        $error_level = $this->_error_level;
-        $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
-
-        $previous = set_error_handler(function($level, $message, $file, $line, $context) use ($self, $error_level)
-        {
-            if (0 === $error_level) {
-                return false;
-            }
-
-            if (error_reporting() & $level && $error_level & $level)
+            if(!$this->__exception_handler instanceof ExceptionHandler)
             {
-                $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
-                $self->publishException($exception, array('context' => $context));
+                throw new \UnexpectedValueException(
+                    'Exception Handler: '.get_class($this->__exception_handler).' does not implement ExceptionHandlerInterface'
+                );
             }
+        }
 
-            //Let the normal error flow continue
-            return false;
-        });
-
-        return $previous;
+        return $this->__exception_handler;
     }
 
     /**
-     * Catch fatal errors after shutdown.
+     * Set the exception handler object
      *
-     * @return  void
+     * @param   ExceptionHandlerInterface $handler An exception handler object
+     * @return  EventPublisherException
      */
-    public function catchFatalErrors()
+    public function setExceptionHandler(ExceptionHandlerInterface $handler)
     {
-        $error_level = $this->_error_level;
-        $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
+        $this->__exception_handler = $handler;
 
-        register_shutdown_function(function() use ($self, $error_level)
+        //Re-enable the exception handler
+        if($this->isEnabled())
         {
-            $error = error_get_last();
-            $level = $error['type'];
+            $this->disable();
+            $this->enable();
+        }
 
-            if (error_reporting() & $level && $error_level & $level)
-            {
-                $exception = new ExceptionError($error['message'], HttpResponse::INTERNAL_SERVER_ERROR , $level, $error['file'], $error['line']);
-                $self->publishException($exception);
-            }
-        });
+        return $this;
     }
 }
