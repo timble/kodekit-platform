@@ -266,8 +266,8 @@ var ChromaTable = new Class({
 		this.inner.setStyles({
 		    backgroundSize: '100% '+backgroundHeight+'px',
 		    backgroundPosition: '0px '+(backgroundOffset-2)+'px',
-		    backgroundImage: '-webkit-gradient(linear, left top, left bottom, color-stop(0, '+backgrounds.even+'), color-stop(0.5, '+backgrounds.even+'), color-stop(0.5, '+backgrounds.odd+'), color-stop(1, '+backgrounds.odd+'))'
-		});
+            backgroundImage: 'linear-gradient(to bottom, '+backgrounds.even+' 0%, '+backgrounds.even+' 50%, '+backgrounds.odd+' 50%, '+backgrounds.odd+' 100%)'
+        });
 	},
 	
 	getComputedWidth: function(el, del){
