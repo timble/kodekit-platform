@@ -27,17 +27,11 @@ use Nooku\Library;
                  'com:files.database.rowset.directories'  => 'com:files.database.rowset.folders',
                  'com:files.database.row.directory'       => 'com:files.database.row.folder',
              ),
+             'namespaces' => array(
+                 'psr' => array('Imagine' =>  JPATH_VENDOR.'/imagine/imagine/lib')
+             )
          ));
 
          parent::_initialize($config);
      }
-
-    public function bootstrap()
-    {
-        parent::bootstrap();
-
-        $this->getClassLoader()
-             ->getLocator('psr')
-             ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/imagine/lib');
-    }
 }

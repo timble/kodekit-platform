@@ -46,6 +46,13 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     protected $_configs;
 
     /**
+     * The class namespaces
+     *
+     * @var array
+     */
+    protected $_namespaces;
+
+    /**
      * Constructor.
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options
@@ -58,7 +65,8 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
         $this->_mixins     = $config->mixins;
         $this->_decorators = $config->decorators;
         $this->_configs    = $config->configs;
-    }
+        $this->_namespaces = $config->namespaces;
+     }
 
     /**
      * Initializes the options for the object
@@ -75,6 +83,7 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
             'configs'    => array(),
             'mixins'     => array(),
             'decorators' => array(),
+            'namespaces' => array(),
         ));
 
         parent::_initialize($config);
@@ -88,6 +97,7 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     public function bootstrap()
     {
         $manager = $this->getObjectManager();
+        $loader  = $this->getClassLoader();
 
         //Aliases
         foreach ($this->_aliases as $alias => $identifier) {
@@ -123,6 +133,14 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
                     $manager->registerDecorator($identifier, $key, $value);
                 }
             }
+        }
+
+        //Namespaces
+        foreach ($this->_namespaces as $type => $namespaces)
+        {
+           if($locator = $loader->getLocator($type)) {
+               $locator->registerNamespaces($namespaces);
+           }
         }
     }
 }
