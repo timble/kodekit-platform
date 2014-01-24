@@ -317,9 +317,7 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
              */
             if (!($this->_error_operator && error_reporting() === 0))
             {
-                $error_level = $this->getErrorLevel();
-
-                if (error_reporting() & $level && $error_level & $level)
+                if ($this->getErrorLevel() & $level)
                 {
                     $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
                     $result = $this->handleException($exception);
@@ -338,24 +336,20 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
      * Do not call this method directly. Function visibility is public because register_shutdown_function does not
      * allow for protected method callbacks.
      *
-     * @return bool
+     * @return void
      */
     public function _handleFailure()
     {
         if($this->isEnabled(self::TYPE_FAILURE))
         {
-            $error_level = $this->getErrorLevel();
-
             $error = error_get_last();
             $level = $error['type'];
 
-            if (error_reporting() & $level && $error_level & $level)
+            if ($this->getErrorLevel() & $level)
             {
-                $exception = new ExceptionError($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
+                $exception = new ExceptionFailure($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
                 $this->handleException($exception);
             }
         }
-
-        return true;
     }
 }
