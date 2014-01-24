@@ -45,7 +45,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         $this->addCommandHandler('before.fail', '_renderError');
 
         //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'fail'), Event::PRIORITY_LOW);
+        $this->addEventListener('onException', array($this, 'fail'), Library\Event::PRIORITY_LOW);
     }
 
     /**
