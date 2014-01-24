@@ -32,6 +32,14 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     protected $_error_level;
 
     /**
+     * If this setting is false, the @ (shut-up) error control operator will be ignored so that notices, warnings and
+     * errors are no longer hidden and will fire an ExceptionError.
+     *
+     * @var bool
+     */
+    protected $_error_operator;
+
+    /**
      * Exception types
      *
      * @var int
@@ -58,6 +66,8 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
         if($config->exception_type) {
             $this->enable($config->exception_type);
         }
+
+        $this->_error_operator = $config->error_operator;
     }
 
     /**
@@ -74,6 +84,7 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             'exception_handlers' => array(),
             'exception_type'     => self::TYPE_ALL,
             'exception_level'    => self::ERROR_REPORTING,
+            'error_operator'     => true
         ));
 
         parent::_initialize($config);
@@ -87,20 +98,22 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
      */
     public function enable($type = self::TYPE_ALL)
     {
-        if($type && self::TYPE_EXCEPTION && !($this->_exception_type & self::TYPE_EXCEPTION))
+        if($type & self::TYPE_EXCEPTION && !($this->_exception_type & self::TYPE_EXCEPTION))
         {
             set_exception_handler(array($this, 'handleException'));
             $this->_exception_type |= self::TYPE_EXCEPTION;
         }
 
-        if($type && self::TYPE_ERROR && !($this->_exception_type & self::TYPE_ERROR))
+        if($type & self::TYPE_ERROR && !($this->_exception_type & self::TYPE_ERROR))
         {
             set_error_handler(array($this, '_handleError'));
             $this->_exception_type |= self::TYPE_ERROR;
         }
 
-        if($type && self::TYPE_FATAL_ERROR && !($this->_exception_type & self::TYPE_FATAL_ERROR)) {
-            register_shutdown_function(array($this, '_handleFatalError'));
+        if($type & self::TYPE_FAILURE && !($this->_exception_type & self::TYPE_FAILURE))
+        {
+            register_shutdown_function(array($this, '_handleFailure'));
+            $this->_exception_type |= self::TYPE_FAILURE;
         }
 
         return $this;
@@ -126,10 +139,10 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             $this->_exception_type ^= self::TYPE_ERROR;
         }
 
-        if(($type & self::TYPE_FATAL_ERROR) && ($this->_exception_type & self::TYPE_FATAL_ERROR))
+        if(($type & self::TYPE_FAILURE) && ($this->_exception_type & self::TYPE_FAILURE))
         {
             //Cannot unregister shutdown functions. Check in handler to see if it's enabled.
-            $this->_exception_type ^= self::TYPE_FATAL_ERROR;
+            $this->_exception_type ^= self::TYPE_FAILURE;
         }
 
         return $this;
@@ -220,8 +233,8 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
      * If an exception handler returns TRUE the exception handling will be aborted, otherwise the next handler will be
      * called, until all handlers have gotten a change to handle the exception.
      *
-     * @param   \Exception  $exception  The exception to be handled
-     * @return  void
+     * @param  \Exception  $exception  The exception to be handled
+     * @return bool  If the exception was handled return TRUE, otherwise false
      */
     public function handleException(\Exception $exception)
     {
@@ -232,19 +245,34 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             //Try to handle the exception
             foreach($this->getHandlers() as $handler)
             {
-                if(true === $handled = call_user_func($handler, $exception)) {
-                    break;
+                if(call_user_func($handler, $exception) === true) {
+                    return true;
                 };
             }
+        }
+        catch (\Exception $e)
+        {
+            $message = "<strong>Exception</strong> '%s' thrown while dispatching error: %s in <strong>%s</strong> on line <strong>%s</strong> %s";
+            $message = sprintf($message,
+                get_class($exception),
+                $exception->getMessage(),
+                $exception->getFile(),
+                $exception->getLine(),
+                $exception->getTraceAsString()
+            );
 
-            //Unhandled exception, rethrow it.
-            if(!$handled) {
-                throw $exception;
+            if (ini_get('display_errors')) {
+                echo $message;
             }
+
+            if (ini_get('log_errors')) {
+                error_log($message);
+            }
+
+            exit(0);
         }
-        catch (\Exception $e) {
-            $this->_handleFatalException($e);
-        }
+
+        return false;
     }
 
     /**
@@ -263,33 +291,6 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     }
 
     /**
-     * Fatal Exception Handler
-     *
-     * @return void
-     */
-    protected function _handleFatalException(\Exception $exception)
-    {
-        $message = "<strong>Exception</strong> '%s' thrown while dispatching error: %s in <strong>%s</strong> on line <strong>%s</strong> %s";
-        $message = sprintf($message,
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine(),
-            $exception->getTraceAsString()
-        );
-
-        if (ini_get('display_errors')) {
-            echo $message;
-        }
-
-        if (ini_get('log_errors')) {
-            error_log($message);
-        }
-
-        exit(0);
-    }
-
-    /**
      * Error Handler
      *
      * Do not call this method directly. Function visibility is public because set_error_handler does not allow for
@@ -304,24 +305,31 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
      */
     public function _handleError($level, $message, $file, $line, $context = null)
     {
+        $result = false;
+
         if($this->isEnabled(self::TYPE_ERROR))
         {
-            $error_level = $this->getErrorLevel();
-
-            if (0 !== $level)
+            /*
+             * Do not handle suppressed errors.
+             *
+             * error_reporting returns 0 if the statement causing the error was prepended by the @ error-control operator.
+             * @see : http://www.php.net/manual/en/language.operators.errorcontrol.php
+             */
+            if (!($this->_error_operator && error_reporting() === 0))
             {
+                $error_level = $this->getErrorLevel();
+
                 if (error_reporting() & $level && $error_level & $level)
                 {
                     $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
-                    $this->handleException($exception);
+                    $result = $this->handleException($exception);
                 }
-
-                //Let the normal error flow continue
-                return false;
             }
+            else $result = true;
         }
 
-        return false;
+        //Let the normal error flow continue
+        return $result;
     }
 
     /**
@@ -332,9 +340,9 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
      *
      * @return bool
      */
-    public function _handleFatalError()
+    public function _handleFailure()
     {
-        if($this->isEnabled(self::TYPE_FATAL_ERROR))
+        if($this->isEnabled(self::TYPE_FAILURE))
         {
             $error_level = $this->getErrorLevel();
 

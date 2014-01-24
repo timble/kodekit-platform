@@ -27,10 +27,10 @@ interface ExceptionHandlerInterface
     /**
      * Handler Types
      */
-    const TYPE_EXCEPTION    = 1;
-    const TYPE_ERROR        = 2;
-    const TYPE_FATAL_ERROR  = 4;
-    const TYPE_ALL          = 7;
+    const TYPE_EXCEPTION  = 1;
+    const TYPE_ERROR      = 2;
+    const TYPE_FAILURE    = 4;
+    const TYPE_ALL        = 7;
 
     /**
      * Enable exception handling
