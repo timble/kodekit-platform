@@ -45,7 +45,9 @@ class ControllerError extends Library\ControllerView
         }
 
         $message = Library\HttpResponse::$status_messages[$code];
-        $traces = $exception->getTrace();
+
+        //Get the exception back trace
+        $traces = $this->getBackTrace($exception);
 
         //Cleanup the traces information
         foreach($traces as $key => $trace)
@@ -108,5 +110,33 @@ class ControllerError extends Library\ControllerView
         $result = parent::_actionRender($context);
 
         return $result;
+    }
+
+    public function getBackTrace(\Exception $exception)
+    {
+        $traces = array();
+
+        if($exception instanceof Library\ExceptionError)
+        {
+            $traces = $exception->getTrace();
+
+            //Remove the first trace containing the call to KExceptionHandler
+            unset($traces[0]);
+
+            //Get trace from xdebug if enabled
+            if($exception instanceof Library\ExceptionFailure && extension_loaded('xdebug') && xdebug_is_enabled())
+            {
+                $stack = array_reverse(xdebug_get_function_stack());
+                $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+                $traces = array_diff_key($stack, $trace);
+            }
+        }
+        else $traces = $exception->getTrace();
+
+        //Remove the keys from the trace, we don't need those.
+        $traces = array_values($traces);
+
+        return $traces;
     }
 }
