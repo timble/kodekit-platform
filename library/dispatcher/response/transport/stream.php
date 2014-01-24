@@ -193,8 +193,10 @@ class DispatcherResponseTransportStream extends DispatcherResponseTransportHttp
                 @set_time_limit(0);
             }
 
-            // Clear buffer
-            while (@ob_end_clean());
+            //Make sure the output buffers are cleared
+            while(ob_get_level()) {
+                ob_end_clean();
+            };
 
             $stream  = $response->getStream();
 
