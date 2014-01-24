@@ -452,11 +452,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
 
     /**
      * Prevent creating clones of this class
-     *
-     * @throws Exception
      */
     final private function __clone()
     {
-        throw new \Exception("An object identifier is an immutable object and cannot be cloned.");
+        trigger_error("An object identifier is an immutable object and should not be cloned.", E_USER_WARNING);
     }
 }
