@@ -35,9 +35,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		//Set the controller
 		$this->_controller = $config->controller;
-
-        //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'fail'), Event::PRIORITY_LOW);
 	}
 
     /**
