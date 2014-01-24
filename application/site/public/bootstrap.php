@@ -21,6 +21,9 @@ if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/
     exit();
 }
 
+//Don't run in STRICT mode (Joomla is not E_STRICT compat)
+error_reporting(error_reporting() | ~ E_STRICT);
+
 // Joomla : setup
 require_once(JPATH_VENDOR.'/joomla/import.php');
 jimport('joomla.environment.uri');
