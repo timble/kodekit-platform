@@ -195,7 +195,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
     public function getContext()
     {
-        $context = new Library\Command();
+        $context = new Library\DatabaseContext();
         $context->setSubject($this);
 
         return $context;

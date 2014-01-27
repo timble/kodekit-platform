@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesViewModuleHtml extends Library\ViewHtml
 {
-    protected function _actionRender(ViewContext $context)
+    protected function _actionRender(Library\ViewContext $context)
     {
         $model  = $this->getModel();
         $module = $model->getRow();
