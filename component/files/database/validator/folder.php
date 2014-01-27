@@ -21,7 +21,7 @@ class DatabaseValidatorFolder extends DatabaseValidatorNode
 {
 	protected function _beforeSave($context)
 	{
-        $result = parent::_databaseBeforeSave($context);
+        $result = parent::_beforeSave($context);
 
         if ($result)
         {

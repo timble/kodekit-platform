@@ -25,17 +25,15 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
 
 		if (is_string($row->file) && !is_uploaded_file($row->file))
 		{
-			// remote file
-			try
-            {
-				$file = $this->getObject('com:files.database.row.url');
-				$file->setData(array('file' => $row->file));
-				$file->load();
-				$row->contents = $file->contents;
+            // remote file
+            $file = $this->getObject('com:files.database.row.url');
+            $file->setData(array('file' => $row->file));
 
-			} catch (DatabaseRowUrlException $e) {
-				throw new \RuntimeException($e->getMessage(), $e->getCode());
-			}
+            if (!$file->load()) {
+                throw new Library\ControllerExceptionActionFailed('File cannot be downloaded');
+            }
+
+            $row->contents = $file->contents;
 
 			if (empty($row->name))
 			{
@@ -49,7 +47,7 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
 			}
 		}
 
-        $result = parent::_databaseBeforeSave($context);
+        $result = parent::_beforeSave($context);
 
         if ($result)
         {
