@@ -82,4 +82,26 @@ class ControllerContext extends Command implements ControllerContextInterface
         $this->set('user', $user);
         return $this;
     }
+
+    /**
+     * Get the controller action
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->get('action');
+    }
+
+    /**
+     * Set the controller action
+     *
+     * @param string $action
+     * @return KControllerContext
+     */
+    public function setAction($action)
+    {
+        $this->set('action', $action);
+        return $this;
+    }
 }
