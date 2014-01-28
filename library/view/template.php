@@ -69,7 +69,7 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         //Fetch the view data before rendering
-        $this->addCommandHandler('before.render', '_fetchData');
+        $this->addCommandCallback('before.render', '_fetchData');
     }
 
     /**

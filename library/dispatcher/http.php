@@ -27,12 +27,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 		parent::__construct($config);
 
         //Authenticate none safe requests
-        $this->addCommandHandler('before.post'  , '_authenticateRequest');
-        $this->addCommandHandler('before.put'   , '_authenticateRequest');
-        $this->addCommandHandler('before.delete', '_authenticateRequest');
+        $this->addCommandCallback('before.post'  , '_authenticateRequest');
+        $this->addCommandCallback('before.put'   , '_authenticateRequest');
+        $this->addCommandCallback('before.delete', '_authenticateRequest');
 
         //Sign GET request with a cookie token
-        $this->addCommandHandler('after.get' , '_signResponse');
+        $this->addCommandCallback('after.get' , '_signResponse');
 
         //Force the controller to the information found in the request
         if($this->getRequest()->query->has('view')) {

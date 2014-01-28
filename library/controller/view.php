@@ -40,7 +40,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 		$this->mixin('lib:controller.toolbar.mixin');
 
         //Attach the toolbars
-        $this->addCommandHandler('before.render' , '_addToolbars', array('toolbars' => $config->toolbars));
+        $this->addCommandCallback('before.render' , '_addToolbars', array('toolbars' => $config->toolbars));
 	}
 	
 	/**

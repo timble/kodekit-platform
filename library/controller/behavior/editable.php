@@ -29,17 +29,17 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->addCommandHandler('after.read'  , '_lockResource');
-        $this->addCommandHandler('after.save'  , '_unlockResource');
-        $this->addCommandHandler('after.cancel', '_unlockResource');
+        $this->addCommandCallback('after.read'  , '_lockResource');
+        $this->addCommandCallback('after.save'  , '_unlockResource');
+        $this->addCommandCallback('after.cancel', '_unlockResource');
 
         if($this->getRequest()->getFormat() == 'html')
         {
-            $this->addCommandHandler('before.read' , 'setReferrer');
-            $this->addCommandHandler('after.apply' , '_lockReferrer');
-            $this->addCommandHandler('after.read'  , '_unlockReferrer');
-            $this->addCommandHandler('after.save'  , '_unsetReferrer');
-            $this->addCommandHandler('after.cancel', '_unsetReferrer');
+            $this->addCommandCallback('before.read' , 'setReferrer');
+            $this->addCommandCallback('after.apply' , '_lockReferrer');
+            $this->addCommandCallback('after.read'  , '_unlockReferrer');
+            $this->addCommandCallback('after.save'  , '_unsetReferrer');
+            $this->addCommandCallback('after.cancel', '_unsetReferrer');
         }
     }
 
