@@ -58,7 +58,7 @@ class ControllerError extends Library\ControllerView
         }
 
         //Traverse up the trace stack to find the actual function that was not found
-        if(isset($traces[0]) && $traces[0]['function'] == '__call')
+        if(isset($traces[0]['function']) && $traces[0]['function'] == '__call')
         {
             foreach($traces as $trace)
             {
