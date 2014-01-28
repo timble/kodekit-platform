@@ -52,7 +52,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public function executeCommand(Library\CommandInterface $command, $condition = null)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
         $name = $command->getName();
 

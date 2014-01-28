@@ -21,8 +21,8 @@ class UsersControllerUser extends Library\ControllerModel
     {
         parent::__construct($config);
 
-        $this->addCommandHandler('after.add' , 'expire');
-        $this->addCommandHandler('after.edit', 'expire');
+        $this->addCommandCallback('after.add' , 'expire');
+        $this->addCommandCallback('after.edit', 'expire');
     }
 
     protected function _initialize(Library\ObjectConfig $config)

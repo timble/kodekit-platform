@@ -45,7 +45,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 				$config->validator = 'com:files.database.validator.'.$this->getIdentifier()->name;
 			}
 
-            $this->addCommandInvoker($this->getObject($config->validator));
+            $this->addCommandHandler($this->getObject($config->validator));
 		}
 	}
 

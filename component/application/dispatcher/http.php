@@ -39,10 +39,10 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         $this->getRequest()->setBaseUrl($config->base_url);
 
         //Render the page before sending the response
-        $this->addCommandHandler('before.send', '_renderPage');
+        $this->addCommandCallback('before.send', '_renderPage');
 
         //Render an exception before sending the response
-        $this->addCommandHandler('before.fail', '_renderError');
+        $this->addCommandCallback('before.fail', '_renderError');
 
         //Register the default exception handler
         $this->addEventListener('onException', array($this, 'fail'), Library\Event::PRIORITY_LOW);

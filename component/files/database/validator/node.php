@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseValidatorNode extends Library\CommandInvokerDynamic
+class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 {
 	protected function _beforeSave(Library\DatabaseContext $context)
 	{

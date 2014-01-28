@@ -22,10 +22,10 @@ class UsersControllerSession extends Library\ControllerModel
         parent::__construct($config);
 
         //Only authenticate POST requests
-        $this->addCommandHandler('before.add' , 'authenticate');
+        $this->addCommandCallback('before.add' , 'authenticate');
 
         //Authorize the user before adding
-        $this->addCommandHandler('before.add' , 'authorize');
+        $this->addCommandCallback('before.add' , 'authorize');
 
         //Lock the referrer to prevent it from being overridden for read requests
         /*if ($this->isDispatched() && !$this->getRequest()->isAjax())

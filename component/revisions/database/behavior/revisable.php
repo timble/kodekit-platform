@@ -69,7 +69,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * @param     Library\Command    $command  The command
      * @return    boolean   Can return both true or false.
      */
-    public function executeCommand(Library\CommandInterface $command, $condition = null)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
         $parts = explode('.', $command->getName());
         if($parts[0] == 'after')
@@ -79,7 +79,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
             }
         }
 
-        return Library\BehaviorAbstract::executeCommand($command, $condition);
+        return Library\BehaviorAbstract::execute($command, $chain);
     }
 
 	/**

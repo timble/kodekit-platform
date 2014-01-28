@@ -22,11 +22,11 @@ class UsersControllerSession extends Library\ControllerModel
         parent::__construct($config);
 
         //Only authenticate POST requests
-        $this->addCommandHandler('before.add' , 'authenticate');
+        $this->addCommandCallback('before.add' , 'authenticate');
 
         //Authorize the user before adding
-        $this->addCommandHandler('before.add' , 'authorize');
-        $this->addCommandHandler('after.add'  , 'redirect');
+        $this->addCommandCallback('before.add' , 'authorize');
+        $this->addCommandCallback('after.add'  , 'redirect');
     }
 
     protected function _initialize(Library\ObjectConfig $config)

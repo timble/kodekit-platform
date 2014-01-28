@@ -112,7 +112,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         return $methods;
     }
 
-    public function executeCommand(Library\CommandInterface $command, $condition = null)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
         $name = $command->getName();
 
@@ -128,7 +128,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
             else $type = $this->type;
 
             $this->setStrategy($type);
-            $return = $this->getStrategy()->setMixer($command->data)->executeCommand($command, $condition);
+            $return = $this->getStrategy()->setMixer($command->data)->execute($command, $chain);
         }
         else $return = true;
 

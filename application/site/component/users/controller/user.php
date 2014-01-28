@@ -21,8 +21,8 @@ class UsersControllerUser extends Library\ControllerModel
     {
         parent::__construct($config);
 
-        $this->raddCommandHandler('before.edit', 'sanitizeRequest')
-             ->addCommandHandler('before.add' ,  'sanitizeRequest');
+        $this->addCommandCallback('before.edit', 'sanitizeRequest');
+        $this->addCommandCallback('before.add' ,  'sanitizeRequest');
 	}
     
     protected function _initialize(Library\ObjectConfig $config)

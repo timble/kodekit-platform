@@ -22,10 +22,10 @@ class FilesDispatcherHttp extends Library\DispatcherHttp
         parent::__construct($config);
 
         // Return JSON response when possible
-        $this->addCommandHandler('after.post' , '_afterPost');
+        $this->addCommandCallback('after.post' , '_afterPost');
 
         // Return correct status code for plupload
-        $this->addCommandHandler('before.send', '_beforeSend');
+        $this->addCommandCallback('before.send', '_beforeSend');
     }
 
     protected function _afterPost(Library\DispatcherContextInterface $context)

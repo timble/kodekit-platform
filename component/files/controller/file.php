@@ -23,8 +23,8 @@ class ControllerFile extends ControllerAbstract
 	{
 		parent::__construct($config);
 
-		$this->addCommandHandler('before.add' , 'addFile');
-        $this->addCommandHandler('before.edit', 'addFile');
+        $this->addCommandCallback('before.add' , 'addFile');
+        $this->addCommandCallback('before.edit', 'addFile');
 	}
 	
     protected function _initialize(Library\ObjectConfig $config)
