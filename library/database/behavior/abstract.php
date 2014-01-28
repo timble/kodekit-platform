@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseBehaviorAbstract extends BehaviorDynamic implements ObjectInstantiable
+abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
 {
     /**
      * Instantiate the object
@@ -45,20 +45,19 @@ abstract class DatabaseBehaviorAbstract extends BehaviorDynamic implements Objec
     }
 
     /**
-     * Command handler
+     * Execute the handler
      *
-     * @param  CommandInterface $command    The command
-     * @param  mixed            $condition  The break condition
-     * @return array|mixed Returns an array of the callback results in FIFO order. If a handler breaks and the break
-     *                     condition is not NULL returns the break condition.
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
+     * @return mixed|null If a handler breaks, returns the break condition. NULL otherwise.
      */
-    public function executeCommand(CommandInterface $command, $condition = null)
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
         if ($command->data instanceof DatabaseRowInterface) {
             $this->setMixer($command->data);
         }
 
-        return parent::executeCommand($command, $condition);
+        return parent::execute($command, $chain);
     }
 
     /**
@@ -114,11 +113,6 @@ abstract class DatabaseBehaviorAbstract extends BehaviorDynamic implements Objec
     public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
-
-        unset($methods['save']);
-        unset($methods['delete']);
-        unset($methods['getInstance']);
-
-        return $methods;
+        return array_diff_key($methods, array('save', 'delete', 'getInstance'));
     }
 }

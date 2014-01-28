@@ -59,12 +59,13 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
      *
      * Only handles before.action commands to check authorization rules.
      *
-     * @param   CommandInterface $command  The command object
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
      * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
      * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function executeCommand(CommandInterface $command, $condition = null)
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
         $parts = explode('.', $command->getName());
 

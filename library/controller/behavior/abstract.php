@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerBehaviorAbstract extends BehaviorDynamic
+abstract class ControllerBehaviorAbstract extends BehaviorAbstract
 {
     /**
      * Get the methods that are available for mixin based
