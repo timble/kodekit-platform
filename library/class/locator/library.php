@@ -45,7 +45,7 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
      *
      * @var string
      */
-    protected $_type = 'lib';
+    protected $_type = 'library';
 
     /**
      *  Get a fully qualified path based on a class name

@@ -46,7 +46,7 @@ class ClassLocatorComponent extends ClassLocatorAbstract
      *
      * @var string
      */
-    protected $_type = 'com';
+    protected $_type = 'component';
 
     /**
      *  Get a fully qualified path based on a class name
@@ -57,6 +57,8 @@ class ClassLocatorComponent extends ClassLocatorAbstract
      */
     public function locate($class, $basepath = null)
 	{
+        $test = $class;
+
         //Find the class
         foreach($this->getNamespaces() as $namespace => $basepath)
         {

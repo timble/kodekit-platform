@@ -54,7 +54,7 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
         $fullpath  = $filepath.'/'.$template.'.'.$format.'.php';
 
         //Find the file
-        $paths    = $this->getObject('manager')->getClassLoader()->getLocator('com')->getNamespaces();
+        $paths    = $this->getObject('manager')->getClassLoader()->getLocator('component')->getNamespaces();
         $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($paths));
 
         foreach($iterator as $basepath)
@@ -64,7 +64,6 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
                 break;
             }
         }
-
 
         return $result;
     }
