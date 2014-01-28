@@ -110,8 +110,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      *
      * @param CommandInterface         $command    The command
      * @param CommandChainInterface    $chain      The chain executing the command
-     * @return array|mixed Returns an array of the handler results in FIFO order. If a handler returns not NULL and the
-     *                     returned value equals the break condition of the chain the break condition will be returned.
+     * @return mixed If a handler breaks, returns the break condition. Returns the result of the handler otherwise.
      */
     public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
@@ -119,7 +118,9 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
         $method = '_'.$parts[0].ucfirst($parts[1]);
 
         if(method_exists($this, $method)) {
-            $this->addCommandCallback($command->getName(), $method);
+            $result = $this->$method($command);
+        } else {
+            $result = parent::invokeCallbacks($command, $this);
         }
 
         return parent::invokeCallbacks($command, $this);
