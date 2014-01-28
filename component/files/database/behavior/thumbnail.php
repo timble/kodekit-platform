@@ -57,7 +57,7 @@ class DatabaseBehaviorThumbnail extends Library\DatabaseBehaviorAbstract
             ->container($this->container)
             ->folder($this->folder)
             ->filename($this->name)
-            ->getItem();
+            ->getRow();
 
         $result = $thumb->delete();
 
