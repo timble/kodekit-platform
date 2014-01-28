@@ -161,11 +161,11 @@ class Date extends \DateTime implements DateInterface
                 break;
 
             case 'F':
-                $replacement = \JText::_(strtoupper(parent::format('F')).'_SHORT');
+                $replacement =  \JText::_(strtoupper(parent::format('F')));
                 break;
 
             case 'M':
-                $replacement = \JText::_(strtoupper(parent::format('F')));
+                $replacement =  \JText::_(strtoupper(parent::format('F').'_SHORT'));
                 break;
         }
 
