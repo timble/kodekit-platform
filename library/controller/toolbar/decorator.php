@@ -15,18 +15,19 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerToolbarDecorator extends ObjectDecorator implements ControllerToolbarInterface, CommandInvokerInterface
+abstract class ControllerToolbarDecorator extends ObjectDecorator implements ControllerToolbarInterface, CommandHandlerInterface
 {
     /**
-     * Command handler
+     * Execute the command handler
      *
      * This function translates the command name to a command handler function of the format '_before[Command]'
      * or '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param 	Command  $context 	The command context
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
      * @return 	boolean Always returns TRUE
      */
-    final public function executeCommand(CommandInterface $command, $condition = null)
+    final public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
         $parts  = explode('.', $command->getName());
         $method = '_'.$parts[0].ucfirst($parts[1]);
@@ -34,7 +35,7 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
         if(method_exists($this, $method)) {
             $this->$method($command);
         } else {
-            $this->getDelegate()->executeCommand($command, $condition);
+            $this->getDelegate()->execute($command, $chain);
         }
     }
 
