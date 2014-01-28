@@ -30,7 +30,7 @@ class CommandChain extends Object implements CommandChainInterface
     private $__stack;
 
     /**
-     * The invoker queue
+     * The handler queue
      *
      * @var ObjectQueue
      */
@@ -48,7 +48,7 @@ class CommandChain extends Object implements CommandChainInterface
      *
      * @var boolean
      */
-    protected $_condition;
+    protected $_break_condition;
 
     /**
      * Constructor
@@ -64,7 +64,7 @@ class CommandChain extends Object implements CommandChainInterface
         $this->__enabled = (boolean) $config->enabled;
 
         //Set the chain break condition
-        $this->_condition = $config->command_condition;
+        $this->_break_condition = $config->break_condition;
 
         $this->__stack = $this->getObject('lib:object.stack');
         $this->__queue = $this->getObject('lib:object.queue');
@@ -75,14 +75,14 @@ class CommandChain extends Object implements CommandChainInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config Configuration options
-     * @return void
+     * @param   ObjectConfig $config Configuration options
+     * @return  void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'command_condition' => false,
-            'enabled'           => true
+            'break_condition' => false,
+            'enabled'         => true
         ));
 
         parent::_initialize($config);
@@ -113,22 +113,18 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Invoke a command by calling all registered invokers
+     * Execute a command by executing all registered handlers
      *
-     * If a command invoker returns the 'break condition' the executing is halted. If no break condition is specified the
-     * the command chain will execute all command invokers, regardless of the invoker result returned.
+     * If a command handler returns the 'break condition' the executing is halted. If no break condition is specified the
+     * the command chain will execute all command handlers, regardless of the handler result returned.
      *
      * @param  string|CommandInterface  $command    The command name or a KCommandInterface object
      * @param  array|\Traversable       $attributes An associative array or a Traversable object
      * @param  ObjectInterface          $subject    The command subject
-     * @return array|mixed Returns an array of the command results in FIFO order where the key holds the invoker identifier
-     *                     and the value the result returned by the invoker. If the chain breaks, and the break condition
-     *                     is not NULL returns the break condition instead.
+     * @return mixed|null If a handler breaks, returns the break condition. NULL otherwise.
      */
-    public function invokeCommand($command, $attributes = null, $subject = null)
+    public function execute($command, $attributes = null, $subject = null)
     {
-        $result = array();
-
         if ($this->isEnabled())
         {
             $this->__stack->push(clone $this->__queue);
@@ -146,59 +142,49 @@ class CommandChain extends Object implements CommandChainInterface
                 else $command = new Command($command, $attributes, $subject);
             }
 
-            foreach ($this->__stack->peek() as $invoker)
+            foreach ($this->__stack->peek() as $handler)
             {
-                $identifier = (string) $invoker->getIdentifier();
+                $result = $handler->execute($command, $this);
 
-                try {
-                    $result[$identifier] = $invoker->executeCommand($command, $this->_condition);
-                } catch (CommandExceptionInvoker $e) {
-                    $result[$identifier] = $e;
-                }
-
-                if($this->_condition !== null && current($result) === $this->_condition)
-                {
-                    $result = current($result);
-                    break;
+                if($result !== null && $result === $this->getBreakCondition()) {
+                    return $result;
                 }
             }
 
             $this->__stack->pop();
         }
-
-        return $result;
     }
 
     /**
      * Attach a command to the chain
      *
-     * @param  CommandInvokerInterface  $invoker  The command invoker
+     * @param  CommandHandlerInterface  $handler  The command handler
      * @return CommandChain
      */
-    public function addInvoker(CommandInvokerInterface $invoker)
+    public function addHandler(CommandHandlerInterface $handler)
     {
-        $this->__queue->enqueue($invoker, $invoker->getPriority());
+        $this->__queue->enqueue($handler, $handler->getPriority());
         return $this;
     }
 
     /**
      * Removes a command from the chain
      *
-     * @param CommandInvokerInterface  $invoker  The command invoker
+     * @param  CommandHandlerInterface  $handler  The command handler
      * @return CommandChain
      */
-    public function removeInvoker(CommandInvokerInterface $invoker)
+    public function removeHandler(CommandHandlerInterface $handler)
     {
-        $this->__queue->dequeue($invoker);
+        $this->__queue->dequeue($handler);
         return $this;
     }
 
     /**
-     * Get the list of invokers enqueue in the chain
+     * Get the list of handlers enqueue in the chain
      *
-     * @return ObjectQueue   An object queue containing the invokers
+     * @return  ObjectQueue   An object queue containing the handlers
      */
-    public function getInvokers()
+    public function getHandlers()
     {
         return $this->__queue;
     }
@@ -206,25 +192,47 @@ class CommandChain extends Object implements CommandChainInterface
     /**
      * Set the priority of a command
      *
-     * @param  CommandInvokerInterface $invoker   A command invoker
-     * @param integer                  $priority  The command priority
+     * @param  CommandHandlerInterface $handler   A command handler
+     * @param integer                   $priority  The command priority
      * @return CommandChain
      */
-    public function setInvokerPriority(CommandInvokerInterface $invoker, $priority)
+    public function setHandlerPriority(CommandHandlerInterface $handler, $priority)
     {
-        $this->__queue->setPriority($invoker, $priority);
+        $this->__queue->setPriority($handler, $priority);
         return $this;
     }
 
     /**
      * Get the priority of a command
      *
-     * @param  CommandInvokerInterface $invoker A command invoker
+     * @param  CommandHandlerInterface $handler A command handler
      * @return integer The command priority
      */
-    public function getInvokerPriority(CommandInvokerInterface $invoker)
+    public function getHandlerPriority(CommandHandlerInterface $handler)
     {
-        return $this->__queue->getPriority($invoker);
+        return $this->__queue->getPriority($handler);
+    }
+
+    /**
+     * Set the break condition
+     *
+     * @param mixed|null $condition The break condition, or NULL to set reset the break condition
+     * @return CommandChain
+     */
+    public function setBreakCondition($condition)
+    {
+        $this->_break_condition = $condition;
+        return $this;
+    }
+
+    /**
+     * Get the break condition
+     *
+     * @return mixed|null   Returns the break condition, or NULL if not break condition is set.
+     */
+    public function getBreakCondition()
+    {
+        return $this->_break_condition;
     }
 
     /**

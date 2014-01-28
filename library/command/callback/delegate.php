@@ -10,9 +10,19 @@
 namespace Nooku\Library;
 
 /**
- * Command Handler Exception
+ * Command Handler Delegate
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandExceptionHandler extends \RuntimeException implements CommandException {}
+interface CommandCallbackDelegate
+{
+    /**
+     * Invoke a command callback
+     *
+     * @param string            $method    The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command);
+}

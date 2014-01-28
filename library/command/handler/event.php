@@ -22,7 +22,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandInvokerEvent extends CommandInvokerAbstract implements CommandInvokerInterface
+class CommandHandlerEvent extends CommandHandlerAbstract
 {
     /**
      * The command priority
@@ -105,7 +105,7 @@ class CommandInvokerEvent extends CommandInvokerAbstract implements CommandInvok
      * Set the event publisher
      *
      * @param   EventPublisherInterface  $publisher An event publisher object
-     * @return CommandInvokerEvent
+     * @return CommandHandlerEvent
      */
     public function setEventPublisher(EventPublisherInterface $publisher)
     {
@@ -116,12 +116,11 @@ class CommandInvokerEvent extends CommandInvokerAbstract implements CommandInvok
     /**
      * Command handler
      *
-     * This functions returns void to prevent is from breaking the chain.
-     *
-     * @param   CommandInterface $command The command
-     * @return  void
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
+     * @return mixed|null If a handler breaks, returns the break condition. NULL otherwise.
      */
-    public function executeCommand(CommandInterface $command, $condition = null)
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
         $type    = '';
         $package = '';

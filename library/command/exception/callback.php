@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Command Invoker Exception
+ * Command Callback Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Controller
+ * @package Nooku\Library\Command
  */
-class CommandExceptionInvoker extends \RuntimeException implements CommandException {}
+class CommandExceptionCallback extends \RuntimeException implements CommandException {}

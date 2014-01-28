@@ -20,17 +20,15 @@ namespace Nooku\Library;
 interface CommandMixinInterface
 {
     /**
-     * Invoke a command by calling all registered invokers
+     * Invoke a command by calling all registered handlers
      *
-     * If a command invoker returns the 'break condition' the executing is halted. If no break condition is specified the
-     * the command chain will execute all command invokers, regardless of the invoker result returned.
+     * If a command handler returns the 'break condition' the executing is halted. If no break condition is specified the
+     * the command chain will execute all command handlers, regardless of the handler result returned.
      *
      * @param  string|CommandInterface  $command    The command name or a CommandInterface object
      * @param  array|\Traversable       $attributes An associative array or a Traversable object
      * @param  ObjectInterface          $subject    The command subject
-     * @return array|mixed Returns an array of the command results in FIFO order where the key holds the invoker identifier
-     *                     and the value the result returned by the invoker. If the chain breaks, and the break condition
-     *                     is not NULL returns the break condition instead.
+     * @return mixed|null If a handlers breaks, returns the break condition. NULL otherwise.
      */
     public function invokeCommand($command, $attributes = null, $subject = null);
 
@@ -51,40 +49,38 @@ interface CommandMixinInterface
     public function setCommandChain(CommandChainInterface $chain);
 
     /**
-     * Attach a command to the chain
+     * Attach a command handler to the chain
      *
-     * The priority parameter can be used to override the command priority while enqueueing the command.
-     *
-     * @param  mixed $invoker An object that implements CommandInvokerInterface, an ObjectIdentifier
+     * @param  mixed $handler An object that implements KCommandHandlerInterface, an KObjectIdentifier
      *                        or valid identifier string
-     * @param  array  $config  An optional associative array of configuration options
+     * @param  array  $config   An optional associative array of configuration options
      * @return ObjectInterface The mixer object
      */
-    public function addCommandInvoker($invoker, $config = array());
+    public function addCommandHandler($handler, $config = array());
 
     /**
-     * Removes a command from the chain
+     * Removes a command handler from the chain
      *
-     * @param CommandInvokerInterface  $invoker  The command invoker
+     * @param CommandHandlerInterface  $handler  The command handler
      * @return ObjectInterface The mixer object
      */
-    public function removeCommandInvoker(CommandInvokerInterface $invoker);
+    public function removeCommandHandler(CommandHandlerInterface $handler);
 
     /**
-     * Get a command invoker by identifier
+     * Get a command handler by identifier
      *
-     * @param  mixed $invoker An object that implements ObjectInterface, ObjectIdentifier object
+     * @param  mixed $handler An object that implements ObjectInterface, ObjectIdentifier object
      *                        or valid identifier string
      * @param  array  $config An optional associative array of configuration settings
-     * @throws \UnexpectedValueException    If the invoker is not implementing the CommandInvokerInterface
-     * @return CommandInvokerInterface
+     * @throws \UnexpectedValueException    If the handler is not implementing the CommandHandlerInterface
+     * @return CommandHandlerInterface
      */
-    public function getCommandInvoker($invoker, $config = array());
+    public function getCommandHandler($handler, $config = array());
 
     /**
-     * Gets the command invokers
+     * Gets the command handlers
      *
-     * @return array An array of command invokers
+     * @return array An array of command handlers
      */
-    public function getCommandInvokers();
+    public function getCommandHandlers();
 }

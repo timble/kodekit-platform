@@ -37,51 +37,72 @@ interface CommandChainInterface
     public function disable();
 
     /**
-     * Invoke a command by calling all registered invokers
+     * Execute a command by executing all registered handlers
      *
-     * If a command invoker returns the 'break condition' the executing is halted. If no break condition is specified the
-     * the command chain will execute all command invokers, regardless of the invoker result returned.
+     * If a command handler returns the 'break condition' the executing is halted. If no break condition is specified the
+     * the command chain will execute all command handlers, regardless of the handler result returned.
      *
-     * @param  string|CommandInterface  $command    The command name or a KCommandInterface object
-     * @param  array|\Traversable       $attributes An associative array or a Traversable object
-     * @param  ObjectInterface          $subject    The command subject
-     * @return array|mixed Returns an array of the command results in FIFO order where the key holds the invoker identifier
-     *                     and the value the result returned by the invoker. If the chain breaks, and the break condition
-     *                     is not NULL returns the break condition instead.
+     * @param string|CommandInterface  $command    The command name or a KCommandInterface object
+     * @param array|\Traversable         $attributes An associative array or a Traversable object
+     * @param ObjectInterface          $subject    The command subject
+     * @return mixed|null If a handlers breaks, returns the break condition. NULL otherwise.
      */
-    public function invokeCommand($command, $attributes = array(), $subject = null);
+    public function execute($command, $attributes = array(), $subject = null);
 
     /**
      * Attach a command to the chain
      *
-     * @param  CommandInvokerInterface  $invoker  The command invoker
+     * @param CommandHandlerInterface  $handler  The command handler
      * @return CommandChainInterface
      */
-    public function addInvoker(CommandInvokerInterface $invoker);
+    public function addHandler(CommandHandlerInterface $handler);
 
     /**
-     * Get the list of invokers enqueue in the chain
+     * Removes a command from the chain
      *
-     * @return ObjectQueue An object queue containing the invokers
+     * @param  CommandHandlerInterface  $handler  The command handler
+     * @return  CommandChain
      */
-    public function getInvokers();
+    public function removeHandler(CommandHandlerInterface $handler);
 
     /**
-     * Set the priority of a command invoker
+     * Get the list of handler enqueue in the chain
      *
-     * @param CommandInvokerInterface $invoker   A command invoker
+     * @return  ObjectQueue   An object queue containing the handlers
+     */
+    public function getHandlers();
+
+    /**
+     * Set the priority of a command handler
+     *
+     * @param CommandHandlerInterface $handler   A command handler
      * @param integer                   $priority  The command priority
-     * @return CommandChain
+     * @return CommandChainInterface
      */
-    public function setInvokerPriority(CommandInvokerInterface $invoker, $priority);
+    public function setHandlerPriority(CommandHandlerInterface $handler, $priority);
 
     /**
-     * Get the priority of a command invoker
+     * Get the priority of a command handlers
      *
-     * @param  CommandInvokerInterface $invoker A command invoker
+     * @param  CommandHandlerInterface $handler A command handler
      * @return integer The command priority
      */
-    public function getInvokerPriority(CommandInvokerInterface $invoker);
+    public function getHandlerPriority(CommandHandlerInterface $handler);
+
+    /**
+     * Set the break condition
+     *
+     * @param mixed|null $condition The break condition, or NULL to set reset the break condition
+     * @return CommandChainInterface
+     */
+    public function setBreakCondition($condition);
+
+    /**
+     * Get the break condition
+     *
+     * @return mixed|null   Returns the break condition, or NULL if not break condition is set.
+     */
+    public function getBreakCondition();
 
     /**
      * Check of the command chain is enabled

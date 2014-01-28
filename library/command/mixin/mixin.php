@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
+class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterface, CommandHandlerInterface
 {
     /**
      * Chain of command object
@@ -27,14 +27,21 @@ class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
     private $__command_chain;
 
     /**
-     * List of event subscribers
+     * List of command handlers
      *
-     * Associative array of command invokers, where key holds the invokers identifier string
+     * Associative array of command handlers, where key holds the handlers identifier string
      * and the value is an identifier object.
      *
      * @var array
      */
-    private $__command_invokers = array();
+    private $__command_handlers = array();
+
+    /**
+     * The command priority
+     *
+     * @var integer
+     */
+    protected $_priority;
 
     /**
      * Object constructor
@@ -53,20 +60,15 @@ class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
         //Create a command chain object
         $this->__command_chain = $config->command_chain;
 
-        //Add the mixer if its implements the command invoker interface
-        if($this->getMixer() instanceof CommandInvokerInterface) {
-            $this->addCommandInvoker($this->getMixer());
-        }
+        //Add the command handlers
+        $handlers = (array) ObjectConfig::unbox($config->command_handlers);
 
-        //Add the event subscribers
-        $invokers = (array) ObjectConfig::unbox($config->command_invokers);
-
-        foreach ($invokers as $key => $value)
+        foreach ($handlers as $key => $value)
         {
             if (is_numeric($key)) {
-                $this->addCommandInvoker($value);
+                $this->addCommandHandler($value);
             } else {
-                $this->addCommandInvoker($key, $value);
+                $this->addCommandHandler($key, $value);
             }
         }
     }
@@ -82,8 +84,9 @@ class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'command_chain'     => 'lib:command.chain',
-            'command_invokers'  => array(),
+            'command_chain'    => 'lib:command.chain',
+            'command_handlers' => array(),
+            'priority'         => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -94,35 +97,43 @@ class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
      *
      * This function is called when the mixin is being mixed. It will get the mixer passed in.
      *
-     * @param ObjectMixable $mixer The mixer object
+     * @param  ObjectMixable $mixer The mixer object
      * @return void
      */
     public function onMixin(ObjectMixable $mixer)
     {
         parent::onMixin($mixer);
 
-        //Add the mixer if its implements the command invoker interface
-        if($mixer instanceof CommandInvokerInterface) {
-            $this->addCommandInvoker($mixer);
-        }
+        //Add mixer to the command chain to be able to execute the registered command handlers.
+        $this->addCommandHandler($this);
     }
 
     /**
-     * Invoke a command by calling all registered invokers
+     * Execute the callbacks
      *
-     * If a command invoker returns the 'break condition' the executing is halted. If no break condition is specified the
-     * the command chain will execute all command invokers, regardless of the invoker result returned.
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
+     * @return mixed|null If a handler breaks, returns the break condition. NULL otherwise.
+     */
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
+    {
+        return parent::invokeCallbacks($command, $this->getMixer());
+    }
+
+    /**
+     * Invoke a command by calling all registered handlers
+     *
+     * If a command handler returns the 'break condition' the executing is halted. If no break condition is specified the
+     * the command chain will execute all command handlers, regardless of the handler result returned.
      *
      * @param  string|CommandInterface  $command    The command name or a CommandInterface object
      * @param  array|\Traversable       $attributes An associative array or a Traversable object
      * @param  ObjectInterface          $subject    The command subject
-     * @return array|mixed Returns an array of the command results in FIFO order where the key holds the invoker identifier
-     *                     and the value the result returned by the invoker. If the chain breaks, and the break condition
-     *                     is not NULL returns the break condition instead.
+     * @return mixed|null If a handler breaks, returns the break condition. NULL otherwise.
      */
     public function invokeCommand($command, $attributes = null, $subject = null)
     {
-        return $this->getCommandChain()->invokeCommand($command, $attributes, $subject);
+        return $this->getCommandChain()->execute($command, $attributes, $subject);
     }
 
     /**
@@ -135,7 +146,8 @@ class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
     {
         if(!$this->__command_chain instanceof CommandChainInterface)
         {
-            $this->__command_chain = $this->getObject($this->__command_chain);
+            $config = array('break_condition' => $this->getBreakCondition());
+            $this->__command_chain = $this->getObject($this->__command_chain, $config);
 
             if(!$this->__command_chain instanceof CommandChainInterface)
             {
@@ -161,87 +173,132 @@ class CommandMixin extends ObjectMixinAbstract implements CommandMixinInterface
     }
 
     /**
+     * Add a command callback
+     *
+     * If the handler has already been added. It will not be re-added but parameters will be merged. This allows to
+     * change or add parameters for existing handlers.
+     *
+     * @param  	string          $command  The command name to register the handler for
+     * @param 	string|\Closure $method   The name of the method or a Closure object
+     * @param   array|object    $params   An associative array of config parameters or a ObjectConfig object
+     * @throws  \InvalidArgumentException If the method does not exist
+     * @return  CommandMixin
+     */
+    public function addCommandCallback($command, $method, $params = array())
+    {
+        if (is_string($method) && !method_exists($this->getMixer(), $method))
+        {
+            throw new \InvalidArgumentException(
+                'Method does not exist '.get_class().'::'.$method
+            );
+        }
+
+        return parent::addCommandCallback($command, $method, $params);
+    }
+
+    /**
      * Attach a command to the chain
      *
      * The priority parameter can be used to override the command priority while enqueueing the command.
      *
-     * @param  mixed $invoker An object that implements CommandInvokerInterface, an ObjectIdentifier
+     * @param  mixed $handler An object that implements KCommandHandlerInterface, an KObjectIdentifier
      *                        or valid identifier string
      * @param  array  $config  An optional associative array of configuration options
      * @return ObjectInterface The mixer object
      */
-    public function addCommandInvoker($invoker, $config = array())
+    public function addCommandHandler($handler, $config = array())
     {
-        if (!($invoker instanceof CommandInvokerInterface)) {
-            $invoker = $this->getCommandInvoker($invoker, $config);
+        if (!($handler instanceof CommandHandlerInterface)) {
+            $handler = $this->getCommandHandler($handler, $config);
         }
 
-        $this->getCommandChain()->addInvoker($invoker);
+        $this->getCommandChain()->addHandler($handler);
         return $this->getMixer();
     }
 
     /**
      * Removes a command from the chain
      *
-     * @param CommandInvokerInterface  $invoker  The command invoker
+     * @param  CommandHandlerInterface  $handler  The command handler
      * @return ObjectInterface The mixer object
      */
-    public function removeCommandInvoker(CommandInvokerInterface $invoker)
+    public function removeCommandHandler(CommandHandlerInterface $handler)
     {
-        $this->getCommandChain()->removeInvoker($invoker);
+        $this->getCommandChain()->removeHandler($handler);
         return $this->getMixer();
     }
 
     /**
-     * Get a command invoker by identifier
+     * Get a command handler by identifier
      *
-     * @param  mixed $invoker An object that implements ObjectInterface, ObjectIdentifier object
+     * @param  mixed $handler An object that implements ObjectInterface, ObjectIdentifier object
      *                        or valid identifier string
      * @param  array  $config An optional associative array of configuration settings
-     * @throws \UnexpectedValueException  If the invoker is not implementing the CommandInvokerInterface
-     * @return CommandInvokerInterface
+     * @throws \UnexpectedValueException    If the handler is not implementing the CommandHandlerInterface
+     * @return CommandHandlerInterface
      */
-    public function getCommandInvoker($invoker, $config = array())
+    public function getCommandHandler($handler, $config = array())
     {
-        if (!($invoker instanceof ObjectIdentifier))
+        if (!($handler instanceof ObjectIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
-            if (is_string($invoker) && strpos($invoker, '.') === false)
+            if (is_string($handler) && strpos($handler, '.') === false)
             {
                 $identifier = $this->getIdentifier()->toArray();
-                $identifier['path'] = array('command', 'invoker');
-                $identifier['name'] = $invoker;
+                $identifier['path'] = array('command', 'handler');
+                $identifier['name'] = $handler;
 
                 $identifier = $this->getIdentifier($identifier);
             }
-            else $identifier = $this->getIdentifier($invoker);
+            else $identifier = $this->getIdentifier($handler);
         }
-        else $identifier = $invoker;
+        else $identifier = $handler;
 
-        if (!isset($this->__command_invokers[(string)$identifier]))
+        if (!isset($this->__command_handlers[(string)$identifier]))
         {
-            $invoker = $this->getObject($identifier, $config);
+            $handler = $this->getObject($identifier, $config);
 
-            //Check the event subscriber interface
-            if (!($invoker instanceof CommandInvokerInterface))
+            if (!($handler instanceof CommandHandlerInterface))
             {
                 throw new \UnexpectedValueException(
-                    "Command Invoker $identifier does not implement CommandInvokerInterface"
+                    "Command Handler $identifier does not implement CommandHandlerInterface"
                 );
             }
         }
-        else $invoker = $this->__command_invokers[(string)$identifier];
+        else $handler = $this->__command_handlers[(string)$identifier];
 
-        return $invoker;
+        return $handler;
     }
 
     /**
-     * Gets the command invokers
+     * Gets the command handlers
      *
-     * @return array An array of command invokers
+     * @return array An array of command handlers
      */
-    public function getCommandInvokers()
+    public function getCommandHandlers()
     {
-        return $this->getCommandChain()->getInvokers()->toArray();
+        return $this->getCommandChain()->getHandlers()->toArray();
+    }
+
+    /**
+     * Get the methods that are available for mixin
+     *
+     * @param  ObjectMixable $mixer The mixer requesting the mixable methods.
+     * @return array An array of methods
+     */
+    public function getMixableMethods(ObjectMixable $mixer = null)
+    {
+        $methods = parent::getMixableMethods($mixer);
+        return array_diff_key($methods, array('execute', 'getPriority', 'setBreakCondition', 'getBreakCondition', 'invokeCommandCallbacks'));
+    }
+
+    /**
+     * Get the priority of the handler
+     *
+     * @return	integer The handler priority
+     */
+    public function getPriority()
+    {
+        return $this->_priority;
     }
 }
