@@ -129,7 +129,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
             $behavior->setMixer($this->getMixer());
 
             //Add the behavior
-            $this->addCommandInvoker($behavior);
+            $this->addCommandHandler($behavior);
 
             //Mixin the behavior
             if ($this->_auto_mixin) {
