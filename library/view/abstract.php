@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\View
  */
-abstract class ViewAbstract extends CommandInvokerAbstract implements ViewInterface
+abstract class ViewAbstract extends Object implements ViewInterface, CommandCallbackDelegate
 {
     /**
      * Model object or identifier
@@ -88,9 +88,9 @@ abstract class ViewAbstract extends CommandInvokerAbstract implements ViewInterf
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'              => array(),
-            'command_chain'     => 'lib:command.chain',
-            'command_invokers'  => array('lib:command.invoker.event'),
+            'data'             => array(),
+            'command_chain'    => 'lib:command.chain',
+            'command_handlers' => array('lib:command.handler.event'),
             'model'    => 'lib:model.empty',
             'contents' => '',
             'mimetype' => '',
@@ -123,6 +123,18 @@ abstract class ViewAbstract extends CommandInvokerAbstract implements ViewInterf
         }
 
         return $context->result;
+    }
+
+    /**
+     * Invoke a command handler
+     *
+     * @param string            $method   The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command)
+    {
+        return $this->$method($command);
     }
 
     /**

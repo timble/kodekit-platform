@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerAbstract extends CommandInvokerAbstract implements ControllerInterface
+abstract class ControllerAbstract extends Object implements ControllerInterface, CommandCallbackDelegate
 {
     /**
      * The controller actions
@@ -110,7 +110,7 @@ abstract class ControllerAbstract extends CommandInvokerAbstract implements Cont
     {
         $config->append(array(
             'command_chain'    => 'lib:command.chain',
-            'command_invokers' => array('lib:command.invoker.event'),
+            'command_handlers' => array('lib:command.handler.event'),
             'dispatched'       => false,
             'request'          => 'lib:controller.request',
             'response'         => 'lib:controller.response',
@@ -149,7 +149,8 @@ abstract class ControllerAbstract extends CommandInvokerAbstract implements Cont
         $context->setSubject($this);
 
         //Set the context action
-        $context->action  = $action;
+        $context_action = $context->getAction();
+        $context->setAction($action);
 
         if($this->invokeCommand('before.'.$action, $context) !== false)
         {
@@ -160,7 +161,7 @@ abstract class ControllerAbstract extends CommandInvokerAbstract implements Cont
                 if (isset($this->_mixed_methods[$action]))
                 {
                     $context->setName('action.' . $action);
-                    $context->result = current($this->_mixed_methods[$action]->executeCommand($context));
+                    $context->result = $this->_mixed_methods[$action]->execute($context, $this->getCommandChain());
                 }
                 else
                 {
@@ -176,8 +177,21 @@ abstract class ControllerAbstract extends CommandInvokerAbstract implements Cont
 
         //Reset the context subject
         $context->setSubject($context_subject);
+        $context->setAction($context_action);
 
         return $context->result;
+    }
+
+    /**
+     * Invoke a command handler
+     *
+     * @param string            $method    The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command)
+    {
+        return $this->$method($command);
     }
 
     /**
