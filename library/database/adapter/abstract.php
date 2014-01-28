@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseAdapterAbstract extends CommandInvokerAbstract implements DatabaseAdapterInterface
+abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface
 {
     /**
      * Active state of the connection
