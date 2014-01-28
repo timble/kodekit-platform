@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-class ObjectBootstrapperApplication extends Library\ObjectBootstrapperChain
+class Bootstrapper extends Library\ObjectBootstrapperComponent
 {
     /**
      * Constructor.
@@ -55,22 +55,51 @@ class ObjectBootstrapperApplication extends Library\ObjectBootstrapperChain
      */
     public function bootstrap()
     {
-        foreach (new \DirectoryIterator($this->_directory) as $dir)
+        $chain = $this->getObject('lib:object.bootstrapper.chain');
+
+        foreach ($this->getComponents($this->_directory) as $component)
+        {
+            if($bootstrapper = $this->getBootstrapper($component)) {
+                $chain->addBootstrapper($bootstrapper);
+            }
+        }
+
+        $chain->bootstrap();
+
+        parent::bootstrap();
+    }
+
+    public function getComponents($directory)
+    {
+        $components = array();
+        foreach (new \DirectoryIterator($directory) as $dir)
         {
             //Only get the component directory names
             if ($dir->isDot() || !$dir->isDir() || !preg_match('/^[a-zA-Z]+/', $dir->getBasename())) {
                 continue;
             }
 
-            $identifier = 'com:'.$dir.'.bootstrapper';
-
-            if($this->getObjectManager()->getClass($identifier))
-            {
-                $bootstrapper = $this->getObject($identifier);
-                $this->addBootstrapper($bootstrapper);
-            }
+            $components[] = (string) $dir;
         }
 
-        parent::bootstrap();
+        return $components;
+    }
+
+    public function getBootstrapper($name)
+    {
+        $bootstrapper = null;
+
+        $identifier = 'com:'.$name.'.bootstrapper';
+        if($this->getObjectManager()->getClass($identifier, false)) {
+            $bootstrapper = $this->getObject($identifier);
+        }
+
+        return $bootstrapper;
+    }
+
+    public function getHandle()
+    {
+        //Prevent recursive bootstrapping
+        return null;
     }
 }

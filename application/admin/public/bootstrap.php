@@ -45,7 +45,7 @@ require_once(JPATH_ROOT . '/library/nooku.php');
 unset($config);
 
 //Setup the component locator
-Library\ClassLoader::getInstance()->getLocator('com')->registerNamespaces(
+Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
     array(
         '\\'              => JPATH_APPLICATION.'/component',
         'Nooku\Component' => JPATH_ROOT.'/component'
@@ -57,6 +57,6 @@ Library\ClassLoader::getInstance()->registerBasepath('site' , JPATH_ROOT.'/appli
 Library\ClassLoader::getInstance()->registerBasepath('admin', JPATH_ROOT.'/application/admin');
 
 //Bootstrap the components
-Library\ObjectManager::getInstance()->getObject('com:application.object.bootstrapper.application', array(
+Library\ObjectManager::getInstance()->getObject('com:application.bootstrapper', array(
     'directory' => JPATH_APPLICATION.'/component'
 ))->bootstrap();

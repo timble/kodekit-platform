@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
  * Bootstrapper
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationBootstrapper extends Library\ObjectBootstrapperComponent
+class ApplicationBootstrapper extends Application\Bootstrapper
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
