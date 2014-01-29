@@ -123,7 +123,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
             $result = parent::invokeCallbacks($command, $this);
         }
 
-        return parent::invokeCallbacks($command, $this);
+        return $result;
     }
 
     /**
