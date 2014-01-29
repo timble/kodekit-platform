@@ -25,7 +25,7 @@ class ClassLocatorStandard extends ClassLocatorAbstract
      *
      * @var string
      */
-    protected $_type = 'psr';
+    protected $_type = 'standard';
 
     /**
      * Get the path based on a class name

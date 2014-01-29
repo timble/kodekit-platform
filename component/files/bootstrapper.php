@@ -28,7 +28,7 @@ use Nooku\Library;
                  'com:files.database.row.directory'       => 'com:files.database.row.folder',
              ),
              'namespaces' => array(
-                 'psr' => array('Imagine' =>  JPATH_VENDOR.'/imagine/imagine/lib')
+                 'standard' => array('Imagine' =>  JPATH_VENDOR.'/imagine/imagine/lib')
              )
          ));
 
