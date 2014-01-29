@@ -49,7 +49,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_mixin' => true
+            'row_mixin' => true
         ));
 
         parent::_initialize($config);

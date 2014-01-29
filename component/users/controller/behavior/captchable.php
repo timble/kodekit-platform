@@ -31,7 +31,6 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         $params = $this->getObject('application.extensions')->users->params;
 
         $config->append(array(
-            'auto_mixin'        => true,
             'captcha'           => array(
                 'private_key'       => $params->get('recaptcha_private_key', null),
                 'remote_ip'         => $this->getObject('request')->getAddress(),

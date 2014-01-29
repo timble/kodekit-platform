@@ -30,13 +30,6 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
     private $__behaviors = array();
 
     /**
-     * Auto mixin behaviors
-     *
-     * @var boolean
-     */
-    protected $_auto_mixin;
-
-    /**
      * Constructor
      *
      * @param ObjectConfig $object An optional ObjectConfig object with configuration options.
@@ -44,9 +37,6 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
-
-        //Set the auto mixin state
-        $this->_auto_mixin = $config->auto_mixin;
 
         //Add the behaviors in FIFO order
         $behaviors = (array) ObjectConfig::unbox($config->behaviors);
@@ -75,7 +65,6 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
 
         $config->append(array(
             'behaviors'  => array(),
-            'auto_mixin' => true
         ));
     }
 
@@ -132,9 +121,7 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
             $this->addCommandHandler($behavior);
 
             //Mixin the behavior
-            if ($this->_auto_mixin) {
-                $this->mixin($behavior);
-            }
+            $this->mixin($behavior);
         }
 
         return $this->getMixer();

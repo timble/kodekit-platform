@@ -80,11 +80,6 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
 
         //Set the command priority
         $this->_priority = $config->priority;
-
-        //Automatically mixin the behavior
-        if ($config->auto_mixin) {
-            $this->mixin($this);
-        }
     }
 
     /**
@@ -99,7 +94,6 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
     {
         $config->append(array(
             'priority'   => self::PRIORITY_NORMAL,
-            'auto_mixin' => false
         ));
 
         parent::_initialize($config);

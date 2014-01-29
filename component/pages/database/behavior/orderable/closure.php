@@ -41,10 +41,10 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => self::PRIORITY_LOWEST,
-            'auto_mixin' => true,
-            'columns'    => array(),
-            'table'      => null
+            'priority'  => self::PRIORITY_LOWEST,
+            'row_mixin' => true,
+            'columns'   => array(),
+            'table'     => null
         ));
 
         parent::_initialize($config);

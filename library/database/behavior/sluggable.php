@@ -95,7 +95,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             'updatable'  => true,
             'length'     => null,
             'unique'     => null,
-            'auto_mixin' => true,
+            'row_mixin'  => true,
         ));
 
         parent::_initialize($config);
