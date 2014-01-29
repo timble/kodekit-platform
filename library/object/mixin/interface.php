@@ -54,8 +54,9 @@ interface ObjectMixinInterface extends ObjectHandlable
      *
      * Only public methods can be mixed
      *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
+     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
+     * @param  array           $exclude     An array of public methods to be exclude
      * @return array An array of public methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null);
+    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array());
 }

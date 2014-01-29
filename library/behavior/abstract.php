@@ -188,16 +188,20 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      * This function also dynamically adds a lamda function with function name 'is[Behavior]' to allow client code to
      * check if the behavior is callable.
      *
-     * @param  ObjectInterface $mixer The mixer requesting the mixable methods.
+     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
+     * @param  array           $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer);
+        $exclude += array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
+            'getName', 'getObject', 'setBreakCondition', 'getBreakCondition', 'addCommandCallback',
+            'removeCommandCallback');
+
+        $methods = parent::getMixableMethods($mixer, $exclude);
         $methods['is' . ucfirst($this->getIdentifier()->name)] = function() { return true; };
 
-        return array_diff_key($methods, array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
-            'getName', 'getObject', 'setBreakCondition', 'getBreakCondition'));
+        return $methods;
     }
 
     /**
