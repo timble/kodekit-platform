@@ -62,7 +62,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
                 'class_loader [ClassLoaderInterface] config option is required, "'.gettype($config->class_loader).'" given.'
             );
         }
-        else $this->setClassLoader($config['class_loader']);
+        else $this->setClassLoader($config->class_loader);
 
         //Create the object registry
         if($config->cache_enabled)
@@ -77,6 +77,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
         //Manually register the library loader
         $config = new ObjectConfig(array(
+            'class_loader'      => $config->class_loader,
             'object_manager'    => $this,
             'object_identifier' => new ObjectIdentifier('lib:object.locator.library')
         ));
@@ -204,7 +205,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
         if(empty($class))
         {
-            $class = $this->_locators[$identifier->type]->locate($identifier, $fallback);
+            $class = $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
             $identifier->setClass($class);
         }
 
@@ -383,6 +384,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         if(!$identifier instanceof ObjectLocatorInterface)
         {
+            $config['class_loader'] = $this->getClassLoader();
             $locator = $this->getObject($identifier, $config);
 
             if(!$locator instanceof ObjectLocatorInterface)
@@ -626,7 +628,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         $result = null;
 
-        if ($this->getClassLoader()->load($identifier->class, $identifier->domain))
+        if($identifier->class && class_exists($identifier->class))
         {
             if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->class, false)))
             {

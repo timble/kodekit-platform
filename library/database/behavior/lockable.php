@@ -50,15 +50,16 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 * This function conditionally mixes the behavior. Only if the mixer has a 'locked_by' property the behavior will
      * be mixed in.
 	 *
-	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
+     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
+     * @param  array           $exclude     An array of public methods to be exclude
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
 	{
 		$methods = array();
 
 		if($mixer instanceof DatabaseRowInterface && ($mixer->has('locked_by') || $mixer->has('locked_on'))) {
-			$methods = parent::getMixableMethods($mixer);
+			$methods = parent::getMixableMethods($mixer, $exclude);
 		}
 
 		return $methods;

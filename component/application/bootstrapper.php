@@ -85,12 +85,12 @@ class Bootstrapper extends Library\ObjectBootstrapperComponent
         return $components;
     }
 
-    public function getBootstrapper($name)
+    public function getBootstrapper($name, $fallback = true)
     {
         $bootstrapper = null;
 
         $identifier = 'com:'.$name.'.bootstrapper';
-        if($this->getObjectManager()->getClass($identifier, false)) {
+        if($this->getObjectManager()->getClass($identifier, $fallback)) {
             $bootstrapper = $this->getObject($identifier);
         }
 

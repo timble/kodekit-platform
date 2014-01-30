@@ -41,10 +41,10 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         
         return count($this->_tables->find($needle)) ? parent::getHandle() : null;
     }
-    
-    public function getMixableMethods(Library\ObjectMixable $mixer = null)
+
+    public function getMixableMethods(Library\ObjectMixable $mixer = null, $exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer);
+        $methods = parent::getMixableMethods($mixer, $exclude);
         
         if(!is_null($mixer))
         {

@@ -46,6 +46,13 @@ class ClassLoader implements ClassLoaderInterface
     protected $_basepaths = array();
 
     /**
+     * The active basepath name
+     *
+     * @var  string
+     */
+    protected $_basepath = null;
+
+    /**
      * Constructor
      *
      * @param array $config Array of configuration options.
@@ -131,17 +138,16 @@ class ClassLoader implements ClassLoaderInterface
      * Load a class based on a class name
      *
      * @param string  $class    The class name
-     * @param string $basepath The basepath name
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
-    public function load($class, $basepath = null)
+    public function load($class)
     {
         $result = true;
 
         if(!$this->isDeclared($class))
         {
             //Get the path
-            $path = $this->getPath( $class, $basepath);
+            $path = $this->getPath( $class, $this->_basepath);
 
             if ($path !== false)
             {
@@ -302,6 +308,18 @@ class ClassLoader implements ClassLoaderInterface
     public function getBasepath($name)
     {
         return isset($this->_basepaths[$name]) ? $this->_basepaths[$name] : null;
+    }
+
+    /**
+     * Set the active basepath by name
+     *
+     * @param string $name The name base path
+     * @return ClassLoader
+     */
+    public function setBasepath($name)
+    {
+        $this->_basepath = $name;
+        return $this;
     }
 
     /**

@@ -18,6 +18,25 @@ namespace Nooku\Library;
 interface ObjectLocatorInterface
 {
     /**
+     * Returns a fully qualified class name for a given identifier.
+     *
+     * @param ObjectIdentifier $identifier An identifier object
+     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @return string|false  Return the class name on success, returns FALSE on failure
+     */
+    public function locate(ObjectIdentifier $identifier, $fallback = true);
+
+    /**
+     * Find a class
+     *
+     * @param array  $info      The class information
+     * @param string $basepath  The basepath name
+     * @param bool   $fallback  If TRUE use the fallback sequence
+     * @return bool|mixed
+     */
+    public function find(array $info, $basepath = null, $fallback = true);
+
+    /**
      * Get the locator type
      *
      * @return string
@@ -25,18 +44,24 @@ interface ObjectLocatorInterface
     public function getType();
 
     /**
-     * Get the locator fallbacks
+     * Get the locator fallback sequence
      *
      * @return array
      */
-    public function getFallbacks();
+    public function getSequence();
 
     /**
-     * Returns a fully qualified class name for a given identifier.
+     * Get the class loader
      *
-     * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
-     * @return string|false  Return the class name on success, returns FALSE on failure
+     * @return ClassLoaderInterface
      */
-	public function locate(ObjectIdentifier $identifier, $fallback = true);
+    public function getClassLoader();
+
+    /**
+     * Set the class loader
+     *
+     * @param ClassLoaderInterface $loader
+     * @return ObjectManagerInterface
+     */
+    public function setClassLoader(ClassLoaderInterface $loader);
 }
