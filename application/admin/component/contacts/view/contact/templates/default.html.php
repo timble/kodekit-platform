@@ -104,7 +104,4 @@
 	<div class="sidebar">
         <?= import('default_sidebar.html'); ?>
 	</div>
-	
 </form>
-
-<script data-inline> $jQuery(".select-image").select2(); </script>
