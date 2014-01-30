@@ -18,6 +18,20 @@ namespace Nooku\Library;
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
     /**
+     * The class prefix sequence in FIFO order
+     *
+     * @var array
+     */
+    protected $_sequence = array();
+
+    /**
+     * The class loader
+     *
+     * @var ClassLoaderInterface
+     */
+    private $__loader;
+
+    /**
      * The locator type
      *
      * @var string
@@ -25,22 +39,18 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     protected $_type = '';
 
     /**
-     * The class prefix sequence in FIFO order
-     *
-     * @var array
-     */
-    protected $_fallbacks = array();
-
-    /**
      * Constructor.
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional KObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_fallbacks = ObjectConfig::unbox($config->fallbacks);
+        $this->_sequence = ObjectConfig::unbox($config->sequence);
+
+        //Set the class loader
+        $this->setClassLoader($config->class_loader);
     }
 
     /**
@@ -48,14 +58,81 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config An optional KObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'fallbacks' => array(),
+            'sequence'      => array(),
+            'class_loader'  => null,
         ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Returns a fully qualified class name for a given identifier.
+     *
+     * @param ObjectIdentifier $identifier An identifier object
+     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @return string|false  Return the class name on success, returns FALSE on failure
+     */
+    public function locate(ObjectIdentifier $identifier, $fallback = true)
+    {
+        $package = ucfirst($identifier->package);
+        $path    = StringInflector::camelize(implode('_', $identifier->path));
+        $file    = ucfirst($identifier->name);
+        $class   = $path.$file;
+
+        $info = array(
+            'class'   => $class,
+            'package' => $package,
+            'path'    => $path,
+            'file'    => $file
+        );
+
+        return $this->find($info, $identifier->domain, $fallback);
+    }
+
+    /**
+     * Find a class
+     *
+     * @param array  $info      The class information
+     * @param string $basepath  The basepath name
+     * @param bool   $fallback  If TRUE use the fallback sequence
+     * @return bool|mixed
+     */
+    public function find(array $info, $basepath = null, $fallback = true)
+    {
+        //Set the basepath
+        if(!empty($basepath)) {
+            $this->getClassLoader()->setBasepath($basepath);
+        }
+
+        //Find the class
+        $package = $info['package'];
+        $path    = $info['path'];
+        $file    = $info['file'];
+        $class   = $info['class'];
+
+        $result = false;
+        foreach($this->_sequence as $fallback)
+        {
+            $result = str_replace(
+                array('<Package>', '<Path>', '<File>', '<Class>'),
+                array($package   , $path   , $file   , $class),
+                $fallback
+            );
+
+            if(!class_exists($result) && $fallback) {
+                $result = false;
+            } else {
+                break;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -69,12 +146,34 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     }
 
     /**
-     * Get the locator fallbacks
+     * Get the locator fallback sequence
      *
      * @return array
      */
-    public function getFallbacks()
+    public function getSequence()
     {
-        return $this->_fallbacks;
+        return $this->_sequence;
+    }
+
+    /**
+     * Get the class loader
+     *
+     * @return ClassLoaderInterface
+     */
+    public function getClassLoader()
+    {
+        return $this->__loader;
+    }
+
+    /**
+     * Set the class loader
+     *
+     * @param  ClassLoaderInterface $loader
+     * @return ObjectLocatorInterface
+     */
+    public function setClassLoader(ClassLoaderInterface $loader)
+    {
+        $this->__loader = $loader;
+        return $this;
     }
 }
