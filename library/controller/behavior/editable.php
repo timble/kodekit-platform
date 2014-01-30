@@ -366,7 +366,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
                     ->set('id', $entity->locked_by)
                     ->load();
 
-                $date    = new Date(array('date' => $entity->locked_on));
+                $date    = $this-getObject('lib.date',array('date' => $entity->locked_on));
                 $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date->humanize());
 
                 $context->response->addMessage($message, 'notice');
