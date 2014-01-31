@@ -145,12 +145,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * Get an identifier object based on an object identifier.
      *
      * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
-     * object that implements KObjectInterface, or a KObjectIdentifier object, or valid identifier
+     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
      * string. Function recursively resolves identifier aliases and returns the aliased identifier.
      *
      * If no identifier is passed the object identifier of this object will be returned.
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param bool  $autolocate If TRUE try to locate the identifier class. Default FALSE.
      * @return ObjectIdentifier
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
