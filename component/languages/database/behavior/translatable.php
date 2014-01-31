@@ -42,24 +42,23 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         return count($this->_tables->find($needle)) ? parent::getHandle() : null;
     }
 
-    public function getMixableMethods(Library\ObjectMixable $mixer = null, $exclude = array())
+    public function getMixableMethods($exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer, $exclude);
+        $methods = parent::getMixableMethods($exclude);
+        $mixer   = $this->getMixer();
         
         if(!is_null($mixer))
         {
             // If table is not enabled, don't mix the methods.
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
-                'name' => $table->getBase(),
+                'name'           => $table->getBase(),
                 'component_name' => 'com_'.$table->getIdentifier()->package
             );
             
             if(!count($this->_tables->find($needle)))
             {
-                $methods['isTranslatable'] = function() {
-                    return false;
-                };
+                $methods['isTranslatable'] = false;
                 
                 unset($methods['getLanguages']);
                 unset($methods['getTranslations']);

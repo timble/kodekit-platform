@@ -22,18 +22,20 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      *
      * This function also dynamically adds a function of format _action[Action]
      *
-     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
-     * @param  array           $exclude     An array of public methods to be exclude
+     * @param  array $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
+    public function getMixableMethods($exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer, $exclude);
+        $methods = parent::getMixableMethods($exclude);
 
-        foreach ($this->getMethods() as $method)
+        if($this->isSupported())
         {
-            if (substr($method, 0, 7) == '_action') {
-                $methods[strtolower(substr($method, 7))] = strtolower(substr($method, 7));
+            foreach($this->getMethods() as $method)
+            {
+                if(substr($method, 0, 7) == '_action') {
+                    $methods[strtolower(substr($method, 7))] = $this;
+                }
             }
         }
 

@@ -283,14 +283,13 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
     /**
      * Get the methods that are available for mixin
      *
-     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
-     * @param  array           $exclude     An array of public methods to be exclude
+     * @param  array $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
+    public function getMixableMethods($exclude = array())
     {
         $exclude += array('execute', 'getPriority', 'setBreakCondition', 'getBreakCondition', 'invokeCommandCallbacks');
-        return parent::getMixableMethods($mixer, $exclude);
+        return parent::getMixableMethods($exclude);
     }
 
     /**
