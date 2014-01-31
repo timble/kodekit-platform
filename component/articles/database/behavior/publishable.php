@@ -50,7 +50,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         parent::__construct($config);
         
         $this->_table = $config->table;
-        $this->_date  = new Library\Date(array('timezone' => 'GMT'));
+        $this->_date  = $this->getObject('lib:date', array('timezone' => 'GMT'));
     }
 
     protected function _initialize(Library\ObjectConfig $config)
