@@ -111,9 +111,13 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
         $parts  = explode('.', $command->getName());
         $method = '_'.$parts[0].ucfirst($parts[1]);
 
+        //Call the method
         if(method_exists($this, $method)) {
             $result = $this->$method($command);
-        } else {
+        }
+
+        //Invoke the callbacks
+        if($result !== $this->getBreakCondition()) {
             $result = parent::invokeCallbacks($command, $this);
         }
 
