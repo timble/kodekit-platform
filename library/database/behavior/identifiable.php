@@ -60,24 +60,20 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     }
 
     /**
-     * Get the methods that are available for mixin based
+     * Check if the behavior is supported
      *
-     * This function conditionally mixes of the behavior. Only if the mixer
-     * has a 'uuid' property the behavior will be mixed in.
+     * Behavior requires a 'uuid' row property
      *
-     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
-     * @param  array           $exclude     An array of public methods to be exclude
-     * @return array An array of methods
+     * @return  boolean  True on success, false otherwise
      */
-    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
+    public function isSupported()
     {
-        $methods = array();
-
+        $mixer = $this->getMixer();
         if($mixer instanceof DatabaseRowInterface && $mixer->has('uuid')) {
-            $methods = parent::getMixableMethods($mixer, $exclude);
+            return true;
         }
 
-        return $methods;
+        return parent::isSupported();
     }
 
     /**
