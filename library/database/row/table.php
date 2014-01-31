@@ -284,7 +284,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
      */
     public function __call($method, $arguments)
     {
-        if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
+        if ($this->isConnected())
         {
             $parts = StringInflector::explode($method);
 

@@ -870,12 +870,12 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      */
     public function __call($method, $arguments)
     {
-        // If the method is of the form is[Bahavior] handle it.
-        $parts = StringInflector::explode($method);
-
-        if ($parts[0] == 'is' && isset($parts[1]))
+        if (!isset($this->_mixed_methods[$method]))
         {
-            if(!$this->hasBehavior(strtolower($parts[1]))) {
+            // If the method is of the form is[Bahavior] handle it.
+            $parts = StringInflector::explode($method);
+
+            if ($parts[0] == 'is' && isset($parts[1])) {
                 return false;
             }
         }
