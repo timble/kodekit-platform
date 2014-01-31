@@ -73,7 +73,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
             return true;
         }
 
-        return parent::isSupported();
+        return false;
     }
 
     /**
