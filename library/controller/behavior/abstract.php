@@ -41,4 +41,25 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
 
         return $methods;
     }
+
+    /**
+     * Command handler
+     *
+     * @param KCommandInterface         $command    The command
+     * @param KCommandChainInterface    $chain      The chain executing the command
+     * @return mixed If a handler breaks, returns the break condition. Returns the result of the handler otherwise.
+     */
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
+    {
+        $parts  = explode('.', $command->getName());
+        $method = '_'.$parts[0].ucfirst($parts[1]);
+
+        if($parts[0] == 'action') {
+            $result = $this->$method($command);
+        } else {
+            $result = parent::execute($command, $chain);
+        }
+
+        return $result;
+    }
 }
