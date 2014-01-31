@@ -218,11 +218,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         {
             if($this->getModel()->getState()->isUnique())
             {
-                if($this->canEdit())
-                {
-                    if($this->isLockable() && !$this->isLocked()) {
-                        return true;
-                    }
+                if($this->canEdit() && !$this->isLocked()) {
+                    return true;
                 }
             }
             else
