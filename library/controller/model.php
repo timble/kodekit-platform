@@ -177,17 +177,21 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      * action will be executed, if plural a browse action will be executed.
      *
      * @param	ControllerContextInterface	$context A controller context object
-     * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
+     * @return 	string|false The rendered output of the view or FALSE if something went wrong
      */
     protected function _actionRender(ControllerContextInterface $context)
     {
+        $result = false;
+
         //Check if we are reading or browsing
         $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
 
         //Execute the action
-        $this->execute($action, $context);
+        if($this->execute($action, $context) !== false) {
+            $result = parent::_actionRender($context);
+        }
 
-        return parent::_actionRender($context);
+        return $result;
     }
 
 	/**
