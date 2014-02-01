@@ -15,16 +15,17 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-interface KCommandCallbackInterface
+interface KCommandCallbackInterface extends CommandCallbackDelegate
 {
     /**
-     * Invoke all the registered callback for a specific command
+     * Invoke a command by calling all the registered callbacks
      *
-     * @param CommandInterface   $command  The command
-     * @param ObjectInterface    $chain    The target object
+     * @param  string|CommandInterface  $command    The command name or a KCommandInterface object
+     * @param  array|\Traversable       $attributes An associative array or a Traversable object
+     * @param  ObjectInterface          $subject    The command subject
      * @return mixed|null If a callback break, returns the break condition. NULL otherwise.
      */
-    public function invokeCallbacks(CommandInterface $command, ObjectInterface $target);
+    public function invokeCallbacks($command, $attributes = null, $subject = null);
 
     /**
      * Add a callback
@@ -48,6 +49,13 @@ interface KCommandCallbackInterface
      * @return  CommandCallbackAbstract
      */
     public function removeCommandCallback($command, $method);
+
+    /**
+     * Get the command callbacks
+     *
+     * @return array
+     */
+    public function getCommandCallbacks($command = null);
 
     /**
      * Set the break condition
