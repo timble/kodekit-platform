@@ -71,6 +71,15 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
                 $this->addCommandHandler($key, $value);
             }
         }
+
+        //Add the command callbacks
+        foreach($this->getMixer()->getMethods() as $method)
+        {
+            $match = array();
+            if (preg_match('/_(after|before)([A-Z]\S*)/', $method, $match)) {
+                $this->addCommandCallback($match[1].'.'.strtolower($match[2]), $method);
+            }
+        }
     }
 
     /**
@@ -117,7 +126,7 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
      */
     public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
-        return parent::invokeCallbacks($command, $this->getMixer());
+        return parent::invokeCallbacks($command);
     }
 
     /**
@@ -134,6 +143,26 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
     public function invokeCommand($command, $attributes = null, $subject = null)
     {
         return $this->getCommandChain()->execute($command, $attributes, $subject);
+    }
+
+    /**
+     * Invoke a command callback or delegate invocation to the mixer
+     *
+     * @param string            $method    The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command)
+    {
+        $mixer = $this->getMixer();
+
+        if($mixer instanceof CommandCallbackDelegate) {
+            $result = $mixer->invokeCommandCallback($method, $command);
+        } else {
+            $result = $mixer->$method($command);
+        }
+
+        return $result;
     }
 
     /**
@@ -288,7 +317,9 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
      */
     public function getMixableMethods($exclude = array())
     {
-        $exclude += array('execute', 'getPriority', 'setBreakCondition', 'getBreakCondition', 'invokeCommandCallbacks');
+        $exclude += array('execute', 'getPriority', 'setBreakCondition', 'getBreakCondition',
+            'invokeCommandCallbacks', 'invokeCommandCallback');
+
         return parent::getMixableMethods($exclude);
     }
 
