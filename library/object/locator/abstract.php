@@ -105,29 +105,29 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      */
     public function find(array $info, $basepath = null, $fallback = true)
     {
+        $result = false;
+
         //Set the basepath
         if(!empty($basepath)) {
             $this->getClassLoader()->setBasepath($basepath);
         }
 
         //Find the class
-        $package = $info['package'];
-        $path    = $info['path'];
-        $file    = $info['file'];
-        $class   = $info['class'];
-
-        $result = false;
-        foreach($this->_sequence as $fallback)
+        foreach($this->_sequence as $template)
         {
-            $result = str_replace(
-                array('<Package>', '<Path>', '<File>', '<Class>'),
-                array($package   , $path   , $file   , $class),
-                $fallback
+            $class= str_replace(
+                array('<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
+                array($info['package'], $info['path'], $info['file'], $info['class']),
+                $template
             );
 
-            if(!class_exists($result) && $fallback) {
-                $result = false;
-            } else {
+            if(class_exists($class))
+            {
+                $result = $class;
+                break;
+            }
+
+            if(!$fallback) {
                 break;
             }
         }
