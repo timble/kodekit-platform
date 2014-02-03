@@ -22,7 +22,7 @@ class ObjectRegistryCache extends ObjectRegistry
      *
      * @var string
      */
-    protected $_namespace = 'nooku-registry-object';
+    protected $_namespace = 'nooku';
 
     /**
      * Constructor
@@ -43,7 +43,7 @@ class ObjectRegistryCache extends ObjectRegistry
      * @param string $namespace
      * @return void
      */
-	public function seNamespace($namespace)
+	public function setNamespace($namespace)
 	{
 	    $this->_namespace = $namespace;
 	}
@@ -66,11 +66,15 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function offsetGet($offset)
     {
-        if(!parent::offsetExists($offset)) {
-            $result = unserialize(apc_fetch($this->_namespace.'-'.$offset));
-        } else {
-            $result = parent::offsetGet($offset);
+        if(!parent::offsetExists($offset))
+        {
+            if($result = apc_fetch($this->_namespace.'-object-'.$offset))
+            {
+                $result =  unserialize($result);
+                parent::offsetSet($offset, $result);
+            }
         }
+        else $result = parent::offsetGet($offset);
 
         return $result;
     }
@@ -85,7 +89,7 @@ class ObjectRegistryCache extends ObjectRegistry
     public function offsetSet($offset, $value)
     {
         if($value instanceof ObjectIdentifierInterface) {
-            apc_store($this->_namespace.'-'.$offset, serialize($value));
+            apc_store($this->_namespace.'-object-'.$offset, serialize($value));
         }
 
         parent::offsetSet($offset, $value);
@@ -100,9 +104,21 @@ class ObjectRegistryCache extends ObjectRegistry
     public function offsetExists($offset)
     {
         if(false === $result = parent::offsetExists($offset)) {
-            $result = apc_exists($this->_namespace.'-'.$offset);
+            $result = apc_exists($this->_namespace.'-object-'.$offset);
         }
 
         return $result;
+    }
+
+    /**
+     * Unset an item from the array
+     *
+     * @param   int     $offset
+     * @return  void
+     */
+    public function offsetUnset($offset)
+    {
+        apc_delete($this->_namespace.'-object-'.$offset);
+        parent::offsetUnset($offset);
     }
 }
