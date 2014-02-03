@@ -83,6 +83,6 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
             'file'    => $file
         );
 
-        return $this->find($info, $identifier->domain, $fallback);
+        return $this->find($info, $fallback);
     }
 }

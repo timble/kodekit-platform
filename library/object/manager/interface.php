@@ -27,7 +27,6 @@ interface ObjectManagerInterface
      * If no identifier is passed the object identifier of this object will be returned.
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param bool  $autolocate If TRUE try to locate the identifier class. Default FALSE.
      * @return ObjectIdentifier
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
