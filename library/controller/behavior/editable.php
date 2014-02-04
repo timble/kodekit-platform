@@ -299,30 +299,33 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
 
-        //Create the redirect
-        $url = $this->getReferrer($context);
-
-        if ($entity instanceof DatabaseRowInterface)
+        if($action == 'add')
         {
-            $url = clone $context->request->getUrl();
+            //Create the redirect
+            $url = $this->getReferrer($context);
 
-            if ($this->getModel()->getState()->isUnique())
+            if ($entity instanceof DatabaseRowInterface)
             {
-                $states = $this->getModel()->getState()->getValues(true);
+                $url = clone $context->request->getUrl();
 
-                foreach ($states as $key => $value) {
-                    $url->query[$key] = $entity->get($key);
+                if ($this->getModel()->getState()->isUnique())
+                {
+                    $states = $this->getModel()->getState()->getValues(true);
+
+                    foreach ($states as $key => $value) {
+                        $url->query[$key] = $entity->get($key);
+                    }
+                }
+                elseif ($entity->getIdentityColumn())
+                {
+                    $column = $entity->getIdentityColumn();
+                    $url->query[$column] = $entity->get($column);
                 }
             }
-            elseif ($entity->getIdentityColumn())
-            {
-                $column = $entity->getIdentityColumn();
-                $url->query[$column] = $entity->get($column);
-            }
-        }
 
-        //Do not force a redirect after post for apply actions.
-        $context->response->setStatus(HttpResponse::NO_CONTENT);
+            $context->response->setRedirect($url);
+        }
+        else $context->response->setStatus(HttpResponse::NO_CONTENT);
 
         return $entity;
     }
