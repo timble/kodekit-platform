@@ -70,6 +70,6 @@ class ContactsControllerMessage extends Library\ControllerView
         }
 
         $context->response->addMessage(JText::_('Thank you for your e-mail'));
-        $context->response->setStatus(self::STATUS_RESET);
+        $context->response->setStatus(HttpResponse::RESET_CONTENT);
 	}
 }

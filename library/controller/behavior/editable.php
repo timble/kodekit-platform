@@ -321,7 +321,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             }
         }
 
-        $context->response->setRedirect($url);
+        //Do not force a redirect after post for apply actions.
+        $context->response->setStatus(HttpResponse::NO_CONTENT);
 
         return $entity;
     }

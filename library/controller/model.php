@@ -241,9 +241,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
 	        //Only set the reset content status if the action explicitly succeeded
 	        if($entity->save() === true) {
-		        $context->response->setStatus(self::STATUS_RESET);
-		    } else {
-		        $context->response->setStatus(self::STATUS_UNCHANGED);
+		        $context->response->setStatus(HttpResponse::RESET_CONTENT);
 		    }
 		}
 		else throw new ControllerExceptionNotFound('Resource could not be found');
@@ -273,7 +271,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 			    $error = $entity->getStatusMessage();
 		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
 		    }
-		    else $context->response->setStatus(self::STATUS_CREATED);
+		    else $context->response->setStatus(HttpResponse::CREATED);
 		}
 		else throw new ControllerExceptionBadRequest('Resource Already Exists');
 
@@ -307,7 +305,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 			    $error = $entity->getStatusMessage();
                 throw new ControllerExceptionActionFailed($error ? $error : 'Delete Action Failed');
 		    }
-		    else $context->response->setStatus(self::STATUS_UNCHANGED);
+		    else $context->response->setStatus(HttpResponse::NO_CONTENT);
 		}
 		else throw new ControllerExceptionNotFound('Resource Not Found');
 

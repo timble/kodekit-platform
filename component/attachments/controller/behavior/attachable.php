@@ -139,7 +139,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         try
         {
             $extension  = pathinfo($attachment['name'], PATHINFO_EXTENSION);
-            $name       = md5(time().rand()).'.'.$extension;
+            $name       = md5(time().mt_rand()).'.'.$extension;
             $hash       = md5_file($attachment['tmp_name']);
 
             // Save file
