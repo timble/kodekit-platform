@@ -23,4 +23,11 @@ interface BehaviorInterface extends CommandHandlerInterface, ObjectInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Check if the behavior is supported
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported();
 }

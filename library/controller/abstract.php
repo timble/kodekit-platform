@@ -54,14 +54,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
      */
     protected $_dispatched;
 
-
-    //Status codes
-    const STATUS_SUCCESS   = HttpResponse::OK;
-    const STATUS_CREATED   = HttpResponse::CREATED;
-    const STATUS_ACCEPTED  = HttpResponse::ACCEPTED;
-    const STATUS_UNCHANGED = HttpResponse::NO_CONTENT;
-    const STATUS_RESET     = HttpResponse::RESET_CONTENT;
-
     /**
      * Constructor.
      *
@@ -416,11 +408,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
             //Check if a behavior is mixed
             $parts = StringInflector::explode($method);
 
-            if ($parts[0] == 'is' && isset($parts[1]))
-            {
-                if (!isset($this->_mixed_methods[$method])) {
-                    return false;
-                }
+            if ($parts[0] == 'is' && isset($parts[1])) {
+                return false;
             }
         }
 

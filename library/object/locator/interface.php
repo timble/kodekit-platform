@@ -30,11 +30,10 @@ interface ObjectLocatorInterface
      * Find a class
      *
      * @param array  $info      The class information
-     * @param string $basepath  The basepath name
      * @param bool   $fallback  If TRUE use the fallback sequence
      * @return bool|mixed
      */
-    public function find(array $info, $basepath = null, $fallback = true);
+    public function find(array $info, $fallback = true);
 
     /**
      * Get the locator type
@@ -49,19 +48,4 @@ interface ObjectLocatorInterface
      * @return array
      */
     public function getSequence();
-
-    /**
-     * Get the class loader
-     *
-     * @return ClassLoaderInterface
-     */
-    public function getClassLoader();
-
-    /**
-     * Set the class loader
-     *
-     * @param ClassLoaderInterface $loader
-     * @return ObjectManagerInterface
-     */
-    public function setClassLoader(ClassLoaderInterface $loader);
 }

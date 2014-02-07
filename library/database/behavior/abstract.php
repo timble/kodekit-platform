@@ -104,16 +104,15 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
     /**
      * Get the methods that are available for mixin based
      *
-     * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
-     * behavior is callable.
+     * Methods will only be mixed if the behavior is supported. Otherwise only an is[Behavior] method will be mixed
+     * which returns false.
      *
-     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
-     * @param  array           $exclude     An array of public methods to be exclude
+     * @param  array $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
+    public function getMixableMethods($exclude = array())
     {
         $exclude +=  array('save', 'delete', 'getInstance');
-        return parent::getMixableMethods($mixer, $exclude);
+        return parent::getMixableMethods($exclude);
     }
 }

@@ -80,6 +80,15 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
 
         //Set the command priority
         $this->_priority = $config->priority;
+
+        //Add the command callbacks
+        foreach($this->getMethods() as $method)
+        {
+            $matches = array();
+            if (preg_match('/_(after|before)([A-Z]\S*)/', $method, $matches)) {
+                $this->addCommandCallback($matches[1].'.'.strtolower($matches[2]), $method);
+            }
+        }
     }
 
     /**
@@ -108,16 +117,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      */
     public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
-        $parts  = explode('.', $command->getName());
-        $method = '_'.$parts[0].ucfirst($parts[1]);
-
-        if(method_exists($this, $method)) {
-            $result = $this->$method($command);
-        } else {
-            $result = parent::invokeCallbacks($command, $this);
-        }
-
-        return $result;
+        return parent::invokeCallbacks($command);
     }
 
     /**
@@ -148,14 +148,13 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      */
     public function getHandle()
     {
-        foreach($this->getMethods() as $method)
-        {
-            if (substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
-                return ObjectMixinAbstract::getHandle();
-            }
+        $callbacks = $this->getCommandCallbacks();
+
+        if(!empty($callbacks)) {
+            return parent::getHandle();
         }
 
-        return parent::getHandle();
+        return false;
     }
 
     /**
@@ -172,7 +171,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      */
     public function addCommandCallback($command, $method, $params = array())
     {
-        if (is_string($method) && !method_exists($this, $method))
+        if (is_string($method) && !is_callable(array($this, $method)))
         {
             throw new \InvalidArgumentException(
                 'Method does not exist '.__CLASS__.'::'.$method
@@ -186,20 +185,30 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      * Get the methods that are available for mixin based
      *
      * This function also dynamically adds a lamda function with function name 'is[Behavior]' to allow client code to
-     * check if the behavior is callable.
+     * check if the behavior is supported.
      *
-     * @param  ObjectInterface $mixer       The mixer requesting the mixable methods.
+     * Function will check if the behavior is supported by calling {@link isSupported()}. Is the behavior is not
+     * supported on the mixer no mixable methods will be returned, only an 'is[Behavior]' method will be added which
+     * return FALSE when called.
+     *
      * @param  array           $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null, $exclude = array())
+    public function getMixableMethods($exclude = array())
     {
-        $exclude += array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
-            'getName', 'getObject', 'setBreakCondition', 'getBreakCondition', 'addCommandCallback',
-            'removeCommandCallback');
+        $methods = array();
+        if($this->isSupported())
+        {
+            $exclude += array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
+                'getName', 'getObject', 'setBreakCondition', 'getBreakCondition', 'addCommandCallback',
+                'removeCommandCallback', 'getCommandCallbacks', 'invokeCommandCallback');
 
-        $methods = parent::getMixableMethods($mixer, $exclude);
-        $methods['is' . ucfirst($this->getIdentifier()->name)] = function() { return true; };
+            $methods = parent::getMixableMethods($exclude);
+        }
+
+        if(!isset($exclude['is' . ucfirst($this->getIdentifier()->name)])) {
+            $methods['is' . ucfirst($this->getIdentifier()->name)] = $this->isSupported();
+        }
 
         return $methods;
     }
@@ -255,5 +264,15 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
         }
 
         return $result;
+    }
+
+    /**
+     * Check if the behavior is supported
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        return true;
     }
 }

@@ -72,34 +72,53 @@ abstract class CommandCallbackAbstract extends ObjectMixinAbstract
     /**
      * Invoke a command by calling all the registered callbacks
      *
-     * @param CommandInterface   $command  The command
-     * @param ObjectInterface    $chain    The target object
+     * @param  string|CommandInterface  $command    The command name or a KCommandInterface object
+     * @param  array|\Traversable       $attributes An associative array or a Traversable object
+     * @param  ObjectInterface          $subject    The command subject
      * @return mixed|null If a callback break, returns the break condition. NULL otherwise.
      */
-    public function invokeCallbacks(CommandInterface $command, ObjectInterface $target)
+    public function invokeCallbacks($command, $attributes = null, $subject = null)
     {
-        if(isset($this->__command_callbacks[$command->getName()]))
+        //Make sure we have an command object
+        if (!$command instanceof CommandInterface)
         {
-            foreach($this->__command_callbacks[$command->getName()] as $handler)
+            if($attributes instanceof CommandInterface)
             {
-                $method = $handler['method'];
-                $params = $handler['params'];
+                $name    = $command;
+                $command = $attributes;
 
-                if(is_string($method))
-                {
-                    if($target instanceof CommandCallbackDelegate) {
-                        $result = $target->invokeCommandCallback($method, $command->append($params));
-                    } else {
-                        $result = $target->$method($command->append($params));
-                    }
-                }
-                else $result = $method($command->append($params));
+                $command->setName($name);
+            }
+            else $command = new Command($command, $attributes, $subject);
+        }
 
-                if($result !== null && $result === $this->getBreakCondition()) {
-                    return $result;
-                }
+        foreach($this->getCommandCallbacks($command->getName()) as $handler)
+        {
+            $method = $handler['method'];
+            $params = $handler['params'];
+
+            if(is_string($method)) {
+                $result = $this->invokeCommandCallback($method, $command->append($params));
+            } else {
+                $result = $method($command->append($params));
+            }
+
+            if($result !== null && $result === $this->getBreakCondition()) {
+                return $result;
             }
         }
+    }
+
+    /**
+     * Invoke a command callback
+     *
+     * @param string            $method    The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command)
+    {
+        return $this->$method($command);
     }
 
     /**
@@ -162,6 +181,25 @@ abstract class CommandCallbackAbstract extends ObjectMixinAbstract
         }
 
         return $this;
+    }
+
+    /**
+     * Get the command callbacks
+     *
+     * @return array
+     */
+    public function getCommandCallbacks($command = null)
+    {
+        $result = array();
+        if($command)
+        {
+            if(isset($this->__command_callbacks[$command])) {
+                $result = $this->__command_callbacks[$command];
+            }
+        }
+        else $result = $this->__command_callbacks;
+
+        return $result;
     }
 
     /**

@@ -93,10 +93,10 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     /**
      * Constructor
      *
-     * If the identifier does not have a type set default type to 'lib'. Eg, event.dispatcher is the same as
-     * lib:event.dispatcher.
+     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
+     * lib:event.publisher.
      *
-     * @param   string|array $identifier Identifier string or array in type://domain/package.[.path].name format
+     * @param  string|array $identifier Identifier string or array in type://domain/package.[.path].name format
      * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
      */
     public function __construct($identifier)
@@ -105,7 +105,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         if(!is_array($identifier))
         {
             if(false === $parts = parse_url($identifier)) {
-                throw new \ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
+                throw new ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
             }
 
             // Set the type

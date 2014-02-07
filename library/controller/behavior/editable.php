@@ -218,11 +218,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         {
             if($this->getModel()->getState()->isUnique())
             {
-                if($this->canEdit())
-                {
-                    if($this->isLockable() && !$this->isLocked()) {
-                        return true;
-                    }
+                if($this->canEdit() && !$this->isLocked()) {
+                    return true;
                 }
             }
             else
@@ -324,7 +321,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             }
         }
 
-        $context->response->setRedirect($url);
+        //Do not force a redirect after post for apply actions.
+        $context->response->setStatus(HttpResponse::NO_CONTENT);
 
         return $entity;
     }
@@ -366,7 +364,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
                     ->set('id', $entity->locked_by)
                     ->load();
 
-                $date    = new Date(array('date' => $entity->locked_on));
+                $date    = $this-getObject('lib.date',array('date' => $entity->locked_on));
                 $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date->humanize());
 
                 $context->response->addMessage($message, 'notice');

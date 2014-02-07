@@ -29,7 +29,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
-            'format'   => $this->getTemplate()->getFormat() == 'rss' ? Date::RSS : $this->translate('DATE_FORMAT_LC1'),
+            'format'   => $this->getTemplate()->getFormat() == 'rss' ? \DateTime::RSS : $this->translate('DATE_FORMAT_LC1'),
             'default'  => ''
         ));
 
@@ -39,7 +39,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try 
             {
-                $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = $this->getObject('lib.date', array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $return = $date->format($config->format);
@@ -72,7 +72,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try
             {
-                $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = $this->getObject('lib.date', array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $result = $date->humanize($config->period);

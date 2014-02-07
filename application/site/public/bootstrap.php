@@ -10,7 +10,7 @@
 /**
  * Framework loader
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
 
 use Nooku\Library;
@@ -38,8 +38,8 @@ $config = new JConfig();
 
 require_once(JPATH_ROOT . '/library/nooku.php');
 \Nooku::getInstance(array(
-    'cache_prefix' => md5($config->secret) . '-cache-koowa',
-    'cache_enabled' => $config->caching
+    'cache_namespace' => 'site',
+    'cache_enabled'   => $config->caching
 ));
 
 unset($config);

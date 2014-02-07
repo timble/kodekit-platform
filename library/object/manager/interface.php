@@ -21,7 +21,7 @@ interface ObjectManagerInterface
      * Returns an identifier object.
      *
      * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
-     * object that implements KObjectInterface, or a KObjectIdentifier object, or valid identifier
+     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
      * string. Function recursively resolves identifier aliases and returns the aliased identifier.
      *
      * If no identifier is passed the object identifier of this object will be returned.

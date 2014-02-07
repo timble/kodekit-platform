@@ -151,18 +151,16 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             );
         }
 
+        //Notify the mixin
+        $mixin->onMixin($this);
+
         //Set the mixed methods
-        $mixed_methods = $mixin->getMixableMethods($this);
+        $mixed_methods = $mixin->getMixableMethods();
 
         if(!empty($mixed_methods))
         {
-            foreach($mixed_methods as $name => $method)
-            {
-                if($method instanceof \Closure) {
-                    $this->_mixed_methods[$name] = $method;
-                } else {
-                    $this->_mixed_methods[$name] = $mixin;
-                }
+            foreach($mixed_methods as $name => $method) {
+                $this->_mixed_methods[$name] = $method;
             }
 
             //Set the object methods, native methods have precedence over mixed methods
@@ -171,9 +169,6 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
 
             $this->__methods = array_merge($mixed_methods, $this->getMethods());
         }
-
-        //Notify the mixin
-        $mixin->onMixin($this);
 
         return $mixin;
     }
@@ -347,7 +342,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     {
         foreach ($this->_mixed_methods as $method => $object)
         {
-            if (!$object instanceof \Closure) {
+            if (is_object($object) && !$object instanceof \Closure) {
                 $this->_mixed_methods[$method] = clone $object;
             }
         }
@@ -389,7 +384,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
                         $result = call_user_func_array($closure, $arguments);
                 }
             }
-            else
+            elseif(is_object($this->_mixed_methods[$method]))
             {
                 $mixin = $this->_mixed_methods[$method];
 
@@ -416,6 +411,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
                         $result = call_user_func_array(array($mixin, $method), $arguments);
                 }
             }
+            else $result = $this->_mixed_methods[$method];
 
             return $result;
         }

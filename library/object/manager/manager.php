@@ -68,7 +68,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         if($config->cache_enabled)
         {
             $this->_registry = new ObjectRegistryCache();
-            $this->_registry->setCachePrefix($config->cache_prefix);
+            $this->_registry->setNamespace($config->cache_namespace);
         }
         else $this->_registry = new ObjectRegistry();
 
@@ -103,9 +103,9 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'class_loader'  => null,
-            'cache_enabled' => false,
-            'cache_prefix'  => 'nooku-registry-object'
+            'class_loader'     => null,
+            'cache_enabled'    => false,
+            'cache_namespace'  => 'nooku'
         ));
     }
 
@@ -145,7 +145,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * Get an identifier object based on an object identifier.
      *
      * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
-     * object that implements KObjectInterface, or a KObjectIdentifier object, or valid identifier
+     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
      * string. Function recursively resolves identifier aliases and returns the aliased identifier.
      *
      * If no identifier is passed the object identifier of this object will be returned.
@@ -154,7 +154,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * @return ObjectIdentifier
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function getIdentifier($identifier = null, $autolocate = false)
+    public function getIdentifier($identifier = null)
     {
         if(isset($identifier))
         {
@@ -183,46 +183,39 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         }
         else $result = $this->__object_identifier;
 
-        //Get the class name and set it in the identifier
-        if($autolocate) {
-            $this->getClass($result);
-        }
-
         return $result;
     }
 
     /**
      * Get the identifier class
      *
-     * @param mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param bool  $fallback   Use fallbacks when locating the class. Default is TRUE.
      * @return string|false  Returns the class name or false if the class could not be found.
      */
     public function getClass($identifier, $fallback = true)
     {
         $identifier = $this->getIdentifier($identifier);
-        $class      = $identifier->getClass();
-
-        if(empty($class))
-        {
-            $class = $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
-            $identifier->setClass($class);
-        }
-
-        return $class;
+        return $this->_locate($identifier, $fallback);
     }
 
     /**
-     * Get the identifier class
+     * Set the identifier class
      *
-     * @param mixed  $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param string $class      The class name
      * @return string
      */
     public function setClass($identifier, $class)
     {
-        $identifier = $this->getIdentifier($identifier);
-        $identifier->setClass($class);
+        if(!$this->isRegistered($identifier))
+        {
+            $identifier = $this->getIdentifier($identifier);
+            $identifier->setClass($class);
+
+            //Re-set the registry
+            $this->_registry->set($identifier);
+        }
 
         return $this;
     }
@@ -239,7 +232,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * @param	string|object	$identifier  An ObjectIdentifier or identifier string
      * @param	array  			$config     An optional associative array of configuration settings.
      * @return	ObjectInterface  Return object on success, throws exception on failure
-     * @throws ObjectExceptionInvalidIdentifier   If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier   If the identifier is not valid
      * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
@@ -247,7 +240,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function getObject($identifier, array $config = array())
     {
-        $identifier = $this->getIdentifier($identifier, true);
+        $identifier = $this->getIdentifier($identifier);
 
         if (!$this->isRegistered($identifier))
         {
@@ -617,6 +610,34 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     /**
      * Get an instance of a class based on a class identifier
      *
+     * @param ObjectIdentifier $identifier
+     * @param bool             $fallback   Use fallbacks when locating the class. Default is TRUE.
+     * @return  string  Return the identifier class or FALSE on failure.
+     */
+    protected function _locate(ObjectIdentifier $identifier, $fallback = true)
+    {
+        $class = $identifier->getClass();
+
+        //Set the basepath
+        $this->getClassLoader()->setBasepath($identifier->domain);
+
+        //If the class is FALSE we have tried to locate it already, do not locate it again.
+        if(empty($class) && $class !== false)
+        {
+            $class = $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
+
+            //If we are falling back set the class in the identifier.
+            if($fallback) {
+                $this->setClass($identifier, $class);
+            }
+        }
+
+        return $class;
+    }
+
+    /**
+     * Get an instance of a class based on a class identifier
+     *
      * @param   ObjectIdentifier $identifier
      * @param   array            $config    An optional associative array of configuration settings.
      * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
@@ -628,7 +649,10 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         $result = null;
 
-        if($identifier->class && class_exists($identifier->class))
+        //Get the class name and set it in the identifier
+        $class = $this->_locate($identifier);
+
+        if($class && class_exists($class))
         {
             if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->class, false)))
             {
