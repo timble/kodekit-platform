@@ -246,6 +246,18 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
+     * Check if the table column exists
+     *
+     * @param  string  $name The name of the column
+     * @param  boolean $base If TRUE, get the column information from the base table. Default is FALSE.
+     * @return bool  Returns TRUE if the column exists, FALSE otherwise.
+     */
+    public function hasColumn($name, $base = false)
+    {
+        return (bool) $this->getColumn($name, $base);
+    }
+
+    /**
      * Get a column by name
      *
      * @param  string   $columnn The name of the column
