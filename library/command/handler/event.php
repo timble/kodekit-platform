@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Event Command Invoker
+ * Event Command Handler
  *
- * The event invoker will translate the command name to a onCommandName format and let the event publisher publish
+ * The event handler will translate the command name to a onCommandName format and let the event publisher publish
  * to any registered event listeners.
  *
  * The 'immutable' config option defines if the context is clone before being passed to the event publisher or
