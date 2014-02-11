@@ -23,23 +23,20 @@ namespace Nooku\Library;
 class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
 {
     /**
-     * Get an object handle
+     * Check if the behavior is supported
      *
-     * Only attach this behavior for none AJAX POST requests.
-     *
-     * @return string A string that is unique, or NULL
-     * @see execute()
+     * @return  boolean  True on success, false otherwise
      */
-    public function getHandle()
+    public function isSupported()
     {
-        $result = null;
-        $request = $this->getRequest();
+        $mixer   = $this->getMixer();
+        $request = $mixer->getRequest();
 
         if($request->isPost() && !$request->isAjax() && $request->getFormat() == 'html') {
-            $result = parent::getHandle();
+            return true;
         }
 
-        return $result;
+        return false;
     }
 
     /**
