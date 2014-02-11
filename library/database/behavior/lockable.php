@@ -54,7 +54,9 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     public function isSupported()
     {
         $mixer = $this->getMixer();
-        if($mixer instanceof DatabaseRowInterface && ($mixer->has('locked_by') || $mixer->has('locked_on'))) {
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+
+        if($table->hasColumn('locked_by') || $table->hasColumn('locked_on')) {
             return true;
         }
 

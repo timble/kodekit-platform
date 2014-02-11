@@ -27,7 +27,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     public function isSupported()
     {
         $mixer = $this->getMixer();
-        if($mixer instanceof DatabaseRowInterface && ($mixer->has('ordering')))  {
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+
+        if($table->hasColumn('ordering'))  {
             return true;
         }
 

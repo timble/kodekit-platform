@@ -111,7 +111,9 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     public function isSupported()
     {
         $mixer = $this->getMixer();
-        if($mixer instanceof DatabaseRowInterface && ($mixer->has('slug')))  {
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+
+        if($table->hasColumn('slug'))  {
             return true;
         }
 

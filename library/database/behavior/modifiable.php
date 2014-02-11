@@ -44,7 +44,9 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
     public function isSupported()
     {
         $mixer = $this->getMixer();
-        if($mixer instanceof DatabaseRowInterface && ($mixer->has('modified_by') || $mixer->has('modified_on'))) {
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+
+        if($table->hasColumn('modified_by') || $table->hasColumn('modified_on')) {
             return true;
         }
 
