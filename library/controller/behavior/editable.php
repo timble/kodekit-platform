@@ -301,26 +301,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 
         if($action == 'add')
         {
-            //Create the redirect
             $url = $this->getReferrer($context);
-
-            if ($entity instanceof DatabaseRowInterface)
-            {
-                $url = clone $context->request->getUrl();
-
-                if ($this->getModel()->getState()->isUnique())
-                {
-                    $states = $this->getModel()->getState()->getValues(true);
-
-                    foreach ($states as $key => $value) {
-                        $url->query[$key] = $entity->get($key);
-                    }
-                }
-                elseif ($entity->getIdentityColumn())
-                {
-                    $column = $entity->getIdentityColumn();
-                    $url->query[$column] = $entity->get($column);
-                }
+            if ($entity instanceof DatabaseRowInterface) {
+                $url = $context->response->headers->get('Location');
             }
 
             $context->response->setRedirect($url);

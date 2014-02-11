@@ -271,7 +271,26 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 			    $error = $entity->getStatusMessage();
 		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
 		    }
-		    else $context->response->setStatus(HttpResponse::CREATED);
+            else
+            {
+                if ($entity instanceof DatabaseRowInterface)
+                {
+                    $url = clone $context->request->getUrl();
+
+                    if ($this->getModel()->getState()->isUnique())
+                    {
+                        $states = $this->getModel()->getState()->getValues(true);
+
+                        foreach ($states as $key => $value) {
+                            $url->query[$key] = $entity->get($key);
+                        }
+                    }
+                    else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
+                }
+
+                $context->response->headers->set('Location', (string) $url);
+                $context->response->setStatus(HttpResponse::CREATED);
+            }
 		}
 		else throw new ControllerExceptionBadRequest('Resource Already Exists');
 
