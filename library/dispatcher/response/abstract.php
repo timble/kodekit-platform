@@ -217,9 +217,13 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         if (is_string($transport) && strpos($transport, '.') === false)
         {
             $identifier = $this->getIdentifier()->toArray();
-            $identifier['path'] = array('response', 'transport');
-            $identifier['name'] = $transport;
+            if($identifier['package'] != 'dispatcher') {
+                $identifier['path'] = array('dispatcher', 'response', 'transport');
+            } else {
+                $identifier['path'] = array('response', 'transport');
+            }
 
+            $identifier['name'] = $transport;
             $identifier = $this->getIdentifier($identifier);
         }
         else $identifier = $this->getIdentifier($transport);
