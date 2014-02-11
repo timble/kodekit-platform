@@ -157,7 +157,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
