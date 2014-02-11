@@ -149,11 +149,9 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _afterInsert(DatabaseContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
-        if ($this->_createSlug()) {
-            $this->save();
-        }
+        $this->_createSlug();
     }
 
     /**
@@ -177,7 +175,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Create a sluggable filter
      *
-     * @return void
+     * @return FilterSlug
      */
     protected function _createFilter()
     {
@@ -198,35 +196,28 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Create the slug
      *
-     * @return boolean  Return TRUE if the slug was created or updated successfully, otherwise FALSE.
+     * @return void
      */
     protected function _createSlug()
     {
         //Create the slug filter
         $filter = $this->_createFilter();
 
-        if (empty($this->slug))
+        if(empty($this->slug))
         {
             $slugs = array();
-            foreach ($this->_columns as $column) {
+            foreach($this->_columns as $column) {
                 $slugs[] = $filter->sanitize($this->$column);
             }
 
             $this->slug = implode($this->_separator, array_filter($slugs));
-            $this->_canonicalizeSlug();
-            return true;
         }
-        else
-        {
-            if (in_array('slug', $this->getModified()))
-            {
-                $this->slug = $filter->sanitize($this->slug);
-                $this->_canonicalizeSlug();
-                return true;
-            }
+        elseif(in_array('slug', $this->getModified())) {
+            $this->slug = $filter->sanitize($this->slug);
         }
 
-        return false;
+        // Canonicalize the slug
+        $this->_canonicalizeSlug();
     }
 
     /**
@@ -242,14 +233,28 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         $table = $this->getTable();
 
         //If unique is not set, use the column metadata
-        if (is_null($this->_unique)) {
+        if(is_null($this->_unique)) {
             $this->_unique = $table->getColumn('slug', true)->unique;
         }
 
-        //If the slug needs to be unique and it already exist make it unqiue
-        if ($this->_unique && $table->count(array('slug' => $this->slug)))
+        //If the slug needs to be unique and it already exists, make it unique
+        $query = $this->getObject('lib:database.query.select');
+        $query->where('slug = :slug')->bind(array('slug' => $this->slug));
+
+        if (!$this->isNew()) {
+            $query->where($table->getIdentityColumn().' <> :id')
+                ->bind(array('id' => $this->id));
+        }
+
+        if($this->_unique && $table->count($query))
         {
-            $db = $table->getAdapter();
+            $length = $this->_length ? $this->_length : $table->getColumn('slug')->length;
+
+            // Cut 4 characters to make space for slug-1 slug-23 etc
+            if ($length && strlen($this->slug) > $length-4) {
+                $this->slug = substr($this->slug, 0, $length-4);
+            }
+
             $query = $this->getObject('lib:database.query.select')
                 ->columns('slug')
                 ->where('slug LIKE :slug')
@@ -258,11 +263,11 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             $slugs = $table->select($query, Database::FETCH_FIELD_LIST);
 
             $i = 1;
-            while (in_array($this->slug . '-' . $i, $slugs)) {
+            while(in_array($this->slug.'-'.$i, $slugs)) {
                 $i++;
             }
 
-            $this->slug = $this->slug . '-' . $i;
+            $this->slug = $this->slug.'-'.$i;
         }
     }
 }
