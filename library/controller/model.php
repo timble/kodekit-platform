@@ -254,7 +254,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionBadRequest   If the entity already exists
+     * @throws  ControllerExceptionInvalidRequest   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
 	protected function _actionAdd(ControllerContextInterface $context)
@@ -292,7 +292,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
                 $context->response->setStatus(HttpResponse::CREATED);
             }
 		}
-		else throw new ControllerExceptionBadRequest('Resource Already Exists');
+		else throw new ControllerExceptionInvalidRequest('Resource Already Exists');
 
 		return $entity;
 	}

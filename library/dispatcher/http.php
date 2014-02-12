@@ -235,10 +235,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * request exception will be thrown.
      *
      * @param   DispatcherContextInterface $context	A dispatcher context object
-     * @throws  DispatcherExceptionMethodNotAllowed    The action specified in the request is not allowed for the
+     * @throws  DispatcherExceptionMethodNotAllowed   The action specified in the request is not allowed for the
      *          entity identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested entity.
-     *          ControllerExceptionBadRequest           The action could not be found based on the info in the request.
+     *          CControllerExceptionInvalidRequest    The action could not be found based on the info in the request.
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
     protected function _actionPost(DispatcherContextInterface $context)
@@ -265,7 +265,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         //Throw exception if no action could be determined from the request
         if(!$action) {
-            throw new ControllerExceptionBadRequest('Action not found');
+            throw new ControllerExceptionInvalidRequest('Action not found');
         }
         
         return $controller->execute($action, $context);
@@ -281,7 +281,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * If the entity already exists it will be completely replaced based on the data available in the request.
      *
      * @param   DispatcherContextInterface $context	A dispatcher context object
-     * @throws  ControllerExceptionBadRequest 	If the model state is not unique
+     * @throws  ControllerExceptionInvalidRequest 	If the model state is not unique
      * @return 	DatabaseRow(set)Ineterface	    A row(set) object containing the modified data
      */
     protected function _actionPut(DispatcherContextInterface $context)
@@ -307,12 +307,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 $state = $controller->getModel()->getState()->getValues(true);
                 $entity->setData($state);
             }
-            else throw new ControllerExceptionBadRequest('Resource not found');
+            else throw new ControllerExceptionInvalidRequest('Resource not found');
         }
 
         //Throw exception if no action could be determined from the request
         if(!$action) {
-            throw new ControllerExceptionBadRequest('Resource not found');
+            throw new ControllerExceptionInvalidRequest('Resource not found');
         }
 
         return $entity = $controller->execute($action, $context);
