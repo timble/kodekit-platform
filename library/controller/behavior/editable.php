@@ -365,7 +365,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
      * @param   ControllerContextInterface	$context A controller context object
-     * @throws  ControllerExceptionConflict If the resource is locked
+     * @throws  ControllerExceptionResourceLocked If the resource is locked
      * @return 	void
      */
     protected function _beforeEdit(ControllerContextInterface $context)
@@ -373,7 +373,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($this->isLocked())
         {
             $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
-            throw new ControllerExceptionConflict('Resource is locked.');
+            throw new ControllerExceptionResourceLocked('Resource is locked.');
         }
     }
 
@@ -384,7 +384,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
      * @param   ControllerContextInterface	$context A controller context object
-     * @throws  ControllerExceptionConflict If the resource is locked
+     * @throws  ControllerExceptionResourceLocked If the resource is locked
      * @return 	void
      */
     protected function _beforeDelete(ControllerContextInterface $context)
@@ -392,7 +392,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($this->isLocked())
         {
             $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
-            throw new ControllerExceptionConflict('Resource is locked');
+            throw new ControllerExceptionResourceLocked('Resource is locked');
         }
     }
 }

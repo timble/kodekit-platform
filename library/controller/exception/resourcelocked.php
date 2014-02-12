@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Conflict Controller Exception
+ * Resource Locked Controller Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionConflict extends HttpExceptionConflict implements ControllerException {}
+class ControllerExceptionResourceLocked extends HttpExceptionConflict implements ControllerException {}
