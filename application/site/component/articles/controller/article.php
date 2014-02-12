@@ -20,6 +20,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
+            'formats'   => array('rss'),
             'toolbars'  => array('article'),
             'behaviors' => array('editable', 'searchable'))
         );
