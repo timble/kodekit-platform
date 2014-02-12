@@ -218,7 +218,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	    $name   = ucfirst($this->getView()->getName());
 
 		if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
-		    throw new ControllerExceptionNotFound($name.' Not Found');
+		    throw new ControllerExceptionResourceNotFound($name.' Not Found');
 		}
 
 		return $entity;
@@ -228,7 +228,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 * Generic edit action, saves over an existing item
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
-     * @throws  ControllerExceptionNotFound   If the entity could not be found
+     * @throws  ControllerExceptionResourceNotFound   If the resource could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
 	protected function _actionEdit(ControllerContextInterface $context)
@@ -244,7 +244,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		        $context->response->setStatus(HttpResponse::RESET_CONTENT);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Resource could not be found');
+		else throw new ControllerExceptionResourceNotFound('Resource could not be found');
 
 		return $entity;
 	}
@@ -326,7 +326,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(HttpResponse::NO_CONTENT);
 		}
-		else throw new ControllerExceptionNotFound('Resource Not Found');
+		else throw new ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}

@@ -139,7 +139,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             JFactory::getConfig()->loadObject(new JSiteConfig());
 
         }
-        else throw new Library\ControllerExceptionNotFound('Site :'.$this->getSite().' not found');
+        else throw new Library\ControllerExceptionResourceNotFound('Site :'.$this->getSite().' not found');
     }
 
     /**

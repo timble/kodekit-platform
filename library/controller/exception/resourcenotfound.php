@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Not Found Controller Exception
+ * Resource Not Found Controller Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionNotFound extends HttpExceptionNotFound implements ControllerException {}
+class ControllerExceptionResourceNotFound extends HttpExceptionNotFound implements ControllerException {}
