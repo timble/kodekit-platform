@@ -163,7 +163,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         try {
             $result = $this->execute($method, $context);
-        } catch(ControllerExceptionActionForbidden $e) {
+        } catch(ControllerExceptionForbidden $e) {
             throw new DispatcherExceptionMethodNotAllowed('Method: '.$method.' not allowed');
         }
 
