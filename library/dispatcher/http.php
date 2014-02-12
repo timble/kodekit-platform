@@ -160,7 +160,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());
-	    $result = $this->execute($method, $context);
+
+        try {
+            $result = $this->execute($method, $context);
+        } catch(ControllerExceptionActionForbidden $e) {
+            throw new DispatcherExceptionMethodNotAllowed('Method: '.$method.' not allowed');
+        }
 
         return $result;
 	}
