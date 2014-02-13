@@ -44,7 +44,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $this->_view = $config->view;
 
         //Set the supported formats
-        $this->_formats = KObjectConfig::unbox($config->formats);
+        $this->_formats = ObjectConfig::unbox($config->formats);
 
 		// Mixin the toolbar
 		$this->mixin('lib:controller.toolbar.mixin');

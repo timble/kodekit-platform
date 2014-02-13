@@ -55,7 +55,7 @@ class UsersControllerSession extends Library\ControllerModel
                 $password = $user->getPassword();
 
                 if(!$password->verify($context->request->data->get('password', 'string'))) {
-                    throw new Library\ControllerExceptionRequestUnauthorized('Wrong password');
+                    throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
                 }
             }
 
@@ -65,7 +65,7 @@ class UsersControllerSession extends Library\ControllerModel
             //Set user data in context
             $context->user->setData($user->getSessionData(true));
         }
-        else throw new Library\ControllerExceptionRequestUnauthorized('Wrong email');
+        else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
 
         return true;
     }

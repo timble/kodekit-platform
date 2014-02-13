@@ -30,7 +30,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
 
     public function onException(Library\EventException $event)
     {
-        if($event->getException() instanceof Library\ControllerExceptionRequestUnauthorized)
+        if($event->getException() instanceof Library\HttpExceptionUnauthorized)
         {
             $application = $this->getObject('application');
             $request     = $application->getRequest();

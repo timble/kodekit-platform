@@ -89,7 +89,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * @param DispatcherContextInterface $context	A dispatcher context object
      * @throws ControllerExceptionRequestInvalid      If the request referrer is not valid
      * @throws ControllerExceptionRequestForbidden    If the cookie token is not valid
-     * @throws ControllerExceptionRequestUnauthorized If the session token is not valid
+     * @throws ControllerExceptionRequestNotAuthenticated If the session token is not valid
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     protected function _authenticateRequest(DispatcherContextInterface $context)
@@ -106,7 +106,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
             //Check cookie token
             if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-                throw new ControllerExceptionRequestUnauthorized('Invalid Cookie Token');
+                throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
             }
         }
         else

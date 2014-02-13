@@ -62,7 +62,7 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
      * @param CommandInterface         $command    The command
      * @param CommandChainInterface    $chain      The chain executing the command
      * @throws  ControllerExceptionRequestForbidden       If the user is authentic and the actions is not allowed.
-     * @throws  ControllerExceptionRequestUnauthorized    If the user is not authentic and the action is not allowed.
+     * @throws  ControllerExceptionRequestNotAuthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
     public function execute(CommandInterface $command, CommandChainInterface $chain)
@@ -78,7 +78,7 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
                 if($this->getUser()->isAuthentic()) {
                     throw new ControllerExceptionRequestForbidden('Action '.ucfirst($action).' Not Allowed');
                 } else {
-                    throw new ControllerExceptionRequestUnauthorized('Action '.ucfirst($action).' Not Allowed');
+                    throw new ControllerExceptionRequestNotAuthorized('Action '.ucfirst($action).' Not Allowed');
                 }
             }
         }
