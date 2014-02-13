@@ -87,9 +87,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * session token check if the user is authentic. If any of the checks fail a forbidden exception is thrown.
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
-     * @throws ControllerExceptionRequestInvalid   If the request referrer is not valid
-     * @throws ControllerExceptionForbidden        If the cookie token is not valid
-     * @throws ControllerExceptionUnauthorized     If the session token is not valid
+     * @throws ControllerExceptionRequestInvalid      If the request referrer is not valid
+     * @throws ControllerExceptionRequestForbidden    If the cookie token is not valid
+     * @throws ControllerExceptionRequestUnauthorized If the session token is not valid
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     protected function _authenticateRequest(DispatcherContextInterface $context)
@@ -106,14 +106,14 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
             //Check cookie token
             if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-                throw new ControllerExceptionUnauthorized('Invalid Cookie Token');
+                throw new ControllerExceptionRequestUnauthorized('Invalid Cookie Token');
             }
         }
         else
         {
             //Check session token
             if( $request->getToken() !== $user->getSession()->getToken()) {
-                throw new ControllerExceptionForbidden('Invalid Session Token');
+                throw new ControllerExceptionRequestForbidden('Invalid Session Token');
             }
         }
 
@@ -166,7 +166,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         try {
             $result = $this->execute($method, $context);
-        } catch(ControllerExceptionForbidden $e) {
+        } catch(ControllerExceptionRequestForbidden $e) {
             throw new DispatcherExceptionMethodNotAllowed('Method: '.$method.' not allowed');
         }
 

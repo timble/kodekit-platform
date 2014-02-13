@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Forbidden Controller Exception
+ * Request Unauthorized Controller Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionForbidden extends HttpExceptionForbidden implements ControllerExceptionActionNotAllowed {} {}
+class ControllerExceptionRequestUnauthorized extends HttpExceptionUnauthorized implements ControllerExceptionRequestNotAllowed {} {}
