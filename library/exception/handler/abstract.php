@@ -25,6 +25,13 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     private $__handlers = array();
 
     /**
+     * The exception stack
+     *
+     * @var array
+     */
+    private $__exceptions;
+
+    /**
      * The error level.
      *
      * @var int
@@ -68,6 +75,9 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
         }
 
         $this->_error_operator = $config->error_operator;
+
+        //Create the exception stack
+        $this->__exceptions = $this->getObject('lib:object.stack');
     }
 
     /**
@@ -240,12 +250,12 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     {
         try
         {
-            $handled = false;
-
             //Try to handle the exception
             foreach($this->getHandlers() as $handler)
             {
-                if(call_user_func($handler, $exception) === true) {
+                if(call_user_func($handler, $exception) === true)
+                {
+                    $this->__exceptions->push($exception);
                     return true;
                 };
             }
