@@ -87,6 +87,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * session token check if the user is authentic. If any of the checks fail a forbidden exception is thrown.
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
+     * @throws ControllerExceptionRequestInvalid   If the request referrer is not valid
+     * @throws ControllerExceptionForbidden        If the cookie token is not valid
+     * @throws ControllerExceptionUnauthorized     If the session token is not valid
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     protected function _authenticateRequest(DispatcherContextInterface $context)
@@ -98,12 +101,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         {
             //Check referrer
             if(!$request->getReferrer()) {
-                throw new ControllerExceptionForbidden('Invalid Request Referrer');
+                throw new ControllerExceptionRequestInvalid('Invalid Request Referrer');
             }
 
             //Check cookie token
             if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-                throw new ControllerExceptionForbidden('Invalid Cookie Token');
+                throw new ControllerExceptionUnauthorized('Invalid Cookie Token');
             }
         }
         else
