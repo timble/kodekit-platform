@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionInvalidRequest extends HttpExceptionBadRequest implements ControllerException {}
+class ControllerExceptionRequestInvalid extends HttpExceptionBadRequest implements ControllerException {}
