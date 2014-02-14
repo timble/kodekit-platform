@@ -12,11 +12,19 @@ body {
 }
 
 .navigation {
+    @include flex;
     @include flex-grow(1);
+    @include flex-direction(column);
     overflow-y: scroll;
 
+    li {
+        @include flex;
+        @include flex-shrink(0);
+    }
+
     a {
-        @include flex(0 0 auto);
+        @include flex();
+        @include flex-grow(1);
         @include flex-justify-content(space-between);
 
         .navigation__badge {
