@@ -24,6 +24,13 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	 */
 	protected $_view;
 
+    /**
+     * List of formats supported by the controller
+     *
+     * @var array
+     */
+    protected $_formats;
+
 	/**
 	 * Constructor
 	 *
@@ -35,6 +42,9 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
         //Force the view to the information found in the request
         $this->_view = $config->view;
+
+        //Set the supported formats
+        $this->_formats = ObjectConfig::unbox($config->formats);
 
 		// Mixin the toolbar
 		$this->mixin('lib:controller.toolbar.mixin');
@@ -54,6 +64,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'formats'   => array('html'),
             'view'      => $this->getIdentifier()->name,
             'toolbars'  => array()
         ));
@@ -87,11 +98,6 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	/**
 	 * Get the view object attached to the controller
 	 *
-	 * If we are dispatching this controller this function will check if the view folder exists. If not it will throw
-     * an exception. This is a security measure to make sure we can only explicitly get data from views the have been
-     * physically defined.
-	 *
-	 * @throws  ControllerExceptionNotFound If the view cannot be found. Only when controller is being dispatched.
      * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
 	 * @return	ViewInterface
 	 */
@@ -120,21 +126,27 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
                     'View: '.get_class($this->_view).' does not implement ViewInterface'
                 );
             }
-
-			//Make sure the view exists if we are dispatching this controller
-            /*if($this->isDispatched())
-            {
-                $class = $this->_view->getIdentifier()->getClassName();
-                $path  = $this->getObject('manager')->getClassLoader()->getPath($class);
-
-                if(!file_exists(dirname($path))) {
-                    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
-                }
-            }*/
 		}
 
 		return $this->_view;
 	}
+
+    /**
+     * Get the supported formats
+     *
+     * Method dynamically adds the 'json' format if the user is authentic.
+     *
+     * @return array
+     */
+    public function getFormats()
+    {
+        $result = $this->_formats;
+        if($this->getUser()->isAuthentic()) {
+            $result[] = 'json';
+        }
+
+        return $result;
+    }
 
 	/**
 	 * Method to set a view object attached to the controller
@@ -168,33 +180,42 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	/**
 	 * Render action
      *
-     * This function will also set the rendered output in the response.
+     * This function will check if the format is supported and if not throw a 406 Not Accepted exception. It will also
+     * set the rendered output in the response after it has been created.
 	 *
 	 * @param	ControllerContextInterface	$context    A controller context object
+     * @throws  ControllerExceptionFormatNotSupported If the requested format is not supported for the resource
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
 	protected function _actionRender(ControllerContextInterface $context)
 	{
-        $view = $this->getView();
+        $format = $this->getRequest()->getFormat();
 
-        //Push the content in the view
-        $view->setContent($context->response->getContent());
+        //Check if the format is supported
+        if(in_array($format, $this->getFormats()))
+        {
+            $view = $this->getView();
 
-        //Render the view
-        \JFactory::getLanguage()->load($this->getIdentifier()->package);
+            //Push the content in the view
+            $view->setContent($context->response->getContent());
 
-        $param = ObjectConfig::unbox($context->param);
+            //Render the view
+            \JFactory::getLanguage()->load($this->getIdentifier()->package);
 
-        if(is_array($param)) {
-            $data = (array) $param;
-        } else {
-            $data = array();
+            $param = ObjectConfig::unbox($context->param);
+
+            if(is_array($param)) {
+                $data = (array) $param;
+            } else {
+                $data = array();
+            }
+
+            $content = $view->render($data);
+
+            //Set the data in the response
+            $context->response->setContent($content, $view->mimetype);
         }
-
-        $content = $view->render($data);
-
-        //Set the data in the response
-        $context->response->setContent($content, $view->mimetype);
+        else throw new ControllerExceptionFormatNotSupported('Format: '.$format.' not supported');
 
 	    return $content;
 	}

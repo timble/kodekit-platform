@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Bad Request Controller Exception
+ * Request Not Authenticated Controller Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionBadRequest extends HttpExceptionBadRequest implements ControllerException {}
+class ControllerExceptionRequestNotAuthenticated extends HttpExceptionUnauthorized implements ControllerExceptionRequestNotAllowed {} {}

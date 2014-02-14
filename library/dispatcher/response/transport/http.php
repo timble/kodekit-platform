@@ -197,6 +197,6 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         $this->sendHeaders($response)
              ->sendContent($response);
 
-        return true;
+        return parent::send($response);
     }
 }

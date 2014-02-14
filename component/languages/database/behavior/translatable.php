@@ -30,16 +30,16 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->getRowset();
     }
 
-    public function getHandle()
+    public function isSupported()
     {
         // If table is not enabled, return null to prevent enqueueing.
         $table = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
         $needle = array(
-            'name' => $table->getBase(),
+            'name'           => $table->getBase(),
             'component_name' => 'com_'.$table->getIdentifier()->package
         );
         
-        return count($this->_tables->find($needle)) ? parent::getHandle() : null;
+        return count($this->_tables->find($needle)) ? true : false;
     }
 
     public function getMixableMethods($exclude = array())

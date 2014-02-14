@@ -87,6 +87,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * session token check if the user is authentic. If any of the checks fail a forbidden exception is thrown.
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
+     * @throws ControllerExceptionRequestInvalid      If the request referrer is not valid
+     * @throws ControllerExceptionRequestForbidden    If the cookie token is not valid
+     * @throws ControllerExceptionRequestNotAuthenticated If the session token is not valid
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     protected function _authenticateRequest(DispatcherContextInterface $context)
@@ -98,19 +101,19 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         {
             //Check referrer
             if(!$request->getReferrer()) {
-                throw new ControllerExceptionForbidden('Invalid Request Referrer');
+                throw new ControllerExceptionRequestInvalid('Invalid Request Referrer');
             }
 
             //Check cookie token
             if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-                throw new ControllerExceptionForbidden('Invalid Cookie Token');
+                throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
             }
         }
         else
         {
             //Check session token
             if( $request->getToken() !== $user->getSession()->getToken()) {
-                throw new ControllerExceptionForbidden('Invalid Session Token');
+                throw new ControllerExceptionRequestForbidden('Invalid Session Token');
             }
         }
 
@@ -160,7 +163,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());
-	    $result = $this->execute($method, $context);
+
+        try {
+            $result = $this->execute($method, $context);
+        } catch(ControllerExceptionRequestForbidden $e) {
+            throw new DispatcherExceptionMethodNotAllowed('Method: '.$method.' not allowed');
+        }
 
         return $result;
 	}
@@ -201,7 +209,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         {
             if(!$controller->getModel()->getState()->isUnique())
             {
-                $limit = $controller->getModel()->getState()->limit;
+                $limit = $this->getRequest()->query->get('limit', 'int');
 
                 //If limit is empty use default
                 if(empty($limit)) {
@@ -209,10 +217,11 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 }
 
                 //Force the maximum limit
-                if($limit > $this->getConfig()->limit->max) {
+                if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
                     $limit = $this->getConfig()->limit->max;
                 }
 
+                $this->getRequest()->query->limit = $limit;
                 $controller->getModel()->getState()->limit = $limit;
             }
         }
@@ -230,10 +239,10 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * request exception will be thrown.
      *
      * @param   DispatcherContextInterface $context	A dispatcher context object
-     * @throws  DispatcherExceptionMethodNotAllowed    The action specified in the request is not allowed for the
+     * @throws  DispatcherExceptionMethodNotAllowed   The action specified in the request is not allowed for the
      *          entity identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested entity.
-     *          ControllerExceptionBadRequest           The action could not be found based on the info in the request.
+     *          ControllerExceptionRequestInvalid    The action could not be found based on the info in the request.
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
     protected function _actionPost(DispatcherContextInterface $context)
@@ -260,7 +269,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         //Throw exception if no action could be determined from the request
         if(!$action) {
-            throw new ControllerExceptionBadRequest('Action not found');
+            throw new ControllerExceptionRequestInvalid('Action not found');
         }
         
         return $controller->execute($action, $context);
@@ -276,7 +285,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * If the entity already exists it will be completely replaced based on the data available in the request.
      *
      * @param   DispatcherContextInterface $context	A dispatcher context object
-     * @throws  ControllerExceptionBadRequest 	If the model state is not unique
+     * @throws  ControllerExceptionRequestInvalid 	If the model state is not unique
      * @return 	DatabaseRow(set)Ineterface	    A row(set) object containing the modified data
      */
     protected function _actionPut(DispatcherContextInterface $context)
@@ -302,12 +311,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 $state = $controller->getModel()->getState()->getValues(true);
                 $entity->setData($state);
             }
-            else throw new ControllerExceptionBadRequest('Resource not found');
+            else throw new ControllerExceptionRequestInvalid('Resource not found');
         }
 
         //Throw exception if no action could be determined from the request
         if(!$action) {
-            throw new ControllerExceptionBadRequest('Resource not found');
+            throw new ControllerExceptionRequestInvalid('Resource not found');
         }
 
         return $entity = $controller->execute($action, $context);
@@ -378,7 +387,8 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     }
 
     /**
-     * Return the affected entities in the payload for AJAX POST and PUT requests
+     * Return the affected entities in the payload for none-SAFE requests that return a successful response. Make an
+     * exception for 204 No Content responses which should not return a response body.
      *
      * {@inheritdoc}
      */
@@ -387,7 +397,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         $request  = $this->getRequest();
         $response = $this->getResponse();
 
-        if ($request->isAjax() && !$request->isGet())
+        if (!$request->isSafe())
         {
             if ($response->isSuccess() && $response->getStatusCode() !== HttpResponse::NO_CONTENT) {
                 $context->result = $this->getController()->execute('render', $context);

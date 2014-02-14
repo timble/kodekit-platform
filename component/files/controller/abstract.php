@@ -57,7 +57,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
                 );
             }
 		}
-		else throw new Library\ControllerExceptionNotFound('Resource Not Found');
+		else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}
@@ -83,7 +83,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
                 );
             }
 		}
-		else throw new Library\ControllerExceptionNotFound('Resource Not Found');
+		else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}

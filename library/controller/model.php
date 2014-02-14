@@ -218,7 +218,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	    $name   = ucfirst($this->getView()->getName());
 
 		if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
-		    throw new ControllerExceptionNotFound($name.' Not Found');
+		    throw new ControllerExceptionResourceNotFound($name.' Not Found');
 		}
 
 		return $entity;
@@ -228,7 +228,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 * Generic edit action, saves over an existing item
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
-     * @throws  ControllerExceptionNotFound   If the entity could not be found
+     * @throws  ControllerExceptionResourceNotFound   If the resource could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
 	protected function _actionEdit(ControllerContextInterface $context)
@@ -244,7 +244,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		        $context->response->setStatus(HttpResponse::RESET_CONTENT);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Resource could not be found');
+		else throw new ControllerExceptionResourceNotFound('Resource could not be found');
 
 		return $entity;
 	}
@@ -254,7 +254,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionBadRequest   If the entity already exists
+     * @throws  ControllerExceptionRequestInvalid   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
 	protected function _actionAdd(ControllerContextInterface $context)
@@ -271,9 +271,28 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 			    $error = $entity->getStatusMessage();
 		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
 		    }
-		    else $context->response->setStatus(HttpResponse::CREATED);
+            else
+            {
+                if ($entity instanceof DatabaseRowInterface)
+                {
+                    $url = clone $context->request->getUrl();
+
+                    if ($this->getModel()->getState()->isUnique())
+                    {
+                        $states = $this->getModel()->getState()->getValues(true);
+
+                        foreach ($states as $key => $value) {
+                            $url->query[$key] = $entity->get($key);
+                        }
+                    }
+                    else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
+                }
+
+                $context->response->headers->set('Location', (string) $url);
+                $context->response->setStatus(HttpResponse::CREATED);
+            }
 		}
-		else throw new ControllerExceptionBadRequest('Resource Already Exists');
+		else throw new ControllerExceptionRequestInvalid('Resource Already Exists');
 
 		return $entity;
 	}
@@ -307,7 +326,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(HttpResponse::NO_CONTENT);
 		}
-		else throw new ControllerExceptionNotFound('Resource Not Found');
+		else throw new ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}

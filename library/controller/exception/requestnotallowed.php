@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Conflict Controller Exception
+ * Request Not Allowed Controller Exception Interface
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionConflict extends HttpExceptionConflict implements ControllerException {}
+interface ControllerExceptionRequestNotAllowed extends ControllerException {}

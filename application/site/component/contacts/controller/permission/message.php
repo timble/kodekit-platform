@@ -20,7 +20,7 @@ class ContactsControllerPermissionMessage extends ContactsControllerPermissionCo
     public function canRender()
     {
         if($this->isDispatched()) {
-            throw new Library\ControllerExceptionNotImplemented("Can't execute render method: render does not exist");
+            throw new Library\ControllerExceptionActionNotImplemented("Can't execute render method: render does not exist");
         }
 
         return true;

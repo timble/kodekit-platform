@@ -97,22 +97,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         {
             if($transport instanceof DispatcherResponseTransportInterface)
             {
-                if($transport->send($this) == true)
-                {
-                    //Cleanup and flush output to client
-                    if (!function_exists('fastcgi_finish_request'))
-                    {
-                        if (PHP_SAPI !== 'cli')
-                        {
-                            for ($i = 0; $i < ob_get_level(); $i++) {
-                                ob_end_flush();
-                            }
-
-                            flush();
-                        }
-                    }
-                    else fastcgi_finish_request();
-
+                if($transport->send($this) == true) {
                     return true;
                 }
             }
@@ -232,9 +217,13 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         if (is_string($transport) && strpos($transport, '.') === false)
         {
             $identifier = $this->getIdentifier()->toArray();
-            $identifier['path'] = array('response', 'transport');
-            $identifier['name'] = $transport;
+            if($identifier['package'] != 'dispatcher') {
+                $identifier['path'] = array('dispatcher', 'response', 'transport');
+            } else {
+                $identifier['path'] = array('response', 'transport');
+            }
 
+            $identifier['name'] = $transport;
             $identifier = $this->getIdentifier($identifier);
         }
         else $identifier = $this->getIdentifier($transport);

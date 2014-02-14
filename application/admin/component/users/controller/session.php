@@ -60,10 +60,10 @@ class UsersControllerSession extends Library\ControllerModel
                 $password = $user->getPassword();
 
                 if(!$password->verify($context->request->data->get('password', 'string'))) {
-                    throw new Library\ControllerExceptionUnauthorized('Wrong password');
+                    throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
                 }
             }
-            else throw new Library\ControllerExceptionUnauthorized('Wrong email');
+            else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
 
             //Start the session (if not started already)
             $context->user->getSession()->start();
@@ -71,7 +71,7 @@ class UsersControllerSession extends Library\ControllerModel
             //Set user data in context
             $context->user->setData($user->getSessionData(true));
         }
-        else throw new Library\ControllerExceptionUnauthorized('Wrong email');
+        else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
 
         return true;
     }
@@ -80,7 +80,7 @@ class UsersControllerSession extends Library\ControllerModel
     {
         //If the user is blocked, redirect with an error
         if (!$context->user->isEnabled()) {
-            throw new Library\ControllerExceptionForbidden('Account disabled');
+            throw new Library\ControllerExceptionRequestForbidden('Account disabled');
         }
 
         return true;

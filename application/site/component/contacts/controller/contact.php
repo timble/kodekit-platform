@@ -17,6 +17,15 @@ use Nooku\Library;
  */
 class ContactsControllerContact extends Library\ControllerModel
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'formats'   => array('rss')
+        ));
+
+        parent::_initialize($config);
+    }
+
     public function getRequest()
 	{
 		$request = parent::getRequest();

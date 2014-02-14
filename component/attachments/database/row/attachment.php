@@ -87,7 +87,7 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
                     'request' => $request
                 ))->delete();
             }
-            catch (Library\ControllerExceptionNotFound $e) {}
+            catch (Library\ControllerExceptionResourceNotFound $e) {}
 
 			$this->getObject('com:attachments.database.table.relations')
 				->select(array('attachments_attachment_id' => $this->id))

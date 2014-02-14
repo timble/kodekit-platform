@@ -299,30 +299,16 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
 
-        //Create the redirect
-        $url = $this->getReferrer($context);
-
-        if ($entity instanceof DatabaseRowInterface)
+        if($action == 'add')
         {
-            $url = clone $context->request->getUrl();
-
-            if ($this->getModel()->getState()->isUnique())
-            {
-                $states = $this->getModel()->getState()->getValues(true);
-
-                foreach ($states as $key => $value) {
-                    $url->query[$key] = $entity->get($key);
-                }
+            $url = $this->getReferrer($context);
+            if ($entity instanceof DatabaseRowInterface) {
+                $url = $context->response->headers->get('Location');
             }
-            elseif ($entity->getIdentityColumn())
-            {
-                $column = $entity->getIdentityColumn();
-                $url->query[$column] = $entity->get($column);
-            }
+
+            $context->response->setRedirect($url);
         }
-
-        //Do not force a redirect after post for apply actions.
-        $context->response->setStatus(HttpResponse::NO_CONTENT);
+        else $context->response->setStatus(HttpResponse::NO_CONTENT);
 
         return $entity;
     }
@@ -379,7 +365,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
      * @param   ControllerContextInterface	$context A controller context object
-     * @throws  ControllerExceptionConflict If the resource is locked
+     * @throws  ControllerExceptionResourceLocked If the resource is locked
      * @return 	void
      */
     protected function _beforeEdit(ControllerContextInterface $context)
@@ -387,7 +373,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($this->isLocked())
         {
             $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
-            throw new ControllerExceptionConflict('Resource is locked.');
+            throw new ControllerExceptionResourceLocked('Resource is locked.');
         }
     }
 
@@ -398,7 +384,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
      * @param   ControllerContextInterface	$context A controller context object
-     * @throws  ControllerExceptionConflict If the resource is locked
+     * @throws  ControllerExceptionResourceLocked If the resource is locked
      * @return 	void
      */
     protected function _beforeDelete(ControllerContextInterface $context)
@@ -406,7 +392,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($this->isLocked())
         {
             $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
-            throw new ControllerExceptionConflict('Resource is locked');
+            throw new ControllerExceptionResourceLocked('Resource is locked');
         }
     }
 }

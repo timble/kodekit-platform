@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Not Found Controller Exception
+ * Request Not Authorized Controller Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerExceptionNotFound extends HttpExceptionNotFound implements ControllerException {}
+class ControllerExceptionRequestNotAuthorized extends HttpExceptionUnauthorized implements ControllerExceptionRequestNotAllowed {} {}

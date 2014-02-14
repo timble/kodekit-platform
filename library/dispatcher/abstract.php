@@ -295,12 +295,5 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected function _actionSend(DispatcherContextInterface $context)
     {
         $context->response->send();
-
-        $status = 0;
-        if(!$context->response->isSuccess) {
-            $status = (int) $context->response->getStatusCode();
-        }
-
-        exit($status);
     }
 }

@@ -12,11 +12,10 @@ namespace Nooku\Library;
 /**
  * Resettable Dispatcher Behavior - Post, Redirect, Get
  *
- * When a client sends a POST request (e.g. after submitting a form), the browser will try to protect them from sending
+ * When a browser sends a POST request (e.g. after submitting a form), the browser will try to protect them from sending
  * the POST again, breaking the back button, causing browser warnings and pop-ups, and sometimes re-posting the form.
  *
- * Instead, when receiving a POST and when we are not responding with a 204 NO_CONTENT we reset the form by redirecting
- * the client through a GET request.
+ * Instead, when receiving a none AJAX POST request reset the browser by redirecting it through a GET request.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
@@ -24,39 +23,37 @@ namespace Nooku\Library;
 class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
 {
     /**
-     * Get an object handle
+     * Check if the behavior is supported
      *
-     * Only attach this behavior for form (application/x-www-form-urlencoded) POST requests.
-     *
-     * @return string A string that is unique, or NULL
-     * @see execute()
+     * @return  boolean  True on success, false otherwise
      */
-    public function getHandle()
+    public function isSupported()
     {
-        $result = null;
-        if($this->getRequest()->isPost() && $this->getRequest()->getContentType() == 'application/x-www-form-urlencoded') {
-            $result = parent::getHandle();
+        $mixer   = $this->getMixer();
+        $request = $mixer->getRequest();
+
+        if(!$request->isSafe() && !$request->isAjax() && $request->getFormat() == 'html') {
+            return true;
         }
 
-        return $result;
+        return false;
     }
 
     /**
-	 * Force a GET after POST using the referrer
+     * Force a GET after POST using the referrer
      *
-     * Method will only set the redirect for none AJAX requests and only if the controller has a returned a 2xx status
-     * code. In all other cases no redirect will be set.
-	 *
-	 * @param DispatcherContextInterface $context	A dispatcher context object
-	 * @return 	void
-	 */
-	protected function _beforeSend(DispatcherContext $context)
-	{
+     * Redirect if the controller has a returned a 2xx status code.
+     *
+     * @param 	DispatcherContextInterface $context The active command context
+     * @return 	void
+     */
+    protected function _beforeSend(DispatcherContextInterface $context)
+    {
         $response = $context->response;
         $request  = $context->request;
 
-        if(!$request->isAjax() && $response->isSuccess() && $response->getStatusCode() != HttpResponse::NO_CONTENT) {
+        if($response->isSuccess()) {
             $response->setRedirect($request->getReferrer());
         }
-	}
+    }
 }

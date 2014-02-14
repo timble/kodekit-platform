@@ -10,9 +10,9 @@
 namespace Nooku\Library;
 
 /**
- * Event Command Invoker
+ * Event Command Handler
  *
- * The event invoker will translate the command name to a onCommandName format and let the event publisher publish
+ * The event handler will translate the command name to a onCommandName format and let the event publisher publish
  * to any registered event listeners.
  *
  * The 'immutable' config option defines if the context is clone before being passed to the event publisher or
@@ -22,7 +22,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandHandlerEvent extends CommandHandlerAbstract
+class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectInstantiable, ObjectMultiton
 {
     /**
      * The command priority
@@ -76,6 +76,27 @@ class CommandHandlerEvent extends CommandHandlerAbstract
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Force creation of a singleton
+     *
+     * @param  ObjectConfigInterface   $config	  A ObjectConfig object with configuration options
+     * @param  ObjectManagerInterface	$manager  A ObjectInterface object
+     * @return EventPublisher
+     */
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
+    {
+        // Check if an instance with this identifier already exists or not
+        if (!$manager->isRegistered($config->object_identifier))
+        {
+            //Create the singleton
+            $class    = $manager->getClass($config->object_identifier);
+            $instance = new $class($config);
+            $manager->setObject($config->object_identifier, $instance);
+        }
+
+        return $manager->getObject($config->object_identifier);
     }
 
     /**
@@ -155,7 +176,7 @@ class CommandHandlerEvent extends CommandHandlerAbstract
         }
 
         // Create event object to check for propagation
-        $event = $this->getEventPublisher()->publishEvent($event_specific, $command->getAttributes(), $command->getSubject());
+        $event = $this->getEventPublisher()->publishEvent($event_specific, $event->getAttributes(), $event->getSubject());
 
         // Ensure event can be propagated and event name is different
         if ($event->canPropagate() && $event_specific != $event_generic)

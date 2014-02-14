@@ -32,7 +32,7 @@ class ExtensionsControllerSetting extends Library\ControllerModel
         $name = ucfirst($this->getView()->getName());
 
         if(!$this->getModel()->getState()->isUnique()) {
-            throw new Library\ControllerExceptionNotFound($name.' Not Found');
+            throw new Library\ControllerExceptionResourceNotFound($name.' Not Found');
         }
 
         return parent::_actionRead($context);

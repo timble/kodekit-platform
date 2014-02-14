@@ -66,7 +66,7 @@ class ControllerFile extends ControllerAbstract
                     ->setPath($file->fullpath, $file->mimetype);
             }
             catch (\InvalidArgumentException $e) {
-                throw new Library\ControllerExceptionNotFound('File not found');
+                throw new Library\ControllerExceptionResourceNotFound('File not found');
             }
         }
         else parent::_actionRender($context);

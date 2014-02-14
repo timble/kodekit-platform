@@ -189,7 +189,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             require_once( JPATH_SITES.'/'.$this->getSite().'/config/config.php');
             JFactory::getConfig()->loadObject(new JSiteConfig());
         }
-        else throw new Library\ControllerExceptionNotFound('Site :'.$this->getSite().' not found');
+        else throw new Library\ControllerExceptionResourceNotFound('Site :'.$this->getSite().' not found');
     }
 
     /**

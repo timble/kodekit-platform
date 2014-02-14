@@ -157,7 +157,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
                 }
                 else
                 {
-                    throw new ControllerExceptionNotImplemented(
+                    throw new ControllerExceptionActionNotImplemented(
                         "Can't execute '$action', method: '$method' does not exist"
                     );
                 }

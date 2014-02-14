@@ -18,25 +18,23 @@ namespace Nooku\Library;
 class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
 {
     /**
-     * Get an object handle
+     * Check if the behavior is supported
      *
-     * Disable dispatcher persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
+     * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
      * variable of the requested model, which is often undesirable under these circumstances.
      *
-     * @return string A string that is unique, or NULL
-     * @see execute()
+     * @return  boolean  True on success, false otherwise
      */
-    public function getHandle()
+    public function isSupported()
     {
-        $result = null;
-        if($this->getMixer() instanceof ControllerModellable && $this->isDispatched())
-        {
-            if($this->getRequest()->isGet() && !$this->getRequest()->isAjax()) {
-                $result = parent::getHandle();
-            }
+        $mixer   = $this->getMixer();
+        $request = $mixer->getRequest();
+
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && !$request->isAjax()) {
+            return true;
         }
 
-        return $result;
+        return false;
     }
 
     /**
