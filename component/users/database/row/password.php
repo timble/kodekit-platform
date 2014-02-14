@@ -84,8 +84,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     /**
      * Generates a random password.
      *
-     * @param int The length of the password.
-     *
+     * @param int $lenght The length of the password
      * @return string The generated password.
      */
     public function getRandom($length = 8)
