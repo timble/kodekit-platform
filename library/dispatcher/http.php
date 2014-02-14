@@ -209,7 +209,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         {
             if(!$controller->getModel()->getState()->isUnique())
             {
-                $limit = $controller->getModel()->getState()->limit;
+                $limit = $this->getRequest()->query->get('limit', 'int');
 
                 //If limit is empty use default
                 if(empty($limit)) {
@@ -217,10 +217,11 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 }
 
                 //Force the maximum limit
-                if($limit > $this->getConfig()->limit->max) {
+                if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
                     $limit = $this->getConfig()->limit->max;
                 }
 
+                $this->getRequest()->query->limit = $limit;
                 $controller->getModel()->getState()->limit = $limit;
             }
         }
