@@ -17,6 +17,10 @@ body {
     @include flex-direction(column);
     overflow-y: scroll;
 
+    h4 {
+        @include flex-shrink(0);
+    }
+
     li {
         @include flex;
         @include flex-shrink(0);
