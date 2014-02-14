@@ -20,6 +20,23 @@ use Nooku\Library;
 class ControllerError extends Library\ControllerView
 {
     /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config Configuration options
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'formats' => array('json'),
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
      * Render an exception
      *
      * @throws \InvalidArgumentException If the action parameter is not an instance of Library\Exception
