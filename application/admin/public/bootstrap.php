@@ -52,6 +52,8 @@ Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
     )
 );
 
+Library\ObjectManager::getInstance()->registerLocator('lib:object.locator.component');
+
 //Add the different applications
 Library\ClassLoader::getInstance()->registerBasepath('site' , JPATH_ROOT.'/application/site');
 Library\ClassLoader::getInstance()->registerBasepath('admin', JPATH_ROOT.'/application/admin');
