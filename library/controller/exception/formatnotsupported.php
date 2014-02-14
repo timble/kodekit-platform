@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Controller Action Not Allowed Exception Interface
+ * Format Not Supported Controller Exception
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
