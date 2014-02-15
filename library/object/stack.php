@@ -28,20 +28,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      *
      * @var array
      */
-    protected $_object_stack = null;
-    
-    /**
-     * Constructor
-     *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return ObjectStack
-     */
-    public function __construct(ObjectConfig $config)
-    { 
-        parent::__construct($config);
-        
-        $this->_object_stack = array();
-    }
+    protected $_object_stack = array();
     
     /**
      * Peeks at the element from the end of the stack
@@ -171,10 +158,15 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function unserialize($data)
     {
-        $data = array_reverse(unserialize($data));
+        $data = unserialize($data);
 
-        foreach ($data as $item) {
-            $this->push($item);
+        if(is_array($data))
+        {
+            $data = array_reverse($data);
+
+            foreach ($data as $item) {
+                $this->push($item);
+            }
         }
     }
 
