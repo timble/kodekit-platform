@@ -38,6 +38,7 @@ $config = new JConfig();
 
 require_once(JPATH_ROOT . '/library/nooku.php');
 \Nooku::getInstance(array(
+    'debug'           => $config->debug,
     'cache_namespace' => 'admin',
     'cache_enabled'   =>  $config->caching
 ));

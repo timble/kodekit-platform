@@ -35,10 +35,21 @@ interface ClassLoaderInterface
     /**
      * Load a class based on a class name
      *
-     * @param  string   $class  The class name
+     * @param string  $class    The class name
+     * @throws \RuntimeException If debug is enabled and the class could not be found in the file.
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
     public function load($class);
+
+    /**
+     * Enable or disable class loading
+     *
+     * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool|null $debug True or false. If NULL the method will return the current debug value.
+     * @return bool Returns the current debug value.
+     */
+    public function debug($debug);
 
     /**
      * Get the path based on a class name
