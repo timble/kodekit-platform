@@ -25,7 +25,6 @@ class UsersControllerSession extends Library\ControllerModel
         $this->addCommandCallback('before.add' , 'authenticate');
 
         //Authorize the user before adding
-        $this->addCommandCallback('before.add' , 'authorize');
         $this->addCommandCallback('after.add'  , 'redirect');
     }
 
@@ -48,7 +47,6 @@ class UsersControllerSession extends Library\ControllerModel
 
         if(!$user->isNew())
         {
-
             //Authenticate the user
             if($user->id)
             {
@@ -59,6 +57,11 @@ class UsersControllerSession extends Library\ControllerModel
                 }
             }
 
+            //Check if user is enabled
+            if (!$user->enabled) {
+                throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
+            }
+
             //Start the session (if not started already)
             $context->user->getSession()->start();
 
@@ -66,16 +69,6 @@ class UsersControllerSession extends Library\ControllerModel
             $context->user->setData($user->getSessionData(true));
         }
         else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
-
-        return true;
-    }
-
-    public function authorize(Library\ControllerContextInterface $context)
-    {
-        //If the user is blocked, redirect with an error
-        if (!$context->user->isEnabled()) {
-            throw new Library\ControllerExceptionRequestForbidden('Account disabled');
-        }
 
         return true;
     }

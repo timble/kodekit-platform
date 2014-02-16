@@ -24,9 +24,6 @@ class UsersControllerSession extends Library\ControllerModel
         //Only authenticate POST requests
         $this->addCommandCallback('before.add' , 'authenticate');
 
-        //Authorize the user before adding
-        $this->addCommandCallback('before.add' , 'authorize');
-
         //Lock the referrer to prevent it from being overridden for read requests
         /*if ($this->isDispatched() && !$this->getRequest()->isAjax())
         {
@@ -50,7 +47,9 @@ class UsersControllerSession extends Library\ControllerModel
     public function authenticate(Library\ControllerContextInterface $context)
     {
         //Load the user
-        $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))->getRow();
+        $user = $this->getObject('com:users.model.users')
+            ->email($context->request->data->get('email', 'email'))
+            ->getRow();
 
         if(!$user->isNew())
         {
@@ -65,6 +64,11 @@ class UsersControllerSession extends Library\ControllerModel
             }
             else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
 
+            //Check if user is enabled
+            if (!$user->enabled) {
+                throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
+            }
+
             //Start the session (if not started already)
             $context->user->getSession()->start();
 
@@ -72,16 +76,6 @@ class UsersControllerSession extends Library\ControllerModel
             $context->user->setData($user->getSessionData(true));
         }
         else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
-
-        return true;
-    }
-
-    public function authorize(Library\ControllerContextInterface $context)
-    {
-        //If the user is blocked, redirect with an error
-        if (!$context->user->isEnabled()) {
-            throw new Library\ControllerExceptionRequestForbidden('Account disabled');
-        }
 
         return true;
     }
