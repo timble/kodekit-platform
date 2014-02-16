@@ -55,7 +55,7 @@ class UsersControllerUser extends Library\ControllerModel
         $user = $this->getObject('user');
 
         // Logged user changed. Updated in memory/session user object.
-        if ($context->response->getStatusCode() == HttpResponse::RESET_CONTENT && $entity->id == $user->getId()) {
+        if ($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT && $entity->id == $user->getId()) {
             $user->setData($entity->getSessionData($user->isAuthentic()));
         }
 
