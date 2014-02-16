@@ -54,8 +54,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
             return false;
         }
 
-        // Administrators and below are only allowed to delete user accounts with
-        // lower role levels than their own.
+        // Administrators and below are only allowed to delete user accounts with lower role levels than their own.
         if ($user->getRole() < 25 && ($entity->role_id >= $user->getRole())) {
             return false;
         }
