@@ -75,11 +75,75 @@ class UserSessionContainerMetadata extends UserSessionContainerAbstract
      */
     public function getToken($refresh = false)
     {
-        if ($this->token === null || $refresh) {
-            $this->token = $this->_createToken(12);
+        if ($this->token === null || $refresh)
+        {
+            $salt = $this->_createSalt(12);
+            $name = session_name();
+
+            $this->token = sha1($salt.$name);
         }
 
         return $this->token;
+    }
+
+    /**
+     * Get a session secret, a secret should never be exposed publicly
+     *
+     * @param   boolean $refresh If true, force a new token to be created
+     * @return  string  The session token
+     */
+    public function getSecret()
+    {
+        if ($this->secret === null)
+        {
+            $salt = $this->_createSalt(12);
+            $name = session_name();
+
+            $this->secret = sha1($salt . $name);
+        }
+
+        return $this->secret;
+    }
+
+    /**
+     * Create a new session nonce
+     *
+     * @return  string  The session nonce
+     */
+    public function createNonce()
+    {
+        $secret  = $this->getSecret();
+        $timeout = $this->getLifetime();
+
+        $nonce = $this->_createNonce($secret, $timeout);
+        $this->nonces[$nonce] = $nonce;
+
+        return $nonce;
+    }
+
+    /**
+     * Verify a session nonce
+     *
+     * Checks to see if the nonce has been generated before.  If so, validate it's syntax and remove it.
+     *
+     * @param string $nonce The nonce to verify
+     * @return  bool Returns true if the nonce exists and is valid.
+     */
+    public function verifyNonce($nonce)
+    {
+        if(isset($this->nonces[$nonce]))
+        {
+            //Remove the nonce from the store
+            unset($this->nonces[$nonce]);
+
+            //Validate the nonce
+            $secret = $this->getSecret();
+            if($this->_validateNonce($secret, $nonce)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -96,24 +160,88 @@ class UserSessionContainerMetadata extends UserSessionContainerAbstract
     }
 
     /**
-     * Create a token-string
+     * Create a random string
      *
      * @param   integer $length Length of string
-     * @return  string  Generated token
+     * @return  string  Generated string
      */
-    protected function _createToken($length = 32)
+    protected function _createSalt($length = 32)
     {
-        static $chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        static $chars ='1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
 
-        $max   = strlen($chars) - 1;
-        $token = '';
-        $name  = session_name();
+        $max  = strlen($chars) - 1;
+        $salt = '';
 
         for ($i = 0; $i < $length; ++$i) {
-            $token .= $chars[(mt_rand(0, $max))];
+            $salt .= $chars[(mt_rand(0, $max))];
         }
 
-        return md5($token . $name);
+        return $salt;
+    }
+
+    /**
+     * Generate a Nonce.
+     *
+     * The generated nonce will contains three parts, separated by a colon. The first part is the individual salt.
+     * The second part is the time until the nonce is valid. The third part is a HMAC hash of the salt, the time, and
+     * a secret value.
+     *
+     * @link http://en.wikipedia.org/wiki/Hash-based_message_authentication_code
+     *
+     * @param string  $secret  String with at least 10 characters. The same value must be passed to _validateNonce().
+     * @param integer $timeout the time in seconds until the nonce becomes invalid.
+     * @throws \InvalidArgumentException If the secret is not valid.
+     * @return string the generated Nonce.
+     */
+    public function _createNonce($secret, $timeout = 180)
+    {
+        if (is_string($secret) == false || strlen($secret) < 10) {
+            throw new \InvalidArgumentException("Missing valid secret");
+        }
+
+        $salt = $this->_createSalt(12);
+
+        $lifetime = time() + $timeout;
+        $nonce    = $salt . ':' . $lifetime . ':' . hash_hmac( 'sha1', $salt.$lifetime,  $secret );
+
+        return $nonce;
+    }
+
+    /**
+     * Check a previously generated Nonce.
+     *
+     * The nonce should contains three parts, separated by a colon. The first part is the individual salt. The
+     * second part is the time until the nonce is valid. The third part is a hmac hash of the salt, the time, and
+     * a secret value.
+     *
+     * @param string  $secret  String with at least 10 characters. The same value must be passed to _validateNonce().
+     * @returns bool Whether the Nonce is valid.
+     */
+    public static function _validateNonce($secret, $nonce)
+    {
+        if (is_string($nonce) == false) {
+            return false;
+        }
+
+        $a = explode(':', $nonce);
+        if (count($a) != 3) {
+            return false;
+        }
+
+        $salt     = $a[0];
+        $lifetime = intval($a[1]);
+        $hash     = $a[2];
+        $back     = hash_hmac( 'sha1', $salt.$lifetime,  $secret );
+
+        if ($back != $hash) {
+            return false;
+        }
+
+        if (time() > $lifetime) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

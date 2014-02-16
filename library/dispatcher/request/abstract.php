@@ -723,7 +723,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             }
 
             if($this->data->has('_token')) {
-                $token = $this->data->get('_token', 'md5');
+                $token = $this->data->get('_token', 'sha1');
             }
 
             $this->_token = $token;

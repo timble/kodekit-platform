@@ -105,7 +105,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             }
 
             //Check cookie token
-            if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
+            if($request->getToken() !== $request->cookies->get('_token', 'sha1')) {
                 throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
             }
         }
