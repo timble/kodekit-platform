@@ -31,14 +31,6 @@ INSERT INTO `categories` (`categories_category_id`, `parent_id`, `attachments_at
   (2, 0, 0, 'Tellus', 'tellus', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, '');
 
 --
--- Dumping data for table `contacts`
---
-
-INSERT INTO `contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`)
-  VALUES
-  (1, 'Dolor Sit', 'dolor-sit', 'Porta Ornare', 'Fermentum 1', 'Condimentum', 'Lorem', 'Pharetra', '61803', '161803', '618', '<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>', 'dolor@pellentesque.com', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 'show_email=\"0\"\nshow_email_form=\"1\"\nallow_vcard=\"0\"', 3, 0, '39887');
-
---
 -- Dumping data for table `pages`
 --
 
