@@ -14,16 +14,8 @@
 <?= import('page_head.html') ?>
 
 <body class="com_<?= $extension ?>">
-<?
-/*
-?>
-<div id="panel-pages">
-    <?= import('com:pages.view.pages.list.html', array('state' => $state)); ?>
-</div>
-*/
-?>
 <div id="panel-wrapper">
-    <div id="panel-header">
+    <div id="panel-navbar">
         <div id="menu">
             <ktml:toolbar type="menubar">
         </div>
@@ -49,12 +41,6 @@
         <div id="panel-content">
             <ktml:content>
 	    </div>
-
-        <ktml:modules position="inspector">
-            <div id="panel-inspector">
-                <ktml:modules:content>
-            </div>
-        </ktml:modules>
     </div>
 </div>
 

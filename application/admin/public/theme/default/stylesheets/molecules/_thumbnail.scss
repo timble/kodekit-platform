@@ -36,6 +36,6 @@
     }
 
     input:checked + label {
-        @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
+        @include buttonBackground($buttonWarningBackground, $buttonWarningBackgroundHighlight);
     }
 }

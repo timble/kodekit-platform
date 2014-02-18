@@ -357,7 +357,7 @@ select:focus:invalid {
         border: 1px solid #ccc;
     }
     .add-on,
-    .btn {
+    .button {
         vertical-align: top;
         border-radius: 0;
     }
@@ -369,12 +369,12 @@ select:focus:invalid {
 
 .input-prepend {
     .add-on,
-    .btn {
+    .button {
         margin-right: -1px;
     }
     .add-on:first-child,
-    .btn:first-child {
-        // FYI, `.btn:first-child` accounts for a button group that's prepended
+    .button:first-child {
+        // FYI, `.button:first-child` accounts for a button group that's prepended
         border-radius: $inputBorderRadius 0 0 $inputBorderRadius;
     }
 }
@@ -384,17 +384,17 @@ select:focus:invalid {
     select,
     .uneditable-input {
         border-radius: $inputBorderRadius 0 0 $inputBorderRadius;
-        + .btn-group .btn:last-child {
+        + .button__group .button:last-child {
             border-radius: 0 $inputBorderRadius $inputBorderRadius 0;
         }
     }
     .add-on,
-    .btn,
-    .btn-group {
+    .button,
+    .button__group {
         margin-left: -1px;
     }
     .add-on:last-child,
-    .btn:last-child {
+    .button:last-child {
         border-radius: 0 $inputBorderRadius $inputBorderRadius 0;
     }
 }
@@ -405,21 +405,21 @@ select:focus:invalid {
     select,
     .uneditable-input {
         border-radius: 0;
-        + .btn-group .btn {
+        + .button__group .button {
             border-radius: 0 $inputBorderRadius $inputBorderRadius 0;
         }
     }
     .add-on:first-child,
-    .btn:first-child {
+    .button:first-child {
         margin-right: -1px;
         border-radius: $inputBorderRadius 0 0 $inputBorderRadius;
     }
     .add-on:last-child,
-    .btn:last-child {
+    .button:last-child {
         margin-left: -1px;
         border-radius: 0 $inputBorderRadius $inputBorderRadius 0;
     }
-    .btn-group:first-child {
+    .button__group:first-child {
         margin-left: 0;
     }
 }
@@ -482,7 +482,7 @@ textarea {
         padding: 5px 5px;
     }
 
-    .btn {
+    .button {
         padding-top: 3px;
     }
 }

@@ -60,7 +60,7 @@
                 <tr>
                     <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
                     <td class="handle">
-                        <span class="text-small data-order"><?= $category->ordering ?></span>
+                        <span class="text--small data-order"><?= $category->ordering ?></span>
                     </td>
                     <? endif ?>
                     <td align="center">

@@ -53,15 +53,15 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 			'attribs'	=> array(),
 		));
 
-		$html   = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
-		$html  .= '<div class="btn-group">';
+		$html   = '<div class="button__group">'.$this->link($config->pages->first).'</div>';
+		$html  .= '<div class="button__group">';
 		$html  .= $this->link($config->pages->prev);
 		$html  .= '</div>';
-		$html  .= '<div class="btn-group page-list"></div>';
-		$html  .= '<div class="btn-group">';
+		$html  .= '<div class="button__group page-list"></div>';
+		$html  .= '<div class="button__group">';
 		$html  .= $this->link($config->pages->next);
 		$html  .= '</div>';
-		$html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
+		$html  .= '<div class="button__group">'.$this->link($config->pages->last).'</div>';
 
 		return $html;
     }

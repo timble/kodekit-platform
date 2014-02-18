@@ -16,7 +16,7 @@
     }
 
     a {
-        @extend .btn;
+        @extend .button;
         font-size: $baseFontSize - 1px !important;
     }
 }

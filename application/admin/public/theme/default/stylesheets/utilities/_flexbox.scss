@@ -42,7 +42,7 @@ body {
     @include flex-direction(column);
 }
 
-#panel-header {
+#panel-navbar {
     @include flex;
     @include flex-shrink(0);
     @include flex-justify-content(space-between);

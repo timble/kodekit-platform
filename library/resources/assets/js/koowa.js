@@ -196,7 +196,7 @@ Koowa.Controller = new Class({
 
         //Attach toolbar buttons actions
         if(this.toolbar) {
-            this.buttons = this.toolbar.getElements('.btn').filter(function(button){
+            this.buttons = this.toolbar.getElements('.button').filter(function(button){
                 return button.get('data-action');
             });
             var token_name = this.form.get('data-token-name'), token_value = this.form.get('data-token-value');

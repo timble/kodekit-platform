@@ -58,7 +58,7 @@
 			<tr>
                 <? if($state->position && $state->sort == 'ordering' && $state->direction == 'asc') : ?>
                 <td class="handle">
-                    <span class="text-small data-order"><?= $module->ordering ?></span>
+                    <span class="text--small data-order"><?= $module->ordering ?></span>
                 </td>
                 <? endif ?>
 				<td align="center">

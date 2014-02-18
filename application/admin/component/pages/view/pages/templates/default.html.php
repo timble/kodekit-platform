@@ -57,7 +57,7 @@
             <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>" data-sortable-level="<?= (int)$page->level ?>">
                 <? if($state->sort == 'custom' && $state->direction == 'asc') : ?>
                     <td class="handle">
-                        <span class="text-small data-order"><?= $page->ordering ?></span>
+                        <span class="text--small data-order"><?= $page->ordering ?></span>
                     </td>
                 <? endif ?>
                 <td align="center">

@@ -1,5 +1,13 @@
-/* ---- Menu layout -------------------------- */
-#panel-header {
+#panel-navbar {
+    background-color: #333;
+    border-bottom: 1px solid lighten($navbarBackground, 10%);
+    background: darken($navbarBackground, 15%) linear-gradient($navbarBackground, darken($navbarBackground, 15%));
+    box-shadow: rgba(0, 0, 0, .8) 0px 1px 3px;
+
+    position: relative; // We need this for .box-shadow
+}
+
+#panel-navbar {
     // Reset
     ul, li {
         margin: 0;
@@ -66,10 +74,10 @@
                 padding: 4px 0;
 
                 li.node {
-                    background: transparent url(../images/arrow-right.png) no-repeat 95% 50%;
+                    background: transparent url(../../images/arrow-right.png) no-repeat 95% 50%;
                 }
                 li.node > a {
-                    background-image: url(../images/arrow-right-active.png) !important;
+                    background-image: url(../../images/arrow-right-active.png) !important;
                     background-repeat: no-repeat;
                     background-position: 195% 50%;
                 }
@@ -166,31 +174,5 @@
         li:last-child a {
             border-right: 0 none;
         }
-    }
-}
-
-/* menubar styling */
-#panel-tabbar {
-    a {
-        font-weight: bold;
-        cursor: pointer;
-        padding: 0 25px;
-        line-height: $baseLineHeight + 18px;
-        vertical-align: middle;
-        color: $tabbarLinkColor;
-        display: block;
-        border-radius: 0 0;
-        border-right: 1px solid $tabbarBackground;
-    }
-
-    a.active {
-        color: $tabbarLinkColorHighlight;
-        background-color: $tabbarBackgroundHighlight;
-        background: linear-gradient(#FFF, $tabbarBackgroundHighlight);
-        box-shadow: rgba(0, 0, 0, .3) 0px 0px 4px;
-    }
-
-    a.active:hover {
-        text-decoration: none !important;
     }
 }

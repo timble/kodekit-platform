@@ -6,18 +6,18 @@
 // --------------------------------------------------
 
 // Core
-.btn {
+.button {
     display: inline-block;
     padding: 4px 12px;
-    margin-bottom: 0; // For input.btn
+    margin-bottom: 0; // For input.button
     font-size: $baseFontSize;
     line-height: $baseLineHeight;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    @include buttonBackground($btnBackground, $btnBackgroundHighlight, $grayDark, 0 1px 1px rgba(255, 255, 255, .75));
-    border: 1px solid $btnBorder;
-    border-bottom-color: darken($btnBorder, 10%);
+    @include buttonBackground($buttonBackground, $buttonBackgroundHighlight, $grayDark, 0 1px 1px rgba(255, 255, 255, .75));
+    border: 1px solid $buttonBorder;
+    border-bottom-color: darken($buttonBorder, 10%);
     border-radius: $baseBorderRadius;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
 
@@ -56,36 +56,36 @@
 // --------------------------------------------------
 
 // Large
-.btn-large {
+.button--large {
     padding: $paddingLarge;
     font-size: $fontSizeLarge;
     border-radius: $borderRadiusLarge;
 }
 
-.btn-large [class^="icon-"],
-.btn-large [class*=" icon-"] {
+.button--large [class^="icon-"],
+.button--large [class*=" icon-"] {
     margin-top: 4px;
 }
 
 // Small
-.btn-small {
+.button--small {
     padding: $paddingSmall;
     font-size: $fontSizeSmall;
     border-radius: $borderRadiusSmall;
 }
 
-.btn-small [class^="icon-"],
-.btn-small [class*=" icon-"] {
+.button--small [class^="icon-"],
+.button--small [class*=" icon-"] {
     margin-top: 0;
 }
 
-.btn-mini [class^="icon-"],
-.btn-mini [class*=" icon-"] {
+.button--mini [class^="icon-"],
+.button--mini [class*=" icon-"] {
     margin-top: -1px;
 }
 
 // Mini
-.btn-mini {
+.button--mini {
     padding: $paddingMini;
     font-size: $fontSizeMini;
     border-radius: $borderRadiusSmall;
@@ -94,7 +94,7 @@
 // Block button
 // -------------------------
 
-.btn-block {
+.button--block {
     display: block;
     width: 100%;
     padding-left: 0;
@@ -103,7 +103,7 @@
 }
 
 // Vertically space out multiple block buttons
-.btn-block + .btn-block {
+.button--block + .button--block {
     margin-top: 5px;
 }
 
@@ -111,7 +111,7 @@
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-    &.btn-block {
+    &.button--block {
         width: 100%;
     }
 }
@@ -120,60 +120,60 @@ input[type="button"] {
 // --------------------------------------------------
 
 // Provide *some* extra contrast for those who can get it
-.btn-primary.active,
-.btn-warning.active,
-.btn-danger.active,
-.btn-success.active,
-.btn-info.active,
-.btn-inverse.active {
+.button--primary.active,
+.button--warning.active,
+.button--danger.active,
+.button--success.active,
+.button--info.active,
+.button--inverse.active {
     color: rgba(255, 255, 255, .75);
 }
 
 // Set the backgrounds
 // -------------------------
-.btn-primary {
-    @include buttonBackground($btnPrimaryBackground, $btnPrimaryBackgroundHighlight);
+.button--primary {
+    @include buttonBackground($buttonPrimaryBackground, $buttonPrimaryBackgroundHighlight);
 }
 
 // Warning appears are orange
-.btn-warning {
-    @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
+.button--warning {
+    @include buttonBackground($buttonWarningBackground, $buttonWarningBackgroundHighlight);
 }
 
 // Danger and error appear as red
-.btn-danger {
-    @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
+.button--danger {
+    @include buttonBackground($buttonDangerBackground, $buttonDangerBackgroundHighlight);
 }
 
 // Success appears as green
-.btn-success {
-    @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+.button--success {
+    @include buttonBackground($buttonSuccessBackground, $buttonSuccessBackgroundHighlight);
 }
 
 // Info appears as a neutral blue
-.btn-info {
-    @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
+.button--info {
+    @include buttonBackground($buttonInfoBackground, $buttonInfoBackgroundHighlight);
 }
 
 // Inverse appears as dark gray
-.btn-inverse {
-    @include buttonBackground($btnInverseBackground, $btnInverseBackgroundHighlight);
+.button--inverse {
+    @include buttonBackground($buttonInverseBackground, $buttonInverseBackgroundHighlight);
 }
 
 // Cross-browser Jank
 // --------------------------------------------------
 
-button.btn,
-input[type="submit"].btn {
-    &.btn-large {
+button.button,
+input[type="submit"].button {
+    &.button--large {
         *padding-top: 7px;
         *padding-bottom: 7px;
     }
-    &.btn-small {
+    &.button--small {
         *padding-top: 3px;
         *padding-bottom: 3px;
     }
-    &.btn-mini {
+    &.button--mini {
         *padding-top: 1px;
         *padding-bottom: 1px;
     }
