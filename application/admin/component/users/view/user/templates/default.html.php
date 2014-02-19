@@ -68,9 +68,9 @@
 			    <? if (!$user->isNew()): ?>
 				<div>
 				    <div>
-				        <label class="checkbox" for="password_change">
-				            <input type="checkbox" id="password_change" name="password_change" />
-				            <?= translate('Require a change of password in the next sign in') ?>
+				        <label class="checkbox" for="password_reset">
+				            <input type="checkbox" id="password_reset" name="password_reset" />
+				            <?= translate('Require a password reset for the next sign in') ?>
 				        </label>
 				    </div>
 				</div>
