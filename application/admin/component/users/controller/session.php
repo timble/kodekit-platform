@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * Session Controller
@@ -15,24 +16,8 @@ use Nooku\Library;
  * @author   Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersControllerSession extends Library\ControllerModel
+class UsersControllerSession extends Users\ControllerSession
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        //Only authenticate POST requests
-        $this->addCommandCallback('before.add' , 'authenticate');
-
-        //Lock the referrer to prevent it from being overridden for read requests
-        /*if ($this->isDispatched() && !$this->getRequest()->isAjax())
-        {
-            if($this->isEditable()) {
-                $this->addCommandHandler('after.delete' , 'lockReferrer');
-            }
-        }*/
-    }
-
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -42,42 +27,6 @@ class UsersControllerSession extends Library\ControllerModel
         ));
 
         parent::_initialize($config);
-    }
-
-    public function authenticate(Library\ControllerContextInterface $context)
-    {
-        //Load the user
-        $user = $this->getObject('com:users.model.users')
-            ->email($context->request->data->get('email', 'email'))
-            ->getRow();
-
-        if(!$user->isNew())
-        {
-            //Authenticate the user
-            if($user->id)
-            {
-                $password = $user->getPassword();
-
-                if(!$password->verify($context->request->data->get('password', 'string'))) {
-                    throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
-                }
-            }
-            else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
-
-            //Check if user is enabled
-            if (!$user->enabled) {
-                throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
-            }
-
-            //Start the session (if not started already)
-            $context->user->getSession()->start();
-
-            //Set user data in context
-            $context->user->setData($user->getSessionData(true));
-        }
-        else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
-
-        return true;
     }
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
@@ -123,16 +72,8 @@ class UsersControllerSession extends Library\ControllerModel
         //Force logout from site and administrator
         $context->request->query->application = array('site', 'admin');
 
-        //Remove the session from the session store
-        $entity = parent::_actionDelete($context);
-
-        if(!$context->response->isError())
-        {
-            // Destroy the php session for this user if we are logging out ourselves
-            if($context->user->getEmail() == $entity->email) {
-                $context->user->getSession()->destroy();
-            }
-        }
+        //Delete the session
+        $entity =  parent::_actionDelete($context);
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());
