@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
  */
-interface UserInterface
+interface UserInterface extends ObjectEquatable
 {
     /**
      * Returns the id of the user
@@ -86,7 +86,7 @@ interface UserInterface
     public function isEnabled();
 
     /**
-     * Checks whether the user account has expired.
+     * Checks whether the user credentials have expired.
      *
      * @return Boolean
      */
