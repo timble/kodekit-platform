@@ -167,7 +167,7 @@ class UserSessionContainerMetadata extends UserSessionContainerAbstract
      */
     protected function _createSalt($length = 32)
     {
-        static $chars ='1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+        static $chars ='qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM01234567890';
 
         $max  = strlen($chars) - 1;
         $salt = '';
