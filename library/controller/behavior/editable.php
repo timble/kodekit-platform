@@ -346,12 +346,10 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             //Prevent a re-render of the message
             if($context->request->getUrl() != $context->request->getReferrer())
             {
-                $user = $this->getObject('com:users.database.row.user')
-                    ->set('id', $entity->locked_by)
-                    ->load();
+                $user = $this->getObject('user.provider')->load($entity->locked_by);
+                $date = $this-getObject('lib.date',array('date' => $entity->locked_on));
 
-                $date    = $this-getObject('lib.date',array('date' => $entity->locked_on));
-                $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date->humanize());
+                $message = \JText::sprintf('Locked by %s %s', $user->getName(), $date->humanize());
 
                 $context->response->addMessage($message, 'notice');
             }

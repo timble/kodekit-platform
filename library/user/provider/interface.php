@@ -12,14 +12,15 @@ namespace Nooku\Library;
 /**
  * User Provider Interface
  *
- * A user provider is capable of loading and instantiation KUserInterface objects from a backend.
+ * A user provider is capable of loading and instantiation UserInterface objects from a backend.
  *
- * In a typical authentication configuration, a username (i.e. some unique user identifier) credential enters the system
- * (via form login, or any method). The user provider that is configured with that authentication method is asked to fetch
- * the KUserInterface object for the given username or identifier.
+ * In a typical authentication configuration, a username (i.e. some unique user identifier) credential enters the
+ * system (via form login, or any method). The user provider that is configured with that authentication method is
+ * asked to fetch the UserInterface object for the given identifier.
  *
- * Internally, a user provider can load users from any source (databases, configuration, web service). This is totally
- * independent of how the authentication information is submitted or what the KUserInterface object looks like.
+ * Internally, a user provider can load users from any source (databases, configuration, web service). This is
+ * totally independent of how the authentication information is submitted or what the UserInterface object looks
+ * like.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
@@ -29,19 +30,25 @@ interface UserProviderInterface
     /**
      * Loads the user for the given username or identifier
      *
-     * @param string $username The username
-     * @return UserInterface|null Returns a KUserInterface object or NULL if the user could not be found.
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
+     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
      */
-    public function load($username);
+    public function load($identifier, $refresh = false);
 
     /**
-     * Refreshes the user for the account interface.
+     * Create a user object
      *
-     * It is up to the implementation to decide if the user data should be totally reloaded (e.g. from the database), or
-     * if the KUserInterface object can just be merged into some internal array of users / identity map.
-     *
-     * @param UserInterface $user
-     * @return UserInterface
+     * @param array $data An associative array of user data
+     * @return UserInterface     Returns a UserInterface object
      */
-    public function refresh(UserInterface $user);
+    public function create($data);
+
+    /**
+     * Fetch the user for the given user identifier from the backend
+     *
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     */
+    public function fetch($identifier);
 }
