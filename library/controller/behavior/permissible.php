@@ -80,7 +80,7 @@ class ControllerBehaviorPermissible extends ControllerBehaviorAbstract
                 if($this->getUser()->isAuthentic())
                 {
                     if (!$this->getUser()->isEnabled()) {
-                        $message = 'Account disabled';
+                        $message = 'User account is disabled';
                     }
 
                     throw new ControllerExceptionRequestForbidden($message);
