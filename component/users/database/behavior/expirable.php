@@ -48,7 +48,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $config->append(array(
             'expirable'  => $params->get('password_expire', 0),
             'expiration' => 6,
-            'row_mixin' => true
+            'row_mixin'  => true
         ));
 
         parent::_initialize($config);
