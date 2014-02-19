@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * User Controller
@@ -15,26 +16,38 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Component\Users
  */
-class UsersControllerUser extends Library\ControllerModel
+class UsersControllerUser extends Users\ControllerUser
 { 
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->addCommandCallback('after.add' , 'expire');
-        $this->addCommandCallback('after.edit', 'expire');
+        $this->addCommandCallback('after.add' , '_resetPassword');
+        $this->addCommandCallback('after.edit', '_resetPassword');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
-                'editable', 'persistable', 'resettable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
 
         parent::_initialize($config);
+    }
+
+    protected function _resetPassword(Library\ControllerContextInterface $context)
+    {
+        $entity = $context->result;
+
+        // Expire the user's password if a password reset was requested.
+        if ($entity->getStatus() !== Library\Database::STATUS_FAILED)
+        {
+            if($context->request->data->get('password_reset', 'boolean')) {
+                $entity->getPassword()->expire();
+            }
+        }
     }
 
     protected function _actionDelete(Library\ControllerContextInterface $context)
@@ -47,28 +60,5 @@ class UsersControllerUser extends Library\ControllerModel
             ->delete();
 
         return $entity;
-    }
-
-    protected function _actionEdit(Library\ControllerContextInterface $context)
-    {
-        $entity = parent::_actionEdit($context);
-        $user = $this->getObject('user');
-
-        // Logged user changed. Updated in memory/session user object.
-        if ($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT && $entity->id == $user->getId()) {
-            $user->setData($entity->getSessionData($user->isAuthentic()));
-        }
-
-        return $entity;
-    }
-
-    public function expire(Library\ControllerContextInterface $context)
-    {
-        $entity = $context->result;
-
-        // Expire the user's password if a password change was requested.
-        if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change', 'boolean')) {
-            $entity->getPassword()->expire();
-        }
     }
 }
