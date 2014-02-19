@@ -52,7 +52,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     /**
      * User role getter.
      *
-     * @return UsersDatabaseRowRole The user's role row object.
+     * @return DatabaseRowRole The user's role row object.
      */
     public function getRole()
     {
@@ -192,35 +192,6 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         
         unset($data['activation']);
         $data['params'] = $this->params->toArray();
-
-        return $data;
-    }
-
-    /**
-     * Session data getter.
-     *
-     * @param bool Whether or not the user is authenticated.
-     *
-     * @return array An associative array containing session user data.
-     */
-    public function getSessionData($authentic = false)
-    {
-        $data = array();
-
-        if (!$this->isNew()) {
-            $data = array(
-                'id'         => $this->id,
-                'email'      => $this->email,
-                'name'       => $this->name,
-                'role'       => $this->role_id,
-                'groups'     => $this->getGroups(),
-                'password'   => $this->getPassword()->password,
-                'salt'       => $this->getPassword()->salt,
-                'enabled'    => $this->enabled,
-                'attributes' => $this->params->toArray(),
-                'authentic'  => $authentic
-            );
-        }
 
         return $data;
     }
