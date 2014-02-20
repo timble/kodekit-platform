@@ -367,8 +367,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             }
 
             $params->def( 'page_title'      , $title );
-            $params->def( 'page_description', '' );
-
             $this->_params = $params;
         }
 
