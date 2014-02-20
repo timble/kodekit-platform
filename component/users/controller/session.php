@@ -23,11 +23,10 @@ class ControllerSession extends Library\ControllerModel
     {
         parent::__construct($config);
 
-        //Only authenticate POST requests
-        $this->addCommandCallback('before.add' , 'authenticate');
+        $this->addCommandCallback('before.add' , '_authenticateUser');
     }
 
-    public function authenticate(Library\ControllerContextInterface $context)
+    protected function _authenticateUser(Library\ControllerContextInterface $context)
     {
         //Load the user
         $user = $this->getObject('com:users.model.users')
