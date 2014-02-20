@@ -163,12 +163,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());
-
-        try {
-            $result = $this->execute($method, $context);
-        } catch(ControllerExceptionRequestForbidden $e) {
-            throw new DispatcherExceptionMethodNotAllowed('Method: '.$method.' not allowed');
-        }
+        $result = $this->execute($method, $context);
 
         return $result;
 	}
@@ -247,32 +242,39 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     protected function _actionPost(DispatcherContextInterface $context)
     {
+        $result     = false;
         $action     = null;
         $controller = $this->getController();
 
-        //Get the action from the request data
-        if($context->request->data->has('_action'))
+        if($controller instanceof ControllerModellable)
         {
-            $action = strtolower($context->request->data->get('_action', 'alpha'));
+            //Get the action from the request data
+            if($context->request->data->has('_action'))
+            {
+                $action = strtolower($context->request->data->get('_action', 'alpha'));
 
-            if(in_array($action, array('browse', 'read', 'render'))) {
-                throw new DispatcherExceptionMethodNotAllowed('Action: '.$action.' not allowed');
+                if(in_array($action, array('browse', 'read', 'render'))) {
+                    throw new DispatcherExceptionMethodNotAllowed('Action: '.$action.' not allowed');
+                }
             }
-        }
-        else
-        {
-            //Determine the action based on the model state
-            if($controller instanceof ControllerModellable) {
-                $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+            else
+            {
+                //Determine the action based on the model state
+                if($controller instanceof ControllerModellable) {
+                    $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+                }
             }
-        }
 
-        //Throw exception if no action could be determined from the request
-        if(!$action) {
-            throw new ControllerExceptionRequestInvalid('Action not found');
+            //Throw exception if no action could be determined from the request
+            if(!$action) {
+                throw new ControllerExceptionRequestInvalid('Action not found');
+            }
+
+            $result = $controller->execute($action, $context);
         }
+        else throw new DispatcherExceptionMethodNotAllowed('Method POST not allowed');
         
-        return $controller->execute($action, $context);
+        return $result;
     }
 
     /**
@@ -290,6 +292,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     protected function _actionPut(DispatcherContextInterface $context)
     {
+        $result     = false;
         $action     = null;
         $controller = $this->getController();
 
@@ -312,14 +315,17 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 $entity->setData($state);
             }
             else throw new ControllerExceptionRequestInvalid('Resource not found');
-        }
 
-        //Throw exception if no action could be determined from the request
-        if(!$action) {
-            throw new ControllerExceptionRequestInvalid('Resource not found');
-        }
+            //Throw exception if no action could be determined from the request
+            if(!$action) {
+                throw new ControllerExceptionRequestInvalid('Resource not found');
+            }
 
-        return $entity = $controller->execute($action, $context);
+            $result = $controller->execute($action, $context);
+        }
+        else throw new DispatcherExceptionMethodNotAllowed('Method PUT not allowed');
+
+        return $result;
     }
 
     /**
@@ -332,8 +338,16 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     protected function _actionDelete(DispatcherContextInterface $context)
     {
+        $result     = false;
         $controller = $this->getController();
-        return $controller->execute('delete', $context);
+
+        if($controller instanceof ControllerModellable) {
+            $result = $controller->execute('delete', $context);
+        } else {
+            throw new DispatcherExceptionMethodNotAllowed('Method DELETE not allowed');
+        }
+
+        return $result;
     }
 
     /**
@@ -387,8 +401,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     }
 
     /**
-     * Return the affected entities in the payload for none-SAFE requests that return a successful response. Make an
+     * Send the response to the client
+     *
+     * - Set the affected entities in the payload for none-SAFE requests that return a successful response. Make an
      * exception for 204 No Content responses which should not return a response body.
+     *
+     * - Add an Allow header to the response if the status code is 405 METHOD NOT ALLOWED.
      *
      * {@inheritdoc}
      */
@@ -399,8 +417,19 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         if (!$request->isSafe())
         {
-            if ($response->isSuccess() && $response->getStatusCode() !== HttpResponse::NO_CONTENT) {
-                $context->result = $this->getController()->execute('render', $context);
+            if ($response->isSuccess())
+            {
+                //Render the controller and set the result in the response body
+                if($response->getStatusCode() !== HttpResponse::NO_CONTENT) {
+                    $context->result = $this->getController()->execute('render', $context);
+                }
+            }
+            else
+            {
+                //Add an Allow header to the reponse
+                if($response->getStatusCode() === HttpResponse::METHOD_NOT_ALLOWED) {
+                    $this->_actionOptions($context);
+                }
             }
         }
 
