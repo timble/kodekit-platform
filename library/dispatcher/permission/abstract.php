@@ -34,7 +34,7 @@ abstract class DispatcherPermissionAbstract extends ObjectMixinAbstract implemen
      */
     public function canDispatch()
     {
-        return true;
+        return false;
     }
 
     /**

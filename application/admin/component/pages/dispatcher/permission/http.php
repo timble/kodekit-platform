@@ -13,9 +13,9 @@ use Nooku\Library;
  * Default Dispatcher Permission
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Component\Application
+ * @package Component\Comments
  */
-class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
+class PagesDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
 {
     /**
      * Permission handler for dispatch actions
@@ -24,15 +24,6 @@ class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAb
      */
     public function canDispatch()
     {
-        $extension = $this->getIdentifier()->package;
-
-        if($extension != 'application')
-        {
-            if (!$this->getObject('application.extensions')->isEnabled($extension)) {
-                return false;
-            }
-        }
-
-        return parent::canDispatch();
+        return true;
     }
 }
