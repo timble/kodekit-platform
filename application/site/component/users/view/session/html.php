@@ -39,7 +39,7 @@ class UsersViewSessionHtml extends Library\ViewHtml
         $parameters = new JParameter($active->params);
 
         $parameters->def('description_login_text', 'LOGIN_DESCRIPTION');
-        $parameters->def('registration', $this->getObject('application.extensions')->users->params->get('allowUserRegistration'));
+        $parameters->def('registration', true);
 
         return $parameters;
     }

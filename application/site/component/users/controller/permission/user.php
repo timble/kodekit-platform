@@ -26,12 +26,6 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
             return $this->canEdit();
         }
 
-        // Restrict registrations if these are disabled.
-        $parameters = $this->getObject('application.extensions')->users->params;
-        if ($parameters->get('allowUserRegistration') == '0' && $layout == 'form') {
-            return false;
-        }
-
         return true;
     }
     
@@ -52,16 +46,5 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
         }
 
         return $result;
-    }
-
-    public function canAdd()
-    {
-        $parameters = $this->getObject('application.extensions')->users->params;
-
-        if($parameters->get('allowUserRegistration') == '0') {
-            return false;
-        }
-
-        return true;
     }
 }

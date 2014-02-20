@@ -22,7 +22,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         $parameters = $this->getObject('application.extensions')->users->params;
 
         $config->append(array(
-            'enable' => $parameters->get('useractivation', '1')
+            'enable' => '1'
         ));
 
         parent::_initialize($config);
