@@ -45,7 +45,7 @@
 				<div>
 				    <label for="params[timezone]"><?= translate('Time Zone') ?></label>
 				    <div>
-				        <?= helper('com:extensions.listbox.timezones',
+				        <?= helper('listbox.timezones',
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'select-timezone', 'style' => 'width:220px'))) ?>
 				    </div>
 				</div>
@@ -55,8 +55,8 @@
 				<div>
 				    <label for="password"><?= translate('Password') ?></label>
 				    <div>
-				        <input class="passwordLength:<?=$params->get('password_length', 6);?>" id="password" type="password" name="password" maxlength="100" />
-				        <?=helper('com:users.form.password');?>
+                        <input class="passwordLength:6" id="password" type="password" name="password" maxlength="100" />
+				        <?= helper('com:users.form.password');?>
 				    </div>
 				</div>
 				<div>

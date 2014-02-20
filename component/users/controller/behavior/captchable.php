@@ -28,11 +28,9 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
 
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $params = $this->getObject('application.extensions')->users->params;
-
         $config->append(array(
             'captcha'           => array(
-                'private_key'       => $params->get('recaptcha_private_key', null),
+                'private_key'       => null,
                 'remote_ip'         => $this->getObject('request')->getAddress(),
                 'verify_server'     => array(
                     'host' => 'www.google.com',

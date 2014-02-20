@@ -54,7 +54,7 @@
     <div class="control-group">
         <label class="control-label"><?=translate('Timezone');?></label>
         <div class="controls">
-            <?= helper('com:extensions.listbox.timezones',
+            <?= helper('listbox.timezones',
             array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true));?>
         </div>
     </div>

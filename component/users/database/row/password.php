@@ -19,12 +19,39 @@ use Nooku\Library;
  */
 class DatabaseRowPassword extends Library\DatabaseRowTable
 {
+    /**
+     * Minimum password length
+     *
+     * @var integer
+     */
+    protected $_length;
+
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
+        //Set the minimum passowrd length
+        $this->_length = $config->length;
+
         // TODO Remove when PHP 5.5 becomes a requirement.
         require_once JPATH_ROOT.'/component/users/legacy/password.php';
+    }
+
+    /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  Library\ObjectConfig $config  An optional ObjectConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'length' => 5
+        ));
+
+        parent::_initialize($config);
     }
 
     public function save()
@@ -44,13 +71,10 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         if ($password = $this->password)
         {
             // Check the password length.
-            $params = $this->getObject('application.extensions')->users->params;
-            $length = $params->get('password_length', 5);
-
-            if (strlen($password) < $length)
+            if (strlen($password) < $this->_length)
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $length));
+                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $this->_length));
                 return false;
             }
 
@@ -84,25 +108,25 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     /**
      * Generates a random password.
      *
-     * @param int $lenght The length of the password
+     * @param int $length The length of the password
      * @return string The generated password.
      */
-    public function getRandom($length = 8)
+    public function getRandom()
     {
         $bytes  = '';
         $return = '';
 
         if (function_exists('openssl_random_pseudo_bytes') && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
-            $bytes = openssl_random_pseudo_bytes($length + 1);
+            $bytes = openssl_random_pseudo_bytes($this->_length + 1);
         }
 
         if ($bytes === '' && @is_readable('/dev/urandom') && ($handle = @fopen('/dev/urandom', 'rb')) !== false)
         {
-            $bytes = fread($handle, $length + 1);
+            $bytes = fread($handle, $this->_length + 1);
             fclose($handle);
         }
 
-        if (strlen($bytes) < $length + 1)
+        if (strlen($bytes) < $this->_length + 1)
         {
             $bytes        = '';
             $random_state = microtime();
@@ -111,19 +135,19 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
                 $random_state .= getmypid();
             }
 
-            for ($i = 0; $i < $length + 1; $i += 16)
+            for ($i = 0; $i < $this->_length + 1; $i += 16)
             {
                 $random_state = md5(microtime() . $random_state);
                 $bytes .= md5($random_state, true);
             }
 
-            $bytes = substr($bytes, 0, $length + 1);
+            $bytes = substr($bytes, 0, $this->_length + 1);
         }
 
         $salt  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $shift = ord($bytes[0]);
 
-        for ($i = 1; $i <= $length; ++$i)
+        for ($i = 1; $i <= $this->_length; ++$i)
         {
             $return .= $salt[($shift + ord($bytes[$i])) % strlen($salt)];
             $shift += ord($bytes[$i]);
