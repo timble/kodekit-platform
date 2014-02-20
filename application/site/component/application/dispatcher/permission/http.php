@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcherPermissionDefault extends Library\DispatcherPermissionAbstract
+class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
 {
     /**
      * Permission handler for dispatch actions

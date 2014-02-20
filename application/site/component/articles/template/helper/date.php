@@ -21,7 +21,8 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
     {
         $config = new Library\ObjectConfig($config);
 
-        $config->append(array(
+        $config->append(array('parameters' => $this->getObject('application')->getParams()))
+               ->append(array(
                     'show_create_date' => $config->parameters->get('show_create_date', false),
                     'show_modify_date' => $config->parameters->get('show_modify_date', false)
                 ));

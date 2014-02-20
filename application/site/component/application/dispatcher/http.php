@@ -353,8 +353,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         if (!isset($this->_params))
         {
             // Get component parameters
-            $extension = substr($this->getRequest()->query->get('option', 'cmd'), 4);
-            $params    = new JParameter();
+            $params = new JParameter('');
 
             // Get menu parameters
             $page = $this->getObject('application.pages')->getActive();
