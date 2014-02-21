@@ -53,9 +53,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     {
         parent::__construct($config);
 
-        if(!empty($config->url)) {
-            $this->setUrl($config->url);
-        }
+        $this->setUrl($config->url);
 
         if(!empty($config->method)) {
             $this->setMethod($config->method);
