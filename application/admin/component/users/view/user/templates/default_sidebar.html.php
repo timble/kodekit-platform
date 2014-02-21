@@ -41,9 +41,11 @@
         </div>
     <? endif; ?>
 </fieldset>
+<? if(@object('user')->getRole() > $user->role_id) : ?>
 <fieldset>
     <legend><?= translate('Role') ?></legend>
     <div>
         <div><?= helper('select.groups', array('selected' => $user->role_id, 'name' => 'role_id')); ?></div>
     </div>
 </fieldset>
+<? endif ?>
