@@ -56,21 +56,12 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         $this->_container = $config->container;
         $this->_populate_from_request = $config->populate_from_request;
 
-        $this->_file_controller = $this->getObject($config->file_controller, array(
-            'request' => $this->getObject('lib:controller.request', array(
-                'query' => array(
-                    'container' => $this->_container
-                )
-            ))
-        ));
+        $this->_file_controller = $this->getObject($config->file_controller)
+            ->container($this->_container);
 
-        $this->_attachment_controller = $this->getObject($config->attachment_controller, array(
-            'request' => $this->getObject('lib:controller.request', array(
-                'query' => array(
-                    'container' => $this->_container
-                )
-            ))
-        ));
+        $this->_attachment_controller = $this->getObject($config->attachment_controller)
+            ->container($this->_container);
+
 
         $this->_attachment_limit = $config->attachment_limit;
     }
@@ -96,7 +87,6 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     public function setAttachments(array $attachments)
     {
         $this->_attachments = $attachments;
-
         return $this->_attachments;
     }
 
@@ -187,20 +177,23 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
         $row = $context->result;
 
-        $count = $this->getObject('com:attachments.controller.attachment', array(
-            'request' => $this->getObject('lib:controller.request', array(
-                'query' => array(
-                    'row' => $row->id,
-                    'table' => $row->getTable()->getBase()
-                )
-            ))
-        ))->browse();
+        $query =  array(
+            'row'   => $row->id,
+            'table' => $row->getTable()->getBase()
+        );
+
+        $controller = $this->getObject('com:attachments.controller.attachment');
+        $controller->getRequest()->setQuery($query);
+
+        $count = $controller->browse();
+
         $count = count($count);
         $limit = $this->_attachment_limit;
 
         foreach ($this->_attachments as $attachment)
         {
-            if ($limit !== false && $count >= $limit) {
+            if ($limit !== false && $count >= $limit)
+            {
                 $context->response->setStatus(500, 'You have reached the attachment limit for this item.');
                 return false;
             }
