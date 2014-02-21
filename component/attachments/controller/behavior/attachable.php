@@ -25,55 +25,34 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     protected $_attachments = array();
 
     /**
-     * Controller to handle file uploads
-     */
-    protected $_file_controller = null;
-
-    /**
-     * Controller to handle attachment saving
-     */
-    protected $_attachment_controller = null;
-
-    /**
      * Container to use in com_files
      */
     protected $_container = null;
 
     /**
-     * If true, file list wil be populated from $_FILES['attachments'] automatically
-     */
-    protected $_populate_from_request = true;
-
-    /**
      * You can limit allowed attachment number per node with this property. False for unlimited.
      */
-    protected $_attachment_limit = false;
+    protected $_limit = false;
 
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_container = $config->container;
-        $this->_populate_from_request = $config->populate_from_request;
+        $this->_limit     = $config->limit;
 
-        $this->_file_controller = $this->getObject($config->file_controller)
-            ->container($this->_container);
-
-        $this->_attachment_controller = $this->getObject($config->attachment_controller)
-            ->container($this->_container);
-
-
-        $this->_attachment_limit = $config->attachment_limit;
+        $this->addCommandCallback('before.add'  , '_fetchFiles');
+        $this->addCommandCallback('before.edit' , '_fetchFiles');
+        $this->addCommandCallback('after.add'   , '_storeFiles');
+        $this->addCommandCallback('after.edit'  , '_storeFiles');
+        $this->addCommandCallback('after.delete', '_deleteFiles');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'container'             => 'attachments-attachments',
-            'file_controller'       => 'com:files.controller.file',
-            'attachment_controller' => 'com:attachments.controller.attachment',
-            'populate_from_request' => true,
-            'attachment_limit'      => false
+            'container'  => 'attachments-attachments',
+            'limit'      => false
         ));
 
         parent::_initialize($config);
@@ -84,45 +63,65 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return $this->_attachments;
     }
 
-    public function setAttachments(array $attachments)
+    protected function _fetchFiles(Library\ControllerContextInterface $context)
     {
-        $this->_attachments = $attachments;
-        return $this->_attachments;
-    }
+        $files = array();
 
-    protected function _populateFilesFromRequest(Library\ControllerContextInterface $context)
-    {
-        if ($this->_populate_from_request)
+        $attachments = $context->request->files->get('attachments', 'raw');
+        if (is_array($attachments['name']))
         {
-            $attachments = $context->request->files->get('attachments', 'raw');
-            $files = array();
-
-            if (is_array($attachments['name']))
+            // Why do you return such a weird array for files PHP? why?
+            for ($i = 0, $n = count($attachments['name']); $i < $n; $i++)
             {
-                // Why do you return such a weird array for files PHP? why?
-                for ($i = 0, $n = count($attachments['name']); $i < $n; $i++)
-                {
-                    if ($attachments['error'][$i] == UPLOAD_ERR_NO_FILE) {
-                        continue;
-                    }
-
-                    $file = array();
-                    foreach (array_keys($attachments) as $key) {
-                        $file[$key] = $attachments[$key][$i];
-                    }
-
-                    $files[] = $file;
+                if ($attachments['error'][$i] == UPLOAD_ERR_NO_FILE) {
+                    continue;
                 }
 
-            } elseif (is_array($attachments)) {
-                $files[] = $attachments;
+                $file = array();
+                foreach (array_keys($attachments) as $key) {
+                    $file[$key] = $attachments[$key][$i];
+                }
+
+                $files[] = $file;
             }
 
-            $this->_attachments = $files;
+        } elseif (is_array($attachments)) {
+            $files[] = $attachments;
+        }
+
+        $this->_attachments = $files;
+    }
+
+    protected function _storeFiles(Library\ControllerContextInterface $context)
+    {
+        if (!$context->error)
+        {
+            $row = $context->result;
+
+            $count = $this->getObject('com:attachments.model.attachments')
+                ->row($row->id)
+                ->table($row->getTable()->getBase())
+                ->getTotal();
+
+
+            foreach ($this->_attachments as $attachment)
+            {
+                if ($this->_limit !== false && $count >= $this->_limit)
+                {
+                    $context->response->setStatus(500, 'You have reached the attachment limit for this item.');
+                    return false;
+                }
+
+                if ($this->_storeFile($context, $attachment)) {
+                    $count++;
+                }
+            }
+
+            return true;
         }
     }
 
-    protected function _saveFile(Library\ControllerContextInterface $context, $attachment)
+    protected function _storeFile(Library\ControllerContextInterface $context, $attachment)
     {
         $row = $context->result;
 
@@ -133,35 +132,26 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
             $hash       = md5_file($attachment['tmp_name']);
 
             // Save file
-            $this->_file_controller->add(array(
-                'file' => $attachment['tmp_name'],
-                'name' => $name,
-                'parent' => ''
-            ));
+            $this->getObject('com:files.controller.file')
+                ->container($this->_container)
+                ->add(array(
+                    'file'   => $attachment['tmp_name'],
+                    'name'   => $name,
+                    'parent' => ''
+                ));
 
             // Save attachment
-            $this->_attachment_controller->add(array(
-                'name' => $attachment['name'],
-                'path' => $name,
+            $this->getObject('com:attachments.controller.attachment')->add(array(
+                'name'      => $attachment['name'],
+                'path'      => $name,
                 'container' => $this->_container,
-                'hash' => $hash,
-                'row' => $row->id,
-                'table' => $row->getTable()->getBase()
+                'hash'      => $hash,
+                'row'       => $row->id,
+                'table'     => $row->getTable()->getBase()
             ));
-
-            // Reset models
-            $model  = $this->_file_controller->getModel();
-            $container = $model->getState()->container;
-
-            $model->reset(false)->getState()->set('container', $container);
-
-            $this->_attachment_controller->getModel()->reset(false);
-
-            // Clear the data in controllers for the next file
-            $this->_file_controller->getRequest()->data->clear();
-            $this->_attachment_controller->getRequest()->data->clear();
         }
-        catch (Library\ControllerException $e) {
+        catch (Library\ControllerException $e)
+        {
             $context->response->setStatus($e->getCode() , $e->getMessage());
             return false;
         }
@@ -169,66 +159,13 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _saveFiles(Library\ControllerContextInterface $context)
-    {
-        if ($context->error) {
-            return;
-        }
-
-        $row = $context->result;
-
-        $query =  array(
-            'row'   => $row->id,
-            'table' => $row->getTable()->getBase()
-        );
-
-        $controller = $this->getObject('com:attachments.controller.attachment');
-        $controller->getRequest()->setQuery($query);
-
-        $count = $controller->browse();
-
-        $count = count($count);
-        $limit = $this->_attachment_limit;
-
-        foreach ($this->_attachments as $attachment)
-        {
-            if ($limit !== false && $count >= $limit)
-            {
-                $context->response->setStatus(500, 'You have reached the attachment limit for this item.');
-                return false;
-            }
-
-            if ($this->_saveFile($context, $attachment)) {
-                $count++;
-            }
-        }
-
-        return true;
-    }
-
-    protected function _beforeAdd(Library\ControllerContextInterface $context) {
-        $this->_populateFilesFromRequest($context);
-    }
-
-    protected function _beforeEdit(Library\ControllerContextInterface $context) {
-        $this->_populateFilesFromRequest($context);
-    }
-
-    protected function _afterAdd(Library\ControllerContextInterface $context) {
-        $this->_saveFiles($context);
-    }
-
-    protected function _afterEdit(Library\ControllerContextInterface $context) {
-        $this->_saveFiles($context);
-    }
-
-    protected function _afterDelete(Library\ControllerContextInterface $context)
+    protected function _deleteFiles(Library\ControllerContextInterface $context)
     {
         $status = $context->result->getStatus();
 
         if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
         {
-            $id = $context->result->get('id');
+            $id    = $context->result->get('id');
             $table = $context->result->getTable()->getBase();
 
             if(!empty($id) && $id != 0)
