@@ -28,6 +28,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     protected function _afterToken(Library\ControllerContextInterface $context)
     {
         $user = $context->user;
+
         if (!$context->result)
         {
             $message = JText::_('ERROR_SENDING_CONFIRMATION_EMAIL');
