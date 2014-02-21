@@ -34,7 +34,10 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('filter' => 'alnum'));
+        $config->append(array(
+            'filter' => 'alnum'
+        ));
+
         parent::_initialize($config);
     }
 
@@ -65,7 +68,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         if ($password->getStatus() == Library\Database::STATUS_FAILED)
         {
             $context->error = $password->getStatusMessage();
-            $result         = false;
+            $result = false;
         }
 
         return $result;
