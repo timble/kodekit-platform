@@ -29,17 +29,11 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
      */
     protected $_container = null;
 
-    /**
-     * You can limit allowed attachment number per node with this property. False for unlimited.
-     */
-    protected $_limit = false;
-
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_container = $config->container;
-        $this->_limit     = $config->limit;
 
         $this->addCommandCallback('before.add'  , '_fetchFiles');
         $this->addCommandCallback('before.edit' , '_fetchFiles');
@@ -52,7 +46,6 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     {
         $config->append(array(
             'container'  => 'attachments-attachments',
-            'limit'      => false
         ));
 
         parent::_initialize($config);
@@ -94,27 +87,12 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
     protected function _storeFiles(Library\ControllerContextInterface $context)
     {
-        if (!$context->error)
+        if (!$context->response->isError())
         {
             $row = $context->result;
 
-            $count = $this->getObject('com:attachments.model.attachments')
-                ->row($row->id)
-                ->table($row->getTable()->getBase())
-                ->getTotal();
-
-
-            foreach ($this->_attachments as $attachment)
-            {
-                if ($this->_limit !== false && $count >= $this->_limit)
-                {
-                    $context->response->setStatus(500, 'You have reached the attachment limit for this item.');
-                    return false;
-                }
-
-                if ($this->_storeFile($context, $attachment)) {
-                    $count++;
-                }
+            foreach ($this->_attachments as $attachment) {
+                $this->_storeFile($context, $attachment);
             }
 
             return true;
@@ -125,36 +103,28 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     {
         $row = $context->result;
 
-        try
-        {
-            $extension  = pathinfo($attachment['name'], PATHINFO_EXTENSION);
-            $name       = md5(time().mt_rand()).'.'.$extension;
-            $hash       = md5_file($attachment['tmp_name']);
+        $extension  = pathinfo($attachment['name'], PATHINFO_EXTENSION);
+        $name       = md5(time().mt_rand()).'.'.$extension;
+        $hash       = md5_file($attachment['tmp_name']);
 
-            // Save file
-            $this->getObject('com:files.controller.file')
-                ->container($this->_container)
-                ->add(array(
-                    'file'   => $attachment['tmp_name'],
-                    'name'   => $name,
-                    'parent' => ''
-                ));
-
-            // Save attachment
-            $this->getObject('com:attachments.controller.attachment')->add(array(
-                'name'      => $attachment['name'],
-                'path'      => $name,
-                'container' => $this->_container,
-                'hash'      => $hash,
-                'row'       => $row->id,
-                'table'     => $row->getTable()->getBase()
+        // Save file
+        $this->getObject('com:files.controller.file')
+            ->container($this->_container)
+            ->add(array(
+                'file'   => $attachment['tmp_name'],
+                'name'   => $name,
+                'parent' => ''
             ));
-        }
-        catch (Library\ControllerException $e)
-        {
-            $context->response->setStatus($e->getCode() , $e->getMessage());
-            return false;
-        }
+
+        // Save attachment
+        $this->getObject('com:attachments.controller.attachment')->add(array(
+            'name'      => $attachment['name'],
+            'path'      => $name,
+            'container' => $this->_container,
+            'hash'      => $hash,
+            'row'       => $row->id,
+            'table'     => $row->getTable()->getBase()
+        ));
 
         return true;
     }
