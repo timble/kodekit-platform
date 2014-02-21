@@ -78,11 +78,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
         // Set the user identifier
         $this->_user = $config->user;
 
-        //Set the query in the request
-        if(!empty($config->query)) {
-            $this->getRequest()->query->add(ObjectConfig::unbox($config->query));
-        }
-
         // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
 
@@ -108,7 +103,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
             'response'         => 'lib:controller.response',
             'user'             => 'lib:user',
             'behaviors'        => array('permissible'),
-            'query'            => array(),
         ));
 
         parent::_initialize($config);
@@ -259,7 +253,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
     {
         if(!$this->_request instanceof ControllerRequestInterface)
         {
-            $this->_request = $this->getObject($this->_request);
+            $this->_request = $this->getObject($this->_request,  array(
+                'url'  => $this->getIdentifier(),
+            ));
 
             if(!$this->_request instanceof ControllerRequestInterface)
             {

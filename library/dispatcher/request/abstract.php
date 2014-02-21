@@ -60,13 +60,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     protected $_referrer;
 
     /**
-     * The format
-     *
-     * @var string
-     */
-    protected $_format;
-
-    /**
      * The token
      *
      * @var string
@@ -244,8 +237,10 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         $config->append(array(
             'base_url'  => '/',
             'base_path' => null,
-            'method'   => null,
-            'formats'  => array(
+            'method'    => null,
+            'format'    => null,
+            'url'       => null,
+            'formats'   => array(
                 'html'     => array('text/html', 'application/xhtml+xml'),
                 'txt'      => array('text/plain'),
                 'js'       => array('application/javascript', 'application/x-javascript', 'text/javascript'),
@@ -570,6 +565,21 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Set the url for this request
+     *
+     * @param string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
+     * @return HttpRequest
+     */
+    public function setUrl($url)
+    {
+        if(!empty($url)) {
+            $this->_url = $this->getObject('lib:http.url', array('url' => $url));
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the HTTP referrer.
      *
      * 'referer' a commonly used misspelling word for 'referrer'
@@ -737,14 +747,12 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      *
      * Find the format by using following sequence :
      *
-     * 1. Use the format information from the url
-     * 2. Use the the 'format' request parameter
+     * 1. Use the the 'format' request parameter
      * 3. Use the accept header with the highest quality apply the reverse format map to find the format.
      *
-     * @param string $format The default format
      * @return  string  The request format or NULL if no format could be found
      */
-    public function getFormat($format = 'html')
+    public function getFormat()
     {
         if (!isset($this->_format))
         {
