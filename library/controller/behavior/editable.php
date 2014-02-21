@@ -347,7 +347,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             if($context->request->getUrl() != $context->request->getReferrer())
             {
                 $user = $this->getObject('user.provider')->load($entity->locked_by);
-                $date = $this-getObject('lib.date',array('date' => $entity->locked_on));
+                $date = $this->getObject('lib:date',array('date' => $entity->locked_on));
 
                 $message = \JText::sprintf('Locked by %s %s', $user->getName(), $date->humanize());
 
