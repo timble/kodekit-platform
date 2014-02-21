@@ -19,8 +19,10 @@ class UsersViewUserHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $context->data->parameters = $this->getObject('application')->getParams();
-        $context->data->page = $this->getObject('application.pages')->getActive();
+        $page = $this->getObject('application.pages')->getActive();
+
+        $context->data->page       = $page;
+        $context->data->parameters = $page->getParams('page');
 
         parent::_fetchData($context);
     }

@@ -34,10 +34,8 @@
 	</div>
 	<div class="form-actions">
 		<input type="submit" name="Submit" class="btn" value="<?= translate('Sign in') ?>" />
-        <? if($parameters->get('registration')) : ?>
-			<?= translate('or') ?>
-			<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
-		<?php endif; ?>
+        <?= translate('or') ?>
+		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
 	</div>
 	</fieldset>
 </form>

@@ -19,7 +19,7 @@ class CategoriesViewCategoriesHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
 	{
-		$context->data->params = $this->getObject('application')->getParams();
+		$context->data->params =  $params = $this->getObject('application.pages')->getActive()->getParams('page');
         parent::_fetchData($context);
 	}
 }

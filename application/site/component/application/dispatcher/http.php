@@ -33,13 +33,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected $_pathway;
 
     /**
-     * The params
-     *
-     * @var object
-     */
-    protected $_params;
-
-    /**
      * Constructor.
      *
      * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
@@ -340,37 +333,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return $this->_pathway;
-    }
-
-    /**
-     * Get the component parameters
-     *
-     * @param	string	$option The component option
-     * @return	object	The parameters object
-     */
-    public function getParams()
-    {
-        if (!isset($this->_params))
-        {
-            // Get component parameters
-            $params = new JParameter('');
-
-            // Get menu parameters
-            $page = $this->getObject('application.pages')->getActive();
-            $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
-
-            // Lets cascade the parameters if we have menu item parameters
-            if (is_object($page))
-            {
-                $params->merge(new JParameter((string) $page->params));
-                $title = $page->title;
-            }
-
-            $params->def( 'page_title'      , $title );
-            $this->_params = $params;
-        }
-
-        return $this->_params;
     }
 
     /**

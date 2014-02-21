@@ -26,9 +26,10 @@ class ApplicationTemplateFilterTitle extends Application\TemplateFilterTitle
         $title = '';
         if($page = $this->getObject('application.pages')->getActive())
         {
-            $params = new JParameter($page->params);
+            $params = $page->getParams('page');
+            $title  = htmlspecialchars_decode($this->getObject('application')->getCfg('sitename' ));
 
-            if($params->get('page_title')) {
+            if($params->get('page_title', $title)) {
                 $title = $this->_renderTag(array(), $params->get('page_title'));
             }
         }
