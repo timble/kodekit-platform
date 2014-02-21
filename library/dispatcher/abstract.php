@@ -66,7 +66,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         if(!$this->_request instanceof DispatcherRequestInterface)
         {
-            $this->_request = parent::getRequest();
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof DispatcherRequestInterface)
             {
@@ -89,10 +89,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         if(!$this->_response instanceof DispatcherResponseInterface)
         {
-            $this->_response = parent::getResponse();
-
-            //Set the request in the response
-            $this->_response->setRequest($this->getRequest());
+            $this->_response = $this->getObject($this->_response, array(
+                'request' => $this->getRequest(),
+                'user'    => $this->getUser(),
+            ));
 
             if(!$this->_response instanceof DispatcherResponseInterface)
             {
