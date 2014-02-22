@@ -39,7 +39,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try 
             {
-                $date = $this->getObject('lib.date', array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = $this->getObject('lib:date', array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $return = $date->format($config->format);
@@ -72,7 +72,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try
             {
-                $date = $this->getObject('lib.date', array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = $this->getObject('lib:date', array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $result = $date->humanize($config->period);
