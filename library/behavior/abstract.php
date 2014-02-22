@@ -80,15 +80,6 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
 
         //Set the command priority
         $this->_priority = $config->priority;
-
-        //Add the command callbacks
-        foreach($this->getMethods() as $method)
-        {
-            $matches = array();
-            if (preg_match('/_(after|before)([A-Z]\S*)/', $method, $matches)) {
-                $this->addCommandCallback($matches[1].'.'.strtolower($matches[2]), $method);
-            }
-        }
     }
 
     /**
@@ -148,16 +139,27 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      */
     public function getHandle()
     {
+        $handle = null;
+
         if($this->isSupported())
         {
+            //Add the command callbacks
+            foreach($this->getMethods() as $method)
+            {
+                $matches = array();
+                if (preg_match('/_(after|before)([A-Z]\S*)/', $method, $matches)) {
+                    $this->addCommandCallback($matches[1].'.'.strtolower($matches[2]), $method);
+                }
+            }
+
             $callbacks = $this->getCommandCallbacks();
 
             if(!empty($callbacks)) {
-                return parent::getHandle();
+                $handle = parent::getHandle();
             }
         }
 
-        return null;
+        return $handle;
     }
 
     /**
