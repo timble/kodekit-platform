@@ -65,7 +65,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     {
         $controller = $this->getController();
 
-        if($this->getController()->canAdd()) {
+        if($controller->canAdd()) {
             $this->addCommand('new');
         }
 
