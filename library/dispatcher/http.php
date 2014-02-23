@@ -18,29 +18,6 @@ namespace Nooku\Library;
 class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
     /**
-	 * Constructor.
-	 *
-	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
-	 */
-	public function __construct(ObjectConfig $config)
-	{
-		parent::__construct($config);
-
-        //Authenticate none safe requests
-        $this->addCommandCallback('before.post'  , '_authenticateRequest');
-        $this->addCommandCallback('before.put'   , '_authenticateRequest');
-        $this->addCommandCallback('before.delete', '_authenticateRequest');
-
-        //Sign GET request with a cookie token
-        $this->addCommandCallback('after.get' , '_signResponse');
-
-        //Force the controller to the information found in the request
-        if($this->getRequest()->query->has('view')) {
-            $this->_controller = $this->getRequest()->query->get('view', 'alpha');
-        }
-	}
-
-    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -51,8 +28,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-            'behaviors'  => array('resettable'),
-            'limit'      => array('max' => 1000, 'default' => 20)
+            'behaviors'      => array('resettable'),
+            'authenticators' => array('token'),
+            'limit'          => array('max' => 1000, 'default' => 20)
          ));
 
         parent::_initialize($config);
@@ -69,76 +47,19 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     {
         if (!$manager->isRegistered($config->object_identifier))
         {
+            //Add the object alias to allow easy access to the singleton
+            $manager->registerAlias($config->object_identifier, 'dispatcher');
+
+            //Merge alias configuration into the identifier
+            $config->append($manager->getIdentifier('dispatcher')->getConfig());
+
+            //Instantiate the class
             $class     = $manager->getClass($config->object_identifier);
             $instance  = new $class($config);
             $manager->setObject($config->object_identifier, $instance);
-
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'dispatcher');
         }
 
         return $manager->getObject($config->object_identifier);
-    }
-
-    /**
-     * Check the request token to prevent CSRF exploits
-     *
-     * Method will always perform a referrer check and a token cookie token check if the user is not authentic or a
-     * session token check if the user is authentic. If any of the checks fail a forbidden exception is thrown.
-     *
-     * @param DispatcherContextInterface $context	A dispatcher context object
-     * @throws ControllerExceptionRequestInvalid      If the request referrer is not valid
-     * @throws ControllerExceptionRequestForbidden    If the cookie token is not valid
-     * @throws ControllerExceptionRequestNotAuthenticated If the session token is not valid
-     * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
-     */
-    protected function _authenticateRequest(DispatcherContextInterface $context)
-    {
-        $request = $context->request;
-        $user    = $context->user;
-
-        if(!$user->isAuthentic())
-        {
-            //Check referrer
-            if(!$request->getReferrer()) {
-                throw new ControllerExceptionRequestInvalid('Invalid Request Referrer');
-            }
-
-            //Check cookie token
-            if($request->getToken() !== $request->cookies->get('_token', 'sha1')) {
-                throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
-            }
-        }
-        else
-        {
-            //Check session token
-            if( $request->getToken() !== $user->getSession()->getToken()) {
-                throw new ControllerExceptionRequestForbidden('Invalid Session Token');
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Sign the response with a token
-     *
-     * @param DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _signResponse(DispatcherContextInterface $context)
-    {
-        if(!$context->response->isError())
-        {
-            $token = $context->user->getSession()->getToken();
-
-            $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
-                'name'   => '_token',
-                'value'  => $token,
-                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
-            )));
-
-            $context->response->headers->set('X-Token', $token);
-        }
     }
 
     /**
@@ -158,12 +79,16 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             $url = clone($context->request->getUrl());
             $url->query['view'] = $this->getController()->getView()->getName();
 
-            return $this->redirect($url);
+            $result = $this->redirect($url);
         }
+        else
+        {
+            $this->setController($this->getRequest()->query->get('view', 'alpha'));
 
-        //Execute the component method
-        $method = strtolower($context->request->getMethod());
-        $result = $this->execute($method, $context);
+            //Execute the component method
+            $method = strtolower($context->request->getMethod());
+            $result = $this->execute($method, $context);
+        }
 
         return $result;
 	}
