@@ -60,7 +60,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             'base_url' => '/administrator',
             'site'     => null,
             'options'  => array(
-                'session_name' => 'admin',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
                 'theme'        => 'default'
@@ -142,10 +141,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     /**
      * Load the user session or create a new one
      *
-     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session,
-     * then the last access time is updated. If a new session, a session id is generated and a record is created
-     * in the users_sessions table.
-     *
      * @return	void
      */
     public function getUser()
@@ -154,29 +149,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         {
             $user    =  parent::getUser();
             $session =  $user->getSession();
-
-            //Set Session Name
-            $session->setName(md5($this->getCfg('secret').$this->getCfg('session_name')));
-
-            //Set Session Lifetime
-            $session->setLifetime($this->getCfg('lifetime', 15) * 60);
-
-            //Set Session Handler
-            $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
-
-            //Set Session Options
-            $session->setOptions(array(
-                'cookie_path'   => (string) $this->getRequest()->getBaseUrl()->getPath() ?: '/',
-                'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
-            ));
-
-            //Auto-start the session if a cookie is found
-            if(!$session->isActive())
-            {
-                if ($this->getRequest()->cookies->has($session->getName())) {
-                    $session->start();
-                }
-            }
 
             //Re-create the session if we changed sites
             if($user->isAuthentic() && ($session->site != $this->getSite()))

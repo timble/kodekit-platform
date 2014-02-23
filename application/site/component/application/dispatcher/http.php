@@ -64,10 +64,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'base_url'  => '/',
             'site'      => null,
             'options'   => array(
-                'session_name' => 'site',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
                 'theme'        => 'bootstrap'
@@ -197,29 +195,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         {
             $user    =  parent::getUser();
             $session =  $user->getSession();
-
-            //Set Session Name
-            $session->setName(md5($this->getCfg('secret').$this->getCfg('session_name')));
-
-            //Set Session Lifetime
-            $session->setLifetime($this->getCfg('lifetime', 15) * 60);
-
-            //Set Session Handler
-            $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
-
-            //Set Session Options
-            $session->setOptions(array(
-                'cookie_path'   => (string) $this->getRequest()->getBaseUrl()->getPath() ?: '/',
-                'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
-            ));
-
-            //Auto-start the session if a cookie is found
-            if(!$session->isActive())
-            {
-                if ($this->getRequest()->cookies->has($session->getName())) {
-                    $session->start();
-                }
-            }
 
             //Re-create the session if we changed sites
             if($user->isAuthentic() && ($session->site != $this->getSite()))

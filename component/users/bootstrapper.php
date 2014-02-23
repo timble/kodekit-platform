@@ -26,6 +26,17 @@ use Nooku\Library;
              'aliases'  => array(
                  'user.provider'  => 'com:users.user.provider',
              ),
+             'configs' => array(
+                 'dispatcher' => array(
+                    'authenticators' => array('com:users.dispatcher.authenticator.cookie'),
+                 ),
+                 'user.session' => array(
+                     'handler' => 'database'
+                 ),
+                 'lib:user.session.handler.database'  => array(
+                     'table' => 'com:users.database.table.sessions'
+                 )
+             )
          ));
 
          parent::_initialize($config);

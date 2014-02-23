@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * Http Dispatcher
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersDispatcherHttp extends Library\DispatcherHttp
+class UsersDispatcherHttp extends Users\DispatcherHttp
 {
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
 	{        	
