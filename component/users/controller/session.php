@@ -19,48 +19,6 @@ use Nooku\Library;
  */
 class ControllerSession extends Library\ControllerModel
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('before.add' , '_authenticateUser');
-    }
-
-    protected function _authenticateUser(Library\ControllerContextInterface $context)
-    {
-        //Load the user
-        $user = $this->getObject('com:users.model.users')
-            ->email($context->request->data->get('email', 'email'))
-            ->getRow();
-
-        if($user->id)
-        {
-            //Check user password
-            $password = $user->getPassword();
-
-            if(!$password->verify($context->request->data->get('password', 'string'))) {
-                throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
-            }
-
-            //Check user enabled
-            if (!$user->enabled) {
-                throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
-            }
-
-            //Start the session (if not started already)
-            $context->user->getSession()->start();
-
-            //Set user data in context
-            $data = $this->getObject('user.provider')->load($user->id)->toArray();
-            $data['authentic'] = true;
-
-            $context->user->setData($data);
-        }
-        else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
-
-        return true;
-    }
-
     protected function _actionDelete(Library\ControllerContextInterface $context)
     {
         //Remove the session from the session store
