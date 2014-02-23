@@ -78,24 +78,24 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
      */
     public function addBehavior($behavior, $config = array())
     {
-        if (!($behavior instanceof BehaviorInterface))
-        {
-            if (!($behavior instanceof ObjectIdentifier))
-            {
-                //Create the complete identifier if a partial identifier was passed
-                if (is_string($behavior) && strpos($behavior, '.') === false)
-                {
-                    $identifier = $this->getIdentifier()->toArray();
-                    $identifier['path'] = array($identifier['path'][0], 'behavior');
-                    $identifier['name'] = $behavior;
 
-                    $identifier = $this->getIdentifier($identifier);
-                }
-                else $identifier = $this->getIdentifier($behavior);
-            }
-            else $identifier = $behavior;
+        //Create the complete identifier if a partial identifier was passed
+        if (is_string($behavior) && strpos($behavior, '.') === false)
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] =  array($identifier['path'][0], 'behavior');
+            $identifier['name'] = $behavior;
+
+            $identifier = $this->getIdentifier($identifier);
         }
-        else $identifier = $behavior->getIdentifier();
+        else
+        {
+            if($behavior instanceof BehaviorInterface) {
+                $identifier = $behavior->getIdentifier();
+            } else {
+                $identifier = $this->getIdentifier($behavior);
+            }
+        }
 
         //Attach the behavior if it doesn't exist yet
         if(!$this->hasBehavior($identifier->name))
@@ -111,9 +111,6 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
                 throw new \UnexpectedValueException("Behavior $identifier does not implement BehaviorInterface");
             }
 
-            //Store the behavior to allow for named lookups
-            $this->__behaviors[$behavior->getName()] = $behavior;
-
             //Force set the mixer
             $behavior->setMixer($this->getMixer());
 
@@ -122,6 +119,9 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
 
             //Mixin the behavior
             $this->mixin($behavior);
+
+            //Store the behavior to allow for named lookups
+            $this->__behaviors[$behavior->getName()] = $behavior;
         }
 
         return $this->getMixer();
