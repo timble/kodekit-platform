@@ -97,7 +97,7 @@ interface ObjectManagerInterface
      * @return ObjectManagerInterface
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function setConfig($identifier, array $config = null);
+    public function setConfig($identifier, $config = null);
 
     /**
      * Register a mixin for an identifier
