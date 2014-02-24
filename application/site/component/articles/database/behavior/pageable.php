@@ -30,7 +30,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_user = $this->getObject('com:users.model.users')->id($config->user)->getRow();
+        $this->_user = $this->getObject('user.provider')->load($config->user);
     }
 
     protected function _beforeSelect(Library\DatabaseContext $context)
@@ -125,7 +125,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
                 'users_group_id' => array_merge(array(0), $user->getGroups()),
                 'component_name' => 'com_'.$this->getMixer()->getIdentifier()->package);
 
-            if ($user->guest) {
+            if (!$user->isAuthentic()) {
                 $needles['access'] = 0;
             }
 
