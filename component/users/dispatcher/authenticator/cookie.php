@@ -32,19 +32,24 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
         $session = $context->getUser()->getSession();
         $request = $context->getRequest();
 
-        //Set Session Name
-        $session->setName(md5($request->getBasePath()));
-
-        //Set Session Options
-        $session->setOptions(array(
-            'cookie_path' => (string) $request->getBaseUrl()->getPath() ?: '/',
-        ));
-
         //Auto-start the session if a cookie is found
         if(!$session->isActive())
         {
-            if ($request->getCookies()->has($session->getName())) {
+            //Set Session Name
+            $session->setName(md5($request->getBasePath()));
+
+            //Set Session Options
+            $session->setOptions(array(
+                'cookie_path'   => (string) $request->getBaseUrl()->getPath(),
+                'cookie_domain' => (string) $request->getBaseUrl()->getHost()
+            ));
+
+            if ($request->getCookies()->has($session->getName()))
+            {
                 $session->start();
+
+                $messages = $context->user->getSession()->getContainer('message')->all();
+                $context->response->setMessages($messages);
             }
         }
     }

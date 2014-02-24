@@ -31,49 +31,23 @@ class UsersControllerSession extends Users\ControllerSession
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
     {
-        //Start the session (if not started already)
-        $session = $context->user->getSession();
-
-        //Insert the session into the database
-        if(!$session->isActive()) {
-            throw new Library\ControllerExceptionActionFailed('Session could not be stored. No active session');
-        }
-
-        //Fork the session to prevent session fixation issues
-        $session->fork();
-
-        //Prepare the data
-        $data = array(
-            'id'          => $session->getId(),
-            'guest'       => !$context->user->isAuthentic(),
-            'email'       => $context->user->getEmail(),
-            'data'        => '',
-            'time'        => time(),
-            'application' => 'admin',
-            'name'        => $context->user->getName()
-        );
-
-        $context->request->data->add($data);
-
-        //Store the session
-        $entity = parent::_actionAdd($context);
+        $result = parent::_actionAdd($context);
 
         //Set the session data
-        $session->site = $this->getObject('application')->getSite();
+        if($context->response->isSuccess()) {
+            $context->user->getSession()->site = $this->getObject('application')->getSite();
+        }
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());
 
-        return $entity;
+        return $result;
     }
 
     protected function _actionDelete(Library\ControllerContextInterface $context)
     {
-        //Force logout from site and administrator
-        $context->request->query->application = array('site', 'admin');
-
         //Delete the session
-        $entity =  parent::_actionDelete($context);
+        $entity = parent::_actionDelete($context);
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());

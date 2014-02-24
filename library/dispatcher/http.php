@@ -83,7 +83,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         }
         else
         {
-            $this->setController($this->getRequest()->query->get('view', 'alpha'));
+            $this->setController($context->request->query->get('view', 'alpha'));
 
             //Execute the component method
             $method = strtolower($context->request->getMethod());

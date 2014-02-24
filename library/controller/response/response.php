@@ -206,6 +206,18 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
     }
 
     /**
+     * Set the response messages
+     *
+     * @param array $messages
+     * @return $this
+     */
+    public function setMessages($messages)
+    {
+        $this->_messages = $messages;
+        return $this;
+    }
+
+    /**
      * Implement a virtual 'headers' class property to return their respective objects.
      *
      * @param   string $name  The property name.

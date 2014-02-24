@@ -50,9 +50,6 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         //Create the transport queue
         $this->_queue = $this->getObject('lib:object.queue');
 
-        //Set the response messages
-        $this->_messages = $this->getUser()->getSession()->getContainer('message')->all();
-
         //Attach the response transport handlers
         $transports = (array) ObjectConfig::unbox($config->transports);
 

@@ -22,7 +22,7 @@ class ModelUsers extends Library\ModelTable
     /**
      * Constructor.
      *
-     * @param   ObjectConfig  An optional Library\ObjectConfig object with configuration options.
+     * @param   ObjectConfig  $config An optional Library\ObjectConfig object with configuration options.
      */
 	public function __construct(Library\ObjectConfig $config)
 	{
@@ -56,7 +56,8 @@ class ModelUsers extends Library\ModelTable
 	    if($state->loggedin)
         {
 	        $query->columns(array(
-	        	'loggedin_application' => 'session.application',
+	        	'loggedin_path'        => 'session.path',
+                'loggedin_domain'      => 'session.domain',
 	        	'loggedin_on'          => 'session.time',
 	        	'loggedin_session_id'  => 'session.users_session_id'
 	        ));
