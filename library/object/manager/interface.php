@@ -90,14 +90,15 @@ interface ObjectManagerInterface
     public function getConfig($identifier = null);
 
     /**
-     * Register object configuration for  specific object identifier
+     * Set the configuration options for an identifier
      *
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An optional associative array of configuration options
-     * @return ObjectManagerInterface
+     * @param array $config      An associative array of configuration options
+     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
+     * @return ObjectManager
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function setConfig($identifier, $config = null);
+    public function setConfig($identifier, $config = array(), $merge = true);
 
     /**
      * Register a mixin for an identifier

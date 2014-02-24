@@ -281,13 +281,14 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param array $config      An associative array of configuration options
+     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
      * @return ObjectManager
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function setConfig($identifier, $config = array())
+    public function setConfig($identifier, $config = array(), $merge = true)
     {
         $identifier = $this->getIdentifier($identifier);
-        $identifier->setConfig($config, false);
+        $identifier->setConfig($config, $merge);
 
         return $this;
     }
