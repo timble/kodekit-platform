@@ -748,6 +748,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * Find the format by using following sequence :
      *
      * 1. Use the the 'format' request parameter
+     * 2. Use the url format
      * 3. Use the accept header with the highest quality apply the reverse format map to find the format.
      *
      * @return  string  The request format or NULL if no format could be found
@@ -756,6 +757,8 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     {
         if (!isset($this->_format))
         {
+            $format = 'html';
+
             if(!$this->query->has('format'))
             {
                 if(!$this->getUrl()->getFormat())
@@ -784,14 +787,13 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
                                 }
                             }
                         }
-                        else $format = 'html';
                     }
                 }
                 else $format = $this->getUrl()->getFormat();
             }
             else $format = $this->query->get('format', 'word');
 
-            $this->_format = $format;
+            $this->setFormat($format);
         }
 
         return $this->_format;

@@ -176,7 +176,8 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
      * Find the format by using following sequence :
      *
      * 1. Use the the 'format' request parameter
-     * 2. Use the accept header with the highest quality apply the reverse format map to find the format.
+     * 2. Use the url format
+     * 3. Use the accept header with the highest quality apply the reverse format map to find the format.
      *
      * @return  string  The request format or NULL if no format could be found
      */
