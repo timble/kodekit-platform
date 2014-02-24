@@ -101,7 +101,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             $cookie = $this->getObject('lib:http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => $referrer,
-                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
+                'path'   => $context->request->getBaseUrl()->getPath()
             ));
 
             $context->response->headers->addCookie($cookie);
@@ -119,7 +119,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $cookie = $this->getObject('lib:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
-            'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
+            'path'   => $context->request->getBaseUrl()->getPath()
         ));
 
         $context->response->headers->addCookie($cookie);
@@ -133,7 +133,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unlockReferrer(ControllerContextInterface $context)
     {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
+        $path = $context->request->getBaseUrl()->getPath();
         $context->response->headers->clearCookie('referrer_locked', $path);
     }
 
@@ -144,7 +144,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unsetReferrer(ControllerContextInterface $context)
     {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
+        $path = $context->request->getBaseUrl()->getPath();
         $context->response->headers->clearCookie('referrer', $path);
     }
 
