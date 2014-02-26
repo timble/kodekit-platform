@@ -127,9 +127,9 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             }*/
         }
 
+        // Clear role cache
         if ($this->isModified('role_id'))
         {
-            // Clear role cache
             $this->_role = null;
         }
 
@@ -161,9 +161,11 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     {
         $result = parent::load();
 
-        // Clear role cache
-        if ($result) {
-            $this->_role = null;
+        // Clear cache
+        if ($result)
+        {
+            $this->_role   = null;
+            $this->_groups = null;
         }
 
         return $result;
@@ -173,8 +175,10 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     {
         $result = parent::reset();
 
-        // Clear role cache
-        $this->_role = null;
+        // Clear cache
+        $this->_role   = null;
+        $this->_groups = null;
+
         return $result;
     }
 
