@@ -136,8 +136,10 @@ puphpet::ini { 'custom':
   require => Class['php'],
 }
 
+# For enabling xdebug support for php-fpm, just uncomment the zend_extension directive and re-provision the VM.
 puphpet::ini { 'xdebug':
   value   => [
+  ';zend_extension=/usr/lib/php5/20100525/xdebug.so',
   'xdebug.remote_autostart = 0',
   'xdebug.remote_connect_back = 1',
   'xdebug.remote_enable = 1',
