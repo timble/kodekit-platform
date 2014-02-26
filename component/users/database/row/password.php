@@ -228,7 +228,10 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     public function toArray()
     {
         $password = parent::toArray();
+
+        // Unset sensible data.
         unset($password['hash']);
+        unset($password['reset']);
 
         return $password;
     }
