@@ -90,7 +90,10 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
             }
 
             // Reset expiration date.
-            $this->resetExpiration(false);
+            if ($this->isExpirable())
+            {
+                $this->resetExpiration(false);
+            }
 
             // Create hash.
             $this->hash = $this->getHash($password);
