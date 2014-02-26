@@ -57,8 +57,6 @@ class ClassLocatorComponent extends ClassLocatorAbstract
      */
     public function locate($class, $basepath = null)
 	{
-        $test = $class;
-
         //Find the class
         foreach($this->getNamespaces() as $namespace => $basepath)
         {
