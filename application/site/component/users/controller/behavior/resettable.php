@@ -42,6 +42,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
         }
+
+        $context->response->setRedirect($url, $message, $type);
     }
 
     protected function _afterReset(Library\ControllerContextInterface $context)
