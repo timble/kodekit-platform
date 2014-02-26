@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
+abstract class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 {
     /**
      * @var string The token filter.
@@ -110,40 +110,5 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionToken(Library\ControllerContextInterface $context)
-    {
-        $result = true;
-
-        $row   = $context->row;
-        $token = $row->getPassword()->setReset();
-
-        $extension = $this->getObject('application.extensions')->getExtension('users');
-        $page      = $this->getObject('application.pages')->find(array(
-            'extensions_extension_id' => $extension->id,
-            'access'                  => 0,
-            'link'                    => array(array('view' => 'user'))));
-
-        $url                  = $page->getLink();
-        $url->query['layout'] = 'password';
-        $url->query['token']  = $token;
-        $url->query['uuid']   = $row->uuid;
-
-        $this->getObject('application')->getRouter()->build($url);
-
-        $url = $context->request->getUrl()
-               ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
-
-        $site_name = \JFactory::getConfig()->getValue('sitename');
-
-        $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-        // TODO Fix when language package is re-factored.
-        //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-        $message = $url;
-
-        if (!$row->notify(array('subject' => $subject, 'message' => $message))) {
-            $result = false;
-        }
-
-        return $result;
-    }
+    abstract protected function _actionToken(Library\ControllerContextInterface $context);
 }
