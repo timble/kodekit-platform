@@ -58,9 +58,8 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
         );
 
         $needles = array(
-            'extensions_extension_id' => $this->getObject('application.extensions')
-                ->getExtension($this->getIdentifier()->package)->id,
-            'link'                    => array(
+            'component' => $this->getIdentifier()->package,
+            'link'     => array(
                 array('view' => 'user'))
         );
 

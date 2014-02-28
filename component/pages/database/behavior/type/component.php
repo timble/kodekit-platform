@@ -44,7 +44,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     public function getTypeDescription()
     {
         $query       = $this->getLink()->query;
-        $description = $this->extension_name ? ucfirst(substr($this->extension_name, 4)) : ucfirst(substr($query['option'], 4));
+        $description = $this->component ? ucfirst($this->component) : ucfirst(substr($query['option'], 4));
 
         if(isset($query['view'])) {
             $description .= ' &raquo; '.\JText::_(ucfirst($query['view']));
@@ -141,14 +141,8 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
                 $query += $this->urlparams;
             }
 
-            $this->link_url = http_build_query($query);
-
-            // TODO: Get component from application.component.
-            // Set extension id.
-            $extension = $this->getObject('com:extensions.database.table.extensions')
-                ->select(array('name' => $query['option']), Library\Database::FETCH_ROW);
-
-            $this->extensions_extension_id = $extension->id;
+            $this->link_url  = http_build_query($query);
+            $this->component = substr($query['option'], 4);
         }
     }
 

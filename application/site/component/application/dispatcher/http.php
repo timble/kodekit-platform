@@ -148,8 +148,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         //Set the controller to dispatch
         if($context->request->query->has('option'))
         {
-            $extension = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->forward($extension);
+            $component = substr( $context->request->query->get('option', 'cmd'), 4);
+            $this->forward($component);
         }
 
         //Dispatch the request

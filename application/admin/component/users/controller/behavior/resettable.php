@@ -49,11 +49,10 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         $row   = $context->row;
         $token = $row->getPassword()->setReset();
 
-        $extension = $this->getObject('application.extensions')->getExtension('users');
         $page      = $this->getObject('application.pages')->find(array(
-            'extensions_extension_id' => $extension->id,
-            'access'                  => 0,
-            'link'                    => array(array('view' => 'user'))));
+            'component' => 'users',
+            'access'    => 0,
+            'link'      => array(array('view' => 'user'))));
 
         $url                  = $page->getLink();
         $url->query['layout'] = 'password';

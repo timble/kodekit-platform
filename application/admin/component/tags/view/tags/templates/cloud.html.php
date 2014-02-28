@@ -12,13 +12,13 @@
 
 <ul id="tags-tags-cloud">
 	<? foreach ($tags as $tag) : ?>
-	<? list($extension, $view) = explode("_", $tag->table) ?>
+	<? list($component, $view) = explode("_", $tag->table) ?>
 	<li>
 		<span><?= $tags->count ?> <?= translate('articles are tagged with') ?></span>
-		<a  href="<?= route('option=com_'.$extension.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/$total + 1) ?>" ><?= $tag->title; ?></a>
+		<a  href="<?= route('option=com_'.$component.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/$total + 1) ?>" ><?= $tag->title; ?></a>
 	</li>
 	<? endforeach; ?>
 	<li>
-		<a href="<?= route('option=com_'.$extension.'&view='.$view.'&tag=') ?>"><?= translate('All tags') ?></a>
+		<a href="<?= route('option=com_'.$component.'&view='.$view.'&tag=') ?>"><?= translate('All tags') ?></a>
 	</li>
 </ul>

@@ -13,7 +13,7 @@
 
 <?= import('page_head.html') ?>
 
-<body class="com_<?= $extension ?>">
+<body class="com_<?= $component ?>">
 <div id="panel-wrapper">
     <div id="panel-navbar">
         <div id="menu">

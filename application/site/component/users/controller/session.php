@@ -46,12 +46,11 @@ class UsersControllerSession extends Users\ControllerSession
 
             if ($password->expired())
             {
-                $extension = $this->getObject('application.extensions')->getExtension('users');
-                $pages     = $this->getObject('application.pages');
+                $pages  = $this->getObject('application.pages');
 
                 $page = $pages->find(array(
-                    'extensions_extension_id' => $extension->id,
-                    'link'                    => array(array('view' => 'user'))));
+                    'component' => 'users',
+                    'link'      => array(array('view' => 'user'))));
 
                 $url                  = $page->getLink();
                 $url->query['layout'] = 'password';

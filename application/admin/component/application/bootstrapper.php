@@ -24,7 +24,6 @@ class ApplicationBootstrapper extends Application\Bootstrapper
              'priority' => self::PRIORITY_LOW,
              'aliases'  => array(
                  'application'                    => 'com:application.dispatcher.http',
-                 'application.extensions'         => 'com:application.database.rowset.extensions',
                  'application.languages'          => 'com:application.database.rowset.languages',
                  'application.pages'              => 'com:application.database.rowset.pages',
                  'application.modules'            => 'com:application.database.rowset.modules',

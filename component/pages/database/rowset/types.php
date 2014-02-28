@@ -7,17 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Extensions;
+namespace Nooku\Component\Pages;
 
 use Nooku\Library;
 
 /**
- * Listbox Template Helper
+ * Types Database Rowset
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Extensions
+ * @package Nooku\Component\Types
  */
-class TemplateHelperListbox extends Library\TemplateHelperListbox
-{
-
+class DatabaseRowsetTypes extends Library\DatabaseRowsetAbstract
+{       
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'identity_column' => 'name'
+        ));
+        
+        parent::_initialize($config);
+    }
 }

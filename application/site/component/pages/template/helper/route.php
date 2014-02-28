@@ -25,9 +25,7 @@ class PagesTemplateHelperRoute extends Library\TemplateHelperDefault
      */
     protected function _findPage($needles)
 	{
-        $extension = $this->getObject('application.extensions')->getExtension($this->getIdentifier()->package);
-        $pages     = $this->getObject('application.pages');
-
-        return $pages->find(array('extensions_extension_id' => $extension->id, 'link' => $needles));
+        $pages  = $this->getObject('application.pages');
+        return $pages->find(array('component' => $this->getIdentifier()->package, 'link' => $needles));
 	}
 }

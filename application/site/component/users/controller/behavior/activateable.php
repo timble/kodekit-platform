@@ -53,12 +53,10 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     protected function _getActivationUrl()
     {
         $user = $this->getModel()->getRow();
-
-        $extension = $this->getObject('application.extensions')->getExtension('users');
-        $page      = $this->getObject('application.pages')->find(array(
-            'extensions_extension_id' => $extension->id,
-            'access'                  => 0,
-            'link'                    => array(array('view' => 'user'))));
+        $page  = $this->getObject('application.pages')->find(array(
+            'component' => 'users',
+            'access'    => 0,
+            'link'      => array(array('view' => 'user'))));
 
         $url                      = $page->getLink();
         $url->query['activation'] = $user->activation;

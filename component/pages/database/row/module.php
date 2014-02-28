@@ -55,8 +55,8 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 
         if($column == 'identifier' && empty($this->_data['identifier']))
         {
-            $name        = substr( $this->name, 4);
-            $package     = substr($this->extension_name, 4);
+            $name    = substr( $this->name, 4);
+            $package = $this->component;
 
             $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$name.'.html');
         }

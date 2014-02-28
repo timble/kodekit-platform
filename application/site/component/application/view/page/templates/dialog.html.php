@@ -13,7 +13,7 @@
 
 <?= import('page_head.html') ?>
 
-<body id="tmpl-modal" class="com_<?= $extension ?>">
+<body id="tmpl-modal" class="com_<?= $component ?>">
     <ktml:messages>
     <ktml:content>
 </body>

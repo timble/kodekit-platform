@@ -34,19 +34,19 @@ INSERT INTO `categories` (`categories_category_id`, `parent_id`, `attachments_at
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_extension_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
   VALUES
-  (29, 1, 0, 'Article', 'article', 'option=com_articles&view=article&id=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (30, 1, 0, 'Articles Blog', 'blog', 'option=com_articles&view=articles&category=2', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (31, 1, 0, 'Articles Table', 'table', 'option=com_articles&view=articles&category=2&layout=table', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (32, 1, 0, 'Malesuada', 'malesuada', 'option=com_articles&view=article&id=10', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (33, 1, 0, 'Pharetra Inceptos', 'pharetra-inceptos', 'option=com_articles&view=article&id=9', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (34, 1, 0, 'Cursus', 'cursus', 'option=com_articles&view=article&id=8', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (35, 1, 0, 'Elit Risus', 'elit-risus', 'option=com_articles&view=article&id=7', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (37, 1, 0, 'Files Gallery', 'files-gallery', 'option=com_files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 19, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
-  (38, 1, 0, 'Files Table', 'files-table', 'option=com_files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 19, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
-  (39, 3, 0, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"'),
-  (40, 4, 0, 'Search', 'search', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"');
+  (29, 1, 0, 'Article', 'article', 'option=com_articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (30, 1, 0, 'Articles Blog', 'blog', 'option=com_articles&view=articles&category=2', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (31, 1, 0, 'Articles Table', 'table', 'option=com_articles&view=articles&category=2&layout=table', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (32, 1, 0, 'Malesuada', 'malesuada', 'option=com_articles&view=article&id=10', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (33, 1, 0, 'Pharetra Inceptos', 'pharetra-inceptos', 'option=com_articles&view=article&id=9', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (34, 1, 0, 'Cursus', 'cursus', 'option=com_articles&view=article&id=8', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (35, 1, 0, 'Elit Risus', 'elit-risus', 'option=com_articles&view=article&id=7', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
+  (37, 1, 0, 'Files Gallery', 'files-gallery', 'option=com_files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
+  (38, 1, 0, 'Files Table', 'files-table', 'option=com_files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
+  (39, 3, 0, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"'),
+  (40, 4, 0, 'Search', 'search', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"');
 
 --
 -- Dumping data for table `pages_orderings`
@@ -84,12 +84,12 @@ INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `des
 -- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_extension_id`, `application`)
+INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`)
   VALUES
-  (2, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
-  (3, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
-  (4, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_search', 0, 'form_class=navbar-search form-search pull-right\ninput_class=span2 search-query\nitem_id=40', 20, 'site'),
-  (5, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site');
+  (2, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 'pages', 'site'),
+  (3, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_login', 0, 'show_title=1', 'users', 'site'),
+  (4, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_search', 0, 'form_class=navbar-search form-search pull-right\ninput_class=span2 search-query\nitem_id=40', 'articles', 'site'),
+  (5, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 'pages', 'site');
 
 --
 -- Dumping data for table `pages_modules`

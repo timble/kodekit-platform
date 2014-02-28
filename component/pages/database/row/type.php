@@ -7,25 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Extensions;
+namespace Nooku\Component\Pages;
 
 use Nooku\Library;
 
 /**
- * Extensions Database Table
+ * Type Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Extensions
+ * @package Nooku\Component\Pages
  */
-class DatabaseTableExtensions extends Library\DatabaseTableAbstract
+class DatabaseRowType extends Library\DatabaseRowAbstract
 {
-    public function  _initialize(Library\ObjectConfig $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'name'     => 'extensions',
-            'filters'  => array('params' => 'ini')
+            'identity_column'   => 'name'
         ));
-        
+
         parent::_initialize($config);
     }
 }
