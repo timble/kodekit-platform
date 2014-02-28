@@ -372,35 +372,35 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
      */
     public function __call($method, $args)
     {
-        if (!isset($this->_mixed_methods[$method]))
+        //Handle action alias method
+        if (in_array($method, $this->getActions()))
         {
-            //Handle action alias method
-            if (in_array($method, $this->getActions()))
+            //Get the data
+            $data = !empty($args) ? $args[0] : array();
+
+            //Create a context object
+            if (!($data instanceof CommandInterface))
             {
-                //Get the data
-                $data = !empty($args) ? $args[0] : array();
+                $context = $this->getContext();
 
-                //Create a context object
-                if (!($data instanceof CommandInterface))
-                {
-                    $context = $this->getContext();
+                //Store the parameters in the context
+                $context->param = $data;
 
-                    //Store the parameters in the context
-                    $context->param = $data;
-
-                    //Automatic set the data in the request if an associative array is passed
-                    if(is_array($data) && !is_numeric(key($data))) {
-                        $context->request->data->add($data);
-                    }
-
-                    $context->result = false;
+                //Automatic set the data in the request if an associative array is passed
+                if(is_array($data) && !is_numeric(key($data))) {
+                    $context->request->data->add($data);
                 }
-                else $context = $data;
 
-                //Execute the action
-                return $this->execute($method, $context);
+                $context->result = false;
             }
+            else $context = $data;
 
+            //Execute the action
+            return $this->execute($method, $context);
+        }
+
+        if(!isset($this->_mixed_methods[$method]))
+        {
             //Check if a behavior is mixed
             $parts = StringInflector::explode($method);
 
