@@ -124,7 +124,7 @@ puphpet::ini { 'php':
 
 puphpet::ini { 'custom':
   value   => [
-    'sendmail_path = /usr/bin/env catchmail -fnoreply@example.com',
+    'sendmail_path = /opt/vagrant_ruby/bin/catchmail -fnoreply@example.com',
     'display_errors = On',
     'error_reporting = E_ALL & ~E_STRICT',
     'upload_max_filesize = "256M"',
