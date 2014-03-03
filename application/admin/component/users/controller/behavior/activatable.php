@@ -17,7 +17,7 @@ use Nooku\Component\Users;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
-class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActivatable
+class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
 {
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {

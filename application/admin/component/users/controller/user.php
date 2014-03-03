@@ -22,7 +22,7 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $config->append(array(
             'behaviors' => array(
-                'activateable'                                => array('force' => false),
+                'activatable'                                 => array('force' => false),
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name')
             )
         ));
