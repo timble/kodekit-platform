@@ -18,64 +18,56 @@ use Nooku\Component\Users;
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
-    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    protected function _beforeToken(Library\ControllerContextInterface $context)
     {
-        // Force a password reset.
-        if (!$context->request->data->get('password', 'string')) {
-            $context->request->data->password_reset = true;
-        }
-    }
+        $result = false;
 
-    protected function _afterAdd(Library\ControllerContextInterface $context)
-    {
-        $user = $context->result;
-        if ($context->request->data->get('password_reset', 'boolean') && $user->getStatus() !== Library\Database::STATUS_FAILED)
+        if (parent::_beforeToken($context))
         {
-            if (!$this->token($context)) {
-                $context->response->addMessage('Failed to deliver the password reset token', 'error');
+            $page = $this->getObject('application.pages')->find(array(
+                'component'               => 'users',
+                'access'                  => 0,
+                'link'                    => array(array('view' => 'user'))));
+
+            if ($page)
+            {
+                $context->page = $page;
+                $result        = true;
             }
-        }
-    }
-
-    protected function _afterEdit(Library\ControllerContextInterface $context)
-    {
-        return $this->_afterAdd($context);
-    }
-
-    protected function _actionToken(Library\ControllerContextInterface $context)
-    {
-        $result = true;
-
-        $row   = $context->row;
-        $token = $row->getPassword()->setReset();
-
-        $page      = $this->getObject('application.pages')->find(array(
-            'component' => 'users',
-            'access'    => 0,
-            'link'      => array(array('view' => 'user'))));
-
-        $url                  = $page->getLink();
-        $url->query['layout'] = 'password';
-        $url->query['token']  = $token;
-        $url->query['uuid']   = $row->uuid;
-
-        $this->getObject('application')->getRouter()->build($url);
-
-        $url = $context->request->getUrl()
-                                ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
-
-        $site_name = \JFactory::getConfig()->getValue('sitename');
-
-        $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-        // TODO Fix when language package is re-factored.
-        //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-        $message = $url;
-
-        if (!$row->notify(array('subject' => $subject, 'message' => $message)))
-        {
-            $result = false;
         }
 
         return $result;
+    }
+
+    protected function _afterToken(Library\ControllerContextInterface $context)
+    {
+        if ($context->result)
+        {
+            $page  = $context->page;
+            $token = $context->token;
+            $row   = $context->row;
+
+            $url                  = $page->getLink();
+            $url->query['layout'] = 'password';
+            $url->query['token']  = $token;
+            $url->query['uuid']   = $row->uuid;
+
+            $this->getObject('application')->getRouter()->build($url);
+
+            $url = $context->request->getUrl()
+                                    ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+
+            $site_name = \JFactory::getConfig()->getValue('sitename');
+
+            $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+            // TODO Fix when language package is re-factored.
+            //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+            $message = $url;
+
+            if (!$row->notify(array('subject' => $subject, 'message' => $message)))
+            {
+                $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
+            }
+        }
     }
 }
