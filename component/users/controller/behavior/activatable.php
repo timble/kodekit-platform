@@ -51,18 +51,17 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeActivate(Library\ControllerContextInterface $context)
     {
+        $result = true;
+
         $activation = $context->request->data->get('activation', $this->_filter);
         $row        = $this->getModel()->getRow();
 
         if ($activation !== $row->activation)
         {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
-            $this->getObject('application')->getRouter()->build($url);
-
-            $context->response->setRedirect($url, 'Wrong activation token', 'error');
-
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     protected function _actionActivate(Library\ControllerContextInterface $context)

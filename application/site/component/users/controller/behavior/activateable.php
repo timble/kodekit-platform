@@ -45,6 +45,22 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         }
     }
 
+    protected function _beforeActivate(Library\ControllerContextInterface $context)
+    {
+        $result = true;
+
+        if (!parent::_beforeActivate($context))
+        {
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
+
+            $context->response->setRedirect($url, 'Wrong activation token', 'error');
+            $result = false;
+        }
+
+        return $result;
+    }
+
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {
         $user = $context->result;
