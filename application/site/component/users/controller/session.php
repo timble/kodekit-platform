@@ -23,7 +23,7 @@ class UsersControllerSession extends Users\ControllerSession
         parent::__construct($config);
 
         //Authorize the user before adding
-        $this->addCommandCallback('after.add'  , '_resetPassword');
+        $this->addCommandCallback('after.add'  , '_changePassword');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -37,7 +37,7 @@ class UsersControllerSession extends Users\ControllerSession
         parent::_initialize($config);
     }
 
-    protected function _resetPassword(Library\ControllerContextInterface $context)
+    protected function _changePassword(Library\ControllerContextInterface $context)
     {
         if ($context->result !== false)
         {
