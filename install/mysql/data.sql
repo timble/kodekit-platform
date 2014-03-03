@@ -14,7 +14,7 @@ VALUES
 -- Dumping data for table `languages_tables`
 --
 
-INSERT INTO `languages_tables` (component`, `name`, `unique_column`, `enabled`)
+INSERT INTO `languages_tables` (`component`, `name`, `unique_column`, `enabled`)
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
