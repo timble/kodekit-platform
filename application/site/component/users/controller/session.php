@@ -23,7 +23,7 @@ class UsersControllerSession extends Users\ControllerSession
         parent::__construct($config);
 
         //Authorize the user before adding
-        $this->addCommandCallback('after.add'  , '_changePassword');
+        $this->addCommandCallback('after.add'  , '_passwordRedirect');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -37,7 +37,7 @@ class UsersControllerSession extends Users\ControllerSession
         parent::_initialize($config);
     }
 
-    protected function _changePassword(Library\ControllerContextInterface $context)
+    protected function _passwordRedirect(Library\ControllerContextInterface $context)
     {
         if ($context->result !== false)
         {
@@ -52,12 +52,15 @@ class UsersControllerSession extends Users\ControllerSession
                     'component' => 'users',
                     'link'      => array(array('view' => 'user'))));
 
-                $url                  = $page->getLink();
-                $url->query['layout'] = 'password';
-                $url->query['id']     = $user->getId();
+                if ($page)
+                {
+                    $url                  = $page->getLink();
+                    $url->query['layout'] = 'password';
+                    $url->query['id']     = $user->getId();
 
-                $this->getObject('application')->getRouter()->build($url);
-                $this->getObject('application')->redirect($url);
+                    $this->getObject('application')->getRouter()->build($url);
+                    $this->getObject('application')->redirect($url);
+                }
             }
         }
     }
