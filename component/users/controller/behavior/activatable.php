@@ -49,25 +49,6 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeRender(Library\ControllerContextInterface $context)
-    {
-        $row = $this->getModel()->getRow();
-
-        if (($activation = $context->request->query->get('activation', $this->_filter)))
-        {
-            if (!$row->activation)
-            {
-                $url = $this->getObject('application.pages')->getHome()->getLink();
-                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
-
-                $context->response->setRedirect($url, 'Invalid request', 'error');
-            }
-            else $this->activate(array('activation' => $activation));
-
-            return false;
-        }
-    }
-
     protected function _beforeActivate(Library\ControllerContextInterface $context)
     {
         $activation = $context->request->data->get('activation', $this->_filter);
