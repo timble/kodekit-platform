@@ -47,10 +47,6 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if ($this->getModel()->getRow()->isNew() || !$this->_isTokenValid($context))
         {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
-            $this->getObject('application')->getRouter()->build($url);
-
-            $context->response->setRedirect($url, \JText::_('INVALID_REQUEST'), 'error');
             $result = false;
         }
 

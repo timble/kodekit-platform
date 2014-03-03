@@ -44,6 +44,22 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         return $result;
     }
 
+    protected function _beforeReset(Library\ControllerContextInterface $context)
+    {
+        $result = true;
+
+        if (!parent::_beforeReset($context))
+        {
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
+
+            $context->response->setRedirect($url, \JText::_('INVALID_REQUEST'), 'error');
+            $result = false;
+        }
+
+        return $result;
+    }
+
     protected function _beforeToken(Library\ControllerContextInterface $context)
     {
         $result = false;
