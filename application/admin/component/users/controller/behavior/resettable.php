@@ -13,7 +13,7 @@ use Nooku\Component\Users;
 /**
  * Resettable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
@@ -58,6 +58,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             $url->query['token']  = $token;
             $url->query['uuid']   = $row->uuid;
 
+            // TODO: This URL needs to be routed using the site app router.
             $this->getObject('application')->getRouter()->build($url);
 
             $url = $context->request->getUrl()
