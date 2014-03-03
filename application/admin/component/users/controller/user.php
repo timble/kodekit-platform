@@ -40,4 +40,55 @@ class UsersControllerUser extends Users\ControllerUser
 
         return $entity;
     }
+
+    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    {
+        // Expire password
+        if (!$context->request->data->get('password', 'string'))
+        {
+            $this->addCommandCallback('after.add', '_resetPassword');
+        }
+    }
+
+    protected function _beforeEdit(Library\ControllerContextInterface $context)
+    {
+        if ($context->request->data->get('password_reset', 'boolean'))
+        {
+            $this->addCommandCallback('after.edit', '_expirePassword');
+        }
+    }
+
+    /**
+     * Reset password callback.
+     *
+     * @param Library\ControllerContextInterface $context
+     */
+    protected function _resetPassword(Library\ControllerContextInterface $context)
+    {
+        $user = $context->result;
+
+        if ($user->getStatus() !== Library\Database::STATUS_FAILED)
+        {
+            if (!$this->token($context))
+            {
+                $context->response->addMessage('Failed to deliver the password reset token', 'error');
+            }
+        }
+    }
+
+    /**
+     * Expire password callback.
+     *
+     * @param Library\ControllerContextInterface $context
+     */
+    protected function _expirePassword(Library\ControllerContextInterface $context)
+    {
+        $user = $context->result;
+
+        // Expire the user's password if a password reset was requested.
+        if ($user->getStatus() !== Library\Database::STATUS_FAILED)
+        {
+            $user->getPassword()->expire();
+        }
+    }
 }
