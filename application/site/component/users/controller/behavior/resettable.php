@@ -62,25 +62,12 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
     protected function _beforeToken(Library\ControllerContextInterface $context)
     {
-        $result = false;
+        $result = true;
 
-        if (parent::_beforeToken($context))
-        {
-            $page = $this->getObject('application.pages')->find(array(
-                'component' => 'users',
-                'access'    => 0,
-                'link'      => array(array('view' => 'user'))));
-
-            if ($page)
-            {
-                $context->page = $page;
-                $result        = true;
-            }
-        }
-        else
+        if (!parent::_beforeToken($context))
         {
             $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('COULD_NOT_FIND_USER'), 'error');
+            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
             $result = false;
         }
 
@@ -91,44 +78,43 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $page  = $context->page;
-            $token = $context->token;
-            $row   = $context->row;
+            $page = $this->getObject('application.pages')->find(array(
+                'component' => 'users',
+                'access'    => 0,
+                'link'      => array(array('view' => 'user'))));
 
-            $url                  = $page->getLink();
-            $url->query['layout'] = 'password';
-            $url->query['token']  = $token;
-            $url->query['uuid']   = $row->uuid;
-
-            $this->getObject('application')->getRouter()->build($url);
-
-            $url = $context->request->getUrl()
-                                    ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
-
-            $site_name = \JFactory::getConfig()->getValue('sitename');
-
-            $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-            // TODO Fix when language package is re-factored.
-            //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-            $message = $url;
-
-            if ($row->notify(array('subject' => $subject, 'message' => $message)))
+            if ($page)
             {
-                $message = JText::_('CONFIRMATION_EMAIL_SUCCESS');
-                $type    = 'success';
+                $token = $context->token;
+                $row   = $context->row;
 
-                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url                  = $page->getLink();
+                $url->query['layout'] = 'password';
+                $url->query['token']  = $token;
+                $url->query['uuid']   = $row->uuid;
+
+                // TODO: This URL needs to be routed using the site app router.
                 $this->getObject('application')->getRouter()->build($url);
+
+                $url = $context->request->getUrl()
+                                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+
+                $site_name = \JFactory::getConfig()->getValue('sitename');
+
+                $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+                // TODO Fix when language package is re-factored.
+                //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+                $message = $url;
+
+                if (!$row->notify(array('subject' => $subject, 'message' => $message)))
+                {
+                    $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
+                }
             }
             else
             {
-                $message = JText::_('ERROR_SENDING_CONFIRMATION_EMAIL');
-                $type    = 'error';
-
-                $url = $context->request->getReferrer();
+                $context->response->addMessage('Unable to get a password reset URL', 'error');
             }
-
-            $context->response->setRedirect($url, $message, $type);
         }
     }
 
