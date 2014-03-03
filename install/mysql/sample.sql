@@ -47,6 +47,7 @@ INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`
   (38, 1, 0, 'Files Table', 'files-table', 'option=com_files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
   (39, 3, 0, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"'),
   (40, 4, 0, 'Search', 'search', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"');
+  (41, 3, 0, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 --
 -- Dumping data for table `pages_orderings`
@@ -69,7 +70,9 @@ INSERT INTO `pages_closures` (`ancestor_id`, `descendant_id`, `level`)
   (37, 37, 0),
   (38, 38, 0),
   (39, 39, 0),
-  (40, 40, 0);
+  (40, 40, 0),
+  (41, 41, 0);
+
 
 --
 -- Dumping data for table `pages_menus`
@@ -117,7 +120,8 @@ INSERT INTO `pages_orderings` (`pages_page_id`, `title`, `custom`)
   (37, 00000000005, 00000000006),
   (38, 00000000006, 00000000007),
   (39, 00000000001, 00000000001),
-  (40, 00000000001, 00000000001);
+  (40, 00000000001, 00000000001),
+  (41, 00000000002, 00000000002);
 
 --
 -- Update creation date to today (this very moment)
