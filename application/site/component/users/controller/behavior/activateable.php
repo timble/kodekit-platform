@@ -12,7 +12,7 @@ use Nooku\Library, Nooku\Component\Users;
 /**
  * Activateable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
@@ -65,10 +65,10 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
+        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation && ($url = $this->_getActivationUrl()))
         {
             $url = $context->request->getUrl()
-                ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $this->_getActivationUrl();
+                                    ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
             // TODO Uncomment and fix after Langauge support is re-factored.
             //$subject = JText::_('User Account Activation');
@@ -87,17 +87,23 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
     protected function _getActivationUrl()
     {
+        $url = null;
+
         $user = $this->getModel()->getRow();
         $page  = $this->getObject('application.pages')->find(array(
             'component' => 'users',
             'access'    => 0,
             'link'      => array(array('view' => 'user'))));
 
-        $url                      = $page->getLink();
-        $url->query['activation'] = $user->activation;
-        $url->query['uuid']       = $user->uuid;
+        if ($page)
+        {
+            $url                      = $page->getLink();
+            $url->query['activation'] = $user->activation;
+            $url->query['uuid']       = $user->uuid;
 
-        $this->getObject('application')->getRouter()->build($url);
+            // TODO: This URL needs to be routed using the site app router.
+            $this->getObject('application')->getRouter()->build($url);
+        }
 
         return $url;
     }
