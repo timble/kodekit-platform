@@ -19,10 +19,29 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 {
     protected function _beforeRead(Library\ControllerContextInterface $context)
     {
+        $result = true;
+
         // Push the token to the view.
-        if ($token = $context->request->query->get('token', $this->_filter)) {
-            $this->getView()->token = $token;
+        if ($token = $context->request->query->get('token', $this->_filter))
+        {
+            $user = $this->getModel()->getRow();
+
+            // Only passwords from enabled users can be reset.
+            if (!$user->enabled)
+            {
+                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $this->getObject('application')->getRouter()->build($url);
+                $context->response->setRedirect($url, JText::_('CANNOT_RESET_USER_NOT_ENABLED'),
+                    Library\ControllerResponseInterface::FLASH_ERROR);
+                $result = false;
+            }
+            else
+            {
+                $this->getView()->token = $token;
+            }
         }
+
+        return $result;
     }
 
     protected function _beforeToken(Library\ControllerContextInterface $context)
