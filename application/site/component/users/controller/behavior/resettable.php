@@ -25,25 +25,70 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         }
     }
 
+    protected function _beforeToken(Library\ControllerContextInterface $context)
+    {
+        $result = false;
+
+        if (parent::_beforeToken($context))
+        {
+            $page = $this->getObject('application.pages')->find(array(
+                'component' => 'users',
+                'access'    => 0,
+                'link'      => array(array('view' => 'user'))));
+
+            if ($page)
+            {
+                $context->page = $page;
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+
     protected function _afterToken(Library\ControllerContextInterface $context)
     {
-        if (!$context->result)
+        if ($context->result)
         {
-            $message = JText::_('ERROR_SENDING_CONFIRMATION_EMAIL');
-            $type    = 'error';
+            $page  = $context->page;
+            $token = $context->token;
+            $row   = $context->row;
 
-            $url = $context->request->getReferrer();
-        }
-        else
-        {
-            $message = JText::_('CONFIRMATION_EMAIL_SUCCESS');
-            $type    = 'success';
+            $url                  = $page->getLink();
+            $url->query['layout'] = 'password';
+            $url->query['token']  = $token;
+            $url->query['uuid']   = $row->uuid;
 
-            $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
-        }
 
-        $context->response->setRedirect($url, $message, $type);
+            $url = $context->request->getUrl()
+                                    ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+
+            $site_name = \JFactory::getConfig()->getValue('sitename');
+
+            $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+            // TODO Fix when language package is re-factored.
+            //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+            $message = $url;
+
+            if ($row->notify(array('subject' => $subject, 'message' => $message)))
+            {
+                $message = JText::_('CONFIRMATION_EMAIL_SUCCESS');
+                $type    = 'success';
+
+                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $this->getObject('application')->getRouter()->build($url);
+            }
+            else
+            {
+                $message = JText::_('ERROR_SENDING_CONFIRMATION_EMAIL');
+                $type    = 'error';
+
+                $url = $context->request->getReferrer();
+            }
+
+            $context->response->setRedirect($url, $message, $type);
+        }
     }
 
     protected function _afterReset(Library\ControllerContextInterface $context)
