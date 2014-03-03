@@ -90,4 +90,16 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
             $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
         }
     }
+
+    protected function _afterEdit(Library\ControllerContextInterface $context)
+    {
+        $row = $context->result;
+
+        // Reset activation token if necessary.
+        if ($row->enabled && $row->activation)
+        {
+            $row->activation = '';
+            $row->save();
+        }
+    }
 }
