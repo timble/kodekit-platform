@@ -65,22 +65,32 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation && ($url = $this->_getActivationUrl()))
+        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
         {
-            $url = $context->request->getUrl()
-                                    ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+            if (($url = $this->_getActivationUrl()))
+            {
+                $url = $context->request->getUrl()
+                                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-            // TODO Uncomment and fix after Langauge support is re-factored.
-            //$subject = JText::_('User Account Activation');
-            //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-            //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
-            $subject = 'User Account Activation';
-            $message = $url;
+                // TODO Uncomment and fix after Langauge support is re-factored.
+                //$subject = JText::_('User Account Activation');
+                //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
+                //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
+                $subject = 'User Account Activation';
+                $message = $url;
 
-            if ($user->notify(array('subject' => $subject, 'message' => $message))) {
-                $context->response->addMessage('Activation E-mail sent');
-            } else {
-                $context->reponse->addMessage('Failed to send activation E-mail', 'error');
+                if ($user->notify(array('subject' => $subject, 'message' => $message)))
+                {
+                    $context->response->addMessage('Activation E-mail sent');
+                }
+                else
+                {
+                    $context->reponse->addMessage('Failed to send activation E-mail', 'error');
+                }
+            }
+            else
+            {
+                $context->reponse->addMessage('Unable to get an activation URL', 'error');
             }
         }
     }
