@@ -230,8 +230,8 @@ CREATE TABLE `languages_tables` (
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_table_id`),
-) ENGINE=InnoDB CHARSET=utf8;
+    PRIMARY KEY (`languages_table_id`)
+) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------
 
