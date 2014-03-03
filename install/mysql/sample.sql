@@ -46,7 +46,7 @@ INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`
   (37, 1, 0, 'Files Gallery', 'files-gallery', 'option=com_files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
   (38, 1, 0, 'Files Table', 'files-table', 'option=com_files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
   (39, 3, 0, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"'),
-  (40, 4, 0, 'Search', 'search', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"');
+  (40, 4, 0, 'Search', 'search', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"'),
   (41, 3, 0, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 --
