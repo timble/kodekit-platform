@@ -71,6 +71,6 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-        return $this->getTemplate()->getView()->getRoute($route);
+        return is_null($page) ? null : $this->getTemplate()->getView()->getRoute($route);
     }
 }
