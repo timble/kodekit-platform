@@ -83,8 +83,11 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         // Force activation on new records.
         if ($this->_force)
         {
-            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
+        }
+
+        if (!$context->request->data->enabled) {
+            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
         }
     }
 }
