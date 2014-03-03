@@ -18,14 +18,6 @@ use Nooku\Component\Users;
  */
 class UsersControllerUser extends Users\ControllerUser
 { 
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('after.add' , '_resetPassword');
-        $this->addCommandCallback('after.edit', '_resetPassword');
-    }
-
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -35,19 +27,6 @@ class UsersControllerUser extends Users\ControllerUser
         ));
 
         parent::_initialize($config);
-    }
-
-    protected function _resetPassword(Library\ControllerContextInterface $context)
-    {
-        $entity = $context->result;
-
-        // Expire the user's password if a password reset was requested.
-        if ($entity->getStatus() !== Library\Database::STATUS_FAILED)
-        {
-            if($context->request->data->get('password_reset', 'boolean')) {
-                $entity->getPassword()->expire();
-            }
-        }
     }
 
     protected function _actionDelete(Library\ControllerContextInterface $context)
