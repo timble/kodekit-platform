@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Users
  */
-abstract class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
+class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 {
     /**
      * @var string The token filter.
@@ -110,5 +110,19 @@ abstract class ControllerBehaviorResettable extends Library\ControllerBehaviorAb
         return $result;
     }
 
-    abstract protected function _actionToken(Library\ControllerContextInterface $context);
+    protected function _actionToken(Library\ControllerContextInterface $context)
+    {
+        $result = false;
+
+        $row   = $context->row;
+
+        // Set the password as resettable and keep a copy of the token for further use.
+        if ($token = $row->getPassword()->setReset())
+        {
+            $context->token = $token;
+            $result         = true;
+        }
+
+        return $result;
+    }
 }
