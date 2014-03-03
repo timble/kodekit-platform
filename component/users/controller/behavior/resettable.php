@@ -78,8 +78,6 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if ($row->isNew())
         {
-            $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('COULD_NOT_FIND_USER'), 'error');
             $result = false;
         }
         else

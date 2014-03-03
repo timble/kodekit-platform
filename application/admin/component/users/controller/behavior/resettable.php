@@ -35,6 +35,12 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $result        = true;
             }
         }
+        else
+        {
+            $url = $context->request->getReferrer();
+            $context->response->setRedirect($url, \JText::_('COULD_NOT_FIND_USER'), 'error');
+            $result = false;
+        }
 
         return $result;
     }
