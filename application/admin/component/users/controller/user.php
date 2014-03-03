@@ -13,7 +13,7 @@ use Nooku\Component\Users;
 /**
  * User Controller
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
 class UsersControllerUser extends Users\ControllerUser
@@ -22,7 +22,8 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $config->append(array(
             'behaviors' => array(
-                'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'activateable'                                => array('force' => false),
+                'com:activities.controller.behavior.loggable' => array('title_column' => 'name')
             )
         ));
 
