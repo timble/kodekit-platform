@@ -101,4 +101,18 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
         return $url;
     }
+
+    protected function _afterActivate(Library\ControllerContextInterface $context)
+    {
+        $url = $this->getObject('application.pages')->getHome()->getLink();
+        $this->getObject('application')->getRouter()->build($url);
+
+        if ($context->result === true) {
+            $this->addMessage('Activation successfully completed');
+        } else {
+            $this->addMessage('Activation failed', 'error');
+        }
+
+        $context->response->setRedirect($url);
+    }
 }

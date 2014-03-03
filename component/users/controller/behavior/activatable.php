@@ -78,20 +78,6 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _afterActivate(Library\ControllerContextInterface $context)
-    {
-        $url = $this->getObject('application.pages')->getHome()->getLink();
-        $this->getObject('application')->getRouter()->build($url);
-
-        if ($context->result === true) {
-            $this->addMessage('Activation successfully completed');
-        } else {
-            $this->addMessage('Activation failed', 'error');
-        }
-
-        $context->response->setRedirect($url);
-    }
-
     protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
         // Set activation on new records.
