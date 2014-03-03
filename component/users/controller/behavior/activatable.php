@@ -20,11 +20,11 @@ use Nooku\Library;
 class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
 {
     /**
-     * Determines whether new created items need activation or not.
+     * Determines whether new created items will be forced for activation.
      *
      * @var mixed bool
      */
-    protected $_enable;
+    protected $_force;
 
     /**
      * @var string The filter to be used on activation tokens.
@@ -35,14 +35,14 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_enable = $config->enable;
+        $this->_force = $config->force;
         $this->_filter = $config->filter;
     }
 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'enable' => true,
+            'force' => true,
             'filter' => 'alnum'
         ));
 
@@ -80,8 +80,8 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
-        // Set activation on new records.
-        if ($this->_enable)
+        // Force activation on new records.
+        if ($this->_force)
         {
             $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
