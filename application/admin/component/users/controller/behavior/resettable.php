@@ -22,7 +22,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         $result = true;
 
-        if (parent::_beforeToken($context))
+        if (!parent::_beforeToken($context))
         {
             $url = $context->request->getReferrer();
             $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
