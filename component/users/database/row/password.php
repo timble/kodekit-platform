@@ -69,10 +69,10 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         if ($password = $this->password)
         {
             // Check the password length.
-            if (strlen($password) < $this->_length)
+            if (strlen($password) < $this->getLength())
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $this->_length));
+                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $this->getLength()));
                 return false;
             }
 
@@ -116,7 +116,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     {
         if (is_null($length))
         {
-            $length = $this->_length;
+            $length = $this->getLength();
         }
 
         $bytes  = '';
