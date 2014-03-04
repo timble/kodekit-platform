@@ -54,6 +54,16 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         parent::_initialize($config);
     }
 
+    /**
+     * Minimum password length getter.
+     *
+     * @return int The minimum password length.
+     */
+    public function getLength()
+    {
+        return $this->_length;
+    }
+
     public function save()
     {
         if ($password = $this->password)
