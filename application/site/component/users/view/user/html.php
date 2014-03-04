@@ -21,8 +21,8 @@ class UsersViewUserHtml extends Library\ViewHtml
     {
         $page = $this->getObject('application.pages')->getActive();
 
-        $context->data->page       = $page;
-        $context->data->parameters = $page->getParams('page');
+        $context->data->page            = $page;
+        $context->data->password_length = $this->getObject('com:users.database.row.password')->getLength();
 
         parent::_fetchData($context);
     }
