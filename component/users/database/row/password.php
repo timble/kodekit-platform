@@ -31,7 +31,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         parent::__construct($config);
 
         //Set the minimum passowrd length
-        $this->_length = $config->length;
+        $this->_length = (int) $config->length;
 
         // TODO Remove when PHP 5.5 becomes a requirement.
         require_once JPATH_ROOT.'/component/users/legacy/password.php';
