@@ -20,7 +20,7 @@ use Nooku\Library;
 class DatabaseRowPassword extends Library\DatabaseRowTable
 {
     /**
-     * Minimum password length
+     * Minimum password length for new passwords.
      *
      * @var integer
      */
