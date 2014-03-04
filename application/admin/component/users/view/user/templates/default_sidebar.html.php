@@ -16,12 +16,6 @@
             <input <?= object('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
         </div>
     </div>
-    <div>
-        <label for="send_email"><?= translate('Receive System E-mails') ?></label>
-        <div>
-            <input type="checkbox" id="send_email" name="send_email" value="1" <?= $user->send_email ? 'checked="checked"' : '' ?> />
-        </div>
-    </div>
     <? if (!$user->isNew()): ?>
         <div>
             <label><?= translate('Register Date') ?></label>
@@ -41,9 +35,11 @@
         </div>
     <? endif; ?>
 </fieldset>
+<? if(@object('user')->getRole() > $user->role_id) : ?>
 <fieldset>
     <legend><?= translate('Role') ?></legend>
     <div>
         <div><?= helper('select.groups', array('selected' => $user->role_id, 'name' => 'role_id')); ?></div>
     </div>
 </fieldset>
+<? endif ?>

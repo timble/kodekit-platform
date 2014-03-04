@@ -54,9 +54,9 @@
         <div class="scrollable">
             <h3><?= translate('Component') ?></h3>
             <div id="components-inner">
-                <? foreach($extensions as $extension) : ?>
-                <? if($extension->views) : ?>
-                <a data-component="<?= $extension->name ?>" class="component-<?= $extension->name ?> <?= ($state->type['name'] == 'component' && $state->type['option'] == $extension->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($extension->title) ?></a>
+                <? foreach($components as $component) : ?>
+                <? if(!empty($component->views)) : ?>
+                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= ($state->type['name'] == 'component' && $state->type['option'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
                 <? endif ?>
                 <? endforeach ?>
             </div>
@@ -72,15 +72,15 @@
     
     <div id="layouts">
         <div id="types" class="scrollable">
-            <? foreach($extensions as $extension) : ?>
-            <? if($extension->views) : ?>
-            <div data-component="<?= $extension->name ?>" class="extension-<?= $extension->name ?>">
-                <? foreach($extension->views as $view) : ?>
+            <? foreach($components as $component) : ?>
+            <? if($component->views) : ?>
+            <div data-component="<?= $component->name ?>" class="component-<?= $component->name ?>">
+                <? foreach($component->views as $view) : ?>
                     <? if(count($view->layouts)) : ?>
                     <div class="view">
                         <h4><?= translate($view->title) ?></h4>
                         <? foreach($view->layouts as $layout) : ?>
-                        <a class="<?= ($state->type['name'] == 'extension' && $state->type['view'] == $view->name && $state->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.$state->menu.'&type[name]=component&type[option]='.$extension->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                        <a class="<?= ($state->type['name'] == 'component' && $state->type['view'] == $view->name && $state->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.$state->menu.'&type[name]=component&type[option]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
                             <?= translate($layout->title) ?>
                             <br />
                             <small><?= translate($layout->description) ?></small>

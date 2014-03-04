@@ -272,8 +272,16 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
         }
         catch (\Exception $e)
         {
-            $message = "<strong>Exception</strong> '%s' thrown while dispatching error: %s in <strong>%s</strong> on line <strong>%s</strong> %s";
+            $message  = "<p><strong>%s</strong> : '%s' thrown in <strong>%s</strong> on line <strong>%s</strong></p>";
+            $message .= "<p>while handling exception</p>";
+            $message .= "<p><strong>%s</strong> : '%s' throw in <strong>%s</strong> on line <strong>%s</strong></p>";
+            $message .= "<h3>Stacktrace</h3>%s";
+
             $message = sprintf($message,
+                get_class($e),
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine(),
                 get_class($exception),
                 $exception->getMessage(),
                 $exception->getFile(),

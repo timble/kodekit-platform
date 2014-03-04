@@ -33,14 +33,29 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $this->addCommandCallback('after.save'  , '_unlockResource');
         $this->addCommandCallback('after.cancel', '_unlockResource');
 
-        if($this->getRequest()->getFormat() == 'html')
-        {
-            $this->addCommandCallback('before.read' , 'setReferrer');
-            $this->addCommandCallback('after.apply' , '_lockReferrer');
-            $this->addCommandCallback('after.read'  , '_unlockReferrer');
-            $this->addCommandCallback('after.save'  , '_unsetReferrer');
-            $this->addCommandCallback('after.cancel', '_unsetReferrer');
+
+        $this->addCommandCallback('before.read' , 'setReferrer');
+        $this->addCommandCallback('after.apply' , '_lockReferrer');
+        $this->addCommandCallback('after.read'  , '_unlockReferrer');
+        $this->addCommandCallback('after.save'  , '_unsetReferrer');
+        $this->addCommandCallback('after.cancel', '_unsetReferrer');
+    }
+
+    /**
+     * Check if the behavior is supported
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer   = $this->getMixer();
+        $request = $mixer->getRequest();
+
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->getFormat() == 'html') {
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -86,7 +101,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             $cookie = $this->getObject('lib:http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => $referrer,
-                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
+                'path'   => $context->request->getBaseUrl()->getPath()
             ));
 
             $context->response->headers->addCookie($cookie);
@@ -104,7 +119,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $cookie = $this->getObject('lib:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
-            'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
+            'path'   => $context->request->getBaseUrl()->getPath()
         ));
 
         $context->response->headers->addCookie($cookie);
@@ -118,7 +133,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unlockReferrer(ControllerContextInterface $context)
     {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
+        $path = $context->request->getBaseUrl()->getPath();
         $context->response->headers->clearCookie('referrer_locked', $path);
     }
 
@@ -129,7 +144,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unsetReferrer(ControllerContextInterface $context)
     {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
+        $path = $context->request->getBaseUrl()->getPath();
         $context->response->headers->clearCookie('referrer', $path);
     }
 
@@ -346,12 +361,10 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             //Prevent a re-render of the message
             if($context->request->getUrl() != $context->request->getReferrer())
             {
-                $user = $this->getObject('com:users.database.row.user')
-                    ->set('id', $entity->locked_by)
-                    ->load();
+                $user = $this->getObject('user.provider')->load($entity->locked_by);
+                $date = $this->getObject('lib:date',array('date' => $entity->locked_on));
 
-                $date    = $this-getObject('lib.date',array('date' => $entity->locked_on));
-                $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date->humanize());
+                $message = \JText::sprintf('Locked by %s %s', $user->getName(), $date->humanize());
 
                 $context->response->addMessage($message, 'notice');
             }

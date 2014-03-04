@@ -19,20 +19,14 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
 {
     public function canRead()
     {
-        $result = true;
-
-        $layout      = $this->getView()->getLayout();
+        $layout     = $this->getView()->getLayout();
         $row        = $this->getModel()->getRow();
-        $parameters = $this->getObject('application.extensions')->users->params;
 
         if (!$row->isNew() && $layout != 'password') {
-            $result = $this->canEdit();
-        } elseif ($parameters->get('allowUserRegistration') == '0' && $layout == 'form') {
-            // Restrict registrations if these are disabled.
-            $result = false;
+            return $this->canEdit();
         }
 
-        return $result;
+        return true;
     }
     
     public function canBrowse()
@@ -52,16 +46,5 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
         }
 
         return $result;
-    }
-
-    public function canAdd()
-    {
-        $parameters = $this->getObject('application.extensions')->users->params;
-
-        if($parameters->get('allowUserRegistration') == '0') {
-            return false;
-        }
-
-        return true;
     }
 }

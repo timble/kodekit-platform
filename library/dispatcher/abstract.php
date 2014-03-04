@@ -24,6 +24,16 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	 */
 	protected $_controller;
 
+    /**
+     * List of authenticators
+     *
+     * Associative array of authenticators, where key holds the authenticator identifier string
+     * and the value is an identifier object.
+     *
+     * @var array
+     */
+    private $__authenticators;
+
 	/**
 	 * Constructor.
 	 *
@@ -35,6 +45,18 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		//Set the controller
 		$this->_controller = $config->controller;
+
+        //Add the authenticators
+        $authenticators = (array) ObjectConfig::unbox($config->authenticators);
+
+        foreach ($authenticators as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->addAuthenticator($value);
+            } else {
+                $this->addAuthenticator($key, $value);
+            }
+        }
 	}
 
     /**
@@ -48,9 +70,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-        	'controller' => $this->getIdentifier()->package,
-            'request'    => 'dispatcher.request',
-            'response'   => 'dispatcher.response',
+        	'controller'     => $this->getIdentifier()->package,
+            'request'        => 'dispatcher.request',
+            'response'       => 'dispatcher.response',
+            'authenticators' => array()
          ));
 
         parent::_initialize($config);
@@ -66,7 +89,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         if(!$this->_request instanceof DispatcherRequestInterface)
         {
-            $this->_request = parent::getRequest();
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof DispatcherRequestInterface)
             {
@@ -89,10 +112,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         if(!$this->_response instanceof DispatcherResponseInterface)
         {
-            $this->_response = parent::getResponse();
-
-            //Set the request in the response
-            $this->_response->setRequest($this->getRequest());
+            $this->_response = $this->getObject($this->_response, array(
+                'request' => $this->getRequest(),
+                'user'    => $this->getUser(),
+            ));
 
             if(!$this->_response instanceof DispatcherResponseInterface)
             {
@@ -193,6 +216,59 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         $context->setResponse($this->getResponse());
 
         return $context;
+    }
+
+    /**
+     * Attach an authenticator
+     *
+     * @param  mixed $authenticator An object that implements DispatcherAuthenticatorInterface, an ObjectIdentifier
+     *                              or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
+     * @return DispatcherAbstract
+     */
+    public function addAuthenticator($authenticator, $config = array())
+    {
+        //Create the complete identifier if a partial identifier was passed
+        if (is_string($authenticator) && strpos($authenticator, '.') === false)
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('dispatcher', 'authenticator');
+            $identifier['name'] = $authenticator;
+
+            $identifier = $this->getIdentifier($identifier);
+        }
+        else $identifier = $this->getIdentifier($authenticator);
+
+        if (!isset($this->__authenticators[(string)$identifier]))
+        {
+            if(!$authenticator instanceof DispatcherAuthenticatorInterface) {
+                $authenticator = $this->getObject($identifier, $config);
+            }
+
+            if (!($authenticator instanceof DispatcherAuthenticatorInterface))
+            {
+                throw new \UnexpectedValueException(
+                    "Authenticator $identifier does not implement DispatcherAuthenticatorInterface"
+                );
+            }
+
+            $this->getCommandChain()->addHandler($authenticator);
+
+            //Store the authenticator to allow for named lookups
+            $this->__authenticators[(string)$identifier] = $authenticator;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Gets the authenticators
+     *
+     * @return array An array of authenticators
+     */
+    public function getAuthenticators()
+    {
+        return $this->__authenticators;
     }
 
     /**

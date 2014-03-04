@@ -20,10 +20,10 @@ class PagesViewPageHtml extends Library\ViewHtml
     protected function _actionRender(Library\ViewContext $context)
     {
         // Load languages.
-        $language   = JFactory::getLanguage();
+        $language = JFactory::getLanguage();
 
-        foreach($this->getObject('com:extensions.model.extensions')->getRowset() as $extension) {
-            $language->load($extension->name);
+        foreach($context->data->components as $component) {
+            $language->load($component->name);
         }
 
         return parent::_actionRender($context);
@@ -39,7 +39,7 @@ class PagesViewPageHtml extends Library\ViewHtml
             ->id($state->menu)
             ->getRow();
 
-        $this->extensions = $this->getObject('com:pages.model.types')
+        $context->data->components = $this->getObject('com:pages.model.types')
             ->application($menu->application)
             ->getRowset();
 

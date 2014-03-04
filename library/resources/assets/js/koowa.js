@@ -387,7 +387,7 @@ Koowa.Controller.Grid = new Class({
 
             tr.addEvents({
                 click: function(event){
-                    if(event.target.hasClass('toggle-state') || event.target.match('[type=checkbox]')) return;
+                    if(event.target.hasClass('toggle-state') || event.target.match('[type=radio], [type=checkbox], a[href]')) return;
                     var checkbox = this.getElement('input[type=checkbox]'), checked = checkbox.getProperty('checked');
                     if(checked) {
                         this.removeClass('selected');

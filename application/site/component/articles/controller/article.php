@@ -48,7 +48,8 @@ class ArticlesControllerArticle extends Library\ControllerModel
                     'order'  => array('ordering' => 'ASC'));
 
                 // Get the parameters
-                $params = $this->getObject('application')->getParams();
+                $page   = $this->getObject('application.pages')->getActive();
+                $params = $page->getParams('page');
 
                 // Force some request vars based on setting parameters.
                 $request->query->limit = (int) $params->get('articles_per_page', 3);

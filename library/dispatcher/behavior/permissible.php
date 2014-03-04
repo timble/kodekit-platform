@@ -75,11 +75,17 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
 
             if($this->canExecute($action) === false)
             {
-                if($this->getUser()->isAuthentic()) {
-                    throw new ControllerExceptionRequestForbidden('Action '.ucfirst($action).' Not Allowed');
-                } else {
-                    throw new ControllerExceptionRequestNotAuthorized('Action '.ucfirst($action).' Not Allowed');
+                $message = 'Action '.ucfirst($action).' Not Allowed';
+
+                if($this->getUser()->isAuthentic())
+                {
+                    if (!$this->getUser()->isEnabled()) {
+                        $message = 'User account is disabled';
+                    }
+
+                    throw new ControllerExceptionRequestForbidden($message);
                 }
+                else throw new ControllerExceptionRequestNotAuthorized($message);
 
                 return false;
             }

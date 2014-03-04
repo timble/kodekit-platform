@@ -28,10 +28,11 @@ class UsersModuleLoginHtml extends PagesModuleDefaultHtml
 
     protected function _fetchData(Library\ViewContext $context)
     {
+        $page   = $this->getObject('application.pages')->getActive();
+
         $context->data->name          = $this->module->params->get('name');
         $context->data->usesecure     = $this->module->params->get('usesecure');
         $context->data->show_title    = $this->module->params->get('show_title', false);
-        $context->data->allow_registration = $this->getObject('application.extensions')->users->params->get('allowUserRegistration');
 
         parent::_fetchData($context);
     }

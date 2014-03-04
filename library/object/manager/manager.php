@@ -281,13 +281,14 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param array $config      An associative array of configuration options
+     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
      * @return ObjectManager
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function setConfig($identifier, array $config = array())
+    public function setConfig($identifier, $config = array(), $merge = true)
     {
         $identifier = $this->getIdentifier($identifier);
-        $identifier->setConfig($config, false);
+        $identifier->setConfig($config, $merge);
 
         return $this;
     }
@@ -430,9 +431,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     public function registerAlias($identifier, $alias)
     {
         $identifier = $this->getIdentifier($identifier);
-        $alias      = trim((string) $alias);
+        $alias      = $this->getIdentifier($alias);
 
-        $this->_registry->alias($identifier, $alias);
+        //Register the alias for the identifier
+        $this->_registry->alias($identifier, (string) $alias);
+
+        //Merge alias configuration into the identifier
+        $identifier->getConfig()->append($alias->getConfig());
 
         return $this;
     }

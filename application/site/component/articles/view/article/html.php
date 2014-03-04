@@ -51,7 +51,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
             $context->data->tags = $article->getTags();
         }
 
-        $context->data->params = $this->getObject('application')->getParams();;
+        $context->data->params = $this->getObject('application.pages')->getActive()->getParams('page');
 
         parent::_fetchData($context);
     }

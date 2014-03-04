@@ -67,17 +67,6 @@ interface CommandMixinInterface
     public function removeCommandHandler(CommandHandlerInterface $handler);
 
     /**
-     * Get a command handler by identifier
-     *
-     * @param  mixed $handler An object that implements ObjectInterface, ObjectIdentifier object
-     *                        or valid identifier string
-     * @param  array  $config An optional associative array of configuration settings
-     * @throws \UnexpectedValueException    If the handler is not implementing the CommandHandlerInterface
-     * @return CommandHandlerInterface
-     */
-    public function getCommandHandler($handler, $config = array());
-
-    /**
      * Gets the command handlers
      *
      * @return array An array of command handlers

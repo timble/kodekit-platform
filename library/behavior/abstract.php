@@ -148,16 +148,18 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      */
     public function getHandle()
     {
+        $handle = null;
+
         if($this->isSupported())
         {
             $callbacks = $this->getCommandCallbacks();
 
             if(!empty($callbacks)) {
-                return parent::getHandle();
+                $handle = parent::getHandle();
             }
         }
 
-        return null;
+        return $handle;
     }
 
     /**

@@ -228,8 +228,6 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
     /**
      * Attach a command to the chain
      *
-     * The priority parameter can be used to override the command priority while enqueueing the command.
-     *
      * @param  mixed $handler An object that implements KCommandHandlerInterface, an KObjectIdentifier
      *                        or valid identifier string
      * @param  array  $config  An optional associative array of configuration options
@@ -237,11 +235,44 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
      */
     public function addCommandHandler($handler, $config = array())
     {
-        if (!($handler instanceof CommandHandlerInterface)) {
-            $handler = $this->getCommandHandler($handler, $config);
+        //Create the complete identifier if a partial identifier was passed
+        if (is_string($handler) && strpos($handler, '.') === false)
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('command', 'handler');
+            $identifier['name'] = $handler;
+
+            $identifier = $this->getIdentifier($identifier);
+        }
+        else
+        {
+            if($handler instanceof CommandHandlerInterface) {
+                $identifier = $handler->getIdentifier();
+            } else {
+                $identifier = $this->getIdentifier($handler);
+            }
         }
 
-        $this->getCommandChain()->addHandler($handler);
+        if (!isset($this->__command_handlers[(string)$identifier]))
+        {
+            if (!($handler instanceof CommandHandlerInterface)) {
+                $handler = $this->getObject($identifier, $config);
+            }
+
+            if (!($handler instanceof CommandHandlerInterface))
+            {
+                throw new \UnexpectedValueException(
+                    "Command Handler $identifier does not implement CommandHandlerInterface"
+                );
+            }
+
+            //Enqueue the handler
+            $this->getCommandChain()->addHandler($handler);
+
+            //Store the command to allow for named lookups
+            $this->__command_handlers[(string)$identifier] = $handler;
+        }
+
         return $this->getMixer();
     }
 
@@ -255,48 +286,6 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
     {
         $this->getCommandChain()->removeHandler($handler);
         return $this->getMixer();
-    }
-
-    /**
-     * Get a command handler by identifier
-     *
-     * @param  mixed $handler An object that implements ObjectInterface, ObjectIdentifier object
-     *                        or valid identifier string
-     * @param  array  $config An optional associative array of configuration settings
-     * @throws \UnexpectedValueException    If the handler is not implementing the CommandHandlerInterface
-     * @return CommandHandlerInterface
-     */
-    public function getCommandHandler($handler, $config = array())
-    {
-        if (!($handler instanceof ObjectIdentifier))
-        {
-            //Create the complete identifier if a partial identifier was passed
-            if (is_string($handler) && strpos($handler, '.') === false)
-            {
-                $identifier = $this->getIdentifier()->toArray();
-                $identifier['path'] = array('command', 'handler');
-                $identifier['name'] = $handler;
-
-                $identifier = $this->getIdentifier($identifier);
-            }
-            else $identifier = $this->getIdentifier($handler);
-        }
-        else $identifier = $handler;
-
-        if (!isset($this->__command_handlers[(string)$identifier]))
-        {
-            $handler = $this->getObject($identifier, $config);
-
-            if (!($handler instanceof CommandHandlerInterface))
-            {
-                throw new \UnexpectedValueException(
-                    "Command Handler $identifier does not implement CommandHandlerInterface"
-                );
-            }
-        }
-        else $handler = $this->__command_handlers[(string)$identifier];
-
-        return $handler;
     }
 
     /**

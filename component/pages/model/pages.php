@@ -37,22 +37,9 @@ class ModelPages extends Library\ModelTable
             ->insert('application', 'word');
     }
 
-    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
-    {
-        parent::_buildQueryColumns($query);
-
-        if(!$query->isCountQuery()) {
-            $query->columns(array('extension_name' => 'extensions.name'));
-        }
-    }
-
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
-
-        if(!$query->isCountQuery()) {
-            $query->join(array('extensions' => 'extensions'), 'extensions.extensions_extension_id = tbl.extensions_extension_id');
-        }
 
         $state = $this->getState();
         if($state->application) {

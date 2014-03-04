@@ -79,7 +79,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
     /**
      * Constructor
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return UserSession
      */
     public function __construct(ObjectConfig $config)

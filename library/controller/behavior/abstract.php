@@ -45,8 +45,8 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
     /**
      * Command handler
      *
-     * @param KCommandInterface         $command    The command
-     * @param KCommandChainInterface    $chain      The chain executing the command
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
      * @return mixed If a handler breaks, returns the break condition. Returns the result of the handler otherwise.
      */
     public function execute(CommandInterface $command, CommandChainInterface $chain)

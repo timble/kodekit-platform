@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * Session Controller
@@ -15,18 +16,14 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersControllerSession extends Library\ControllerModel
+class UsersControllerSession extends Users\ControllerSession
 {
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        //Only authenticate POST requests
-        $this->addCommandCallback('before.add' , 'authenticate');
-
         //Authorize the user before adding
-        $this->addCommandCallback('before.add' , 'authorize');
-        $this->addCommandCallback('after.add'  , 'redirect');
+        $this->addCommandCallback('after.add'  , '_passwordRedirect');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -40,47 +37,7 @@ class UsersControllerSession extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    public function authenticate(Library\ControllerContextInterface $context)
-    {
-        $user = $this->getObject('com:users.model.users')
-            ->email($context->request->data->get('email', 'email'))
-            ->getRow();
-
-        if(!$user->isNew())
-        {
-
-            //Authenticate the user
-            if($user->id)
-            {
-                $password = $user->getPassword();
-
-                if(!$password->verify($context->request->data->get('password', 'string'))) {
-                    throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
-                }
-            }
-
-            //Start the session (if not started already)
-            $context->user->getSession()->start();
-
-            //Set user data in context
-            $context->user->setData($user->getSessionData(true));
-        }
-        else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
-
-        return true;
-    }
-
-    public function authorize(Library\ControllerContextInterface $context)
-    {
-        //If the user is blocked, redirect with an error
-        if (!$context->user->isEnabled()) {
-            throw new Library\ControllerExceptionRequestForbidden('Account disabled');
-        }
-
-        return true;
-    }
-
-    public function redirect(Library\ControllerContextInterface $context)
+    protected function _passwordRedirect(Library\ControllerContextInterface $context)
     {
         if ($context->result !== false)
         {
@@ -89,74 +46,46 @@ class UsersControllerSession extends Library\ControllerModel
 
             if ($password->expired())
             {
-                $extension = $this->getObject('application.extensions')->getExtension('users');
-                $pages     = $this->getObject('application.pages');
+                $pages  = $this->getObject('application.pages');
 
                 $page = $pages->find(array(
-                    'extensions_extension_id' => $extension->id,
-                    'link'                    => array(array('view' => 'user'))));
+                    'component' => 'users',
+                    'link'      => array(array('view' => 'user'))));
 
-                $url                  = $page->getLink();
-                $url->query['layout'] = 'password';
-                $url->query['id']     = $user->getId();
+                if ($page)
+                {
+                    $url                  = $page->getLink();
+                    $url->query['layout'] = 'password';
+                    $url->query['id']     = $user->getId();
 
-                $this->getObject('application')->getRouter()->build($url);
-                $this->getObject('application')->redirect($url);
+                    $this->getObject('application')->getRouter()->build($url);
+                    $this->getObject('application')->redirect($url);
+                }
             }
         }
     }
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
     {
-        $session = $context->user->getSession();
-
-        //Insert the session into the database
-        if(!$session->isActive()) {
-            throw new Library\ControllerExceptionActionFailed('Session could not be stored. No active session');
-        }
-
-        //Fork the session to prevent session fixation issues
-        $session->fork();
-
-        //Prepare the data
-        $data = array(
-            'id'          => $session->getId(),
-            'guest'       => !$context->user->isAuthentic(),
-            'email'       => $context->user->getEmail(),
-            'data'        => '',
-            'time'        => time(),
-            'application' => 'site',
-        );
-
-        $context->request->data->add($data);
-
-        //Store the session
-        $entity = parent::_actionAdd($context);
+        $result = parent::_actionAdd($context);
 
         //Set the session data
-        $session->site = $this->getObject('application')->getSite();
+        if($context->response->isSuccess()) {
+            $context->user->getSession()->site = $this->getObject('application')->getSite();
+        }
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());
 
-        return $entity;
+        return $result;
     }
 
     protected function _actionDelete(Library\ControllerContextInterface $context)
     {
-        //Force logout from site only
-        $context->request->query->application = array('site');
-
-        //Remove the session from the session store
         $entity = parent::_actionDelete($context);
 
-        if(!$context->response->isError())
-        {
-            // Destroy the php session for this user if we are logging out ourselves
-            if($context->user->getEmail() == $entity->email) {
-                $context->user->getSession()->destroy();
-            }
-        }
+        //Redirect to caller
+        $context->response->setRedirect($context->request->getReferrer());
 
         return $entity;
     }

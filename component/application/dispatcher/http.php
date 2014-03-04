@@ -60,7 +60,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
     {
         $config->append(array(
             'controller'        => 'page',
-            'base_url'          => '/administrator',
+            'base_url'          => '/',
             'event_subscribers' => array('unauthorized'),
         ));
 

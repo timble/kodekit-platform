@@ -18,29 +18,6 @@ namespace Nooku\Library;
 class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
     /**
-	 * Constructor.
-	 *
-	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
-	 */
-	public function __construct(ObjectConfig $config)
-	{
-		parent::__construct($config);
-
-        //Authenticate none safe requests
-        $this->addCommandCallback('before.post'  , '_authenticateRequest');
-        $this->addCommandCallback('before.put'   , '_authenticateRequest');
-        $this->addCommandCallback('before.delete', '_authenticateRequest');
-
-        //Sign GET request with a cookie token
-        $this->addCommandCallback('after.get' , '_signResponse');
-
-        //Force the controller to the information found in the request
-        if($this->getRequest()->query->has('view')) {
-            $this->_controller = $this->getRequest()->query->get('view', 'alpha');
-        }
-	}
-
-    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -51,8 +28,9 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-            'behaviors'  => array('resettable'),
-            'limit'      => array('max' => 1000, 'default' => 20)
+            'behaviors'      => array('resettable'),
+            'authenticators' => array('token'),
+            'limit'          => array('max' => 1000, 'default' => 20)
          ));
 
         parent::_initialize($config);
@@ -69,76 +47,19 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     {
         if (!$manager->isRegistered($config->object_identifier))
         {
+            //Add the object alias to allow easy access to the singleton
+            $manager->registerAlias($config->object_identifier, 'dispatcher');
+
+            //Merge alias configuration into the identifier
+            $config->append($manager->getIdentifier('dispatcher')->getConfig());
+
+            //Instantiate the class
             $class     = $manager->getClass($config->object_identifier);
             $instance  = new $class($config);
             $manager->setObject($config->object_identifier, $instance);
-
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'dispatcher');
         }
 
         return $manager->getObject($config->object_identifier);
-    }
-
-    /**
-     * Check the request token to prevent CSRF exploits
-     *
-     * Method will always perform a referrer check and a token cookie token check if the user is not authentic or a
-     * session token check if the user is authentic. If any of the checks fail a forbidden exception is thrown.
-     *
-     * @param DispatcherContextInterface $context	A dispatcher context object
-     * @throws ControllerExceptionRequestInvalid      If the request referrer is not valid
-     * @throws ControllerExceptionRequestForbidden    If the cookie token is not valid
-     * @throws ControllerExceptionRequestNotAuthenticated If the session token is not valid
-     * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
-     */
-    protected function _authenticateRequest(DispatcherContextInterface $context)
-    {
-        $request = $context->request;
-        $user    = $context->user;
-
-        if(!$user->isAuthentic())
-        {
-            //Check referrer
-            if(!$request->getReferrer()) {
-                throw new ControllerExceptionRequestInvalid('Invalid Request Referrer');
-            }
-
-            //Check cookie token
-            if($request->getToken() !== $request->cookies->get('_token', 'sha1')) {
-                throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
-            }
-        }
-        else
-        {
-            //Check session token
-            if( $request->getToken() !== $user->getSession()->getToken()) {
-                throw new ControllerExceptionRequestForbidden('Invalid Session Token');
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Sign the response with a token
-     *
-     * @param DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _signResponse(DispatcherContextInterface $context)
-    {
-        if(!$context->response->isError())
-        {
-            $token = $context->user->getSession()->getToken();
-
-            $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
-                'name'   => '_token',
-                'value'  => $token,
-                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
-            )));
-
-            $context->response->headers->set('X-Token', $token);
-        }
     }
 
     /**
@@ -158,16 +79,15 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             $url = clone($context->request->getUrl());
             $url->query['view'] = $this->getController()->getView()->getName();
 
-            return $this->redirect($url);
+            $result = $this->redirect($url);
         }
+        else
+        {
+            $this->setController($context->request->query->get('view', 'alpha'));
 
-        //Execute the component method
-        $method = strtolower($context->request->getMethod());
-
-        try {
+            //Execute the component method
+            $method = strtolower($context->request->getMethod());
             $result = $this->execute($method, $context);
-        } catch(ControllerExceptionRequestForbidden $e) {
-            throw new DispatcherExceptionMethodNotAllowed('Method: '.$method.' not allowed');
         }
 
         return $result;
@@ -247,32 +167,39 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     protected function _actionPost(DispatcherContextInterface $context)
     {
+        $result     = false;
         $action     = null;
         $controller = $this->getController();
 
-        //Get the action from the request data
-        if($context->request->data->has('_action'))
+        if($controller instanceof ControllerModellable)
         {
-            $action = strtolower($context->request->data->get('_action', 'alpha'));
+            //Get the action from the request data
+            if($context->request->data->has('_action'))
+            {
+                $action = strtolower($context->request->data->get('_action', 'alpha'));
 
-            if(in_array($action, array('browse', 'read', 'render'))) {
-                throw new DispatcherExceptionMethodNotAllowed('Action: '.$action.' not allowed');
+                if(in_array($action, array('browse', 'read', 'render'))) {
+                    throw new DispatcherExceptionMethodNotAllowed('Action: '.$action.' not allowed');
+                }
             }
-        }
-        else
-        {
-            //Determine the action based on the model state
-            if($controller instanceof ControllerModellable) {
-                $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+            else
+            {
+                //Determine the action based on the model state
+                if($controller instanceof ControllerModellable) {
+                    $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+                }
             }
-        }
 
-        //Throw exception if no action could be determined from the request
-        if(!$action) {
-            throw new ControllerExceptionRequestInvalid('Action not found');
+            //Throw exception if no action could be determined from the request
+            if(!$action) {
+                throw new ControllerExceptionRequestInvalid('Action not found');
+            }
+
+            $result = $controller->execute($action, $context);
         }
+        else throw new DispatcherExceptionMethodNotAllowed('Method POST not allowed');
         
-        return $controller->execute($action, $context);
+        return $result;
     }
 
     /**
@@ -290,6 +217,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     protected function _actionPut(DispatcherContextInterface $context)
     {
+        $result     = false;
         $action     = null;
         $controller = $this->getController();
 
@@ -312,14 +240,17 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                 $entity->setData($state);
             }
             else throw new ControllerExceptionRequestInvalid('Resource not found');
-        }
 
-        //Throw exception if no action could be determined from the request
-        if(!$action) {
-            throw new ControllerExceptionRequestInvalid('Resource not found');
-        }
+            //Throw exception if no action could be determined from the request
+            if(!$action) {
+                throw new ControllerExceptionRequestInvalid('Resource not found');
+            }
 
-        return $entity = $controller->execute($action, $context);
+            $result = $controller->execute($action, $context);
+        }
+        else throw new DispatcherExceptionMethodNotAllowed('Method PUT not allowed');
+
+        return $result;
     }
 
     /**
@@ -332,8 +263,16 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     protected function _actionDelete(DispatcherContextInterface $context)
     {
+        $result     = false;
         $controller = $this->getController();
-        return $controller->execute('delete', $context);
+
+        if($controller instanceof ControllerModellable) {
+            $result = $controller->execute('delete', $context);
+        } else {
+            throw new DispatcherExceptionMethodNotAllowed('Method DELETE not allowed');
+        }
+
+        return $result;
     }
 
     /**
@@ -387,8 +326,12 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     }
 
     /**
-     * Return the affected entities in the payload for none-SAFE requests that return a successful response. Make an
+     * Send the response to the client
+     *
+     * - Set the affected entities in the payload for none-SAFE requests that return a successful response. Make an
      * exception for 204 No Content responses which should not return a response body.
+     *
+     * - Add an Allow header to the response if the status code is 405 METHOD NOT ALLOWED.
      *
      * {@inheritdoc}
      */
@@ -399,8 +342,19 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         if (!$request->isSafe())
         {
-            if ($response->isSuccess() && $response->getStatusCode() !== HttpResponse::NO_CONTENT) {
-                $context->result = $this->getController()->execute('render', $context);
+            if ($response->isSuccess())
+            {
+                //Render the controller and set the result in the response body
+                if($response->getStatusCode() !== HttpResponse::NO_CONTENT) {
+                    $context->result = $this->getController()->execute('render', $context);
+                }
+            }
+            else
+            {
+                //Add an Allow header to the reponse
+                if($response->getStatusCode() === HttpResponse::METHOD_NOT_ALLOWED) {
+                    $this->_actionOptions($context);
+                }
             }
         }
 

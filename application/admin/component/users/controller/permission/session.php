@@ -36,11 +36,6 @@ class UsersControllerPermissionSession extends ApplicationControllerPermissionAb
         return false;
     }
 
-    public function canAdd()
-    {
-        return true;
-    }
-
     public function canEdit()
     {
         return false;

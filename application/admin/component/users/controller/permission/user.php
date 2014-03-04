@@ -36,8 +36,8 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
         $user   = $this->getUser();
         $entity = $this->getModel()->getRow();
 
-        // Don't allow users below super administrator to edit a super administrator
-        if(($entity->group_id == 25) && ($user->getRole() < 25)) {
+        // Don't allow a user to edit another user that has a higher role
+        if($user->getRole() < $entity->role_id) {
             return false;
         }
 
@@ -54,9 +54,8 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
             return false;
         }
 
-        // Administrators and below are only allowed to delete user accounts with
-        // lower role levels than their own.
-        if ($user->getRole() < 25 && ($entity->role_id >= $user->getRole())) {
+        // Don't allow a user to delete another user that has a higher role
+        if($user->getRole() < $entity->role_id) {
             return false;
         }
 

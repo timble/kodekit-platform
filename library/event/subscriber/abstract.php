@@ -73,7 +73,7 @@ abstract class EventSubscriberAbstract extends Object implements EventSubscriber
 
         if($this->isSubscribed($publisher));
         {
-            foreach ($this->_listeners[$handle] as $index => $listener)
+            foreach ($this->__listeners[$handle] as $index => $listener)
             {
                 $publisher->removeListener($listener, array($this, $listener));
                 unset($this->__listeners[$handle][$index]);
@@ -90,6 +90,6 @@ abstract class EventSubscriberAbstract extends Object implements EventSubscriber
     public function isSubscribed(EventPublisherInterface $publisher)
     {
         $handle = $publisher->getHandle();
-        return isset($this->_listeners[$handle]);
+        return isset($this->__listeners[$handle]);
     }
 }

@@ -242,7 +242,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
                     $this->setView($args[0]);
                 }
 
-                $this->getRequest()->query->set($method, $args[0]);
+                if($method == 'format') {
+                    $this->getRequest()->setFormat($args[0]);
+                }
+
+                if($method == 'layout') {
+                    $this->getRequest()->getQuery()->set($method, $args[0]);
+                }
+
                 return $this;
             }
         }

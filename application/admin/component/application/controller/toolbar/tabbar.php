@@ -74,17 +74,16 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
         {
             $package    = $this->getObject('dispatcher')->getIdentifier()->package;
             $view       = $this->getObject('dispatcher')->getController()->getIdentifier()->name;
-            $extension  = $this->getObject('application.extensions')->getExtension($package);
             $groups     = $this->getObject('user')->getGroups();
 
             // Make sure that pages without an assigned group are also included.
             $groups[] = 0;
 
             $pages     = $this->getObject('application.pages')->find(array(
-                'pages_menu_id'           => $menu->top()->id,
-                'extensions_extension_id' => $extension->id,
-                'hidden'                  => 0,
-                'users_group_id'          => $groups
+                'pages_menu_id'     => $menu->top()->id,
+                'component'         => $package,
+                'hidden'            => 0,
+                'users_group_id'    => $groups
             ));
 
             foreach($pages as $page)

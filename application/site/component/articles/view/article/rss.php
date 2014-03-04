@@ -22,7 +22,7 @@ class ArticlesViewArticleRss extends Library\ViewRss
         if(is_numeric($this->getModel()->getState()->id))
         {
             $article = $this->getModel()->getRow();
-            $params = $this->getObject('application')->getParams();
+            $params = $this->getObject('application.pages')->getActive()->getParams('page');
 
             if ($article->isAttachable()) {
                 $context->data->attachments = $article->getAttachments();

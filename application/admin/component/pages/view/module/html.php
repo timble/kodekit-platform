@@ -31,7 +31,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
             }
 
             $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
-            JFactory::getLanguage()->load(substr($module->extension_name, 4), $module->name, $path);
+            JFactory::getLanguage()->load($module->component, $module->name, $path);
         }
 
         return parent::_actionRender($context);
@@ -55,7 +55,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
 
         // Build path to module config file
         $path  =  $this->getObject('manager')->getClassLoader()->getBasepath('site');
-        $path .= '/component/'.substr($module->extension_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
+        $path .= '/component/'.$module->component.'/module/'.substr($module->name, 4).'/config.xml';
 
         $params = new \JParameter( null, $path );
         $params->loadArray($module->params->toArray());

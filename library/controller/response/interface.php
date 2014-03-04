@@ -87,6 +87,14 @@ interface ControllerResponseInterface extends HttpResponseInterface
     public function addMessage($message, $type = self::FLASH_SUCCESS);
 
     /**
+     * Set the response messages
+     *
+     * @param array $messages
+     * @return $this
+     */
+    public function setMessages($messages);
+
+    /**
      * Get the response messages
      *
      * @return array

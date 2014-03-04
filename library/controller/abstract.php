@@ -78,11 +78,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
         // Set the user identifier
         $this->_user = $config->user;
 
-        //Set the query in the request
-        if(!empty($config->query)) {
-            $this->getRequest()->query->add(ObjectConfig::unbox($config->query));
-        }
-
         // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
 
@@ -108,7 +103,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
             'response'         => 'lib:controller.response',
             'user'             => 'lib:user',
             'behaviors'        => array('permissible'),
-            'query'            => array(),
         ));
 
         parent::_initialize($config);
@@ -259,7 +253,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
     {
         if(!$this->_request instanceof ControllerRequestInterface)
         {
-            $this->_request = $this->getObject($this->_request);
+            $this->_request = $this->getObject($this->_request,  array(
+                'url'  => $this->getIdentifier(),
+            ));
 
             if(!$this->_request instanceof ControllerRequestInterface)
             {
@@ -376,35 +372,35 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
      */
     public function __call($method, $args)
     {
-        if (!isset($this->_mixed_methods[$method]))
+        //Handle action alias method
+        if (in_array($method, $this->getActions()))
         {
-            //Handle action alias method
-            if (in_array($method, $this->getActions()))
+            //Get the data
+            $data = !empty($args) ? $args[0] : array();
+
+            //Create a context object
+            if (!($data instanceof CommandInterface))
             {
-                //Get the data
-                $data = !empty($args) ? $args[0] : array();
+                $context = $this->getContext();
 
-                //Create a context object
-                if (!($data instanceof CommandInterface))
-                {
-                    $context = $this->getContext();
+                //Store the parameters in the context
+                $context->param = $data;
 
-                    //Store the parameters in the context
-                    $context->param = $data;
-
-                    //Automatic set the data in the request if an associative array is passed
-                    if(is_array($data) && !is_numeric(key($data))) {
-                        $context->request->data->add($data);
-                    }
-
-                    $context->result = false;
+                //Automatic set the data in the request if an associative array is passed
+                if(is_array($data) && !is_numeric(key($data))) {
+                    $context->request->data->add($data);
                 }
-                else $context = $data;
 
-                //Execute the action
-                return $this->execute($method, $context);
+                $context->result = false;
             }
+            else $context = $data;
 
+            //Execute the action
+            return $this->execute($method, $context);
+        }
+
+        if(!isset($this->_mixed_methods[$method]))
+        {
             //Check if a behavior is mixed
             $parts = StringInflector::explode($method);
 

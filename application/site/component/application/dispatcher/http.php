@@ -33,13 +33,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected $_pathway;
 
     /**
-     * The params
-     *
-     * @var object
-     */
-    protected $_params;
-
-    /**
      * Constructor.
      *
      * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
@@ -71,10 +64,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'base_url'  => '/',
             'site'      => null,
             'options'   => array(
-                'session_name' => 'site',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
                 'theme'        => 'bootstrap'
@@ -93,9 +84,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     {
         //Set the site error reporting
         $this->getObject('exception.handler')->setErrorLevel($this->getCfg('debug_mode'));
-
-        //Set the paths
-        $params = $this->getObject('application.extensions')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
@@ -160,8 +148,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         //Set the controller to dispatch
         if($context->request->query->has('option'))
         {
-            $extension = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->forward($extension);
+            $component = substr( $context->request->query->get('option', 'cmd'), 4);
+            $this->forward($component);
         }
 
         //Dispatch the request
@@ -207,29 +195,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         {
             $user    =  parent::getUser();
             $session =  $user->getSession();
-
-            //Set Session Name
-            $session->setName(md5($this->getCfg('secret').$this->getCfg('session_name')));
-
-            //Set Session Lifetime
-            $session->setLifetime($this->getCfg('lifetime', 15) * 60);
-
-            //Set Session Handler
-            $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
-
-            //Set Session Options
-            $session->setOptions(array(
-                'cookie_path'   => (string) $this->getRequest()->getBaseUrl()->getPath() ?: '/',
-                'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
-            ));
-
-            //Auto-start the session if a cookie is found
-            if(!$session->isActive())
-            {
-                if ($this->getRequest()->cookies->has($session->getName())) {
-                    $session->start();
-                }
-            }
 
             //Re-create the session if we changed sites
             if($user->isAuthentic() && ($session->site != $this->getSite()))
@@ -343,40 +308,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return $this->_pathway;
-    }
-
-    /**
-     * Get the component parameters
-     *
-     * @param	string	$option The component option
-     * @return	object	The parameters object
-     */
-    public function getParams()
-    {
-        if (!isset($this->_params))
-        {
-            // Get component parameters
-            $extension = substr($this->getRequest()->query->get('option', 'cmd'), 4);
-            $params    = $this->getObject('application.extensions')->getExtension($extension)->params;
-
-            // Get menu parameters
-            $page = $this->getObject('application.pages')->getActive();
-            $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
-
-            // Lets cascade the parameters if we have menu item parameters
-            if (is_object($page))
-            {
-                $params->merge(new JParameter((string) $page->params));
-                $title = $page->title;
-            }
-
-            $params->def( 'page_title'      , $title );
-            $params->def( 'page_description', '' );
-
-            $this->_params = $params;
-        }
-
-        return $this->_params;
     }
 
     /**

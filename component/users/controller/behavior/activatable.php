@@ -20,11 +20,11 @@ use Nooku\Library;
 class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
 {
     /**
-     * Determines whether new created items need activation or not.
+     * Determines whether new created items will be forced for activation.
      *
      * @var mixed bool
      */
-    protected $_enable;
+    protected $_force;
 
     /**
      * @var string The filter to be used on activation tokens.
@@ -35,53 +35,33 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_enable = $config->enable;
+        $this->_force = $config->force;
         $this->_filter = $config->filter;
     }
 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'enable' => true,
+            'force' => true,
             'filter' => 'alnum'
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _beforeRender(Library\ControllerContextInterface $context)
-    {
-        $row = $this->getModel()->getRow();
-
-        if (($activation = $context->request->query->get('activation', $this->_filter)))
-        {
-            if (!$row->activation)
-            {
-                $url = $this->getObject('application.pages')->getHome()->getLink();
-                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
-
-                $context->response->setRedirect($url, 'Invalid request', 'error');
-            }
-            else $this->activate(array('activation' => $activation));
-
-            return false;
-        }
-    }
-
     protected function _beforeActivate(Library\ControllerContextInterface $context)
     {
+        $result = true;
+
         $activation = $context->request->data->get('activation', $this->_filter);
         $row        = $this->getModel()->getRow();
 
         if ($activation !== $row->activation)
         {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
-            $this->getObject('application')->getRouter()->build($url);
-
-            $context->response->setRedirect($url, 'Wrong activation token', 'error');
-
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     protected function _actionActivate(Library\ControllerContextInterface $context)
@@ -98,27 +78,28 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _afterActivate(Library\ControllerContextInterface $context)
-    {
-        $url = $this->getObject('application.pages')->getHome()->getLink();
-        $this->getObject('application')->getRouter()->build($url);
-
-        if ($context->result === true) {
-            $this->addMessage('Activation successfully completed');
-        } else {
-            $this->addMessage('Activation failed', 'error');
-        }
-
-        $context->response->setRedirect($url);
-    }
-
     protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
-        // Set activation on new records.
-        if ($this->_enable)
+        // Force activation on new records.
+        if ($this->_force)
         {
-            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
+        }
+
+        if (!$context->request->data->enabled) {
+            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
+        }
+    }
+
+    protected function _afterEdit(Library\ControllerContextInterface $context)
+    {
+        $row = $context->result;
+
+        // Reset activation token if necessary.
+        if ($row->enabled && $row->activation)
+        {
+            $row->activation = '';
+            $row->save();
         }
     }
 }

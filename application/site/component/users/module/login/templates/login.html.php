@@ -27,17 +27,17 @@
 		<label class="control-label" for="modlgn_passwd"><?= translate('Password') ?>:</label>
 		<div class="controls">
 			<input id="modlgn_passwd" class="required" type="password" name="password" />
-			<span class="help-block">
-			    <small><a href="<?= helper('route.user', array('layout' => 'reset', 'access' => 0)); ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
-			</span>
+            <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
+                <span class="help-block">
+			        <small><a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
+			    </span>
+            <? endif; ?>
 		</div>
 	</div>
 	<div class="form-actions">
 		<input type="submit" name="Submit" class="btn" value="<?= translate('Sign in') ?>" />
-		<?php if ($allow_registration) : ?>
-			<?= translate('or') ?>
-			<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
-		<?php endif; ?>
+        <?= translate('or') ?>
+		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
 	</div>
 	</fieldset>
 </form>

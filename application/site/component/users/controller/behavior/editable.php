@@ -8,7 +8,6 @@
  */
 
 use Nooku\Library;
-use Nooku\Component\Extensions;
 
 /**
  * Editable Controller Behavior
@@ -16,16 +15,44 @@ use Nooku\Component\Extensions;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersControllerBehaviorEditable extends Extensions\ControllerBehaviorEditable
+class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->addCommandCallback('before.browse', 'setReferrer');
+    }
+
     protected function _actionSave(Library\ControllerContextInterface $context)
     {
         $entity = parent::_actionSave($context);
 
         if ($entity->getStatus() === Library\Database::STATUS_FAILED) {
             $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
+        } else {
+            $context->response->setRedirect($this->getReferrer($context));
         }
 
         return $entity;
+    }
+
+    protected function _actionCancel(Library\ControllerContextInterface $context)
+    {
+        $context->response->setRedirect($this->getReferrer($context));
+        return;
+    }
+
+    protected function _actionApply(Library\ControllerContextInterface $context)
+    {
+        $entity = $context->getSubject()->execute('edit', $context);
+
+        $context->response->setRedirect($context->request->getUrl());
+        return $entity;
+    }
+
+    public function canSave()
+    {
+        return $this->canEdit();
     }
 }

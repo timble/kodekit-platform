@@ -36,6 +36,14 @@ interface HttpCookieInterface
     public function setExpire($expire);
 
     /**
+     * Set the cookie path
+     *
+     * @param string $path The cookie path
+     * @return HttpCookie
+     */
+    public function setPath($path);
+
+    /**
      * Checks whether the cookie should only be transmitted over a secure HTTPS connection from the client.
      *
      * @return bool

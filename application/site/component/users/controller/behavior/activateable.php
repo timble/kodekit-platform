@@ -12,20 +12,53 @@ use Nooku\Library, Nooku\Component\Users;
 /**
  * Activateable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $parameters = $this->getObject('application.extensions')->users->params;
-
         $config->append(array(
-            'enable' => $parameters->get('useractivation', '1')
+            'enable' => '1'
         ));
 
         parent::_initialize($config);
+    }
+
+    protected function _beforeRender(Library\ControllerContextInterface $context)
+    {
+        $row = $this->getModel()->getRow();
+
+        if (($activation = $context->request->query->get('activation', $this->_filter)))
+        {
+            if (!$row->activation)
+            {
+                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
+
+                $context->response->setRedirect($url, 'Invalid request', 'error');
+            }
+            else $this->activate(array('activation' => $activation));
+
+            return false;
+        }
+    }
+
+    protected function _beforeActivate(Library\ControllerContextInterface $context)
+    {
+        $result = true;
+
+        if (!parent::_beforeActivate($context))
+        {
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
+
+            $context->response->setRedirect($url, 'Wrong activation token', 'error');
+            $result = false;
+        }
+
+        return $result;
     }
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
@@ -34,40 +67,68 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
         if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
         {
-            $url = $context->request->getUrl()
-                ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $this->_getActivationUrl();
+            if (($url = $this->_getActivationUrl()))
+            {
+                $url = $context->request->getUrl()
+                                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-            // TODO Uncomment and fix after Langauge support is re-factored.
-            //$subject = JText::_('User Account Activation');
-            //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-            //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
-            $subject = 'User Account Activation';
-            $message = $url;
+                // TODO Uncomment and fix after Langauge support is re-factored.
+                //$subject = JText::_('User Account Activation');
+                //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
+                //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
+                $subject = 'User Account Activation';
+                $message = $url;
 
-            if ($user->notify(array('subject' => $subject, 'message' => $message))) {
-                $context->response->addMessage('Activation E-mail sent');
-            } else {
-                $context->reponse->addMessage('Failed to send activation E-mail', 'error');
+                if ($user->notify(array('subject' => $subject, 'message' => $message)))
+                {
+                    $context->response->addMessage('Activation E-mail sent');
+                }
+                else
+                {
+                    $context->reponse->addMessage('Failed to send activation E-mail', 'error');
+                }
+            }
+            else
+            {
+                $context->reponse->addMessage('Unable to get an activation URL', 'error');
             }
         }
     }
 
     protected function _getActivationUrl()
     {
+        $url = null;
+
         $user = $this->getModel()->getRow();
+        $page  = $this->getObject('application.pages')->find(array(
+            'component' => 'users',
+            'access'    => 0,
+            'link'      => array(array('view' => 'user'))));
 
-        $extension = $this->getObject('application.extensions')->getExtension('users');
-        $page      = $this->getObject('application.pages')->find(array(
-            'extensions_extension_id' => $extension->id,
-            'access'                  => 0,
-            'link'                    => array(array('view' => 'user'))));
+        if ($page)
+        {
+            $url                      = $page->getLink();
+            $url->query['activation'] = $user->activation;
+            $url->query['uuid']       = $user->uuid;
 
-        $url                      = $page->getLink();
-        $url->query['activation'] = $user->activation;
-        $url->query['uuid']       = $user->uuid;
-
-        $this->getObject('application')->getRouter()->build($url);
+            // TODO: This URL needs to be routed using the site app router.
+            $this->getObject('application')->getRouter()->build($url);
+        }
 
         return $url;
+    }
+
+    protected function _afterActivate(Library\ControllerContextInterface $context)
+    {
+        $url = $this->getObject('application.pages')->getHome()->getLink();
+        $this->getObject('application')->getRouter()->build($url);
+
+        if ($context->result === true) {
+            $this->addMessage('Activation successfully completed');
+        } else {
+            $this->addMessage('Activation failed', 'error');
+        }
+
+        $context->response->setRedirect($url);
     }
 }

@@ -28,7 +28,7 @@ abstract class UserAbstract extends Object implements UserInterface
      * Constructor
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
-     * @return User
+     * @return UserAbstract
      */
     public function __construct(ObjectConfig $config)
     {
@@ -71,7 +71,7 @@ abstract class UserAbstract extends Object implements UserInterface
      * Set the user data from an array
      *
      * @param  array $data An associative array of data
-     * @return User
+     * @return UserAbstract
      */
     public function setData($data)
     {
@@ -249,7 +249,7 @@ abstract class UserAbstract extends Object implements UserInterface
      * Removes an user attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return User
+     * @return UserAbstract
      */
     public function remove($identifier)
     {
@@ -258,6 +258,27 @@ abstract class UserAbstract extends Object implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Check if the user is equal
+     *
+     * @param  UserInterface $user
+     * @return Boolean
+     */
+    public function equals(ObjectInterface $user)
+    {
+        if($user instanceof UserInterface)
+        {
+            if($user->getEmail() == $this->getEmail())
+            {
+                if($user->getPassword() == $this->getPassword()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

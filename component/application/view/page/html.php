@@ -31,7 +31,7 @@ class ViewPageHtml extends ViewHtml
     protected function _fetchData(Library\ViewContext $context)
     {
         //Set the component and layout information
-        $context->data->extension = $this->getObject('dispatcher')->getIdentifier()->package;
+        $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
         $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
 
         parent::_fetchData($context);

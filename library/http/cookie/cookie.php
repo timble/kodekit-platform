@@ -62,7 +62,7 @@ class HttpCookie extends Object implements HttpCookieInterface
      *
      * @var string
      */
-    public $path;
+    protected $_path;
 
     /**
      * When TRUE indicates that the cookie should only be transmitted over a secure HTTPS connection from the client.
@@ -169,6 +169,23 @@ class HttpCookie extends Object implements HttpCookieInterface
     }
 
     /**
+     * Set the cookie path
+     *
+     * @param string $path The cookie path
+     * @return HttpCookie
+     */
+    public function setPath($path)
+    {
+        if(empty($path)) {
+            $this->_path = '/';
+        } else {
+            $this->_path = $path;
+        }
+
+        return $this;
+    }
+
+    /**
      * Checks whether the cookie should only be transmitted over a secure HTTPS connection from the client.
      *
      * @return bool
@@ -252,6 +269,10 @@ class HttpCookie extends Object implements HttpCookieInterface
         if ($key == 'expire') {
             $this->setExpire($value);
         }
+
+        if ($key == 'path') {
+            $this->setPath($value);
+        }
     }
 
     /**
@@ -270,6 +291,10 @@ class HttpCookie extends Object implements HttpCookieInterface
 
         if ($key == 'expire') {
             $result = $this->_expire;
+        }
+
+        if ($key == 'path') {
+            $result = $this->_path;
         }
 
         return $result;

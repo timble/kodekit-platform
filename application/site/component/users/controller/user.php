@@ -8,28 +8,20 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * User Controller
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersControllerUser extends Library\ControllerModel
+class UsersControllerUser extends Users\ControllerUser
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('before.edit', 'sanitizeRequest');
-        $this->addCommandCallback('before.add' ,  'sanitizeRequest');
-	}
-    
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
-                'editable', 'resettable', 'activatable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
         )));
 
@@ -45,21 +37,17 @@ class UsersControllerUser extends Library\ControllerModel
             $request->query->id = $id;
         }
 
-        return $request;
-    }
-
-    public function sanitizeRequest(Library\ControllerContextInterface $context)
-    {
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
-            $context->request->data->remove($variable);
+            $request->data->remove($variable);
         }
+
+        return $request;
     }
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
     {
-        $params = $this->getObject('application.extensions')->users->params;
-        $context->request->data->role_id = $params->get('new_usertype', 18);
+        $context->request->data->role_id = '18';
 
         $user = parent::_actionAdd($context);
 
@@ -72,19 +60,5 @@ class UsersControllerUser extends Library\ControllerModel
         }
 
         return $user;
-    }
-
-    protected function _actionEdit(Library\ControllerContextInterface $context)
-    {
-        $entity = parent::_actionEdit($context);
-
-        $user = $this->getObject('user');
-
-        // Logged user changed. Updated in memory/session user object.
-        if ($context->response->getStatusCode() == HttpResponse::RESET_CONTENT && $entity->id == $user->getId()) {
-            $user->setData($entity->getSessionData($user->isAuthentic()));
-        }
-
-        return $entity;
     }
 }

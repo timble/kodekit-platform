@@ -18,9 +18,6 @@
             <strong><?= translate( 'User Group' ); ?></strong>
         </th>
         <th>
-            <strong><?= translate( 'Application' ); ?></strong>
-        </th>
-        <th>
             <strong><?= translate( 'Last Activity' ); ?></strong>
         </th>
     </tr>
@@ -35,9 +32,6 @@
         </td>
         <td>
             <?= $user->role_name;?>
-        </td>
-        <td>
-            <?= $user->loggedin_application; ?>
         </td>
         <td>
             <?= helper('date.humanize', array('date' => '@'.$user->loggedin_on));?>

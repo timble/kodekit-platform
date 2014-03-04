@@ -27,7 +27,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
     /**
      * Constructor
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return UserSessionHandlerDatabase
      */
     public function __construct(ObjectConfig $config)
@@ -46,7 +46,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -99,8 +99,10 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
                 $row->id   = $session_id;
             }
 
-            $row->time = time();
-            $row->data = $session_data;
+            $row->time   = time();
+            $row->data   = $session_data;
+            $row->domain =  ini_get('session.cookie_domain');
+            $row->path   =  ini_get('session.cookie_path');
 
             $result = $row->save();
         }
@@ -155,7 +157,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
     /**
      * Get a table object, create it if it does not exist.
      *
-     * @throws UnexpectedValueException  If the table object doesn't implement DatabaseTableInterface
+     * @throws \UnexpectedValueException  If the table object doesn't implement DatabaseTableInterface
      * @return DatabaseTableInterface
      */
     public function getTable()
@@ -172,7 +174,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
             if (!($this->_table instanceof DatabaseTableInterface))
             {
                 throw new \UnexpectedValueException(
-                    'Table: ' . get_class($this->_table) . ' doed not implement DatabaseTableInterface'
+                    'Table: ' . get_class($this->_table) . ' does not implement DatabaseTableInterface'
                 );
             }
         }

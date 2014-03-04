@@ -13,7 +13,7 @@
 
 <?= import('page_head.html') ?>
 
-<body id="tmpl-overlay" class="com_<?= $extension ?>">
+<body id="tmpl-overlay" class="com_<?= $component ?>">
     <ktml:content>
 </body>
 
