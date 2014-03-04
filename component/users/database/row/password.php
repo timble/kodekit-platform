@@ -56,18 +56,6 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
 
     public function save()
     {
-        $user = $this->getObject('com:users.model.users')
-            ->email($this->id)
-            ->getRow();
-
-        // Check if referenced user actually exists.
-        if ($user->isNew())
-        {
-            $this->setStatus(Library\Database::STATUS_FAILED);
-            $this->setStatusMessage(\JText::sprintf('USER NOT FOUND', $this->id));
-            return false;
-        }
-
         if ($password = $this->password)
         {
             // Check the password length.
