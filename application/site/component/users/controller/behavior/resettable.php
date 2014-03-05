@@ -60,7 +60,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->response->setRedirect($url, \JText::_('INVALID_REQUEST'), 'error');
+            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
             $result = false;
         }
 
