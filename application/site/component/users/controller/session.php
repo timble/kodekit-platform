@@ -70,12 +70,13 @@ class UsersControllerSession extends Users\ControllerSession
         $result = parent::_actionAdd($context);
 
         //Set the session data
-        if($context->response->isSuccess()) {
+        if($context->response->isSuccess())
+        {
             $context->user->getSession()->site = $this->getObject('application')->getSite();
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
+            $context->response->setRedirect($url);
         }
-
-        //Redirect to caller
-        $context->response->setRedirect($context->request->getReferrer());
 
         return $result;
     }
