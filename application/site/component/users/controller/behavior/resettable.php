@@ -113,10 +113,23 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
                 $message = $url;
 
-                if (!$row->notify(array('subject' => $subject, 'message' => $message)))
+                if ($row->notify(array('subject' => $subject, 'message' => $message)))
                 {
-                    $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
+                    $message = array(
+                        'text' => \JText::_('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
+                        'type' => 'success');
                 }
+                else
+                {
+                    $message = array(
+                        'text' => \JText::_('The confirmation E-mail for resetting your password could not be sent'),
+                        'type' => 'notice');
+                }
+
+                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $this->getObject('application')->getRouter()->build($url);
+
+                $context->response->setRedirect($url, $message['text'], $message['type']);
             }
             else
             {
