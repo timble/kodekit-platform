@@ -31,8 +31,15 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
-                $context->response->setRedirect($url, JText::_('CANNOT_RESET_USER_NOT_ENABLED'),
-                    Library\ControllerResponseInterface::FLASH_ERROR);
+                $context->response->setRedirect($url,
+                    \JText::_('The user account you are trying to reset the password for is not enabled', 'error'));
+
+                if ($user->activation)
+                {
+                    $context->response->addMessage(\JText::_('Please activate your account before resetting your password'),
+                        'notice');
+                }
+
                 $result = false;
             }
             else
