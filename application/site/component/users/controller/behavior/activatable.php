@@ -81,7 +81,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
                 if ($user->notify(array('subject' => $subject, 'message' => $message)))
                 {
-                    $context->response->addMessage('Activation E-mail sent');
+                    $context->response->addMessage('An E-mail has been sent to the address you have provided.');
                 }
                 else
                 {
@@ -103,6 +103,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         $page  = $this->getObject('application.pages')->find(array(
             'component' => 'users',
             'access'    => 0,
+            'published' => 1,
             'link'      => array(array('view' => 'user'))));
 
         if ($page)
@@ -120,13 +121,24 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
     protected function _afterActivate(Library\ControllerContextInterface $context)
     {
-        $url = $this->getObject('application.pages')->getHome()->getLink();
+        $page = $this->getObject('application.pages')->find(array(
+            'component' => 'users',
+            'published' => 1,
+            'access'    => 0,
+            'link'      => array(array('view' => 'session'))));
+
+        if ($page) {
+            $url = $page->getLink();
+        } else {
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+        }
+
         $this->getObject('application')->getRouter()->build($url);
 
         if ($context->result === true) {
-            $this->addMessage('Activation successfully completed');
+            $context->response->addMessage('Activation successfully completed');
         } else {
-            $this->addMessage('Activation failed', 'error');
+            $context->response->addMessage('Activation failed', 'error');
         }
 
         $context->response->setRedirect($url);
