@@ -56,7 +56,7 @@ class UsersControllerUser extends Users\ControllerUser
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->response->setRedirect($url);
+            $context->response->setRedirect($url, 'User account successfully created');
         }
 
         return $user;
