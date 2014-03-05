@@ -39,7 +39,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
                 if ($user->notify(array('subject' => $subject, 'message' => $message)))
                 {
-                    $context->response->addMessage('Activation E-mail sent');
+                    $context->response->addMessage('An E-mail for activating your account has been sent to the address you have provided.');
                 }
                 else
                 {
