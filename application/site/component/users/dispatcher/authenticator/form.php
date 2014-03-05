@@ -20,8 +20,8 @@ class UsersDispatcherAuthenticatorForm extends Users\DispatcherAuthenticatorForm
 {
     protected function _beforePost(Library\DispatcherContextInterface $context)
     {
-        // Allow registration POST requests.
-        if (!$this->_isRegistration($context))
+        // Allow registration and password reset POST requests.
+        if (!$this->_isRegistration($context) && !$this->_isPasswordReset($context))
         {
             parent::_beforePost($context);
         }
@@ -35,5 +35,14 @@ class UsersDispatcherAuthenticatorForm extends Users\DispatcherAuthenticatorForm
 
         return (bool) (!$context->user->isAuthentic() && ($identifier->package == 'users') &&
             ($identifier->name == 'user') && ($context->action == 'post') && !$state->isUnique());
+    }
+
+    protected function _isPasswordReset(Library\DispatcherContextInterface $context)
+    {
+        $controller = $context->subject->getController();
+        $identifier = $controller->getIdentifier();
+
+        return (bool) (!$context->user->isAuthentic() && ($identifier->package == 'users') &&
+            ($identifier->name == 'user') && ($context->action == 'post') && ($context->request->data->_action == 'reset'));
     }
 }
