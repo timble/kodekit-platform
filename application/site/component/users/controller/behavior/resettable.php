@@ -142,20 +142,17 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $message = JText::_('PASSWORD_RESET_SUCCESS');
-
+            $message = array('text' => \JText:_('Your password has been reset'), 'type' => 'success');
             $url     = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
         }
         else
         {
-            $message = $context->error;
-            $type   = 'error';
-
-            $url    = $context->request->getReferrer();
+            $message = array('text' => $context->error, 'type' => 'error');
+            $url     = $context->request->getReferrer();
         }
 
-        $context->response->setRedirect($url, $message, $type);
+        $context->response->setRedirect($url, $message['text'], $message['type']);
     }
 }
