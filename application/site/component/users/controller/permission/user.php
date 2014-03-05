@@ -47,4 +47,9 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
 
         return $result;
     }
+
+    public function canAdd()
+    {
+        return true;
+    }
 }
