@@ -118,4 +118,9 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
 
         return $result;
     }
+
+    public function expirable()
+    {
+        return (bool) $this->_expirable;
+    }
 }
