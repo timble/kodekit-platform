@@ -24,11 +24,6 @@ class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
         if ($entity->getStatus() === Library\Database::STATUS_FAILED)
         {
             $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
-
-            // Re-directed to form. Behave as Apply for keeping cookie referrer intact.
-            $this->removeCommandCallback('after.save', '_unlockResource');
-            $this->removeCommandCallback('after.save', '_unsetReferrer');
-            $this->addCommandCallback('after.save', '_lockReferrer');
         }
 
         return $entity;
