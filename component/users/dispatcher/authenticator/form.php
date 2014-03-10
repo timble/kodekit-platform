@@ -27,7 +27,7 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
      */
     protected function _beforePost(Library\DispatcherContextInterface $context)
     {
-        if(!$context->user->isAuthentic())
+        if($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic())
         {
             $password = $context->request->data->get('password', 'string');
             $email    = $context->request->data->get('email', 'email');
