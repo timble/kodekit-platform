@@ -17,21 +17,18 @@ use Nooku\Library;
  */
 class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('before.browse', 'setReferrer');
-    }
-
     protected function _actionSave(Library\ControllerContextInterface $context)
     {
         $entity = parent::_actionSave($context);
 
-        if ($entity->getStatus() === Library\Database::STATUS_FAILED) {
+        if ($entity->getStatus() === Library\Database::STATUS_FAILED)
+        {
             $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
-        } else {
-            $context->response->setRedirect($this->getReferrer($context));
+
+            // Re-directed to form. Behave as Apply for keeping cookie referrer intact.
+            $this->removeCommandCallback('after.save', '_unlockResource');
+            $this->removeCommandCallback('after.save', '_unsetReferrer');
+            $this->addCommandCallback('after.save', '_lockReferrer');
         }
 
         return $entity;
@@ -40,7 +37,6 @@ class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
     protected function _actionCancel(Library\ControllerContextInterface $context)
     {
         $context->response->setRedirect($this->getReferrer($context));
-        return;
     }
 
     protected function _actionApply(Library\ControllerContextInterface $context)
