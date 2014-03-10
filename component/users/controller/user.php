@@ -34,13 +34,15 @@ class ControllerUser extends Library\ControllerModel
 
         if ($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT)
         {
-            $user = $this->getObject('user.provider')->load($entity->id, true);
+            $provider = $this->getObject('user.provider');
+
+            $user = $provider->load($entity->id, true);
 
             // Logged in user edited. Updated in memory/session user object.
             if($context->user->equals($user))
             {
                 //Set user data in context
-                $data = $user->toArray();
+                $data = $provider->fetch($user->getId())->toArray();
                 $data['authentic'] = true;
 
                 $context->user->setData($data);
