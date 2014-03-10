@@ -44,7 +44,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'expirable'  => 0,
+            'expirable'  => 1,
             'expiration' => 6,
             'row_mixin'  => true
         ));
