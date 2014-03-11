@@ -29,6 +29,29 @@ class UsersControllerSession extends Users\ControllerSession
         parent::_initialize($config);
     }
 
+    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    {
+        $result = true;
+
+        $user = $this->getUser();
+
+        // Check if the user is granted admin access.
+        if ($user->getRole() <= 22)
+        {
+            $result = false;
+
+            // Mark user as non authenticated.
+            $data            = $user->getData();
+            $data->authentic = false;
+            $user->setData($data);
+
+            $context->response->setRedirect($context->request->getReferrer(),
+                \JText::_('Access denied'));
+        }
+
+        return $result;
+    }
+
     protected function _actionAdd(Library\ControllerContextInterface $context)
     {
         $result = parent::_actionAdd($context);
