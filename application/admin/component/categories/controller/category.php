@@ -29,5 +29,8 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
         ));
         
         parent::_initialize($config);
+
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
 }

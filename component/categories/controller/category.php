@@ -27,23 +27,20 @@ abstract class ControllerCategory extends Library\ControllerModel
         ));
 
         parent::_initialize($config);
-
-        //Force the toolbars
-        $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
 
     protected function _actionRender(Library\CommandContext $context)
     {
         $view = $this->getView();
 
-        //Set the layout
+        //Alias the view layout
         if($view instanceof Library\ViewTemplate)
         {
-            $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
+            $layout = $view->getIdentifier()->toArray();
+            $layout['name']  = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'categories';
+            $alias = $layout;
+            $alias['package'] = 'categories';
 
             $this->getObject('manager')->registerAlias($layout, $alias);
         }

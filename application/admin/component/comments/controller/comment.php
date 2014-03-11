@@ -28,5 +28,8 @@ class CommentsControllerComment extends Comments\ControllerComment
         ));
 
         parent::_initialize($config);
+
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:ccomment.controller.toolbar.comment');
     }
 }
