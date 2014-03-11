@@ -19,38 +19,60 @@ use Nooku\Library;
  */
 class DatabaseRowPassword extends Library\DatabaseRowTable
 {
+    /**
+     * Minimum password length for new passwords.
+     *
+     * @var integer
+     */
+    protected $_length;
+
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
+        //Set the minimum passowrd length
+        $this->_length = (int) $config->length;
+
         // TODO Remove when PHP 5.5 becomes a requirement.
-        Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT.'/component/users/legacy/password.php');
+        require_once JPATH_ROOT.'/component/users/legacy/password.php';
+    }
+
+    /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  Library\ObjectConfig $config  An optional ObjectConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'length' => 5
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Minimum password length getter.
+     *
+     * @return int The minimum password length.
+     */
+    public function getLength()
+    {
+        return $this->_length;
     }
 
     public function save()
     {
-        $user = $this->getObject('com:users.model.users')
-            ->email($this->id)
-            ->fetch();
-
-        // Check if referenced user actually exists.
-        if ($user->isNew())
-        {
-            $this->setStatus(Library\Database::STATUS_FAILED);
-            $this->setStatusMessage(\JText::sprintf('USER NOT FOUND', $this->id));
-            return false;
-        }
-
         if ($password = $this->password)
         {
             // Check the password length.
-            $params = $this->getObject('application.extensions')->getExtension('users')->params;
-            $length = $params->get('password_length', 5);
-
-            if (strlen($password) < $length)
+            if (strlen($password) < $this->getLength())
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $length));
+                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $this->getLength()));
                 return false;
             }
 
@@ -66,7 +88,10 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
             }
 
             // Reset expiration date.
-            $this->resetExpiration(false);
+            if ($this->isExpirable())
+            {
+                $this->resetExpiration(false);
+            }
 
             // Create hash.
             $this->hash = $this->getHash($password);
@@ -84,12 +109,16 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     /**
      * Generates a random password.
      *
-     * @param int The length of the password.
-     *
+     * @param int $length The length of the random password.
      * @return string The generated password.
      */
-    public function getRandom($length = 8)
+    public function getRandom($length = null)
     {
+        if (is_null($length))
+        {
+            $length = $this->getLength();
+        }
+
         $bytes  = '';
         $return = '';
 
@@ -202,7 +231,10 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     public function toArray()
     {
         $password = parent::toArray();
+
+        // Unset sensible data.
         unset($password['hash']);
+        unset($password['reset']);
 
         return $password;
     }

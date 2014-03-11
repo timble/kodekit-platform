@@ -116,9 +116,11 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
         {
             if (is_string($table) && strpos($table, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('database', 'table');
-                $identifier->name = StringInflector::tableize($table);
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('database', 'table');
+                $identifier['name'] = StringInflector::tableize($table);
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($table);
 

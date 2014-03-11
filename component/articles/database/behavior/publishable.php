@@ -50,7 +50,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         parent::__construct($config);
         
         $this->_table = $config->table;
-        $this->_date  = new Library\Date(array('timezone' => 'GMT'));
+        $this->_date  = $this->getObject('lib:date', array('timezone' => 'GMT'));
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -62,7 +62,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterTableSelect(Library\CommandContext $context)
+    protected function _afterSelect(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
@@ -75,13 +75,13 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         // Same as update.
-        $this->_beforeTableUpdate($context);
+        $this->_beforeUpdate($context);
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $data = $context->data;
 

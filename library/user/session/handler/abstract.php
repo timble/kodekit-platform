@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see  http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 abstract class UserSessionHandlerAbstract extends Object implements UserSessionHandlerInterface
 {
@@ -29,7 +29,7 @@ abstract class UserSessionHandlerAbstract extends Object implements UserSessionH
     /**
      * Constructor
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @throws \RuntimeException If the session handler is not available
      * @return UserSessionHandlerAbstract
      */
@@ -54,7 +54,7 @@ abstract class UserSessionHandlerAbstract extends Object implements UserSessionH
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)

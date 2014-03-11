@@ -17,13 +17,9 @@ use Nooku\Library;
  */
 class ArticlesViewArticleHtml extends ArticlesViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
-        //Get the parameters
-        $params = $this->getObject('application')->getParams();
-
-        //Get the article
-        $article = $this->getModel()->fetch();
+        $article = $this->getModel()->getData();
 
         //Set the breadcrumbs
         $pathway = $this->getObject('application')->getPathway();
@@ -41,7 +37,23 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
             $pathway->addItem($article->title, '');
         }
 
-        $this->params = $params;
-        return parent::render();
+        return parent::_actionRender($context);
+    }
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $article = $this->getModel()->getData();
+
+        if ($article->id && $article->isAttachable()) {
+            $context->data->attachments = $article->getAttachments();
+        }
+
+        if ($article->id && $article->isTaggable()) {
+            $context->data->tags = $article->getTags();
+        }
+
+        $context->data->params = $this->getObject('application.pages')->getActive()->getParams('page');
+
+        parent::_fetchData($context);
     }
 }

@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-interface DispatcherException extends Exception {}
+interface DispatcherException extends ControllerException {}

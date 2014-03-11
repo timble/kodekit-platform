@@ -36,7 +36,7 @@ class Nooku
      *
      * Prevent creating instances of this class by making the constructor private
      *
-     * @param  array  An optional array with configuration options.
+     * @param  array  $config An optional array with configuration options.
      */
     final private function __construct($config = array())
     {
@@ -48,10 +48,12 @@ class Nooku
 
         //Create the loader
         require_once $this->_path.'/class/loader.php';
-        $loader = Nooku\Library\ClassLoader::getInstance($config);
+
+        if (!isset($config['class_loader'])) {
+            $config['class_loader'] = Nooku\Library\ClassLoader::getInstance($config);
+        }
 
         //Create the object manager
-        $config['class_loader'] = $loader;
         Nooku\Library\ObjectManager::getInstance($config);
     }
 
@@ -65,7 +67,7 @@ class Nooku
 	/**
      * Singleton instance
      *
-     * @param  array  An optional array with configuration options.
+     * @param  array  $config An optional array with configuration options.
      * @return Nooku
      */
     final public static function getInstance($config = array())

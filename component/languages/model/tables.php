@@ -25,21 +25,7 @@ class ModelTables extends Library\ModelDatabase
 
         $this->getState()
             ->insert('enabled'  , 'boolean')
-            ->insert('extension', 'int');
-    }
-    
-    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
-    {
-        parent::_buildQueryColumns($query);
-        
-        $query->columns(array('extension_name' => 'extensions.name'));
-    }
-    
-    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
-    {
-        parent::_buildQueryJoins($query);
-        
-        $query->join(array('extensions' => 'extensions'), 'extensions.extensions_extension_id = tbl.extensions_extension_id');
+            ->insert('component', 'alpha');
     }
 
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
@@ -53,8 +39,8 @@ class ModelTables extends Library\ModelDatabase
                 $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
             }
 
-            if($state->extension) {
-                $query->where('tbl.extensions_extension_id IN :component')->bind(array('extension' => (array) $state->extension));
+            if($state->component) {
+                $query->where('tbl.component IN :component')->bind(array('component' => (array) $state->component));
             }
         }
     }

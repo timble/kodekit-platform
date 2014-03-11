@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeControllerBrowse(Library\CommandContext $context)
+    protected function _beforeBrowse(Library\ControllerContextInterface $context)
     {
         $request = $this->getRequest();
 
@@ -26,7 +26,7 @@ class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbs
             $this->getView()->setLayout('search');
 
             $this->getModel()->getTable()
-                ->attachBehavior('com:articles.database.behavior.pageable', array('user' => $this->getUser()->getId()));
+                ->addBehavior('com:articles.database.behavior.pageable', array('user' => $this->getUser()->getId()));
         }
     }
 }

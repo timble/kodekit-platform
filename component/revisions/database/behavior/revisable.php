@@ -66,21 +66,20 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string                    $name       The command name
-     * @param     Library\CommandContext    $context    The command context
+     * @param     Library\Command    $command  The command
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, Library\CommandContext $context)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
-        $parts = explode('.', $name);
+        $parts = explode('.', $command->getName());
         if($parts[0] == 'after')
         {
-            if ($context->data instanceof Library\DatabaseRowInterface) {
-                $this->setMixer(clone $context->data);
+            if ($command->data instanceof Library\DatabaseRowInterface) {
+                $this->setMixer(clone $command->data);
             }
         }
 
-        return Library\BehaviorAbstract::execute($name, $context);
+        return Library\BehaviorAbstract::execute($command, $chain);
     }
 
 	/**
@@ -91,7 +90,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 	 *
 	 * @return void|false
 	 */
-	protected function _beforeTableSelect(Library\CommandContext $context)
+	protected function _beforeSelect(Library\DatabaseContext $context)
 	{
         $query = $context->query;
 
@@ -128,10 +127,10 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * Add a new revision of the row. We store a revision for a row that was just created to be able to create a
      * diff history later.
      *
-     * @param   Library\CommandContext $context
+     * @param   Library\DatabaseContext $context
      * @return  void
      */
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         if($this->_countRevisions(Library\Database::STATUS_CREATED) == 0) {
     		$this->_insertRevision();
@@ -143,10 +142,10 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      *
      * Add a new revision if the row exists and it hasn't been revised yet. If the row was deleted revert it.
      *
-     * @param  Library\CommandContext $context
+     * @param  Library\DatabaseContext $context
      * @return void
      */
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
     	if(!$context->getSubject()->count($context->data->id))
     	{
@@ -182,10 +181,10 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      *
      * Add a new revision if the row was succesfully updated
      *
-     * @param   Library\CommandContext $context
+     * @param   Library\DatabaseContext $context
      * @return  void
      */
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\DatabaseContext $context)
     {
         // Only insert new revision if the database was updated
         if ((bool) $context->affected) {
@@ -199,10 +198,10 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * Add a new revision if the row exists and it hasn't been revised yet. Delete the revisions for the row, if the
      * row was previously deleted.
      *
-     * @param  Library\CommandContext $context
+     * @param  Library\DatabaseContext $context
      * @return void
      */
-    protected function _beforeTableDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\DatabaseContext $context)
     {
    		if (!$context->getSubject()->count($context->data->id))
    		{
@@ -233,10 +232,10 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      *
      * After a row has been deleted, save the previously preseved data as revision with status deleted.
      *
-     * @param  Library\CommandContext $context
+     * @param  Library\DatabaseContext $context
      * @return void
      */
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\DatabaseContext $context)
     {
     	//Insert the revision
         $this->_insertRevision();

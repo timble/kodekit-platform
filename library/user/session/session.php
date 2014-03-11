@@ -30,11 +30,11 @@ class UserSession extends UserSessionAbstract implements ObjectInstantiable, Obj
     {
         if (!$manager->isRegistered('user.session'))
         {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
+            $class     = $manager->getClass($config->object_identifier);
+            $instance  = new $class($config);
             $manager->setObject($config->object_identifier, $instance);
 
-            $manager->registerAlias('user.session', $config->object_identifier);
+            $manager->registerAlias($config->object_identifier, 'user.session');
         }
 
         return $manager->getObject('user.session');

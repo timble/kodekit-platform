@@ -55,8 +55,8 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 
         if($property == 'identifier' && empty($this->_data['identifier']))
         {
-            $name        = substr( $this->name, 4);
-            $package     = substr($this->extension_name, 4);
+            $name    = substr( $this->name, 4);
+            $package = $this->component;
 
             $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$name.'.html');
         }
@@ -71,9 +71,9 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 
 	    if($property == 'manifest' && empty($this->_data['manifest']))
 		{
-            $class = $this->identifier->classname;
-            $path = dirname($this->getObject('manager')->getClassLoader()->findPath($class));
-            $file = $path.'/'.basename($path).'.xml';
+            $class = $this->getObject('manager')->getClass($this->identifier);
+            $path  = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
+            $file  = $path.'/'.basename($path).'.xml';
 
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
@@ -88,8 +88,8 @@ class DatabaseRowModule extends Library\DatabaseRowTable
         
 	    if($property == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
-            $class = $this->identifier->classname;
-            $path = dirname($this->getObject('manager')->getClassLoader()->findPath($class));
+            $class = $this->getObject('manager')->getClass($this->identifier);
+            $path = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
             $file = $path.'/config.xml';
 
 	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'module' );

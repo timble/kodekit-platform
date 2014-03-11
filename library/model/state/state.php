@@ -83,9 +83,11 @@ class ModelState extends ObjectArray implements ModelStateInterface
      * @param   boolean  $unique   TRUE if the state uniquely identifies an entity, FALSE otherwise. Default FALSE.
      * @param   array    $required Array of required states to determine if the state is unique. Only applicable if the
      *                             state is unqiue.
+     * @param   boolean  $internal If TRUE the state will be considered internal and should not be included in a routes.
+     *                             Default FALSE.
      * @return  ModelState
      */
-    public function insert($name, $filter, $default = null, $unique = false, $required = array())
+    public function insert($name, $filter, $default = null, $unique = false, $required = array(), $internal = false)
     {
         //Create the state
         $state = new \stdClass();
@@ -95,6 +97,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
         $state->unique   = $unique;
         $state->required = $required;
         $state->default  = $default;
+        $state->internal = $internal;
         $this->_data[$name] = $state;
 
         //Set the value to default
@@ -248,6 +251,63 @@ class ModelState extends ObjectArray implements ModelStateInterface
         }
 
         return $data;
+    }
+
+    /**
+     * Set a state property
+     *
+     * @param string $name      The name of the state
+     * @param string $property  The name of the property
+     * @param mixed  $value     The value of the property
+     * @return ModelState
+     */
+    public function setProperty($name, $property, $value)
+    {
+        if($this->has($name))
+        {
+            if($this->hasProperty($name, $property)) {
+                $this->_data[$name]->$property = $value;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get a state property
+     *
+     * @param string $name     The name of the state
+     * @param string $property The name of the property
+     * @return mixed|null   Return the property value or NULL if the property does not exist
+     */
+    public function getProperty($name, $property)
+    {
+        $value = null;
+        if($this->has($name))
+        {
+            if(isset($this->_data[$name]->$property)) {
+                $result = $this->_data[$name]->$property;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Check if a state property exists
+     *
+     * @param string $name     The name of the state
+     * @param string $property The name of the property
+     * @return boolean   Return TRUE if the the property exists, FALSE otherwise
+     */
+    public function hasProperty($name, $property)
+    {
+        $result = false;
+        if($this->has($name)) {
+            $result = property_exists($this->_data[$name], $property);
+        }
+
+        return $result;
     }
 
     /**

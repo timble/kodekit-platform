@@ -35,9 +35,9 @@ window.addEvent('domready', function(){
     <?php endforeach ?>
 </ul>
 
+<h3><?=translate( 'Filters' )?></h3>
 <form action="" method="get" id="activities-filter">
     <fieldset>
-        <legend><?=translate( 'Filters' )?></legend>
         <div class="input-prepend">
             <span class="add-on">Start</span>
             <input type="date" name="start_date" value="<?= $state->start_date ?>" />
@@ -56,9 +56,9 @@ window.addEvent('domready', function(){
                     'attribs'      => array('size' => null),
                 )) ?>
         </div>
-        <div class="btn-group">
-            <input type="submit" name="submitfilter" class="btn" value="<?=translate('Filter')?>" />
-            <input type="reset" name="cancelfilter" class="btn" value="<?=translate('Reset')?>" />
+        <div class="button__group">
+            <input type="submit" name="submitfilter" class="button" value="<?=translate('Filter')?>" />
+            <input type="reset" name="cancelfilter" class="button" value="<?=translate('Reset')?>" />
         </div>
     </fieldset>
 </form>

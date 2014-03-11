@@ -72,22 +72,22 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 			
 		if ($return)
         {
-            $request = $this->getObject('lib:controller.request', array(
-                'query' => array(
+            try
+            {
+                $query = array(
                     'container' => $this->container,
-                    'name' => array(
+                    'name'      => array(
                         $this->path,
                         $this->thumbnail
                     )
-                )
-            ));
+                );
 
-            try {
-                $this->getObject('com:files.controller.file', array(
-                    'request' => $request
-                ))->delete();
+                $controller = $this->getObject('com:files.controller.file');
+                $controller->getRequest()->setQuery($query);
+
+                $controller->delete();
             }
-            catch (Library\ControllerExceptionNotFound $e) {}
+            catch (Library\ControllerExceptionResourceNotFound $e) {}
 
 			$this->getObject('com:attachments.database.table.relations')
 				->select(array('attachments_attachment_id' => $this->id))
@@ -133,7 +133,6 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
     public function toArray()
     {
         $data = parent::toArray();
-
         $data['thumbnail'] = $this->thumbnail;
 
         return $data;

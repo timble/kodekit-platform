@@ -22,7 +22,7 @@
         <label class="control-label" for="password"><?= translate('Password') ?></label>
 
         <div class="controls">
-            <input class="minLength:<?= $parameters->get('password_length', 6); ?>" type="password" id="password" name="password" value=""/>
+            <input class="minLength:<?= $password_length ?>" type="password" id="password" name="password" value=""/>
             <?= helper('com:users.form.password');?>
         </div>
     </div>

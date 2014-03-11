@@ -28,12 +28,9 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
 
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $params = $this->getObject('application.extensions')->getExtension('users')->params;
-
         $config->append(array(
-            'auto_mixin'        => true,
             'captcha'           => array(
-                'private_key'       => $params->get('recaptcha_private_key', null),
+                'private_key'       => null,
                 'remote_ip'         => $this->getObject('request')->getAddress(),
                 'verify_server'     => array(
                     'host' => 'www.google.com',
@@ -152,7 +149,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeControllerAdd(Library\CommandContext $context)
+    protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
         $result = true;
         $config =  $this->getConfig()->captcha;
@@ -168,9 +165,9 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeControllerEdit(Library\CommandContext $context)
+    protected function _beforeEdit(Library\ControllerContextInterface $context)
     {
         // Same as add.
-        return $this->_beforeControllerAdd($context);
+        return $this->_beforeAdd($context);
     }
 }

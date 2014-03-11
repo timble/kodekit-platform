@@ -22,8 +22,9 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
-                'com:activities.controller.behavior.loggable'
+                'editable', 'persistable',
+                'com:activities.controller.behavior.loggable',
+                'com:attachments.controller.behavior.attachable',
             ),
         ));
         

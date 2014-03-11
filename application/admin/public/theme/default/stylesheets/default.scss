@@ -3,33 +3,43 @@
 @import "compass/css3/opacity";
 @import "compass/css3/transform";
 
-@import "variables";
-@import "mixins";
-
+@import "utilities/variables";
+@import "mixins/mixins";
 @import "mixins/spinner";
+@import "utilities/reset";
 
-@import "blocks/navigation";
-@import "blocks/thumbnail";
-@import "blocks/scopebar";
-@import "blocks/tabs";
-@import "blocks/pagination";
+@import "atoms/a";
+@import "atoms/body";
+@import "atoms/form";
+@import "atoms/heading";
+@import "atoms/hr";
+@import "atoms/img";
+@import "atoms/list";
 
-@import "reset";
-
-@import "buttons";
-@import "button-groups";
-@import "tables";
-
-@import "type";
 @import "general";
-@import "menu";
-@import "forms";
-@import "validation";
-@import "icons";
-@import "icons_custom";
-@import "labels";
-@import "select2";
-@import "flexbox";
+@import "organisms/form";
+@import "organisms/grid";
+@import "organisms/navbar";
+@import "organisms/sidebar";
+@import "organisms/tabbar";
+@import "organisms/toolbar";
+
+@import "molecules/button";
+@import "molecules/button__group";
+@import "molecules/label";
+@import "molecules/navigation";
+@import "molecules/pagination";
+@import "molecules/scopebar";
+@import "molecules/table";
+@import "molecules/tabs";
+@import "molecules/thumbnail";
+@import "molecules/validation";
+
+@import "utilities/flexbox";
+@import "utilities/icons";
+@import "utilities/icons_custom";
+@import "utilities/select2";
+
 @import "responsive";
 
 @import "components/activities";

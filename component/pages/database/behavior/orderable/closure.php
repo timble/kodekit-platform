@@ -41,10 +41,10 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => self::PRIORITY_LOWEST,
-            'auto_mixin' => true,
-            'columns'    => array(),
-            'table'      => null
+            'priority'  => self::PRIORITY_LOWEST,
+            'row_mixin' => true,
+            'columns'   => array(),
+            'table'     => null
         ));
 
         parent::_initialize($config);
@@ -83,7 +83,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         return $query;
     }
     
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\DatabaseContext $context)
     {
         if($query = $context->query)
         {
@@ -113,7 +113,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->getStatus() != Library\Database::STATUS_FAILED)
@@ -130,7 +130,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->isModified('parent_id')) {
@@ -138,7 +138,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->getStatus() != Library\Database::STATUS_FAILED)
@@ -157,7 +157,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->getStatus() != Library\Database::STATUS_FAILED)
@@ -201,7 +201,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
         switch($operation)
         {
-            case Library\Database::OPERATION_INSERT:
+            case 'insert':
             {
                 $query = $this->_buildQuery($row)
                     ->columns('orderings.custom')
@@ -214,7 +214,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                     ->setProperties(array('custom' => $max + 1))->save();
             } break;
 
-            case Library\Database::OPERATION_UPDATE:
+            case 'update':
             {
                 if($row->order)
                 {
@@ -251,7 +251,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                 }
             } break;
 
-            case Library\Database::OPERATION_DELETE:
+            case 'delete':
             {
                 $table->getAdapter()->execute('SET @index := 0');
 

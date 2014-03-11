@@ -50,9 +50,6 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         //Create the transport queue
         $this->_queue = $this->getObject('lib:object.queue');
 
-        //Set the response messages
-        $this->_messages = $this->getUser()->getSession()->getContainer('message')->all();
-
         //Attach the response transport handlers
         $transports = (array) ObjectConfig::unbox($config->transports);
 
@@ -97,22 +94,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         {
             if($transport instanceof DispatcherResponseTransportInterface)
             {
-                if($transport->send($this) == true)
-                {
-                    //Cleanup and flush output to client
-                    if (!function_exists('fastcgi_finish_request'))
-                    {
-                        if (PHP_SAPI !== 'cli')
-                        {
-                            for ($i = 0; $i < ob_get_level(); $i++) {
-                                ob_end_flush();
-                            }
-
-                            flush();
-                        }
-                    }
-                    else fastcgi_finish_request();
-
+                if($transport->send($this) == true) {
                     return true;
                 }
             }
@@ -231,9 +213,15 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         //Create the complete identifier if a partial identifier was passed
         if (is_string($transport) && strpos($transport, '.') === false)
         {
-            $identifier = clone $this->getIdentifier();
-            $identifier->path = array('response', 'transport');
-            $identifier->name = $transport;
+            $identifier = $this->getIdentifier()->toArray();
+            if($identifier['package'] != 'dispatcher') {
+                $identifier['path'] = array('dispatcher', 'response', 'transport');
+            } else {
+                $identifier['path'] = array('response', 'transport');
+            }
+
+            $identifier['name'] = $transport;
+            $identifier = $this->getIdentifier($identifier);
         }
         else $identifier = $this->getIdentifier($transport);
 
@@ -294,16 +282,20 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
 
     /**
      * Check if the response is streamable
-     *
-     * All response are considered streamable, only if the Accept-Ranges has a value 'none' the response should not
-     * be streamed.
+
+     * A response is considered streamable, if the Accept-Ranges does not have value 'none' or if the Transfer-Encoding
+     * is set the chunked.
      *
      * @link http://tools.ietf.org/html/rfc2616#section-14.5
      * @return bool
      */
     public function isStreamable()
     {
-        if($this->_headers->get('Accept-Ranges', null) !== 'none' && $this->getStream()->getType() == 'file') {
+        if($this->_headers->get('Transfer-Encoding') == 'chunked') {
+            return true;
+        }
+
+        if($this->_headers->get('Accept-Ranges', null) !== 'none') {
             return true;
         };
 
@@ -313,12 +305,22 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     /**
      * Check if the response is attachable
      *
+     * A response is attachable if the request is downloadable or the content type is 'application/force-download'
+     *
+     * If the request is made by an Ipad, iPod or iPhone user agent the response will never be attachable. iOS browsers
+     * cannot handle files send as disposition : attachment.
+     *
      * @return bool
      */
     public function isAttachable()
     {
-        if($this->getRequest()->isDownload() || $this->getContentType() == 'application/force-download') {
-            return true;
+        $request = $this->getRequest();
+
+        if(!preg_match('#(iPad|iPod|iPhone)#', $request->getAgent()))
+        {
+            if($request->isDownload() || $this->getContentType() == 'application/force-download') {
+                return true;
+            }
         }
 
         return false;

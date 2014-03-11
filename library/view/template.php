@@ -29,14 +29,7 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * @var boolean
      */
-    protected $_auto_assign;
-
-    /**
-     * The assigned data
-     *
-     * @var boolean
-     */
-    protected $_data;
+    protected $_auto_fetch;
 
     /**
      * Layout name
@@ -48,23 +41,20 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         //Set the auto assign state
-        $this->_auto_assign = $config->auto_assign;
-
-        //Set the data
-        $this->_data = ObjectConfig::unbox($config->data);
+        $this->_auto_fetch = $config->auto_fetch;
 
         //Set the layout
         $this->setLayout($config->layout);
 
         //Set the template object
-        $this->_template = $config->template;
+        $this->setTemplate($config->template);
 
         //Attach the template filters
         $filters = (array)ObjectConfig::unbox($config->template_filters);
@@ -77,6 +67,9 @@ abstract class ViewTemplate extends ViewAbstract
                 $this->getTemplate()->attachFilter($key, $value);
             }
         }
+
+        //Fetch the view data before rendering
+        $this->addCommandCallback('before.render', '_fetchData');
     }
 
     /**
@@ -89,89 +82,76 @@ abstract class ViewTemplate extends ViewAbstract
      */
     protected function _initialize(ObjectConfig $config)
     {
-        //Clone the identifier
-        $identifier = clone $this->getIdentifier();
-
         $config->append(array(
-            'data'             => array(),
             'layout'           => '',
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
-            'auto_assign'      => true,
+            'auto_fetch'       => true,
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Set a view data property
-     *
-     * @param   string  $property The property name.
-     * @param   mixed   $value    The property value.
-     */
-    public function __set($property, $value)
-    {
-        $this->_data[$property] = $value;
-    }
-
-    /**
-     * Get a view data property
-     *
-     * @param   string  $property The property name.
-     * @return  string  The property value.
-     */
-    public function __get($property)
-    {
-        $result = null;
-        if (isset($this->_data[$property])) {
-            $result = $this->_data[$property];
-        }
-
-        return $result;
-    }
-
-    /**
      * Return the views output
      *
-     * @return string     The output of the view
+     * @param ViewContext	$context A view context object
+     * @return string  The output of the view
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         $layout     = $this->getLayout();
         $format     = $this->getFormat();
+        $data       = $this->getData();
 
-        $identifier = clone $this->getIdentifier();
-        $identifier->name = $layout.'.'.$format;
+        //Handle partial layout paths
+        if (is_string($layout) && strpos($layout, '.') === false)
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['name'] = $layout;
+
+            $layout = (string) $this->getIdentifier($identifier);
+        }
 
         $this->_content = (string) $this->getTemplate()
-            ->load($identifier)
+            ->load((string) $layout.'.'.$format)
             ->compile()
-            ->evaluate($this->_data)
+            ->evaluate($data)
             ->render();
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 
     /**
-     * Sets the view data
+     * Fetch the view data
      *
-     * @param   array $data The view data
-     * @return  ViewAbstract
+     * This function will always fetch the model state. Model data will only be fetched if the auto_fetch property is
+     * set to TRUE.
+     *
+     * @param ViewContext	$context A view context object
+     * @return void
      */
-    public function setData(array $data)
+    protected function _fetchData(ViewContext $context)
     {
-        $this->_data = $data;
-        return $this;
-    }
+        $model = $this->getModel();
 
-    /**
-     * Get the view data
-     *
-     * @return  array   The view data
-     */
-    public function getData()
-    {
-        return $this->_data;
+        //Auto-assign the state to the view
+        $context->data->state = $model->getState();
+
+        //Auto-assign the data from the model
+        if($this->_auto_fetch)
+        {
+            //Get the view name
+            $name = $this->getName();
+
+            //Assign the data of the model to the view
+            if(StringInflector::isPlural($name))
+            {
+                $context->data->$name = $model->getRowset();
+                $context->data->total = $model->getTotal();
+            }
+            else $context->data->$name = $model->getRow();
+        }
     }
 
     /**
@@ -242,9 +222,9 @@ abstract class ViewTemplate extends ViewAbstract
         {
             if (is_string($template) && strpos($template, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('template');
-                $identifier->name = $template;
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('template');
+                $identifier['name'] = $template;
             }
             else $identifier = $this->getIdentifier($template);
 
@@ -278,42 +258,5 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         return $route;
-    }
-
-    /**
-     * Execute and return the views output
-     *
-     * @return  string
-     */
-    public function __toString()
-    {
-        return $this->render();
-    }
-
-    /**
-     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view by using the variable
-     * name as the method name. If the method name is a setter method the setter will be called instead.
-     *
-     * For example : $view->layout('foo')->title('name')->render().
-     *
-     * @param   string  $method Method name
-     * @param   array   $args   Array containing all the arguments for the original call
-     * @return  ViewAbstract
-     *
-     * @see http://martinfowler.com/bliki/FluentInterface.html
-     */
-    public function __call($method, $args)
-    {
-        //If one argument is passed we assume a setter method is being called 
-        if (count($args) == 1)
-        {
-            if (method_exists($this, 'set' . ucfirst($method))) {
-                return $this->{'set' . ucfirst($method)}($args[0]);
-            } else {
-                return $this->$method = $args[0];
-            }
-        }
-
-        return parent::__call($method, $args);
     }
 }

@@ -28,8 +28,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         'getTypeDescription',
         'getParams',
         'getLink',
-        '_beforeTableInsert',
-        '_beforeTableUpdate'
+        '_beforeInsert',
+        '_beforeUpdate'
     );
 
     protected $_mixable_methods = array(
@@ -49,7 +49,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_mixin' => true
+            'row_mixin' => true
         ));
 
         parent::_initialize($config);
@@ -104,24 +104,26 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         return array_combine($this->_methods, $this->_methods);
     }
 
-    public function getMixableMethods(Library\ObjectMixable $mixer = null)
+    public function getMixableMethods($exclude = array())
     {
-        $methods = array_combine($this->_mixable_methods, $this->_mixable_methods);
-        $methods['is'.ucfirst($this->getIdentifier()->name)] = function() { return true; };
+        $methods = array_fill_keys($this->_mixable_methods, $this);
+        $methods['is'.ucfirst($this->getIdentifier()->name)] = true;
 
         return $methods;
     }
 
-    public function execute($name, Library\CommandContext $context)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
+        $name = $command->getName();
+
         if($name == 'before.insert' || $name == 'before.update')
         {
-            $this->setMixer($context->data);
+            $this->setMixer($command->data);
 
             $type = $this->getType();
 
             $this->setStrategy($type);
-            $return = $this->getStrategy()->setMixer($context->data)->execute($name, $context);
+            $return = $this->getStrategy()->setMixer($command->data)->execute($command, $chain);
         }
         else $return = true;
 

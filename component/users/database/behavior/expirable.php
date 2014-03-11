@@ -38,23 +38,21 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         parent::__construct($config);
 
         $this->_expiration = $config->expiration;
-        $this->_expirable     = $config->expirable;
+        $this->_expirable  = $config->expirable;
     }
 
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $params = $this->getObject('application.extensions')->getExtension('users')->params;
-
         $config->append(array(
-            'expirable'     => $params->get('password_expire', 0),
+            'expirable'  => 1,
             'expiration' => 6,
-            'auto_mixin' => true
+            'row_mixin'  => true
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         if ($this->_expirable) {
             $this->resetExpiration(false);
@@ -112,12 +110,16 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     {
         $result = true;
 
-        if (empty($this->expiration)) {
-            $result = null;
-        } elseif (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)) {
+        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration))))
+        {
             $result = false;
         }
 
         return $result;
+    }
+
+    public function expirable()
+    {
+        return (bool) $this->_expirable;
     }
 }

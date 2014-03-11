@@ -25,7 +25,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      *
      * The attributes are stored in the an $_SESSION[namespace] array to avoid conflicts.
      *
-     * @see loadSession()
+     * @see load()
      * @var string
      */
     protected $_namespace;
@@ -47,17 +47,11 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     {
         parent::__construct($config);
 
-        //@TODO : Fix this. If we don't hardcode it, it gets set to __nooku.
-        $config->namespace = '__nooku_'.$this->getIdentifier()->name;
-
         //Set the attribute session namespace
         $this->setNamespace($config->namespace);
 
         //Set the attribute session separator
         $this->_separator = $config->separator;
-
-        //Load the session data
-        $this->loadSession();
     }
 
     /**
@@ -71,7 +65,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'namespace' => '__nooku_'.$this->getIdentifier()->name,
+            'namespace' => '__'.$this->getIdentifier()->name,
             'separator' => '.',
         ));
 
@@ -152,12 +146,32 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      * @param array $attributes An array of attributes
      * @return UserSessionContainerAbstract
      */
-    public function values(array $attributes)
+    public function add(array $attributes)
     {
         foreach ($attributes as $key => $values) {
             $this->set($key, $values);
         }
 
+        return $this;
+    }
+
+    /**
+     * Load the attributes by reference
+     *
+     * After starting a session, PHP retrieves the session data through the session handler and populates $_SESSION
+     * with the result automatically. This function can load the attributes from the $_SESSION global by reference
+     * by passing the $_SESSION to this function.
+     *
+     * @param array $session The session data to load by reference.
+     * @return UserSessionContainerAbstract
+     */
+    public function load(array &$session)
+    {
+        if(!isset($session[$this->_namespace])) {
+            $session[$this->_namespace] = array();
+        }
+
+        $this->_data = &$session[$this->_namespace];
         return $this;
     }
 
@@ -191,27 +205,6 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     public function getSeparator()
     {
         return $this->_separator;
-    }
-
-    /**
-     * Load the attributes from the $_SESSION global
-     *
-     * @param array $session The session data to load by reference. Will use $_SESSION by default.
-     * @return UserSessionContainerAbstract
-     */
-    public function loadSession(array &$session = null)
-    {
-        if (null === $session) {
-            $session = &$_SESSION;
-        }
-
-        //Add the attributes by reference from the $_SESSION global
-        if(!isset($session[$this->_namespace])) {
-            $session[$this->_namespace] = array();
-        }
-
-        $this->_data = &$session[$this->_namespace];
-        return $this;
     }
 
     /**

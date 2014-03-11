@@ -20,6 +20,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
+            'formats'   => array('rss'),
             'toolbars'  => array('article'),
             'behaviors' => array('editable', 'searchable'))
         );
@@ -47,19 +48,15 @@ class ArticlesControllerArticle extends Library\ControllerModel
                     'order'  => array('ordering' => 'ASC'));
 
                 // Get the parameters
-                $params = $this->getObject('application')->getParams();
+                $page   = $this->getObject('application.pages')->getActive();
+                $params = $page->getParams('page');
 
                 // Force some request vars based on setting parameters.
                 $request->query->limit = (int) $params->get('articles_per_page', 3);
 
                 $sort_by = $sort_by_map[$params->get('sort_by', 'newest')];
-                $request->query->sort = key($sort_by);
-                $request->query->direction   = current($sort_by);
-            }
-
-            // Allow editors (and above) to view unpublished items on lists.
-            if (!$this->canEdit()) {
-                $request->query->published = 1;
+                $request->query->sort      = key($sort_by);
+                $request->query->direction = current($sort_by);
             }
 
             //Always show child category articles
@@ -69,7 +66,15 @@ class ArticlesControllerArticle extends Library\ControllerModel
         return $request;
     }
 
-    protected function _actionAdd(Library\CommandContext $context)
+    protected function _actionBrowse(Library\ControllerContextInterface $context)
+    {
+        // Allow editors (and above) to view unpublished items on lists.
+        if (!$this->canEdit()) {
+            $context->request->query->published = 1;
+        }
+    }
+
+    protected function _actionAdd(Library\ControllerContextInterface $context)
     {
         //Force article to unpublished if you cannot edit
         if (!$this->canEdit()) {

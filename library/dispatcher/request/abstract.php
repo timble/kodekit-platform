@@ -60,13 +60,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     protected $_referrer;
 
     /**
-     * The format
-     *
-     * @var string
-     */
-    protected $_format;
-
-    /**
      * The token
      *
      * @var string
@@ -244,8 +237,10 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         $config->append(array(
             'base_url'  => '/',
             'base_path' => null,
-            'method'   => null,
-            'formats'  => array(
+            'method'    => null,
+            'format'    => null,
+            'url'       => null,
+            'formats'   => array(
                 'html'     => array('text/html', 'application/xhtml+xml'),
                 'txt'      => array('text/plain'),
                 'js'       => array('application/javascript', 'application/x-javascript', 'text/javascript'),
@@ -570,6 +565,21 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Set the url for this request
+     *
+     * @param string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
+     * @return HttpRequest
+     */
+    public function setUrl($url)
+    {
+        if(!empty($url)) {
+            $this->_url = $this->getObject('lib:http.url', array('url' => $url));
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the HTTP referrer.
      *
      * 'referer' a commonly used misspelling word for 'referrer'
@@ -723,7 +733,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             }
 
             if($this->data->has('_token')) {
-                $token = $this->data->get('_token', 'md5');
+                $token = $this->data->get('_token', 'sha1');
             }
 
             $this->_token = $token;
@@ -737,17 +747,18 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      *
      * Find the format by using following sequence :
      *
-     * 1. Use the format information from the url
-     * 2. Use the the 'format' request parameter
+     * 1. Use the the 'format' request parameter
+     * 2. Use the url format
      * 3. Use the accept header with the highest quality apply the reverse format map to find the format.
      *
-     * @param string $format The default format
      * @return  string  The request format or NULL if no format could be found
      */
-    public function getFormat($format = 'html')
+    public function getFormat()
     {
         if (!isset($this->_format))
         {
+            $format = 'html';
+
             if(!$this->query->has('format'))
             {
                 if(!$this->getUrl()->getFormat())
@@ -757,15 +768,23 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
                         $accept  = $this->_headers->get('Accept');
                         $formats = $this->_parseAccept($accept);
 
-                        //Get the highest quality format
-                        $mime_type = key($formats);
-
-                        foreach (static::$_formats as $value => $mime_types)
+                        /**
+                         * If the browser is requested text/html serve it at all times
+                         *
+                         * @hotfix #409 : Android 2.3 requesting application/xml
+                         */
+                        if(!isset($formats['text/html']))
                         {
-                            if (in_array($mime_type, (array) $mime_types))
+                            //Get the highest quality format
+                            $mime_type = key($formats);
+
+                            foreach (static::$_formats as $value => $mime_types)
                             {
-                                $format = $value;
-                                break;
+                                if (in_array($mime_type, (array) $mime_types))
+                                {
+                                    $format = $value;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -774,7 +793,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             }
             else $format = $this->query->get('format', 'word');
 
-            $this->_format = $format;
+            $this->setFormat($format);
         }
 
         return $this->_format;

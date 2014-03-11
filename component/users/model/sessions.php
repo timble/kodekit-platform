@@ -22,15 +22,16 @@ class ModelSessions extends Library\ModelDatabase
     /**
      * Constructor.
      *
-     * @param   ObjectConfig  An optional Library\ObjectConfig object with configuration options.
+     * @param   ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
      */
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->getState()
-            ->insert('application', 'word')
-            ->insert('email'      , 'email');
+            ->insert('path'  , 'path')
+            ->insert('doamin', 'url')
+            ->insert('email' , 'email');
 
         //@TODO : Add special session id filter
         $this->getState()
@@ -76,10 +77,16 @@ class ModelSessions extends Library\ModelDatabase
         parent::_buildQueryWhere($query);
         $state = $this->getState();
         
-        if ($state->application)
+        if ($state->path)
         {
-            $query->where('application IN :application')
-                  ->bind(array('application' => (array) $state->application));
+            $query->where('path IN :path')
+                  ->bind(array('path' => (array) $state->path));
+        }
+
+        if ($state->domain)
+        {
+            $query->where('path IN :domain')
+                ->bind(array('domain' => (array) $state->domain));
         }
 
         if ($state->email)

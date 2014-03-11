@@ -17,10 +17,20 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesRss extends Library\ViewRss
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $context->data->category = $this->getCategory();
+
+        parent::_fetchData($context);
+    }
+
+    public function getCategory()
     {
         //Get the category
-        $category = $this->getCategory();
+        $category = $this->getObject('com:articles.model.categories')
+                         ->table('articles')
+                         ->id($this->getModel()->getState()->category)
+                         ->fetch();
 
         $container = $this->getObject('com:files.model.containers')
             ->slug('attachments-attachments')
@@ -38,19 +48,6 @@ class ArticlesViewArticlesRss extends Library\ViewRss
                 'height' => $size[1]
             );
         }
-
-        $this->category = $category;
-
-        return parent::render();
-    }
-
-    public function getCategory()
-    {
-        //Get the category
-        $category = $this->getObject('com:articles.model.categories')
-                         ->table('articles')
-                         ->id($this->getModel()->getState()->category)
-                         ->fetch();
 
         return $category;
     }

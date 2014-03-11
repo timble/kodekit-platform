@@ -18,24 +18,22 @@ namespace Nooku\Library;
 class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
 {
     /**
-     * Get the methods that are available for mixin based
+     * Check if the behavior is supported
      *
-     * This function conditionaly mixes the behavior. Only if the mixer
-     * has a 'created_by' or 'created_on' property the behavior will be
-     * mixed in.
+     * Behavior requires a 'created_by' or 'created_on' row property
      *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of methods
+     * @return  boolean  True on success, false otherwise
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function isSupported()
     {
-        $methods = array();
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-        if($mixer instanceof DatabaseRowInterface && ($mixer->has('created_by') || $mixer->has('created_on')))  {
-            $methods = parent::getMixableMethods($mixer);
+        if($table->hasColumn('created_by') || $table->hasColumn('created_on'))  {
+            return true;
         }
 
-        return $methods;
+        return false;
     }
 
     /**
@@ -43,9 +41,10 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      *
      * Requires an 'created_on' and 'created_by' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
         if($this->has('created_by') && empty($this->created_by)) {
             $this->created_by  = (int) $this->getObject('user')->getId();

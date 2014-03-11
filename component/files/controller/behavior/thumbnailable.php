@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
 {
-    protected function _afterControllerBrowse(Library\CommandContext $context)
+    protected function _afterBrowse(Library\ControllerContextInterface $context)
     {
         $container = $this->getModel()->getContainer();
 
@@ -35,19 +35,18 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
             }
         }
 
-        $folder = $context->request->query->get('folder', 'com:files.filter.path');
+        $query =  array(
+            'container' => $this->getModel()->getState()->container,
+            'folder'    => $context->request->query->get('folder', 'com:files.filter.path'),
+            'filename'  => $files,
+            'limit'     => 0,
+            'offset'    => 0
+       );
 
-        $thumbnails = $this->getObject('com:files.controller.thumbnail', array(
-            'request' => $this->getObject('lib:controller.request', array(
-                'query' => array(
-                    'container' => $this->getModel()->getState()->container,
-                    'folder'    => $folder,
-                    'filename'  => $files,
-                    'limit'     => 0,
-                    'offset'    => 0
-                )
-            ))
-        ))->browse();
+        $controller = $this->getObject('com:files.controller.thumbnail');
+        $controller->getRequest()->setQuery($query);
+
+        $thumbnails = $controller->browse();
 
         foreach ($thumbnails as $thumbnail)
         {

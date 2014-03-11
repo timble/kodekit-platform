@@ -48,9 +48,10 @@ class ViewVcard extends ViewAbstract
     /**
      * Return the views output
      *
-     *  @return string  The output of the view
+     * @param ViewContext	$context A view context object
+     * @return string  The output of the view
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         //Render the vcard
         $data   = 'BEGIN:VCARD';
@@ -70,7 +71,8 @@ class ViewVcard extends ViewAbstract
         $data   .= "\r\n";
 
         $this->setContent($data);
-        parent::render();
+
+        parent::_actionRender($context);
     }
 
     /**

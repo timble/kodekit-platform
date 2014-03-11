@@ -18,54 +18,61 @@ use Nooku\Library;
  */
 class FilesViewDirectoryHtml extends Library\ViewHtml
 {
-	public function render()
+    protected function _actionRender(Library\ViewContext $context)
 	{
-        $page = $this->getObject('application.pages')->getActive();
-        $params = new JParameter($page->params);
+		$this->setPathway();
+
+		return parent::_actionRender($context);
+	}
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = $page->getParams('page');
 
         $folders       = $this->_getFolders();
-        $this->folders = $folders['items'];
+        $context->data->folders = $folders['items'];
 
         $files       = $this->_getFiles();
-        $this->files = $files['items'];
-        $this->total = $files['total'];
+        $context->data->files = $files['items'];
+        $context->data->total = $files['total'];
 
         $folder = $this->getModel()->fetch();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
-		{
-			$path   = explode('/', $folder->path);
-			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
+        {
+            $path   = explode('/', $folder->path);
+            $parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
 
             $params->set('page_title', ucfirst(end($path)));
-		} else {
+        }
+        else
+        {
             $parent = null;
-
             $params->set('page_title', $page->title);
         }
 
-        $this->parent         = $parent;
-        $this->params         = $params;
-        $this->page           = $page;
-        $this->thumbnail_size = array('x' => 200, 'y' => 150);
+        $context->data->parent         = $parent;
+        $context->data->params         = $params;
+        $context->data->page           = $page;
+        $context->data->thumbnail_size = array('x' => 200, 'y' => 150);
 
-		$this->setPathway();
-
-		return parent::render();
-	}
+        parent::_fetchData($context);
+    }
 
     protected function _getFolders()
     {
         $page   = $this->getObject('application.pages')->getActive();
-        $params = new JParameter($page->params);
+        $params = $page->getParams('page');
 
         if ($params->get('show_folders', 1))
         {
             $state = $this->getModel()->getState();
 
-            $identifier       = clone $this->getIdentifier();
-            $identifier->path = array('model');
-            $identifier->name = Library\StringInflector::pluralize($this->getName());
+            $identifier         = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('model');
+            $identifier['name'] = Library\StringInflector::pluralize($this->getName());
+
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
             $folders          = $model->fetch();
             $total            = $model->count();
@@ -89,7 +96,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
     protected function _getFiles()
     {
         $page   = $this->getObject('application.pages')->getActive();
-        $params = new JParameter($page->params);
+        $params = $page->getParams('page');
 
         $state = $this->getModel()->getState();
 
@@ -107,10 +114,10 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $request->query->set('container', $state->container);
         $request->query->set('limit', $state->limit);
 
-        $identifier       = clone $this->getIdentifier();
-        $identifier->path = array('controller');
-        $identifier->name = 'file';
-        $controller       = $this->getObject($identifier, array('request' => $request));
+        $identifier         = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('controller');
+        $identifier['name'] = 'file';
+        $controller         = $this->getObject($identifier, array('request' => $request));
 
         $files = $controller->browse();
         $total = $controller->getModel()->count();

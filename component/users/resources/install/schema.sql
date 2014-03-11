@@ -84,12 +84,11 @@ CREATE TABLE `users_groups_users` (
 CREATE TABLE `users_sessions` (
   `time` varchar(14) DEFAULT '',
   `users_session_id` varchar(128) NOT NULL,
-  `guest` tinyint(4) DEFAULT '1',
   `email` varchar(100) NOT NULL COMMENT '@Filter("email")',
-  `application` varchar(50) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `path` varchar(100) NOT NULL,
   `data` longtext,
   PRIMARY KEY (`users_session_id`(64)),
-  KEY `whosonline` (`guest`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

@@ -22,13 +22,10 @@ class CommentsControllerComment extends Comments\ControllerComment
     {
         $config->append(array(
             'behaviors' => array(
-                'editable',
+                'editable', 'persistable',
                 'com:activities.controller.behavior.loggable'
             ),
         ));
-
-        //Force the toolbars
-        $config->toolbars = array('menubar', 'com:comments.controller.toolbar.comment');
 
         parent::_initialize($config);
     }

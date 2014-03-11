@@ -34,6 +34,16 @@ abstract class DispatcherPermissionAbstract extends ObjectMixinAbstract implemen
      */
     public function canDispatch()
     {
+        return false;
+    }
+
+    /**
+     * Permission handler for fail actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canFail()
+    {
         return true;
     }
 

@@ -63,9 +63,10 @@ class ViewCsv extends ViewAbstract
 	/**
 	 * Return the views output
  	 *
-	 *  @return string 	The output of the view
+     * @param ViewContext	$context A view context object
+	 * @return string 	The output of the view
 	 */
-	public function render()
+	protected function _actionRender(ViewContext $context)
 	{
 		$rows    = '';
 	    $columns = array();
@@ -97,7 +98,8 @@ class ViewCsv extends ViewAbstract
 
 		// Set the content
 		$this->setContent($header.$rows);
-		return parent::render();
+
+		return parent::_actionRender($context);
 	}
 
 	/**

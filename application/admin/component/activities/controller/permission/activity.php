@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Activities
  */
-class ActivitiesControllerPermissionDefault extends ApplicationControllerPermissionAbstract
+class ActivitiesControllerPermissionActivity extends ApplicationControllerPermissionAbstract
 {  
     public function canAdd()
     {

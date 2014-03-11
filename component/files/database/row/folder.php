@@ -35,12 +35,12 @@ class DatabaseRowFolder extends DatabaseRowNode
 
 	public function save()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false)
+		if ($this->getCommandChain()->run('before.save', $context, false) !== false)
 		{
 			if ($this->isNew()) {
 				$context->result = $this->_adapter->create();
@@ -114,9 +114,9 @@ class DatabaseRowFolder extends DatabaseRowNode
 	{
 		if(!($this->_children instanceof Library\DatabaseRowsetInterface))
 		{
-			$identifier         = clone $this->getIdentifier();
-			$identifier->path   = array('database', 'rowset');
-			$identifier->name   = Library\StringInflector::pluralize($this->getIdentifier()->name);
+			$identifier         = $this->getIdentifier()->toArray();
+			$identifier['path'] = array('database', 'rowset');
+			$identifier['name'] = Library\StringInflector::pluralize($this->getIdentifier()->name);
 
 			//The row default options
 			$options  = array(

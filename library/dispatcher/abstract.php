@@ -24,6 +24,16 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	 */
 	protected $_controller;
 
+    /**
+     * List of authenticators
+     *
+     * Associative array of authenticators, where key holds the authenticator identifier string
+     * and the value is an identifier object.
+     *
+     * @var array
+     */
+    private $__authenticators;
+
 	/**
 	 * Constructor.
 	 *
@@ -35,6 +45,18 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		//Set the controller
 		$this->_controller = $config->controller;
+
+        //Add the authenticators
+        $authenticators = (array) ObjectConfig::unbox($config->authenticators);
+
+        foreach ($authenticators as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->addAuthenticator($value);
+            } else {
+                $this->addAuthenticator($key, $value);
+            }
+        }
 	}
 
     /**
@@ -48,11 +70,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-        	'controller' => $this->getIdentifier()->package,
-            'request'    => 'dispatcher.request',
-            'response'   => 'dispatcher.response',
-            'user'       => 'dispatcher.user',
-            'behaviors'  => array('permissible'),
+        	'controller'     => $this->getIdentifier()->package,
+            'request'        => 'dispatcher.request',
+            'response'       => 'dispatcher.response',
+            'authenticators' => array()
          ));
 
         parent::_initialize($config);
@@ -68,7 +89,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         if(!$this->_request instanceof DispatcherRequestInterface)
         {
-            $this->_request = parent::getRequest();
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof DispatcherRequestInterface)
             {
@@ -91,10 +112,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         if(!$this->_response instanceof DispatcherResponseInterface)
         {
-            $this->_response = parent::getResponse();
-
-            //Set the request in the response
-            $this->_response->setRequest($this->getRequest());
+            $this->_response = $this->getObject($this->_response, array(
+                'request' => $this->getRequest(),
+                'user'    => $this->getUser(),
+            ));
 
             if(!$this->_response instanceof DispatcherResponseInterface)
             {
@@ -105,29 +126,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         }
 
         return $this->_response;
-    }
-
-    /**
-     * Get the user object
-     *
-     * @throws	\UnexpectedValueException	If the user doesn't implement the DispatcherUserInterface
-     * @return DispatcherUserInterface
-     */
-    public function getUser()
-    {
-        if(!$this->_user instanceof DispatcherUserInterface)
-        {
-            $this->_user = parent::getUser();
-
-            if(!$this->_user instanceof DispatcherUserInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'User: '.get_class($this->_user).' does not implement DispatcherUserInterface'
-                );
-            }
-        }
-
-        return $this->_user;
     }
 
 	/**
@@ -184,9 +182,11 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 				    $controller = StringInflector::singularize($controller);
 			    }
 
-			    $identifier			= clone $this->getIdentifier();
-			    $identifier->path	= array('controller');
-			    $identifier->name	= $controller;
+			    $identifier			= $this->getIdentifier()->toArray();
+			    $identifier['path']	= array('controller');
+			    $identifier['name']	= $controller;
+
+                $identifier = $this->getIdentifier($identifier);
 			}
 		    else $identifier = $this->getIdentifier($controller);
 
@@ -202,21 +202,91 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	}
 
     /**
+     * Get the controller context
+     *
+     * @return  Command
+     */
+    public function getContext()
+    {
+        $context = new DispatcherContext();
+
+        $context->setSubject($this);
+        $context->setRequest($this->getRequest());
+        $context->setUser($this->getUser());
+        $context->setResponse($this->getResponse());
+
+        return $context;
+    }
+
+    /**
+     * Attach an authenticator
+     *
+     * @param  mixed $authenticator An object that implements DispatcherAuthenticatorInterface, an ObjectIdentifier
+     *                              or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
+     * @return DispatcherAbstract
+     */
+    public function addAuthenticator($authenticator, $config = array())
+    {
+        //Create the complete identifier if a partial identifier was passed
+        if (is_string($authenticator) && strpos($authenticator, '.') === false)
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('dispatcher', 'authenticator');
+            $identifier['name'] = $authenticator;
+
+            $identifier = $this->getIdentifier($identifier);
+        }
+        else $identifier = $this->getIdentifier($authenticator);
+
+        if (!isset($this->__authenticators[(string)$identifier]))
+        {
+            if(!$authenticator instanceof DispatcherAuthenticatorInterface) {
+                $authenticator = $this->getObject($identifier, $config);
+            }
+
+            if (!($authenticator instanceof DispatcherAuthenticatorInterface))
+            {
+                throw new \UnexpectedValueException(
+                    "Authenticator $identifier does not implement DispatcherAuthenticatorInterface"
+                );
+            }
+
+            $this->getCommandChain()->addHandler($authenticator);
+
+            //Store the authenticator to allow for named lookups
+            $this->__authenticators[(string)$identifier] = $authenticator;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Gets the authenticators
+     *
+     * @return array An array of authenticators
+     */
+    public function getAuthenticators()
+    {
+        return $this->__authenticators;
+    }
+
+    /**
      * Forward the request
      *
      * Forward to another dispatcher internally. Method makes an internal sub-request, calling the specified
      * dispatcher and passing along the context.
      *
-     * @param CommandContext $context	A command context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
      */
-    protected function _actionForward(CommandContext $context)
+    protected function _actionForward(DispatcherContextInterface $context)
     {
         //Get the dispatcher identifier
         if(is_string($context->param) && strpos($context->param, '.') === false )
         {
-            $identifier			 = clone $this->getIdentifier();
-            $identifier->package = $context->param;
+            $identifier			   = $this->getIdentifier()->toArray();
+            $identifier['package'] = $context->param;
         }
         else $identifier = $this->getIdentifier($context->param);
 
@@ -240,15 +310,54 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
+     * Handle errors and exceptions
+     *
+     * @throws \InvalidArgumentException If the action parameter is not an instance of Exception or ExceptionError
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     */
+    protected function _actionFail(DispatcherContextInterface $context)
+    {
+        //Check an exception was passed
+        if(!isset($context->param) && !$context->param instanceof Exception)
+        {
+            throw new \InvalidArgumentException(
+                "Action parameter 'exception' [Exception] is required"
+            );
+        }
+
+        //Get the exception object
+        if($context->param instanceof EventException) {
+            $exception = $context->param->getException();
+        } else {
+            $exception = $context->param;
+        }
+
+        //If the error code does not correspond to a status message, use 500
+        $code = $exception->getCode();
+        if(!isset(HttpResponse::$status_messages[$code])) {
+            $code = '500';
+        }
+
+        //Get the error message
+        $message = HttpResponse::$status_messages[$code];
+
+        //Set the response status
+        $context->response->setStatus($code , $message);
+
+        //Send the response
+        $this->send($context);
+    }
+
+    /**
      * Dispatch the request
      *
      * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
      * the request and passing along the context.
      *
-     * @param   CommandContext	$context A command context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @return	mixed
      */
-    protected function _actionDispatch(CommandContext $context)
+    protected function _actionDispatch(DispatcherContextInterface $context)
     {
         //Send the response
         $this->send($context);
@@ -257,11 +366,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     /**
      * Send the response
      *
-     * @param CommandContext $context	A command context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    public function _actionSend(CommandContext $context)
+    protected function _actionSend(DispatcherContextInterface $context)
     {
         $context->response->send();
-        exit(0);
     }
 }

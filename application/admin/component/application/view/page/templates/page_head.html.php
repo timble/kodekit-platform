@@ -29,9 +29,9 @@
 
     <style src="assets://application/stylesheets/default.css" />
 
-    <script src="assets://application/js/jquery.js" /></script>
+    <script src="assets://application/js/jquery.js" />
     <script type="text/javascript">
         var $jQuery = jQuery.noConflict();
     </script>
-    <script src="assets://application/js/select2.js" /></script>
+    <script src="assets://application/js/select2.js" />
 </head>

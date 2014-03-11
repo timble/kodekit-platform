@@ -8,29 +8,20 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * User Controller
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersControllerUser extends Library\ControllerModel
+class UsersControllerUser extends Users\ControllerUser
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->registerCallback('before.edit', array($this, 'sanitizeRequest'))
-             ->registerCallback('before.add' , array($this, 'sanitizeRequest'))
-             ->registerCallback('after.add'  , array($this, 'redirect'));
-	}
-    
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
-                'editable', 'resettable', 'activatable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
         )));
 
@@ -46,49 +37,28 @@ class UsersControllerUser extends Library\ControllerModel
             $request->query->id = $id;
         }
 
+        // Unset some variables because of security reasons.
+        foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
+            $request->data->remove($variable);
+        }
+
         return $request;
     }
 
-    public function sanitizeRequest(Library\CommandContext $context)
+    protected function _actionAdd(Library\ControllerContextInterface $context)
     {
-        // Unset some variables because of security reasons.
-        foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
-            $context->request->data->remove($variable);
-        }
-    }
+        $context->request->data->role_id = '18';
 
-    protected function _actionAdd(Library\CommandContext $context)
-    {
-        $params = $this->getObject('application.extensions')->getExtension('users')->params;
-        $context->request->data->role_id = $params->get('new_usertype', 18);
-
-        return parent::_actionAdd($context);
-    }
-
-    protected function _actionEdit(Library\CommandContext $context)
-    {
-        $entity = parent::_actionEdit($context);
-
-        $user = $this->getObject('user');
-
-        // Logged user changed. Updated in memory/session user object.
-        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
-            $user->values($entity->getSessionData($user->isAuthentic()));
-        }
-
-        return $entity;
-    }
-
-    public function redirect(Library\CommandContext $context)
-    {
-        $user = $context->result;
+        $user = parent::_actionAdd($context);
 
         if ($user->getStatus() == Library\Database::STATUS_CREATED)
         {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->response->setRedirect($url);
+            $context->response->setRedirect($url, 'User account successfully created');
         }
+
+        return $user;
     }
 }

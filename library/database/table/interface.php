@@ -71,13 +71,29 @@ interface DatabaseTableInterface
     public function getSchema();
 
     /**
+     * Get the table context
+     *
+     * @return  Command
+     */
+    public function getContext();
+
+    /**
+     * Check if the table column exists
+     *
+     * @param  string  $name The name of the column
+     * @param  boolean $base If TRUE, get the column information from the base table. Default is FALSE.
+     * @return bool  Returns TRUE if the column exists, FALSE otherwise.
+     */
+    public function hasColumn($name, $base = false);
+
+    /**
      * Get a column by name
      *
-     * @param  string   $columnn The name of the column
-     * @param  boolean  $base    If TRUE, get the column information from the base table.
-     * @return DatabaseColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
+     * @param  string  $name The name of the column
+     * @param  boolean $base If TRUE, get the column information from the base table. Default is FALSE.
+     * @return DatabaseSchemaColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
      */
-    public function getColumn($columnname, $base = false);
+    public function getColumn($name, $base = false);
 
     /**
      * Gets the columns for the table
@@ -133,12 +149,12 @@ interface DatabaseTableInterface
      *
      * @return mixed    Returns the column default value or NULL if the column does not exist
      */
-    public function getDefault($columnname);
+    public function getDefault($name);
 
     /**
      * Get an instance of a row object for this table
      *
-     * @param   array $options An optional associative array of configuration settings.
+     * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
     public function createRow(array $options = array());
@@ -146,7 +162,7 @@ interface DatabaseTableInterface
     /**
      * Get an instance of a rowset object for this table
      *
-     * @param   array $options An optional associative array of configuration settings.
+     * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
     public function createRowset(array $options = array());
@@ -190,7 +206,7 @@ interface DatabaseTableInterface
     /**
      * Table delete method
      *
-     * @param  DatabaseRowInterface $row A DatabaseRow object
+     * @param  object       A DatabaseRow object
      * @return bool|integer Returns the number of rows deleted, or FALSE if delete query was not executed.
      */
     public function delete(DatabaseRowInterface $row);

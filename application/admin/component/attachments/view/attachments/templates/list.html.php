@@ -34,15 +34,15 @@ window.addEvent('domready', function() {
                 <img src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
             </a>
             <div class="thumbnail__caption">
-                <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
+                <a class="button btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
                     <i class="icon-trash icon-white"></i>
                 </a>
-                <a class="btn btn-mini modal" href="<?= route('view=attachment&layout=crop&tmpl=overlay&id='.$item->id) ?>" rel="{handler: 'iframe', size: {x: 600, y: 635}}">
+                <a class="button btn-mini modal" href="<?= route('view=attachment&layout=crop&tmpl=overlay&id='.$item->id) ?>" rel="{handler: 'iframe', size: {x: 600, y: 635}}">
                     <i class="icon-resize-small icon-white"></i>
                 </a>
                 <? if(isset($attachments_attachment_id)) : ?>
                 <input type="radio" name="attachments_attachment_id" id="fav-<?= $item->id; ?>" value="<?= $item->id; ?>" <?= $item->id == $attachments_attachment_id ? 'checked' : '' ?>>
-                <label for="fav-<?= $item->id; ?>" class="btn btn-mini">
+                <label for="fav-<?= $item->id; ?>" class="button btn-mini">
                     <i class="icon-star"></i>
                 </label>
                 <? endif ?>
@@ -56,8 +56,8 @@ window.addEvent('domready', function() {
     	<? if(!$item->file->isImage()) : ?>
     	<li>
             <a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= escape($item->name) ?></a>
-            <div class="caption btn-group">
-                <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
+            <div class="caption button__group">
+                <a class="button btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
                     <i class="icon-trash icon-white"></i>
                 </a>
             </div>

@@ -25,33 +25,41 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
      */
     public function locate($path)
     {
-        $result = false;
-        $info   = pathinfo( $path );
-
-        //Handle short hand identifiers
-        if(strpos($info['filename'], '.') === false)
+        //Qualify partial templates.
+        if(strpos($path, ':') === false)
         {
-            $path = pathinfo($this->getTemplate()->getPath());
-            $identifier = $this->getIdentifier($path['filename']);
-            $filename   = $info['filename'];
+            if(!$base = $this->getTemplate()->getPath()) {
+                throw new \RuntimeException('Cannot qualify partial template path');
+            }
+
+            $identifier = $this->getIdentifier($base)->toArray();
+
+            $format    = pathinfo($path, PATHINFO_EXTENSION);
+            $template  = pathinfo($path, PATHINFO_FILENAME);
+
+            $parts     = $identifier['path'];
+            array_pop($parts);
         }
         else
         {
-            $identifier = $this->getIdentifier($info['filename']);
-            $filename   = $identifier->name;
+            // Need to clone here since we use array_pop and it modifies the cached identifier
+            $identifier = $this->getIdentifier($path)->toArray();
+
+            $format    = $identifier['name'];
+            $template  = array_pop($identifier['path']);
+            $parts     = $identifier['path'];
         }
 
-        $extension = $info['extension'].'.php';
-        $component = $identifier->package;
-        $filepath  = $component.'/'.implode('/', $identifier->path).'/templates';
+        $filepath  = strtolower($identifier['package']).'/'.implode('/', $parts).'/templates';
+        $fullpath  = $filepath.'/'.$template.'.'.$format.'.php';
 
         //Find the file
-        $paths    = $this->getObject('manager')->getClassLoader()->getLocator('com')->getNamespaces();
+        $paths    = $this->getObject('manager')->getClassLoader()->getLocator('component')->getNamespaces();
         $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($paths));
 
         foreach($iterator as $basepath)
         {
-            $file = $basepath.'/'.$filepath.'/'.$filename.'.'.$extension;
+            $file = $basepath.'/'.$fullpath;
             if($result = $this->realPath($file)) {
                 break;
             }

@@ -22,7 +22,7 @@ abstract class TagsControllerTag extends Tags\ControllerTag
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
+                'editable', 'persistable',
                 'com:activities.controller.behavior.loggable'
             ),
         ));

@@ -35,10 +35,11 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'fallbacks' => array(
+            'sequence' => array(
+                '<Package><Class>',
                 'Nooku\Component\<Package>\<Class>',
-                'Nooku\Component\<Package>\<Path><Name>',
-                'Nooku\Library\<Path><Name>',
+                'Nooku\Component\<Package>\<Path><File>',
+                'Nooku\Library\<Path><File>',
                 'Nooku\Library\<Path>Default',
             )
         ));
@@ -49,14 +50,14 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
      *
      * @param ObjectIdentifier $identifier An identifier object
      * @param bool  $fallback   Use the fallbacks to locate the identifier
-     * @return string|false  Return the class name on success, returns FALSE on failure
+     * @return string|false  Return the class name on success, returns FALSE on failure if searching for a fallback
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
         $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
         $package = ucfirst($identifier->package);
-        $name    = ucfirst($identifier->name);
+        $file    = ucfirst($identifier->name);
 
         //Make an exception for 'view' and 'module' types
         $path  = $identifier->path;
@@ -71,35 +72,17 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         //Allow locating default classes if $path is empty.
         if(empty($path))
         {
-            $path = $name;
-            $name = '';
+            $path = $file;
+            $file = '';
         }
 
-        //Check if the class exists
-        $result = false;
-        if(!class_exists($package.$class))
-        {
-            //Use the fallbacks
-            if($fallback)
-            {
-                foreach($this->_fallbacks as $fallback)
-                {
-                    $result = str_replace(
-                        array('<Package>', '<Path>', '<Name>', '<Class>'),
-                        array($package   , $path   , $name   , $class),
-                        $fallback
-                    );
+        $info = array(
+            'class'   => $class,
+            'package' => $package,
+            'path'    => $path,
+            'file'    => $file
+        );
 
-                    if(!class_exists($result)) {
-                        $result = false;
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-        else $result = $package.$class;
-
-        return $result;
+        return $this->find($info, $fallback);
     }
 }

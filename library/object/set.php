@@ -12,6 +12,10 @@ namespace Nooku\Library;
 /**
  * Object Set
  *
+ * A set is a data structure that can store objects, without any particular order, and no repeated values.  Unlike most
+ * other collection types, rather than retrieving a specific element from a set, one typically tests if a object is
+ * contained in the set.
+ *
  * ObjectSet implements an associative container that stores objects, and in which the object themselves are the keys.
  * Objects are stored in the set in FIFO order.
  *
@@ -137,6 +141,7 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
 
         return isset($this->_data[$object->getHandle()]);
     }
+    
     /**
      * Returns the object from the set
      *
@@ -163,7 +168,6 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
      * @param   ObjectHandlable  $object
      * @param   mixed            $data The data to associate with the object [UNUSED]
      * @return  ObjectSet
-     * @throws  \InvalidArgumentException if the object doesn't implement ObjectHandlable
      */
     public function offsetSet($object, $data = null)
     {

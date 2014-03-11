@@ -70,7 +70,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Constructor.
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -89,7 +89,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -100,30 +100,29 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             'updatable'  => true,
             'length'     => null,
             'unique'     => null,
-            'auto_mixin' => true,
+            'row_mixin'  => true,
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Get the methods that are available for mixin based
+     * Check if the behavior is supported
      *
-     * This function conditionally mixes the behavior. Only if the mixer has a 'slug' property the behavior will be
-     * mixed in.
+     * Behavior requires a 'slug' row property
      *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of methods
+     * @return  boolean  True on success, false otherwise
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function isSupported()
     {
-        $methods = array();
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-        if($mixer instanceof DatabaseRowInterface && $mixer->has('slug')) {
-            $methods = parent::getMixableMethods($mixer);
+        if($table->hasColumn('slug'))  {
+            return true;
         }
 
-        return $methods;
+        return false;
     }
 
     /**
@@ -154,13 +153,12 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Requires a 'slug' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _afterTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
-        if ($this->_createSlug()) {
-            $this->save();
-        }
+        $this->_createSlug();
     }
 
     /**
@@ -171,9 +169,10 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Requires a 'slug' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeTableUpdate(CommandContext $context)
+    protected function _beforeUpdate(DatabaseContext $context)
     {
         if ($this->_updatable) {
             $this->_createSlug();
@@ -183,7 +182,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Create a sluggable filter
      *
-     * @return void
+     * @return FilterSlug
      */
     protected function _createFilter()
     {
@@ -204,35 +203,28 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Create the slug
      *
-     * @return boolean  Return TRUE if the slug was created or updated successfully, otherwise FALSE.
+     * @return void
      */
     protected function _createSlug()
     {
         //Create the slug filter
         $filter = $this->_createFilter();
 
-        if (empty($this->slug))
+        if(empty($this->slug))
         {
             $slugs = array();
-            foreach ($this->_columns as $column) {
+            foreach($this->_columns as $column) {
                 $slugs[] = $filter->sanitize($this->$column);
             }
 
             $this->slug = implode($this->_separator, array_filter($slugs));
-            $this->_canonicalizeSlug();
-            return true;
         }
-        else
-        {
-            if (in_array('slug', $this->getModified()))
-            {
-                $this->slug = $filter->sanitize($this->slug);
-                $this->_canonicalizeSlug();
-                return true;
-            }
+        elseif(in_array('slug', $this->getModified())) {
+            $this->slug = $filter->sanitize($this->slug);
         }
 
-        return false;
+        // Canonicalize the slug
+        $this->_canonicalizeSlug();
     }
 
     /**
@@ -248,14 +240,29 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         $table = $this->getTable();
 
         //If unique is not set, use the column metadata
-        if (is_null($this->_unique)) {
+        if(is_null($this->_unique)) {
             $this->_unique = $table->getColumn('slug', true)->unique;
         }
 
-        //If the slug needs to be unique and it already exist make it unique
-        if ($this->_unique && $table->count(array('slug' => $this->slug)))
+        //If the slug needs to be unique and it already exists, make it unique
+        $query = $this->getObject('lib:database.query.select');
+        $query->where('slug = :slug')->bind(array('slug' => $this->slug));
+
+        if (!$this->isNew()) 
         {
-            $db = $table->getAdapter();
+            $query->where($table->getIdentityColumn().' <> :id')
+                ->bind(array('id' => $this->id));
+        }
+
+        if($this->_unique && $table->count($query))
+        {
+            $length = $this->_length ? $this->_length : $table->getColumn('slug')->length;
+
+            // Cut 4 characters to make space for slug-1 slug-23 etc
+            if ($length && strlen($this->slug) > $length-4) {
+                $this->slug = substr($this->slug, 0, $length-4);
+            }
+
             $query = $this->getObject('lib:database.query.select')
                 ->columns('slug')
                 ->where('slug LIKE :slug')
@@ -264,11 +271,11 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             $slugs = $table->select($query, Database::FETCH_FIELD_LIST);
 
             $i = 1;
-            while (in_array($this->slug . '-' . $i, $slugs)) {
+            while(in_array($this->slug.'-'.$i, $slugs)) {
                 $i++;
             }
 
-            $this->slug = $this->slug . '-' . $i;
+            $this->slug = $this->slug.'-'.$i;
         }
     }
 }

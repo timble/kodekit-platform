@@ -36,39 +36,6 @@ class ViewHtml extends ViewTemplate
     }
 
     /**
-     * Return the views output
-     *
-     * This function will always assign the model state to the template. Model data will only be assigned if the
-     * auto_assign property is set to TRUE.
-     *
-     * @return string The output of the view
-     */
-    public function render()
-    {
-        $model = $this->getModel();
-
-        //Auto-assign the state to the view
-        $this->state = $model->getState();
-
-        //Auto-assign the data from the model
-        if ($this->_auto_assign)
-        {
-            //Get the view name
-            $name = $this->getName();
-
-            //Assign the data of the model to the view
-            if (StringInflector::isPlural($name))
-            {
-                $this->$name = $model->fetch();
-                $this->total = $model->count();
-            }
-            else $this->$name = $model->fetch();
-        }
-
-        return parent::render();
-    }
-
-    /**
      * Get a route based on a full or partial query string.
      *
      * This function force the route to be not fully qualified and not escaped

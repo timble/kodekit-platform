@@ -23,8 +23,8 @@ class ControllerFile extends ControllerAbstract
 	{
 		parent::__construct($config);
 
-		$this->registerCallback('before.add' , array($this, 'addFile'));
-        $this->registerCallback('before.edit', array($this, 'addFile'));
+        $this->addCommandCallback('before.add' , 'addFile');
+        $this->addCommandCallback('before.edit', 'addFile');
 	}
 	
     protected function _initialize(Library\ObjectConfig $config)
@@ -36,7 +36,7 @@ class ControllerFile extends ControllerAbstract
 		parent::_initialize($config);
 	}
 
-	public function addFile(Library\CommandContext $context)
+	public function addFile(Library\ControllerContextInterface $context)
 	{
 		$file = $context->request->data->get('file', 'raw');
 		$name = $context->request->data->get('name', 'raw');
@@ -51,7 +51,7 @@ class ControllerFile extends ControllerAbstract
 		}
 	}
 
-    protected function _actionRender(Library\CommandContext $context)
+    protected function _actionRender(Library\ControllerContextInterface $context)
     {
         $model = $this->getModel();
 
@@ -59,14 +59,15 @@ class ControllerFile extends ControllerAbstract
         {
             $file = $this->getModel()->fetch();
 
-            if (!file_exists($file->fullpath)) {
-                throw new Library\ControllerExceptionNotFound(\JText::_('File not found'));
+            try
+            {
+                $this->getResponse()
+                    ->attachTransport('stream')
+                    ->setPath($file->fullpath, $file->mimetype);
             }
-
-            //Set the data in the response
-            $context->response
-                ->attachTransport('chunked')
-                ->setPath('file://'.$file->fullpath, $file->mimetype);
+            catch (\InvalidArgumentException $e) {
+                throw new Library\ControllerExceptionResourceNotFound('File not found');
+            }
         }
         else parent::_actionRender($context);
     }

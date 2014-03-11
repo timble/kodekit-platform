@@ -22,26 +22,25 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_mixin' => true
+            'row_mixin' => true
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
         if(!$data->password)
         {
             // Generate a random password
-            $params         = $this->getObject('application.extensions')->getExtension('users')->params;
             $password       = $this->getObject('com:users.database.row.password');
-            $data->password = $password->getRandom($params->get('password_length', 6));
+            $data->password = $password->getRandom();
         }
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
@@ -59,7 +58,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
@@ -78,8 +77,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
         if (!$this->isNew())
         {
-            $password = $this->getObject('com:users.database.row.password')
-                             ->set('id', $this->email);
+            $password = $this->getObject('com:users.database.row.password')->set('id', $this->email);
             $password->load();
         }
 

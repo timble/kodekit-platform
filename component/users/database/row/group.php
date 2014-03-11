@@ -52,18 +52,13 @@ class DatabaseRowGroup extends Library\DatabaseRowTable
                     $row->delete();
                 }
             }
-        }
-        else
+        } 
+        else 
         {
-            // @TODO: Bug, this should work by using the entire rowset instead of getting a row object for each row
-            foreach ($this->getObject('com:users.model.groups_users')->group_id($this->id)->fetch() as $group_user)
-            {
-                $row = $this->getObject('com:users.model.groups_users')
-                    ->group_id($this->id)
-                    ->user_id($group_user->user_id)
-                    ->fetch();
+            $group_users = $this->getObject('com:users.model.groups_users')->group_id($this->id)->fetch();
 
-                $row->delete();
+            if (count($group_users) && !$group_users->delete()) {
+                throw new \RuntimeException('Failed to delete users from group');
             }
         }
        

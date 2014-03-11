@@ -13,32 +13,66 @@ use Nooku\Component\Users;
 /**
  * Resettable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
-    protected function _beforeControllerAdd(Library\CommandContext $context)
+    protected function _beforeToken(Library\ControllerContextInterface $context)
     {
-        // Force a password reset.
-        if (!$context->request->data->get('password', 'string')) {
-            $context->request->data->password_reset = true;
+        $result = true;
+
+        if (!parent::_beforeToken($context))
+        {
+            $url = $context->request->getReferrer();
+            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $result = false;
         }
+
+        return $result;
     }
 
-    protected function _afterControllerAdd(Library\CommandContext $context)
+    protected function _afterToken(Library\ControllerContextInterface $context)
     {
-        $user = $context->result;
-        if ($context->request->data->get('password_reset', 'boolean') && $user->getStatus() !== Library\Database::STATUS_FAILED)
+        if ($context->result)
         {
-            if (!$this->token($context)) {
-                $context->response->addMessage('Failed to deliver the password reset token', 'error');
+            $page = $this->getObject('application.pages')->find(array(
+                'component' => 'users',
+                'access'    => 0,
+                'link'      => array(array('view' => 'user'))));
+
+            if ($page)
+            {
+                $token = $context->token;
+                $row   = $context->row;
+
+                $url                  = $page->getLink();
+                $url->query['layout'] = 'password';
+                $url->query['token']  = $token;
+                $url->query['uuid']   = $row->uuid;
+
+                // TODO: This URL needs to be routed using the site app router.
+                $this->getObject('application')->getRouter()->build($url);
+
+                $url = $context->request->getUrl()
+                                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+
+                $site_name = \JFactory::getConfig()->getValue('sitename');
+
+                $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+                // TODO Fix when language package is re-factored.
+                //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+                $message = $url;
+
+                if (!$row->notify(array('subject' => $subject, 'message' => $message)))
+                {
+                    $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
+                }
+            }
+            else
+            {
+                $context->response->addMessage('Unable to get a password reset URL', 'error');
             }
         }
-    }
-
-    protected function _afterControllerEdit(Library\CommandContext $context)
-    {
-        return $this->_afterControllerAdd($context);
     }
 }

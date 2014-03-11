@@ -34,35 +34,34 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
     	parent::_initialize($config);
    	}
 
-	/**
-	 * Get the methods that are available for mixin based
-	 *
-	 * This function conditionaly mixes the behavior. Only if the mixer
-	 * has a 'modified_by' or 'modified_by' property the behavior will
-	 * be mixed in.
-	 *
-	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-	 * @return array An array of methods
-	 */
-	public function getMixableMethods(ObjectMixable $mixer = null)
-	{
-		$methods = array();
+    /**
+     * Check if the behavior is supported
+     *
+     * Behavior requires a 'modified_by' or 'modified_by' row property
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-		if($mixer instanceof DatabaseRowInterface && ($mixer->has('modified_by') || $mixer->has('modified_on'))) {
-			$methods = parent::getMixableMethods($mixer);
-		}
+        if($table->hasColumn('modified_by') || $table->hasColumn('modified_on')) {
+            return true;
+        }
 
-		return $methods;
-	}
+        return false;
+    }
 
 	/**
 	 * Set modified information
 	 *
 	 * Requires a 'modified_on' and 'modified_by' column
 	 *
+     * @param DatabaseContext	$context A database context object
 	 * @return void
 	 */
-	protected function _beforeTableUpdate(CommandContext $context)
+	protected function _beforeUpdate(DatabaseContext $context)
 	{
 		//Get the modified columns
 		$modified = $this->getTable()->filter($this->getModified());

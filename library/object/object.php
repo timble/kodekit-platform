@@ -136,28 +136,31 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $config = new ObjectConfig($config);
             $config->mixer = $this;
 
-            $mixin = new $identifier->classname($config);
-
-            if(!$mixin instanceof ObjectMixinInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'Mixin: '.get_class($mixin).' does not implement ObjectMixinInterface'
-                );
-            }
+            $class = $this->getObject('manager')->getClass($identifier);
+            $mixin = new $class($config);
         }
 
+        /*
+         * Check if the mixin extends from ObjectMixin to ensure it's implementing the
+         * ObjectMixinInterface and ObjectHandable interfaces.
+         */
+        if(!$mixin instanceof ObjectMixinInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Mixin: '.get_class($mixin).' does not implement ObjectMixinInterface'
+            );
+        }
+
+        //Notify the mixin
+        $mixin->onMixin($this);
+
         //Set the mixed methods
-        $mixed_methods = $mixin->getMixableMethods($this);
+        $mixed_methods = $mixin->getMixableMethods();
 
         if(!empty($mixed_methods))
         {
-            foreach($mixed_methods as $name => $method)
-            {
-                if($method instanceof \Closure) {
-                    $this->_mixed_methods[$name] = $method;
-                } else {
-                    $this->_mixed_methods[$name] = $mixin;
-                }
+            foreach($mixed_methods as $name => $method) {
+                $this->_mixed_methods[$name] = $method;
             }
 
             //Set the object methods, native methods have precedence over mixed methods
@@ -166,9 +169,6 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
 
             $this->__methods = array_merge($mixed_methods, $this->getMethods());
         }
-
-        //Notify the mixin
-        $mixin->onMixin($this);
 
         return $mixin;
     }
@@ -198,18 +198,19 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $config = new ObjectConfig($config);
             $config->delegate = $this;
 
-            $decorator = new $identifier->classname($config);
+            $class     = $this->getObject('manager')->getClass($identifier);
+            $decorator = new $class($config);
+        }
 
-            /*
-             * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
-             * ObjectInterface, ObjectHandable, ObjectMixable and ObjectDecoratable interfaces.
-             */
-            if(!$decorator instanceof ObjectDecorator)
-            {
-                throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($decorator).' does not extend from ObjectDecorator'
-                );
-            }
+        /*
+         * Check if the decorator extends from ObjectDecorator to ensure it's implementing the
+         * ObjectInterface, ObjectHandable, ObjectMixable and ObjectDecoratable interfaces.
+         */
+        if(!$decorator instanceof ObjectDecorator)
+        {
+            throw new \UnexpectedValueException(
+                'Decorator: '.get_class($decorator).' does not extend from ObjectDecorator'
+            );
         }
 
         //Notify the decorator
@@ -341,7 +342,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     {
         foreach ($this->_mixed_methods as $method => $object)
         {
-            if (!$object instanceof \Closure) {
+            if (is_object($object) && !$object instanceof \Closure) {
                 $this->_mixed_methods[$method] = clone $object;
             }
         }
@@ -383,7 +384,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
                         $result = call_user_func_array($closure, $arguments);
                 }
             }
-            else
+            elseif(is_object($this->_mixed_methods[$method]))
             {
                 $mixin = $this->_mixed_methods[$method];
 
@@ -410,6 +411,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
                         $result = call_user_func_array(array($mixin, $method), $arguments);
                 }
             }
+            else $result = $this->_mixed_methods[$method];
 
             return $result;
         }

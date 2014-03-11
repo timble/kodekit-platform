@@ -165,11 +165,11 @@ window.addEvent('domready', function() {
 
 	<div id="files-canvas">
 	    <div class="scopebar">
-			<div class="btn-group" data-toggle="buttons-radio">
-				<button class="btn files-layout-switcher" data-layout="icons" title="<?= translate('Show files as icons'); ?>">
+			<div class="button__group" data-toggle="buttons-radio">
+				<button class="button files-layout-switcher" data-layout="icons" title="<?= translate('Show files as icons'); ?>">
 					<i class="icon-th"></i>
 				</button>
-				<button class="btn files-layout-switcher" data-layout="details" title="<?= translate('Show files in a list'); ?>">
+				<button class="button files-layout-switcher" data-layout="details" title="<?= translate('Show files in a list'); ?>">
 					<i class="icon-list"></i>
 				</button>
 			</div>
@@ -193,7 +193,7 @@ window.addEvent('domready', function() {
             </div>
             <div class="input-append">
                 <input class="span5 focus" type="text" id="files-new-folder-input" placeholder="<?= translate('Enter a folder name') ?>" />
-                <button id="files-new-folder-create" class="btn btn-primary" disabled><?= translate('Create'); ?></button>
+                <button id="files-new-folder-create" class="button btn-primary" disabled><?= translate('Create'); ?></button>
             </div>
         </form>
     </div>

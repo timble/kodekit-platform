@@ -21,12 +21,10 @@ class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'request' => array(
-				'view' => 'attachments'
-			),
             'behaviors' => array(
-                'editable'
-            )
+                'editable', 'persistable',
+            ),
+            'model' => 'com:attachments.model.attachments'
 		));
 		
 		parent::_initialize($config);

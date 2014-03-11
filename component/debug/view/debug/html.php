@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewDebugHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
         $database = $this->getObject('com:debug.event.subscriber.database');
         $profiler = $this->getObject('com:debug.event.profiler');
@@ -36,13 +36,13 @@ class ViewDebugHtml extends Library\ViewHtml
             };
         }
 
-	    $this->memory    = $profiler->getMemory();
-	    $this->events    = (array) $profiler->getEvents();
-	    $this->queries   = (array) $database->getQueries();
-	    $this->languages = (array) $language->getPaths();
-	    $this->includes  = (array) $includes;
-	    $this->strings   = (array) $language->getOrphans();
-                        
-        return parent::render();
+	    $context->data->memory    = $profiler->getMemory();
+	    $context->data->events    = (array) $profiler->getEvents();
+	    $context->data->queries   = (array) $database->getQueries();
+	    $context->data->languages = (array) $language->getPaths();
+	    $context->data->includes  = (array) $includes;
+	    $context->data->strings   = (array) $language->getOrphans();
+
+        parent::_fetchData($context);
     }
 }

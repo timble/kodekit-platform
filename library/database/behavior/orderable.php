@@ -17,25 +17,24 @@ namespace Nooku\Library;
  */
 class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 {
-	/**
-	 * Get the methods that are available for mixin based
-	 *
-	 * This functions conditionally mixes the behavior. Only if the mixer has a 'ordering' property the behavior will
-     * be mixed in.
-	 *
-	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-	 * @return array An array of methods
-	 */
-	public function getMixableMethods(ObjectMixable $mixer = null)
-	{
-		$methods = array();
+    /**
+     * Check if the behavior is supported
+     *
+     * Behavior requires a 'ordering' row property
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-		if($mixer instanceof DatabaseRowInterface && $mixer->has('ordering')) {
-			$methods = parent::getMixableMethods($mixer);
-		}
+        if($table->hasColumn('ordering'))  {
+            return true;
+        }
 
-		return $methods;
-	}
+        return false;
+    }
 
 	/**
 	 * Override to add a custom WHERE clause
@@ -164,9 +163,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      *
      * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
      *
-     * @return DatabaseRowAbstract
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
         if($this->has('ordering'))
         {
@@ -182,9 +181,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position.
      *
-     * @param   CommandContext $context
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _beforeTableUpdate(CommandContext $context)
+    protected function _beforeUpdate(DatabaseContext $context)
     {
         if(isset($this->order) && $this->has('ordering')) {
             $this->order($this->order);
@@ -194,9 +193,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     /**
      * Clean up the ordering after an item was deleted
      *
-     * @param   CommandContext $context
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _afterTableDelete(CommandContext $context)
+    protected function _afterDelete(DatabaseContext $context)
     {
         $this->reorder();
     }

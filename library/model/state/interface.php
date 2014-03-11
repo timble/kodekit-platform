@@ -25,9 +25,11 @@ interface ModelStateInterface
      * @param   mixed    $default  The default value of the state
      * @param   boolean  $unique   TRUE if the state uniquely identifies an entity, FALSE otherwise. Default FALSE.
      * @param   array    $required Array of required states to determine if the state is unique. Only applicable if the state is unqiue.
+     * @param   boolean  $internal If TRUE the state will be considered internal and should not be included in a routes.
+     *                             Default FALSE.
      * @return  ModelStateInterface
      */
-    public function insert($name, $filter, $default = null, $unique = false, $required = array());
+    public function insert($name, $filter, $default = null, $unique = false, $required = array(), $internal = false);
 
     /**
      * Retrieve a configuration item and return $default if there is no element set.
@@ -90,6 +92,34 @@ interface ModelStateInterface
      * @return  array   An associative array of state values by name
      */
     public function getValues($unique = false);
+
+    /**
+     * Set a state property
+     *
+     * @param string $name      The name of the state
+     * @param string $property  The name of the property
+     * @param mixed  $value     The value of the property
+     * @return ModelStateInterface
+     */
+    public function setProperty($name, $property, $value);
+
+    /**
+     * Get a state property
+     *
+     * @param string $name     The name of the state
+     * @param string $property The name of the property
+     * @return mixed
+     */
+    public function getProperty($name, $property);
+
+    /**
+     * Check if a state property exists
+     *
+     * @param string $name     The name of the state
+     * @param string $property The name of the property
+     * @return boolean   Return TRUE if the the property exists, FALSE otherwise
+     */
+    public function hasProperty($name, $property);
 
     /**
      * Check if the state information is unique

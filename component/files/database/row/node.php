@@ -33,56 +33,40 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
      */
     protected $_container;
 
-    /**
-     * Chain of command object
-     *
-     * @var Library\CommandChain
-     */
-    protected $_command_chain;
-
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->mixin('lib:command.mixin', $config);
+		$this->mixin('lib:behavior.mixin', $config);
 
 		if ($config->validator !== false)
 		{
 			if ($config->validator === true) {
-				$config->validator = 'com:files.command.validator.'.$this->getIdentifier()->name;
+				$config->validator = 'com:files.database.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue($this->getObject($config->validator));
+            $this->addCommandHandler($this->getObject($config->validator));
 		}
 	}
 
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => 'lib:command.chain',
-			'dispatch_events'   => false,
-			'event_dispatcher'  => 'event.dispatcher',
-			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));
 
 		parent::_initialize($config);
 	}
 
-	public function isNew()
-	{
-		return empty($this->name) || !$this->_adapter->exists();
-	}
-
 	public function copy()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.copy', $context) !== false)
+		if ($this->invokeCommand('before.copy', $context) !== false)
 		{
 			$context->result = $this->_adapter->copy($this->destination_fullpath);
-			$this->getCommandChain()->run('after.copy', $context);
+            $this->invokeCommand->run('after.copy', $context);
         }
 
 		if ($context->result !== false)
@@ -103,13 +87,13 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
 	public function move()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.move', $context) !== false)
+		if ($this->invokeCommand('before.move', $context) !== false)
 		{
 			$context->result = $this->_adapter->move($this->destination_fullpath);
-			$this->getCommandChain()->run('after.move', $context);
+            $this->invokeCommand('after.move', $context);
         }
 
 		if ($context->result !== false)
@@ -131,13 +115,13 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 
 	public function delete()
 	{
-		$context = $this->getCommandContext();
+		$context = $this->getContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.delete', $context) !== false)
+		if ($this->invokeCommand('before.delete', $context) !== false)
 		{
 			$context->result = $this->_adapter->delete();
-			$this->getCommandChain()->run('after.delete', $context);
+            $this->invokeCommand('after.delete', $context);
         }
 
 		if ($context->result === false) {
@@ -209,6 +193,14 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         return $this->_container;
     }
 
+    public function getContext()
+    {
+        $context = new Library\DatabaseContext();
+        $context->setSubject($this);
+
+        return $context;
+    }
+
 	public function setAdapter()
 	{
 		$type      = $this->getIdentifier()->name;
@@ -259,5 +251,10 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
     public function isLockable()
     {
     	return false;
+    }
+
+    public function isNew()
+    {
+        return empty($this->name) || !$this->_adapter->exists();
     }
 }

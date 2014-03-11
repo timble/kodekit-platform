@@ -13,8 +13,8 @@
 
 <?= import('page_head.html') ?>
 
-<body id="tmpl-dialog" class="com_<?= $extension ?>">
-    <?= import('page_message.html') ?>
+<body id="tmpl-dialog" class="com_<?= $component ?>">
+    <ktml:messages>
     <ktml:content>
 </body>
 

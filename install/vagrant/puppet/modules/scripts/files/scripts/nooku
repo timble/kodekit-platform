@@ -1,0 +1,148 @@
+#!/usr/bin/env php
+<?php
+
+namespace Nooku;
+
+// Run the class from request if the script is called directly from the command line
+if (!count(debug_backtrace())) {
+    Installer::fromInput($GLOBALS['argv']);
+}
+
+class Installer
+{
+    public static $files = array(
+        'schema.sql', 'data.sql', 'sample.sql'
+    );
+
+    public $task;
+    public $database = 'nooku';
+    public $www = '/var/www/nooku.dev';
+
+    public function __construct($task)
+    {
+        if (!in_array($task, array('install', 'uninstall', 'reinstall'))) {
+            throw new \InvalidArgumentException('Invalid task: '.$task);
+        }
+
+        $this->task = $task;
+    }
+
+    public static function fromInput($argv)
+    {
+        $task = isset($argv[1]) ? $argv[1] : '';
+
+        $instance = new self($task);
+        $instance->run();
+    }
+
+    public function run()
+    {
+        try {
+            $task = $this->task;
+            $this->$task();
+        }
+        catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+    }
+
+    public function install()
+    {
+        $this->importDatabase();
+        $this->modifyConfiguration();
+        $this->runComposer();
+    }
+
+    public function uninstall()
+    {
+        $this->deleteDatabase();
+        $this->deleteConfiguration();
+    }
+
+    public function reinstall()
+    {
+        $this->uninstall();
+        $this->install();
+    }
+
+    public function importDatabase()
+    {
+        $result = `echo 'SHOW DATABASES LIKE "$this->database"' | mysql -uroot -proot`;
+        if (!empty($result))
+        {
+            $this->out("Database table exists.\nRun 'nooku reinstall' if you would like to re-create it");
+
+            return;
+        }
+
+        $result = `echo 'CREATE DATABASE $this->database CHARACTER SET utf8' | mysql -uroot -proot`;
+        if (!empty($result)) { // MySQL returned an error
+            throw new \Exception(sprintf('Cannot create database %s. Error: %s', $this->database, $result));
+        }
+
+        $dir = $this->www.'/install/mysql';
+
+        foreach (self::$files as $file)
+        {
+            $result = `mysql -proot -uroot $this->database < $dir/$file`;
+            if (!empty($result)) { // MySQL returned an error
+                throw new \Exception(sprintf('Cannot import file %s. Error: %s', $file, $result));
+            }
+        }
+    }
+
+    public function deleteDatabase()
+    {
+        $result = `echo 'DROP DATABASE IF EXISTS $this->database' | mysql -uroot -proot`;
+        if (!empty($result)) { // MySQL returned an error
+            throw new \Exception(sprintf('Cannot delete database %s. Error: %s', $this->database, $result));
+        }
+    }
+
+    public function deleteConfiguration()
+    {
+        unlink($this->www.'/config/config.php');
+    }
+
+    public function modifyConfiguration()
+    {
+        $input    = $this->www.'/config/config.php-dist';
+        $output   = $this->www.'/config/config.php';
+
+        $contents = file_get_contents($input);
+        $replace  = function($name, $value) use(&$contents) {
+            $pattern     = sprintf("#%s = '.*?'#", $name);
+            $replacement = sprintf("%s = '%s'", $name, $value);
+
+            $contents = preg_replace($pattern, $replacement, $contents);
+        };
+
+        $replace('sendmail', '/usr/bin/env catchmail');
+        $replace('user', 'root');
+        $replace('password', 'root');
+        $replace('db', $this->database);
+
+        file_put_contents($output, $contents);
+        chmod($output, 0644);
+    }
+
+    public function runComposer()
+    {
+        $this->out('Installing dependencies via Composer');
+        $output = `cd $this->www; composer --no-interaction install`;
+    }
+
+    public function out($text = '', $nl = true)
+    {
+        fwrite(STDOUT, $text . ($nl ? "\n" : null));
+
+        return $this;
+    }
+
+    public function error($text = '', $nl = true)
+    {
+        fwrite(STDERR, $text . ($nl ? "\n" : null));
+
+        return $this;
+    }
+}

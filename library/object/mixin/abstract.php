@@ -110,8 +110,6 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
     /**
      * Get a list of all the available methods
      *
-     * This function returns an array of all the methods, both native and mixed in
-     *
      * @return array An array
      */
     public function getMethods()
@@ -134,12 +132,17 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
     /**
      * Get the methods that are available for mixin.
      *
-     * Only public methods can be mixed
+     * A mixable method is returned as a associative array() where the key holds the method name and the value can either
+     * be an Object, a Closure or a Value.
      *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of public methods
+     * - Value   : If a Value is passed it will be returned, when invoking the method
+     * - Object  : If an Object is passed the method will be invoke on the object and the result returned
+     * - Closure : If a Closure is passed the Closure will be invoked and the result returned.
+     *
+     * @param  array $exclude An array of methods to be exclude
+     * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getMixableMethods($exclude = array())
     {
         if (!$this->__mixable_methods)
         {
@@ -148,7 +151,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                $methods[$method->name] = $method->name;
+                $methods[$method->name] = $this;
             }
 
             //Remove the base class methods
@@ -163,7 +166,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
             $this->__mixable_methods = $methods;
         }
 
-        return $this->__mixable_methods;
+        return array_diff_key($this->__mixable_methods, array_fill_keys($exclude, $exclude));
     }
 
     /**

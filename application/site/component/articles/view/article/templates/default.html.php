@@ -16,7 +16,7 @@
 
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
-	    <? if (object('component')->getController()->canEdit()) : ?>
+	    <? if (object('dispatcher')->getController()->canEdit()) : ?>
         <div class="btn-toolbar">
             <ktml:toolbar type="actionbar">
         </div>

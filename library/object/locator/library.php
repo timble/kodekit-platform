@@ -35,52 +35,10 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'fallbacks' => array(
+            'sequence' => array(
+                'Nooku\Library\<Package><Class>',
                 'Nooku\Library\<Package><Path>Default',
             )
         ));
-    }
-
-    /**
-     * Returns a fully qualified class name for a given identifier.
-     *
-     * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
-     * @return string|false  Return the class name on success, returns FALSE on failure
-     */
-    public function locate(ObjectIdentifier $identifier, $fallback = true)
-    {
-        $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
-
-        $package = ucfirst($identifier->package);
-        $path    = StringInflector::camelize(implode('_', $identifier->path));
-        $name    = ucfirst($identifier->name);
-
-        //Check if the class exists
-        $result = false;
-        if(!class_exists('Nooku\Library\\'.$package.$class))
-        {
-            //Use the fallbacks
-            if($fallback)
-            {
-                foreach($this->_fallbacks as $fallback)
-                {
-                    $result = str_replace(
-                        array('<Package>', '<Path>', '<Name>', '<Class>'),
-                        array($package   , $path   , $name   , $class),
-                        $fallback
-                    );
-
-                    if(!class_exists($result)) {
-                        $result = false;
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-        else $result = 'Nooku\Library\\'.$package.$class;
-
-        return $result;
     }
 }

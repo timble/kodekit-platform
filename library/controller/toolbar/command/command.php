@@ -169,10 +169,10 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     public function set($name, $value)
     {
         if (is_array($value)) {
-            $this->_data[$name] = new ObjectConfig($value);
-        } else {
-            $this->_data[$name] = $value;
+            $value = new ObjectConfig($value);
         }
+
+        parent::set($name, $value);
     }
 
     /**

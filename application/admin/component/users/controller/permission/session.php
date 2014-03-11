@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
-class SessionControllerPermissionSession extends ApplicationControllerPermissionAbstract
+class UsersControllerPermissionSession extends ApplicationControllerPermissionAbstract
 {
     public function canRender()
     {
@@ -34,11 +34,6 @@ class SessionControllerPermissionSession extends ApplicationControllerPermission
     public function canBrowse()
     {
         return false;
-    }
-
-    public function canAdd()
-    {
-        return true;
     }
 
     public function canEdit()

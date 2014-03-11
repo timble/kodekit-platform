@@ -21,14 +21,14 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      * Set to true if uuid should be auto-generated
      *
      * @var boolean
-     * @see _afterTableSelect()
+     * @see _afterSelect()
      */
     protected $_auto_generate;
 
     /**
      * Constructor.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -47,7 +47,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config   An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -60,23 +60,22 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     }
 
     /**
-     * Get the methods that are available for mixin based
+     * Check if the behavior is supported
      *
-     * This function conditionally mixes of the behavior. Only if the mixer
-     * has a 'uuid' property the behavior will be mixed in.
+     * Behavior requires a 'uuid' row property
      *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of methods
+     * @return  boolean  True on success, false otherwise
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function isSupported()
     {
-        $methods = array();
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-        if($mixer instanceof DatabaseRowInterface && $mixer->has('uuid')) {
-            $methods = parent::getMixableMethods($mixer);
+        if($table->hasColumn('uuid')) {
+            return true;
         }
 
-        return $methods;
+        return false;
     }
 
     /**
@@ -87,9 +86,10 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      * Requires an 'uuid' column, if the column type is char the uuid will be a string, if the column type is binary a
      * hex value will be returned.
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _afterTableSelect(CommandContext $context)
+    protected function _afterSelect(DatabaseContext $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
@@ -109,9 +109,10 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      * Requires an 'uuid' column, if the column type is char the uuid will be a string, if the column type is binary a
      * hex value will be returned.
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
         if($this->getMixer() instanceof DatabaseRowInterface)
         {

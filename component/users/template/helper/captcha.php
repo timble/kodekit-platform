@@ -28,10 +28,8 @@ class TemplateHelperCaptcha extends Library\TemplateHelperDefault
     {
         $config = new Library\ObjectConfig($config);
 
-        $params = $this->getObject('application.extensions')->getExtension('users')->params;
-
         $config->append(array(
-            'public_key' => $params->get('recaptcha_public_key', null),
+            'public_key' => null,
             'server'     => 'http://www.google.com/recaptcha/api',
             'error'      => '',
             'options'    => array(

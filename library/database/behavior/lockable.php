@@ -44,25 +44,24 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     	parent::_initialize($config);
    	}
 
-	/**
-	 * Get the methods that are available for mixin based
-	 *
-	 * This function conditionally mixes the behavior. Only if the mixer has a 'locked_by' property the behavior will
-     * be mixed in.
-	 *
-	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-	 * @return array An array of methods
-	 */
-	public function getMixableMethods(ObjectMixable $mixer = null)
-	{
-		$methods = array();
+    /**
+     * Check if the behavior is supported
+     *
+     * Behavior requires a 'locked_by' or 'locked_on' row property
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-		if($mixer instanceof DatabaseRowInterface && ($mixer->has('locked_by') || $mixer->has('locked_on'))) {
-			$methods = parent::getMixableMethods($mixer);
-		}
+        if($table->hasColumn('locked_by') || $table->hasColumn('locked_on')) {
+            return true;
+        }
 
-		return $methods;
-	}
+        return false;
+    }
 
 	/**
 	 * Lock a row
@@ -145,7 +144,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * @return boolean True if row can be updated, false otherwise
 	 */
-	protected function _beforeTableUpdate(CommandContext $context)
+	protected function _beforeUpdate(DatabaseContext $context)
 	{
 		return (bool) !$this->isLocked();
 	}
@@ -158,7 +157,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * @return boolean True if row can be deleted, false otherwise
 	 */
-	protected function _beforeTableDelete(CommandContext $context)
+	protected function _beforeDelete(DatabaseContext $context)
 	{
 		return (bool) !$this->isLocked();
 	}

@@ -20,7 +20,9 @@ namespace Nooku\Library;
 interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
 {
     /**
-     * Retrieve a configuration item and return $default if there is no element set.
+     * Retrieve a configuration option
+     *
+     * If the option does not exist return the default
      *
      * @param string
      * @param mixed
@@ -29,7 +31,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
     public function get($name, $default = null);
 
     /**
-     * Set a configuration item
+     * Set a configuration option
      *
      * @param  string $name
      * @param  mixed  $value
@@ -38,20 +40,30 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
     public function set($name, $value);
 
     /**
-     * Check if a configuration item exists
+     * Check if a configuration option exists
      *
-     * @param  	string 	$name The configuration item name.
+     * @param  	string 	$name The configuration option name.
      * @return  boolean
      */
     public function has($name);
 
     /**
-     * Remove a configuration item
+     * Remove a configuration option
      *
-     * @param   string $name The configuration item name.
+     * @param   string $name The configuration option name.
      * @return  ObjectConfigInterface
      */
     public function remove( $name );
+
+    /**
+     * Add options
+     *
+     * This method will overwrite keys that already exist, keys that don't exist yet will be added.
+     *
+     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be added
+     * @return ObjectConfigInterface
+     */
+    public function add($options);
 
     /**
      * Append values
@@ -68,7 +80,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
      *
-     * @param  ObjectConfig|mixed $data
+     * @param  ObjectConfigInterface|mixed $data
      * @return array|mixed
      */
     public static function unbox($data);

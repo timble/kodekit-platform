@@ -1,0 +1,135 @@
+.-koowa-grid {
+    margin: 0; /* bootstrap override */
+
+    /** Table styles **/
+    table {
+        width: 100%;
+        border-spacing: 0px;
+        border-collapse: collapse;
+        color: #666;
+
+        table-layout: auto;
+        white-space: nowrap;
+
+        //Fixing radio and checkbox positioning in tables
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-top: 0;
+        }
+
+        td {
+            padding: 4px 4px;
+        }
+
+        thead {
+            th {
+                line-height: 18px;
+                text-align: left;
+                background: linear-gradient(#f7f7f7, #F2F2F2);
+                color: #666;
+                border-bottom: 1px solid $grayLighter;
+                border-left: 1px solid $grayLighter;
+                font-size: $baseFontSize - 1px;
+
+                a {
+                    display: block;
+                    padding: 0px 4px;
+
+                    color: #666;
+
+                    &.-koowa-desc,
+                    &.-koowa-asc {
+                        padding-right: 12px;
+                    }
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+
+                &:first-child {
+                    border-left: none;
+                    padding-left: 2px;
+                }
+            }
+
+            th:not(.void):active {
+                background: linear-gradient(#e0e0e0, #e5e5e5);
+            }
+        }
+
+        tbody {
+            th {
+                font-weight: bold;
+            }
+
+            tr {
+                background-color: #fff;
+                text-align: left;
+                border-top: 1px solid #FFF;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            tr:nth-child(even):not(.no-hover):hover td,
+            tr:nth-child(odd):not(.no-hover):hover td {
+                background-color: #EAF3FA;
+            }
+
+            tr td {
+                height: 26px;
+                border-top: 1px solid #FFF;
+            }
+
+            tr.selected td,
+            tr.selected:hover td {
+                background-color: #CDE7FD !important;
+                @include transition(all 150ms ease-in-out);
+            }
+
+            tr.separator td {
+                height: auto;
+                text-align: left;
+                font-weight: bold;
+                background-color: #ededed;
+                border-bottom: 1px solid #dddddd;
+            }
+
+            tr td.ellipsis {
+                max-width: 100px;
+            }
+        }
+
+        tfoot {
+            background-color: #F1F1F1;
+
+            tr {
+                text-align: center;
+                color: #333;
+            }
+            td {
+                text-align: center;
+            }
+        }
+    }
+
+    .array-separator {
+        span:after {
+            content: " &";
+        }
+        span:last-of-type:after {
+            content: "";
+        }
+    }
+
+    .icon-ok {
+        color: $green;
+    }
+    .icon-remove {
+        color: $red
+    }
+    .icon-star {
+        color: $yellow;
+    }
+}

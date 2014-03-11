@@ -17,24 +17,29 @@ use Nooku\Library;
  */
 class UsersViewSessionHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $title = JText::_('Login');
         $this->getObject('application')->getPathway()->addItem($title);
 
-        $this->user       = $this->getObject('user');;
-        $this->parameters = $this->getParameters();
+        return parent::_actionRender($context);
+    }
 
-        return parent::render();
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $context->data->user       = $this->getObject('user');;
+        $context->data->parameters = $this->getParameters();
+
+        parent::_fetchData($context);
     }
     
     public function getParameters()
     {
-        $active = $this->getObject('application.pages')->getActive();
-        $parameters = new JParameter($active->params);
+        $page       = $this->getObject('application.pages')->getActive();
+        $parameters = $page->getParams('page');
 
         $parameters->def('description_login_text', 'LOGIN_DESCRIPTION');
-        $parameters->def('registration', $this->getObject('application.extensions')->getExtension('users')->params->get('allowUserRegistration'));
+        $parameters->def('registration', true);
 
         return $parameters;
     }

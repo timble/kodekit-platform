@@ -17,22 +17,10 @@ use Nooku\Library;
  */
 class PagesViewModuleHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $model  = $this->getModel();
         $module = $model->fetch();
-
-        if($this->getLayout() == 'modal')
-        {
-            $this->menus   = $this->getObject('com:pages.model.menus')
-                                  ->sort('title')->fetch();
-
-            $this->pages   = $this->getObject('com:pages.model.pages')
-                                  ->application('site')->fetch();
-
-            $this->modules = $this->getObject('com:pages.model.modules')
-                                  ->application('site')->fetch();
-        }
 
         if($this->getModel()->getState()->isUnique())
         {
@@ -42,19 +30,38 @@ class PagesViewModuleHtml extends Library\ViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = Library\ClassLoader::getInstance()->getApplication($module->application);
-            JFactory::getLanguage()->load(substr($module->extension_name, 4), $module->name, $path);
+            $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
+            JFactory::getLanguage()->load($module->component, $module->name, $path);
+        }
+
+        return parent::_actionRender($context);
+    }
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $module  = $this->getModel()->getRow();
+
+        if($this->getLayout() == 'modal')
+        {
+            $context->data->menus   = $this->getObject('com:pages.model.menus')
+                                  ->sort('title')->fetch();
+
+            $context->data->pages   = $this->getObject('com:pages.model.pages')
+                                  ->application('site')->fetch();
+
+            $context->data->modules = $this->getObject('com:pages.model.modules')
+                                  ->application('site')->fetch();
         }
 
         // Build path to module config file
-        $path  = Library\ClassLoader::getInstance()->getApplication('site');
-        $path .= '/component/'.substr($module->extension_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
+        $path  =  $this->getObject('manager')->getClassLoader()->getBasepath('site');
+        $path .= '/component/'.$module->component.'/module/'.substr($module->name, 4).'/config.xml';
 
         $params = new \JParameter( null, $path );
         $params->loadArray($module->params->toArray());
 
-        $this->params = $params;
+        $context->data->params = $params;
 
-        return parent::render();
+        parent::_fetchData($context);
     }
 }

@@ -30,36 +30,35 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->fetch();
     }
 
-    public function getHandle()
+    public function isSupported()
     {
         // If table is not enabled, return null to prevent enqueueing.
         $table = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
         $needle = array(
-            'name' => $table->getBase(),
+            'name'           => $table->getBase(),
             'component_name' => 'com_'.$table->getIdentifier()->package
         );
         
-        return count($this->_tables->find($needle)) ? parent::getHandle() : null;
+        return count($this->_tables->find($needle)) ? true : false;
     }
-    
-    public function getMixableMethods(Library\ObjectMixable $mixer = null)
+
+    public function getMixableMethods($exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer);
+        $methods = parent::getMixableMethods($exclude);
+        $mixer   = $this->getMixer();
         
         if(!is_null($mixer))
         {
             // If table is not enabled, don't mix the methods.
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
-                'name' => $table->getBase(),
+                'name'           => $table->getBase(),
                 'component_name' => 'com_'.$table->getIdentifier()->package
             );
             
             if(!count($this->_tables->find($needle)))
             {
-                $methods['isTranslatable'] = function() {
-                    return false;
-                };
+                $methods['isTranslatable'] = false;
                 
                 unset($methods['getLanguages']);
                 unset($methods['getTranslations']);
@@ -84,7 +83,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         return $translations;
     }
     
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\DatabaseContext $context)
     {
         if($query = $context->query)
         {
@@ -129,7 +128,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         if($context->affected)
         {
@@ -182,7 +181,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
@@ -193,7 +192,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\DatabaseContext $context)
     {
         $languages = $this->getObject('application.languages');
         $primary   = $languages->getPrimary();
@@ -251,7 +250,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _beforeTableDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\DatabaseContext $context)
     {
         $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
@@ -262,7 +261,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\DatabaseContext $context)
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {

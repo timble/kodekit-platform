@@ -25,7 +25,7 @@ class ModelModules extends Library\ModelDatabase
 
         $this->getState()
             ->insert('application', 'cmd', 'site')
-            ->insert('extension'  , 'int')
+            ->insert('component'  , 'alpha')
             ->insert('sort'  	  , 'cmd', 'ordering')
             ->insert('published'  , 'boolean')
             ->insert('position'   , 'cmd')
@@ -35,18 +35,10 @@ class ModelModules extends Library\ModelDatabase
             ->insert('name'       , 'cmd');
     }
 
-    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
-    {
-        parent::_buildQueryColumns($query);
-
-        $query->columns(array('extension_name' => 'extensions.name'));
-    }
-
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $query
-            ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id')
-            ->join(array('extensions'  => 'extensions'), 'extensions.extensions_extension_id = tbl.extensions_extension_id');
+            ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id');
 
         parent::_buildQueryJoins($query);
     }
@@ -74,8 +66,8 @@ class ModelModules extends Library\ModelDatabase
                 $query->where('tbl.application = :application')->bind(array('application' => $state->application));
             }
 
-            if($state->extension) {
-                $query->where('tbl.extensions_extension_id = :extension')->bind(array('extension' => $state->extension));
+            if($state->component) {
+                $query->where('tbl.component = :component')->bind(array('component' => $state->component));
             }
 
             if (is_numeric($state->access)) {
@@ -130,13 +122,8 @@ class ModelModules extends Library\ModelDatabase
                     $this->_data->application = $state->application;
                 }
 
-                if($state->extension)
-                {
-                    $this->_data->extensions_extension_id = $state->extension;
-
-                    $this->_data->extension_name = $this->getObject('application.extensions')
-                        ->find(array('id' => $state->extension))
-                        ->name;
+                if($state->component) {
+                    $this->_data->component = $state->component;
                 }
             }
         }
@@ -159,35 +146,33 @@ class ModelModules extends Library\ModelDatabase
 
             if($state->installed)
             {
-                $table = $this->getObject('com:extensions.database.table.extensions');
-                $query = $this->getObject('lib:database.query.select')->order('name');
-
-                $extension = $table->select($query);
-
-                // Iterate through the extension
                 $modules = array();
-                foreach($extension as $extension)
+                $app_path  = $this->getObject('manager')->getClassLoader()->getBasepath('site');
+                $com_path  = $app_path.'/component';
+
+                foreach(new \DirectoryIterator($com_path) as $component)
                 {
-                    $path  = Library\ClassLoader::getInstance()->getApplication('site');
-                    $path .= '/component/'.substr($extension->name, 4).'/modules';
-
-                    if(!is_dir($path)) {
-                        continue;
-                    }
-
-                    foreach(new \DirectoryIterator($path) as $folder)
+                    if($component->isDir() && substr($component, 0, 1) !== '.')
                     {
-                        if($folder->isDir())
+                        $mod_path = $com_path.'/'.$component.'/module';
+
+                        if(is_dir($mod_path))
                         {
-                            if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml'))
+                            foreach(new \DirectoryIterator($mod_path) as $folder)
                             {
-                                $modules[] = array(
-                                    'id'                      => $folder->getFilename(),
-                                    'name'                    => 'mod_'.$folder->getFilename(),
-                                    'application'             => 'site',
-                                    'extensions_extension_id' => $extension->id,
-                                    'title'		              => null,
-                                );
+                                if($folder->isDir())
+                                {
+                                    if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml'))
+                                    {
+                                        $modules[] = array(
+                                            'id'           => $folder->getFilename(),
+                                            'name'         => 'mod_'.$folder->getFilename(),
+                                            'application'  => 'site',
+                                            'component'    => (string) $component,
+                                            'title'		   => null,
+                                        );
+                                    }
+                                }
                             }
                         }
                     }

@@ -17,17 +17,15 @@ use Nooku\Library;
  */
 class UsersViewGroupHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
         $group = $this->getModel()->fetch();
-
-        //Load a list of selected users
-        $this->selected = array();
         $users = $this->getObject('com:users.model.groups_users')->group_id($group->id)->fetch();
-        foreach($users as $user) {
-            $this->selected[] = $user->user_id;
-        }
 
-        return parent::render();
+        foreach($users as $user) {
+            $context->data->selected[] = $user->user_id;
+        }
+        
+        parent::_fetchData($context);
     }
 }
