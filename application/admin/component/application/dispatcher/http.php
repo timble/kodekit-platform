@@ -108,9 +108,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         //Forward the request
         $component = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
         $this->forward($component);
-
-        //Dispatch the request
-        $this->dispatch();
     }
 
     /**

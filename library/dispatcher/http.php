@@ -90,7 +90,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             $result = $this->execute($method, $context);
         }
 
-        return $result;
+        return parent::_actionDispatch($context);
 	}
 
     /**
