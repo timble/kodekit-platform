@@ -151,9 +151,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $component = substr( $context->request->query->get('option', 'cmd'), 4);
             $this->forward($component);
         }
-
-        //Dispatch the request
-        $this->dispatch();
     }
 
     /**
