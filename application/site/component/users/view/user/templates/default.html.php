@@ -9,7 +9,7 @@
 ?>
 
 <div class="page-header">
-    <h1><?= escape($parameters->get('page_title')) ?></h1>
+    <h1><?= escape($page->title) ?></h1>
 </div>
 
 <?=import('form.html')?>
