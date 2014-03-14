@@ -32,8 +32,6 @@ class ControllerBehaviorRecoverable extends  ControllerBehaviorPersistableAbstra
         return $result;
     }
 
-    $this
-
     protected function _beforeAdd(ControllerContextInterface $context)
     {
         $data = $context->getRequest()->getData()->toArray();
