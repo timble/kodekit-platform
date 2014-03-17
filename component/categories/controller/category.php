@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git
  */
 
 namespace Nooku\Component\Categories;
@@ -29,20 +29,19 @@ abstract class ControllerCategory extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionRender(Library\CommandContext $context)
+    protected function _actionRender(Library\ControllerContext $context)
     {
         $view = $this->getView();
 
         //Alias the view layout
-        if($view instanceof Library\ViewTemplate)
-        {
-            $layout = $view->getIdentifier()->toArray();
-            $layout['name']  = $view->getLayout();
+        if ($view instanceof Library\ViewTemplate) {
+            $layout         = $view->getIdentifier()->toArray();
+            $layout['name'] = $view->getLayout();
 
-            $alias = $layout;
+            $alias            = $layout;
             $alias['package'] = 'categories';
 
-            $this->getObject('manager')->registerAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($alias, $layout);
         }
 
         return parent::_actionRender($context);
@@ -53,8 +52,8 @@ abstract class ControllerCategory extends Library\ControllerModel
         $request = parent::getRequest();
 
         //Force set the 'table' in the request
-        $request->query->table  = $this->getIdentifier()->package;
-        $request->data->table   = $this->getIdentifier()->package;
+        $request->query->table = $this->getIdentifier()->package;
+        $request->data->table  = $this->getIdentifier()->package;
 
         return $request;
     }
