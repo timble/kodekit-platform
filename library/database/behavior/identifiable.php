@@ -34,12 +34,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach ($config as $key => $value)
-        {
-            if (property_exists($this, '_' . $key)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
+       $this->_auto_generate = $config->auto_generate;
     }
 
     /**
