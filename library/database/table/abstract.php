@@ -606,7 +606,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function count($query = null, array $options = array())
     {
         //Count using the identity column
-        if (is_scalar($query)) {
+        if (is_scalar($query))
+        {
             $key = $this->getIdentityColumn();
             $query = array($key => $query);
         }
