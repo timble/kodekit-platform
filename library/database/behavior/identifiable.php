@@ -34,7 +34,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-       $this->_auto_generate = $config->auto_generate;
+        $this->_auto_generate = $config->auto_generate;
     }
 
     /**
