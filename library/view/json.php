@@ -66,7 +66,7 @@ class ViewJson extends ViewAbstract
     {
         if (empty($this->_content))
         {
-            $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getList() : $this->_getItem();
+            $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getEntities() : $this->_getEntity();
             $this->_content = array_merge(array('version' => $this->_version), $this->_content);
         }
 
@@ -85,11 +85,11 @@ class ViewJson extends ViewAbstract
     }
 
     /**
-     * Get the list data
+     * Get the entities data
      *
      * @return array The array with data to be encoded to json
      */
-    protected function _getList()
+    protected function _getEntities()
     {
         //Get the model
         $model = $this->getModel();
@@ -176,11 +176,11 @@ class ViewJson extends ViewAbstract
     }
 
     /**
-     * Get the item data
+     * Get the entity data
      *
      * @return array     The array with data to be encoded to json
      */
-    protected function _getItem()
+    protected function _getEntity()
     {
         //Get the model
         $model = $this->getModel();
