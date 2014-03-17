@@ -45,6 +45,22 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
    	}
 
     /**
+     * Get the user that owns the lock on the resource
+     *
+     * @return UserInterface|null Returns a User object or NULL if no user could be found
+     */
+    public function getOwner()
+    {
+        $user = null;
+
+        if($this->has('locked_by') && !empty($this->locked_by)) {
+            $user = $this->getObject('user.provider')->fetch($this->locked_by);
+        }
+
+        return $user;
+    }
+
+    /**
      * Check if the behavior is supported
      *
      * Behavior requires a 'locked_by' or 'locked_on' row property
