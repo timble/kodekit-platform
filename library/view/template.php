@@ -145,12 +145,11 @@ abstract class ViewTemplate extends ViewAbstract
             $name = $this->getName();
 
             //Assign the data of the model to the view
-            if(StringInflector::isPlural($name))
-            {
-                $context->data->$name = $model->getRowset();
-                $context->data->total = $model->getTotal();
+            if(StringInflector::isPlural($name)) {
+                $context->data->total = $model->count();
             }
-            else $context->data->$name = $model->getRow();
+
+            $context->data->$name = $model->fetch();
         }
     }
 
