@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git
  */
 
 namespace Nooku\Component\Categories;
@@ -13,7 +13,7 @@ use Nooku\Library;
 
 /**
  * Categorizable Database Behavior
- *   
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
@@ -25,6 +25,7 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param  Library\ObjectConfig $config A ObjectConfig object with configuration options
+     *
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -37,37 +38,35 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
     }
 
     /**
-	 * Get the category
-	 *
-	 * @return Library\DatabaseRowsetInterface
-	 */
-	public function getCategory()
-	{
+     * Get the category
+     *
+     * @return Library\DatabaseRowsetInterface
+     */
+    public function getCategory()
+    {
         $model = $this->getObject('com:categories.model.categories');
 
-        if(!$this->isNew())
-        {
+        if (!$this->isNew()) {
             //Get the category
             $category = $model->table($this->getTable()->getName())
                 ->id($this->categories_category_id)
                 ->fetch();
-        }
-        else $category = $model->fetch();
+        } else $category = $model->fetch();
 
         return $category;
-	}
-        
+    }
+
     /**
-	 * Modify the select query
-	 * 
-	 * If the query's params information includes a category property, auto-join the terms tables with the query and
+     * Modify the select query
+     *
+     * If the query's params information includes a category property, auto-join the terms tables with the query and
      * select all the rows that are part of the category.
      *
-     * @param Library\CommandContext $context
-	 */
-	protected function _beforeTableSelect(Library\CommandContext $context)
-	{
-		$query  = $context->query;
+     * @param Library\DatabaseContext $context
+     */
+    protected function _beforeSelect(Library\DatabaseContext $context)
+    {
+        $query  = $context->query;
         $params = $context->query->params;
 
         //Join the categories table
@@ -75,15 +74,14 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
         $query->columns(array('category_title' => 'categories.title'));
 
         //Filter based on the category
-        if($params->has('category') && is_numeric($params->get('category')))
-		{
-            $query->where('tbl.categories_category_id IN :categories_category_id' );
+        if ($params->has('category') && is_numeric($params->get('category'))) {
+            $query->where('tbl.categories_category_id IN :categories_category_id');
 
-            if($params->has('category_recurse') && $params->get('category_recurse') === true) {
+            if ($params->has('category_recurse') && $params->get('category_recurse') === true) {
                 $query->where('categories.parent_id IN :categories_category_id', 'OR');
             }
 
-            $query->bind(array('categories_category_id' => (array) $params->get('category')));
-		}
-	}
+            $query->bind(array('categories_category_id' => (array)$params->get('category')));
+        }
+    }
 }
