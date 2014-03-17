@@ -76,12 +76,12 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach ($config as $key => $value)
-        {
-            if (property_exists($this, '_' . $key)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
+        $this->_columns   = (array) ObjectConfig::unbox($config->columns);
+        $this->_separator = $config->separator;
+        $this->_updatable = $config->updatable;
+        $this->_length    = $config->length;
+        $this->_unique    = $config->unique;
+        $this->_row_mixin = $config->row_mixin;
     }
 
     /**
@@ -95,7 +95,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'columns'    => array('title'),
+            'columns'    => 'title',
             'separator'  => '-',
             'updatable'  => true,
             'length'     => null,
