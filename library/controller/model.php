@@ -202,7 +202,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionBrowse(ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->fetch();
+        $entity = $this->getModel()->fetch();
 		return $entity;
 	}
 
@@ -221,7 +221,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
             if(!count($entity))
             {
                 $name   = ucfirst($this->getView()->getName());
-                throw new ControllerExceptionNotFound($name.' Not Found');
+                throw new ControllerExceptionResourceNotFound($name.' Not Found');
             }
         }
         else $entity = $this->getModel()->create();
@@ -232,8 +232,8 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic edit action, saves over an existing entity collection
 	 *
-	 * @param	CommandContext	$context A command context object
-     * @throws  ControllerExceptionNotFound   If the resource could not be found
+	 * @param	ControllerContextInterface	$context A command context object
+     * @throws  ControllerExceptionResourceNotFound   If the resource could not be found
 	 * @return 	DatabaseRowsetInterface A rowset object containing the updated row(s)
 	 */
 	protected function _actionEdit(ControllerContextInterface $context)
@@ -261,45 +261,39 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionRequestInvalid   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
 	protected function _actionAdd(ControllerContextInterface $context)
 	{
-        $entity = $this->getModel()->fetch();
+        $entity = $this->getModel()->create();
+        $entity->setProperties($context->request->data->toArray());
 
-        if($entity->isNew())
+        //Only throw an error if the action explicitly failed.
+        if($entity->save() === false)
         {
-            $entity->setProperties($context->request->data->toArray());
-
-		    //Only throw an error if the action explicitly failed.
-		    if($entity->save() === false)
-		    {
-			    $error = $entity->getStatusMessage();
-		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
-		    }
-            else
+            $error = $entity->getStatusMessage();
+            throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
+        }
+        else
+        {
+            if ($entity instanceof DatabaseRowInterface)
             {
-                if ($entity instanceof DatabaseRowInterface)
+                $url = clone $context->request->getUrl();
+
+                if ($this->getModel()->getState()->isUnique())
                 {
-                    $url = clone $context->request->getUrl();
+                    $states = $this->getModel()->getState()->getValues(true);
 
-                    if ($this->getModel()->getState()->isUnique())
-                    {
-                        $states = $this->getModel()->getState()->getValues(true);
-
-                        foreach ($states as $key => $value) {
-                            $url->query[$key] = $entity->get($key);
-                        }
+                    foreach ($states as $key => $value) {
+                        $url->query[$key] = $entity->get($key);
                     }
-                    else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
                 }
-
-                $context->response->headers->set('Location', (string) $url);
-                $context->response->setStatus(HttpResponse::CREATED);
+                else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
             }
-		}
-		else throw new ControllerExceptionRequestInvalid('Resource Already Exists');
+
+            $context->response->headers->set('Location', (string) $url);
+            $context->response->setStatus(HttpResponse::CREATED);
+        }
 
         return $entity;
 	}
