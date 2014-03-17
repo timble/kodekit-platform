@@ -57,9 +57,9 @@ class UserProvider extends Library\UserProvider
     {
         // Find session user identifier
         if (!is_numeric($identifier)) {
-            $user = $this->getObject('com:users.model.users')->email($identifier)->getRow();
+            $user = $this->getObject('com:users.model.users')->email($identifier)->fetch();
         } else {
-            $user = $this->getObject('com:users.model.users')->id($identifier)->getRow();
+            $user = $this->getObject('com:users.model.users')->id($identifier)->fetch();
         }
 
         //Load the user
