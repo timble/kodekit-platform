@@ -39,13 +39,17 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface) {
+        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface)
+        {
             $context->limit  = $context->query->limit;
             $context->offset = $context->query->offset;
 
             $context->query->limit(0);
-        } else {
-            if ($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET) {
+        }
+        else
+        {
+            if ($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
+            {
                 $this->_table = $context->getSubject();
                 $this->_table->getAdapter()->addCommandHandler($this);
             }
@@ -54,7 +58,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 
     protected function _afterSelect(Library\DatabaseContext $context)
     {
-        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface) {
+        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface)
+        {
             //Get the data
             $rows = Library\ObjectConfig::unbox($context->result);
 
@@ -65,7 +70,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                 /*
                 * Create the children array
                 */
-                foreach ($rows as $key => $row) {
+                foreach ($rows as $key => $row)
+                {
                     $path   = array();
                     $parent = $row['parent_id'];
 
@@ -78,7 +84,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                 /*
                  * Create the result array
                  */
-                foreach ($rows as $key => $row) {
+                foreach ($rows as $key => $row)
+                {
                     if (empty($row['parent_id'])) {
                         $result[$key] = $row;
 
@@ -92,7 +99,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                  * If we have not been able to match all children to their parents don't perform
                  * the path enumeration for the children.
                  */
-                if (count($result) == count($rows)) {
+                if (count($result) == count($rows))
+                {
                     if ($context->limit) {
                         $result = array_slice($result, $context->offset, $context->limit, true);
                     }
@@ -100,7 +108,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                     /*
                       * Create the paths of each node
                       */
-                    foreach ($result as $key => $row) {
+                    foreach ($result as $key => $row)
+                    {
                         $path   = array();
                         $parent = $row['parent_id'];
 
@@ -117,12 +126,16 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                         //Set the node path
                         $result[$key]['path'] = $path;
                     }
-                } else $result = $rows;
+                }
+                else $result = $rows;
 
                 $context->result = $result;
             }
-        } else {
-            if (isset($this->_table)) {
+        }
+        else
+        {
+            if (isset($this->_table))
+            {
                 $this->_table->getAdapter()->removeCommandHandler($this);
                 $this->_table = null;
             }
@@ -131,7 +144,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 
     protected function _getChildren($rows, $children, $parent, &$result)
     {
-        foreach ($children[$parent] as $child) {
+        foreach ($children[$parent] as $child)
+        {
             //Add the child to the rows
             $result[$child] = $rows[$child];
 
