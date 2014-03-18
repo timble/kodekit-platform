@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Articles;
@@ -24,16 +24,19 @@ class ModelArticles extends Library\ModelDatabase
         parent::__construct($config);
 
         $this->getState()
-            ->insert('category'         , 'slug')
-            ->insert('category_recurse' , 'boolean', false)
-            ->insert('published' , 'int')
+            ->insert('published', 'int')
             ->insert('created_by', 'int')
-            ->insert('access'    , 'int')
-            ->insert('trashed'   , 'int')
-            ->insert('searchword', 'string')
-            ->insert('tag'       , 'string');
+            ->insert('access', 'int')
+            ->insert('sort', 'cmd', 'ordering');
+    }
 
-        $this->getState()->remove('sort')->insert('sort', 'cmd', 'ordering');
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('searchable'),
+        ));
+
+        parent::_initialize($config);
     }
 
     protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
@@ -41,10 +44,10 @@ class ModelArticles extends Library\ModelDatabase
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-            'thumbnail'              => 'thumbnails.thumbnail',
-            'last_activity_on'       => 'IF(tbl.modified_on, tbl.modified_on, tbl.created_on)',
-            'last_activity_by_name'  => 'IF(tbl.modified_on, modifier.name, creator.name)',
-            'ordering_date'          => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
+            'thumbnail'             => 'thumbnails.thumbnail',
+            'last_activity_on'      => 'IF(tbl.modified_on, tbl.modified_on, tbl.created_on)',
+            'last_activity_by_name' => 'IF(tbl.modified_on, modifier.name, creator.name)',
+            'ordering_date'         => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
         ));
     }
 
@@ -52,78 +55,28 @@ class ModelArticles extends Library\ModelDatabase
     {
         parent::_buildQueryJoins($query);
 
-        $query->join(array('creator'  => 'users'), 'creator.users_user_id = tbl.created_by')
-              ->join(array('modifier'  => 'users'), 'modifier.users_user_id = tbl.modified_by')
-              ->join(array('attachments'  => 'attachments'), 'attachments.attachments_attachment_id = tbl.attachments_attachment_id')
-              ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = attachments.path');
+        $query->join(array('creator' => 'users'), 'creator.users_user_id = tbl.created_by')
+            ->join(array('modifier' => 'users'), 'modifier.users_user_id = tbl.modified_by')
+            ->join(array('attachments' => 'attachments'), 'attachments.attachments_attachment_id = tbl.attachments_attachment_id')
+            ->join(array('thumbnails' => 'files_thumbnails'), 'thumbnails.filename = attachments.path');
     }
 
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
-        
+
         $state = $this->getState();
 
         if (is_numeric($state->published)) {
-        	$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
+            $query->where('tbl.published = :published')->bind(array('published' => (int)$state->published));
         }
 
-        if ($state->search) {
-            $query->where('(tbl.title LIKE :search)')->bind(array('search' => '%' . $state->search . '%'));
-        }
-
-        if ($state->searchword) {
-            $query->where('(tbl.title LIKE :search OR tbl.introtext LIKE :search OR tbl.fulltext LIKE :search)')->bind(array('search' => '%' . $state->searchword . '%'));
-        }
-
-        if($state->created_by) {
+        if ($state->created_by) {
             $query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->created_by));
         }
 
         if (is_numeric($state->access)) {
             $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
-        }
-
-        if($this->getTable()->isCategorizable())
-        {
-            $query->bind(array(
-                'category'         => $state->category,
-                'category_recurse' => $state->category_recurse
-            ));
-        }
-
-        if($this->getTable()->isRevisable() && $state->trashed) {
-            $query->bind(array('deleted' => 1));
-        }
-
-        if($this->getTable()->isTaggable() && $state->tag) {
-            $query->bind(array('tag' => $state->tag));
-        }
-    }
-
-    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
-    {
-        $state = $this->getState();
-
-        $direction = strtoupper($state->direction);
-
-        if ($state->sort == 'ordering')
-        {
-            if($this->getTable()->isCategorizable()) {
-                $query->order('category_title', 'ASC');
-            }
-
-            $query->order('ordering', $direction);
-        }
-        else
-        {
-            $query->order($state->sort, $direction);
-
-            if($this->getTable()->isCategorizable()) {
-                $query->order('category_title', 'ASC');
-            }
-
-            $query->order('ordering', 'ASC');
         }
     }
 }
