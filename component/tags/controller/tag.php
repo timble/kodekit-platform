@@ -26,28 +26,27 @@ abstract class ControllerTag extends Library\ControllerModel
         ));
 
         //Alias the permission
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array('controller', 'permission');
+        $permission         = $this->getIdentifier()->toArray();
+        $permission['path'] = array('controller', 'permission');
 
-        $this->getObject('manager')->registerAlias($permission, 'com:tags.controller.permission.tag');
+        $this->getObject('manager')->registerAlias('com:tags.controller.permission.tag', $permission);
 
         parent::_initialize($config);
     }
 
-    protected function _actionRender(Library\CommandContext $context)
+    protected function _actionRender(Library\ControllerContext $context)
     {
         $view = $this->getView();
 
-        //Alias the view layout
         if($view instanceof Library\ViewTemplate)
         {
-            $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
+            $layout         = $view->getIdentifier()->toArray();
+            $layout['name'] = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'tags';
+            $alias            = $layout;
+            $alias['package'] = 'tags';
 
-            $this->getObject('manager')->registerAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($alias, $layout);
         }
 
         return parent::_actionRender($context);
