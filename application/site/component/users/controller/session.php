@@ -73,21 +73,13 @@ class UsersControllerSession extends Users\ControllerSession
         if($context->response->isSuccess())
         {
             $context->user->getSession()->site = $this->getObject('application')->getSite();
+
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
+
             $context->response->setRedirect($url);
         }
 
         return $result;
-    }
-
-    protected function _actionDelete(Library\ControllerContextInterface $context)
-    {
-        $entity = parent::_actionDelete($context);
-
-        //Redirect to caller
-        $context->response->setRedirect($context->request->getReferrer());
-
-        return $entity;
     }
 }
