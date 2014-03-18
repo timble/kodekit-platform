@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -33,44 +33,41 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
      */
     protected $_container;
 
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
-		$this->mixin('lib:behavior.mixin', $config);
+        $this->mixin('lib:behavior.mixin', $config);
 
-		if ($config->validator !== false)
-		{
-			if ($config->validator === true) {
-				$config->validator = 'com:files.database.validator.'.$this->getIdentifier()->name;
-			}
+        if ($config->validator !== false) {
+            if ($config->validator === true) {
+                $config->validator = 'com:files.database.validator.' . $this->getIdentifier()->name;
+            }
 
             $this->addCommandHandler($this->getObject($config->validator));
-		}
-	}
+        }
+    }
 
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'validator' 		=> true
-		));
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'validator' => true
+        ));
 
-		parent::_initialize($config);
-	}
+        parent::_initialize($config);
+    }
 
-	public function copy()
-	{
-		$context = $this->getContext();
-		$context->result = false;
+    public function copy()
+    {
+        $context         = $this->getContext();
+        $context->result = false;
 
-		if ($this->invokeCommand('before.copy', $context) !== false)
-		{
-			$context->result = $this->_adapter->copy($this->destination_fullpath);
-            $this->invokeCommand->run('after.copy', $context);
+        if ($this->invokeCommand('before.copy', $context) !== false) {
+            $context->result = $this->_adapter->copy($this->destination_fullpath);
+            $this->invokeCommand('after.copy', $context);
         }
 
-		if ($context->result !== false)
-		{
+        if ($context->result !== false) {
             if ($this->destination_folder) {
                 $this->folder = $this->destination_folder;
             }
@@ -79,25 +76,22 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
             }
 
             $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
-		}
-		else $this->setStatus(Library\Database::STATUS_FAILED);
+        } else $this->setStatus(Library\Database::STATUS_FAILED);
 
-		return $context->result;
-	}
+        return $context->result;
+    }
 
-	public function move()
-	{
-		$context = $this->getContext();
-		$context->result = false;
+    public function move()
+    {
+        $context         = $this->getContext();
+        $context->result = false;
 
-		if ($this->invokeCommand('before.move', $context) !== false)
-		{
-			$context->result = $this->_adapter->move($this->destination_fullpath);
+        if ($this->invokeCommand('before.move', $context) !== false) {
+            $context->result = $this->_adapter->move($this->destination_fullpath);
             $this->invokeCommand('after.move', $context);
         }
 
-		if ($context->result !== false)
-		{
+        if ($context->result !== false) {
             if ($this->destination_folder) {
                 $this->folder = $this->destination_folder;
             }
@@ -107,79 +101,75 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
             }
 
             $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
-		}
-		else $this->setStatus(Library\Database::STATUS_FAILED);
+        } else $this->setStatus(Library\Database::STATUS_FAILED);
 
-		return $context->result;
-	}
+        return $context->result;
+    }
 
-	public function delete()
-	{
-		$context = $this->getContext();
-		$context->result = false;
+    public function delete()
+    {
+        $context         = $this->getContext();
+        $context->result = false;
 
-		if ($this->invokeCommand('before.delete', $context) !== false)
-		{
-			$context->result = $this->_adapter->delete();
+        if ($this->invokeCommand('before.delete', $context) !== false) {
+            $context->result = $this->_adapter->delete();
             $this->invokeCommand('after.delete', $context);
         }
 
-		if ($context->result === false) {
-			$this->setStatus(Library\Database::STATUS_FAILED);
-		} else {
+        if ($context->result === false) {
+            $this->setStatus(Library\Database::STATUS_FAILED);
+        } else {
             $this->setStatus(Library\Database::STATUS_DELETED);
         }
 
-		return $context->result;
-	}
+        return $context->result;
+    }
 
-	public function get($property)
-	{
-		if ($property == 'fullpath' && !isset($this->_data['fullpath'])) {
-			return $this->getFullpath();
-		}
+    public function get($property)
+    {
+        if ($property == 'fullpath' && !isset($this->_data['fullpath'])) {
+            return $this->getFullpath();
+        }
 
-		if ($property == 'path') {
-			return trim(($this->folder ? $this->folder.'/' : '').$this->name, '/\\');
-		}
-		
-		if ($property == 'display_name' && empty($this->_data['display_name'])) {
-			return $this->name;
-		}
+        if ($property == 'path') {
+            return trim(($this->folder ? $this->folder . '/' : '') . $this->name, '/\\');
+        }
 
-		if ($property == 'destination_path')
-		{
-			$folder = !empty($this->destination_folder) ? $this->destination_folder.'/' : (!empty($this->folder) ? $this->folder.'/' : '');
-			$name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
+        if ($property == 'display_name' && empty($this->_data['display_name'])) {
+            return $this->name;
+        }
 
-			return trim($folder.$name, '/\\');
-		}
+        if ($property == 'destination_path') {
+            $folder = !empty($this->destination_folder) ? $this->destination_folder . '/' : (!empty($this->folder) ? $this->folder . '/' : '');
+            $name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
 
-		if ($property == 'destination_fullpath') {
-			return $this->container->path.'/'.$this->destination_path;
-		}
+            return trim($folder . $name, '/\\');
+        }
 
-		if ($property == 'adapter') {
-			return $this->_adapter;
-		}
+        if ($property == 'destination_fullpath') {
+            return $this->container->path . '/' . $this->destination_path;
+        }
+
+        if ($property == 'adapter') {
+            return $this->_adapter;
+        }
 
 
-		return parent::get($property);
-	}
+        return parent::get($property);
+    }
 
-	public function set($property, $value, $modified = true)
-	{
-		parent::set($property, $value, $modified);
+    public function set($property, $value, $modified = true)
+    {
+        parent::set($property, $value, $modified);
 
-		if (in_array($property, array('container', 'folder', 'name'))) {
-			$this->setAdapter();
-		}
-	}
+        if (in_array($property, array('container', 'folder', 'name'))) {
+            $this->setAdapter();
+        }
+    }
 
     public function getContainer()
     {
-        if(!isset($this->_container))
-        {
+        if (!isset($this->_container)) {
             //Set the container
             $container = $this->getObject('com:files.model.containers')->slug($this->container)->fetch();
 
@@ -201,36 +191,36 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         return $context;
     }
 
-	public function setAdapter()
-	{
-		$type      = $this->getIdentifier()->name;
+    public function setAdapter()
+    {
+        $type      = $this->getIdentifier()->name;
         $container = $this->getContainer();
 
-		$this->_adapter = $container->getAdapter($type, array(
-			'path' => $container->path.'/'.($this->folder ? $this->folder.'/' : '').$this->name
-		));
+        $this->_adapter = $container->getAdapter($type, array(
+            'path' => $container->path . '/' . ($this->folder ? $this->folder . '/' : '') . $this->name
+        ));
 
-		unset($this->_data['fullpath']);
-		unset($this->_data['metadata']);
+        unset($this->_data['fullpath']);
+        unset($this->_data['metadata']);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setProperties($data, $modified = true)
-	{
-		$result = parent::setProperties($data, $modified);
+    public function setProperties($data, $modified = true)
+    {
+        $result = parent::setProperties($data, $modified);
 
-		if (isset($data['container'])) {
-			$this->setAdapter();
-		}
+        if (isset($data['container'])) {
+            $this->setAdapter();
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getFullpath()
-	{
-		return $this->_adapter->getRealPath();
-	}
+    public function getFullpath()
+    {
+        return $this->_adapter->getRealPath();
+    }
 
     public function toArray()
     {
@@ -242,15 +232,15 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         unset($data['format']);
         unset($data['view']);
 
-		$data['container'] = $this->getContainer()->slug;
-		$data['type']      = $this->getIdentifier()->name;
+        $data['container'] = $this->getContainer()->slug;
+        $data['type']      = $this->getIdentifier()->name;
 
         return $data;
     }
 
     public function isLockable()
     {
-    	return false;
+        return false;
     }
 
     public function isNew()

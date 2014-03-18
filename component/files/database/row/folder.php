@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -19,134 +19,133 @@ use Nooku\Library;
  */
 class DatabaseRowFolder extends DatabaseRowNode
 {
-	/**
-	 * Nodes object or identifier
-	 *
-	 * @var string|object
-	 */
-	protected $_children = null;
+    /**
+     * Nodes object or identifier
+     *
+     * @var string|object
+     */
+    protected $_children = null;
 
-	/**
-	 * Node object or identifier
-	 *
-	 * @var string|object
-	 */
-	protected $_parent   = null;
+    /**
+     * Node object or identifier
+     *
+     * @var string|object
+     */
+    protected $_parent = null;
 
-	public function save()
-	{
-		$context = $this->getContext();
-		$context->result = false;
+    public function save()
+    {
+        $context         = $this->getContext();
+        $context->result = false;
 
-		$is_new = $this->isNew();
+        $is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context, false) !== false)
-		{
-			if ($this->isNew()) {
-				$context->result = $this->_adapter->create();
-			}
+        if ($this->invokeCommand('before.save', $context, false) !== false) {
+            if ($this->isNew()) {
+                $context->result = $this->_adapter->create();
+            }
 
-			$this->getCommandChain()->run('after.save', $context);
-		}
+            $this->invokeCommand('after.save', $context);
+        }
 
-		if ($context->result === false) {
-			$this->setStatus(Library\Database::STATUS_FAILED);
-		} else {
+        if ($context->result === false) {
+            $this->setStatus(Library\Database::STATUS_FAILED);
+        } else {
             $this->setStatus($is_new ? Library\Database::STATUS_CREATED : Library\Database::STATUS_UPDATED);
         }
 
-		return $context->result;
-	}
+        return $context->result;
+    }
 
-	public function get($property)
-	{
-		if ($property == 'children' && !isset($this->_data['children'])) {
-			$this->_data['children'] = $this->getObject('com:files.database.rowset.folders');
-		}
+    public function get($property)
+    {
+        if ($property == 'children' && !isset($this->_data['children'])) {
+            $this->_data['children'] = $this->getObject('com:files.database.rowset.folders');
+        }
 
-		return parent::get($property);
-	}
+        return parent::get($property);
+    }
 
-	public function toArray()
-	{
-		$data = parent::toArray();
+    public function toArray()
+    {
+        $data = parent::toArray();
 
-		if ($this->hasChildren()) {
-			$data['children'] = $this->getChildren()->toArray();
-		}
+        if ($this->hasChildren()) {
+            $data['children'] = $this->getChildren()->toArray();
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	public function getProperties($modified = false)
-	{
-		$result = parent::getProperties($modified);
+    public function getProperties($modified = false)
+    {
+        $result = parent::getProperties($modified);
 
-		if (isset($result['children']) && $result['children'] instanceof Library\DatabaseRowsetInterface) {
-			$result['children'] = $result['children']->getProperties();
-		}
+        if (isset($result['children']) && $result['children'] instanceof Library\DatabaseRowsetInterface) {
+            $result['children'] = $result['children']->getProperties();
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function insertChild(Library\DatabaseRowInterface $node)
-	{
-		//Track the parent
-		$node->setParent($this);
+    public function insertChild(Library\DatabaseRowInterface $node)
+    {
+        //Track the parent
+        $node->setParent($this);
 
-		//Insert the row in the rowset
-		$this->getChildren()->insert($node);
+        //Insert the row in the rowset
+        $this->getChildren()->insert($node);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function hasChildren()
-	{
-		return (boolean) count($this->_children);
-	}
+    public function hasChildren()
+    {
+        return (boolean)count($this->_children);
+    }
 
-	/**
-	 * Get the children rowset
-	 *
-	 * @return	object
-	 */
-	public function getChildren()
-	{
-		if(!($this->_children instanceof Library\DatabaseRowsetInterface))
-		{
-			$identifier         = $this->getIdentifier()->toArray();
-			$identifier['path'] = array('database', 'rowset');
-			$identifier['name'] = Library\StringInflector::pluralize($this->getIdentifier()->name);
+    /**
+     * Get the children rowset
+     *
+     * @return    object
+     */
+    public function getChildren()
+    {
+        if (!($this->_children instanceof Library\DatabaseRowsetInterface)) {
+            $identifier         = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('database', 'rowset');
+            $identifier['name'] = Library\StringInflector::pluralize($this->getIdentifier()->name);
 
-			//The row default options
-			$options  = array(
-				'identity_column' => $this->getIdentityColumn()
-			);
+            //The row default options
+            $options = array(
+                'identity_column' => $this->getIdentityColumn()
+            );
 
-			$this->_children = $this->getObject($identifier, $options);
-		}
+            $this->_children = $this->getObject($identifier, $options);
+        }
 
-		return $this->_children;
-	}
+        return $this->_children;
+    }
 
-	/**
-	 * Get the parent node
-	 *
-	 * @return	object
-	 */
-	public function getParent()
-	{
-		return $this->_parent;
-	}
+    /**
+     * Get the parent node
+     *
+     * @return    object
+     */
+    public function getParent()
+    {
+        return $this->_parent;
+    }
 
-	/**
-	 * Set the parent node
-	 *
-	 * @return DatabaseRowFolder
-	 */
-	public function setParent( $node )
-	{
-		$this->_parent = $node;
-		return $this;
-	}
+    /**
+     * Set the parent node
+     *
+     * @return DatabaseRowFolder
+     */
+    public function setParent($node)
+    {
+        $this->_parent = $node;
+
+        return $this;
+    }
 }
