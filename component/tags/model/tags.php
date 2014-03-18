@@ -25,11 +25,19 @@ class ModelTags extends Library\ModelDatabase
 		
 		// Set the state
 		$this->getState()
-		 	->insert('table' , 'string', $this->getIdentifier()->package)
-            ->insert('search', 'string');
-	}
-	
-	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
+            ->insert('table', 'string', $this->getIdentifier()->package);
+    }
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('searchable'),
+        ));
+
+        parent::_initialize($config);
+    }
+
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
         
@@ -54,10 +62,6 @@ class ModelTags extends Library\ModelDatabase
 	{                
         $state = $this->getState();
 
-        if($state->search) {
-            $query->where('tbl.title LIKE :search')->bind(array('search' => '%' . $state->search . '%'));
-        }
-        
         if($this->getState()->table) {
             $query->where('tbl.table = :table')->bind(array('table' => $this->getState()->table));
         }
