@@ -82,7 +82,8 @@ class ModelDatabase extends ModelAbstract
     {
         $state = $context->state;
 
-        if (!$state->isEmpty()) {
+        if (!$state->isEmpty())
+        {
             $context->query->columns('tbl.*');
             $context->query->table(array('tbl' => $this->getTable()->getName()));
 
@@ -92,7 +93,8 @@ class ModelDatabase extends ModelAbstract
             $this->_buildQueryGroup($context->query);
 
             $data = $this->getTable()->select($context->query, Database::FETCH_ROWSET);
-        } else $data = $this->getTable()->createRowset();
+        }
+        else $data = $this->getTable()->createRowset();
 
         return $data;
     }
