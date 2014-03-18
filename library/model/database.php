@@ -35,20 +35,10 @@ class ModelDatabase extends ModelAbstract
     {
         parent::__construct($config);
 
-       $this->_table = $config->table;
-      
-        // Set the static states
-        $this->getState()
-            ->insert('limit'    , 'int')
-            ->insert('offset'   , 'int')
-            ->insert('sort'     , 'cmd')
-            ->insert('direction', 'word', 'asc')
-            ->insert('search'   , 'string');
+        $this->_table = $config->table;
 
-        // Set the dynamic states based on the unique table keys
-        foreach($this->getTable()->getUniqueColumns() as $key => $column) {
-            $this->getState()->insert($key, $column->filter, null, true, $this->getTable()->mapColumns($column->related, true));
-        }
+        //Behavior depends on the database. Need to add if after database has been set.
+        $this->addBehavior('indexable');
     }
 
     /**
@@ -62,133 +52,67 @@ class ModelDatabase extends ModelAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'table' => $this->getIdentifier()->name,
+            'table'     => $this->getIdentifier()->name,
+            'behaviors' => array('paginatable', 'orderable'),
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Fetch an entity from the data store
+     * Create a new entity for the data source
      *
-     * @return DatabaseRowsetInterface
+     * @param ModelContext $context A model context object
+     *
+     * @return  DatabaseRowsetInterface The entity
      */
-    public function fetch()
+    protected function _actionCreate(ModelContext $context)
     {
-        if(!isset($this->_data))
-        {
-            $context = $this->getCommandContext();
-            $context->data  = null;
-            $context->state = $this->getState();
-
-            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
-            {
-                $state = $context->state;
-
-                if(!$state->isEmpty())
-                {
-                    $query = $this->getObject('lib:database.query.select');
-
-                    $this->_buildQueryColumns($query);
-                    $this->_buildQueryTable($query);
-                    $this->_buildQueryJoins($query);
-                    $this->_buildQueryWhere($query);
-                    $this->_buildQueryGroup($query);
-                    $this->_buildQueryHaving($query);
-
-                    if(!$state->isUnique())
-                    {
-                        $this->_buildQueryOrder($query);
-                        $this->_buildQueryLimit($query);
-                    }
-
-                    $data = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
-                }
-                else $data = $this->getTable()->createRowset(array('state' => $state));
-
-                $context->data  = $data;
-                $this->getCommandChain()->run('after.fetch', $context);
-            }
-
-            $this->_data = ObjectConfig::unbox($context->data);
-        }
-
-        return $this->_data;
+        return $this->getTable()->createRow();
     }
 
     /**
-     * Create a new entity
+     * Fetch a new entity from the data source
      *
-     * This function will reset the model state and create a new entity
+     * @param ModelContext $context A model context object
      *
-     * @return  DatabaseRowInterface
+     * @return DatabaseRowsetInterface The entity
      */
-    public function create()
+    protected function _actionFetch(ModelContext $context)
     {
-        $context = $this->getCommandContext();
-        $context->data  = null;
-        $context->state = $this->getState();
+        $state = $context->state;
 
-        if ($this->getCommandChain()->run('before.fetch', $context) !== false)
-        {
-            $context->data = $this->getTable()->createRow(array('state' => $context->state));
-            $this->getCommandChain()->run('after.fetch', $context);
-        }
+        if (!$state->isEmpty()) {
+            $context->query->columns('tbl.*');
+            $context->query->table(array('tbl' => $this->getTable()->getName()));
 
-        $this->_data = ObjectConfig::unbox($context->data);
+            $this->_buildQueryColumns($context->query);
+            $this->_buildQueryJoins($context->query);
+            $this->_buildQueryWhere($context->query);
+            $this->_buildQueryGroup($context->query);
 
-        return $this->_data;
+            $data = $this->getTable()->select($context->query, Database::FETCH_ROWSET);
+        } else $data = $this->getTable()->createRowset();
+
+        return $data;
     }
 
     /**
-     * Get the total amount of items
+     * Get the total number of entities
      *
-     * @return  int
-     */
-    public function count()
-    {
-        if(!isset($this->_count))
-        {
-            $context = $this->getCommandContext();
-            $context->count = null;
-            $context->state = $this->getState();
-
-            if ($this->getCommandChain()->run('before.count', $context) !== false)
-            {
-                $query = $this->getObject('lib:database.query.select');
-                $query->columns('COUNT(*)');
-
-                $this->_buildQueryTable($query);
-                $this->_buildQueryJoins($query);
-                $this->_buildQueryWhere($query);
-
-                $context->count = $this->getTable()->count($query, array('state' => $context->state));
-
-                $this->getCommandChain()->run('after.count', $context);
-            }
-
-            $this->_count = ObjectConfig::unbox($context->count);
-        }
-
-        return $this->_count;
-    }
-
-    /**
-     * State Change notifier
+     * @param ModelContext $context A model context object
      *
-     * @param  string 	$name  The state name being changed
-     * @return void
+     * @return string  The output of the view
      */
-    public function onStateChange($name)
+    protected function _actionCount(ModelContext $context)
     {
-        parent::onStateChange($name);
+        $context->query->columns('COUNT(*)');
+        $context->query->table(array('tbl' => $this->getTable()->getName()));
 
-        //If limit has been changed, adjust offset accordingly
-        if($name == 'limit')
-        {
-            $limit = $this->getState()->limit;
-            $this->getState()->offset = $limit != 0 ? (floor($this->getState()->offset / $limit) * $limit) : 0;
-        }
+        $this->_buildQueryJoins($context->query);
+        $this->_buildQueryWhere($context->query);
+
+        return $this->getTable()->count($context->query);
     }
 
     /**
@@ -246,24 +170,28 @@ class ModelDatabase extends ModelAbstract
 	}
 
     /**
+     * Get the model context
+     *
+     * @return  ModelContext
+     */
+    public function getContext()
+    {
+        $context        = parent::getContext();
+        $context->query = $this->getObject('lib:database.query.select');
+
+        return $context;
+    }
+
+    /**
      * Builds SELECT columns list for the query
      */
     protected function _buildQueryColumns(DatabaseQuerySelect $query)
     {
-        $query->columns('tbl.*');
+
     }
 
     /**
-     * Builds FROM tables list for the query
-     */
-    protected function _buildQueryTable(DatabaseQuerySelect $query)
-    {
-        $name = $this->getTable()->getName();
-        $query->table(array('tbl' => $name));
-    }
-
-    /**
-     * Builds LEFT JOINS clauses for the query
+     * Builds JOINS clauses for the query
      */
     protected function _buildQueryJoins(DatabaseQuerySelect $query)
     {
@@ -271,83 +199,18 @@ class ModelDatabase extends ModelAbstract
     }
 
     /**
-     * Builds a WHERE clause for the query
+     * Builds WHERE clause for the query
      */
     protected function _buildQueryWhere(DatabaseQuerySelect $query)
     {
-        //Get only the unique states
-        $states = $this->getState()->getValues(true);
-        
-        if(!empty($states))
-        {
-            $states = $this->getTable()->mapColumns($states);
-            foreach($states as $key => $value)
-            {
-                if(isset($value)) 
-                {
-                    $query->where('tbl.'.$key.' '.(is_array($value) ? 'IN' : '=').' :'.$key)
-                           ->bind(array($key => $value));
-                }
-            }
-        }
+
     }
 
     /**
-     * Builds a GROUP BY clause for the query
+     * Builds GROUP BY clause for the query
      */
     protected function _buildQueryGroup(DatabaseQuerySelect $query)
     {
 
-    }
-
-    /**
-     * Builds a HAVING clause for the query
-     */
-    protected function _buildQueryHaving(DatabaseQuerySelect $query)
-    {
-
-    }
-
-    /**
-     * Builds a generic ORDER BY clasue based on the model's state
-     */
-    protected function _buildQueryOrder(DatabaseQuerySelect $query)
-    {
-        $sort       = $this->getState()->sort;
-        $direction  = strtoupper($this->getState()->direction);
-
-        if($sort) { 
-            $query->order($this->getTable()->mapColumns($sort), $direction); 
-        } 
-
-        if(array_key_exists('ordering', $this->getTable()->getColumns())) {
-            $query->order('tbl.ordering', 'ASC');
-        }
-    }
-
-    /**
-     * Builds LIMIT clause for the query
-     */
-    protected function _buildQueryLimit(DatabaseQuerySelect $query)
-    {
-        $limit = $this->getState()->limit;
-        
-        if($limit) 
-        {
-            $offset = $this->getState()->offset;
-            $total  = $this->count();
-
-            //If the offset is higher than the total recalculate the offset
-            if($offset !== 0 && $total !== 0)        
-            {
-                if($offset >= $total) 
-                {
-                    $offset = floor(($total-1) / $limit) * $limit;    
-                    $this->getState()->offset = $offset;
-                }
-             }
-            
-             $query->limit($limit, $offset);
-        }
     }
 }

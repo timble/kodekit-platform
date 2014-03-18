@@ -52,6 +52,9 @@ abstract class ModelAbstract extends Object implements ModelInterface
 
         // Mixin the behavior interface
         $this->mixin('lib:behavior.mixin', $config);
+
+        // Mixin the event interface
+        $this->mixin('lib:event.mixin', $config);
     }
 
     /**
@@ -65,11 +68,9 @@ abstract class ModelAbstract extends Object implements ModelInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'state'             => 'lib:model.state',
-            'command_chain'     => 'lib:command.chain',
-            'dispatch_events'   => false,
-            'event_dispatcher'  => null,
-            'enable_callbacks'  => true,
+            'state'            => 'lib:model.state',
+            'command_chain'    => 'lib:command.chain',
+            'command_handlers' => array('lib:command.handler.event'),
         ));
 
         parent::_initialize($config);
@@ -80,18 +81,16 @@ abstract class ModelAbstract extends Object implements ModelInterface
      *
      * @return DatabaseRowsetInterface
      */
-    public function fetch()
+    final public function fetch()
     {
         if(!isset($this->_data))
         {
-            $context = $this->getCommandContext();
+            $context = $this->getContext();
             $context->data  = null;
-            $context->state = $this->getState();
 
-            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
-            {
-                $context->data = $this->_data;
-                $this->getCommandChain()->run('after.fetch', $context);
+            if ($this->invokeCommand('before.fetch', $context) !== false) {
+                $context->data = $this->_actionFetch($context);
+                $this->invokeCommand('after.fetch', $context);
             }
 
             $this->_data = ObjectConfig::unbox($context->data);
@@ -101,22 +100,18 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
-     * Create a new entity
-     *
-     * This function will reset the model state and create a new entity
+     * Create a new entity for the data source
      *
      * @return  DatabaseRowInterface
      */
-    public function create()
+    final public function create()
     {
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->data  = null;
-        $context->state = $this->getState();
 
-        if ($this->getCommandChain()->run('before.fetch', $context) !== false)
-        {
-            $context->data = $this->_data;
-            $this->getCommandChain()->run('after.fetch', $context);
+        if ($this->invokeCommand('before.create', $context) !== false) {
+            $context->data = $this->_actionCreate($context);
+            $this->invokeCommand('after.create', $context);
         }
 
         $this->_data = ObjectConfig::unbox($context->data);
@@ -125,22 +120,20 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
-     * Get the total amount of items
+     * Get the total number of entities
      *
      * @return  int
      */
-    public function count()
+    final public function count()
     {
         if(!isset($this->_count))
         {
-            $context = $this->getCommandContext();
+            $context = $this->getContext();
             $context->count = null;
-            $context->state = $this->getState();
 
-            if ($this->getCommandChain()->run('before.count', $context) !== false)
-            {
-                $context->count = $this->_count;
-                $this->getCommandChain()->run('after.count', $context);
+            if ($this->invokeCommand('before.count', $context) !== false) {
+                $context->count = $this->_actionCount($context);
+                $this->invokeCommand('after.count', $context);
             }
 
             $this->_count = ObjectConfig::unbox($context->count);
@@ -155,12 +148,17 @@ abstract class ModelAbstract extends Object implements ModelInterface
      * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
      * @return ModelAbstract
      */
-    public function reset($default = true)
+    final public function reset($default = true)
     {
-        $this->_data  = null;
-        $this->_count = null;
+        $context        = $this->getContext();
+        $context->count = null;
 
-        $this->getState()->reset($default);
+        if ($this->invokeCommand('before.reset', $context) !== false) {
+            $this->_actionReset($context);
+            $this->invokeCommand('after.reset', $context);
+        }
+
+        $this->_count = ObjectConfig::unbox($context->count);
 
         return $this;
     }
@@ -200,33 +198,66 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
-     * State Change notifier
+     * Get the model context
      *
-     * This function is called when the state has changed.
-     *
-     * @param  string 	$name  The state name being changed
-     * @return void
+     * @return  ModelContext
      */
-    public function onStateChange($name)
+    public function getContext()
     {
-        $this->_data  = null;
-        $this->_count = null;
+        $context = new ModelContext();
+        $context->setSubject($this);
+        $context->setState($this->getState());
+
+        return $context;
     }
 
     /**
-     * Get the model paginator object
+     * Create a new entity for the data source
      *
-     * @return  ModelPaginator  The model paginator object
+     * @param ModelContext $context A model context object
+     *
+     * @return  DatabaseRowsetInterface The entity
      */
-    public function getPaginator()
+    protected function _actionCreate(ModelContext $context)
     {
-        $paginator = new ModelPaginator(array(
-            'offset' => (int) $this->getState()->offset,
-            'limit'  => (int) $this->getState()->limit,
-            'total'  => (int) $this->count(),
-        ));
+        return $this->_data;
+    }
 
-        return $paginator;
+    /**
+     * Fetch a new entity from the data source
+     *
+     * @param ModelContext $context A model context object
+     *
+     * @return DatabaseRowsetInterface The entity
+     */
+    protected function _actionFetch(ModelContext $context)
+    {
+        return $this->_data;
+    }
+
+    /**
+     * Get the total number of entities
+     *
+     * @param ModelContext $context A model context object
+     *
+     * @return string  The output of the view
+     */
+    protected function _actionCount(ModelContext $context)
+    {
+        return $this->_count;
+    }
+
+    /**
+     * Reset the model
+     *
+     * @param  string $name The state name being changed
+     *
+     * @return void
+     */
+    protected function _actionReset(ModelContext $context)
+    {
+        $this->_data  = null;
+        $this->_count = null;
     }
 
     /**
