@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -21,101 +21,95 @@ class ModelNodes extends ModelAbstract
 {
     protected $_container;
 
-    public function createRow(array $options = array())
-	{
-		$identifier         = $this->getIdentifier()->toArray();
-		$identifier['path'] = array('database', 'row');
-		$identifier['name'] = Library\StringInflector::singularize($this->getIdentifier()->name);
-	
-		return $this->getObject($identifier, $options);
-	}
-	
-	public function createRowset(array $options = array())
-	{
-		$identifier         = $this->getIdentifier()->toArray();
-		$identifier['path'] = array('database', 'rowset');
-	
-		return $this->getObject($identifier, $options);
-	}
-
-    public function getRow()
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        if (!isset($this->_data))
-        {
-            $this->_data = $this->createRow(array(
-                'data' => array(
-            		'container' => $this->getState()->container,
-                    'folder' 	=> $this->getState()->folder,
-                    'name' 		=> $this->getState()->name
-                )
-            ));
-        }
+        $config->append(array(
+            'behaviors' => array('paginatable'),
+        ));
 
-        return parent::getRow();
+        parent::_initialize($config);
     }
 
-	public function fetch()
-	{
-		if (!isset($this->_data))
-		{
-			$state = $this->getState();
-			$type = !empty($state->types) ? (array) $state->types : array();
+    public function _actionCreate(Library\ModelContext $context)
+    {
+        $identifier         = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('database', 'row');
+        $identifier['name'] = Library\StringInflector::singularize($this->getIdentifier()->name);
 
-			$list = $this->getObject('com:files.database.rowset.nodes');
+        $options = array('data' => array(
+            'container' => $this->getState()->container,
+            'folder'    => $this->getState()->folder,
+            'name'      => $this->getState()->name
+        ));
 
-			// Special case for limit=0. We set it to -1 so loop goes on till end since limit is a negative value
-			$limit_left  = $state->limit ? $state->limit : -1;
-			$offset_left = $state->offset;
-			$total       = 0;
+        $entity = $this->getObject($identifier, $options);
 
-			if (empty($type) || in_array('folder', $type))
-			{
-                $folders = $this->getObject('com:files.model.folders')->setState($state->getValues());
+        return $entity;
+    }
 
-				foreach ($folders->fetch() as $folder)
-				{
-					if (!$limit_left) {
-						break;
-					}
+    protected function _actionFetch(Library\ModelContext $context)
+    {
+        $state = $context->state;
 
-					$list->insert($folder);
-					$limit_left--;
-				}
+        $type = !empty($state->types) ? (array)$state->types : array();
 
-				$total += $folders->count();
-				$offset_left -= $total;
-			}
+        $list = $this->getObject('com:files.database.rowset.nodes');
 
-			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
-			{
-				$data = $state->getValues();
-				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
+        // Special case for limit=0. We set it to -1 so loop goes on till end since limit is a negative value
+        $limit_left  = $state->limit ? $state->limit : -1;
+        $offset_left = $state->offset;
+        $total       = 0;
 
-                $files = $this->getObject('com:files.model.files')->setState($data);
+        if (empty($type) || in_array('folder', $type)) {
+            $folders = $this->getObject('com:files.model.folders')->setState($state->getValues());
 
-				foreach ($files->fetch() as $file)
-				{
-					if (!$limit_left) {
-						break;
-					}
-					$list->insert($file);
-					$limit_left--;
-				}
+            foreach ($folders->fetch() as $folder) {
+                if (!$limit_left) {
+                    break;
+                }
 
-				$total += $files->count();
-			}
+                $list->insert($folder);
+                $limit_left--;
+            }
 
-			$this->_count = $total;
-			$this->_data  = $list;
-		}
+            $total += $folders->count();
+            $offset_left -= $total;
+        }
 
-		return $this->_data;
-	}
+        if ((empty($type) || (in_array('file', $type) || in_array('image', $type)))) {
+            $data           = $state->getValues();
+            $data['offset'] = $offset_left < 0 ? 0 : $offset_left;
+
+            $files = $this->getObject('com:files.model.files')->setState($data);
+
+            foreach ($files->fetch() as $file) {
+                if (!$limit_left) {
+                    break;
+                }
+                $list->insert($file);
+                $limit_left--;
+            }
+
+            $total += $files->count();
+        }
+
+        $this->_count = $total;
+
+        return $list;
+    }
+
+    protected function _actionCount(Library\ModelContext $context)
+    {
+        if (!isset($this->_count)) {
+            $this->fetch();
+        }
+
+        return $this->_count;
+    }
 
     public function getContainer()
     {
-        if(!isset($this->_container))
-        {
+        if (!isset($this->_container)) {
             //Set the container
             $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->fetch();
 
@@ -135,7 +129,7 @@ class ModelNodes extends ModelAbstract
         $path  = $this->getContainer()->path;
 
         if (!empty($state->folder) && $state->folder != '/') {
-            $path .= '/'.ltrim($state->folder, '/');
+            $path .= '/' . ltrim($state->folder, '/');
         }
 
         return $path;
