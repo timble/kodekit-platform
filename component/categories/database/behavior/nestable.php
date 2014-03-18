@@ -63,7 +63,8 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
             //Get the data
             $rows = Library\ObjectConfig::unbox($context->result);
 
-            if (is_array($rows)) {
+            if (is_array($rows))
+            {
                 $children = array();
                 $result   = array();
 
