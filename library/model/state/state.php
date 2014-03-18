@@ -128,12 +128,13 @@ class ModelState extends ObjectArray implements ModelStateInterface
     /**
      * Set the a state value
      *
-     * This function only acts on existing states, if a state has changed it will call back to the model triggering the
-     * onStateChange notifier.
+     * This function only acts on existing states, if a state has changed it will call back to the model triggering a
+     * reset action.
      *
      * @param  	string 	$name  The state name.
      * @param  	mixed  	$value The state value.
-     * @return  ModelAbstract
+     *
+*@return  ModelAbstract
      */
     public function set($name, $value = null)
     {
@@ -141,8 +142,8 @@ class ModelState extends ObjectArray implements ModelStateInterface
         {
             $this->offsetSet($name, $value);
 
-            //Notify the model
-            $this->_model->onStateChange($name);
+            //Reset the model
+            $this->_model->reset();
         }
 
         return $this;
