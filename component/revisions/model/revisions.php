@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Versions;
@@ -19,13 +19,13 @@ use Nooku\Library;
  */
 class ModelRevisions extends Library\ModelDatabase
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
         $this->getState()
-			->insert('status'  , 'cmd');
-	}
+            ->insert('status', 'cmd');
+    }
 
     /**
      * Get a revision item
@@ -36,26 +36,27 @@ class ModelRevisions extends Library\ModelDatabase
      *
      * @return Library\DatabaseRowInterface
      */
-    public function fetch()
+    protected function _actionFetch(Library\ModelContext $context)
     {
-        if (!isset($this->_data))
-        {
-            if ($this->getState()->revision > 1)
-            {
-                $revisions = parent::fetch();
-                $data      = array();
+        $state = $context->state;
 
-                foreach ($revisions as $revision) {
-                    $data = array_merge(json_decode($revision->data, true), $data);
-                }
+        //Force ordering
+        $context->query->order('tbl.revision', 'desc');
 
-                $revisions->data = json_encode((object)$data);
+        if ($state->revision > 1) {
+            $revisions = parent::_actionFetch($context);
+            $data      = array();
 
-                $this->_data = $revisions;
+            foreach ($revisions as $revision) {
+                $data = array_merge(json_decode($revision->data, true), $data);
             }
+
+            $revisions->data = json_encode((object)$data);
+
+            return $revisions;
         }
 
-        return parent::fetch();
+        return parent::_actionFetch($context);
     }
 
     protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
@@ -80,29 +81,24 @@ class ModelRevisions extends Library\ModelDatabase
      */
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
-    	parent::_buildQueryWhere($query);
+        parent::_buildQueryWhere($query);
 
-    	$state = $this->getState();
+        $state = $this->getState();
 
-        if($state->revision > 1) {
+        if ($state->revision > 1) {
             $state->revision = range(1, $state->revision);
         }
 
-        if($state->status) {
-        	$query->where('tbl.status' , '=', $state->status);
-        }
-        
-        if($state->row) {
-        	$query->where('tbl.row' , 'IN', array($state->row));
+        if ($state->status) {
+            $query->where('tbl.status', '=', $state->status);
         }
 
-        if($state->table && !$state->isUnique()) {
-        	$query->where('tbl.table', '=', $state->table);
+        if ($state->row) {
+            $query->where('tbl.row', 'IN', array($state->row));
         }
-    }
 
-    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
-    {
-        $query->order('tbl.revision', 'desc');
+        if ($state->table && !$state->isUnique()) {
+            $query->where('tbl.table', '=', $state->table);
+        }
     }
 }
