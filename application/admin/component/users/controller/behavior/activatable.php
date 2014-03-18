@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 
@@ -23,12 +23,10 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
-        {
-            if (($url = $this->_getActivationUrl()))
-            {
+        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation) {
+            if (($url = $this->_getActivationUrl())) {
                 $url = $context->request->getUrl()
-                                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
                 // TODO Uncomment and fix after Langauge support is re-factored.
                 //$subject = JText::_('User Account Activation');
@@ -37,19 +35,12 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 $subject = 'User Account Activation';
                 $message = $url;
 
-                if ($user->notify(array('subject' => $subject, 'message' => $message)))
-                {
+                if ($user->notify(array('subject' => $subject, 'message' => $message))) {
                     $context->response->addMessage('An E-mail for activating your account has been sent to the address you have provided.');
-                }
-                else
-                {
+                } else {
                     $context->reponse->addMessage('Failed to send activation E-mail', 'error');
                 }
-            }
-            else
-            {
-                $context->reponse->addMessage('Unable to get an activation URL', 'error');
-            }
+            } else $context->reponse->addMessage('Unable to get an activation URL', 'error');
         }
     }
 
@@ -57,14 +48,13 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $url = null;
 
-        $user = $this->getModel()->getRow();
-        $page  = $this->getObject('application.pages')->find(array(
+        $user = $this->getModel()->fetch();
+        $page = $this->getObject('application.pages')->find(array(
             'component' => 'users',
             'access'    => 0,
             'link'      => array(array('view' => 'user'))));
 
-        if ($page)
-        {
+        if ($page) {
             $url                      = $page->getLink();
             $url->query['activation'] = $user->activation;
             $url->query['uuid']       = $user->uuid;
