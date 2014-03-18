@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -25,20 +25,28 @@ class ModelModules extends Library\ModelDatabase
 
         $this->getState()
             ->insert('application', 'cmd', 'site')
-            ->insert('component'  , 'alpha')
-            ->insert('sort'  	  , 'cmd', 'ordering')
-            ->insert('published'  , 'boolean')
-            ->insert('position'   , 'cmd')
-            ->insert('installed'  , 'boolean', false)
-            ->insert('access'     , 'int')
-            ->insert('page'       , 'int')
-            ->insert('name'       , 'cmd');
+            ->insert('component', 'alpha')
+            ->insert('sort', 'cmd', 'ordering')
+            ->insert('published', 'boolean')
+            ->insert('position', 'cmd')
+            ->insert('installed', 'boolean', false)
+            ->insert('access', 'int')
+            ->insert('page', 'int')
+            ->insert('name', 'cmd');
+    }
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('searchable'),
+        ));
+
+        parent::_initialize($config);
     }
 
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
-        $query
-            ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id');
+        $query->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id');
 
         parent::_buildQueryJoins($query);
     }
@@ -48,25 +56,20 @@ class ModelModules extends Library\ModelDatabase
         parent::_buildQueryWhere($query);
 
         $state = $this->getState();
-        if(!$state->isUnique())
-        {
-            if($state->search) {
-                $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
-            }
-
-            if($state->position) {
+        if (!$state->isUnique()) {
+            if ($state->position) {
                 $query->where('tbl.position = :position')->bind(array('position' => $state->position));
             }
 
-            if(is_bool($state->published)) {
-                $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
+            if (is_bool($state->published)) {
+                $query->where('tbl.published = :published')->bind(array('published' => (int)$state->published));
             }
 
-            if($state->application) {
+            if ($state->application) {
                 $query->where('tbl.application = :application')->bind(array('application' => $state->application));
             }
 
-            if($state->component) {
+            if ($state->component) {
                 $query->where('tbl.component = :component')->bind(array('component' => $state->component));
             }
 
@@ -82,20 +85,7 @@ class ModelModules extends Library\ModelDatabase
 
     protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
-        $state = $this->getState();
 
-        $direction = strtoupper($state->direction);
-
-        if ($state->sort == 'ordering')
-        {
-            $query->order('position', 'ASC')
-                ->order('ordering', $direction);
-        }
-        else
-        {
-            $query->order($state->sort, $direction)
-                ->order('ordering', 'ASC');
-        }
     }
 
     /**
@@ -106,23 +96,21 @@ class ModelModules extends Library\ModelDatabase
      *
      * This method is customized in order to set the default module type on new rows.
      *
-     * @return Library\DatabaseRow
+     * @return Library\DatabaseRowInterface
      */
-    public function getRow()
+    protected function _actionCreate(Library\ModelContext $context)
     {
-        if(!isset($this->_data))
-        {
-            $this->_data = parent::getRow();
+        if (!isset($this->_data)) {
+            $this->_data = parent::_actionCreate($context);
 
-            if($this->_data->isNew())
-            {
+            if ($this->_data->isNew()) {
                 $state = $this->getState();
 
-                if($state->application) {
+                if ($state->application) {
                     $this->_data->application = $state->application;
                 }
 
-                if($state->component) {
+                if ($state->component) {
                     $this->_data->component = $state->component;
                 }
             }
@@ -138,64 +126,59 @@ class ModelModules extends Library\ModelDatabase
      *
      * @return Library\DatabaseRowsetInterface
      */
-    public function fetch()
+    protected function _actionFetch(Library\ModelContext $context)
     {
-        if(!isset($this->_data))
-        {
-            $state = $this->getState();
+        $state = $context->state;
 
-            if($state->installed)
-            {
-                $modules = array();
-                $app_path  = $this->getObject('manager')->getClassLoader()->getBasepath('site');
-                $com_path  = $app_path.'/component';
+        if ($state->installed) {
+            $modules  = array();
+            $app_path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
+            $com_path = $app_path . '/component';
 
-                foreach(new \DirectoryIterator($com_path) as $component)
-                {
-                    if($component->isDir() && substr($component, 0, 1) !== '.')
-                    {
-                        $mod_path = $com_path.'/'.$component.'/module';
+            foreach (new \DirectoryIterator($com_path) as $component) {
+                if ($component->isDir() && substr($component, 0, 1) !== '.') {
+                    $mod_path = $com_path . '/' . $component . '/module';
 
-                        if(is_dir($mod_path))
-                        {
-                            foreach(new \DirectoryIterator($mod_path) as $folder)
-                            {
-                                if($folder->isDir())
-                                {
-                                    if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml'))
-                                    {
-                                        $modules[] = array(
-                                            'id'           => $folder->getFilename(),
-                                            'name'         => 'mod_'.$folder->getFilename(),
-                                            'application'  => 'site',
-                                            'component'    => (string) $component,
-                                            'title'		   => null,
-                                        );
-                                    }
+                    if (is_dir($mod_path)) {
+                        foreach (new \DirectoryIterator($mod_path) as $folder) {
+                            if ($folder->isDir()) {
+                                if (file_exists($folder->getRealPath() . '/' . $folder->getFilename() . '.xml')) {
+                                    $modules[] = array(
+                                        'id'          => $folder->getFilename(),
+                                        'name'        => 'mod_' . $folder->getFilename(),
+                                        'application' => 'site',
+                                        'component'   => (string)$component,
+                                        'title'       => null,
+                                    );
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                //Set the total
-                $this->_count = count($modules);
+            //Set the total
+            $this->_count = count($modules);
 
-                //Apply limit and offset
-                if($this->getState()->limit) {
-                    $modules = array_slice($modules, $state->offset, $state->limit ? $state->limit : $this->_count);
-                }
+            //Apply limit and offset
+            if ($state->limit) {
+                $modules = array_slice($modules, $state->offset, $state->limit ? $state->limit : $this->_count);
+            }
 
-                //Apply direction
-                if(strtolower($state->direction) == 'desc') {
-                    $modules = array_reverse($modules);
-                }
+            //Apply direction
+            if (strtolower($state->direction) == 'desc') {
+                $modules = array_reverse($modules);
+            }
 
-                $this->_data = $this->getTable()->fetch()->addRow($modules);
+            $data = $this->getTable()->createRowset()->addRow($modules);
+        } else {
+            if ($state->sort == 'ordering') {
+                $context->query->order('position', 'ASC');
+            }
 
-            } else $this->_data = parent::fetch();
+            $data = parent::_actionFetch($context);
         }
 
-        return $this->_data;
+        return $data;
     }
 }
