@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -27,7 +27,7 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
 
         //Set the pathway
         $page = $this->getObject('application.pages')->getActive();
-        if($page->getLink()->query['view'] == 'categories' ) {
+        if ($page->getLink()->query['view'] == 'categories') {
             $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
 
@@ -49,9 +49,10 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
 
     public function highlight($text)
     {
-        if ($searchword = $this->getModel()->getState()->searchword) {
-            $text = preg_replace('/'.$searchword.'(?![^<]*?>)/i', '<span class="highlight">' . $searchword . '</span>', $text);
+        if ($search = $this->getModel()->getState()->search) {
+            $text = preg_replace('/' . $search . '(?![^<]*?>)/i', '<span class="highlight">' . $search . '</span>', $text);
         }
+
         return $text;
     }
 }
