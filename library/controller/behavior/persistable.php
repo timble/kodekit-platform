@@ -32,9 +32,10 @@ class ControllerBehaviorPersistable extends ControllerBehaviorPersistableAbstrac
         $mixer   = $this->getMixer();
         $request = $mixer->getRequest();
 
-        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && !$request->isAjax())
-        {
-            $result = true;
+        if ($mixer instanceof KControllerModellable && $mixer->isDispatched()
+            && $request->isGet() && $request->getFormat() === 'html'
+        ) {
+            return true;
         }
 
         return $result;
