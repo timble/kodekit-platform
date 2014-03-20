@@ -58,6 +58,6 @@ class UsersControllerPermissionSession extends ApplicationControllerPermissionAb
 
     public function canAdd()
     {
-        return $this->getUser()->getRole() >= 18;
+        return $this->getUser()->isAuthentic();
     }
 }
