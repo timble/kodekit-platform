@@ -65,11 +65,9 @@ class DatabaseRowUser extends Library\DatabaseRowTable
 
     public function getGroups()
     {
-        if(is_null($this->_groups))
+        if(is_null($this->_groups) && !$this->isNew())
         {
-            $this->_groups =  $this->getObject('com:users.database.table.groups_users')
-                ->select(array('users_user_id' => $this->role_id), Library\Database::FETCH_FIELD_LIST);
-
+            $this->_groups = $this->getObject('com:users.model.groups')->user($this->id)->getRowset();
         }
 
         return $this->_groups;
