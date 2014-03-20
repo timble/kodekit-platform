@@ -31,7 +31,6 @@ class ModelUsers extends Library\ModelTable
         $this->getState()
             ->insert('group'      , 'int')
             ->insert('role'       , 'int')
-            ->insert('group_tree' , 'boolean', false)
             ->insert('enabled'    , 'boolean')
             ->insert('visited'    , 'boolean')
             ->insert('loggedin'   , 'boolean');
@@ -48,11 +47,11 @@ class ModelUsers extends Library\ModelTable
 	    parent::_buildQueryColumns($query);
 	    $state = $this->getState();
 
-	    $query->columns(array(
-	    	'loggedin'  => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
-	    	'role_name' => 'role.name'
-	    ));
-	    
+        $query->columns(array(
+            'loggedin'   => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
+            'role_title' => 'roles.title'
+        ));
+
 	    if($state->loggedin)
         {
 	        $query->columns(array(
@@ -75,8 +74,13 @@ class ModelUsers extends Library\ModelTable
 	    $state = $this->getState();
 	    
         $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->loggedin ? 'RIGHT' : 'LEFT');
-        $query->join(array('role' => 'users_roles'), 'role.users_role_id = tbl.users_role_id');
-        $query->join(array('group' => 'users_groups_users'), 'group.users_user_id = tbl.users_user_id');
+
+        $query->join(array('roles' => 'users_roles'), 'roles.users_role_id = tbl.users_role_id', 'INNER');
+
+        if ($state->group)
+        {
+            $query->join(array('groups' => 'users_groups_users'), 'groups.users_user_id = tbl.users_user_id', 'INNER');
+        }
 	}
 
 	/**
@@ -93,14 +97,14 @@ class ModelUsers extends Library\ModelTable
 		
 		if ($state->group)
         {
-		    $query->where('group.users_group_id = :group_id')
-                  ->bind(array('group_id' => $state->group));
+		    $query->where('groups.users_group_id IN :group_id')
+                  ->bind(array('group_id' => (array) $state->group));
 		}
 		
 		if ($state->role)
 		{
-		    $query->where('tbl.users_role_id '.($state->group_tree ? '>=' : '=').' :role_id')
-		          ->bind(array('role_id' => $state->role));
+		    $query->where('roles.users_role_id IN :role_id')
+		          ->bind(array('role_id' => (array) $state->role));
 		}
         
         if (is_bool($state->enabled))
