@@ -47,7 +47,9 @@ class UsersControllerUser extends Users\ControllerUser
 
     protected function _actionAdd(Library\ControllerContextInterface $context)
     {
-        $context->request->data->role_id = '18';
+        $role = $this->getObject('com:users.model.roles')->name('registered')->getRow();
+
+        $context->request->data->role_id = $role->id;
 
         $user = parent::_actionAdd($context);
 
