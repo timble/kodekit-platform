@@ -53,9 +53,19 @@ class UsersControllerUser extends Users\ControllerUser
 
     protected function _beforeEdit(Library\ControllerContextInterface $context)
     {
-        if ($context->request->data->get('password_reset', 'boolean'))
+        $data = $context->request->data;
+
+        if ($data->get('password_reset', 'boolean'))
         {
             $this->addCommandCallback('after.edit', '_expirePassword');
+        }
+
+        $user = $this->getModel()->getRow();
+
+        // Only administrators can change roles.
+        if ($user->role_id != $data->role_id && !$this->getUser()->hasRole('administrator'))
+        {
+            $data->remove('role_id');
         }
     }
 
