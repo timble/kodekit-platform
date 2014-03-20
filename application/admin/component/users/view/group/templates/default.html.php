@@ -25,14 +25,10 @@
             <input class="required" type="text" name="name" maxlength="255" value="<?= $group->name ?>" placeholder="<?= translate('Group name') ?>" />
         </div>
         <div class="scrollable">
-    		<fieldset>
-    			<legend><?= translate('Users') ?></legend>
-    			<div>
-    			    <div>
-    			        <?= helper('select.users', array('selected' => $users, 'name' => 'users')) ?>
-    			    </div>
-    			</div>
-    		</fieldset>
+            <fieldset>
+                <legend><?= translate('Description') ?></legend>
+                <?= object('com:ckeditor.controller.editor')->render(array('name' => 'description', 'text' => $group->description)) ?>
+            </fieldset>
         </div>
     </div>
 </form>
