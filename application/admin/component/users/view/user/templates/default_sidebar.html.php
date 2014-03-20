@@ -35,7 +35,7 @@
         </div>
     <? endif; ?>
 </fieldset>
-<? if(@object('user')->getRole() > $user->role_id) : ?>
+<? if(@object('user')->hasRole('administrator')) : ?>
 <fieldset>
     <legend><?= translate('Role') ?></legend>
     <div>
