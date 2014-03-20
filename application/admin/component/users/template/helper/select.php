@@ -17,26 +17,7 @@ use Nooku\Library;
  */
 class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
 {    
-    public function users($config = array())
-    {
-    	$config = new Library\ObjectConfig($config);
-
-        $options_config = new Library\ObjectConfig(array(
-            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
-            'label'  => 'name',
-            'value'  => 'id'));
-
-        if ($name = $config->name)
-        {
-            $options_config->name = $name;
-        }
-
-        $config->options = $this->options($options_config);
-    
-    	return $this->checklist($config);
-    }
-
-    public function groups($config = array())
+    public function roles($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -45,7 +26,7 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
 
         $config->options = $this->options(array(
             'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
-            'label'   => 'name'
+            'label'   => 'title'
         ));
 
         return $this->radiolist($config);
