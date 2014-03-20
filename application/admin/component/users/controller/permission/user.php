@@ -19,29 +19,8 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
 {
     public function canAdd()
     {
-        $user    = $this->getUser();
-        $context = $this->getMixer()->getContext();
-        $role_id = $context->request->data->get('role_id', 'int');
-
-        // New user role must be less or equal than logged user role
-        if($role_id && ($user->getRole() < $role_id)) {
-            return false;
-        }
-
-        return parent::canAdd();
-    }
-
-    public function canEdit()
-    {
-        $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
-
-        // Don't allow a user to edit another user that has a higher role
-        if($user->getRole() < $entity->role_id) {
-            return false;
-        }
-
-        return parent::canEdit();
+        // Only administrators can add users.
+        return $this->getUser()->hasRole('administrator');
     }
 
     public function canDelete()
