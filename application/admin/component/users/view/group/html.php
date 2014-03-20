@@ -17,11 +17,4 @@ use Nooku\Library;
  */
 class UsersViewGroupHtml extends Library\ViewHtml
 {
-    protected function _fetchData(Library\ViewContext $context)
-    {
-        $group = $this->getModel()->getRow();
-        $context->data->users = $this->getObject('com:users.model.groups_users')->group_id($group->id)->getRowset()->user_id;
-
-        parent::_fetchData($context);
-    }
 }
