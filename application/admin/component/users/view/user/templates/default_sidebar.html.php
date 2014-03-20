@@ -43,3 +43,27 @@
     </div>
 </fieldset>
 <? endif ?>
+<fieldset>
+    <legend><?= translate('Groups') ?></legend>
+    <div>
+        <div>
+            <?= helper('listbox.groups', array(
+                'selected' => $user->isNew() ? null : $user->getGroups()->id,
+                'name'     => 'groups[]',
+                'attribs'  => array('id' => 'groups', 'multiple' => 'multiple'),
+                'deselect' => false)) ?>
+        </div>
+    </div>
+</fieldset>
+
+<script>
+    $jQuery(document).ready(function($) {
+        var form = $('#user-form');
+        form.get(0).addEvent('validate', function() {
+            var groups = $jQuery('#groups');
+            if (!groups.val()) {
+                form.append('<input type="hidden" name="groups"/>');
+            }
+        });
+    });
+</script>
