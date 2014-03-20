@@ -76,7 +76,7 @@
 					<i class="<?= $user->loggedin ? 'icon-ok' : 'icon-remove' ?>"></i>
 				</td>
 				<td>
-					<?= escape($user->role_name) ?>
+					<?= escape($user->role_title) ?>
 				</td>
 				<td class="array-separator">
 					<? foreach($groups_users->find(array('users_user_id' => $user->id)) as $group) : ?>
