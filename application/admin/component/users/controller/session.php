@@ -36,7 +36,7 @@ class UsersControllerSession extends Users\ControllerSession
         $user = $this->getUser();
 
         // Check if the user is granted admin access.
-        if ($user->getRole() <= 22)
+        if (!$user->hasRole(array('manager', 'administrator')))
         {
             $result = false;
 

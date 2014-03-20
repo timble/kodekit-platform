@@ -23,7 +23,7 @@ class JElementLanguages extends JElement
 	{
 		$user =  Library\ObjectManager::getInstance()->getObject('user');
 
-		if(!($user->getRole() >= 23) && $node->attributes('client') == 'administrator') {
+		if(!($user->hasRole(array('manager', 'administrator'))) && $node->attributes('client') == 'administrator') {
 			return JText::_('No Access');
 		}
 
