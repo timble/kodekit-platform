@@ -17,5 +17,15 @@ namespace Nooku\Library;
  */
 class UserSessionContainerAttribute extends UserSessionContainerAbstract
 {
+    public function load(array &$session)
+    {
+        if(!isset($session[$this->_namespace])) {
+            $session[$this->_namespace] = array();
+        }
 
+        // Merge session data with current existing container data.
+        $session[$this->_namespace] = array_merge($this->_data, $session[$this->_namespace]);
+
+        return parent::load($session);
+    }
 }
