@@ -73,13 +73,13 @@ class User extends UserAbstract implements ObjectInstantiable, ObjectSingleton
     }
 
     /**
-     * Returns the role of the user
+     * Returns the roles of the user
      *
-     * @return int The role id
+     * @return array The role ids
      */
-    public function getRole()
+    public function getRoles()
     {
-        return $this->getSession()->get('user.role');
+        return $this->getSession()->get('user.roles');
     }
 
     /**
