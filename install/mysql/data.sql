@@ -170,7 +170,7 @@ VALUES
 
 INSERT INTO `users` (`users_user_id`, `name`, `email`, `enabled`, `send_email`, `users_role_id`, `last_visited_on`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `activation`, `params`, `uuid`)
 VALUES
-	(1, 'Administrator', 'admin@localhost.home', 1, 1, 25, '', NULL, NULL, NULL, NULL, NOW(), '', '', '', UUID());
+	(1, 'Administrator', 'admin@localhost.home', 1, 1, 6, '', NULL, NULL, NULL, NULL, NOW(), '', '', '', UUID());
 
 --
 -- Dumping data for table `users_groups`
@@ -178,12 +178,12 @@ VALUES
 
 INSERT INTO `users_roles` (`users_role_id`, `name`, `title`, `description`)
 VALUES
-    (18, 'registered', 'Registered', ''),
-    (19, 'author', 'Author', ''),
-    (20, 'editor', 'Editor', ''),
-    (21, 'publisher', 'Publisher', ''),
-    (23, 'manager', 'Manager', ''),
-    (24, 'administrator', 'Administrator', '');
+    (1, 'registered', 'Registered', ''),
+    (2, 'author', 'Author', ''),
+    (3, 'editor', 'Editor', ''),
+    (4, 'publisher', 'Publisher', ''),
+    (5, 'manager', 'Manager', ''),
+    (6, 'administrator', 'Administrator', '');
 
 --
 -- Dumping data for table `passwords`
