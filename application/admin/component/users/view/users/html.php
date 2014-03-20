@@ -21,7 +21,6 @@ class UsersViewUsersHtml extends Library\ViewHtml
 	{
 	    $context->data->groups       = $this->getObject('com:users.model.groups')->getRowset();
 		$context->data->roles        = $this->getObject('com:users.model.roles')->getRowset();
-		$context->data->groups_users = $this->getObject('com:users.model.groups_users')->getRowset();
 
         parent::_fetchData($context);
 	}
