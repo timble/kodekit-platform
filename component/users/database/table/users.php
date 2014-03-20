@@ -23,7 +23,7 @@ class DatabaseTableUsers extends Library\DatabaseTableAbstract
 	{
         $config->append(array(
             'name'       => 'users',
-            'behaviors'  => array('modifiable', 'creatable', 'lockable', 'identifiable', 'authenticatable'),
+            'behaviors'  => array('modifiable', 'creatable', 'lockable', 'identifiable', 'authenticatable', 'groupable'),
             'column_map' => array(
                 'role_id'  => 'users_role_id',
                 'group_id' => 'users_group_id'
