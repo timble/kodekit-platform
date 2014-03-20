@@ -98,8 +98,7 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
                 if($user->isAuthentic())
                 {
                     // Return false if page has group set, but user is not in that group.
-                    if($page->users_group_id && !in_array($user->getRole(), array(21, 23, 24, 25))
-                        && !in_array($page->users_group_id, $user->getGroups()))
+                    if($page->users_group_id && !in_array($page->users_group_id, $user->getGroups()))
                     {
                         $result = false;
                     }
