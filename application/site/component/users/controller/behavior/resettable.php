@@ -32,11 +32,11 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
                 $context->response->setRedirect($url,
-                    \JText::_('The user account you are trying to reset the password for is not enabled', 'error'));
+                    $this->getObject('translator')->translate('The user account you are trying to reset the password for is not enabled'), 'error');
 
                 if ($user->activation)
                 {
-                    $context->response->addMessage(\JText::_('Please activate your account before resetting your password'),
+                    $context->response->addMessage($this->getObject('translator')->translate('Please activate your account before resetting your password'),
                         'notice');
                 }
 
@@ -60,7 +60,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
         }
 
@@ -74,7 +74,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         if (!parent::_beforeToken($context))
         {
             $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
         }
 
@@ -109,7 +109,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $site_name = \JFactory::getConfig()->getValue('sitename');
 
-                $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+                $subject = $this->getObject('translator')->translate('{site} password reset', array('site' => $site_name));
                 // TODO Fix when language package is re-factored.
                 //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
                 $message = $url;
@@ -117,13 +117,13 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 if ($row->notify(array('subject' => $subject, 'message' => $message)))
                 {
                     $message = array(
-                        'text' => \JText::_('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
+                        'text' => $this->getObject('translator')->translate('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
                         'type' => 'success');
                 }
                 else
                 {
                     $message = array(
-                        'text' => \JText::_('The confirmation E-mail for resetting your password could not be sent'),
+                        'text' => $this->getObject('translator')->translate('The confirmation E-mail for resetting your password could not be sent'),
                         'type' => 'notice');
                 }
 
@@ -143,7 +143,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $message = array('text' => \JText::_('Your password has been reset'), 'type' => 'success');
+            $message = array('text' => $this->getObject('translator')->translate('Your password has been reset'), 'type' => 'success');
             $url     = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 

@@ -25,7 +25,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         if (!parent::_beforeToken($context))
         {
             $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
         }
 
@@ -59,7 +59,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $site_name = \JFactory::getConfig()->getValue('sitename');
 
-                $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+                $subject = $this->getObject('translator')->translate('{site} account activation', array('site' => $site_name));
                 // TODO Fix when language package is re-factored.
                 //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
                 $message = $url;
