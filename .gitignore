@@ -1,2 +1,4 @@
 .vagrant/
 config/config.php
+
+/scripts/translations/vendor/
