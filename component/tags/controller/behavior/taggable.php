@@ -18,63 +18,63 @@ use Nooku\Library;
  * @package Nooku\Component\Tags
  */
 class ControllerBehaviorTaggable extends Library\BehaviorAbstract
-{			
-	protected function _saveRelations(Library\CommandContext $context)
+{
+    public function __construct(Library\ObjectConfig $config)
     {
-		if ($context->error) {
-			return;
-		}
-        
-        $row   = $context->result;
-        $table = $row->getTable()->getBase();
-        
-        // Remove all existing relations
-        if($row->id && $row->getTable()->getBase())
-        {
-            $rows = $this->getObject('com:tags.model.relations')
-                ->row($row->id)
-                ->table($table)
-                ->getRowset();
+        parent::__construct($config);
 
-            $rows->delete();
-        }
+        $this->_container = $config->container;
 
-        if($row->tags)
+        $this->addCommandCallback('after.add'   , '_saveTags');
+        $this->addCommandCallback('after.edit'  , '_saveTags');
+        $this->addCommandCallback('after.delete', '_deleteTags');
+    }
+
+    protected function _saveTags(Library\ControllerContextInterface $context)
+    {
+		if (!$context->response->isError())
         {
-            // Save tags as relations
-		    foreach ($row->tags as $tag)
+            $row   = $context->result;
+            $table = $row->getTable()->getBase();
+
+            // Remove all existing relations
+            if($row->id && $row->getTable()->getBase())
             {
-			    $relation = $this->getObject('com:tags.database.row.relation');
-                $relation->tags_tag_id = $tag;
-                $relation->row		  = $row->id;
-                $relation->table      = $table;
-    
-                if(!$relation->load()) {
-                    $relation->save();
+                $rows = $this->getObject('com:tags.model.relations')
+                    ->row($row->id)
+                    ->table($table)
+                    ->getRowset();
+
+                $rows->delete();
+            }
+
+            if($row->tags)
+            {
+                // Save tags as relations
+                foreach ($row->tags as $tag)
+                {
+                    $relation = $this->getObject('com:tags.database.row.relation');
+                    $relation->tags_tag_id = $tag;
+                    $relation->row		  = $row->id;
+                    $relation->table      = $table;
+
+                    if(!$relation->load()) {
+                        $relation->save();
+                    }
                 }
-		    }
-        }
-		
-		return true;
+            }
+
+            return true;
+		}
 	}
 	
-	protected function _afterControllerAdd(Library\CommandContext $context)
-    {
-		$this->_saveRelations($context);
-	}
-	
-	protected function _afterControllerEdit(Library\CommandContext $context)
-    {
-		$this->_saveRelations($context);
-	}
-	
-	protected function _afterControllerDelete(Library\CommandContext $context)
+	protected function _deleteTags(Library\ControllerContextInterface $context)
     {
         $status = $context->result->getStatus();
 
         if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
         {
-            $id = $context->result->get('id');
+            $id    = $context->result->get('id');
             $table = $context->result->getTable()->getBase();
 
             if(!empty($id) && $id != 0)

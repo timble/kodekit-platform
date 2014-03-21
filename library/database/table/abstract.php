@@ -62,13 +62,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     protected $_defaults;
 
     /**
-     * Chain of command object
-     *
-     * @var CommandChain
-     */
-    protected $_command_chain;
-
-    /**
      * Object constructor
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options.
@@ -116,7 +109,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
         }
 
-        // Mixin the behavior interface
+        // Mixin the behavior (and command) interface
         $this->mixin('lib:behavior.mixin', $config);
     }
 
@@ -141,9 +134,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             'behaviors'         => array(),
             'identity_column'   => null,
             'command_chain'     => 'lib:command.chain',
-            'dispatch_events'   => false,
-            'event_dispatcher'  => null,
-            'enable_callbacks'  => false,
         ))->append(
             array('base' => $config->name)
         );
@@ -253,6 +243,18 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         }
 
         return $result;
+    }
+
+    /**
+     * Check if the table column exists
+     *
+     * @param  string  $name The name of the column
+     * @param  boolean $base If TRUE, get the column information from the base table. Default is FALSE.
+     * @return bool  Returns TRUE if the column exists, FALSE otherwise.
+     */
+    public function hasColumn($name, $base = false)
+    {
+        return (bool) $this->getColumn($name, $base);
     }
 
     /**
@@ -432,9 +434,9 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      */
     public function getRow(array $options = array())
     {
-        $identifier = clone $this->getIdentifier();
-        $identifier->path = array('database', 'row');
-        $identifier->name = StringInflector::singularize($this->getIdentifier()->name);
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('database', 'row');
+        $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
 
         //Force the table
         $options['table'] = $this;
@@ -455,8 +457,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      */
     public function getRowset(array $options = array())
     {
-        $identifier = clone $this->getIdentifier();
-        $identifier->path = array('database', 'rowset');
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('database', 'rowset');
 
         //Force the table
         $options['table'] = $this;
@@ -470,29 +472,16 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
-     * Get the chain of command object
+     * Get a database context object
      *
-     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
-     * to the KCommandChain mixin.
-     *
-     * @return CommandChainInterface
+     * @return DatabaseContext
      */
-    public function getCommandChain()
+    public function getContext()
     {
-        if(!$this->_command_chain instanceof CommandChainInterface)
-        {
-            //Ask the parent the relay the call to the mixin
-            $this->_command_chain = parent::getCommandChain();
+        $context = new DatabaseContext();
+        $context->setSubject($this);
 
-            if(!$this->_command_chain instanceof CommandChainInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
-                );
-            }
-        }
-
-        return $this->_command_chain;
+        return $context;
     }
 
     /**
@@ -541,14 +530,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         }
 
         //Create commandchain context
-        $context = $this->getCommandContext();
-        $context->operation = Database::OPERATION_SELECT;
+        $context = $this->getContext();
         $context->table     = $this->getBase();
         $context->query     = $query;
         $context->mode      = $mode;
         $context->options   = $options;
 
-        if ($this->getCommandChain()->run('before.select', $context) !== false)
+        if ($this->invokeCommand('before.select', $context) !== false)
         {
             if ($context->query)
             {
@@ -602,7 +590,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                     $context->data = $data;
             }
 
-            $this->getCommandChain()->run('after.select', $context);
+            $this->invokeCommand('after.select', $context);
         }
 
         return ObjectConfig::unbox($context->data);
@@ -664,14 +652,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                       ->table($this->getBase());
 
         //Create commandchain context
-        $context = $this->getCommandContext();
-        $context->operation = Database::OPERATION_INSERT;
+        $context = $this->getContext();
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
         $context->affected = false;
 
-        if ($this->getCommandChain()->run('before.insert', $context) !== false)
+        if ($this->invokeCommand('before.insert', $context) !== false)
         {
             // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData());
@@ -694,7 +681,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 else $context->data->setStatus(Database::STATUS_FAILED);
             }
 
-            $this->getCommandChain()->run('after.insert', $context);
+            $this->invokeCommand('after.insert', $context);
         }
 
         return $context->affected;
@@ -713,14 +700,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                       ->table($this->getBase());
 
         // Create commandchain context.
-        $context = $this->getCommandContext();
-        $context->operation = Database::OPERATION_UPDATE;
+        $context = $this->getContext();
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.update', $context) !== false)
+        if ($this->invokeCommand('before.update', $context) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -748,7 +734,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 }
             }
 
-            $this->getCommandChain()->run('after.update', $context);
+            $this->invokeCommand('after.update', $context);
         }
 
         return $context->affected;
@@ -767,14 +753,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                       ->table($this->getBase());
 
         //Create commandchain context
-        $context = $this->getCommandContext();
-        $context->operation = Database::OPERATION_DELETE;
+        $context = $this->getContext();
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = $query;
         $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.delete', $context) !== false)
+        if ($this->invokeCommand('before.delete', $context) !== false)
         {
             foreach ($this->getPrimaryKey() as $key => $column)
             {
@@ -787,10 +772,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
             // Set the query in the context.
             if ($context->affected !== false) {
-                $context->data->setStatus($context->affected ? Database::STATUS_DELETED : Database::STATUS_FALIED);
+                $context->data->setStatus($context->affected ? Database::STATUS_DELETED : Database::STATUS_FAILED);
             }
 
-            $this->getCommandChain()->run('after.delete', $context);
+            $this->invokeCommand('after.delete', $context);
         }
 
         return $context->affected;
@@ -805,16 +790,16 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         $result = null;
 
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.lock', $context) !== false)
+        if ($this->invokeCommand('before.lock', $context) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->lock($this->getBase());
             }
 
-            $this->getCommandChain()->run('after.lock', $context);
+            $this->invokeCommand('after.lock', $context);
         }
 
         return $context->result;
@@ -829,16 +814,16 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         $result = null;
 
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.unlock', $context) !== false)
+        if ($this->invokeCommand('before.unlock', $context) !== false)
         {
             if ($this->isConnected()) {
                 $context->result = $this->getAdapter()->unlock();
             }
 
-            $this->getCommandChain()->run('after.unlock', $context);
+            $this->invokeCommand('after.unlock', $context);
         }
 
         return $context->result;
@@ -897,12 +882,12 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      */
     public function __call($method, $arguments)
     {
-        // If the method is of the form is[Bahavior] handle it.
-        $parts = StringInflector::explode($method);
-
-        if ($parts[0] == 'is' && isset($parts[1]))
+        if (!isset($this->_mixed_methods[$method]))
         {
-            if(!$this->hasBehavior(strtolower($parts[1]))) {
+            // If the method is of the form is[Bahavior] handle it.
+            $parts = StringInflector::explode($method);
+
+            if ($parts[0] == 'is' && isset($parts[1])) {
                 return false;
             }
         }

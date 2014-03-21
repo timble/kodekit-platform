@@ -24,6 +24,13 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	 */
 	protected $_view;
 
+    /**
+     * List of formats supported by the controller
+     *
+     * @var array
+     */
+    protected $_formats;
+
 	/**
 	 * Constructor
 	 *
@@ -39,14 +46,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         //Force the view to the information found in the request
         $this->_view = $config->view;
 
-		// Mixin the toolbar
-		if($config->dispatch_events)
-        {
-            $this->mixin('lib:controller.toolbar.mixin');
+        //Set the supported formats
+        $this->_formats = ObjectConfig::unbox($config->formats);
 
-            //Attach the toolbars
-            $this->registerCallback('before.render' , array($this, 'attachToolbars'), array($config->toolbars));
-		}
+		// Mixin the toolbar
+		$this->mixin('lib:controller.toolbar.mixin');
+
+        //Attach the toolbars
+        $this->addCommandCallback('before.render' , '_addToolbars', array('toolbars' => $config->toolbars));
 	}
 	
 	/**
@@ -60,8 +67,8 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'formats'   => array('html'),
             'view'      => $this->getIdentifier()->name,
-            'behaviors' => array('permissible'),
             'toolbars'  => array()
         ));
 
@@ -69,17 +76,17 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     }
 
     /**
-     * Attach the toolbars to the controller
+     * Add the toolbars to the controller
      *
-     * @param array $toolbars A list of toolbars
+     * @param ControllerContextInterface $context
      * @return ControllerView
      */
-    public function attachToolbars($toolbars)
+    protected function _addToolbars(ControllerContextInterface $context)
     {
         if($this->getView() instanceof ViewHtml)
         {
-            foreach($toolbars as $toolbar) {
-                $this->attachToolbar($toolbar);
+            foreach($context->toolbars as $toolbar) {
+                $this->addToolbar($toolbar);
             }
 
             if($toolbars = $this->getToolbars())
@@ -94,11 +101,6 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	/**
 	 * Get the view object attached to the controller
 	 *
-	 * If we are dispatching this controller this function will check if the view folder exists. If not it will throw
-     * an exception. This is a security measure to make sure we can only explicitly get data from views the have been
-     * physically defined.
-	 *
-	 * @throws  ControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
      * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
 	 * @return	ViewInterface
 	 */
@@ -113,8 +115,9 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
 			//Create the view
 			$config = array(
-			    'url'	  => $this->getObject('request')->getUrl(),
-                'layout'  => $this->getRequest()->getQuery()->get('layout', 'alpha')
+			    'url'	     => $this->getObject('request')->getUrl(),
+                'layout'     => $this->getRequest()->getQuery()->get('layout', 'identifier'),
+                'auto_fetch' => $this instanceof ControllerModellable
 			);
 
 			$this->_view = $this->getObject($this->_view, $config);
@@ -126,18 +129,27 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
                     'View: '.get_class($this->_view).' does not implement ViewInterface'
                 );
             }
-
-			//Make sure the view exists if we are dispatching this controller
-            if($this->isDispatched())
-            {
-                //if(!file_exists(dirname($this->_view->getIdentifier()->classpath))) {
-                //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
-                //}
-            }
 		}
 
 		return $this->_view;
 	}
+
+    /**
+     * Get the supported formats
+     *
+     * Method dynamically adds the 'json' format if the user is authentic.
+     *
+     * @return array
+     */
+    public function getFormats()
+    {
+        $result = $this->_formats;
+        if($this->getUser()->isAuthentic()) {
+            $result[] = 'json';
+        }
+
+        return $result;
+    }
 
 	/**
 	 * Method to set a view object attached to the controller
@@ -152,9 +164,11 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 		{
 			if(is_string($view) && strpos($view, '.') === false )
 		    {
-                $identifier			= clone $this->getIdentifier();
-			    $identifier->path	= array('view', $view);
-			    $identifier->name	= $this->getRequest()->getFormat();
+                $identifier			= $this->getIdentifier()->toArray();
+			    $identifier['path']	= array('view', $view);
+			    $identifier['name']	= $this->getRequest()->getFormat();
+
+                $identifier = $this->getIdentifier($identifier);
 			}
 			else $identifier = $this->getIdentifier($view);
 
@@ -169,33 +183,42 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	/**
 	 * Render action
      *
-     * This function will also set the rendered output in the response.
+     * This function will check if the format is supported and if not throw a 406 Not Accepted exception. It will also
+     * set the rendered output in the response after it has been created.
 	 *
-	 * @param	CommandContext	$context    A command context object
+	 * @param	ControllerContextInterface	$context    A controller context object
+     * @throws  ControllerExceptionFormatNotSupported If the requested format is not supported for the resource
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
-	protected function _actionRender(CommandContext $context)
+	protected function _actionRender(ControllerContextInterface $context)
 	{
-        $view = $this->getView();
+        $format = $this->getRequest()->getFormat();
 
-        //Push the params in the view
-        $param = ObjectConfig::unbox($context->param);
-
-        if(is_array($param))
+        //Check if the format is supported
+        if(in_array($format, $this->getFormats()))
         {
-            foreach($context->param as $name => $value) {
-                $view->set($name, $value);
+            $view = $this->getView();
+
+            //Push the content in the view
+            $view->setContent($context->response->getContent());
+
+            //Render the view
+            \JFactory::getLanguage()->load($this->getIdentifier()->package);
+
+            $param = ObjectConfig::unbox($context->param);
+
+            if(is_array($param)) {
+                $data = (array) $param;
+            } else {
+                $data = array();
             }
+
+            $content = $view->render($data);
+
+            //Set the data in the response
+            $context->response->setContent($content, $view->mimetype);
         }
-
-        //Push the content in the view
-        $view->setContent($context->response->getContent());
-
-        //Render the view
-        $content = $view->render();
-
-        //Set the data in the response
-        $context->response->setContent($content, $view->mimetype);
+        else throw new ControllerExceptionFormatNotSupported('Format: '.$format.' not supported');
 
 	    return $content;
 	}
@@ -216,14 +239,24 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	{
         if(!isset($this->_mixed_methods[$method]))
         {
-		    //Check for layout, view or format property
-            if(in_array($method, array('layout', 'format')))
+            if(in_array($method, array('layout', 'view', 'format')))
             {
-                $this->getRequest()->query->set($method, $args[0]);
+                if($method == 'view') {
+                    $this->setView($args[0]);
+                }
+
+                if($method == 'format') {
+                    $this->getRequest()->setFormat($args[0]);
+                }
+
+                if($method == 'layout') {
+                    $this->getRequest()->getQuery()->set($method, $args[0]);
+                }
+
                 return $this;
             }
         }
 
-		return parent::__call($method, $args);
+        return parent::__call($method, $args);
 	}
 }

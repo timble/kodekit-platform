@@ -35,65 +35,10 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'fallbacks' => array(
-                'Nooku\Library\<Package><Path><Name>',
+            'sequence' => array(
+                'Nooku\Library\<Package><Class>',
                 'Nooku\Library\<Package><Path>Default',
             )
         ));
-    }
-
-    /**
-     * Returns a fully qualified class name for a given identifier.
-     *
-     * @param ObjectIdentifier $identifier An identifier object
-     * @return string|false  Return the class name on success, returns FALSE on failure
-     */
-    public function locate(ObjectIdentifier $identifier)
-    {
-        $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
-
-        $package = ucfirst($identifier->package);
-        $path    = StringInflector::camelize(implode('_', $identifier->path));
-        $name    = ucfirst($identifier->name);
-
-        $result = false;
-        foreach($this->_fallbacks as $fallback)
-        {
-            $result = str_replace(
-                array('<Package>', '<Path>', '<Name>', '<Class>'),
-                array($package   , $path   , $name   , $class),
-                $fallback
-            );
-
-            if(!class_exists($result)) {
-                $result = false;
-            } else {
-                break;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Find the identifier path
-     *
-     * @param  ObjectIdentifier $identifier  	An identifier object
-     * @return string	Returns the path
-     */
-    public function findPath(ObjectIdentifier $identifier)
-    {
-        $path = '';
-
-        if(count($identifier->path)) {
-            $path .= implode('/',$identifier->path);
-        }
-
-        if(!empty($identifier->name)) {
-            $path .= '/'.$identifier->name;
-        }
-
-        $path = JPATH_ROOT.'/library/'.$path.'.php';
-        return $path;
     }
 }

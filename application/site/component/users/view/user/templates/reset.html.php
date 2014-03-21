@@ -15,7 +15,7 @@
     <h1><?=translate('Password reset request');?></h1>
 </div>
 
-<p><?= translate('RESET_PASSWORD_REQUEST_DESCRIPTION');?></p>
+<p><?= translate('Please enter the E-mail address of the account you would like to reset.');?></p>
 <form action="" method="post" class="-koowa-form form-horizontal">
     <div class="control-group">
         <label class="control-label" for="email"><?= translate('E-mail') ?></label>

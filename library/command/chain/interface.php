@@ -12,58 +12,18 @@ namespace Nooku\Library;
 /**
  * Command Chain Interface
  *
+ * The command chain implements a queue. The command handle is used as the key. Each command can have a priority, default
+ * priority is 3 The queue is ordered by priority, commands with a higher priority are called first.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
 interface CommandChainInterface
 {
     /**
-     * Attach a command to the chain
-     *
-     * The priority parameter can be used to override the command priority while enqueueing the command.
-     *
-     * @param   CommandInterface   $command
-     * @param   integer             $priority The command priority, usually between 1 (high priority) and 5 (lowest),
-     *                                        default is 3. If no priority is set, the command priority will be used
-     *                                        instead.
-     * @return CommandChain
-     * @throws \InvalidArgumentException if the object doesn't implement CommandInterface
-     */
-    public function enqueue(ObjectHandlable $command, $priority = null);
-
-    /**
-     * Removes a command from the queue
-     *
-     * @param   CommandInterface $command
-     * @return  boolean    TRUE on success FALSE on failure
-     * @throws  \InvalidArgumentException if the object implement CommandInterface
-     */
-    public function dequeue(ObjectHandlable $command);
-
-    /**
-     * Check if the queue does contain a given object
-     *
-     * @param  CommandInterface $object
-     * @return bool
-     * @throws  \InvalidArgumentException if the object implement CommandInterface
-     */
-    public function contains(ObjectHandlable $command);
-
-    /**
-     * Run the commands in the chain
-     *
-     * If a command returns the 'break condition' the executing is halted.
-     *
-     * @param   string          $name
-     * @param   CommandContext $context
-     * @return  void|boolean    If the chain breaks, returns the break condition. Default returns void.
-     */
-    public function run($name, CommandContext $context);
-
-    /**
      * Enable the chain
      *
-     * @return  void
+     * @return  $this
      */
     public function enable();
 
@@ -72,40 +32,82 @@ interface CommandChainInterface
      *
      * If the chain is disabled running the chain will always return TRUE
      *
-     * @return  void
+     * @return  $this
      */
     public function disable();
 
     /**
-     * Set the priority of a command
+     * Execute a command by executing all registered handlers
      *
-     * @param CommandInterface $command
-     * @param integer           $priority
-     * @return CommandChain
-     * @throws \InvalidArgumentException if the object doesn't implement CommandInterface
+     * If a command handler returns the 'break condition' the executing is halted. If no break condition is specified the
+     * the command chain will execute all command handlers, regardless of the handler result returned.
+     *
+     * @param string|CommandInterface  $command    The command name or a KCommandInterface object
+     * @param array|\Traversable         $attributes An associative array or a Traversable object
+     * @param ObjectInterface          $subject    The command subject
+     * @return mixed|null If a handlers breaks, returns the break condition. NULL otherwise.
      */
-    public function setPriority(ObjectHandlable $command, $priority);
+    public function execute($command, $attributes = array(), $subject = null);
 
     /**
-     * Get the priority of a command
+     * Attach a command to the chain
      *
-     * @param  CommandInterface $object
+     * @param CommandHandlerInterface  $handler  The command handler
+     * @return CommandChainInterface
+     */
+    public function addHandler(CommandHandlerInterface $handler);
+
+    /**
+     * Removes a command from the chain
+     *
+     * @param  CommandHandlerInterface  $handler  The command handler
+     * @return  CommandChain
+     */
+    public function removeHandler(CommandHandlerInterface $handler);
+
+    /**
+     * Get the list of handler enqueue in the chain
+     *
+     * @return  ObjectQueue   An object queue containing the handlers
+     */
+    public function getHandlers();
+
+    /**
+     * Set the priority of a command handler
+     *
+     * @param CommandHandlerInterface $handler   A command handler
+     * @param integer                   $priority  The command priority
+     * @return CommandChainInterface
+     */
+    public function setHandlerPriority(CommandHandlerInterface $handler, $priority);
+
+    /**
+     * Get the priority of a command handlers
+     *
+     * @param  CommandHandlerInterface $handler A command handler
      * @return integer The command priority
-     * @throws \InvalidArgumentException if the object doesn't implement CommandInterface
      */
-    public function getPriority(ObjectHandlable $command);
+    public function getHandlerPriority(CommandHandlerInterface $handler);
 
     /**
-     * Factory method for a command context.
+     * Set the break condition
      *
-     * @return  CommandContext
+     * @param mixed|null $condition The break condition, or NULL to set reset the break condition
+     * @return CommandChainInterface
      */
-    public function getContext();
+    public function setBreakCondition($condition);
 
     /**
-     * Get the chain object stack
+     * Get the break condition
      *
-     * @return     ObjectStack
+     * @return mixed|null   Returns the break condition, or NULL if not break condition is set.
      */
-    public function getStack();
+    public function getBreakCondition();
+
+    /**
+     * Check of the command chain is enabled
+     *
+     * @return bool
+     */
+    public function isEnabled();
 }

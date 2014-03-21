@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Ckeditor
  */
-class CkeditorControllerPermissionEditor extends ApplicationControllerPermissionDefault
+class CkeditorControllerPermissionEditor extends ApplicationControllerPermissionAbstract
 {
     public function canRender()
     {

@@ -157,8 +157,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         $attribs = $this->buildAttributes($config->attribs);
 
-        $id = 'overlay' . rand();
-        if ($url->fragment) {
+        $id = 'overlay' . mt_rand();
+        if ($url->fragment)
+        {
             //Allows multiple identical ids, legacy should be considered replaced with #$url->fragment instead
             $config->append(array(
                 'options' => array(

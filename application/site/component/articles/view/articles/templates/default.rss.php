@@ -9,7 +9,6 @@
 
 use Nooku\Library;
 ?>
-
 <?='<?xml version="1.0" encoding="utf-8" ?>' ?>
 
 <rss version="2.0"
@@ -48,7 +47,7 @@ use Nooku\Library;
         <? foreach($articles as $article) : ?>
         <item>
             <title><?= escape($article->title) ?></title>
-            <link><?= helper('route.article', array('row' => $article)) ?> ?></link>
+            <link><?= helper('route.article', array('row' => $article)) ?></link>
             <dc:creator><?= $article->created_by_name ?></dc:creator>
             <guid isPermaLink="false"><?= helper('route.article', array('row' => $article)) ?> ?></guid>
             <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>

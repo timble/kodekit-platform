@@ -12,29 +12,33 @@ namespace Nooku\Library;
 /**
  * Date
  *
- * @author  Gergo Erodsi <http://nooku.assembla.com/profile/gergoerdosis>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Date
  */
-class Date extends \DateTime implements DateInterface
+class Date extends Object implements DateInterface
 {
     /**
-     * Constructor.
+     * The date object
      *
-     * @param   array|ObjectConfig An associative array of configuration settings or a ObjectConfig instance.
+     * @var \DateTime
      */
-    public function __construct($config = array())
+    protected $_date;
+
+    /**
+     * Constructor
+     *
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     */
+    public function __construct(ObjectConfig $config)
     {
-        if(!$config instanceof ObjectConfig) {
-            $config = new ObjectConfig($config);
-        }
-        
-        $this->_initialize($config);
-        
+        parent::__construct($config);
+
+        //Set the date
         if (!($config->timezone instanceof \DateTimeZone)) {
             $config->timezone = new \DateTimeZone($config->timezone);
         }
-        
-        parent::__construct($config->date, $config->timezone);
+
+        $this->_date = new \DateTime($config->date, $config->timezone);
     }
     
     /**
@@ -57,13 +61,12 @@ class Date extends \DateTime implements DateInterface
      * Returns date formatted according to given format.
      *
      * @param  string $format The format to use
-     * @return string The formatted data
+     * @return string The formatted date
      */
     public function format($format)
     {
         $format = preg_replace_callback('/(?<!\\\)[DlFM]/', array($this, '_translate'), $format);
-
-        return parent::format($format);
+        return $this->_date->format($format);
     }
 
     /**
@@ -82,15 +85,14 @@ class Date extends \DateTime implements DateInterface
 
         if($now != $this)
         {
-            // TODO: Use DateTime::getTimeStamp().
-            if($now > $this)
+            if($now->getTimestamp() > $this->getTimestamp())
             {
-                $difference = $now->format('U') - $this->format('U');
+                $difference = $now->getTimestamp() - $this->getTimestamp();
                 $tense      = 'ago';
             }
             else
             {
-                $difference = $this->format('U') - $now->format('U');
+                $difference = $this->getTimestamp() - $now->getTimestamp();
                 $tense      = 'from now';
             }
 
@@ -130,18 +132,114 @@ class Date extends \DateTime implements DateInterface
 
         return $result;
     }
-    
+
     /**
-     * Get a handle for this object
+     * Alters the timestamp
      *
-     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
-     * or for identifying an object
-     *
-     * @return string A string that is unique
+     * @param string $modify A date/time string
+     * @return Date Returns the KDate object for method chaining or FALSE on failure.
      */
-    public function getHandle()
+    public function modify($modify)
     {
-        return spl_object_hash($this);
+        if($this->_date->modify($modify) === false) {
+            return false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Resets the current time of the DateTime object to a different time.
+     *
+     * @param integer $year     Year of the date.
+     * @param integer $month    Month of the date.
+     * @param integer $day      Day of the date.
+     * @return Date or FALSE on failure.
+     */
+    public function setDate($year, $month, $day)
+    {
+        if($this->_date->setDate($year, $month, $day) === false) {
+            return false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Resets the current date of the DateTime object to a different date.
+     *
+     * @param integer $hour     Hour of the time.
+     * @param integer $minute   Minute of the time.
+     * @param integer $second  Second of the time.
+     * @return Date or FALSE on failure.
+     */
+    public function setTime($hour, $minute, $second = 0)
+    {
+        if($this->_date->setTime($hour, $minute, $second) === false) {
+            return false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the date and time based on an Unix timestamp.
+     *
+     * @param \DateTimeZone $timezone A DateTimeZone object representing the desired time zone.
+     * @return Date or FALSE on failure.
+     */
+    public function setTimezone(\DateTimeZone $timezone)
+    {
+        if($this->_date->setTimezone($timezone) === false) {
+            return false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return time zone relative to given DateTime
+     *
+     * @return \DateTimeZone or FALSE on failure.
+     */
+    public function getTimezone()
+    {
+        return $this->_date->getTimezone();
+    }
+
+    /**
+     * Sets the date and time based on an Unix timestamp
+     *
+     * @param integer $timestamp Unix timestamp representing the date.
+     * @return Date or FALSE on failure.
+     */
+    public function setTimestamp($timestamp)
+    {
+        if($this->_date->setTimestamp($timestamp) === false) {
+            return false;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Gets the Unix timestamp.
+     *
+     * @return integer
+     */
+    public function getTimestamp()
+    {
+        return $this->_date->getTimestamp();
+    }
+
+    /**
+     * Returns the timezone offset.
+     *
+     * @return integer
+     */
+    public function getOffset()
+    {
+        return $this->_date->getOffset();
     }
 
     /**

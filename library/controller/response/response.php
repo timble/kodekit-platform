@@ -97,10 +97,10 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
     /**
      * Set the user object
      *
-     * @param ControllerUserInterface $user A request object
+     * @param UserInterface $user A request object
      * @return ControllerResponse
      */
-    public function setUser(ControllerUserInterface $user)
+    public function setUser(UserInterface $user)
     {
         $this->_user = $user;
         return $this;
@@ -109,7 +109,7 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
     /**
      * Get the user object
      *
-     * @return ControllerUserInterface
+     * @return UserInterface
      */
     public function getUser()
     {
@@ -203,6 +203,18 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
         }
 
         return $result;
+    }
+
+    /**
+     * Set the response messages
+     *
+     * @param array $messages
+     * @return $this
+     */
+    public function setMessages($messages)
+    {
+        $this->_messages = $messages;
+        return $this;
     }
 
     /**

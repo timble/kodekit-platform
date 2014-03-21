@@ -37,7 +37,7 @@ window.addEvent('domready', (function() {
             <?= translate('None') ?>
         </label>
 
-        <input type="button" name="save" class="btn" value="<?= translate('Save') ?>" />
+        <input type="button" name="save" class="button" value="<?= translate('Save') ?>" />
     </fieldset>
     <? foreach($menus as $menu) : ?>
         <? $menu_pages = $pages->find(array('pages_menu_id' => $menu->id)) ?>

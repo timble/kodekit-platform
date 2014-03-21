@@ -35,11 +35,11 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'fallbacks' => array(
+            'sequence' => array(
                 '<Package><Class>',
                 'Nooku\Component\<Package>\<Class>',
-                'Nooku\Component\<Package>\<Path><Name>',
-                'Nooku\Library\<Path><Name>',
+                'Nooku\Component\<Package>\<Path><File>',
+                'Nooku\Library\<Path><File>',
                 'Nooku\Library\<Path>Default',
             )
         ));
@@ -49,14 +49,15 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
-     * @return string|false  Return the class name on success, returns FALSE on failure
+     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @return string|false  Return the class name on success, returns FALSE on failure if searching for a fallback
      */
-    public function locate(ObjectIdentifier $identifier)
+    public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
         $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
         $package = ucfirst($identifier->package);
-        $name    = ucfirst($identifier->name);
+        $file    = ucfirst($identifier->name);
 
         //Make an exception for 'view' and 'module' types
         $path  = $identifier->path;
@@ -71,59 +72,17 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         //Allow locating default classes if $path is empty.
         if(empty($path))
         {
-            $path = $name;
-            $name = '';
+            $path = $file;
+            $file = '';
         }
 
-        $result = false;
-        foreach($this->_fallbacks as $fallback)
-        {
-            $result = str_replace(
-                array('<Package>', '<Path>', '<Name>', '<Class>'),
-                array($package   , $path   , $name   , $class),
-                $fallback
-            );
+        $info = array(
+            'class'   => $class,
+            'package' => $package,
+            'path'    => $path,
+            'file'    => $file
+        );
 
-            if(!class_exists($result)) {
-                $result = false;
-            } else {
-                break;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Find the identifier path
-     *
-     * @param  ObjectIdentifier $identifier  	An identifier object
-     * @return string	Returns the path
-     */
-    public function findPath(ObjectIdentifier $identifier)
-    {
-        $path  = '';
-        $parts = $identifier->path;
-
-        $component = strtolower($identifier->package);
-
-        if(!empty($identifier->name))
-        {
-            if(count($parts)) {
-                $path = implode('/', $parts).'/'.strtolower($identifier->name);
-            } else {
-                $path  = strtolower($identifier->name);
-            }
-        }
-
-        $path = 'component/'.$component.'/'.$path.'.php';
-
-        if(file_exists(JPATH_APPLICATION.'/'.$path)) {
-            $path = JPATH_APPLICATION.'/'.$path;
-        } else {
-            $path = JPATH_ROOT.'/'.$path;
-        }
-
-        return $path;
+        return $this->find($info, $fallback);
     }
 }

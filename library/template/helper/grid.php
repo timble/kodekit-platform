@@ -64,8 +64,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		));
 
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->escape($config->search).'" />';
-        $html .= '<button class="btn">'.$this->translate('Go').'</button>';
-		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
+        $html .= '<button class="button">'.$this->translate('Go').'</button>';
+		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
 
 	    return $html;
 	}

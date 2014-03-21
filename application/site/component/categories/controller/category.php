@@ -26,20 +26,20 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
         parent::_initialize($config);
     }
     
-    protected function _actionRender(Library\CommandContext $context)
+    protected function _actionRender(Library\ControllerContextInterface $context)
     {
         $view = $this->getView();
 
         //Set the layout
         if($view instanceof Library\ViewTemplate)
         {
-            $layout = clone $view->getIdentifier();
+            $layout = $view->getIdentifier()->toArray();
             $layout->name  = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'categories';
+            $alias = $layout;
+            $alias['package'] = 'categories';
 
-            $this->getObject('manager')->registerAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($alias, $this->getIdentifier($layout));
         }
 
         return parent::_actionRender($context);

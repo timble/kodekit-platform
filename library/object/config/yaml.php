@@ -27,7 +27,7 @@ class ObjectConfigYaml extends ObjectConfigFormat
     {
         $config = false;
 
-        if(function_exist('yaml_parse'))
+        if(function_exists('yaml_parse'))
         {
             $data = array();
 

@@ -249,10 +249,10 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 
 			if ($config->selected instanceof ObjectConfig)
 			{
-				foreach ($config->selected as $value)
+				foreach ($config->selected as $selected)
 				{
-					$sel = is_object( $value ) ? $value->{$config->value} : $value;
-					if ($value == $sel)
+                    $selected = is_object( $selected ) ? $selected->{$config->value} : $selected;
+					if ($value == $selected)
 					{
 						$extra .= 'checked="checked"';
 						break;

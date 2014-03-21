@@ -89,9 +89,9 @@ class DatabaseRowNode extends Library\DatabaseRowTable
 	{
         if(!($this->_children instanceof Library\DatabaseRowsetInterface))
         {
-            $identifier         = clone $this->getIdentifier();
-            $identifier->path   = array('database', 'rowset');
-            $identifier->name   = Library\StringInflector::pluralize($this->getIdentifier()->name);
+            $identifier         = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('database', 'rowset');
+            $identifier['name'] = Library\StringInflector::pluralize($this->getIdentifier()->name);
             
             //The row default options
             $options  = array(

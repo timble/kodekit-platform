@@ -44,7 +44,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'     => Library\Command::PRIORITY_LOWEST,
+            'priority'     => self::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));
@@ -52,11 +52,13 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public function execute($name, Library\CommandContext $context)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
+        $name = $command->getName();
+
         if(in_array($name, $this->_actions))
         {
-            $entity = $context->result;
+            $entity = $command->result;
 
             if($entity instanceof Library\DatabaseRowInterface || $entity instanceof Library\DatabaseRowsetInterface )
             {
@@ -75,14 +77,14 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
                     if(!empty($status))
                     {
-                         $identifier = $context->getSubject()->getIdentifier();
+                         $identifier = $command->getSubject()->getIdentifier();
 
                          $log = array(
-                            'action'	  => $context->action,
+                            'action'	  => $command->action,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,
                     		'status'      => $status,
-                            'created_by'  => $context->user->getId()
+                            'created_by'  => $command->user->getId()
                         );
 
                         if (is_array($this->_title_column))
@@ -104,7 +106,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         }
 
                         $log['row'] = $row->id;
-                        $log['ip']  = $context->request->getAddress();
+                        $log['ip']  = $command->request->getAddress();
 
 
                         $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();

@@ -24,7 +24,7 @@ class EventException extends Event implements Exception
      */
     public function setException(\Exception $exception)
     {
-        $this->exception = $exception;
+        $this->set('exception', $exception);
     }
 
     /**
@@ -34,7 +34,7 @@ class EventException extends Event implements Exception
      */
     public function getException()
     {
-        return $this->exception;
+        return $this->get('exception');
     }
 
     /**

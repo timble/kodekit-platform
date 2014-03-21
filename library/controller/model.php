@@ -63,6 +63,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     /**
      * Get the view object attached to the controller
      *
+     * If the view is not an object, an object identifier or a fully qualified identifier string and the request does
+     * not contain view information try to get the view from based on the model state instead. If the model is unique
+     * use a singular view name, if not unique use a plural view name.
+     *
      * @return	ViewInterface
      */
     public function getView()
@@ -71,17 +75,22 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         {
             if(!$this->_view instanceof ObjectIdentifier)
             {
-                if(!$this->getRequest()->query->has('view'))
+                //View identifier is not fully qualified
+                if(is_string($this->_view) && strpos($this->_view, '.') === false )
                 {
-                    $view = $this->getIdentifier()->name;
+                    if(!$this->getRequest()->query->has('view'))
+                    {
+                        $view = $this->getIdentifier()->name;
 
-                    if($this->getModel()->getState()->isUnique()) {
-                        $view = StringInflector::singularize($view);
-                    } else {
-                        $view = StringInflector::pluralize($view);
+                        if($this->getModel()->getState()->isUnique()) {
+                            $view = StringInflector::singularize($view);
+                        } else {
+                            $view = StringInflector::pluralize($view);
+                        }
                     }
+                    else $view = $this->getRequest()->query->get('view', 'cmd');
                 }
-                else $view = $this->getRequest()->query->get('view', 'cmd');
+                else $view = $this->_view;
 
                 //Set the view
                 $this->setView($view);
@@ -113,15 +122,15 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
             $this->_model = $this->getObject($this->_model);
 
-            //Inject the request into the model state
-            $this->_model->setState($this->getRequest()->query->toArray());
-
             if(!$this->_model instanceof ModelInterface)
             {
                 throw new \UnexpectedValueException(
                     'Model: '.get_class($this->_model).' does not implement ModelInterface'
                 );
             }
+
+            //Inject the request into the model state
+            $this->_model->setState($this->getRequest()->query->toArray());
         }
 
         return $this->_model;
@@ -145,9 +154,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
                     $model = StringInflector::pluralize($model);
                 }
 
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('model');
-                $identifier->name	= $model;
+                $identifier			= $this->getIdentifier()->toArray();
+                $identifier['path']	= array('model');
+                $identifier['name']	= $model;
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($model);
 
@@ -165,27 +176,31 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      * This function translates a render request into a read or browse action. If the view name is singular a read
      * action will be executed, if plural a browse action will be executed.
      *
-     * @param	CommandContext	$context A command context object
-     * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
+     * @param	ControllerContextInterface	$context A controller context object
+     * @return 	string|false The rendered output of the view or FALSE if something went wrong
      */
-    protected function _actionRender(CommandContext $context)
+    protected function _actionRender(ControllerContextInterface $context)
     {
+        $result = false;
+
         //Check if we are reading or browsing
         $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
 
         //Execute the action
-        $this->execute($action, $context);
+        if($this->execute($action, $context) !== false) {
+            $result = parent::_actionRender($context);
+        }
 
-        return parent::_actionRender($context);
+        return $result;
     }
 
 	/**
 	 * Generic browse action, fetches a list
 	 *
-	 * @param	CommandContext	$context A command context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 * @return 	DatabaseRowsetInterface A rowset object containing the selected rows
 	 */
-	protected function _actionBrowse(CommandContext $context)
+	protected function _actionBrowse(ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRowset();
 		return $entity;
@@ -194,16 +209,16 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic read action, fetches an item
 	 *
-	 * @param	CommandContext	$context A command context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 * @return 	DatabaseRowInterface A row object containing the selected row
 	 */
-	protected function _actionRead(CommandContext $context)
+	protected function _actionRead(ControllerContextInterface $context)
 	{
 	    $entity = $this->getModel()->getRow();
 	    $name   = ucfirst($this->getView()->getName());
 
 		if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
-		    throw new ControllerExceptionNotFound($name.' Not Found');
+		    throw new ControllerExceptionResourceNotFound($name.' Not Found');
 		}
 
 		return $entity;
@@ -212,11 +227,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic edit action, saves over an existing item
 	 *
-	 * @param	CommandContext	$context A command context object
-     * @throws  ControllerExceptionNotFound   If the entity could not be found
+	 * @param	ControllerContextInterface	$context A controller context object
+     * @throws  ControllerExceptionResourceNotFound   If the resource could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
-	protected function _actionEdit(CommandContext $context)
+	protected function _actionEdit(ControllerContextInterface $context)
 	{
 	    $entity = $this->getModel()->getData();
 
@@ -226,12 +241,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
 	        //Only set the reset content status if the action explicitly succeeded
 	        if($entity->save() === true) {
-		        $context->response->setStatus(self::STATUS_RESET);
-		    } else {
-		        $context->response->setStatus(self::STATUS_UNCHANGED);
+		        $context->response->setStatus(HttpResponse::RESET_CONTENT);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Resource could not be found');
+		else throw new ControllerExceptionResourceNotFound('Resource could not be found');
 
 		return $entity;
 	}
@@ -239,12 +252,12 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic add action, saves a new item
 	 *
-	 * @param	CommandContext	$context A command context object
+	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionBadRequest   If the entity already exists
+     * @throws  ControllerExceptionRequestInvalid   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
-	protected function _actionAdd(CommandContext $context)
+	protected function _actionAdd(ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -258,9 +271,28 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 			    $error = $entity->getStatusMessage();
 		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
 		    }
-		    else $context->response->setStatus(self::STATUS_CREATED);
+            else
+            {
+                if ($entity instanceof DatabaseRowInterface)
+                {
+                    $url = clone $context->request->getUrl();
+
+                    if ($this->getModel()->getState()->isUnique())
+                    {
+                        $states = $this->getModel()->getState()->getValues(true);
+
+                        foreach ($states as $key => $value) {
+                            $url->query[$key] = $entity->get($key);
+                        }
+                    }
+                    else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
+                }
+
+                $context->response->headers->set('Location', (string) $url);
+                $context->response->setStatus(HttpResponse::CREATED);
+            }
 		}
-		else throw new ControllerExceptionBadRequest('Resource Already Exists');
+		else throw new ControllerExceptionRequestInvalid('Resource Already Exists');
 
 		return $entity;
 	}
@@ -268,11 +300,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	/**
 	 * Generic delete function
 	 *
-	 * @param	CommandContext	$context A command context object
+	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed 	If the delete action failed on the data entity
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the deleted row(s)
 	 */
-	protected function _actionDelete(CommandContext $context)
+	protected function _actionDelete(ControllerContextInterface $context)
 	{
 	    $entity = $this->getModel()->getData();
 
@@ -292,9 +324,9 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 			    $error = $entity->getStatusMessage();
                 throw new ControllerExceptionActionFailed($error ? $error : 'Delete Action Failed');
 		    }
-		    else $context->response->setStatus(self::STATUS_UNCHANGED);
+		    else $context->response->setStatus(HttpResponse::NO_CONTENT);
 		}
-		else throw new ControllerExceptionNotFound('Resource Not Found');
+		else throw new ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}
@@ -307,7 +339,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      *
      * @param	string	$method Method name
      * @param	array	$args   Array containing all the arguments for the original call
-     * @return	ControllerView
+     * @return	ControllerModel
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html
      */

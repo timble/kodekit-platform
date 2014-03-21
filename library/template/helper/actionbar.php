@@ -38,7 +38,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
             $config->attribs['id'] = 'toolbar-'.$config->toolbar->getType();
 
             $html  = '<div '.$this->buildAttributes($config->attribs).'>';
-            $html .= '<div class="btn-group">';
+            $html .= '<div class="button__group">';
             foreach ($config->toolbar->getCommands() as $command)
             {
                 $name = $command->getName();
@@ -66,7 +66,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
     {
         $config = new ObjectConfig($config);
         $config->append(array(
-        	'command' => array('attribs' => array('class' => array('btn', 'toolbar')))
+        	'command' => array('attribs' => array('class' => array('button', 'toolbar')))
         ));
 
         $command = $config->command;
@@ -101,7 +101,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
     {
         $config = new ObjectConfig($config);
         $config->append(array(
-            'command' => array('attribs' => array('class' => array('btn-group')))
+            'command' => array('attribs' => array('class' => array('button__group')))
         ));
 
         $command = $config->command;

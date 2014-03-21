@@ -17,15 +17,20 @@ use Nooku\Library;
  */
 class PagesViewPageHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         // Load languages.
-        $language   = JFactory::getLanguage();
+        $language = JFactory::getLanguage();
 
-        foreach($this->getObject('com:extensions.model.extensions')->getRowset() as $extension) {
-            $language->load($extension->name);
+        foreach($context->data->components as $component) {
+            $language->load($component->name);
         }
-        
+
+        return parent::_actionRender($context);
+    }
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
         // Load components.
         $state = $this->getModel()->getState();
         $page  = $this->getModel()->getRow();
@@ -33,8 +38,8 @@ class PagesViewPageHtml extends Library\ViewHtml
         $menu  = $this->getObject('com:pages.model.menus')
             ->id($state->menu)
             ->getRow();
-        
-        $this->extensions = $this->getObject('com:pages.model.types')
+
+        $context->data->components = $this->getObject('com:pages.model.types')
             ->application($menu->application)
             ->getRowset();
 
@@ -51,14 +56,15 @@ class PagesViewPageHtml extends Library\ViewHtml
         $assigned = $this->getObject('com:pages.database.table.modules_pages')
             ->select($query);
 
-        $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
+        //Assign the modules
+        $context->data->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
         // Assign menu.
-        $this->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->getRow();
+        $context->data->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->getRow();
 
         // Assign parent ID
-        $this->parent_id = $page->getParentId();
+        $context->data->parent_id = $page->getParentId();
 
-        return parent::render();
+        parent::_fetchData($context);
     }
 }

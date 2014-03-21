@@ -29,7 +29,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      */
     public function __construct( Library\ObjectConfig $config )
     {
@@ -43,7 +43,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -64,18 +64,18 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      */
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
-        $identifier = clone $config->object_identifier;
-        $identifier->package = $config->module->package;
+        $identifier = $config->object_identifier->toArray();
+        $identifier['package'] = $config->module->package;
 
         $identifier = $manager->getIdentifier($identifier);
 
-        if(file_exists($identifier->classpath)) {
-            $classname = $identifier->classname;
+        if($manager->getClass($identifier, false)) {
+            $class = $manager->getClass($identifier);
         } else {
-            $classname = $config->object_identifier->classname;
+            $class = $manager->getClass($config->object_identifier);
         }
 
-        $instance  = new $classname($config);
+        $instance = new $class($config);
         return $instance;
     }
 

@@ -1,0 +1,49 @@
+#panel-sidebar {
+    @include box-sizing(border-box);
+    background-color: $sidebarBackground;
+    border-right: 1px solid $grayLighter;
+
+    h3,
+    .sidebar__title {
+        padding: 0;
+        margin: 0;
+        line-height: 28px;
+        gradient-vertical-align: middle;
+
+        color: $gray;
+        font-size: $baseFontSize - 1px;
+        font-weight: 600;
+        text-indent: 12px;
+        text-transform: uppercase;
+
+        border-top: 1px solid $grayLighter;
+        border-bottom: 1px solid $grayLighter;
+        background: linear-gradient(#F2F2F2, #E9E9E9);
+
+        @extend .ellipsis;
+
+        &:first-of-type {
+            border-top: 0 none;
+        }
+    }
+
+    h4,
+    .sidebar__subtitle {
+        padding: 4px 0 4px 10px;
+        margin: $baseLineHeight 0 0 0;
+        color: #666;
+        text-transform: uppercase;
+
+        &:first-of-type {
+            margin-top: 2px;
+        }
+    }
+
+    input[type=date] {
+        width: 160px;
+    }
+
+    fieldset {
+        margin: 5px 0;
+    }
+}

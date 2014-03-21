@@ -25,13 +25,13 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	 * This functions merges the request information with any model state information
 	 * that was saved in the session and returns the result.
 	 *
-	 * @param 	Library\CommandContext		The active command context
+	 * @param 	Library\ControllerContextInterface $context A controller context object
 	 * @return 	void
 	 */
-	protected function _beforeControllerBrowse(Library\CommandContext $context)
+	protected function _beforeBrowse(Library\ControllerContextInterface $context)
 	{
 		 // Built the session identifier based on the action
-        $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
+        $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table.'.state';
         $state       = $context->user->get($identifier);
 
         //Add the data to the request query object
@@ -44,16 +44,16 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	/**
 	 * Saves the model state in the session
 	 *
-	 * @param 	Library\CommandContext		The active command context
+	 * @param 	Library\ControllerContextInterface $context A controller context object
 	 * @return 	void
 	 */
-	protected function _afterControllerBrowse(Library\CommandContext $context)
+	protected function _afterBrowse(Library\ControllerContextInterface $context)
 	{
 		$model = $this->getModel();
         $state = $model->getState();
 
         // Built the session identifier based on the action
-        $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
+        $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table.'.state';
         
         //Set the state in the user session
         $context->user->set($identifier, $state->getValues());

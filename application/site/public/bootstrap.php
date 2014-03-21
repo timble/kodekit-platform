@@ -10,7 +10,7 @@
 /**
  * Framework loader
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
 
 use Nooku\Library;
@@ -20,6 +20,9 @@ if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/
     echo 'No configuration file found. Exciting...';
     exit();
 }
+
+//Don't run in STRICT mode (Joomla is not E_STRICT compat)
+error_reporting(error_reporting() | ~ E_STRICT);
 
 // Joomla : setup
 require_once(JPATH_VENDOR.'/joomla/import.php');
@@ -35,25 +38,28 @@ $config = new JConfig();
 
 require_once(JPATH_ROOT . '/library/nooku.php');
 \Nooku::getInstance(array(
-    'cache_prefix' => md5($config->secret) . '-cache-koowa',
-    'cache_enabled' => $config->caching
+    'debug'           => $config->debug,
+    'cache_namespace' => 'site',
+    'cache_enabled'   => $config->caching
 ));
 
 unset($config);
 
 //Setup the component locator
-Library\ClassLoader::getInstance()->getLocator('com')->registerNamespaces(
+Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
     array(
         '\\'              => JPATH_APPLICATION.'/component',
         'Nooku\Component' => JPATH_ROOT.'/component'
     )
 );
 
+Library\ObjectManager::getInstance()->registerLocator('lib:object.locator.component');
+
 //Add the different applications
-Library\ClassLoader::getInstance()->addApplication('site' , JPATH_ROOT.'/application/site');
-Library\ClassLoader::getInstance()->addApplication('admin', JPATH_ROOT.'/application/admin');
+Library\ClassLoader::getInstance()->registerBasepath('site' , JPATH_ROOT.'/application/site');
+Library\ClassLoader::getInstance()->registerBasepath('admin', JPATH_ROOT.'/application/admin');
 
 //Bootstrap the components
-Library\ObjectManager::getInstance()->getObject('lib:bootstrapper.application', array(
+Library\ObjectManager::getInstance()->getObject('com:application.bootstrapper', array(
     'directory' => JPATH_APPLICATION.'/component'
 ))->bootstrap();

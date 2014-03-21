@@ -39,7 +39,7 @@
                     <?= helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
                 </th>
                 <th width="1">
-                    <?= helper('grid.sort',  array('column' => 'extensions_extension_id' , 'title' => 'Type')); ?>
+                    <?= helper('grid.sort',  array('column' => 'component' , 'title' => 'Type')); ?>
                 </th>
             </tr>
         </thead>
@@ -57,7 +57,7 @@
             <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>" data-sortable-level="<?= (int)$page->level ?>">
                 <? if($state->sort == 'custom' && $state->direction == 'asc') : ?>
                     <td class="handle">
-                        <span class="text-small data-order"><?= $page->ordering ?></span>
+                        <span class="text--small data-order"><?= $page->ordering ?></span>
                     </td>
                 <? endif ?>
                 <td align="center">

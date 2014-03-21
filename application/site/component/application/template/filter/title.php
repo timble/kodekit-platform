@@ -23,13 +23,17 @@ class ApplicationTemplateFilterTitle extends Application\TemplateFilterTitle
         $title = $this->_parseTags($text);
 
         //Get the parameters of the active menu item
-        $page   = $this->getObject('application.pages')->getActive();
-        $params = new JParameter($page->params);
+        $title = '';
+        if($page = $this->getObject('application.pages')->getActive())
+        {
+            $params = $page->getParams('page');
+            $title  = htmlspecialchars_decode($this->getObject('application')->getCfg('sitename' ));
 
-        if($params->get('page_title')) {
-            $title = $this->_renderTag(array(), $params->get('page_title'));
+            if($params->get('page_title', $title)) {
+                $title = $this->_renderTag(array(), $params->get('page_title'));
+            }
         }
 
-        $text = str_replace('<ktml:title>'.PHP_EOL, $title, $text);
+        $text = str_replace('<ktml:title>', $title, $text);
     }
 }

@@ -24,7 +24,7 @@ class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionba
         parent::_initialize($config);
     }
 
-    protected function _afterControlerBrowse(Library\CommandContext $context)
+    protected function _afterRead(Library\ControllerContextInterface $context)
     {
         $controller = $this->getController();
         $view       = $controller->getView();
@@ -38,6 +38,6 @@ class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionba
 
             $this->addCommand('edit', array('href'  => (string) $route));
         }
-        else parent::_afterControlerBrowse($context);
+        else parent::_afterRead($context);
     }
 }

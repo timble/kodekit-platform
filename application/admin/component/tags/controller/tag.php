@@ -21,7 +21,7 @@ abstract class TagsControllerTag extends Library\ControllerModel
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
+                'editable', 'persistable',
                 //'com:activities.controller.behavior.loggable'
             ),
             'model'     => 'com:tags.model.tags'
@@ -32,21 +32,21 @@ abstract class TagsControllerTag extends Library\ControllerModel
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:tags.controller.toolbar.tag');
     }
-    
-    protected function _actionRender(Library\CommandContext $context)
+
+    protected function _actionRender(Library\ControllerContextInterface $context)
     {
         $view = $this->getView();
         
 	    //Set the layout
         if($view instanceof Library\ViewTemplate)
 	    {
-	        $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
+	        $layout = $view->getIdentifier()->toArray();
+            $layout['name']  = $view->getLayout();
 
-            $alias = clone $layout;
-            $alias->package = 'tags';
+            $alias = $layout;
+            $alias['package'] = 'tags';
 
-	        $this->getObject('manager')->registerAlias($layout, $alias);
+	        $this->getObject('manager')->registerAlias($alias, $this->getIdentifier($layout));
 	    }
 	        
         return parent::_actionRender($context);

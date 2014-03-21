@@ -153,58 +153,6 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contacts`
---
-
-CREATE TABLE `contacts` (
-  `contacts_contact_id` int(11) NOT NULL AUTO_INCREMENT,
-  `categories_category_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `slug` varchar(255) DEFAULT NULL,
-  `position` varchar(255) DEFAULT NULL,
-  `address` text,
-  `suburb` varchar(100) DEFAULT NULL,
-  `state` varchar(100) DEFAULT NULL,
-  `country` varchar(100) DEFAULT NULL,
-  `postcode` varchar(100) DEFAULT NULL,
-  `telephone` varchar(255) DEFAULT NULL,
-  `fax` varchar(255) DEFAULT NULL,
-  `misc` mediumtext,
-  `email_to` varchar(255) DEFAULT NULL,
-  `published` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `created_by` int(11) unsigned,
-  `created_on` datetime,
-  `modified_by` int(11) unsigned,
-  `modified_on` datetime,
-  `locked_by` int(11) unsigned,
-  `locked_on` datetime,
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `params` text NOT NULL,
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `mobile` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`contacts_contact_id`),
-  KEY `category` (`categories_category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `extensions`
---
-
-CREATE TABLE `extensions` (
-  `extensions_extension_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL DEFAULT '',
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `params` text NOT NULL,
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`extensions_extension_id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `files_containers`
 --
 
@@ -278,13 +226,12 @@ CREATE TABLE `languages_translations` (
 
 CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_extension_id` INT(11) UNSIGNED,
+    `component` INT(11) UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `languages_tables__extensions_extension_id` FOREIGN KEY (`extensions_extension_id`) REFERENCES `extensions` (`extensions_extension_id`) ON DELETE CASCADE
-) ENGINE=InnoDB CHARSET=utf8;
+    PRIMARY KEY (`languages_table_id`)
+) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------
 
@@ -304,7 +251,7 @@ CREATE TABLE `pages` (
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
-  `extensions_extension_id` INT UNSIGNED,
+  `component` VARCHAR(50),
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -317,7 +264,7 @@ CREATE TABLE `pages` (
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
-  INDEX `ix_extensions_extension_id` (`extensions_extension_id`),
+  INDEX `ix_component` (`component`),
   INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -413,7 +360,7 @@ CREATE TABLE `pages_modules` (
   `name` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `extensions_extension_id` INT UNSIGNED,
+  `component` VARCHAR(50) NOT NULL,
   `application` varchar(50) NOT NULL,
   PRIMARY KEY (`pages_module_id`),
   KEY `published` (`published`,`access`)
@@ -524,7 +471,7 @@ CREATE TABLE `users_groups_users` (
   `users_group_id` int(11) unsigned NOT NULL,
   `users_user_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`users_group_id`,`users_user_id`),
-  CONSTRAINT `users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `users` (`users_user_id`) ON DELETE CASCADE,
+  CONSTRAINT `users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `users_roles` (`users_role_id`) ON DELETE CASCADE,
   CONSTRAINT `users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `users_groups` (`users_group_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -542,14 +489,13 @@ CREATE TABLE `users_groups_users` (
 CREATE TABLE `users_sessions` (
   `time` varchar(14) DEFAULT '',
   `users_session_id` varchar(128) NOT NULL,
-  `guest` tinyint(4) DEFAULT '1',
   `email` varchar(100) NOT NULL COMMENT '@Filter("email")',
-  `application` varchar(50) NOT NULL,
+  `domain` varchar(100) NOT NULL,
+  `path` varchar(100) NOT NULL,
   `data` longtext,
   PRIMARY KEY (`users_session_id`(64)),
-  KEY `whosonline` (`guest`),
   KEY `time` (`time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

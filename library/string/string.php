@@ -7,29 +7,29 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Library;
+
 /**
  * PHP mbstring and iconv local configuration
  */
 
-// check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
+// Check if mbstring extension is loaded and attempt to load it if not present except for windows
+if (extension_loaded('mbstring'))
 {
-    //Make sure to surpress the output in case ini_set is disabled
+    // Make sure to suppress the output in case ini_set is disabled
     @ini_set('mbstring.internal_encoding', 'UTF-8');
     @ini_set('mbstring.http_input', 'UTF-8');
     @ini_set('mbstring.http_output', 'UTF-8');
 }
 
-// check if iconv extension is loaded and attempt to load it if not present except for windows
-if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
+// Same for iconv
+if (function_exists('iconv'))
 {
-    // these are settings that can be set inside code
+    // These are settings that can be set inside code
     iconv_set_encoding("internal_encoding", "UTF-8");
     iconv_set_encoding("input_encoding", "UTF-8");
     iconv_set_encoding("output_encoding", "UTF-8");
 }
-
-namespace Nooku\Library;
 
 /**
  * String
@@ -40,7 +40,7 @@ namespace Nooku\Library;
  * @package Nooku\Library\String
  * @static
  */
-class String
+class String implements StringInterface
 {
     /**
      * UTF-8 aware alternative to strpos

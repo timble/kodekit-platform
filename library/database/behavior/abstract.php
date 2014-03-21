@@ -28,15 +28,15 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        $classname = $config->object_identifier->classname;
-        $instance  = new $classname($config);
+        $class     = $manager->getClass($config->object_identifier);
+        $instance  = new $class($config);
 
-        //If the behavior is auto mixed also lazy mix it into related row objects.
-        if ($config->auto_mixin)
+        //Lazy mix it into related row objects.
+        if ($config->row_mixin)
         {
-            $identifier = clone $instance->getMixer()->getIdentifier();
-            $identifier->path = array('database', 'row');
-            $identifier->name = StringInflector::singularize($identifier->name);
+            $identifier = $instance->getMixer()->getIdentifier()->toArray();
+            $identifier['path'] = array('database', 'row');
+            $identifier['name'] = StringInflector::singularize($identifier['name']);
 
             $manager->registerMixin($identifier, $instance);
         }
@@ -45,22 +45,19 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
     }
 
     /**
-     * Command handler
+     * Execute the handler
      *
-     * This function translates the command name to a command handler function of the format '_before[Command]' or
-     * '_after[Command]. Command handler functions should be declared protected.
-     *
-     * @param     string            $name  The command name
-     * @param     CommandContext    $context The command context
-     * @return    boolean   Can return both true or false.
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
+     * @return mixed|null If a handler breaks, returns the break condition. NULL otherwise.
      */
-    public function execute($name, CommandContext $context)
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
-        if ($context->data instanceof DatabaseRowInterface) {
-            $this->setMixer($context->data);
+        if ($command->data instanceof DatabaseRowInterface) {
+            $this->setMixer($command->data);
         }
 
-        return parent::execute($name, $context);
+        return parent::execute($command, $chain);
     }
 
     /**
@@ -107,20 +104,15 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
     /**
      * Get the methods that are available for mixin based
      *
-     * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
-     * behavior is callable.
+     * Methods will only be mixed if the behavior is supported. Otherwise only an is[Behavior] method will be mixed
+     * which returns false.
      *
-     * @param ObjectInterface The mixer requesting the mixable methods.
+     * @param  array $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getMixableMethods($exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer);
-
-        unset($methods['save']);
-        unset($methods['delete']);
-        unset($methods['getInstance']);
-
-        return $methods;
+        $exclude +=  array('save', 'delete', 'getInstance');
+        return parent::getMixableMethods($exclude);
     }
 }

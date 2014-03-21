@@ -22,7 +22,7 @@ class ClassRegistryCache extends ClassRegistry
  	 *
  	 * @var boolean
  	 */
-    protected $_namespace = 'nooku-registry-class';
+    protected $_namespace = 'nooku';
 
     /**
      * Constructor
@@ -43,7 +43,7 @@ class ClassRegistryCache extends ClassRegistry
      * @param string $namespace
      * @return void
      */
-    public function seNamespace($namespace)
+    public function setNamespace($namespace)
     {
         $this->_namespace = $namespace;
     }
@@ -66,11 +66,13 @@ class ClassRegistryCache extends ClassRegistry
      */
     public function offsetGet($offset)
     {
-        if(!parent::offsetExists($offset)) {
-            $result = apc_fetch($this->_namespace.'-'.$offset);
-        } else {
-            $result = parent::offsetGet($offset);
+        if(!parent::offsetExists($offset))
+        {
+            if($result = apc_fetch($this->_namespace.'-class-'.$offset)) {
+                parent::offsetSet($offset, $result);
+            }
         }
+        else $result = parent::offsetGet($offset);
 
         return $result;
     }
@@ -84,7 +86,7 @@ class ClassRegistryCache extends ClassRegistry
      */
     public function offsetSet($offset, $value)
     {
-        apc_store($this->_namespace.'-'.$offset, $value);
+        apc_store($this->_namespace.'-class-'.$offset, $value);
 
         parent::offsetSet($offset, $value);
     }
@@ -98,9 +100,34 @@ class ClassRegistryCache extends ClassRegistry
     public function offsetExists($offset)
     {
         if(false === $result = parent::offsetExists($offset)) {
-            $result = apc_exists($this->_namespace.'-'.$offset);
+            $result = apc_exists($this->_namespace.'-class-'.$offset);
         }
 
         return $result;
+    }
+
+    /**
+     * Unset an item from the array
+     *
+     * @param   int     $offset
+     * @return  void
+     */
+    public function offsetUnset($offset)
+    {
+        apc_delete($this->_namespace.'-class-'.$offset);
+        parent::offsetUnset($offset);
+    }
+
+    /**
+     * Clears APC cache
+     *
+     * @return $this
+     */
+    public function clear()
+    {
+        // Clear user cache
+        apc_clear_cache('user');
+
+        return parent::clear();
     }
 }

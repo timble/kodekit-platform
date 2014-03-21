@@ -22,21 +22,18 @@ class ViewPageHtml extends ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters' => array('expire','module'),
+            'template_filters'	=> array('module', 'style', 'link', 'meta', 'script', 'title', 'message'),
         ));
 
         parent::_initialize($config);
     }
 
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
-        // Build the sorted message list
-        $this->messages = $this->getObject('response')->getMessages();
-
         //Set the component and layout information
-        $this->extension = $this->getObject('component')->getIdentifier()->package;
-        $this->layout    = $this->getObject('component')->getController()->getView()->getLayout();
+        $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
+        $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
 
-        return parent::render();
+        parent::_fetchData($context);
     }
 }

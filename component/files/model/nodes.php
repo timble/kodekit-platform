@@ -23,17 +23,17 @@ class ModelNodes extends ModelAbstract
 
     public function createRow(array $options = array())
 	{
-		$identifier        = clone $this->getIdentifier();
-		$identifier->path  = array('database', 'row');
-		$identifier->name  = Library\StringInflector::singularize($this->getIdentifier()->name);
+		$identifier         = $this->getIdentifier()->toArray();
+		$identifier['path'] = array('database', 'row');
+		$identifier['name'] = Library\StringInflector::singularize($this->getIdentifier()->name);
 	
 		return $this->getObject($identifier, $options);
 	}
 	
 	public function createRowset(array $options = array())
 	{
-		$identifier         = clone $this->getIdentifier();
-		$identifier->path   = array('database', 'rowset');
+		$identifier         = $this->getIdentifier()->toArray();
+		$identifier['path'] = array('database', 'rowset');
 	
 		return $this->getObject($identifier, $options);
 	}

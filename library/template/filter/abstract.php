@@ -27,7 +27,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Template object
      *
-     * @var object
+     * @var TemplateInterface
      */
     protected $_template;
 
@@ -158,8 +158,8 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         $output = array();
 
-        if ($array instanceof KConfig) {
-            $array = KConfig::unbox($array);
+        if ($array instanceof ObjectConfig) {
+            $array = ObjectConfig::unbox($array);
         }
 
         if (is_array($array))

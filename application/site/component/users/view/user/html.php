@@ -17,12 +17,13 @@ use Nooku\Library;
  */
 class UsersViewUserHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
-        $this->parameters = $this->getObject('application')->getParams();
-        $this->page = $this->getObject('application.pages')->getActive();
+        $page = $this->getObject('application.pages')->getActive();
 
-        //JFactory::getDocument()->setTitle($this->parameters->get('page_title'));
-        return parent::render();
+        $context->data->page            = $page;
+        $context->data->password_length = $this->getObject('com:users.database.row.password')->getLength();
+
+        parent::_fetchData($context);
     }
 }

@@ -1,0 +1,88 @@
+//
+// Button groups
+// --------------------------------------------------
+
+// Make the div behave like a button
+.button__group {
+    position: relative;
+    display: inline-block;
+    font-size: 0; // remove as part 1 of font-size inline-block hack
+    vertical-align: middle; // match .button alignment given font-size hack above
+    white-space: nowrap; // prevent buttons from wrapping when in tight spaces (e.g., the table on the tests page)
+}
+
+// Space out series of button groups
+.button__group + .button__group {
+    margin-left: 5px;
+}
+
+// Optional: Group multiple button groups together for a toolbar
+.button__toolbar {
+    font-size: 0; // Hack to remove whitespace that results from using inline-block
+    margin-top: $baseLineHeight / 2;
+    margin-bottom: $baseLineHeight / 2;
+    > .button + .button,
+    > .button__group + .button,
+    > .button + .button__group {
+        margin-left: 5px;
+    }
+}
+
+// Float them, remove border radius, then re-add to first and last elements
+.button__group > .button {
+    position: relative;
+    border-radius: 0;
+}
+
+.button__group > .button + .button {
+    margin-left: -1px;
+}
+
+.button__group > .button {
+    font-size: $baseFontSize; // redeclare as part 2 of font-size inline-block hack
+}
+
+// Reset fonts for other sizes
+.button__group > .button--mini {
+    font-size: $fontSizeMini;
+}
+
+.button__group > .button--small {
+    font-size: $fontSizeSmall;
+}
+
+.button__group > .button--large {
+    font-size: $fontSizeLarge;
+}
+
+// Set corners individual because sometimes a single button can be in a .button__group and we need :first-child and :last-child to both match
+.button__group > .button:first-child {
+    margin-left: 0;
+    border-top-left-radius: $baseBorderRadius;
+    border-bottom-left-radius: $baseBorderRadius;
+}
+
+.button__group > .button:last-child {
+    border-top-right-radius: $baseBorderRadius;
+    border-bottom-right-radius: $baseBorderRadius;
+}
+
+// Reset corners for large buttons
+.button__group > .button.large:first-child {
+    margin-left: 0;
+    border-top-left-radius: $borderRadiusLarge;
+    border-bottom-left-radius: $borderRadiusLarge;
+}
+
+.button__group > .button.large:last-child {
+    border-top-right-radius: $borderRadiusLarge;
+    border-bottom-right-radius: $borderRadiusLarge;
+}
+
+// On hover/focus/active, bring the proper button to front
+.button__group > .button:hover,
+.button__group > .button:focus,
+.button__group > .button:active,
+.button__group > .button.active {
+    z-index: 2;
+}

@@ -18,6 +18,13 @@ namespace Nooku\Library;
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
     /**
+     * The class prefix sequence in FIFO order
+     *
+     * @var array
+     */
+    protected $_sequence = array();
+
+    /**
      * The locator type
      *
      * @var string
@@ -25,22 +32,15 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     protected $_type = '';
 
     /**
-     * The class prefix sequence in FIFO order
-     *
-     * @var array
-     */
-    protected $_fallbacks = array();
-
-    /**
      * Constructor.
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional KObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_fallbacks = ObjectConfig::unbox($config->fallbacks);
+        $this->_sequence = ObjectConfig::unbox($config->sequence);
     }
 
     /**
@@ -48,14 +48,74 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config An optional KObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'fallbacks' => array(),
+            'sequence' => array(),
         ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Returns a fully qualified class name for a given identifier.
+     *
+     * @param ObjectIdentifier $identifier An identifier object
+     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @return string|false  Return the class name on success, returns FALSE on failure
+     */
+    public function locate(ObjectIdentifier $identifier, $fallback = true)
+    {
+        $package = ucfirst($identifier->package);
+        $path    = StringInflector::camelize(implode('_', $identifier->path));
+        $file    = ucfirst($identifier->name);
+        $class   = $path.$file;
+
+        $info = array(
+            'class'   => $class,
+            'package' => $package,
+            'path'    => $path,
+            'file'    => $file
+        );
+
+        return $this->find($info, $identifier->domain, $fallback);
+    }
+
+    /**
+     * Find a class
+     *
+     * @param array  $info      The class information
+     * @param bool   $fallback  If TRUE use the fallback sequence
+     * @return bool|mixed
+     */
+    public function find(array $info, $fallback = true)
+    {
+        $result = false;
+
+        //Find the class
+        foreach($this->_sequence as $template)
+        {
+            $class= str_replace(
+                array('<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
+                array($info['package'], $info['path'], $info['file'], $info['class']),
+                $template
+            );
+
+            if(class_exists($class))
+            {
+                $result = $class;
+                break;
+            }
+
+            if(!$fallback) {
+                break;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -69,12 +129,12 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     }
 
     /**
-     * Get the locator fallbacks
+     * Get the locator fallback sequence
      *
      * @return array
      */
-    public function getFallbacks()
+    public function getSequence()
     {
-        return $this->_fallbacks;
+        return $this->_sequence;
     }
 }

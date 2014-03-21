@@ -52,7 +52,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     /**
      * User role getter.
      *
-     * @return UsersDatabaseRowRole The user's role row object.
+     * @return DatabaseRowRole The user's role row object.
      */
     public function getRole()
     {
@@ -67,12 +67,9 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     {
         if(is_null($this->_groups))
         {
-            if(!$this->guest)
-            {
-                $this->_groups =  $this->getObject('com:users.database.table.groups_users')
-                    ->select(array('users_user_id' => $this->id), Library\Database::FETCH_FIELD_LIST);
-            }
-            else $this->_groups = array();
+            $this->_groups =  $this->getObject('com:users.database.table.groups_users')
+                ->select(array('users_user_id' => $this->role_id), Library\Database::FETCH_FIELD_LIST);
+
         }
 
         return $this->_groups;
@@ -132,9 +129,9 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             }*/
         }
 
+        // Clear role cache
         if ($this->isModified('role_id'))
         {
-            // Clear role cache
             $this->_role = null;
         }
 
@@ -166,9 +163,11 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     {
         $result = parent::load();
 
-        // Clear role cache
-        if ($result) {
-            $this->_role = null;
+        // Clear cache
+        if ($result)
+        {
+            $this->_role   = null;
+            $this->_groups = null;
         }
 
         return $result;
@@ -178,8 +177,10 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     {
         $result = parent::reset();
 
-        // Clear role cache
-        $this->_role = null;
+        // Clear cache
+        $this->_role   = null;
+        $this->_groups = null;
+
         return $result;
     }
 
@@ -194,35 +195,6 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         
         unset($data['activation']);
         $data['params'] = $this->params->toArray();
-
-        return $data;
-    }
-
-    /**
-     * Session data getter.
-     *
-     * @param bool Whether or not the user is authenticated.
-     *
-     * @return array An associative array containing session user data.
-     */
-    public function getSessionData($authentic = false)
-    {
-        $data = array();
-
-        if (!$this->isNew()) {
-            $data = array(
-                'id'         => $this->id,
-                'email'      => $this->email,
-                'name'       => $this->name,
-                'role'       => $this->role_id,
-                'groups'     => $this->getGroups(),
-                'password'   => $this->getPassword()->password,
-                'salt'       => $this->getPassword()->salt,
-                'enabled'    => $this->enabled,
-                'attributes' => $this->params->toArray(),
-                'authentic'  => $authentic
-            );
-        }
 
         return $data;
     }

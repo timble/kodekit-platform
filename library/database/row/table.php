@@ -122,9 +122,11 @@ class DatabaseRowTable extends DatabaseRowAbstract
         {
             if (is_string($table) && strpos($table, '.') === false)
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('database', 'table');
-                $identifier->name = StringInflector::tableize($table);
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('database', 'table');
+                $identifier['name'] = StringInflector::tableize($table);
+
+                $identifier = $this->getIdentifier($identifier);
             }
             else $identifier = $this->getIdentifier($table);
 
@@ -282,20 +284,23 @@ class DatabaseRowTable extends DatabaseRowAbstract
      */
     public function __call($method, $arguments)
     {
-        if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
+        if ($this->isConnected())
         {
             $parts = StringInflector::explode($method);
 
             //Check if a behavior is mixed
             if ($parts[0] == 'is' && isset($parts[1]))
             {
-                //Lazy mix behaviors
-                $behavior = strtolower($parts[1]);
+                if(!isset($this->_mixed_methods[$method]))
+                {
+                    //Lazy mix behaviors
+                    $behavior = strtolower($parts[1]);
 
-                if ($this->getTable()->hasBehavior($behavior)) {
-                    $this->mixin($this->getTable()->getBehavior($behavior));
-                } else {
-                    return false;
+                    if ($this->getTable()->hasBehavior($behavior)) {
+                        $this->mixin($this->getTable()->getBehavior($behavior));
+                    } else {
+                        return false;
+                    }
                 }
             }
         }

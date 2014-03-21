@@ -32,6 +32,13 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
     protected $_data;
 
     /**
+     * The request format
+     *
+     * @var string
+     */
+    protected $_format;
+
+    /**
      * Constructor
      *
      * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
@@ -46,6 +53,9 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
 
         //Set data parameters
         $this->setData($config->data);
+
+        //Set the format
+        $this->setFormat($config->format);
     }
 
     /**
@@ -61,9 +71,25 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
         $config->append(array(
             'query' => array(),
             'data'  => array(),
+            'format' => 'html',
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Return the Url of the request regardless of the server
+     *
+     * @return HttpUrl A HttpUrl object
+     */
+    public function getUrl()
+    {
+        $url = parent::getUrl();
+
+        //Add the query to the URL
+        $url->setQuery($this->getQuery()->toArray());
+
+        return $url;
     }
 
     /**
@@ -113,16 +139,11 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
     /**
      * Return the request format
      *
-     * @param   string  $format The default format
      * @return  string  The request format
      */
-    public function getFormat($format = 'html')
+    public function getFormat()
     {
-        if($this->_query->has('format')) {
-            $format = $this->_query->get('format', 'alpha');
-        }
-
-        return $format;
+        return $this->_format;
     }
 
     /**
@@ -133,7 +154,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      */
     public function setFormat($format)
     {
-        $this->_query->set('format', $format);
+        $this->_format = $format;
         return $this;
     }
 

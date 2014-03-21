@@ -19,15 +19,6 @@ use Nooku\Library;
  */
 abstract class ControllerAbstract extends Library\ControllerModel
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'persistable'   => false,
-		));
-
-		parent::_initialize($config);
-	}
-
 	public function getRequest()
 	{
 		$request = parent::getRequest();
@@ -45,7 +36,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 		return $request;
 	}
 
-	protected function _actionCopy(Library\CommandContext $context)
+	protected function _actionCopy(Library\ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -62,16 +53,16 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
+                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}
-		else throw new Library\ControllerExceptionNotFound('Resource Not Found');
+		else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}
 
-	protected function _actionMove(Library\CommandContext $context)
+	protected function _actionMove(Library\ControllerContextInterface $context)
 	{
 		$entity = $this->getModel()->getRow();
 
@@ -88,11 +79,11 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
+                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}
-		else throw new Library\ControllerExceptionNotFound('Resource Not Found');
+		else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
 
 		return $entity;
 	}

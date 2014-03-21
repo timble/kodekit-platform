@@ -33,4 +33,21 @@ interface DispatcherInterface extends ControllerInterface
      * @return	DispatcherInterface
      */
     public function setController($controller, $config = array());
+
+    /**
+     * Attach an authenticator
+     *
+     * @param  mixed $authenticator An object that implements DispatcherAuthenticatorInterface, an ObjectIdentifier
+     *                              or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
+     * @return DispatcherAbstract
+     */
+    public function addAuthenticator($authenticator, $config = array());
+
+    /**
+     * Gets the authenticators
+     *
+     * @return array An array of authenticators
+     */
+    public function getAuthenticators();
 }

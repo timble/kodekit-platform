@@ -69,8 +69,8 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 			'attribs'	=> array(),
 		));
 
-        $html   = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
-        $html  .= '<div class="btn-group">';
+        $html   = '<div class="button__group">'.$this->link($config->pages->first).'</div>';
+        $html  .= '<div class="button__group">';
         $html  .= $this->link($config->pages->prev);
 
         foreach($config->pages->offsets as $offset) {
@@ -79,7 +79,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 
         $html  .= $this->link($config->pages->next);
         $html  .= '</div>';
-        $html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
+        $html  .= '<div class="button__group">'.$this->link($config->pages->last).'</div>';
 
         return $html;
     }

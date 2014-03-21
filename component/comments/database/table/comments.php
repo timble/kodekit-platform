@@ -24,8 +24,9 @@ class DatabaseTableComments extends Library\DatabaseTableAbstract
     	$config->append(array(
     		'name'      => 'comments',
     		'behaviors' => array('creatable', 'modifiable', 'lockable'),
-    	    'filters'   => array(
-                'text' => array('html', 'tidy')
+            'filters' => array(
+                'text'   => array('html', 'tidy'),
+
             )
     	));
     	

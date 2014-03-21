@@ -17,12 +17,7 @@ use Nooku\Library;
  */
 class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
 {
-    /**
-     * Renders the views output
-     *
-     * @return string
-     */
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
         // Preparing the sort and direction model states.
         switch ($this->module->params->get('sort_by', 'newest'))
@@ -68,12 +63,12 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
             'category'  => $category))
             ->getRowset();
 
-        $this->articles   = $articles;
-        $this->show_title = $this->module->params->get('show_title', false);
+        $context->data->articles   = $articles;
+        $context->data->show_title = $this->module->params->get('show_title', false);
 
         // Set layout based on params.
         $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');
 
-        return parent::render();
+        parent::_fetchData($context);
     }
 }

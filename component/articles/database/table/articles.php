@@ -30,7 +30,8 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
                 ),
                 'com:languages.database.behavior.translatable',
                 'com:attachments.database.behavior.attachable',
-                'com:tags.database.behavior.taggable'
+                'com:tags.database.behavior.taggable',
+                'com:comments.database.behavior.commentable'
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),

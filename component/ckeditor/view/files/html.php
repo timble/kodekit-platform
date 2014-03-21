@@ -23,7 +23,7 @@ class ViewFilesHtml extends Files\ViewFilesHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_assign' => false
+            'auto_fetch' => false
         ));
 
         parent::_initialize($config);

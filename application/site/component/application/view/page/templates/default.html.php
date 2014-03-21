@@ -34,17 +34,13 @@
         </aside>
         <div class="span9">
             <ktml:modules position="breadcrumb">
-            <?= import('page_message.html') ?>
+            <ktml:messages>
             <section>
                 <ktml:content>
             </section>
         </div>
     </div>
 </div>
-
-<? if(object('application')->getCfg('debug')) : ?>
-    <?= object('com:debug.controller.debug')->render(); ?>
-<? endif; ?>
 
 </body>
 </html>

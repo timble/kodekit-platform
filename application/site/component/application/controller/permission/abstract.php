@@ -30,18 +30,15 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
             $user        = $this->getUser();
             $request     = $this->getRequest();
 
-            if(!($application->getCfg('offline') && !$user->isAuthentic()))
-            {
-                $page = $request->query->get('Itemid', 'int');
+            $page = $request->query->get('Itemid', 'int');
 
-                if($this->isDispatched())
-                {
-                    if($this->getObject('application.pages')->isAuthorized($page, $user)) {
-                        return true;
-                    }
+            if($this->isDispatched())
+            {
+                if($this->getObject('application.pages')->isAuthorized($page, $user)) {
+                    return true;
                 }
-                else return true;
             }
+            else return true;
         }
 
         return false;

@@ -42,8 +42,8 @@
     			<? endforeach ?>
     		</div>
     	<? endforeach ?>
-    	<div class="btn-group">
-	    	<a class="btn btn-block" href="<?= route('option=com_activities&view=activities&package='.$package) ?>">
+    	<div class="button__group">
+	    	<a class="button btn-block" href="<?= route('option=com_activities&view=activities&package='.$package) ?>">
 	    	   <?= translate('More activities') ?>
 	    	</a>
     	</div>

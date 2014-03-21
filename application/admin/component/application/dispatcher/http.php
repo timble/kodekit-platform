@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
  * Http Dispatcher
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
+class ApplicationDispatcherHttp extends Application\DispatcherHttp
 {
     /**
      * The site identifier.
@@ -33,12 +34,6 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     {
         parent::__construct($config);
 
-        //Set the base url in the request
-        $this->getRequest()->setBaseUrl($config->base_url);
-
-        //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
-
         //Set the site name
         if(empty($config->site)) {
             $this->_site = $this->getSite();
@@ -48,7 +43,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
 
         $this->loadConfig();
 
-        $this->registerCallback('before.run', array($this, 'loadLanguage'));
+        $this->addCommandCallback('before.run', 'loadLanguage');
     }
 
     /**
@@ -62,12 +57,9 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'controller'        => 'page',
-            'base_url'          => '/administrator',
-            'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
+            'base_url' => '/administrator',
             'site'     => null,
             'options'  => array(
-                'session_name' => 'admin',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
                 'theme'        => 'default'
@@ -77,34 +69,15 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        // Check if an instance with this identifier already exists
-        if (!$manager->isRegistered('application'))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->setObject($config->object_identifier, $instance);
-
-            //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias('application', $config->object_identifier);
-        }
-
-        return $manager->getObject('application');
-    }
-
     /**
      * Run the application
      *
-     * @param Library\CommandContext $context	A command context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionRun(Library\CommandContext $context)
+    protected function _actionRun(Library\DispatcherContextInterface $context)
     {
         //Set the site error reporting
-        $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
-
-        //Set the paths
-        $params = $this->getObject('application.extensions')->files->params;
+        $this->getObject('exception.handler')->setErrorLevel($this->getCfg('debug_mode'));
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
@@ -120,9 +93,9 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     /**
      * Route the request
      *
-     * @param Library\CommandContext $context	A command context object
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionRoute(Library\CommandContext $context)
+    protected function _actionRoute(Library\DispatcherContextInterface $context)
     {
         $url = clone $context->request->getUrl();
 
@@ -133,61 +106,8 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
         $context->request->query->add($url->query);
 
         //Forward the request
-        $extension = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
-        $this->forward($extension);
-
-        //Dispatch the request
-        $this->dispatch();
-    }
-
-    /**
-     * Dispatch the controller
-     *
-     * @param Library\CommandContext $context	A command context object
-     */
-    protected function _actionDispatch(Library\CommandContext $context)
-    {
-        //Render the page
-        if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
-        {
-            //Render the page
-            $config = array('response' => $context->response);
-
-            $layout = $context->request->query->get('tmpl', 'cmd', 'default');
-            $this->getObject('com:application.controller.page', $config)
-                ->layout($layout)
-                ->render();
-        }
-
-        parent::_actionDispatch($context);
-    }
-
-    /**
-     * Render an exception
-     *
-     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
-     * @param Library\CommandContext $context	A command context object
-     */
-    protected function _actionException(Library\CommandContext $context)
-    {
-        //Check an exception was passed
-        if(!isset($context->param) && !$context->param instanceof Exception)
-        {
-            throw new \InvalidArgumentException(
-                "Action parameter 'exception' [Library\EventException] is required"
-            );
-        }
-
-        $config = array(
-            'request'  => $this->getRequest(),
-            'response' => $this->getResponse()
-        );
-
-        $this->getObject('com:application.controller.exception',  $config)
-             ->render($context->param->getException());
-
-        //Send the response
-        $this->send($context);
+        $component = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
+        $this->forward($component);
     }
 
     /**
@@ -212,47 +132,20 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
             JFactory::getConfig()->loadObject(new JSiteConfig());
 
         }
-        else throw new Library\ControllerExceptionNotFound('Site :'.$this->getSite().' not found');
+        else throw new Library\ControllerExceptionResourceNotFound('Site :'.$this->getSite().' not found');
     }
 
     /**
      * Load the user session or create a new one
      *
-     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session,
-     * then the last access time is updated. If a new session, a session id is generated and a record is created
-     * in the users_sessions table.
-     *
      * @return	void
      */
     public function getUser()
     {
-        if(!$this->_user instanceof Library\DispatcherUserInterface)
+        if(!$this->_user instanceof Library\UserInterface)
         {
             $user    =  parent::getUser();
             $session =  $user->getSession();
-
-            //Set Session Name
-            $session->setName(md5($this->getCfg('secret').$this->getCfg('session_name')));
-
-            //Set Session Lifetime
-            $session->setLifetime($this->getCfg('lifetime', 15) * 60);
-
-            //Set Session Handler
-            $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
-
-            //Set Session Options
-            $session->setOptions(array(
-                'cookie_path'   => (string) $this->getRequest()->getBaseUrl()->getPath() ?: '/',
-                'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
-            ));
-
-            //Auto-start the session if a cookie is found
-            if(!$session->isActive())
-            {
-                if ($this->getRequest()->cookies->has($session->getName())) {
-                    $session->start();
-                }
-            }
 
             //Re-create the session if we changed sites
             if($user->isAuthentic() && ($session->site != $this->getSite()))
@@ -272,7 +165,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
      *
      * @return ApplicationDatabaseRowsetLanguages
      */
-    public function loadLanguage(Library\CommandContext $context)
+    public function loadLanguage(Library\DispatcherContextInterface $context)
     {
         $languages = $this->getObject('application.languages');
         $language = null;

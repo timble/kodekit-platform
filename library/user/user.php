@@ -32,11 +32,11 @@ class User extends UserAbstract implements ObjectInstantiable, ObjectSingleton
     {
         if (!$manager->isRegistered('user'))
         {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
+            $class     = $manager->getClass($config->object_identifier);
+            $instance  = new $class($config);
             $manager->setObject($config->object_identifier, $instance);
 
-            $manager->registerAlias('user', $config->object_identifier);
+            $manager->registerAlias($config->object_identifier, 'user');
         }
 
         return $manager->getObject('user');
@@ -175,9 +175,9 @@ class User extends UserAbstract implements ObjectInstantiable, ObjectSingleton
      * @param  array $data An associative array of data
      * @return User
      */
-    public function values(array $data)
+    public function setData($data)
     {
-        parent::values($data);
+        parent::setData($data);
 
         //Set the user data
         $this->getSession()->set('user', ObjectConfig::unbox($data));

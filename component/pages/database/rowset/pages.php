@@ -21,6 +21,8 @@ class DatabaseRowsetPages extends Library\DatabaseRowsetTable
 {
     public function find($needle)
     {
+        $result = null;
+
         if(is_array($needle) && array_key_exists('link', $needle) && is_array($needle['link']))
         {
             $query = $needle['link'];

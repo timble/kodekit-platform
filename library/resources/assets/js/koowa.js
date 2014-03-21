@@ -196,7 +196,7 @@ Koowa.Controller = new Class({
 
         //Attach toolbar buttons actions
         if(this.toolbar) {
-            this.buttons = this.toolbar.getElements('.btn').filter(function(button){
+            this.buttons = this.toolbar.getElements('.button').filter(function(button){
                 return button.get('data-action');
             });
             var token_name = this.form.get('data-token-name'), token_value = this.form.get('data-token-value');
@@ -387,7 +387,7 @@ Koowa.Controller.Grid = new Class({
 
             tr.addEvents({
                 click: function(event){
-                    if(event.target.hasClass('toggle-state') || event.target.match('[type=checkbox]')) return;
+                    if(event.target.hasClass('toggle-state') || event.target.match('[type=radio], [type=checkbox], a[href]')) return;
                     var checkbox = this.getElement('input[type=checkbox]'), checked = checkbox.getProperty('checked');
                     if(checked) {
                         this.removeClass('selected');

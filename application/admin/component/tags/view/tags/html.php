@@ -17,15 +17,15 @@ use Nooku\Library;
  */
 class TagsViewTagsHtml extends Library\ViewHtml
 {
-	public function render()
+    protected function _fetchData(Library\ViewContext $context)
 	{
 		//If no row exists assign an empty array
 		if($this->getModel()->getState()->row) {
-			$this->disabled = false;
+			$context->data->disabled = false;
 		} else {
-			$this->disabled = true;
+			$context->data->disabled = true;
 		}
-			
-		return parent::render();
+
+        parent::_fetchData($context);
 	}
 }

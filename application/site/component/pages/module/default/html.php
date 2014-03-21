@@ -18,15 +18,10 @@ use Nooku\Component\Pages;
  */
 class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
 {
-    /**
-     * Renders and echo's the views output
-     *
-     * @return PagesModuleDefaultHtml
-     */
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         // Load language
         $this->getObject('translator')->load($this->getIdentifier()->package, $this->module->name, JPATH_APPLICATION);
-        return parent::render();
+        return parent::_actionRender($context);
     }
 }

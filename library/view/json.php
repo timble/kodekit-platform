@@ -19,8 +19,35 @@ class ViewJson extends ViewAbstract
 {
     /**
      * JSON API version
+     *
+     * @var string
      */
     protected $_version;
+
+    /**
+     * A list of fields to use in the response. Blank for all.
+     *
+     * Comes from the comma separated "fields" value in the request
+     *
+     * @var array
+     */
+    protected $_fields = array();
+
+    /**
+     * A list of text fields in the row
+     *
+     * URLs will be converted to fully qualified ones in these fields.
+     *
+     * @var string
+     */
+    protected $_text_fields;
+
+    /**
+     * True if the view is for a plural resource
+     *
+     * @var boolean
+     */
+    protected $_plural;
 
     /**
      * Constructor
@@ -32,6 +59,19 @@ class ViewJson extends ViewAbstract
         parent::__construct($config);
 
         $this->_version = $config->version;
+        $this->_plural  = $config->plural;
+
+        $this->_text_fields = ObjectConfig::unbox($config->text_fields);
+
+        $this->_fields = ObjectConfig::unbox($config->fields);
+
+        $query = $this->getUrl()->getQuery(true);
+        if (!empty($query['fields']))
+        {
+            $fields = explode(',', $query['fields']);
+
+            $this->_fields = array_merge($this->_fields, $fields);
+        }
     }
 
     /**
@@ -45,7 +85,10 @@ class ViewJson extends ViewAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'version' => '1.0'
+            'version'     => '1.0',
+            'fields'      => array(),
+            'text_fields' => array('description', 'introtext'), // Links are converted to absolute ones in these fields
+            'plural'      => StringInflector::isPlural($this->getName())
         ))->append(array(
             'mimetype' => 'application/json; version=' . $config->version,
         ));
@@ -59,20 +102,22 @@ class ViewJson extends ViewAbstract
      * If the view 'content'  is empty the output will be generated based on the model data, if it set it will
      * be returned instead.
      *
+     * @param ViewContext	$context A view context object
      * @return string A RFC4627-compliant JSON string, which may also be embedded into HTML.
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
         if (empty($this->_content))
         {
-            $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
-            $this->_content = array_merge(array('version' => $this->_version), $this->_content);
+            $this->_content = $this->_renderData();
+            $this->_processLinks($this->_content);
         }
 
+        //Serialise
         if (!is_string($this->_content))
         {
             // Root should be JSON object, not array
-            if (is_array($this->_content) && 0 === count($this->_content)) {
+            if (is_array($this->_content) && count($this->_content) === 0) {
                 $this->_content = new \ArrayObject();
             }
 
@@ -80,163 +125,210 @@ class ViewJson extends ViewAbstract
             $this->_content = json_encode($this->_content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         }
 
-        return parent::render();
+        return parent::_actionRender($context);
     }
 
     /**
-     * Get the list data
+     * Force the route to fully qualified and not escaped by default
      *
-     * @return array The array with data to be encoded to json
+     * @param   string|array    $route   The query string used to create the route
+     * @param   boolean         $fqr     If TRUE create a fully qualified route. Default TRUE.
+     * @param   boolean         $escape  If TRUE escapes the route for xml compliance. Default FALSE.
+     * @return  HttpUrl        The route
      */
-    protected function _getRowset()
+    public function getRoute($route = '', $fqr = true, $escape = false)
     {
-        //Get the model
-        $model = $this->getModel();
+        return parent::getRoute($route, $fqr, $escape);
+    }
 
-        //Get the route
-        $route = $this->getRoute();
-
-        //Get the model state
-        $state = $model->getState();
-
-        //Get the model paginator
-        $paginator = $model->getPaginator();
-
-        $vars = array();
-        foreach ($state->toArray() as $var)
-        {
-            if (!$var->unique) {
-                $vars[] = $var->name;
-            }
-        }
-
-        $data = array(
-            'href' => (string)$route->setQuery($state->getValues(), true),
-            'url' => array(
-                'type' => 'application/json',
-                'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
+    /**
+     * Returns the JSON data
+     *
+     * It converts relative URLs in the content to relative before returning the result
+     *
+     * @return array
+     */
+    protected function _renderData()
+    {
+        $model  = $this->getModel();
+        $data   = $this->_getList($this->_plural ? $model->getRowset() : array($model->getRow()));
+        $output = array(
+            'version' => $this->_version,
+            'links' => array(
+                'self' => array(
+                    'href' => $this->_getPageLink(),
+                    'type' => $this->mimetype
+                )
             ),
-            'offset' => (int)$paginator->offset,
-            'limit' => (int)$paginator->limit,
-            'total' => 0,
-            'items' => array(),
-            'queries' => array()
+            'entities' => $data
         );
 
-        if ($list = $model->getRowset())
+        if ($this->_plural)
         {
-            $vars = array();
-            foreach ($state->toArray() as $var)
+            $total  = $model->getTotal();
+            $limit  = (int) $model->getState()->limit;
+            $offset = (int) $model->getState()->offset;
+
+            $output['meta'] = array(
+                'offset'   => $offset,
+                'limit'    => $limit,
+                'total'	   => $total
+            );
+
+            if ($limit && $total-($limit + $offset) > 0)
             {
-                if ($var->unique)
-                {
-                    $vars[] = $var->name;
-                    $vars = array_merge($vars, $var->required);
-                }
-            }
-
-            $name = StringInflector::singularize($this->getName());
-
-            $items = array();
-            foreach ($list as $item)
-            {
-                $id = $item->getIdentityColumn();
-
-                $items[] = array(
-                    'href' => (string)$this->getRoute('view=' . $name . '&id=' . $item->{$id}),
-                    'url' => array(
-                        'type' => 'application/json',
-                        'template' => (string)$this->getRoute('view=' . $name) . '?{&' . implode(',', $vars) . '}',
-                    ),
-                    'data' => $item->toArray()
+                $output['links']['next'] = array(
+                    'href' => $this->_getPageLink(array('offset' => $limit+$offset)),
+                    'type' => $this->mimetype
                 );
             }
 
-            $queries = array();
-            foreach (array('first', 'prev', 'next', 'last') as $offset)
+            if ($limit && $offset && $offset >= $limit)
             {
-                $page = $paginator->pages->{$offset};
-                if ($page->active) {
-                    $queries[] = array(
-                        'rel' => $page->rel,
-                        'href' => (string)$this->getRoute('limit=' . $page->limit . '&offset=' . $page->offset)
-                    );
-                }
+                $output['links']['previous'] = array(
+                    'href' => $this->_getPageLink(array('offset' => max($offset-$limit, 0))),
+                    'type' => $this->mimetype
+                );
             }
-
-            $data = array_merge($data, array(
-                'total' => $paginator->total,
-                'items' => $items,
-                'queries' => $queries
-            ));
         }
 
-        return $data;
+        return $output;
+    }
+
+    /**
+     * Returns the JSON representation of a rowset
+     *
+     * @param  DatabaseRowsetInterface|array $rowset
+     * @return array
+     */
+    protected function _getList($rowset)
+    {
+        $result = array();
+
+        foreach ($rowset as $row) {
+            $result[] = $this->_getItem($row);
+        }
+
+        return $result;
     }
 
     /**
      * Get the item data
      *
-     * @return array     The array with data to be encoded to json
+     * @param DatabaseRowInterface  $row   Document row
+     * @return array The array with data to be encoded to json
      */
-    protected function _getRow()
+    protected function _getItem(DatabaseRowInterface $row)
     {
-        //Get the model
-        $model = $this->getModel();
+        $method = '_get'.ucfirst($row->getIdentifier()->name);
 
-        //Get the route
-        $route = $this->getRoute();
+        if ($method !== '_getItem' && method_exists($this, $method)) {
+            $data = $this->$method($row);
+        } else {
+            $data = $row->toArray();
+        }
 
-        //Get the model state
-        $state = $model->getState();
+        if (!empty($this->_fields)) {
+            $data = array_intersect_key($data, array_flip($this->_fields));
+        }
 
-        $vars = array();
-        foreach ($state->toArray() as $var)
+        if (!isset($data['links'])) {
+            $data['links'] = array();
+        }
+
+        if (!isset($data['links']['self']))
         {
-            if ($var->unique)
-            {
-                $vars[] = $var->name;
-                $vars = array_merge($vars, $var->required);
-            }
+            $data['links']['self'] = array(
+                'href' => $this->_getItemLink($row),
+                'type' => $this->mimetype
+            );
         }
-
-        $data = array(
-            'href' => (string)$route->setQuery($state->getValues(true)),
-            'url' => array(
-                'type' => 'application/json',
-                'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
-            ),
-            'item' => array()
-        );
-
-        if ($item = $model->getRow()) {
-            $data = array_merge($data, array(
-                'item' => $item->toArray()
-            ));
-        }
-        ;
 
         return $data;
     }
 
     /**
-     * Get a route based on a full or partial query string.
+     * Get the item link
      *
-     * This function force the route to be not fully qualified and not escaped
-     *
-     * @param   string  $route   The query string used to create the route
-     * @param   boolean $fqr     If TRUE create a fully qualified route. Default FALSE.
-     * @param   boolean $escape  If TRUE escapes the route for xml compliance. Default FALSE.
-     * @return  string  The route
+     * @param DatabaseRowInterface  $row
+     * @return string
      */
-    public function getRoute($route = '', $fqr = null, $escape = null)
+    protected function _getItemLink(DatabaseRowInterface $row)
     {
-        //If not set force to false
-        if ($escape === null) {
-            $escape = false;
-        }
+        $package = $this->getIdentifier()->package;
+        $view    = $row->getIdentifier()->name;
 
-        return parent::getRoute($route, $fqr, $escape);
+        return $this->getRoute(sprintf('option=com_%s&view=%s&slug=%s&format=json', $package, $view, $row->slug));
     }
 
+    /**
+     * Get the page link
+     *
+     * @param  array  $query Additional query parameters to merge
+     * @return string
+     */
+    protected function _getPageLink(array $query = array())
+    {
+        $url = $this->getUrl();
+
+        if ($query) {
+            $url->setQuery(array_merge($url->getQuery(true), $query));
+        }
+
+        return (string) $url;
+    }
+
+    /**
+     * Converts links in an array from relative to absolute
+     *
+     * @param array $array Source array
+     */
+    protected function _processLinks(array &$array)
+    {
+        $base = $this->getUrl()->toString(HttpUrl::AUTHORITY);
+
+        foreach ($array as $key => &$value)
+        {
+            if (is_array($value)) {
+                $this->_processLinks($value);
+            }
+            elseif ($key === 'href')
+            {
+                if (substr($value, 0, 4) !== 'http') {
+                    $array[$key] = $base.$value;
+                }
+            }
+            elseif (in_array($key, $this->_text_fields)) {
+                $array[$key] = $this->_processText($value);
+            }
+        }
+    }
+
+    /**
+     * Convert links in a text from relative to absolute and runs them through JRoute
+     *
+     * @param string $text The text processed
+     * @return string Text with converted links
+     */
+    protected function _processText($text)
+    {
+        $matches = array();
+
+        preg_match_all("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", $text, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $route = $this->getObject('lib:dispatcher.router.route', array(
+                'url'    => $match[2],
+                'escape' => false
+            ));
+
+            //Add the host and the schema
+            $route->scheme = $this->getUrl()->scheme;
+            $route->host   = $this->getUrl()->host;
+
+            $text = str_replace($match[0], $match[1].'="'.$route.'"', $text);
+        }
+
+        return $text;
+    }
 }
