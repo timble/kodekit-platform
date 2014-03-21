@@ -28,11 +28,7 @@ class ApplicationBootstrapper extends Application\Bootstrapper
                 'application.pages'              => 'com:application.database.rowset.pages',
                 'application.modules'            => 'com:application.database.rowset.modules',
                 'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
-                'lib:template.locator.component' => 'com:application.template.locator.component',
-                'translator'                     => 'com:application.translator'
-            ),
-            'namespaces' => array(
-                'psr' => array('Symfony\Component\Yaml', JPATH_VENDOR.'/symfony/yaml')
+                'lib:template.locator.component' => 'com:application.template.locator.component'
             )
         ));
 

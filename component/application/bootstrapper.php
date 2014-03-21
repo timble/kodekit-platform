@@ -42,7 +42,9 @@ class Bootstrapper extends Library\ObjectBootstrapperComponent
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'directory' => '',
+            'directory'  => '',
+            'aliases'    => array('translator' => 'com:application.translator'),
+            'namespaces' => array('psr' => array(array('Symfony\Component\Yaml', JPATH_VENDOR . '/symfony/yaml')))
         ));
 
         parent::_initialize($config);
