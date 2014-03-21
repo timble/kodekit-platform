@@ -18,7 +18,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Koowa
  */
-class Translator extends Library\Translator implements Library\ObjectInstantiable, TranslatorInterface
+class Translator extends Library\Translator implements Library\ObjectMultiton, TranslatorInterface
 {
     /**
      * Translator catalogue.
@@ -72,26 +72,6 @@ class Translator extends Library\Translator implements Library\ObjectInstantiabl
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Force creation of a singleton
-     *
-     * @param Library\ObjectConfig           $config optional Library\ObjectConfig object with configuration options
-     * @param Library\ObjectManagerInterface $manager
-     *
-     * @return Translator
-     */
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->setObject($config->object_identifier, $instance);
-        }
-
-        return $manager->getObject($config->object_identifier);
     }
 
     /**
@@ -208,8 +188,7 @@ class Translator extends Library\Translator implements Library\ObjectInstantiabl
             foreach ($paths as $path)
             {
                 if (($file = $this->_getLanguageFile($signature,
-                        $path)) && ($translations = $this->_loadLanguageFile($file))
-                )
+                        $path)) && ($translations = $this->_loadLanguageFile($file)))
                 {
                     // Always override while importing through translator.
                     $this->getCatalogue()->import($translations, true);
