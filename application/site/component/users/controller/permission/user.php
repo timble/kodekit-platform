@@ -21,7 +21,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     {
         $layout = $this->getView()->getLayout();
 
-        if (in_array($layout, array('password', 'register')))
+        if (in_array($layout, array('reset', 'password', 'register')))
         {
             $result = true;
         }
