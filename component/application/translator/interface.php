@@ -65,7 +65,16 @@ interface TranslatorInterface extends Library\TranslatorInterface
      *
      * @param string $component    The component name.
      * @param mixed  $subcomponent The subcomponent name.
-     * @param mixed  $base_path    The base path to load language files from.
+     * @param mixed  $base_path    The base path to load translation files from.
      */
     public function load($component, $subcomponent = null, $base_path = null);
+
+    /**
+     * Translations parser.
+     *
+     * @param string $file The file path.
+     *
+     * @return array|bool Associative array containing the translations, false if not parsed.
+     */
+    public function parseTranslations($file);
 }
