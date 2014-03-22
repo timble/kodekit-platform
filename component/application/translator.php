@@ -176,14 +176,21 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
             $signature .= '.' . (string) $subcomponent;
         }
 
-        if (!isset($this->_loaded[$signature])) {
-
-            if ($base_path) {
-                // Use provided base path only.
+        if (!isset($this->_loaded[$signature]))
+        {
+            if ($base_path)
+            {
+                // Use provided base path.
                 $paths = (array) $base_path;
-            } else {
-                // Default fallback/override sequence.
-                $paths = array(JPATH_ROOT, JPATH_APPLICATION);
+            }
+            else
+            {
+                $paths = Library\ObjectConfig::unbox($this->getConfig()->options->search_paths);
+
+                if (empty($paths))
+                {
+                    throw new \RuntimeException('No search paths for looking for translation files');
+                }
             }
 
             foreach ($paths as $path)
