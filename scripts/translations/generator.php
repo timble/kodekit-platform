@@ -128,29 +128,6 @@ class TranslationsGenerator
             }
         }
 
-        // Move common translations on admin and site locations to component.
-        if (isset($this->strings['admin']) && isset($this->strings['site']))
-        {
-            // Get a list of common translations.
-            $common = array_intersect(array_keys($this->strings['admin']), array_keys($this->strings['site']));
-
-            foreach ($common as $key)
-            {
-                if (!isset($this->strings['component'][$key])) $this->strings['component'][$key] = array();
-
-                // Push common strings to component location
-                $this->strings['component'][$key] = array_merge($this->strings['component'][$key],
-                    $this->strings['admin'][$key], $this->strings['site'][$key]);
-
-                // Unset common strings from their locations
-                unset($this->strings['admin'][$key]);
-                unset($this->strings['site'][$key]);
-
-                if (empty($this->strings['site'])) unset($this->strings['site']);
-                if (empty($this->strings['admin'])) unset($this->strings['admin']);
-            }
-        }
-
         $translations = array();
 
         foreach ($this->strings as $location => $strings)
