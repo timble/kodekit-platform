@@ -311,6 +311,21 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
+     * Translates a string based on the number parameter passed
+     *
+     * @param array   $strings    Strings to choose from
+     * @param integer $number     The number of items
+     * @param array   $parameters An array of parameters
+     *
+     * @throws InvalidArgumentException
+     * @return string Translated string
+     */
+    public function choose(array $strings, $number, array $parameters = array())
+    {
+        $this->getObject('translator')->choose($strings, $number, $parameters);
+    }
+
+    /**
      * Get the template path
      *
      * @return	string

@@ -79,6 +79,18 @@ interface TemplateInterface
     public function translate($string, array $parameters = array());
 
     /**
+     * Translates a string based on the number parameter passed
+     *
+     * @param array   $strings    Strings to choose from
+     * @param integer $number     The number of items
+     * @param array   $parameters An array of parameters
+     *
+     * @throws InvalidArgumentException
+     * @return string Translated string
+     */
+    public function choose(array $strings, $number, array $parameters = array());
+
+    /**
      * Get the template file identifier
      *
      * @return	string
