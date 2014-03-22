@@ -284,7 +284,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
                 $content = substr($content, 3);
             }
 
-            // TODO: Review other formats for language files and get rid of the JRegistry dependency afterwards.
+            // TODO: Review other formats for translation files to get rid of the JRegistry dependency.
             $registry = new \JRegistry();
             $registry->loadINI($content);
             $result = $registry->toArray();
