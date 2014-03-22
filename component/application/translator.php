@@ -160,7 +160,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     public function getKey($string)
     {
-        // TODO: Just returning upper cased string for now, since current language file keys are upper cased.
+        // TODO: Just returning upper cased string for now, since current translation keys are upper cased.
         return strtoupper($string);
     }
 
