@@ -68,7 +68,8 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
         $config->append(array(
             'catalogue'       => 'com:application.translator.catalogue',
             'fallback_locale' => 'en-GB',
-            'locale'          => 'en-GB'
+            'locale'          => 'en-GB',
+            'options'         => array('search_paths' => array())
         ));
 
         parent::_initialize($config);
