@@ -29,6 +29,13 @@ class ApplicationBootstrapper extends Application\Bootstrapper
                 'application.modules'            => 'com:application.database.rowset.modules',
                 'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
                 'lib:template.locator.component' => 'com:application.template.locator.component'
+            ),
+            'configs' => array(
+                'com:application.translator' => array(
+                    'options' => array(
+                        'search_paths' => array(
+                            JPATH_ROOT,
+                            JPATH_BASE)))
             )
         ));
 
