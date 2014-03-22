@@ -195,8 +195,8 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
             foreach ($paths as $path)
             {
-                if (($file = $this->_getLanguageFile($signature,
-                        $path)) && ($translations = $this->_loadLanguageFile($file)))
+                if (($file = $this->_findTranslations($signature,
+                        $path)) && ($translations = $this->parseTranslations($file)))
                 {
                     // Always override while importing through translator.
                     $this->getCatalogue()->import($translations, true);
@@ -208,16 +208,16 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     }
 
     /**
-     * Language file getter.
+     * Translations finder.
      *
-     * Returns a language file for the provided signature.
+     * Returns a translation file given its signature.
      *
      * @param string $signature A string representing a component or one of its subcomponents.
-     * @param string $base_path The base path to look for language files.
+     * @param string $path      The path to look for translation files.
      *
-     * @return null|string The file path or null if a language file wasn't found.
+     * @return null|string The file path or null if a translation file wasn't found.
      */
-    protected function _getLanguageFile($signature, $base_path = JPATH_BASE)
+    protected function _findTranslations($signature, $path)
     {
         $file = null;
 
@@ -230,7 +230,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
         $parts = explode('.', $signature);
 
-        $string = $base_path . $this->_getLanguageFolder($parts[0]) . '%s';
+        $string = $path . $this->_getTranslationsFolder($parts[0]) . '%s';
 
         if (isset($parts[1]))
         {
@@ -254,25 +254,21 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     }
 
     /**
-     * Language folder getter.
+     * Translations folder getter.
      *
      * @param string $component The component name.
      *
-     * @return string The language folder.
+     * @return string The translations folder.
      */
-    protected function _getLanguageFolder($component)
+    protected function _getTranslationsFolder($component)
     {
         return "/component/{$component}/resources/language/";
     }
 
     /**
-     * Language File loader.
-     *
-     * @param string $file The file path.
-     *
-     * @return array|bool The file content, false if not loaded.
+     * @see TranslatorInterface::parseTranslations
      */
-    protected function _loadLanguageFile($file)
+    public function parseTranslations($file)
     {
         $result = false;
 
