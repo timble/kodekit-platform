@@ -39,21 +39,18 @@ class ModelDatabase extends ModelAbstract
 
         $identifier = $alias = $this->getIdentifier()->toArray();
 
+        //Create database.rowset alias
+        $identifier['path'] = array('database', 'rowset');
+        $alias['path']      = array('model', 'entity');
+
+        $this->getObject('manager')->registerAlias($alias, $identifier);
+
         //Create database.row alias
         $identifier['path'] = array('database', 'row');
         $identifier['name'] = StringInflector::singularize($identifier['name']);
 
         $alias['path'] = array('model', 'entity');
         $alias['name'] = StringInflector::singularize($identifier['name']);
-
-        $this->getObject('manager')->registerAlias($alias, $identifier);
-
-        //Create database.rowset alias
-        $identifier['path'] = array('database', 'rowset');
-        $identifier['name'] = $identifier['name'];
-
-        $alias['path'] = array('model', 'entity');
-        $alias['name'] = $identifier['name'];
 
         $this->getObject('manager')->registerAlias($alias, $identifier);
 
@@ -123,6 +120,7 @@ class ModelDatabase extends ModelAbstract
      * Get the total number of entities
      *
      * @param ModelContext $context A model context object
+
      * @return string  The output of the view
      */
     protected function _actionCount(ModelContext $context)
