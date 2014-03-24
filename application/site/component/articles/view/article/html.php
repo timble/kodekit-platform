@@ -25,7 +25,8 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         $pathway = $this->getObject('application')->getPathway();
 
         $page = $this->getObject('application.pages')->getActive();
-        if ($page->getLink()->query['view'] == 'categories') {
+        if ($page->getLink()->query['view'] == 'categories')
+        {
             $category = $article->getCategory();
 
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
@@ -41,16 +42,6 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
 
     protected function _fetchData(Library\ViewContext $context)
     {
-        $article = $this->getModel()->fetch();
-
-        if ($article->id && $article->isAttachable()) {
-            $context->data->attachments = $article->getAttachments();
-        }
-
-        if ($article->id && $article->isTaggable()) {
-            $context->data->tags = $article->getTags();
-        }
-
         $context->data->params = $this->getObject('application.pages')->getActive()->getParams('page');
 
         parent::_fetchData($context);

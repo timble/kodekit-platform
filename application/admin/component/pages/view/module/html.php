@@ -39,7 +39,8 @@ class PagesViewModuleHtml extends Library\ViewHtml
     {
         $module = $this->getModel()->fetch();
 
-        if ($this->getLayout() == 'modal') {
+        if ($this->getLayout() == 'modal')
+        {
             $context->data->menus = $this->getObject('com:pages.model.menus')
                 ->sort('title')->fetch();
 
