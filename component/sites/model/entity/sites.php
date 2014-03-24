@@ -22,7 +22,7 @@ class ModelEntitySites extends Library\ModelEntityCollection
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'identity_column'   => 'name'
+            'identity_key' => 'name'
         ));
         
         parent::_initialize($config);

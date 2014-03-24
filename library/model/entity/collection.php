@@ -18,11 +18,11 @@ namespace Nooku\Library;
 class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, ModelEntityTraversable
 {
     /**
-     * Name of the identity column in the collection
+     * Name of the identity key in the collection
      *
      * @var    string
      */
-    protected $_identity_column;
+    protected $_identity_key;
 
     /**
      * Clone entity object when adding data
@@ -44,8 +44,8 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
         $this->_row_cloning = $config->row_cloning;
 
         // Set the table identifier
-        if (isset($config->identity_column)) {
-            $this->_identity_column = $config->identity_column;
+        if (isset($config->identity_key)) {
+            $this->_identity_key = $config->identity_key;
         }
 
         // Reset the collection
@@ -68,9 +68,9 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'            => null,
-            'identity_column' => null,
-            'row_cloning'     => true
+            'data'         => null,
+            'identity_key' => null,
+            'row_cloning'  => true
         ));
 
         parent::_initialize($config);
@@ -308,9 +308,9 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      */
     public function setProperties($properties, $modified = true)
     {
-        //Prevent changing the identity column
-        if (isset($this->_identity_column)) {
-            unset($properties[$this->_identity_column]);
+        //Prevent changing the identity key
+        if (isset($this->_identity_key)) {
+            unset($properties[$this->_identity_key]);
         }
 
         if($entity = $this->getIterator()->current()) {
@@ -373,7 +373,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
         $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
 
         //The entity default options
-        $options['identity_column'] = $this->getIdentityColumn();
+        $options['identity_key'] = $this->getIdentityKey();
 
         return $this->getObject($identifier, $options);
     }
@@ -445,9 +445,9 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      *
      * @return string
      */
-    public function getIdentityColumn()
+    public function getIdentityKey()
     {
-        return $this->_identity_column;
+        return $this->_identity_key;
     }
 
     /**
@@ -467,7 +467,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     /**
      * Insert an entity into the collection
      *
-     * The entity will be stored by it's identity_column if set or otherwise by it's object handle.
+     * The entity will be stored by it's identity_key if set or otherwise by it's object handle.
      *
      * @param  ModelEntityInterface $entity
      * @return boolean    TRUE on success FALSE on failure
@@ -487,7 +487,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     /**
      * Removes an entity from the collection
      *
-     * The entity will be removed based on it's identity_column if set or otherwise by it's object handle.
+     * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
      *
      * @param  ModelEntityInterface $entity
      * @return ModelEntityCollection

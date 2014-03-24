@@ -93,7 +93,7 @@ interface ModelEntityInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      *
      * @return string
      */
-    public function getIdentityColumn();
+    public function getIdentityKey();
 
     /**
      * Get the properties

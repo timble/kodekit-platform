@@ -17,5 +17,13 @@ namespace Nooku\Library;
  */
 class ModelEntityRow extends DatabaseRowAbstract implements ModelEntityInterface
 {
-
+    /**
+     * Get the entity key
+     *
+     * @return string
+     */
+    public function getIdentityKey()
+    {
+        return parent::getIdentityColumn();
+    }
 }

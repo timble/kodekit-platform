@@ -18,6 +18,16 @@ namespace Nooku\Library;
 class ModelEntityRowset extends DatabaseRowsetAbstract implements ModelEntityInterface
 {
     /**
+     * Get the entity key
+     *
+     * @return string
+     */
+    public function getIdentityKey()
+    {
+        return parent::getIdentityColumn();
+    }
+
+    /**
      * Get an instance of a entity object for this collection
      *
      * @param   array $options An optional associative array of configuration settings.

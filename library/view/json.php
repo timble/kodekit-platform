@@ -141,7 +141,7 @@ class ViewJson extends ViewAbstract
             $items = array();
             foreach ($list as $item)
             {
-                $id = $item->getIdentityColumn();
+                $id = $item->getIdentityKey();
 
                 $items[] = array(
                     'href' => (string)$this->getRoute('view=' . $name . '&id=' . $item->{$id}),

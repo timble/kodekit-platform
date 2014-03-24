@@ -53,7 +53,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      *
      * @var string
      */
-    protected $_identity_column;
+    protected $_identity_key;
 
     /**
      * Constructor
@@ -65,8 +65,8 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
         parent::__construct($config);
 
         // Set the table identifier
-        if (isset($config->identity_column)) {
-            $this->_identity_column = $config->identity_column;
+        if (isset($config->identity_key)) {
+            $this->_identity_key = $config->identity_key;
         }
 
         // Reset the entity
@@ -102,7 +102,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
             'data'            => null,
             'status'          => null,
             'status_message'  => '',
-            'identity_column' => null
+            'identity_key'    => null
         ));
 
         parent::_initialize($config);
@@ -311,9 +311,9 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      *
      * @return string
      */
-    public function getIdentityColumn()
+    public function getIdentityKey()
     {
-        return $this->_identity_column;
+        return $this->_identity_key;
     }
 
     /**
@@ -326,8 +326,8 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     public function getHandle()
     {
-        if (isset($this->_identity_column)) {
-            $handle = $this->get($this->_identity_column);
+        if (isset($this->_identity_key)) {
+            $handle = $this->get($this->_identity_key);
         } else {
             $handle = parent::getHandle();
         }

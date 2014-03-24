@@ -30,7 +30,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		$config->append(array(
 			'row'    => null,
 	    ))->append(array( 
-        	'column' => $config->row->getIdentityColumn() 
+        	'column' => $config->row->getIdentityKey()
         )); 
 		
 		if($config->row->isLockable() && $config->row->isLocked())

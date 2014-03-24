@@ -119,7 +119,7 @@ class ModelEntityFolder extends ModelEntityNode
 
             //The row default options
             $options = array(
-                'identity_column' => $this->getIdentityColumn()
+                'identity_key' => $this->getIdentityKey()
             );
 
             $this->_children = $this->getObject($identifier, $options);
