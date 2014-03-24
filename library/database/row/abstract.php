@@ -120,6 +120,104 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
+     * Saves the row to the database.
+     *
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
+     *
+     * @return boolean If successful return TRUE, otherwise FALSE
+     */
+    public function save()
+    {
+        $result = false;
+
+        if ($this->isConnected())
+        {
+            if (!$this->isNew()) {
+                $result = $this->getTable()->update($this);
+            } else {
+                $result = $this->getTable()->insert($this);
+            }
+
+            //Reset the modified array
+            if ($result !== false)
+            {
+                if (((integer) $result) > 0) {
+                    $this->_modified = array();
+                }
+            }
+        }
+
+        return (bool) $result;
+    }
+
+    /**
+     * Deletes the row form the database.
+     *
+     * @return boolean    If successful return TRUE, otherwise FALSE
+     */
+    public function delete()
+    {
+        $result = false;
+
+        if ($this->isConnected())
+        {
+            if (!$this->isNew()) {
+                $result = $this->getTable()->delete($this);
+            }
+        }
+
+        return (bool) $result;
+    }
+
+    /**
+     * Reset the row data using the defaults
+     *
+     * @return DatabaseRowInterface
+     */
+    public function reset()
+    {
+        $this->_data     = array();
+        $this->_modified = array();
+
+        if ($this->isConnected()) {
+            $this->_data = $this->getTable()->getDefaults();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Load the row from the database using the data in the row
+     *
+     * @return object    If successful returns the row object, otherwise NULL
+     */
+    public function load()
+    {
+        $result = null;
+
+        if ($this->isNew())
+        {
+            if ($this->isConnected())
+            {
+                $data = $this->getTable()->filter($this->getProperties(true), true);
+                $row  = $this->getTable()->select($data, Database::FETCH_ROW);
+
+                // Set the data if the row was loaded successfully.
+                if (!$row->isNew())
+                {
+                    $this->setProperties($row->getProperties(), false);
+                    $this->_modified = array();
+
+                    $this->setStatus(Database::STATUS_LOADED);
+                    $result = $this;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Get a property
      *
      * @param   string  $property The property name
@@ -353,7 +451,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      * @param    mixed    $table An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
-     * @return  DatabaseRowTable
+     * @return  DatabaseRowInterface
      */
     public function setTable($table)
     {
@@ -377,104 +475,6 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         }
 
         $this->_table = $table;
-
-        return $this;
-    }
-
-    /**
-     * Load the row from the database using the data in the row
-     *
-     * @return object    If successful returns the row object, otherwise NULL
-     */
-    public function load()
-    {
-        $result = null;
-
-        if ($this->isNew())
-        {
-            if ($this->isConnected())
-            {
-                $data = $this->getTable()->filter($this->getProperties(true), true);
-                $row  = $this->getTable()->select($data, Database::FETCH_ROW);
-
-                // Set the data if the row was loaded successfully.
-                if (!$row->isNew())
-                {
-                    $this->setProperties($row->getProperties(), false);
-                    $this->_modified = array();
-
-                    $this->setStatus(Database::STATUS_LOADED);
-                    $result = $this;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Saves the row to the database.
-     *
-     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
-     *
-     * @return boolean If successful return TRUE, otherwise FALSE
-     */
-    public function save()
-    {
-        $result = false;
-
-        if ($this->isConnected())
-        {
-            if (!$this->isNew()) {
-                $result = $this->getTable()->update($this);
-            } else {
-                $result = $this->getTable()->insert($this);
-            }
-
-            //Reset the modified array
-            if ($result !== false)
-            {
-                if (((integer) $result) > 0) {
-                    $this->_modified = array();
-                }
-            }
-        }
-
-        return (bool) $result;
-    }
-
-    /**
-     * Deletes the row form the database.
-     *
-     * @return boolean    If successful return TRUE, otherwise FALSE
-     */
-    public function delete()
-    {
-        $result = false;
-
-        if ($this->isConnected())
-        {
-            if (!$this->isNew()) {
-                $result = $this->getTable()->delete($this);
-            }
-        }
-
-        return (bool) $result;
-    }
-
-    /**
-     * Reset the row data using the defaults
-     *
-     * @return DatabaseRowTable
-     */
-    public function reset()
-    {
-        $this->_data     = array();
-        $this->_modified = array();
-
-        if ($this->isConnected()) {
-            $this->_data = $this->getTable()->getDefaults();
-        }
 
         return $this;
     }

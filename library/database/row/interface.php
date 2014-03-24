@@ -18,6 +18,30 @@ namespace Nooku\Library;
 interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
 {
     /**
+     * Saves the to the database.
+     *
+     * This performs an intelligent insert/update and reloads the properties
+     * with fresh data from the table on success.
+     *
+     * @return DatabaseRowInterface
+     */
+    public function save();
+
+    /**
+     * Deletes the row form the database.
+     *
+     * @return DatabaseRowInterface
+     */
+    public function delete();
+
+    /**
+     * Resets to the row to it's default properties
+     *
+     * @return DatabaseRowInterface
+     */
+    public function reset();
+
+    /**
      * Get a property
      *
      * @param   string  $property The property name.
@@ -127,30 +151,6 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * @return  DatabaseRowInterface
      */
     public function setTable($table);
-
-    /**
-     * Saves the to the database.
-     *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
-     *
-     * @return DatabaseRowInterface
-     */
-    public function save();
-
-    /**
-     * Deletes the row form the database.
-     *
-     * @return DatabaseRowInterface
-     */
-    public function delete();
-
-    /**
-     * Resets to the row to it's default properties
-     *
-     * @return DatabaseRowInterface
-     */
-    public function reset();
 
     /**
      * Checks if the row is new or not

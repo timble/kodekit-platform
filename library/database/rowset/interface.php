@@ -17,17 +17,7 @@ namespace Nooku\Library;
  */
 interface DatabaseRowsetInterface extends DatabaseRowInterface
 {
-	/**
-     * Add rows to the rowset
-     *
-     * @param  array   $rows    An associative array of row data to be inserted.
-     * @param  string  $status  The row(s) status
-     * @return DatabaseRowsetInterface
-     * @see __construct
-     */
-    public function addRow(array $rows, $status = null);
-
-	/**
+    /**
      * Find a row in the rowset based on a needle
      *
      * This functions accepts either a know position or associative array of key/value pairs
@@ -36,4 +26,14 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
      * @return DatabaseRowInterface
      */
     public function find($needle);
+
+    /**
+     * Add rows to the rowset
+     *
+     * @param  array   $rows    An associative array of row data to be inserted.
+     * @param  string  $status  The row(s) status
+     * @return DatabaseRowsetInterface
+     * @see __construct
+     */
+    public function addRow(array $rows, $status = null);
 }

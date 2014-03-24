@@ -95,46 +95,102 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Checks if the row is new or not
+     * Returns a DatabaseRow(set)
      *
-     * @return boolean
+     * This functions accepts either a know position or associative array of key/value pairs
+     *
+     * @param   string|array  $needle The position or the key or an associative array of column data to match
+     * @return  DatabaseRowsetInterface Returns a rowset if successful. Otherwise NULL.
      */
-    public function isNew()
+    public function find($needle)
     {
-        $result = true;
-        if($row = $this->getIterator()->current()) {
-            $result = $row->isNew();
+        $result = null;
+
+        if(is_array($needle))
+        {
+            $result = clone $this;
+
+            foreach($this as $row)
+            {
+                foreach($needle as $key => $value)
+                {
+                    if(!in_array($row->{$key}, (array) $value)) {
+                        $result->extract($row);
+                    }
+                }
+            }
+        }
+
+        if(is_scalar($needle) && isset($this->_data[$needle])) {
+            $result = $this->_data[$needle];
         }
 
         return $result;
     }
 
     /**
-     * Check if a the row or specific row property has been modified.
+     * Saves all rows in the rowset to the database
      *
-     * If a specific property name is giving method will return TRUE only if this property was modified.
-     *
-     * @param   string $property The property name
-     * @return  boolean
+     * @return boolean  If successful return TRUE, otherwise FALSE
      */
-    public function isModified($property = null)
+    public function save()
     {
         $result = false;
-        if($row = $this->getIterator()->current()) {
-            $result = $row->isModified($property);
+
+        if (count($this))
+        {
+            $result = true;
+
+            foreach ($this as $i => $row)
+            {
+                if (!$row->save())
+                {
+                    // Set current row status message as rowset status message.
+                    $this->setStatusMessage($row->getStatusMessage());
+                    $result = false;
+                }
+            }
         }
 
         return $result;
     }
 
     /**
-     * Test the connected status of the row.
+     * Deletes all rows in the rowset from the database
      *
-     * @return    bool    Returns TRUE if we have a reference to a live DatabaseTableAbstract object.
+     * @return bool  If successful return TRUE, otherwise FALSE
      */
-    public function isConnected()
+    public function delete()
     {
-        return (bool)$this->getTable();
+        $result = false;
+
+        if (count($this))
+        {
+            $result = true;
+
+            foreach ($this as $i => $row)
+            {
+                if (!$row->delete())
+                {
+                    // Set current row status message as rowset status message.
+                    $this->setStatusMessage($row->getStatusMessage());
+                    $result = false;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Reset the rowset
+     *
+     * @return  DatabaseRowInterface
+     */
+    public function reset()
+    {
+        $this->_data = array();
+        return $this;
     }
 
     /**
@@ -460,105 +516,6 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Returns a DatabaseRow(set)
-     *
-     * This functions accepts either a know position or associative array of key/value pairs
-     *
-     * @param   string|array  $needle The position or the key or an associative array of column data to match
-     * @return  DatabaseRowsetInterface Returns a rowset if successful. Otherwise NULL.
-     */
-    public function find($needle)
-    {
-        $result = null;
-
-        if(is_array($needle))
-        {
-            $result = clone $this;
-
-            foreach($this as $row)
-            {
-                foreach($needle as $key => $value)
-                {
-                    if(!in_array($row->{$key}, (array) $value)) {
-                        $result->extract($row);
-                    }
-                }
-            }
-        }
-
-        if(is_scalar($needle) && isset($this->_data[$needle])) {
-            $result = $this->_data[$needle];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Saves all rows in the rowset to the database
-     *
-     * @return boolean  If successful return TRUE, otherwise FALSE
-     */
-    public function save()
-    {
-        $result = false;
-
-        if (count($this))
-        {
-            $result = true;
-
-            foreach ($this as $i => $row)
-            {
-                if (!$row->save())
-                {
-                    // Set current row status message as rowset status message.
-                    $this->setStatusMessage($row->getStatusMessage());
-                    $result = false;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Deletes all rows in the rowset from the database
-     *
-     * @return bool  If successful return TRUE, otherwise FALSE
-     */
-    public function delete()
-    {
-        $result = false;
-
-        if (count($this))
-        {
-            $result = true;
-
-            foreach ($this as $i => $row)
-            {
-                if (!$row->delete())
-                {
-                    // Set current row status message as rowset status message.
-                    $this->setStatusMessage($row->getStatusMessage());
-                    $result = false;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Reset the rowset
-     *
-     * @return  DatabaseRowInterface
-     */
-    public function reset()
-    {
-        $this->_data = array();
-        return $this;
-    }
-
-    /**
      * Return an associative array of the data.
      *
      * @return array
@@ -570,6 +527,49 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             $result[$key] = $row->toArray();
         }
         return $result;
+    }
+
+    /**
+     * Checks if the row is new or not
+     *
+     * @return boolean
+     */
+    public function isNew()
+    {
+        $result = true;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->isNew();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if a the row or specific row property has been modified.
+     *
+     * If a specific property name is giving method will return TRUE only if this property was modified.
+     *
+     * @param   string $property The property name
+     * @return  boolean
+     */
+    public function isModified($property = null)
+    {
+        $result = false;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->isModified($property);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Test the connected status of the row.
+     *
+     * @return    bool    Returns TRUE if we have a reference to a live DatabaseTableAbstract object.
+     */
+    public function isConnected()
+    {
+        return (bool)$this->getTable();
     }
 
     /**
