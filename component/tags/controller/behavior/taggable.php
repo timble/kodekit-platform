@@ -53,12 +53,19 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 // Save tags as relations
                 foreach ($row->tags as $tag)
                 {
-                    $relation = $this->getObject('com:tags.model.entity.relation');
-                    $relation->tags_tag_id = $tag;
-                    $relation->row		  = $row->id;
-                    $relation->table      = $table;
+                    $properties = array(
+                        'id'    => $tag,
+                        'row'   => $row->id,
+                        'table' => $table
+                    );
 
-                    if(!$relation->load()) {
+                    $relation = $this->getObject('com:tags.model.relations')
+                        ->setState($properties)
+                        ->fetch();
+
+                    if($relation->isNew)
+                    {
+                        $relation->setProperties($properties);
                         $relation->save();
                     }
                 }

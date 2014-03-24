@@ -29,7 +29,7 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
             $file = $this->getObject('com:files.model.entity.url');
             $file->setProperties(array('file' => $row->file));
 
-            if (!$file->load()) {
+            if (!$file->get('contents')) {
                 throw new Library\ControllerExceptionActionFailed('File cannot be downloaded');
             }
 

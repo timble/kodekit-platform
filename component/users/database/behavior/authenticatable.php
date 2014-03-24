@@ -77,8 +77,9 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
         if (!$this->isNew())
         {
-            $password = $this->getObject('com:users.model.entity.password')->set('id', $this->email);
-            $password->load();
+            $password = $this->getObject('com:users.model.passwords')
+                ->id($this->email)
+                ->fetch();
         }
 
         return $password;

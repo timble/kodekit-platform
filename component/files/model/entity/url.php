@@ -46,14 +46,17 @@ class ModelEntityUrl extends Library\ModelEntityAbstract
 		parent::_initialize($config);
 	}
 
-	public function load()
+    public function get($property)
 	{
-		$url = $this->file;
-		$response = $this->_fetch($url);
+		if($property == 'contents' && !isset($this->_data['contents']))
+        {
+            $url = $this->file;
+            $response = $this->_fetch($url);
 
-		$this->contents = $response;
+            $this->_data['contents'] = $response;
+        }
 
-		return true;
+		return parent::get($property);
 	}
 
 	protected function _fetch($url)

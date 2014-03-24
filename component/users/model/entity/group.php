@@ -28,12 +28,18 @@ class ModelEntityGroup extends Library\ModelEntityRow
             // Add new users to group
             foreach ($this->users as $user)
             {
-                $group_user = $this->getObject('com:users.model.entity.groups_users');
+                $properties = array(
+                    'group_id' => $this->id,
+                    'user_id'  => $user
+                );
 
-                $group_user->group_id = $this->id;
-                $group_user->user_id  = $user;
+                $group_user = $this->getObject('com:users.model.groups_users')
+                    ->setState($properties)
+                    ->fetch();
 
-                if (!$group_user->load()) {
+                if ($group_user->isNew())
+                {
+                    $group_user->setProperties($properties);
                     $group_user->save();
                 }
             }
@@ -44,18 +50,20 @@ class ModelEntityGroup extends Library\ModelEntityRow
                 // Remove all users that are no longer selected
                 if (!in_array($group_user->user_id, $this->users))
                 {
-                    $row = $this->getObject('com:users.model.groups_users')
+                    $entity = $this->getObject('com:users.model.groups_users')
                         ->group_id($this->id)
                         ->user_id($group_user->user_id)
                         ->fetch();
 
-                    $row->delete();
+                    $entity->delete();
                 }
             }
         } 
         else 
         {
-            $group_users = $this->getObject('com:users.model.groups_users')->group_id($this->id)->fetch();
+            $group_users = $this->getObject('com:users.model.groups_users')
+                ->group_id($this->id)
+                ->fetch();
 
             if (count($group_users) && !$group_users->delete()) {
                 throw new \RuntimeException('Failed to delete users from group');

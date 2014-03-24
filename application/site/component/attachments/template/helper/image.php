@@ -28,12 +28,14 @@ class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
         //Make sure the attachment is set
         if ($config->attachment)
         {
-            $thumbnail = $this->getObject('com:attachments.model.entity.attachment')->set('id', $config->attachment)->load();
+            $thumbnail = $this->getObject('com:attachments.model.attachments')
+                ->id($config->attachment)
+                ->fetch();
 
             //Make sure the thumbnail exist
-            if ($thumbnail) {
+            if ($thumbnail)
+            {
                 $filename = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', pathinfo($thumbnail->name, PATHINFO_FILENAME)));
-
                 return '<img alt="' . $filename . '" ' . $this->buildAttributes($config->attribs) . ' src="attachments://' . $thumbnail->thumbnail . '" />';
             }
         }

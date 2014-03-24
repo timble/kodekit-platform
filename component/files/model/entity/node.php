@@ -86,12 +86,14 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         $context         = $this->getContext();
         $context->result = false;
 
-        if ($this->invokeCommand('before.move', $context) !== false) {
+        if ($this->invokeCommand('before.move', $context) !== false)
+        {
             $context->result = $this->_adapter->move($this->destination_fullpath);
             $this->invokeCommand('after.move', $context);
         }
 
-        if ($context->result !== false) {
+        if ($context->result !== false)
+        {
             if ($this->destination_folder) {
                 $this->folder = $this->destination_folder;
             }
@@ -101,7 +103,8 @@ class ModelEntityNode extends Library\ModelEntityAbstract
             }
 
             $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
-        } else $this->setStatus(Library\Database::STATUS_FAILED);
+        }
+        else $this->setStatus(Library\Database::STATUS_FAILED);
 
         return $context->result;
     }
@@ -111,7 +114,8 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         $context         = $this->getContext();
         $context->result = false;
 
-        if ($this->invokeCommand('before.delete', $context) !== false) {
+        if ($this->invokeCommand('before.delete', $context) !== false)
+        {
             $context->result = $this->_adapter->delete();
             $this->invokeCommand('after.delete', $context);
         }
@@ -139,7 +143,8 @@ class ModelEntityNode extends Library\ModelEntityAbstract
             return $this->name;
         }
 
-        if ($property == 'destination_path') {
+        if ($property == 'destination_path')
+        {
             $folder = !empty($this->destination_folder) ? $this->destination_folder . '/' : (!empty($this->folder) ? $this->folder . '/' : '');
             $name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
 

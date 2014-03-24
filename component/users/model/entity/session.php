@@ -41,14 +41,14 @@ class ModelEntitySession extends Library\ModelEntityRow
             if($result = parent::save())
             {
                 // Hit the user last visit field
-                $row = $this->getObject('com:users.model.entity.user')
-                            ->setProperties(array('email' => $this->email))
-                            ->load();
+                $user = $this->getObject('com:users.model.users')
+                            ->email($this->email)
+                            ->fetch();
 
-                if($row)
+                if($user->id)
                 {
-                    $row->last_visited_on = gmdate('Y-m-d H:i:s');
-                    $row->save();
+                    $user->last_visited_on = gmdate('Y-m-d H:i:s');
+                    $user->save();
 
                     $this->setStatus(self::LOGGED_IN);
                 }

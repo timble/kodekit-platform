@@ -187,37 +187,6 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Load the row from the database using the data in the row
-     *
-     * @return object    If successful returns the row object, otherwise NULL
-     */
-    public function load()
-    {
-        $result = null;
-
-        if ($this->isNew())
-        {
-            if ($this->isConnected())
-            {
-                $data = $this->getTable()->filter($this->getProperties(true), true);
-                $row  = $this->getTable()->select($data, Database::FETCH_ROW);
-
-                // Set the data if the row was loaded successfully.
-                if (!$row->isNew())
-                {
-                    $this->setProperties($row->getProperties(), false);
-                    $this->_modified = array();
-
-                    $this->setStatus(Database::STATUS_LOADED);
-                    $result = $this;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Get a property
      *
      * @param   string  $property The property name

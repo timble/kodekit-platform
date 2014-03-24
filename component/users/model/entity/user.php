@@ -159,20 +159,6 @@ class ModelEntityUser extends Library\ModelEntityRow
         return parent::save();
     }
 
-    public function load()
-    {
-        $result = parent::load();
-
-        // Clear cache
-        if ($result)
-        {
-            $this->_role   = null;
-            $this->_groups = null;
-        }
-
-        return $result;
-    }
-
     public function reset()
     {
         $result = parent::reset();
