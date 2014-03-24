@@ -52,7 +52,8 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
     public function getOrderingTable()
     {
-        if (!$this->_table instanceof Library\DatabaseTableInterface) {
+        if (!$this->_table instanceof Library\DatabaseTableInterface)
+        {
             $table        = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this : $this->getTable();
             $this->_table = $this->getObject($this->_table, array('identity_column' => $table->getIdentityColumn()));
         }
@@ -84,11 +85,13 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        if ($query = $context->query) {
+        if ($query = $context->query)
+        {
             // Calculate ordering_path only if querying a list and it's sorted by an ordering column.
             $params = $context->query->params;
 
-            if (!$query->isCountQuery() && $params->has('sort')) {
+            if (!$query->isCountQuery() && $params->has('sort'))
+            {
                 $sort = $params->get('sort');
 
                 if (in_array($sort, $this->_columns)) {
@@ -113,7 +116,8 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     protected function _afterInsert(Library\DatabaseContext $context)
     {
         $row = $context->data;
-        if ($row->getStatus() != Library\Database::STATUS_FAILED) {
+        if ($row->getStatus() != Library\Database::STATUS_FAILED)
+        {
             // Insert empty row into ordering table.
             $table = $row->getTable();
             $empty = $table->getOrderingTable()->createRow()->setProperties(array('id' => $row->id));
@@ -137,13 +141,15 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     protected function _afterUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
-        if ($row->getStatus() != Library\Database::STATUS_FAILED) {
+        if ($row->getStatus() != Library\Database::STATUS_FAILED)
+        {
             foreach ($this->_columns as $column) {
                 call_user_func(array($this, '_reorder' . ucfirst($column)), $row, $column, $context->operation);
             }
 
             // If parent has changed, update old tree.
-            if (isset($this->_old_row) && $row->parent_id != $this->_old_row->parent_id) {
+            if (isset($this->_old_row) && $row->parent_id != $this->_old_row->parent_id)
+            {
                 foreach ($this->_columns as $column) {
                     call_user_func(array($this, '_reorder' . ucfirst($column)), $this->_old_row, $column, $context->operation);
                 }
@@ -154,7 +160,8 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     protected function _afterDelete(Library\DatabaseContext $context)
     {
         $row = $context->data;
-        if ($row->getStatus() != Library\Database::STATUS_FAILED) {
+        if ($row->getStatus() != Library\Database::STATUS_FAILED)
+        {
             foreach ($this->_columns as $column) {
                 call_user_func(array($this, '_reorder' . ucfirst($column)), $row, $column, $context->operation);
             }
@@ -192,7 +199,8 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     {
         $table = $row->getTable();
 
-        switch ($operation) {
+        switch ($operation)
+        {
             case 'insert':
             {
                 $query = $this->_buildQuery($row)
@@ -209,7 +217,8 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
             case 'update':
             {
-                if ($row->order) {
+                if ($row->order)
+                {
                     $old = (int)$row->ordering;
                     $new = $row->ordering + $row->order;
                     $new = $new <= 0 ? 1 : $new;
@@ -220,10 +229,13 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                         ->join(array('orderings' => $table->getOrderingTable()->getBase()), 'tbl.' . $table->getIdentityColumn() . ' = orderings.' . $table->getIdentityColumn(), 'INNER')
                         ->order('index', 'ASC');
 
-                    if ($row->order < 0) {
+                    if ($row->order < 0)
+                    {
                         $select->columns(array('index' => 'IF(orderings.custom >= :new AND orderings.custom < :old, orderings.custom + 1, ' .
                             'IF(orderings.' . $table->getIdentityColumn() . ' = :id, :new, orderings.custom))'));
-                    } else {
+                    }
+                    else
+                    {
                         $select->columns(array('index' => 'IF(orderings.custom > :old AND orderings.custom <= :new, orderings.custom - 1, ' .
                             'IF(orderings.' . $table->getIdentityColumn() . ' = :id, :new, orderings.custom))'));
                     }

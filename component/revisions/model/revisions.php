@@ -34,7 +34,7 @@ class ModelRevisions extends Library\ModelDatabase
      * a complete row. This is done because revision X always contains just the changes from the previous revision,
      * so the rest needs to be built.
      *
-     * @return Library\DatabaseRowInterface
+     * @return Library\ModelEntityInterface
      */
     protected function _actionFetch(Library\ModelContext $context)
     {
@@ -43,7 +43,8 @@ class ModelRevisions extends Library\ModelDatabase
         //Force ordering
         $context->query->order('tbl.revision', 'desc');
 
-        if ($state->revision > 1) {
+        if ($state->revision > 1)
+        {
             $revisions = parent::_actionFetch($context);
             $data      = array();
 

@@ -63,14 +63,14 @@ class TemplateHelperModule extends Library\TemplateHelperAbstract
      */
     public function getModules()
     {
-        if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
+        if(!$this->_modules instanceof Library\ModelEntityInterface)
         {
             $this->_modules = $this->getObject($this->_modules);
 
-            if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
+            if(!$this->_modules instanceof Library\ModelEntityInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Modules: '.get_class($this->_modules).' does not implement Library\DatabaseRowsetInterface'
+                    'Modules: '.get_class($this->_modules).' does not implement Library\ModelEntityInterface'
                 );
             }
         }

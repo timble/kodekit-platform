@@ -37,24 +37,32 @@ class ModelTypes extends Library\ModelAbstract
             $views = array();
 
             $view_path = $com_path . '/' . $component . '/view';
-            if ($component->isDir() && substr($component, 0, 1) !== '.' && is_dir($view_path)) {
-                foreach (new \DirectoryIterator($view_path) as $view) {
+            if ($component->isDir() && substr($component, 0, 1) !== '.' && is_dir($view_path))
+            {
+                foreach (new \DirectoryIterator($view_path) as $view)
+                {
                     $xml_path = $view_path . '/' . $view . '/metadata.xml';
-                    if ($view->isDir() && substr($view, 0, 1) !== '.' && is_file($xml_path)) {
+                    if ($view->isDir() && substr($view, 0, 1) !== '.' && is_file($xml_path))
+                    {
                         $xml_view = simplexml_load_file($xml_path);
-                        if (strtolower($xml_view->view->attributes()->hidden) !== 'true') {
+                        if (strtolower($xml_view->view->attributes()->hidden) !== 'true')
+                        {
                             $layouts = array();
 
                             $tmpl_path = $view_path . '/' . $view . '/templates';
-                            if (is_dir($tmpl_path)) {
-                                foreach (new \DirectoryIterator($tmpl_path) as $layout) {
-                                    if ($layout->isFile() && substr($layout, 0, 1) !== '.' && $layout->getExtension() == 'xml') {
+                            if (is_dir($tmpl_path))
+                            {
+                                foreach (new \DirectoryIterator($tmpl_path) as $layout)
+                                {
+                                    if ($layout->isFile() && substr($layout, 0, 1) !== '.' && $layout->getExtension() == 'xml')
+                                    {
                                         $xml_layout = simplexml_load_file($tmpl_path . '/' . $layout);
                                         if (!$xml_layout->layout) {
                                             continue;
                                         }
 
-                                        if (strtolower($xml_layout->layout->attributes()->hidden) !== 'true') {
+                                        if (strtolower($xml_layout->layout->attributes()->hidden) !== 'true')
+                                        {
                                             $layouts[$layout->getBasename('.xml')] = (object)array(
                                                 'name'        => $layout->getBasename('.xml'),
                                                 'title'       => trim($xml_layout->layout->attributes()->title),
@@ -82,7 +90,7 @@ class ModelTypes extends Library\ModelAbstract
             }
         }
 
-        return $this->getObject('com:pages.database.rowset.types', array('data' => $components));
+        return $this->getObject('com:pages.model.entity.types', array('data' => $components));
     }
 
     protected function _actionCount(Library\ModelContext $context)

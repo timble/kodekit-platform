@@ -75,7 +75,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
                         ->sort('title')
                         ->fetch();
 
-        $iterator = new DatabaseIteratorNode($categories);
+        $iterator = new ModelIteratorNode($categories);
         $iterator->setMaxDepth($config->max_depth);
 
         foreach($iterator as $category)

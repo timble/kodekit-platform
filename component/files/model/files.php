@@ -53,7 +53,7 @@ class ModelFiles extends ModelNodes
         }
 
         $identifier         = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('database', 'rowset');
+        $identifier['path'] = array('model', 'entity');
 
         return $this->getObject($identifier, array('data' => $data));
     }
@@ -77,15 +77,17 @@ class ModelFiles extends ModelNodes
         $filename  = basename($path);
         $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
-        if ($this->getState()->name) {
+        if ($this->getState()->name)
+        {
             if (!in_array($filename, (array)$this->getState()->name)) {
                 return false;
             }
         }
 
-        if ($this->getState()->types) {
-            if ((in_array($extension, DatabaseRowFile::$image_extensions) && !in_array('image', (array)$this->getState()->types))
-                || (!in_array($extension, DatabaseRowFile::$image_extensions) && !in_array('file', (array)$this->getState()->types))
+        if ($this->getState()->types)
+        {
+            if ((in_array($extension, ModelEntityFile::$image_extensions) && !in_array('image', (array)$this->getState()->types))
+                || (!in_array($extension, ModelEntityFile::$image_extensions) && !in_array('file', (array)$this->getState()->types))
             ) {
                 return false;
             }

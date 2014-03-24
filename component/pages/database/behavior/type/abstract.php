@@ -41,7 +41,8 @@ abstract class DatabaseBehaviorTypeAbstract extends Library\DatabaseBehaviorAbst
     protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         // Set home.
-        if ($this->isModified('home') && $this->home == 1) {
+        if ($this->isModified('home') && $this->home == 1)
+        {
             $page = $this->getObject('com:pages.database.table.pages')
                 ->select(array('home' => 1), Library\Database::FETCH_ROW);
 
@@ -50,7 +51,8 @@ abstract class DatabaseBehaviorTypeAbstract extends Library\DatabaseBehaviorAbst
         }
 
         // Update child pages if menu has been changed.
-        if ($this->isModified('pages_menu_id')) {
+        if ($this->isModified('pages_menu_id'))
+        {
             $descendants = $this->getDescendants();
 
             foreach ($descendants as $descendant) {

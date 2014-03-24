@@ -33,13 +33,13 @@ class ModelNodes extends ModelAbstract
     public function _actionCreate(Library\ModelContext $context)
     {
         $identifier         = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('database', 'row');
+        $identifier['path'] = array('model', 'entity');
         $identifier['name'] = Library\StringInflector::singularize($this->getIdentifier()->name);
 
         $options = array('data' => array(
-            'container' => $this->getState()->container,
-            'folder'    => $this->getState()->folder,
-            'name'      => $this->getState()->name
+            'container' => $context->state->container,
+            'folder'    => $context->state->folder,
+            'name'      => $context->state->name
         ));
 
         $entity = $this->getObject($identifier, $options);
@@ -53,17 +53,19 @@ class ModelNodes extends ModelAbstract
 
         $type = !empty($state->types) ? (array)$state->types : array();
 
-        $list = $this->getObject('com:files.database.rowset.nodes');
+        $list = $this->getObject('com:files.model.entity.nodes');
 
         // Special case for limit=0. We set it to -1 so loop goes on till end since limit is a negative value
         $limit_left  = $state->limit ? $state->limit : -1;
         $offset_left = $state->offset;
         $total       = 0;
 
-        if (empty($type) || in_array('folder', $type)) {
+        if (empty($type) || in_array('folder', $type))
+        {
             $folders = $this->getObject('com:files.model.folders')->setState($state->getValues());
 
-            foreach ($folders->fetch() as $folder) {
+            foreach ($folders->fetch() as $folder)
+            {
                 if (!$limit_left) {
                     break;
                 }
@@ -76,16 +78,19 @@ class ModelNodes extends ModelAbstract
             $offset_left -= $total;
         }
 
-        if ((empty($type) || (in_array('file', $type) || in_array('image', $type)))) {
+        if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
+        {
             $data           = $state->getValues();
             $data['offset'] = $offset_left < 0 ? 0 : $offset_left;
 
             $files = $this->getObject('com:files.model.files')->setState($data);
 
-            foreach ($files->fetch() as $file) {
+            foreach ($files->fetch() as $file)
+            {
                 if (!$limit_left) {
                     break;
                 }
+
                 $list->insert($file);
                 $limit_left--;
             }
@@ -109,7 +114,8 @@ class ModelNodes extends ModelAbstract
 
     public function getContainer()
     {
-        if (!isset($this->_container)) {
+        if (!isset($this->_container))
+        {
             //Set the container
             $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->fetch();
 

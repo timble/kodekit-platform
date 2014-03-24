@@ -46,8 +46,8 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->row instanceof ArticlesDatabaseRowArticle) {
-            throw new \InvalidArgumentException('The row is missing.');
+        if (!$config->row instanceof ArticlesModelEntityArticle) {
+            throw new \InvalidArgumentException('The entity is missing.');
         }
 
         $article = $config->row;

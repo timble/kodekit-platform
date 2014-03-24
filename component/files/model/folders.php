@@ -51,9 +51,11 @@ class ModelFolders extends ModelNodes
         $folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_count);
 
         $results = array();
-        foreach ($folders as $folder) {
+        foreach ($folders as $folder)
+        {
             $hierarchy = array();
-            if ($state->tree) {
+            if ($state->tree)
+            {
                 $hierarchy = explode('/', dirname($folder));
                 if (count($hierarchy) === 1 && $hierarchy[0] === '.') {
                     $hierarchy = array();
@@ -69,9 +71,9 @@ class ModelFolders extends ModelNodes
         }
 
         $identifier         = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('database', 'rowset');
+        $identifier['path'] = array('model', 'entity');
 
-        return $this->getObject($identifier)->addRow($results);
+        return $this->getObject($identifier)->addEntity($results);
     }
 
     protected function _actionCount(Library\ModelContext $context)
@@ -94,7 +96,8 @@ class ModelFolders extends ModelNodes
     public function iteratorFilter($path)
     {
         $filename = basename($path);
-        if ($this->getState()->name) {
+        if ($this->getState()->name)
+        {
             if (!in_array($filename, (array)$this->getState()->name)) {
                 return false;
             }

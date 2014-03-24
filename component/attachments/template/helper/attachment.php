@@ -37,9 +37,10 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
 
 		if(!$config->allowed_extensions || !$config->allowed_mimetypes)
 		{
-			$container = $this->getObject('com:files.database.table.containers')
-							  ->select(array('slug' => 'attachments-attachments'), Library\Database::FETCH_ROW);
-			
+			$container = $this->getObject('com:files.model.containers')
+                ->slug('attachments-attachments')
+                ->fetch();
+
 			$config->append(array(
 					'allowed_extensions'  => $container->parameters->allowed_extensions,
 					'allowed_mimetypes'   => $container->parameters->allowed_mimetypes

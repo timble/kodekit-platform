@@ -86,7 +86,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         }
 
         if (!$context->request->data->enabled) {
-            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
+            $context->request->data->activation = $this->getObject('com:users.model.entity.password')->getRandom(32);
         }
     }
 
@@ -95,7 +95,8 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         $row = $context->result;
 
         // Reset activation token if necessary.
-        if ($row->enabled && $row->activation) {
+        if ($row->enabled && $row->activation)
+        {
             $row->activation = '';
             $row->save();
         }

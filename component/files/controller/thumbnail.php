@@ -30,14 +30,17 @@ class ControllerThumbnail extends ControllerAbstract
 
         $nodes = $this->getObject('com:files.model.nodes')->setState($state_data)->fetch();
 
-        if (!$model->getState()->filename) {
+        if (!$model->getState()->filename)
+        {
             $needed = array();
-            foreach ($nodes as $row) {
-                if ($row instanceof Files\DatabaseRowFile && $row->isImage()) {
+            foreach ($nodes as $row)
+            {
+                if ($row instanceof Files\ModelEntityFile && $row->isImage()) {
                     $needed[] = $row->name;
                 }
             }
-        } else $needed = $model->getState()->filename;
+        }
+        else $needed = $model->getState()->filename;
 
         $model->setState($state_data)
             ->filename($needed);
@@ -49,10 +52,13 @@ class ControllerThumbnail extends ControllerAbstract
             $found[] = $row->filename;
         }
 
-        if (count($found) !== count($needed)) {
+        if (count($found) !== count($needed))
+        {
             $new = array();
-            foreach ($nodes as $row) {
-                if ($row instanceof Files\DatabaseRowFile && $row->isImage() && !in_array($row->name, $found)) {
+            foreach ($nodes as $row)
+            {
+                if ($row instanceof Files\ModelEntityFile && $row->isImage() && !in_array($row->name, $found))
+                {
                     $result = $row->saveThumbnail();
                     if ($result) {
                         $new[] = $row->name;

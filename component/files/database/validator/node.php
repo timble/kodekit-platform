@@ -36,7 +36,7 @@ class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 	{
 		$row = $context->getSubject();
 
-		if (!array_intersect(array('destination_folder', 'destination_name'), $row->getModified()))
+		if (!$row->isModified('destination_folder') && !$row->isModified('destination_name'))
         {
             $row->setStatusMessage(\JText::_('Please supply a destination.'));
 			return false;

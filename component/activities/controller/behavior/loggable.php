@@ -60,20 +60,20 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
         {
             $entity = $command->result;
 
-            if($entity instanceof Library\DatabaseRowInterface || $entity instanceof Library\DatabaseRowsetInterface )
+            if($entity instanceof Library\ModelEntityInterface)
             {
-                $rowset = array();
+                $entities = array();
 
-                if ($entity instanceof Library\DatabaseRowInterface) {
-                    $rowset[] = $entity;
+                if (!$entity instanceof Library\ModelEntityTraversable) {
+                    $entities[] = $entity;
                 } else {
-                    $rowset = $entity;
+                    $entities = $entity;
                 }
 
-                foreach ($rowset as $row)
+                foreach ($entities as $entity)
                 {
                     //Only log if the row status is valid.
-                    $status = $row->getStatus();
+                    $status = $entity->getStatus();
 
                     if(!empty($status))
                     {
@@ -91,25 +91,25 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         {
                             foreach($this->_title_column as $title)
                             {
-                                if($row->{$title})
+                                if($entity->{$title})
                                 {
-                                    $log['title'] = $row->{$title};
+                                    $log['title'] = $entity->{$title};
                                     break;
                                 }
                             }
                         }
-                        elseif($row->{$this->_title_column}) {
-                            $log['title'] = $row->{$this->_title_column};
+                        elseif($entity->{$this->_title_column}) {
+                            $log['title'] = $entity->{$this->_title_column};
                         }
 
                         if (!isset($log['title'])) {
-                            $log['title'] = '#'.$row->id;
+                            $log['title'] = '#'.$entity->id;
                         }
 
-                        $log['row'] = $row->id;
+                        $log['row'] = $entity->id;
                         $log['ip']  = $command->request->getAddress();
 
-                        $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
+                        $this->getObject('com:activities.model.entity.activity', array('data' => $log))->save();
                     }
                 }
             }

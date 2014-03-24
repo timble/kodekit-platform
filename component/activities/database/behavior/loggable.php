@@ -40,7 +40,7 @@ class DatabaseBehaviorLoggable extends Library\DatabaseBehaviorAbstract
     /**
      * Get a list of activities
      *
-     * @return Library\DatabaseRowsetInterface
+     * @return Library\ModelEntityInterface
      */
     public function getActivities()
     {

@@ -39,7 +39,7 @@ class DatabaseBehaviorCommentable extends Library\DatabaseBehaviorAbstract
     /**
 	 * Get a list of comments
 	 *
-	 * @return Library\DatabaseRowsetInterface
+	 * @return Library\ModelEntityInterface
 	 */
 	public function getComments()
 	{

@@ -26,8 +26,9 @@ class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
         ));
 
         //Make sure the attachment is set
-        if ($config->attachment) {
-            $thumbnail = $this->getObject('com:attachments.database.row.attachment')->set('id', $config->attachment)->load();
+        if ($config->attachment)
+        {
+            $thumbnail = $this->getObject('com:attachments.model.entity.attachment')->set('id', $config->attachment)->load();
 
             //Make sure the thumbnail exist
             if ($thumbnail) {

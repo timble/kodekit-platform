@@ -83,7 +83,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        if ($query = $context->query) {
+        if ($query = $context->query)
+        {
             $table     = $this->_tables->find(array('name' => $context->table))->top();
             $languages = $this->getObject('application.languages');
             $active    = $languages->getActive();
@@ -107,10 +108,11 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                         'translation_table'    => $table->name
                     ));
 
-                if (!is_null($translated)) {
-                    $status = $translated ? LanguagesDatabaseRowTranslation::STATUS_COMPLETED : array(
-                        LanguagesDatabaseRowTranslation::STATUS_MISSING,
-                        LanguagesDatabaseRowTranslation::STATUS_OUTDATED
+                if (!is_null($translated))
+                {
+                    $status = $translated ? LanguagesModelEntityTranslation::STATUS_COMPLETED : array(
+                        LanguagesModelEntityTranslation::STATUS_MISSING,
+                        LanguagesModelEntityTranslation::STATUS_OUTDATED
                     );
 
                     $query->where('translations.status IN :translation_status')
@@ -127,7 +129,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     protected function _afterInsert(Library\DatabaseContext $context)
     {
-        if ($context->affected) {
+        if ($context->affected)
+        {
             $languages = $this->getObject('application.languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
@@ -136,19 +139,20 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 'iso_code' => $active->iso_code,
                 'table'    => $context->table,
                 'row'      => $context->data->id,
-                'status'   => DatabaseRowTranslation::STATUS_COMPLETED,
+                'status'   => ModelEntityTranslation::STATUS_COMPLETED,
                 'original' => 1
             );
 
             // Insert item into the translations table.
-            $this->getObject('com:languages.database.row.translation')
+            $this->getObject('com:languages.model.entity.translation')
                 ->setProperties($translation)
                 ->save();
 
             // Insert item into language specific tables.
             $table = $this->_tables->find(array('name' => $context->table))->top();
 
-            foreach ($languages as $language) {
+            foreach ($languages as $language)
+            {
                 if ($language->iso_code != $primary->iso_code) {
                     $query = clone $context->query;
                     $query->table(strtolower($language->iso_code) . '_' . $query->table);
@@ -160,13 +164,14 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                     $this->getTable()->getAdapter()->insert($query);
                 }
 
-                if ($language->iso_code != $active->iso_code) {
+                if ($language->iso_code != $active->iso_code)
+                {
                     // Insert item into translations table.
                     $translation['iso_code'] = $language->iso_code;
-                    $translation['status']   = DatabaseRowTranslation::STATUS_MISSING;
+                    $translation['status']   = ModelEntityTranslation::STATUS_MISSING;
                     $translation['original'] = 0;
 
-                    $this->getObject('com:languages.database.row.translation')
+                    $this->getObject('com:languages.model.entity.translation')
                         ->setProperties($translation)
                         ->save();
                 }
@@ -201,7 +206,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ), Library\Database::FETCH_ROW);
 
         $translation->setProperties(array(
-            'status' => DatabaseRowTranslation::STATUS_COMPLETED
+            'status' => ModelEntityTranslation::STATUS_COMPLETED
         ))->save();
 
         // Set the other items to outdated if they were completed before.
@@ -214,13 +219,13 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 'iso_code' => $active->iso_code,
                 'table'    => $context->table,
                 'row'      => $context->data->id,
-                'status'   => DatabaseRowTranslation::STATUS_COMPLETED
+                'status'   => ModelEntityTranslation::STATUS_COMPLETED
             ));
 
         $translations = $this->getObject('com:languages.database.table.translations')
             ->select($query);
 
-        $translations->status = DatabaseRowTranslation::STATUS_OUTDATED;
+        $translations->status = ModelEntityTranslation::STATUS_OUTDATED;
         $translations->save();
 
         // Copy the item's data to all missing translations.
@@ -231,11 +236,12 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->where($table->unique_column . ' = :unique')
             ->bind(array('unique' => $context->data->id));
 
-        $query->bind(array('status' => DatabaseRowTranslation::STATUS_MISSING));
+        $query->bind(array('status' => ModelEntityTranslation::STATUS_MISSING));
         $translations = $this->getObject('com:languages.database.table.translations')
             ->select($query);
 
-        foreach ($translations as $translation) {
+        foreach ($translations as $translation)
+        {
             $prefix = $translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code . '_') : '';
             $query  = 'REPLACE INTO ' . $database->quoteIdentifier($prefix . $table->name) . ' ' . $select;
             $database->execute($query);

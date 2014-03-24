@@ -42,7 +42,7 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
                         ->setState(Library\ObjectConfig::unbox($config->filter))
                         ->fetch();
 
-        $iterator = new DatabaseIteratorNode($categories);
+        $iterator = new ModelIteratorNode($categories);
         $iterator->setMaxDepth($config->max_depth);
 
         $options = $this->options(array(

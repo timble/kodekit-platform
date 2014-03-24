@@ -28,13 +28,15 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
      */
     protected function _beforePost(Library\DispatcherContextInterface $context)
     {
-        if ($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic()) {
+        if ($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic())
+        {
             $password = $context->request->data->get('password', 'string');
             $email    = $context->request->data->get('email', 'email');
 
             $user = $this->getObject('com:users.model.users')->email($email)->fetch();
 
-            if ($user->id) {
+            if ($user->id)
+            {
                 //Check user password
                 if (!$user->getPassword()->verify($password)) {
                     throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
@@ -53,7 +55,8 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
                 $data['authentic'] = true;
 
                 $context->user->setData($data);
-            } else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
+            }
+            else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
         }
     }
 }

@@ -96,7 +96,7 @@ class ModelModules extends Library\ModelDatabase
      *
      * This method is customized in order to set the default module type on new rows.
      *
-     * @return Library\DatabaseRowInterface
+     * @return Library\ModelEntityInterface
      */
     protected function _actionCreate(Library\ModelContext $context)
     {
@@ -124,25 +124,31 @@ class ModelModules extends Library\ModelDatabase
      *
      * If the installed state is TRUE this function will return a list of the installed modules.
      *
-     * @return Library\DatabaseRowsetInterface
+     * @return Library\ModelEntityInterface
      */
     protected function _actionFetch(Library\ModelContext $context)
     {
         $state = $context->state;
 
-        if ($state->installed) {
+        if ($state->installed)
+        {
             $modules  = array();
             $app_path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
             $com_path = $app_path . '/component';
 
-            foreach (new \DirectoryIterator($com_path) as $component) {
+            foreach (new \DirectoryIterator($com_path) as $component)
+            {
                 if ($component->isDir() && substr($component, 0, 1) !== '.') {
                     $mod_path = $com_path . '/' . $component . '/module';
 
-                    if (is_dir($mod_path)) {
-                        foreach (new \DirectoryIterator($mod_path) as $folder) {
-                            if ($folder->isDir()) {
-                                if (file_exists($folder->getRealPath() . '/' . $folder->getFilename() . '.xml')) {
+                    if (is_dir($mod_path))
+                    {
+                        foreach (new \DirectoryIterator($mod_path) as $folder)
+                        {
+                            if ($folder->isDir())
+                            {
+                                if (file_exists($folder->getRealPath() . '/' . $folder->getFilename() . '.xml'))
+                                {
                                     $modules[] = array(
                                         'id'          => $folder->getFilename(),
                                         'name'        => 'mod_' . $folder->getFilename(),
@@ -170,8 +176,10 @@ class ModelModules extends Library\ModelDatabase
                 $modules = array_reverse($modules);
             }
 
-            $data = $this->getTable()->createRowset()->addRow($modules);
-        } else {
+            $data = $this->getTable()->createRowset()->addEntity($modules);
+        }
+        else
+        {
             if ($state->sort == 'ordering') {
                 $context->query->order('position', 'ASC');
             }

@@ -38,8 +38,10 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
         $data  = array();
 
         //Get the sites
-        foreach (new \DirectoryIterator(JPATH_SITES) as $file) {
-            if ($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.')) {
+        foreach (new \DirectoryIterator(JPATH_SITES) as $file)
+        {
+            if ($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.'))
+            {
                 $data[] = array(
                     'name' => $file->getFilename()
                 );
@@ -47,8 +49,10 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
         }
 
         //Apply state information
-        foreach ($data as $key => $value) {
-            if ($state->search) {
+        foreach ($data as $key => $value)
+        {
+            if ($state->search)
+            {
                 if ($value->name != $state->search) {
                     unset($data[$key]);
                 }
@@ -63,7 +67,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
             $data = array_slice($data, $state->offset, $state->limit);
         }
 
-        return $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
+        return $this->getObject('com:sites.model.entity.sites', array('data' => $data));
     }
 
     protected function _actionCount(Library\ModelContext $context)

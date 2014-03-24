@@ -42,7 +42,7 @@ class UsersControllerSession extends Users\ControllerSession
         if ($context->result !== false)
         {
             $user     = $context->user;
-            $password = $this->getObject('com:users.database.row.password')->set('id', $user->getEmail())->load();
+            $password = $this->getObject('com:users.model.entity.password')->set('id', $user->getEmail())->load();
 
             if ($password->expired())
             {
