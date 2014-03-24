@@ -219,7 +219,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
 
             $this->slug = implode($this->_separator, array_filter($slugs));
         }
-        elseif(in_array('slug', $this->getModified())) {
+        elseif($this->isModified('slug')) {
             $this->slug = $filter->sanitize($this->slug);
         }
 

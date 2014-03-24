@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-final class DatabaseRowDefault extends DatabaseRowTable { }
+final class DatabaseRowDefault extends DatabaseRowAbstract { }

@@ -56,6 +56,13 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     protected $_identity_column;
 
     /**
+     * Table object or identifier
+     *
+     * @var    string|object
+     */
+    protected $_table = false;
+
+    /**
      * Constructor
      *
      * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
@@ -63,6 +70,9 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
+
+        //Set the table identifier
+        $this->_table = $config->table;
 
         // Set the table identifier
         if (isset($config->identity_column)) {
@@ -99,6 +109,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'table'           => $this->getIdentifier()->name,
             'data'            => null,
             'status'          => null,
             'status_message'  => '',
@@ -158,13 +169,26 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Remove a property
      *
+     * This function will reset required properties to their default value, not required properties will be unset.
+     *
      * @param   string  $property The property name.
      * @return  DatabaseRowAbstract
      */
     public function remove($property)
     {
-        parent::offsetUnset($property);
-        unset($this->_modified[$property]);
+        if ($this->isConnected())
+        {
+            $column = $this->getTable()->getColumn($property);
+
+            if (isset($column) && $column->required) {
+                parent::set($this->_data[$property], $column->default);
+            }
+            else
+            {
+                parent::offsetUnset($property);
+                unset($this->_modified[$property]);
+            }
+        }
 
         return $this;
     }
@@ -275,16 +299,6 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Get a list of properties that have been modified
-     *
-     * @return array    An array of property names that have been modified
-     */
-    public function getModified()
-    {
-        return $this->_modified;
-    }
-
-    /**
      * Get a handle for this object
      *
      * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
@@ -304,53 +318,163 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Load the row from the database.
+     * Method to get a table object
+     *
+     * Function catches DatabaseTableExceptions that are thrown for tables that
+     * don't exist. If no table object can be created the function will return FALSE.
+     *
+     * @return DatabaseTableAbstract
+     */
+    public function getTable()
+    {
+        if ($this->_table !== false)
+        {
+            if (!($this->_table instanceof DatabaseTableInterface))
+            {
+                //Make sure we have a table identifier
+                if (!($this->_table instanceof ObjectIdentifier)) {
+                    $this->setTable($this->_table);
+                }
+
+                try {
+                    $this->_table = $this->getObject($this->_table);
+                } catch (\RuntimeException $e) {
+                    $this->_table = false;
+                }
+            }
+        }
+
+        return $this->_table;
+    }
+
+    /**
+     * Method to set a table object attached to the rowset
+     *
+     * @param    mixed    $table An object that implements ObjectInterface, ObjectIdentifier object
+     *                           or valid identifier string
+     * @throws  \UnexpectedValueException    If the identifier is not a table identifier
+     * @return  DatabaseRowTable
+     */
+    public function setTable($table)
+    {
+        if (!($table instanceof DatabaseTableInterface))
+        {
+            if (is_string($table) && strpos($table, '.') === false)
+            {
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('database', 'table');
+                $identifier['name'] = StringInflector::tableize($table);
+
+                $identifier = $this->getIdentifier($identifier);
+            }
+            else $identifier = $this->getIdentifier($table);
+
+            if ($identifier->path[1] != 'table') {
+                throw new \UnexpectedValueException('Identifier: ' . $identifier . ' is not a table identifier');
+            }
+
+            $table = $identifier;
+        }
+
+        $this->_table = $table;
+
+        return $this;
+    }
+
+    /**
+     * Load the row from the database using the data in the row
      *
      * @return object    If successful returns the row object, otherwise NULL
      */
     public function load()
     {
-        $this->_modified = array();
-        return $this;
+        $result = null;
+
+        if ($this->isNew())
+        {
+            if ($this->isConnected())
+            {
+                $data = $this->getTable()->filter($this->getProperties(true), true);
+                $row  = $this->getTable()->select($data, Database::FETCH_ROW);
+
+                // Set the data if the row was loaded successfully.
+                if (!$row->isNew())
+                {
+                    $this->setProperties($row->getProperties(), false);
+                    $this->_modified = array();
+
+                    $this->setStatus(Database::STATUS_LOADED);
+                    $result = $this;
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
      * Saves the row to the database.
      *
-     * @return boolean  If successful return TRUE, otherwise FALSE
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
+     *
+     * @return boolean If successful return TRUE, otherwise FALSE
      */
     public function save()
     {
-        if (!$this->isNew()) {
-            $this->setStatus(Database::STATUS_UPDATED);
-        } else {
-            $this->setStatus(Database::STATUS_CREATED);
+        $result = false;
+
+        if ($this->isConnected())
+        {
+            if (!$this->isNew()) {
+                $result = $this->getTable()->update($this);
+            } else {
+                $result = $this->getTable()->insert($this);
+            }
+
+            //Reset the modified array
+            if ($result !== false)
+            {
+                if (((integer) $result) > 0) {
+                    $this->_modified = array();
+                }
+            }
         }
 
-        $this->_modified = array();
-        return false;
+        return (bool) $result;
     }
 
     /**
      * Deletes the row form the database.
      *
-     * @return boolean  If successful return TRUE, otherwise FALSE
+     * @return boolean    If successful return TRUE, otherwise FALSE
      */
     public function delete()
     {
-        $this->setStatus(Database::STATUS_DELETED);
-        return false;
+        $result = false;
+
+        if ($this->isConnected())
+        {
+            if (!$this->isNew()) {
+                $result = $this->getTable()->delete($this);
+            }
+        }
+
+        return (bool) $result;
     }
 
     /**
-     * Resets to the default properties
+     * Reset the row data using the defaults
      *
-     * @return DatabaseRowInterface
+     * @return DatabaseRowTable
      */
     public function reset()
     {
         $this->_data     = array();
         $this->_modified = array();
+
+        if ($this->isConnected()) {
+            $this->_data = $this->getTable()->getDefaults();
+        }
 
         return $this;
     }
@@ -391,11 +515,11 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Test the connected status of the row.
      *
-     * @return    boolean    Returns TRUE by default.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseTableAbstract object.
      */
     public function isConnected()
     {
-        return true;
+        return (bool)$this->getTable();
     }
 
     /**
@@ -441,5 +565,42 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     final public function offsetUnset($property)
     {
         $this->remove($property);
+    }
+
+    /**
+     * Search the mixin method map and call the method or trigger an error
+     *
+     * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
+     * Lazy mixing is triggered by calling DatabaseRowsetTable::is[Behaviorable]();
+     *
+     * @param  string     $method   The function name
+     * @param  array      $argument The function arguments
+     * @throws \BadMethodCallException     If method could not be found
+     * @return mixed The result of the function
+     */
+    public function __call($method, $arguments)
+    {
+        if ($this->isConnected())
+        {
+            $parts = StringInflector::explode($method);
+
+            //Check if a behavior is mixed
+            if ($parts[0] == 'is' && isset($parts[1]))
+            {
+                if(!isset($this->_mixed_methods[$method]))
+                {
+                    //Lazy mix behaviors
+                    $behavior = strtolower($parts[1]);
+
+                    if ($this->getTable()->hasBehavior($behavior)) {
+                        $this->mixin($this->getTable()->getBehavior($behavior));
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return parent::__call($method, $arguments);
     }
 }

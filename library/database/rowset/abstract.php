@@ -32,16 +32,28 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     protected $_row_cloning;
 
     /**
+     * Table object or identifier
+     *
+     * @var    string|object
+     */
+    protected $_table = false;
+
+    /**
      * Constructor
      *
-     * @param ObjectConfig  $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return DatabaseRowsetAbstract
      */
     public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Bypass DatabaseRowsetAbstract constructor to prevent data from being added twice
+        ObjectSet::__construct($config);
 
+        //Set the row cloning
         $this->_row_cloning = $config->row_cloning;
+
+        //Set the table identifier
+        $this->_table = $config->table;
 
         // Set the table identifier
         if (isset($config->identity_column)) {
@@ -54,6 +66,11 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         // Insert the data, if exists
         if (!empty($config->data)) {
             $this->addRow($config->data->toArray(), $config->status);
+        }
+
+        //Set the status message
+        if (!empty($config->status_message)) {
+            $this->setStatusMessage($config->status_message);
         }
     }
 
@@ -68,6 +85,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'table'           => $this->getIdentifier()->name,
             'data'            => null,
             'identity_column' => null,
             'row_cloning'     => true
@@ -110,13 +128,13 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Test the connected status of the rowset.
+     * Test the connected status of the row.
      *
-     * @return    bool    Returns TRUE by default.
+     * @return    bool    Returns TRUE if we have a reference to a live DatabaseTableAbstract object.
      */
     public function isConnected()
     {
-        return true;
+        return (bool)$this->getTable();
     }
 
     /**
@@ -276,48 +294,33 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function addRow(array $rows, $status = NULL)
     {
-        if ($this->_row_cloning)
+        if ($this->isConnected())
         {
-            $default = $this->createRow()->setStatus($status);
-
-            foreach ($rows as $k => $data)
+            if ($this->_row_cloning)
             {
-                $row = clone $default;
-                $row->setProperties($data, $row->isNew());
+                $default = $this->getTable()->createRow()->setStatus($status);
 
-                $this->insert($row);
+                foreach ($rows as $k => $data)
+                {
+                    $row = clone $default;
+                    $row->setProperties($data, $row->isNew());
+
+                    $this->insert($row);
+                }
             }
-        }
-        else
-        {
-            foreach ($rows as $k => $data)
+            else
             {
-                $row = $this->createRow()->setStatus($status);
-                $row->setProperties($data, $row->isNew());
+                foreach ($rows as $k => $data)
+                {
+                    $row = $this->getTable()->createRow()->setStatus($status);
+                    $row->setProperties($data, $row->isNew());
 
-                $this->insert($row);
+                    $this->insert($row);
+                }
             }
         }
 
         return $this;
-    }
-
-    /**
-     * Get an instance of a row object for this rowset
-     *
-     * @param    array $options An optional associative array of configuration settings.
-     * @return  DatabaseRowInterface
-     */
-    public function createRow(array $options = array())
-    {
-        $identifier = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('database', 'row');
-        $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
-
-        //The row default options
-        $options['identity_column'] = $this->getIdentityColumn();
-
-        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -393,19 +396,67 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Get a list of properties that have been modified
+     * Method to get a table object
      *
-     * @return array An array of properties keys that have been modified
+     * Function catches DatabaseTableExceptions that are thrown for tables that
+     * don't exist. If no table object can be created the function will return FALSE.
+     *
+     * @return DatabaseTableAbstract
      */
-    public function getModified()
+    public function getTable()
     {
-        $result = array();
+        if ($this->_table !== false)
+        {
+            if (!($this->_table instanceof DatabaseTableInterface))
+            {
+                //Make sure we have a table identifier
+                if (!($this->_table instanceof ObjectIdentifier)) {
+                    $this->setTable($this->_table);
+                }
 
-        if($row = $this->getIterator()->current()) {
-            $result = $row->getModified();
+                try {
+                    $this->_table = $this->getObject($this->_table);
+                } catch (\RuntimeException $e) {
+                    $this->_table = false;
+                }
+            }
         }
 
-        return $result;
+        return $this->_table;
+    }
+
+    /**
+     * Method to set a table object attached to the rowset
+     *
+     * @param    mixed    $table  An object that implements ObjectInterface, ObjectIdentifier object or valid
+     *                            identifier string
+     * @throws  \UnexpectedValueException If the identifier is not a table identifier
+     * @return  DatabaseRowsetAbstract
+     */
+    public function setTable($table)
+    {
+        if (!($table instanceof DatabaseTableInterface))
+        {
+            if (is_string($table) && strpos($table, '.') === false)
+            {
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('database', 'table');
+                $identifier['name'] = StringInflector::tableize($table);
+
+                $identifier = $this->getIdentifier($identifier);
+            }
+            else $identifier = $this->getIdentifier($table);
+
+            if ($identifier->path[1] != 'table') {
+                throw new \UnexpectedValueException('Identifier: ' . $identifier . ' is not a table identifier');
+            }
+
+            $table = $identifier;
+        }
+
+        $this->_table = $table;
+
+        return $this;
     }
 
     /**
@@ -569,6 +620,11 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Forward the call to the current row
      *
+     * Search the mixin method map and call the method or forward the call to each row
+     *
+     * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
+     * Lazy mixing is triggered by calling DatabaseRowTable::is[Behaviorable]();
+     *
      * @param  string   $method    The function name
      * @param  array    $arguments The function arguments
      * @throws \BadMethodCallException   If method could not be found
@@ -577,6 +633,27 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     public function __call($method, $arguments)
     {
         $result = null;
+
+        if ($this->isConnected())
+        {
+            $parts = StringInflector::explode($method);
+
+            //Check if a behavior is mixed
+            if ($parts[0] == 'is' && isset($parts[1]))
+            {
+                if($row = $this->getIterator()->current())
+                {
+                    //Lazy mix behaviors
+                    $behavior = strtolower($parts[1]);
+
+                    if ($row->getTable()->hasBehavior($behavior)) {
+                        $row->mixin($row->getTable()->getBehavior($behavior));
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
 
         if($row = $this->getIterator()->current())
         {

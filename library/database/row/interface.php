@@ -74,7 +74,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      *
      * @param   mixed   $properties  Either and associative array, an object or a DatabaseRow
      * @param   boolean $modified    If TRUE, update the modified information for each column being set.
-     * @return  DatabaseRowAbstract
+     * @return  DatabaseRowInterface
      */
     public function setProperties($properties, $modified = true);
 
@@ -104,16 +104,29 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * Set the status message
      *
      * @param   string $message The status message
-     * @return  DatabaseRowAbstract
+     * @return  DatabaseRowInterface
      */
     public function setStatusMessage($message);
 
     /**
-     * Get a list of properties that have been modified
+     * Method to get a table object
      *
-     * @return array An array of property names that have been modified
+     * Function catches DatabaseTableExceptions that are thrown for tables that
+     * don't exist. If no table object can be created the function will return FALSE.
+     *
+     * @return DatabaseTableAbstract
      */
-    public function getModified();
+    public function getTable();
+
+    /**
+     * Method to set a table object attached to the rowset
+     *
+     * @param    mixed    $table An object that implements ObjectInterface, ObjectIdentifier object
+     *                           or valid identifier string
+     * @throws  \UnexpectedValueException    If the identifier is not a table identifier
+     * @return  DatabaseRowInterface
+     */
+    public function setTable($table);
 
     /**
      * Saves the to the database.
