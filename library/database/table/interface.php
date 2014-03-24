@@ -175,7 +175,7 @@ interface DatabaseTableInterface
      * @param mixed    $query DatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode  The database fetch style.
      * @param array    $state An optional associative array of configuration options.
-     * @return  DatabaseRow(set) depending on the mode.
+     * @return  DatabaseRowInterface or DatabaseRowsetInterface depending on the mode.
      */
     public function select($query = null, $mode = Database::FETCH_ROWSET, array $options = array());
 
@@ -198,15 +198,15 @@ interface DatabaseTableInterface
     /**
      * Table update method
      *
-     * @param  DatabaseRowTable $row  A DatabaseRow object
+     * @param  DatabaseRowInterface $row  A DatabaseRowInterface object
      * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
-    public function update(DatabaseRowTable $row);
+    public function update(DatabaseRowInterface $row);
 
     /**
      * Table delete method
      *
-     * @param  object       A DatabaseRow object
+     * @param  DatabaseRowInterface $row A DatabaseRow object
      * @return bool|integer Returns the number of rows deleted, or FALSE if delete query was not executed.
      */
     public function delete(DatabaseRowInterface $row);
