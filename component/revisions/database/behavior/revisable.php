@@ -69,7 +69,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
         $parts = explode('.', $command->getName());
-        if ($parts[0] == 'after') {
+        if ($parts[0] == 'after')
+        {
             if ($command->data instanceof Library\DatabaseRowInterface) {
                 $this->setMixer(clone $command->data);
             }
@@ -90,24 +91,28 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     {
         $query = $context->query;
 
-        if ($context->query->params->has('deleted')) {
+        if ($context->query->params->has('deleted'))
+        {
             $table     = $context->getSubject();
             $revisions = $this->_selectRevisions($table, Library\Database::STATUS_DELETED, $query);
 
-            if (!$query->isCountQuery()) {
+            if (!$query->isCountQuery())
+            {
                 $rowset = $table->createRowset();
 
-                foreach ($revisions as $row) {
+                foreach ($revisions as $row)
+                {
                     $options = array(
                         'data'   => $row->data,
                         'status' => 'trashed',
                     );
 
-                    $rowset->insert($rowset->createRow($options));
+                    $rowset->insert($rowset->getTable()->createRow($options));
                 }
 
                 $context->data = $rowset;
-            } else $context->data = count($revisions);
+            }
+            else $context->data = count($revisions);
 
             return false;
         }
@@ -141,10 +146,12 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(Library\DatabaseContext $context)
     {
-        if (!$context->getSubject()->count($context->data->id)) {
+        if (!$context->getSubject()->count($context->data->id))
+        {
             $this->setMixer($context->data);
 
-            if ($this->_countRevisions(Library\Database::STATUS_DELETED) == 1) {
+            if ($this->_countRevisions(Library\Database::STATUS_DELETED) == 1)
+            {
                 //Restore the row
                 $table = clone $context->getSubject();
                 $table->getCommandChain()->disable();
@@ -159,7 +166,9 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                 //Prevent the item from being updated
                 return false;
             }
-        } else {
+        }
+        else
+        {
             if ($this->_countRevisions() == 0) {
                 $this->_insertRevision();
             }
@@ -195,7 +204,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      */
     protected function _beforeDelete(Library\DatabaseContext $context)
     {
-        if (!$context->getSubject()->count($context->data->id)) {
+        if (!$context->getSubject()->count($context->data->id))
+        {
             $this->setMixer($context->data);
 
             if ($this->_countRevisions(Library\Database::STATUS_DELETED) == 1) {
@@ -208,7 +218,9 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                 //Prevent the item from being deleted
                 return false;
             }
-        } else {
+        }
+        else
+        {
             if ($this->_countRevisions() == 0) {
                 $this->_insertRevision();
             }
@@ -332,7 +344,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
         $revision->data   = (object)$table->filter($data);
 
         // Set the created_on and created_by information based on the creatable or modifiable data in the row
-        if ($this->isCreatable()) {
+        if ($this->isCreatable())
+        {
             if (isset($this->created_by) && !empty($this->created_by)) {
                 $revision->created_by = $this->created_by;
             }
@@ -342,7 +355,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
             }
         }
 
-        if ($this->isModifiable()) {
+        if ($this->isModifiable())
+        {
             if (isset($this->modified_by) && !empty($this->modified_by)) {
                 $revision->created_by = $this->modified_by;
             }
@@ -353,7 +367,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
         }
 
         // Set revision number.
-        if ($status == Library\Database::STATUS_UPDATED || $status == Library\Database::STATUS_DELETED) {
+        if ($status == Library\Database::STATUS_UPDATED || $status == Library\Database::STATUS_DELETED)
+        {
             $query = $this->getObject('lib:database.query.select')
                 ->where('table = :table')
                 ->where('row = :row')
