@@ -285,7 +285,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function also sets the redirect to the referrer.
      *
      * @param   ControllerContextInterface  $context A controller context object
-     * @return  DatabaseRowInterface     A row object containing the saved data
+     * @return  ModelEntityInterface
      */
     protected function _actionSave(ControllerContextInterface $context)
     {
@@ -307,7 +307,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function also sets the redirect to the current url
      *
      * @param    ControllerContextInterface  $context A controller context object
-     * @return   DatabaseRowInterface     A row object containing the saved data
+     * @return   ModelEntityInterface
      */
     protected function _actionApply(ControllerContextInterface $context)
     {
@@ -317,7 +317,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         if($action == 'add')
         {
             $url = $this->getReferrer($context);
-            if ($entity instanceof DatabaseRowInterface) {
+            if ($entity instanceof ModelEntityInterface) {
                 $url = $context->response->headers->get('Location');
             }
 
@@ -334,7 +334,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function will unlock the row(s) and set the redirect to the referrer
      *
      * @param   ControllerContextInterface  $context A command context object
-     * @return  DatabaseRowInterface    A row object containing the data of the cancelled object
+     * @return  ModelEntityInterface
      */
     protected function _actionCancel(ControllerContextInterface $context)
     {

@@ -20,14 +20,14 @@ interface ModelInterface
     /**
      * Create a new entity for the data source
      *
-     * @return  DatabaseRowInterface
+     * @return  ModelEntityInterface
      */
     public function create();
 
     /**
      * Fetch an entity from the datasource on the model state
      *
-     * @return DatabaseRowsetInterface
+     * @return ModelEntityInterface
      */
     public function fetch();
 

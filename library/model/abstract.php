@@ -34,7 +34,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Entity data
      *
-     * @var DatabaseRowsetInterface
+     * @var ModelEntityInterface
      */
     protected $_data;
 
@@ -79,7 +79,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Fetch an entity from the data store
      *
-     * @return DatabaseRowsetInterface
+     * @return ModelEntityInterface
      */
     final public function fetch()
     {
@@ -220,7 +220,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      *
      * @param ModelContext $context A model context object
      *
-     * @return  DatabaseRowsetInterface The entity
+     * @return  ModelEntityInterface The entity
      */
     protected function _actionCreate(ModelContext $context)
     {
@@ -231,8 +231,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      * Fetch a new entity from the data source
      *
      * @param ModelContext $context A model context object
-     *
-     * @return DatabaseRowsetInterface The entity
+     * @return ModelEntityInterface The entity
      */
     protected function _actionFetch(ModelContext $context)
     {
@@ -243,7 +242,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
      * Get the total number of entities
      *
      * @param ModelContext $context A model context object
-     *
      * @return string  The output of the view
      */
     protected function _actionCount(ModelContext $context)

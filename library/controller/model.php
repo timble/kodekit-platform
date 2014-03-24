@@ -198,7 +198,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 * Generic browse action, fetches an entity collection
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
-	 * @return 	DatabaseRowsetInterface A rowset object containing the selected rows
+	 * @return 	ModelEntityInterface An entity object containing the selected entities
 	 */
 	protected function _actionBrowse(ControllerContextInterface $context)
 	{
@@ -210,7 +210,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 * Generic read action, fetches a single entity
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
-	 * @return 	DatabaseRowInterface A row object containing the selected row
+	 * @return 	ModelEntityInterface
 	 */
 	protected function _actionRead(ControllerContextInterface $context)
 	{
@@ -234,7 +234,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	ControllerContextInterface	$context A command context object
      * @throws  ControllerExceptionResourceNotFound   If the resource could not be found
-	 * @return 	DatabaseRowsetInterface A rowset object containing the updated row(s)
+	 * @return 	ModelEntityInterface
 	 */
 	protected function _actionEdit(ControllerContextInterface $context)
 	{
@@ -261,7 +261,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-	 * @return 	DatabaseRowInterface   A row object containing the new data
+	 * @return 	ModelEntityInterface
 	 */
 	protected function _actionAdd(ControllerContextInterface $context)
 	{
@@ -276,7 +276,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         }
         else
         {
-            if ($entity instanceof DatabaseRowInterface)
+            if ($entity instanceof ModelEntityInterface)
             {
                 $url = clone $context->request->getUrl();
 
@@ -303,7 +303,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed 	If the delete action failed on the data entity
-	 * @return 	DatabaseRowsetInterface A rowset object containing the deleted row(s)
+	 * @return 	ModelEntityInterface An entity object containing the deleted entities
 	 */
 	protected function _actionDelete(ControllerContextInterface $context)
 	{

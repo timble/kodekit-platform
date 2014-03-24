@@ -37,6 +37,26 @@ class ModelDatabase extends ModelAbstract
 
         $this->_table = $config->table;
 
+        $identifier = $alias = $this->getIdentifier()->toArray();
+
+        //Create database.row alias
+        $identifier['path'] = array('database', 'row');
+        $identifier['name'] = StringInflector::singularize($identifier['name']);
+
+        $alias['path'] = array('model', 'entity');
+        $alias['name'] = StringInflector::singularize($identifier['name']);
+
+        $this->getObject('manager')->registerAlias($alias, $identifier);
+
+        //Create database.rowset alias
+        $identifier['path'] = array('database', 'rowset');
+        $identifier['name'] = $identifier['name'];
+
+        $alias['path'] = array('model', 'entity');
+        $alias['name'] = $identifier['name'];
+
+        $this->getObject('manager')->registerAlias($alias, $identifier);
+
         //Behavior depends on the database. Need to add if after database has been set.
         $this->addBehavior('indexable');
     }
@@ -63,8 +83,7 @@ class ModelDatabase extends ModelAbstract
      * Create a new entity for the data source
      *
      * @param ModelContext $context A model context object
-     *
-     * @return  DatabaseRowsetInterface The entity
+     * @return  ModelEntityInterface The entity
      */
     protected function _actionCreate(ModelContext $context)
     {
@@ -75,26 +94,27 @@ class ModelDatabase extends ModelAbstract
      * Fetch a new entity from the data source
      *
      * @param ModelContext $context A model context object
-     *
-     * @return DatabaseRowsetInterface The entity
+     * @return ModelEntityInterface The entity
      */
     protected function _actionFetch(ModelContext $context)
     {
-        $state = $context->state;
+        $state   = $context->state;
+        $table   = $this->getTable();
 
+        //Select the rows
         if (!$state->isEmpty())
         {
             $context->query->columns('tbl.*');
-            $context->query->table(array('tbl' => $this->getTable()->getName()));
+            $context->query->table(array('tbl' => $table->getName()));
 
             $this->_buildQueryColumns($context->query);
             $this->_buildQueryJoins($context->query);
             $this->_buildQueryWhere($context->query);
             $this->_buildQueryGroup($context->query);
 
-            $data = $this->getTable()->select($context->query, Database::FETCH_ROWSET);
+            $data = $table->select($context->query, Database::FETCH_ROWSET);
         }
-        else $data = $this->getTable()->createRowset();
+        else $data = $table->createRowset();
 
         return $data;
     }
@@ -103,7 +123,6 @@ class ModelDatabase extends ModelAbstract
      * Get the total number of entities
      *
      * @param ModelContext $context A model context object
-     *
      * @return string  The output of the view
      */
     protected function _actionCount(ModelContext $context)
