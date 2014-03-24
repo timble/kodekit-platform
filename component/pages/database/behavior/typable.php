@@ -68,10 +68,13 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     protected function _populateStrategies()
     {
-        foreach (new \DirectoryIterator(__DIR__ . '/type') as $fileinfo) {
-            if ($fileinfo->isFile() && $fileinfo->getExtension() == 'php') {
+        foreach (new \DirectoryIterator(__DIR__ . '/type') as $fileinfo)
+        {
+            if ($fileinfo->isFile() && $fileinfo->getExtension() == 'php')
+            {
                 $name = $fileinfo->getBasename('.php');
-                if ($name != 'abstract' && $name != 'interface') {
+                if ($name != 'abstract' && $name != 'interface')
+                {
                     $strategy                 = $this->getObject('com:pages.database.behavior.type.' . $name);
                     $this->_strategies[$name] = $strategy;
                 }
@@ -113,21 +116,24 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     {
         $name = $command->getName();
 
-        if ($name == 'before.insert' || $name == 'before.update') {
+        if ($name == 'before.insert' || $name == 'before.update')
+        {
             $this->setMixer($command->data);
 
             $type = $this->getType();
 
             $this->setStrategy($type);
             $return = $this->getStrategy()->setMixer($command->data)->execute($command, $chain);
-        } else $return = true;
+        }
+        else $return = true;
 
         return $return;
     }
 
     public function __call($method, $arguments)
     {
-        if (in_array($method, $this->_mixable_methods)) {
+        if (in_array($method, $this->_mixable_methods))
+        {
             $type = $this->getType();
 
             $this->setStrategy($type);
@@ -146,7 +152,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
                     $return = call_user_func_array(array($this->getStrategy(), $method), $arguments);
                     break;
             }
-        } else $return = parent::__call($method, $arguments);
+        }
+        else $return = parent::__call($method, $arguments);
 
         return $return;
     }

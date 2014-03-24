@@ -152,7 +152,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     {
         $table = $this->getTable();
 
-        if ($this->level > 1) {
+        if ($this->level > 1)
+        {
             $query = $this->getObject('lib:database.query.select')
                 ->columns('tbl.*')
                 ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.ancestor_id = tbl.' . $table->getIdentityColumn(), 'INNER')
@@ -161,7 +162,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 ->bind(array('id' => $this->id));
 
             $result = $table->select($query);
-        } else $result = $table->fetch();
+        }
+        else $result = $table->fetch();
 
         return $result;
     }
@@ -222,7 +224,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         $query  = $context->query;
         $params = $context->query->params;
 
-        if ($query && !$query->isCountQuery()) {
+        if ($query && !$query->isCountQuery())
+        {
             $id_column     = $context->getSubject()->getIdentityColumn();
             $closure_table = $context->getSubject()->getClosureTable();
 
@@ -231,7 +234,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 ->join(array('crumbs' => $closure_table->getName()), 'crumbs.descendant_id = tbl.' . $id_column, 'INNER')
                 ->group('tbl.' . $id_column);
 
-            if ($params->has('parent')) {
+            if ($params->has('parent'))
+            {
                 $query->join(array('closures' => $closure_table->getName()), 'closures.descendant_id = tbl.' . $id_column)
                     ->where('closures.ancestor_id = :parent')
                     ->where('tbl.' . $id_column . ' <> :parent')
@@ -253,7 +257,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      */
     protected function _afterInsert(Library\DatabaseContext $context)
     {
-        if ($context->affected !== false) {
+        if ($context->affected !== false)
+        {
             $data  = $context->data;
             $table = $context->getSubject();
 
@@ -283,7 +288,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->values($select);
 
                 $table->getAdapter()->insert($query);
-            } else $data->setProperties(array('level' => 1, 'path' => $data->id), false);
+            }
+            else $data->setProperties(array('level' => 1, 'path' => $data->id), false);
         }
     }
 
@@ -298,14 +304,18 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      */
     protected function _afterUpdate(Library\DatabaseContext $context)
     {
-        if ($context->affected !== false) {
+        if ($context->affected !== false)
+        {
             $row = $context->data;
-            if ((int)$row->parent_id != (int)$row->getParentId()) {
+            if ((int)$row->parent_id != (int)$row->getParentId())
+            {
                 $table = $row->getTable();
 
-                if ($row->parent_id) {
+                if ($row->parent_id)
+                {
                     $parent = $table->select((int)$row->parent_id, Library\Database::FETCH_ROW);
-                    if ($parent->isDescendantOf($row)) {
+                    if ($parent->isDescendantOf($row))
+                    {
                         $this->setStatusMessage(JText::_('You cannot move a node under one of its descendants'));
                         $this->setStatus(Library\Database::STATUS_FAILED);
 

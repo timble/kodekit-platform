@@ -37,11 +37,12 @@ class DatabaseBehaviorThumbnail extends Library\DatabaseBehaviorAbstract
         $result               = null;
         $available_extensions = array('jpg', 'jpeg', 'gif', 'png');
 
-        if ($this->isImage() && $this->getContainer()->getParameters()->thumbnails && in_array(strtolower($this->extension), $available_extensions)) {
+        if ($this->isImage() && $this->getContainer()->getParameters()->thumbnails && in_array(strtolower($this->extension), $available_extensions))
+        {
             $parameters = $this->getContainer()->getParameters();
             $size       = isset($parameters['thumbnail_size']) ? $parameters['thumbnail_size'] : array();
 
-            $thumb         = $this->getObject('com:files.database.row.thumbnail', array('size' => $size));
+            $thumb         = $this->getObject('com:files.model.entity.thumbnail', array('size' => $size));
             $thumb->source = $this;
 
             $result = $thumb->save();
