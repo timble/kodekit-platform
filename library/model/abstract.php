@@ -88,7 +88,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
             $context = $this->getContext();
             $context->data  = null;
 
-            if ($this->invokeCommand('before.fetch', $context) !== false) {
+            if ($this->invokeCommand('before.fetch', $context) !== false)
+            {
                 $context->data = $this->_actionFetch($context);
                 $this->invokeCommand('after.fetch', $context);
             }
@@ -102,14 +103,15 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Create a new entity for the data source
      *
-     * @return  DatabaseRowInterface
+     * @return  ModelEntityInterface
      */
     final public function create()
     {
         $context = $this->getContext();
         $context->data  = null;
 
-        if ($this->invokeCommand('before.create', $context) !== false) {
+        if ($this->invokeCommand('before.create', $context) !== false)
+        {
             $context->data = $this->_actionCreate($context);
             $this->invokeCommand('after.create', $context);
         }
@@ -131,7 +133,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
             $context = $this->getContext();
             $context->count = null;
 
-            if ($this->invokeCommand('before.count', $context) !== false) {
+            if ($this->invokeCommand('before.count', $context) !== false)
+            {
                 $context->count = $this->_actionCount($context);
                 $this->invokeCommand('after.count', $context);
             }
@@ -153,7 +156,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
         $context        = $this->getContext();
         $context->count = null;
 
-        if ($this->invokeCommand('before.reset', $context) !== false) {
+        if ($this->invokeCommand('before.reset', $context) !== false)
+        {
             $this->_actionReset($context);
             $this->invokeCommand('after.reset', $context);
         }
@@ -297,7 +301,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Fetch the data when model is invoked.
      *
-     * @return DatabaseRowsetInterface
+     * @return ModelEntityInterface
      */
     public function __invoke()
     {
