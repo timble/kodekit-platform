@@ -42,15 +42,14 @@ class ModelContext extends Command implements ModelContextInterface
     }
 
     /**
-     * Set the model data
+     * Set the model entity
      *
-     * @param array $data
-     *
+     * @param ModelEntityInterface $entity
      * @return ModelContext
      */
-    public function setData($data)
+    public function setEntity($entity)
     {
-        $this->set('data', $data);
+        $this->set('entity', $entity);
 
         return $this;
     }
@@ -60,8 +59,8 @@ class ModelContext extends Command implements ModelContextInterface
      *
      * @return array
      */
-    public function getData()
+    public function getEntity()
     {
-        return $this->get('data');
+        return $this->get('entity');
     }
 }

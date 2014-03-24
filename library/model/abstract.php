@@ -32,11 +32,11 @@ abstract class ModelAbstract extends Object implements ModelInterface
     protected $_count;
 
     /**
-     * Entity data
+     * Entity object
      *
      * @var ModelEntityInterface
      */
-    protected $_data;
+    protected $_entity;
 
     /**
      * Constructor
@@ -81,23 +81,23 @@ abstract class ModelAbstract extends Object implements ModelInterface
      *
      * @return ModelEntityInterface
      */
-    final public function fetch()
+    final public function fetch($filter =  null)
     {
-        if(!isset($this->_data))
+        if(!isset($this->_entity))
         {
             $context = $this->getContext();
-            $context->data  = null;
+            $context->entity  = null;
 
             if ($this->invokeCommand('before.fetch', $context) !== false)
             {
-                $context->data = $this->_actionFetch($context);
+                $context->entity = $this->_actionFetch($context);
                 $this->invokeCommand('after.fetch', $context);
             }
 
-            $this->_data = ObjectConfig::unbox($context->data);
+            $this->_entity = ObjectConfig::unbox($context->entity);
         }
 
-        return $this->_data;
+        return $this->_entity;
     }
 
     /**
@@ -108,17 +108,17 @@ abstract class ModelAbstract extends Object implements ModelInterface
     final public function create()
     {
         $context = $this->getContext();
-        $context->data  = null;
+        $context->entity  = null;
 
         if ($this->invokeCommand('before.create', $context) !== false)
         {
-            $context->data = $this->_actionCreate($context);
+            $context->entity = $this->_actionCreate($context);
             $this->invokeCommand('after.create', $context);
         }
 
-        $this->_data = ObjectConfig::unbox($context->data);
+        $this->_entity = ObjectConfig::unbox($context->entity);
 
-        return $this->_data;
+        return $this->_entity;
     }
 
     /**
@@ -224,7 +224,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     protected function _actionCreate(ModelContext $context)
     {
-        return $this->_data;
+        return $this->_entity;
     }
 
     /**
@@ -235,7 +235,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     protected function _actionFetch(ModelContext $context)
     {
-        return $this->_data;
+        return $this->_entity;
     }
 
     /**
@@ -258,8 +258,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     protected function _actionReset(ModelContext $context)
     {
-        $this->_data  = null;
-        $this->_count = null;
+        $this->_entity = null;
+        $this->_count  = null;
     }
 
     /**
