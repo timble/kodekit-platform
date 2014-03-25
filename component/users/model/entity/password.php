@@ -71,7 +71,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
             // Check the password length.
             if (strlen($password) < $this->getLength())
             {
-                $this->setStatus(Library\Database::STATUS_FAILED);
+                $this->setStatus(self::STATUS_FAILED);
                 $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $this->getLength()));
                 return false;
             }
@@ -81,7 +81,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
                 // Check if new and current hashes are the same.
                 if ($this->verify($password))
                 {
-                    $this->setStatus(Library\Database::STATUS_FAILED);
+                    $this->setStatus(self::STATUS_FAILED);
                     $this->setStatusMessage(\JText::_('New and old passwords are the same'));
                     return false;
                 }
@@ -93,7 +93,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
             }
 
             // Create hash.
-            $this->hash = $this->getHash($password);
+            $this->hash = $this->createHash($password);
 
             // Clear reset.
             $this->reset = '';
@@ -111,7 +111,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
      * @param int $length The length of the random password.
      * @return string The generated password.
      */
-    public function getRandom($length = null)
+    public function createRandom($length = null)
     {
         if (is_null($length))
         {
@@ -161,7 +161,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
         return $return;
     }
 
-    public function getHash($password)
+    public function createHash($password)
     {
         return password_hash($password, PASSWORD_BCRYPT);
     }
@@ -193,7 +193,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
                     if ($parts[0] === md5($password . @$parts[1]))
                     {
                         // Valid password on existing record. Migrate to BCrypt.
-                        $this->hash = $this->getHash($password);
+                        $this->hash = $this->createHash($password);
                         $this->save();
                         $result = true;
                     }
@@ -218,8 +218,8 @@ class ModelEntityPassword extends Library\ModelEntityRow
         $token = null;
         if (!$this->isNew())
         {
-            $token       = $this->getRandom(32);
-            $this->reset = $this->getHash($token);
+            $token       = $this->createRandom(32);
+            $this->reset = $this->createHash($token);
             $this->save();
         }
 
