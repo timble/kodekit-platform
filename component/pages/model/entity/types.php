@@ -17,12 +17,12 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Types
  */
-class ModelEntityTypes extends Library\DatabaseRowsetAbstract implements Library\ModelEntityInterface
+class ModelEntityTypes extends Library\ModelEntityCollection
 {       
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'identity_column' => 'name'
+            'identity_key' => 'name'
         ));
         
         parent::_initialize($config);
