@@ -8,6 +8,7 @@
     "require": {
         "swiftmailer/swiftmailer": "5.0.*",
         "imagine/imagine": "0.4.*",
-        "jlong/sass-bootstrap": "2.3.*"
+        "jlong/sass-bootstrap": "2.3.*",
+        "symfony/yaml" : "2.4.*"
     }
 }
