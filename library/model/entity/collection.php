@@ -61,10 +61,8 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
         // Insert the data, if exists
         if (!empty($config->data))
         {
-            foreach($config->data->toArray() as $properties)
-            {
-                $entity = $this->create($properties,$config->status);
-                $this->insert($entity);
+            foreach($config->data->toArray() as $properties) {
+                $this->create($properties,$config->status);
             }
         }
     }
@@ -143,7 +141,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     }
 
     /**
-     * Create an entity for this collection
+     * Create a new entity and insert it
      *
      * This function will either clone the entity object, or create a new instance of the entity object for each entity
      * being inserted. By default the entity will be cloned.
@@ -188,6 +186,9 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
 
         $entity->setStatus($status);
         $entity->setProperties($properties, $entity->isNew());
+
+        //Insert the entity into the collection
+        $this->insert($entity);
 
         return $entity;
     }

@@ -28,7 +28,7 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
     public function find($needle);
 
     /**
-     * Create an row for this rowset
+     * Create a new row and insert it
      *
      * This function will either clone the row prototype, or create a new instance of the row object for each row
      * being inserted. By default the prototype will be cloned.

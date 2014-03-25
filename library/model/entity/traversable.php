@@ -28,15 +28,15 @@ interface ModelEntityTraversable
     public function find($needle);
 
     /**
- * Create an entity for this collection
- *
- * This function will either clone the entity object, or create a new instance of the entity object for each entity
- * being inserted. By default the entity will be cloned.
- *
- * @param   array   $properties The entity properties
- * @param   string  $status     The entity status
- * @return  ModelEntityCollection
- */
+     * Create an entity for this collection
+     *
+     * This function will either clone the entity object, or create a new instance of the entity object for each entity
+     * being inserted. By default the entity will be cloned.
+     *
+     * @param   array   $properties The entity properties
+     * @param   string  $status     The entity status
+     * @return  ModelEntityCollection
+     */
     public function create(array $properties = array(), $status = null);
 
     /**

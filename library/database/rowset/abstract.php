@@ -71,10 +71,8 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         // Insert the data, if exists
         if (!empty($config->data))
         {
-            foreach($config->data->toArray() as $properties)
-            {
-                $entity = $this->create($properties, $config->status);
-                $this->insert($entity);
+            foreach($config->data->toArray() as $properties) {
+                $this->create($properties, $config->status);
             }
         }
 
@@ -159,7 +157,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Create an row for this rowset
+     * Create a new row and insert it
      *
      * This function will either clone the row prototype, or create a new instance of the row object for each row
      * being inserted. By default the prototype will be cloned.
@@ -182,6 +180,9 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
         $row->setStatus($status);
         $row->setProperties($properties, $row->isNew());
+
+        //Insert the row into the rowset
+        $this->insert($row);
 
         return $row;
     }
