@@ -22,7 +22,7 @@ class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
  	/**
      * Render the menubar
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function render($config = array())
