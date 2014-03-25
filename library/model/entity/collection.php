@@ -77,6 +77,64 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     }
 
     /**
+     * Add entities to the collection
+     *
+     * This function will either clone the entity object, or create a new instance of the entity object for each entity
+     * being inserted. By default the entity will be cloned.
+     *
+     * @param  array   $properties  An associative array of entity properties to be inserted.
+     * @param  string  $status  The entities(s) status
+     *
+     * @return  ModelEntityCollection
+     * @see __construct
+     */
+    public function addEntity(array $properties, $status = NULL)
+    {
+        if ($this->_row_cloning)
+        {
+            $prototype = $this->createEntity()->setStatus($status);
+
+            foreach ($properties as $k => $data)
+            {
+                $entity = clone $prototype;
+                $entity->setProperties($data, $entity->isNew());
+
+                $this->insert($entity);
+            }
+        }
+        else
+        {
+            foreach ($properties as $k => $data)
+            {
+                $entity = $this->createEntity()->setStatus($status);
+                $entity->setProperties($data, $entity->isNew());
+
+                $this->insert($entity);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get an instance of a entity object for this collection
+     *
+     * @param   array $options An optional associative array of configuration settings.
+     * @return  ModelEntityCollection
+     */
+    public function createEntity(array $options = array())
+    {
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
+        $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
+
+        //The entity default options
+        $options['identity_key'] = $this->getIdentityKey();
+
+        return $this->getObject($identifier, $options);
+    }
+
+    /**
      * Returns a ModelEntityCollection
      *
      * This functions accepts either a know position or associative array of key/value pairs
@@ -173,49 +231,6 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     {
         $this->_data = array();
         return $this;
-    }
-
-    /**
-     * Checks if the current entity is new or not
-     *
-     * @return boolean
-     */
-    public function isNew()
-    {
-        $result = true;
-        if($entity = $this->getIterator()->current()) {
-            $result = $entity->isNew();
-        }
-
-        return $result;
-    }
-
-    /**
-     * Check if a the current entity or specific entity property has been modified.
-     *
-     * If a specific property name is giving method will return TRUE only if this property was modified.
-     *
-     * @param   string $property The property name
-     * @return  boolean
-     */
-    public function isModified($property = null)
-    {
-        $result = false;
-        if($entity = $this->getIterator()->current()) {
-            $result = $entity->isModified($property);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Test the connected status of the collection.
-     *
-     * @return  bool Returns TRUE by default.
-     */
-    public function isConnected()
-    {
-        return true;
     }
 
     /**
@@ -321,64 +336,6 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     }
 
     /**
-     * Add entities to the collection
-     *
-     * This function will either clone the entity object, or create a new instance of the entity object for each entity
-     * being inserted. By default the entity will be cloned.
-     *
-     * @param  array   $properties  An associative array of entity properties to be inserted.
-     * @param  string  $status  The entities(s) status
-     *
-     * @return  ModelEntityCollection
-     * @see __construct
-     */
-    public function addEntity(array $properties, $status = NULL)
-    {
-        if ($this->_row_cloning)
-        {
-            $prototype = $this->createEntity()->setStatus($status);
-
-            foreach ($properties as $k => $data)
-            {
-                $entity = clone $prototype;
-                $entity->setProperties($data, $entity->isNew());
-
-                $this->insert($entity);
-            }
-        }
-        else
-        {
-            foreach ($properties as $k => $data)
-            {
-                $entity = $this->createEntity()->setStatus($status);
-                $entity->setProperties($data, $entity->isNew());
-
-                $this->insert($entity);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get an instance of a entity object for this collection
-     *
-     * @param   array $options An optional associative array of configuration settings.
-     * @return  ModelEntityCollection
-     */
-    public function createEntity(array $options = array())
-    {
-        $identifier = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('model', 'entity');
-        $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
-
-        //The entity default options
-        $options['identity_key'] = $this->getIdentityKey();
-
-        return $this->getObject($identifier, $options);
-    }
-
-    /**
      * Returns the status
      *
      * @return string The status
@@ -448,6 +405,49 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     public function getIdentityKey()
     {
         return $this->_identity_key;
+    }
+
+    /**
+     * Checks if the current entity is new or not
+     *
+     * @return boolean
+     */
+    public function isNew()
+    {
+        $result = true;
+        if($entity = $this->getIterator()->current()) {
+            $result = $entity->isNew();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if a the current entity or specific entity property has been modified.
+     *
+     * If a specific property name is giving method will return TRUE only if this property was modified.
+     *
+     * @param   string $property The property name
+     * @return  boolean
+     */
+    public function isModified($property = null)
+    {
+        $result = false;
+        if($entity = $this->getIterator()->current()) {
+            $result = $entity->isModified($property);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Test the connected status of the collection.
+     *
+     * @return  bool Returns TRUE by default.
+     */
+    public function isConnected()
+    {
+        return true;
     }
 
     /**
