@@ -72,8 +72,7 @@ class ModelFolders extends ModelNodes
                 'hierarchy' => $hierarchy
             );
 
-            $entity = $collection->create($properties);
-            $collection->insert($entity);
+            $collection->create($properties);
         }
 
         return $collection;

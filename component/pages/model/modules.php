@@ -178,10 +178,8 @@ class ModelModules extends Library\ModelDatabase
 
             $rowset = $this->getTable()->createRowset();
 
-            foreach($modules as $module)
-            {
-                $row = $rowset->create($module);
-                $rowset->insert($row);
+            foreach($modules as $module) {
+                $rowset->create($module);
             }
         }
         else

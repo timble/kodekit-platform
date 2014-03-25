@@ -157,8 +157,8 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                 if($data)
                 {
                     $rel_current->reset();
-                    $entity = $rel_current->create($data);
-                    $rel_current->insert($entity)->save();
+                    $rel_current->create($data);
+                    $rel_current->save();
                 }
             }
         }
