@@ -44,7 +44,7 @@ class Bootstrapper extends Library\ObjectBootstrapperComponent
         $config->append(array(
             'directory'  => '',
             'aliases'    => array('translator' => 'com:application.translator'),
-            'namespaces' => array('psr' => array(array('Symfony\Component\Yaml', JPATH_VENDOR . '/symfony/yaml')))
+            'namespaces' => array('standard' => array('Symfony\Component\Yaml' => JPATH_VENDOR . '/symfony/yaml'))
         ));
 
         parent::_initialize($config);
