@@ -28,13 +28,13 @@ class ModelEntityUser extends Library\ModelEntityRow
 
     protected $_groups;
 
-    public function get($property)
+    public function getProperty($name)
     {
-        if ($property == 'params' && !$this->_data['params'] instanceof \JParameter)
+        if ($name == 'params' && !$this->_data['params'] instanceof \JParameter)
         {
             $path = JPATH_APPLICATION . '/component/users/databases/rows';
-            $name = str_replace(' ', '_', strtolower((string) $this->getRole()->name));
-            $file = $path . '/' . $name . '.xml';
+            $file = str_replace(' ', '_', strtolower((string) $this->getRole()->name));
+            $file = $path . '/' . $file . '.xml';
 
             if (!file_exists($file)) {
                 $file = $path . '/user.xml';
@@ -46,7 +46,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             $this->_data['params'] = $params;
         }
 
-        return parent::get($property);
+        return parent::getProperty($name);
     }
 
     /**

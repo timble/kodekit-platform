@@ -50,12 +50,12 @@ class ModelEntityArticle extends Library\ModelEntityRow
         return parent::save();
     }
 
-    public function get($property)
+    public function getProperty($name)
     {
-        if($property == 'text' && !isset($this->_data['text'])) {
+        if($name == 'text' && !isset($this->_data['text'])) {
             $this->_data['text'] = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
         }
 
-        return parent::get($property);
+        return parent::getProperty($name);
     }
 }

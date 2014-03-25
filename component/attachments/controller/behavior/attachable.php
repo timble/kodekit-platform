@@ -136,7 +136,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
         if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
-            $id    = $entity->get('id');
+            $id    = $entity->id;
             $table = $entity->getTable()->getBase();
 
             if(!empty($id) && $id != 0)

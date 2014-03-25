@@ -26,9 +26,9 @@ class ModelEntityContainer extends Library\ModelEntityRow
      */
     protected $_parameters;
 
-    public function get($property)
+    public function getProperty($name)
     {
-        if ($property == 'path' && !empty($this->_data['path']))
+        if ($name == 'path' && !empty($this->_data['path']))
         {
             $result = $this->_data['path'];
             // Prepend with site root if it is a relative path
@@ -41,19 +41,19 @@ class ModelEntityContainer extends Library\ModelEntityRow
             return $result;
         }
 
-        if ($property == 'relative_path') {
+        if ($name == 'relative_path') {
             return $this->_data['path'];
         }
 
-        if ($property == 'path_value') {
+        if ($name == 'path_value') {
             return $this->_data['path'];
         }
 
-        if ($property == 'parameters' && !is_object($this->_data['parameters'])) {
+        if ($name == 'parameters' && !is_object($this->_data['parameters'])) {
             return $this->getParameters();
         }
 
-        return parent::get($property);
+        return parent::getProperty($name);
     }
 
     public function getParameters()

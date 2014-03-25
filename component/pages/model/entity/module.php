@@ -42,9 +42,9 @@ class ModelEntityModule extends Library\ModelEntityRow
 	 * @param   string  $property The key name.
 	 * @return  string  The corresponding value.
 	 */
-	public function get($property)
+	public function getProperty($name)
 	{  
-	    if($property == 'title' && empty($this->_data['title']))
+	    if($name == 'title' && empty($this->_data['title']))
 	    {
             if($this->manifest instanceof \SimpleXMLElement) {
                 $this->_data['title'] = $this->manifest->name;
@@ -53,23 +53,23 @@ class ModelEntityModule extends Library\ModelEntityRow
             }
 	    }
 
-        if($property == 'identifier' && empty($this->_data['identifier']))
+        if($name == 'identifier' && empty($this->_data['identifier']))
         {
-            $name    = substr( $this->name, 4);
+            $module  = substr( $this->name, 4);
             $package = $this->component;
 
-            $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$name.'.html');
+            $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$module.'.html');
         }
 
-        if($property == 'attribs' && empty($this->_data['attribs'])) {
+        if($name == 'attribs' && empty($this->_data['attribs'])) {
             $this->_data['attribs'] = array();
         }
 
-        if($property == 'chrome' && empty($this->_data['chrome'])) {
+        if($name == 'chrome' && empty($this->_data['chrome'])) {
             $this->_data['chrome'] = array();
         }
 
-	    if($property == 'manifest' && empty($this->_data['manifest']))
+	    if($name == 'manifest' && empty($this->_data['manifest']))
 		{
             $class = $this->getObject('manager')->getClass($this->identifier);
             $path  = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
@@ -82,11 +82,11 @@ class ModelEntityModule extends Library\ModelEntityRow
             }
         }
 
-		if(in_array($property, self::$_manifest_fields) && empty($this->_data[$property])) {
-            $this->_data[$property] = isset($this->manifest->{$property}) ? $this->manifest->{$property} : '';
+		if(in_array($name, self::$_manifest_fields) && empty($this->_data[$name])) {
+            $this->_data[$name] = isset($this->manifest->{$name}) ? $this->manifest->{$name} : '';
         }
         
-	    if($property == 'params' && !($this->_data['params']) instanceof \JParameter)
+	    if($name == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
             $class = $this->getObject('manager')->getClass($this->identifier);
             $path = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
@@ -95,7 +95,7 @@ class ModelEntityModule extends Library\ModelEntityRow
 	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'module' );
         }
 
-	    if($property == 'pages' && !isset($this->_data['pages']))
+	    if($name == 'pages' && !isset($this->_data['pages']))
 		{
 		    if(!$this->isNew()) 
 		    {
@@ -120,7 +120,7 @@ class ModelEntityModule extends Library\ModelEntityRow
 		    $this->_data['pages'] = $pages;
 		}
 		
-		return parent::get($property);
+		return parent::getProperty($name);
 	}
 	
 	/**

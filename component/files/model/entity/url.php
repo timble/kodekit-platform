@@ -46,9 +46,9 @@ class ModelEntityUrl extends Library\ModelEntityAbstract
 		parent::_initialize($config);
 	}
 
-    public function get($property)
+    public function getProperty($name)
 	{
-		if($property == 'contents' && !isset($this->_data['contents']))
+		if($name == 'contents' && !isset($this->_data['contents']))
         {
             $url = $this->file;
             $response = $this->_fetch($url);
@@ -56,7 +56,7 @@ class ModelEntityUrl extends Library\ModelEntityAbstract
             $this->_data['contents'] = $response;
         }
 
-		return parent::get($property);
+		return parent::getProperty($name);
 	}
 
 	protected function _fetch($url)

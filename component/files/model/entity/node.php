@@ -133,21 +133,21 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         return $context->result;
     }
 
-    public function get($property)
+    public function getProperty($name)
     {
-        if ($property == 'fullpath' && !isset($this->_data['fullpath'])) {
+        if ($name == 'fullpath' && !isset($this->_data['fullpath'])) {
             return $this->getFullpath();
         }
 
-        if ($property == 'path') {
+        if ($name == 'path') {
             return trim(($this->folder ? $this->folder . '/' : '') . $this->name, '/\\');
         }
 
-        if ($property == 'display_name' && empty($this->_data['display_name'])) {
+        if ($name == 'display_name' && empty($this->_data['display_name'])) {
             return $this->name;
         }
 
-        if ($property == 'destination_path')
+        if ($name == 'destination_path')
         {
             $folder = !empty($this->destination_folder) ? $this->destination_folder . '/' : (!empty($this->folder) ? $this->folder . '/' : '');
             $name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
@@ -155,23 +155,23 @@ class ModelEntityNode extends Library\ModelEntityAbstract
             return trim($folder . $name, '/\\');
         }
 
-        if ($property == 'destination_fullpath') {
+        if ($name == 'destination_fullpath') {
             return $this->container->path . '/' . $this->destination_path;
         }
 
-        if ($property == 'adapter') {
+        if ($name == 'adapter') {
             return $this->_adapter;
         }
 
 
-        return parent::get($property);
+        return parent::getProperty($name);
     }
 
-    public function set($property, $value, $modified = true)
+    public function setProperty($name, $value, $modified = true)
     {
-        parent::set($property, $value, $modified);
+        parent::setProperty($name, $value, $modified);
 
-        if (in_array($property, array('container', 'folder', 'name'))) {
+        if (in_array($name, array('container', 'folder', 'name'))) {
             $this->setAdapter();
         }
     }

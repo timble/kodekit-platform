@@ -50,19 +50,19 @@ class ModelEntityFile extends ModelEntityNode
 		return $context->result;
 	}
 
-	public function get($property)
+	public function getProperty($name)
 	{
-		if (in_array($property, array('size', 'extension', 'modified_date', 'mimetype')))
+		if (in_array($name, array('size', 'extension', 'modified_date', 'mimetype')))
         {
 			$metadata = $this->_adapter->getMetadata();
-			return $metadata && array_key_exists($property, $metadata) ? $metadata[$property] : false;
+			return $metadata && array_key_exists($name, $metadata) ? $metadata[$name] : false;
 		}
 
-		if ($property == 'filename') {
+		if ($name == 'filename') {
 			return pathinfo($this->name, PATHINFO_FILENAME);
 		}
 
-		if ($property == 'metadata')
+		if ($name == 'metadata')
 		{
 			$metadata = $this->_adapter->getMetadata();
 			if ($this->isImage() && !empty($metadata))
@@ -77,16 +77,16 @@ class ModelEntityFile extends ModelEntityNode
 			return $metadata;
 		}
 
-		if (in_array($property, array('width', 'height', 'thumbnail')) && $this->isImage())
+		if (in_array($name, array('width', 'height', 'thumbnail')) && $this->isImage())
         {
-			if ($property == 'thumbnail' && !empty($this->_data['thumbnail'])) {
+			if ($name == 'thumbnail' && !empty($this->_data['thumbnail'])) {
 				return $this->_data['thumbnail'];
 			}
 			
-			return $this->getImageSize($property);
+			return $this->getImageSize($name);
 		}
 
-		return parent::get($property);
+		return parent::getProperty($name);
 	}	
 	
 	/**
@@ -94,13 +94,13 @@ class ModelEntityFile extends ModelEntityNode
 	 * 
 	 * @param string $key
 	 */
-	public function has($property)
+	public function hasProperty($property)
 	{
-		$result = parent::has($property);
+		$result = parent::hasProperty($property);
 		
 		if (!$result) 
 		{
-			$var = $this->get($property);
+			$var = $this->getProperty($property);
 			if (!empty($var)) {
 				$result = true;
 			}

@@ -19,13 +19,13 @@ use Nooku\Library;
  */
 class ModelEntityRevision extends Library\ModelEntityRow
 {
-	public function get($property)
+	public function getProperty($name)
     {
-    	if($property == 'data' && is_string($this->_data['data'])) {
+    	if($name == 'data' && is_string($this->_data['data'])) {
 			$this->_data['data'] = json_decode($this->_data['data'], true);
 		}
 
-    	return parent::get($property);
+    	return parent::getProperty($name);
     }
 
     public function setStatus($status)

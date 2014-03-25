@@ -95,7 +95,7 @@ class ModelEntityNode extends Library\ModelEntityRow
             
             //The row default options
             $options  = array(
-                'identity_column' => $this->getIdentityColumn()
+                'identity_column' => $this->getIdentityKey()
             );
                
             $this->_children = $this->getObject($identifier, $options);

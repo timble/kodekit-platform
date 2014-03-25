@@ -97,21 +97,24 @@ class ModelEntityAttachment extends Library\ModelEntityRow
         return $return;
     }
 
-    public function get($property)
+    public function getProperty($name)
     {
-        if ($property == 'relation' && !isset($this->relation)) {
+        if ($name == 'relation' && !isset($this->relation))
+        {
             $this->relation = $this->getObject('com:attachments.database.table.relations')
                 ->select(array('attachments_attachment_id' => $this->id), Library\Database::FETCH_ROW);
         }
 
-        if ($property == 'file' && !isset($this->file)) {
+        if ($name == 'file' && !isset($this->file))
+        {
             $this->file = $this->getObject('com:files.model.files')
                 ->container($this->container)
                 ->name($this->path)
                 ->fetch();
         }
 
-        if ($property == 'thumbnail' && !isset($this->thumbnail) && $this->file) {
+        if ($name == 'thumbnail' && !isset($this->thumbnail) && $this->file)
+        {
             $path            = pathinfo($this->path);
             $path['dirname'] = $path['dirname'] === '.' ? '' : $path['dirname'] . '/';
 
@@ -120,11 +123,11 @@ class ModelEntityAttachment extends Library\ModelEntityRow
             $this->thumbnail = $thumbnail;
         }
 
-        if ($property == 'thumbnail_fullpath' && $this->file) {
+        if ($name == 'thumbnail_fullpath' && $this->file) {
             $this->thumbnail_fullpath = dirname($this->file->fullpath) . '/' . $this->thumbnail;
         }
 
-        return parent::get($property);
+        return parent::getProperty($name);
     }
 
     public function toArray()
