@@ -65,7 +65,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
+        if ($user instanceof Users\DatabaseRowUser && $user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
         {
             if (($url = $this->_getActivationUrl()))
             {

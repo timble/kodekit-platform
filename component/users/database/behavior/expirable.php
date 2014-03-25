@@ -44,7 +44,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'expirable'  => 0,
+            'expirable'  => 1,
             'expiration' => 6,
             'row_mixin'  => true
         ));
@@ -110,12 +110,16 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     {
         $result = true;
 
-        if (empty($this->expiration)) {
-            $result = null;
-        } elseif (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)) {
+        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration))))
+        {
             $result = false;
         }
 
         return $result;
+    }
+
+    public function expirable()
+    {
+        return (bool) $this->_expirable;
     }
 }

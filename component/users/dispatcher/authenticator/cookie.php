@@ -38,9 +38,16 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
             //Set Session Name
             $session->setName(md5($request->getBasePath()));
 
+            $base_path = (string) $request->getBaseUrl()->getPath();
+
+            if (empty($base_path))
+            {
+                $base_path = '/';
+            }
+
             //Set Session Options
             $session->setOptions(array(
-                'cookie_path'   => (string) $request->getBaseUrl()->getPath(),
+                'cookie_path'   => $base_path,
                 'cookie_domain' => (string) $request->getBaseUrl()->getHost()
             ));
 

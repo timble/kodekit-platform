@@ -17,21 +17,13 @@ use Nooku\Library;
  */
 class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('before.browse', 'setReferrer');
-    }
-
     protected function _actionSave(Library\ControllerContextInterface $context)
     {
         $entity = parent::_actionSave($context);
 
-        if ($entity->getStatus() === Library\Database::STATUS_FAILED) {
+        if ($entity->getStatus() === Library\Database::STATUS_FAILED)
+        {
             $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
-        } else {
-            $context->response->setRedirect($this->getReferrer($context));
         }
 
         return $entity;
@@ -40,7 +32,6 @@ class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
     protected function _actionCancel(Library\ControllerContextInterface $context)
     {
         $context->response->setRedirect($this->getReferrer($context));
-        return;
     }
 
     protected function _actionApply(Library\ControllerContextInterface $context)

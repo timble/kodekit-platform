@@ -228,14 +228,14 @@ class HttpCookie extends Object implements HttpCookieInterface
         {
             $str .= urlencode($this->value);
 
-            if ($this->expire !== 0) {
-                $str .= '; expires=' . gmdate(\DateTime::COOKIE, $this->expire);
+            if ($this->_expire !== 0) {
+                $str .= '; expires=' . gmdate(\DateTime::COOKIE, $this->_expire);
             }
         }
         else $str .= 'deleted; expires=' . gmdate(\DateTime::COOKIE, time() - 31536001);
 
-        if ($this->path !== '/') {
-            $str .= '; path=' . $this->path;
+        if ($this->_path) {
+            $str .= '; path=' . $this->_path;
         }
 
         if ($this->domain !== null) {

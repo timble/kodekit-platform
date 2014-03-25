@@ -108,7 +108,7 @@ class TemplateFilterScript extends TemplateFilterTag
 
             if($condition)
             {
-                $html  = '<!--['.$condition.']>';
+                $html  = '<!--[if '.$condition.']>';
                 $html .= '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
                 $html .= '<![endif]-->';
             }

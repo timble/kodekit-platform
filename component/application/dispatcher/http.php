@@ -20,13 +20,6 @@ use Nooku\Library;
 class DispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
-     * The site identifier.
-     *
-     * @var string
-     */
-    protected $_site;
-
-    /**
      * Constructor.
      *
      * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
@@ -37,9 +30,6 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
 
         //Set the base url in the request
         $this->getRequest()->setBaseUrl($config->base_url);
-
-        //Render the page before sending the response
-        $this->addCommandCallback('before.send', '_renderPage');
 
         //Render an exception before sending the response
         $this->addCommandCallback('before.fail', '_renderError');
@@ -59,6 +49,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
+            'response'          => 'com:application.dispatcher.response',
             'controller'        => 'page',
             'base_url'          => '/',
             'event_subscribers' => array('unauthorized'),
@@ -88,29 +79,6 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         }
 
         return $manager->getObject('application');
-    }
-
-    /**
-     * Render the page
-     *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _renderPage(Library\DispatcherContextInterface $context)
-    {
-        $request   = $context->request;
-        $response  = $context->response;
-
-        //Render the page
-        if(!$response->isRedirect() && $request->getFormat() == 'html')
-        {
-            //Render the page
-            $config = array('response' => $response);
-
-            $layout = $request->query->get('tmpl', 'cmd', 'default');
-            $this->getObject('com:application.controller.page', $config)
-                ->layout($layout)
-                ->render();
-        }
     }
 
     /**

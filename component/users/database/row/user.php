@@ -68,7 +68,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         if(is_null($this->_groups))
         {
             $this->_groups =  $this->getObject('com:users.database.table.groups_users')
-                ->select(array('users_user_id' => $this->id), Library\Database::FETCH_FIELD_LIST);
+                ->select(array('users_user_id' => $this->role_id), Library\Database::FETCH_FIELD_LIST);
 
         }
 
