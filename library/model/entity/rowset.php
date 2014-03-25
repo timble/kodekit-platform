@@ -26,32 +26,4 @@ class ModelEntityRowset extends DatabaseRowsetAbstract implements ModelEntityInt
     {
         return parent::getIdentityColumn();
     }
-
-    /**
-     * Get an instance of a entity object for this collection
-     *
-     * @param   array $options An optional associative array of configuration settings.
-     * @return  ModelEntityCollection
-     */
-    public function createEntity(array $options = array())
-    {
-        return $this->getTable()->createRow($options);
-    }
-
-    /**
-     * Add entities to the collection
-     *
-     * This function will either clone the entity object, or create a new instance of the entity object for each entity
-     * being inserted. By default the entity will be cloned.
-     *
-     * @param  array   $properties  An associative array of entity properties to be inserted.
-     * @param  string  $status  The entities(s) status
-     *
-     * @return  ModelEntityCollection
-     * @see __construct
-     */
-    public function addEntity(array $properties, $status = NULL)
-    {
-        return parent::addRow($properties, $status);
-    }
 }

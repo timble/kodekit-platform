@@ -25,11 +25,18 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     protected $_identity_key;
 
     /**
-     * Clone entity object when adding data
+     * Clone entity object
      *
      * @var    boolean
      */
-    protected $_row_cloning;
+    protected $_prototypable;
+
+    /**
+     * The entity protoype
+     *
+     * @var  ModelEntityInterface
+     */
+    protected $_prototype;
 
     /**
      * Constructor
@@ -41,7 +48,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     {
         parent::__construct($config);
 
-        $this->_row_cloning = $config->row_cloning;
+        $this->_prototypable = $config->prototypable;
 
         // Set the table identifier
         if (isset($config->identity_key)) {
@@ -52,8 +59,13 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
         $this->reset();
 
         // Insert the data, if exists
-        if (!empty($config->data)) {
-            $this->addEntity($config->data->toArray(), $config->status);
+        if (!empty($config->data))
+        {
+            foreach($config->data->toArray() as $properties)
+            {
+                $entity = $this->create($properties,$config->status);
+                $this->insert($entity);
+            }
         }
     }
 
@@ -70,74 +82,120 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
         $config->append(array(
             'data'         => null,
             'identity_key' => null,
-            'row_cloning'  => true
+            'prototypable' => true
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Add entities to the collection
+     * Insert an entity into the collection
+     *
+     * The entity will be stored by it's identity_key if set or otherwise by it's object handle.
+     *
+     * @param  ModelEntityInterface $entity
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
+     * @return boolean    TRUE on success FALSE on failure
+     */
+    public function insert(ObjectHandlable $entity)
+    {
+        if (!$entity instanceof ModelEntityInterface) {
+            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
+        }
+
+        $this->offsetSet($entity);
+
+        return true;
+    }
+
+    /**
+     * Removes an entity from the collection
+     *
+     * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
+     *
+     * @param  ModelEntityInterface $entity
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
+     * @return ModelEntityCollection
+     */
+    public function extract(ObjectHandlable $entity)
+    {
+        if (!$entity instanceof ModelEntityInterface) {
+            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
+        }
+
+        return parent::extract($entity);
+    }
+
+    /**
+     * Checks if the collection contains a specific entity
+     *
+     * @param   ModelEntityInterface $entity
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
+     * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
+     */
+    public function contains(ObjectHandlable $entity)
+    {
+        if (!$entity instanceof ModelEntityInterface) {
+            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
+        }
+
+        return parent::contains($entity);
+    }
+
+    /**
+     * Create an entity for this collection
      *
      * This function will either clone the entity object, or create a new instance of the entity object for each entity
      * being inserted. By default the entity will be cloned.
      *
-     * @param  array   $properties  An associative array of entity properties to be inserted.
-     * @param  string  $status  The entities(s) status
-     *
+     * @param   array   $properties The entity properties
+     * @param   string  $status     The entity status
      * @return  ModelEntityCollection
-     * @see __construct
      */
-    public function addEntity(array $properties, $status = NULL)
+    public function create(array $properties = array(), $status = null)
     {
-        if ($this->_row_cloning)
+        if($this->_prototypable)
         {
-            $prototype = $this->createEntity()->setStatus($status);
-
-            foreach ($properties as $k => $data)
+            if(!$this->_prototype instanceof ModelEntityInterface)
             {
-                $entity = clone $prototype;
-                $entity->setProperties($data, $entity->isNew());
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('model', 'entity');
+                $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
 
-                $this->insert($entity);
+                //The entity default options
+                $options = array(
+                    'identity_key' => $this->getIdentityKey()
+                );
+
+                $this->_prototype = $this->getObject($identifier, $options);
             }
+
+            $entity = clone $this->_prototype;
         }
         else
         {
-            foreach ($properties as $k => $data)
-            {
-                $entity = $this->createEntity()->setStatus($status);
-                $entity->setProperties($data, $entity->isNew());
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['path'] = array('model', 'entity');
+            $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
 
-                $this->insert($entity);
-            }
+            //The entity default options
+            $options = array(
+                'identity_key' => $this->getIdentityKey()
+            );
+
+            $entity = $this->getObject($identifier, $options);
         }
 
-        return $this;
+        $entity->setStatus($status);
+        $entity->setProperties($properties, $entity->isNew());
+
+        return $entity;
     }
 
     /**
-     * Get an instance of a entity object for this collection
+     * Find an entity in the collection based on a needle
      *
-     * @param   array $options An optional associative array of configuration settings.
-     * @return  ModelEntityCollection
-     */
-    public function createEntity(array $options = array())
-    {
-        $identifier = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('model', 'entity');
-        $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
-
-        //The entity default options
-        $options['identity_key'] = $this->getIdentityKey();
-
-        return $this->getObject($identifier, $options);
-    }
-
-    /**
-     * Returns a ModelEntityCollection
-     *
-     * This functions accepts either a know position or associative array of key/value pairs
+     * This functions accepts either a know position or associative array of property/value pairs
      *
      * @param   string|array  $needle The position or the key or an associative array of column data to match
      * @return  ModelEntityCollection Returns a collection if successful. Otherwise NULL.
@@ -441,13 +499,18 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     }
 
     /**
-     * Test the connected status of the collection.
+     * Test if the entity is connected to a data store
      *
-     * @return  bool Returns TRUE by default.
+     * @return	bool
      */
     public function isConnected()
     {
-        return true;
+        $result = false;
+        if($entity = $this->getIterator()->current()) {
+            $result = $entity->isConnected();
+        }
+
+        return $result;
     }
 
     /**
@@ -462,48 +525,6 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
             $result[$key] = $entity->toArray();
         }
         return $result;
-    }
-
-    /**
-     * Insert an entity into the collection
-     *
-     * The entity will be stored by it's identity_key if set or otherwise by it's object handle.
-     *
-     * @param  ModelEntityInterface $entity
-     * @return boolean    TRUE on success FALSE on failure
-     * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
-     */
-    public function insert(ObjectHandlable $entity)
-    {
-        if (!$entity instanceof ModelEntityInterface) {
-            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
-        }
-
-        $this->offsetSet($entity);
-
-        return true;
-    }
-
-    /**
-     * Removes an entity from the collection
-     *
-     * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
-     *
-     * @param  ModelEntityInterface $entity
-     * @return ModelEntityCollection
-     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
-     */
-    public function extract(ObjectHandlable $entity)
-    {
-        if (!$entity instanceof ModelEntityInterface) {
-            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
-        }
-
-        if ($this->offsetExists($entity)) {
-            $this->offsetUnset($entity);
-        }
-
-        return $this;
     }
 
     /**

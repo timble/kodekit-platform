@@ -20,7 +20,7 @@ interface ModelEntityTraversable
     /**
      * Find an entity in the collection based on a needle
      *
-     * This functions accepts either a know position or associative array of key/value pairs
+     * This functions accepts either a know position or associative array of property/value pairs
      *
      * @param 	string $needle The position or the key to search for
      * @return ModelEntityInterface
@@ -28,24 +28,44 @@ interface ModelEntityTraversable
     public function find($needle);
 
     /**
-     * Get an instance of a entity object for this collection
-     *
-     * @param   array $options An optional associative array of configuration settings.
-     * @return  ModelEntityInterface
-     */
-    public function createEntity(array $options = array());
+ * Create an entity for this collection
+ *
+ * This function will either clone the entity object, or create a new instance of the entity object for each entity
+ * being inserted. By default the entity will be cloned.
+ *
+ * @param   array   $properties The entity properties
+ * @param   string  $status     The entity status
+ * @return  ModelEntityCollection
+ */
+    public function create(array $properties = array(), $status = null);
 
     /**
-     * Add entities to the collection
+     * Insert an entity into the collection
      *
-     * This function will either clone the entity object, or create a new instance of the entity object for each entity
-     * being inserted. By default the entity will be cloned.
+     * The entity will be stored by it's identity_key if set or otherwise by it's object handle.
      *
-     * @param  array   $properties  An associative array of entity properties to be inserted.
-     * @param  string  $status  The entities(s) status
-     *
-     * @return  ModelEntityInterface
-     * @see __construct
+     * @param  ModelEntityInterface $entity
+     * @return boolean    TRUE on success FALSE on failure
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
      */
-    public function addEntity(array $properties, $status = NULL);
+    public function insert(ObjectHandlable $entity);
+
+    /**
+     * Removes an entity from the collection
+     *
+     * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
+     *
+     * @param  ModelEntityInterface $entity
+     * @return ModelEntityCollection
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
+     */
+    public function extract(ObjectHandlable $entity);
+
+    /**
+     * Checks if the collection contains a specific entity
+     *
+     * @param   ModelEntityInterface $entity
+     * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
+     */
+    public function contains(ObjectHandlable $entity);
 }
