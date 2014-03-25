@@ -160,7 +160,7 @@ interface ModelEntityInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     public function isModified($property = null);
 
 	/**
-	 * Test the connected status of the entity
+	 * Test if the entity is connected to a data store
 	 *
 	 * @return	bool
 	 */
