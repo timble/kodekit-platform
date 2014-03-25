@@ -33,7 +33,8 @@ class ModelTypes extends Library\ModelAbstract
         $app_path = $this->getObject('manager')->getClassLoader()->getBasepath($this->getState()->application);
         $com_path = $app_path . '/component';
 
-        foreach (new \DirectoryIterator($com_path) as $component) {
+        foreach (new \DirectoryIterator($com_path) as $component)
+        {
             $views = array();
 
             $view_path = $com_path . '/' . $component . '/view';
