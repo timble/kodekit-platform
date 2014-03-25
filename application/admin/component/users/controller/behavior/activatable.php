@@ -23,8 +23,10 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation) {
-            if (($url = $this->_getActivationUrl())) {
+        if ($user->getStatus() == $user::STATUS_CREATED && $user->activation)
+        {
+            if (($url = $this->_getActivationUrl()))
+            {
                 $url = $context->request->getUrl()
                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
@@ -40,7 +42,8 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 } else {
                     $context->reponse->addMessage('Failed to send activation E-mail', 'error');
                 }
-            } else $context->reponse->addMessage('Unable to get an activation URL', 'error');
+            }
+            else $context->reponse->addMessage('Unable to get an activation URL', 'error');
         }
     }
 
@@ -54,7 +57,8 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
             'access'    => 0,
             'link'      => array(array('view' => 'user'))));
 
-        if ($page) {
+        if ($page)
+        {
             $url                      = $page->getLink();
             $url->query['activation'] = $user->activation;
             $url->query['uuid']       = $user->uuid;

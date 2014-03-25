@@ -51,7 +51,7 @@ class UsersControllerUser extends Users\ControllerUser
 
         $user = parent::_actionAdd($context);
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED)
+        if ($user->getStatus() == $user::STATUS_CREATED)
         {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);

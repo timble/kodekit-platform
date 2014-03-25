@@ -66,7 +66,7 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $user = $context->result;
 
-        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $this->isResettable())
+        if ($user->getStatus() !== $user::STATUS_FAILED && $this->isResettable())
         {
             if (!$this->token($context)) {
                 $context->response->addMessage('Failed to deliver the password reset token', 'error');
@@ -84,7 +84,7 @@ class UsersControllerUser extends Users\ControllerUser
         $user = $context->result;
 
         // Expire the user's password if a password reset was requested.
-        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $user->isExpirable()){
+        if ($user->getStatus() !== $user::STATUS_FAILED && $user->isExpirable()){
             $user->getPassword()->expire();
         }
     }

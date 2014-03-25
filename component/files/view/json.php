@@ -24,7 +24,7 @@ class ViewJson extends Library\ViewJson
         $row  = $this->getModel()->fetch();
         $data = parent::_getItem();
 
-        $status = $row->getStatus() !== Library\Database::STATUS_FAILED;
+        $status = $row->getStatus() !== self::STATUS_FAILED;
 		$data['status'] = $status;
         if ($data === false){
             $data['error'] = $row->getStatusMessage();

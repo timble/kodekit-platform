@@ -53,7 +53,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
+                    $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}
@@ -79,7 +79,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
+                    $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}

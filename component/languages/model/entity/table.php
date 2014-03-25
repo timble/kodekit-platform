@@ -24,7 +24,7 @@ class ModelEntityTable extends Library\ModelEntityRow
         $modified = $this->isModified('enabled');
         $result   = parent::save();
         
-        if($this->getStatus() == Library\Database::STATUS_UPDATED && $modified && $this->enabled)
+        if($this->getStatus() == self::STATUS_UPDATED && $modified && $this->enabled)
         {
             $database  = $this->getTable()->getAdapter();
             $languages = $this->getObject('application.languages');

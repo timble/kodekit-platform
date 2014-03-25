@@ -77,9 +77,10 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 	
 	protected function _deleteTags(Library\ControllerContextInterface $context)
     {
-        $status = $context->result->getStatus();
+        $entity = $context->result;
+        $status = $entity->getStatus();
 
-        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
             $id    = $context->result->get('id');
             $table = $context->result->getTable()->getBase();

@@ -21,8 +21,7 @@ class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
     {
         $entity = parent::_actionSave($context);
 
-        if ($entity->getStatus() === Library\Database::STATUS_FAILED)
-        {
+        if ($entity->getStatus() === $entity::STATUS_FAILED) {
             $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
         }
 

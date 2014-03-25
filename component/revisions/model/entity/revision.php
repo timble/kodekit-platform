@@ -31,7 +31,7 @@ class ModelEntityRevision extends Library\ModelEntityRow
     public function setStatus($status)
     {
         if($status == 'trashed') {
-            parent::setStatus(Library\Database::STATUS_DELETED);
+            parent::setStatus(self::STATUS_DELETED);
         }
 
         $this->_status = $status;

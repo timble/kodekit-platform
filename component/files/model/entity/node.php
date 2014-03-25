@@ -39,7 +39,8 @@ class ModelEntityNode extends Library\ModelEntityAbstract
 
         $this->mixin('lib:behavior.mixin', $config);
 
-        if ($config->validator !== false) {
+        if ($config->validator !== false)
+        {
             if ($config->validator === true) {
                 $config->validator = 'com:files.database.validator.' . $this->getIdentifier()->name;
             }
@@ -62,12 +63,14 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         $context         = $this->getContext();
         $context->result = false;
 
-        if ($this->invokeCommand('before.copy', $context) !== false) {
+        if ($this->invokeCommand('before.copy', $context) !== false)
+        {
             $context->result = $this->_adapter->copy($this->destination_fullpath);
             $this->invokeCommand('after.copy', $context);
         }
 
-        if ($context->result !== false) {
+        if ($context->result !== false)
+        {
             if ($this->destination_folder) {
                 $this->folder = $this->destination_folder;
             }
@@ -75,8 +78,9 @@ class ModelEntityNode extends Library\ModelEntityAbstract
                 $this->name = $this->destination_name;
             }
 
-            $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
-        } else $this->setStatus(Library\Database::STATUS_FAILED);
+            $this->setStatus($this->overwritten ? self::STATUS_UPDATED : self::STATUS_CREATED);
+        }
+        else $this->setStatus(self::STATUS_FAILED);
 
         return $context->result;
     }
@@ -102,9 +106,9 @@ class ModelEntityNode extends Library\ModelEntityAbstract
                 $this->name = $this->destination_name;
             }
 
-            $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
+            $this->setStatus($this->overwritten ? self::STATUS_UPDATED : self::STATUS_CREATED);
         }
-        else $this->setStatus(Library\Database::STATUS_FAILED);
+        else $this->setStatus(self::STATUS_FAILED);
 
         return $context->result;
     }
@@ -121,9 +125,9 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         }
 
         if ($context->result === false) {
-            $this->setStatus(Library\Database::STATUS_FAILED);
+            $this->setStatus(self::STATUS_FAILED);
         } else {
-            $this->setStatus(Library\Database::STATUS_DELETED);
+            $this->setStatus(self::STATUS_DELETED);
         }
 
         return $context->result;
@@ -174,9 +178,10 @@ class ModelEntityNode extends Library\ModelEntityAbstract
 
     public function getContainer()
     {
-        if (!isset($this->_container)) {
+        if (!isset($this->_container))
+        {
             //Set the container
-            $container = $this->getObject('com:files.model.containers')->slug($this->container)->fetch();
+            $container = $this->getObject('com:files.model.containers')->slug($this->_data['container'])->fetch();
 
             if (!is_object($container) || $container->isNew()) {
                 throw new \UnexpectedValueException('Invalid container');

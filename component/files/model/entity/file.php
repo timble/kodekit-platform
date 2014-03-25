@@ -42,9 +42,9 @@ class ModelEntityFile extends ModelEntityNode
         }
 
 		if ($context->result === false) {
-			$this->setStatus(Library\Database::STATUS_FAILED);
+			$this->setStatus(self::STATUS_FAILED);
 		} else {
-            $this->setStatus($is_new ? Library\Database::STATUS_CREATED : Library\Database::STATUS_UPDATED);
+            $this->setStatus($is_new ? self::STATUS_CREATED : self::STATUS_UPDATED);
         }
 
 		return $context->result;

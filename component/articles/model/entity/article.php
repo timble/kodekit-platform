@@ -41,7 +41,7 @@ class ModelEntityArticle extends Library\ModelEntityRow
         //Validate the title
         if(empty($this->title))
         {
-            $this->_status          = Library\Database::STATUS_FAILED;
+            $this->_status          = self::STATUS_FAILED;
             $this->_status_message  = \JText::_('Article must have a title');
 
             return false;

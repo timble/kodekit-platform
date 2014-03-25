@@ -83,7 +83,7 @@ class ModelEntityUser extends Library\ModelEntityRow
         // Validate name
         if ($this->isModified('name') && trim($this->name) == '')
         {
-            $this->setStatus(Library\Database::STATUS_FAILED);
+            $this->setStatus(self::STATUS_FAILED);
             $this->setStatusMessage(\JText::_('Please enter a name'));
             return false;
         }
@@ -93,7 +93,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             // Validate E-mail
             if (!$this->getObject('lib:filter.email')->validate($this->email))
             {
-                $this->setStatus(Library\Database::STATUS_FAILED);
+                $this->setStatus(self::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
                 return false;
             }
@@ -105,7 +105,7 @@ class ModelEntityUser extends Library\ModelEntityRow
 
             if ($this->getObject('com:users.database.table.users')->count($query))
             {
-                $this->setStatus(Library\Database::STATUS_FAILED);
+                $this->setStatus(self::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
                 return false;
             }
@@ -114,7 +114,7 @@ class ModelEntityUser extends Library\ModelEntityRow
         // Check if the attached role exists
         if ($this->isModified('role_id') && $this->getRole()->isNew())
         {
-            $this->setStatus(Library\Database::STATUS_FAILED);
+            $this->setStatus(self::STATUS_FAILED);
             $this->setStatusMessage('Invalid role');
             return false;
         }
@@ -149,7 +149,7 @@ class ModelEntityUser extends Library\ModelEntityRow
 
                 if ($this->getObject('com:users.database.table.users')->count($query) <= 1)
                 {
-                    $this->setStatus(Library\Database::STATUS_FAILED);
+                    $this->setStatus(self::STATUS_FAILED);
                     $this->setStatusMessage('There must be at least one enabled super administrator');
                     return false;
                 }

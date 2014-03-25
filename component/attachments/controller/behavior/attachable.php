@@ -131,12 +131,13 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
     protected function _deleteFiles(Library\ControllerContextInterface $context)
     {
+        $entity = $context->result;
         $status = $context->result->getStatus();
 
-        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
-            $id    = $context->result->get('id');
-            $table = $context->result->getTable()->getBase();
+            $id    = $entity->get('id');
+            $table = $entity->getTable()->getBase();
 
             if(!empty($id) && $id != 0)
             {

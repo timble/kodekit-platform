@@ -61,7 +61,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $password->password = $context->request->data->get('password', 'string');
         $password->save();
 
-        if ($password->getStatus() == Library\Database::STATUS_FAILED)
+        if ($password->getStatus() == $password::STATUS_FAILED)
         {
             $context->error = $password->getStatusMessage();
             $result = false;
