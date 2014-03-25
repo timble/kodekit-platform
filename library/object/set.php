@@ -89,7 +89,7 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
      * @param   ObjectHandlable $object
      * @return  ObjectSet
      */
-    public function extract(ObjectHandlable $object)
+    public function remove(ObjectHandlable $object)
     {
         if ($this->offsetExists($object)) {
             $this->offsetUnset($object);

@@ -86,7 +86,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             foreach(clone $pages as $page)
             {
                 if(strpos($page->path, $config->page->path) === 0) {
-                    $pages->extract($page);
+                    $pages->remove($page);
                 }
             }
         }

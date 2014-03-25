@@ -54,7 +54,7 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
             }
             
             if($extract) {
-                $context->data->pages->extract($page);
+                $context->data->pages->remove($page);
             }
         }
 

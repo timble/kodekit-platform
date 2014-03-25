@@ -59,7 +59,7 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
      * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      * @return DatabaseRowsetAbstract
      */
-    public function extract(ObjectHandlable $row);
+    public function remove(ObjectHandlable $row);
 
     /**
      * Checks if the collection contains a specific row

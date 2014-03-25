@@ -131,13 +131,13 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      * @return DatabaseRowsetAbstract
      */
-    public function extract(ObjectHandlable $row)
+    public function remove(ObjectHandlable $row)
     {
         if (!$row instanceof DatabaseRowInterface) {
             throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
         }
 
-        return parent::extract($row);
+        return parent::remove($row);
     }
 
     /**
@@ -208,7 +208,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
                 foreach($needle as $key => $value)
                 {
                     if(!in_array($row->{$key}, (array) $value)) {
-                        $result->extract($row);
+                        $result->remove($row);
                     }
                 }
             }

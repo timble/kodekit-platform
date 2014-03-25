@@ -115,13 +115,13 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      * @return ModelEntityCollection
      */
-    public function extract(ObjectHandlable $entity)
+    public function remove(ObjectHandlable $entity)
     {
         if (!$entity instanceof ModelEntityInterface) {
             throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
         }
 
-        return parent::extract($entity);
+        return parent::remove($entity);
     }
 
     /**
@@ -214,7 +214,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
                 foreach($needle as $key => $value)
                 {
                     if(!in_array($entity->{$key}, (array) $value)) {
-                        $result->extract($entity);
+                        $result->remove($entity);
                     }
                 }
             }

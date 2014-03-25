@@ -59,7 +59,7 @@ interface ModelEntityTraversable
      * @return ModelEntityCollection
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      */
-    public function extract(ObjectHandlable $entity);
+    public function remove(ObjectHandlable $entity);
 
     /**
      * Checks if the collection contains a specific entity
