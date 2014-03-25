@@ -261,7 +261,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     protected function _afterDelete(Library\DatabaseContext $context)
     {
-        if ($context->data->getStatus() == Library\Database::STATUS_DELETED) {
+        if ($context->data->getStatus() == Library\Database::STATUS_DELETED)
+        {
             $languages = $this->getObject('application.languages');
             $primary   = $languages->getPrimary();
             $active    = $languages->getActive();
@@ -270,8 +271,10 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $database = $this->getTable()->getAdapter();
             $query    = clone $context->query;
 
-            foreach ($languages as $language) {
-                if ($language->iso_code != $active->iso_code) {
+            foreach ($languages as $language)
+            {
+                if ($language->iso_code != $active->iso_code)
+                {
                     $prefix = $language->iso_code != $primary->iso_code ? strtolower($language->iso_code . '_') : '';
                     $query->table($prefix . $context->table);
                     $database->delete($query);
