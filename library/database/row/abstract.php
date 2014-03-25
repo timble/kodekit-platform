@@ -189,12 +189,19 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Get a property
      *
-     * @param   string  $property The property name
+     * @param   string  $name The property name
      * @return  mixed   The property value.
      */
-    public function get($property)
+    public function getProperty($name)
     {
-        return parent::offsetGet($property);
+        $getter = 'getProperty'.StringInflector::camelize($name);
+        if(method_exists($this, $getter)) {
+            $value = $this->$getter();
+        } else {
+            $value = parent::offsetGet($name);
+        }
+
+        return $value;
     }
 
     /**
@@ -208,14 +215,19 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  DatabaseRowAbstract
      */
-    public function set($property, $value, $modified = true)
+    public function setProperty($name, $value, $modified = true)
     {
-        if (!array_key_exists($property, $this->_data) || ($this->_data[$property] != $value))
+        if (!array_key_exists($name, $this->_data) || ($this->_data[$name] != $value))
         {
-            parent::offsetSet($property, $value);
+            $setter = 'setProperty'.StringInflector::camelize($name);
+            if(method_exists($this, $setter)) {
+                $this->$setter($value);
+            } else {
+                parent::offsetSet($name, $value);
+            }
 
             if($modified || $this->isNew()) {
-                $this->_modified[$property] = $property;
+                $this->_modified[$name] = $name;
             }
         }
 
@@ -225,12 +237,12 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Test existence of a property
      *
-     * @param  string  $property The property name.
+     * @param  string  $name The property name.
      * @return boolean
      */
-    public function has($property)
+    public function hasProperty($name)
     {
-        return parent::offsetExists($property);
+        return parent::offsetExists($name);
     }
 
     /**
@@ -241,19 +253,19 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      * @param   string  $property The property name.
      * @return  DatabaseRowAbstract
      */
-    public function remove($property)
+    public function removeProperty($name)
     {
         if ($this->isConnected())
         {
-            $column = $this->getTable()->getColumn($property);
+            $column = $this->getTable()->getColumn($name);
 
             if (isset($column) && $column->required) {
-                parent::set($this->_data[$property], $column->default);
+                $this->setProperty($this->_data[$name], $column->default);
             }
             else
             {
-                parent::offsetUnset($property);
-                unset($this->_modified[$property]);
+                parent::offsetUnset($name);
+                unset($this->_modified[$name]);
             }
         }
 
@@ -293,7 +305,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         }
 
         foreach ($properties as $property => $value) {
-            $this->set($property, $value, $modified);
+            $this->setProperty($property, $value, $modified);
         }
 
         return $this;
@@ -376,7 +388,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     public function getHandle()
     {
         if (isset($this->_identity_column)) {
-            $handle = $this->get($this->_identity_column);
+            $handle = $this->getProperty($this->_identity_column);
         } else {
             $handle = parent::getHandle();
         }
@@ -500,7 +512,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     final public function offsetSet($property, $value)
     {
-        $this->set($property, $value);
+        $this->setProperty($property, $value);
     }
 
     /**
@@ -511,7 +523,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     final public function offsetGet($property)
     {
-        return $this->get($property);
+        return $this->getProperty($property);
     }
 
     /**
@@ -522,7 +534,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     final public function offsetExists($property)
     {
-        return $this->has($property);
+        return $this->hasProperty($property);
     }
 
     /**
@@ -533,7 +545,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     final public function offsetUnset($property)
     {
-        $this->remove($property);
+        $this->removeProperty($property);
     }
 
     /**

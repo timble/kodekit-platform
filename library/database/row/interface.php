@@ -42,12 +42,19 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     public function reset();
 
     /**
+     * Gets the identity column
+     *
+     * @return string
+     */
+    public function getIdentityColumn();
+
+    /**
      * Get a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  mixed   The property value.
      */
-    public function get($property);
+    public function getProperty($name);
 
     /**
      * Set a property
@@ -55,12 +62,12 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
      * If the row is new the value will be (re)set and marked as modified
      *
-     * @param   string  $property   The property name.
+     * @param   string  $name       The property name.
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  DatabaseRowInterface
      */
-    public function set($property, $value, $modified = true);
+    public function setProperty($name, $value, $modified = true);
 
     /**
      * Test existence of a property
@@ -68,22 +75,15 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * @param  string  $property The property name.
      * @return boolean
      */
-    public function has($property);
+    public function hasProperty($name);
 
     /**
      * Remove a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  DatabaseRowInterface
      */
-    public function remove($property);
-
-    /**
-     * Gets the identity key
-     *
-     * @return string
-     */
-    public function getIdentityColumn();
+    public function removeProperty($name);
 
     /**
      * Get the properties

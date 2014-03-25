@@ -236,7 +236,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		//Get the list of items
         $items = array();
         foreach($list as $key => $item) {
-            $items[$key] = $item->get($config->value);
+            $items[$key] = $item->getProperty($config->value);
         }
 
 		if($config->unique) {

@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package Nooku\Library\String
  * @static
  */
-interface String
+interface StringInterface
 {
     /**
      * UTF-8 aware alternative to strpos

@@ -150,14 +150,31 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     }
 
     /**
+     * Gets the identity key
+     *
+     * @return string
+     */
+    public function getIdentityKey()
+    {
+        return $this->_identity_key;
+    }
+
+    /**
      * Get a property
      *
-     * @param   string  $property The property name
+     * @param   string  $name The property name
      * @return  mixed   The property value.
      */
-    public function get($property)
+    public function getProperty($name)
     {
-        return parent::offsetGet($property);
+        $getter = 'getProperty'.StringInflector::camelize($name);
+        if(method_exists($this, $getter)) {
+            $value = $this->$getter();
+        } else {
+            $value = parent::offsetGet($name);
+        }
+
+        return $value;
     }
 
     /**
@@ -166,20 +183,25 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      * If the value is the same as the current value and the entity is loaded from the data store the value will not be
      * set. If the entity is new the value will be (re)set and marked as modified.
      *
-     * @param   string  $property   The property name.
+     * @param   string  $name       The property name.
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      *
      * @return  ModelEntityAbstract
      */
-    public function set($property, $value, $modified = true)
+    public function setProperty($name, $value, $modified = true)
     {
-        if (!array_key_exists($property, $this->_data) || ($this->_data[$property] != $value))
+        if (!array_key_exists($name, $this->_data) || ($this->_data[$name] != $value))
         {
-            parent::offsetSet($property, $value);
+            $setter = 'setProperty'.StringInflector::camelize($name);
+            if(method_exists($this, $setter)) {
+                $this->$setter($value);
+            } else {
+                parent::offsetSet($name, $value);
+            }
 
             if($modified || $this->isNew()) {
-                $this->_modified[$property] = $property;
+                $this->_modified[$name] = $name;
             }
         }
 
@@ -189,24 +211,24 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     /**
      * Test existence of a property
      *
-     * @param  string  $property The property name.
+     * @param  string  $name The property name.
      * @return boolean
      */
-    public function has($property)
+    public function hasProperty($name)
     {
-        return parent::offsetExists($property);
+        return parent::offsetExists($name);
     }
 
     /**
      * Remove a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  ModelEntityAbstract
      */
-    public function remove($property)
+    public function removeProperty($name)
     {
-        parent::offsetUnset($property);
-        unset($this->_modified[$property]);
+        parent::offsetUnset($name);
+        unset($this->_modified[$name]);
 
         return $this;
     }
@@ -244,7 +266,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
         }
 
         foreach ($properties as $property => $value) {
-            $this->set($property, $value, $modified);
+            $this->setProperty($property, $value, $modified);
         }
 
         return $this;
@@ -307,16 +329,6 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     }
 
     /**
-     * Gets the identity key
-     *
-     * @return string
-     */
-    public function getIdentityKey()
-    {
-        return $this->_identity_key;
-    }
-
-    /**
      * Get a handle for this object
      *
      * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
@@ -327,7 +339,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     public function getHandle()
     {
         if (isset($this->_identity_key)) {
-            $handle = $this->get($this->_identity_key);
+            $handle = $this->getProperty($this->_identity_key);
         } else {
             $handle = parent::getHandle();
         }
@@ -369,13 +381,13 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     }
 
     /**
-     * Test the connected status of the entity
+     * Test if the entity is connected to a data store
      *
-     * @return    boolean    Returns TRUE by default.
+     * @return	bool
      */
     public function isConnected()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -387,7 +399,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     final public function offsetSet($property, $value)
     {
-        $this->set($property, $value);
+        $this->setProperty($property, $value);
     }
 
     /**
@@ -398,7 +410,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     final public function offsetGet($property)
     {
-        return $this->get($property);
+        return $this->getProperty($property);
     }
 
     /**
@@ -409,7 +421,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     final public function offsetExists($property)
     {
-        return $this->has($property);
+        return $this->hasProperty($property);
     }
 
     /**
@@ -420,6 +432,6 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     final public function offsetUnset($property)
     {
-        $this->remove($property);
+        $this->removeProperty($property);
     }
 }

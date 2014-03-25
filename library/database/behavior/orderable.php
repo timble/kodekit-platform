@@ -167,7 +167,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->has('ordering'))
+        if($this->hasProperty('ordering'))
         {
             if($this->ordering <= 0) {
                 $this->ordering = $this->getMaxOrdering() + 1;
@@ -185,7 +185,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(DatabaseContext $context)
     {
-        if(isset($this->order) && $this->has('ordering')) {
+        if(isset($this->order) && $this->hasProperty('ordering')) {
             $this->order($this->order);
         }
     }

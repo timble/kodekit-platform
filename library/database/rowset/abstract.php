@@ -288,14 +288,14 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Get a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  mixed
      */
-    public function get($property)
+    public function getProperty($name)
     {
         $result = null;
         if($row = $this->getIterator()->current()) {
-            $result = $row->get($property);
+            $result = $row->getProperty($name);
         }
 
         return $result;
@@ -304,15 +304,15 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Set a property
      *
-     * @param   string  $property   The property name.
+     * @param   string  $name       The property name.
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  DatabaseRowsetAbstract
      */
-    public function set($property, $value, $modified = true)
+    public function setProperty($name, $value, $modified = true)
     {
         if($row = $this->getIterator()->current()) {
-            $row->set($property, $value, $modified);
+            $row->setProperty($name, $value, $modified);
         }
 
         return $this;
@@ -321,14 +321,14 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Test existence of a property
      *
-     * @param  string  $property The property name.
+     * @param  string  $name The property name.
      * @return boolean
      */
-    public function has($property)
+    public function hasProperty($name)
     {
         $result = false;
         if($row = $this->getIterator()->current()) {
-            $result = $row->has($property);
+            $result = $row->hasProperty($name);
         }
 
         return $result;
@@ -337,13 +337,13 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Remove a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  DatabaseRowAbstract
      */
-    public function remove($property)
+    public function removeProperty($name)
     {
         if($row = $this->getIterator()->current()) {
-            $row->remove($property);
+            $row->removeProperty($name);
         }
 
         return $this;
@@ -588,7 +588,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function __get($property)
     {
-        return $this->get($property);
+        return $this->getProperty($property);
     }
 
     /**
@@ -600,7 +600,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function __set($property, $value)
     {
-        $this->set($property, $value);
+        $this->setProperty($property, $value);
     }
 
     /**
@@ -611,7 +611,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function __isset($property)
     {
-        return $this->has($property);
+        return $this->hasProperty($property);
     }
 
     /**
@@ -622,7 +622,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function __unset($property)
     {
-        $this->remove($property);
+        $this->removeProperty($property);
     }
 
     /**

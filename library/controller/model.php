@@ -285,10 +285,10 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
                     $states = $this->getModel()->getState()->getValues(true);
 
                     foreach ($states as $key => $value) {
-                        $url->query[$key] = $entity->get($key);
+                        $url->query[$key] = $entity->getProperty($key);
                     }
                 }
-                else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
+                else $url->query[$entity->getIdentityKey()] = $entity->getProperty($entity->getIdentityKey());
             }
 
             $context->response->headers->set('Location', (string) $url);

@@ -32,7 +32,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     protected $_prototypable;
 
     /**
-     * The entity protoype
+     * The entity prototype
      *
      * @var  ModelEntityInterface
      */
@@ -292,16 +292,26 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     }
 
     /**
+     * Gets the identity key
+     *
+     * @return string
+     */
+    public function getIdentityKey()
+    {
+        return $this->_identity_key;
+    }
+
+    /**
      * Get a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  mixed
      */
-    public function get($property)
+    public function getProperty($name)
     {
         $result = null;
         if($entity = $this->getIterator()->current()) {
-            $result = $entity->get($property);
+            $result = $entity->getProperty($name);
         }
 
         return $result;
@@ -310,15 +320,15 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     /**
      * Set a property
      *
-     * @param   string  $property   The property name.
+     * @param   string  $name       The property name.
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  ModelEntityCollection
      */
-    public function set($property, $value, $modified = true)
+    public function setProperty($name, $value, $modified = true)
     {
         if($entity = $this->getIterator()->current()) {
-            $entity->set($property, $value, $modified);
+            $entity->setProperty($name, $value, $modified);
         }
 
         return $this;
@@ -327,14 +337,14 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     /**
      * Test existence of a property
      *
-     * @param  string  $property The property name.
+     * @param  string  $name The property name.
      * @return boolean
      */
-    public function has($property)
+    public function hasProperty($name)
     {
         $result = false;
         if($entity = $this->getIterator()->current()) {
-            $result = $entity->has($property);
+            $result = $entity->hasProperty($name);
         }
 
         return $result;
@@ -343,13 +353,13 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     /**
      * Remove a property
      *
-     * @param   string  $property The property name.
+     * @param   string  $name The property name.
      * @return  ModelEntityCollection
      */
-    public function remove($property)
+    public function removeProperty($name)
     {
         if($entity = $this->getIterator()->current()) {
-            $entity->remove($property);
+            $entity->removeProperty($name);
         }
 
         return $this;
@@ -456,16 +466,6 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     }
 
     /**
-     * Gets the identity key
-     *
-     * @return string
-     */
-    public function getIdentityKey()
-    {
-        return $this->_identity_key;
-    }
-
-    /**
      * Checks if the current entity is new or not
      *
      * @return boolean
@@ -535,7 +535,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      */
     public function __get($property)
     {
-        return $this->get($property);
+        return $this->getProperty($property);
     }
 
     /**
@@ -547,7 +547,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      */
     public function __set($property, $value)
     {
-        $this->set($property, $value);
+        $this->setProperty($property, $value);
     }
 
     /**
@@ -558,7 +558,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      */
     public function __isset($property)
     {
-        return $this->has($property);
+        return $this->hasProperty($property);
     }
 
     /**
@@ -569,7 +569,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      */
     public function __unset($property)
     {
-        $this->remove($property);
+        $this->removeProperty($property);
     }
 
     /**
