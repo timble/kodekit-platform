@@ -50,7 +50,10 @@ class ModelFolders extends ModelNodes
 
         $folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_count);
 
-        $results = array();
+        $identifier         = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
+        $collection = $this->getObject($identifier);
+
         foreach ($folders as $folder)
         {
             $hierarchy = array();
@@ -62,18 +65,18 @@ class ModelFolders extends ModelNodes
                 }
             }
 
-            $results[] = array(
+            $properties = array(
                 'container' => $state->container,
                 'folder'    => $hierarchy ? implode('/', $hierarchy) : $state->folder,
                 'name'      => basename($folder),
                 'hierarchy' => $hierarchy
             );
+
+            $entity = $collection->create($properties);
+            $collection->insert($entity);
         }
 
-        $identifier         = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('model', 'entity');
-
-        return $this->getObject($identifier)->addEntity($results);
+        return $collection;
     }
 
     protected function _actionCount(Library\ModelContext $context)

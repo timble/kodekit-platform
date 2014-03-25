@@ -39,49 +39,38 @@ class ModelEntityFolders extends ModelEntityNodes
 		return $this->current()->getChildren();
 	}
 
-	/**
-     * Adds the rows as an hierachical tree of nodes.
+    /**
+     * Insert a entity in an hierarchical tree of nodes.
      *
-     * This function requires each row to contain a an enumerated 'path' array containing the node id's from root to
-     * the node. If no path exists or the path is empty the row will be added to the root node.
+     * This function requires each entity to contain a an enumerated 'path' array containing the node id's from root to
+     * the node. If no path exists or the path is empty the entity will be added to the root node.
      *
-	 * @param  array  	$list   An associative array of row data to be inserted.
-	 * @param  string	$status If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-	 * @return  Library\ModelEntityInterface
-	 * @see __construct
+     * @param  Library\ModelEntityInterface $entity
+     * @return boolean    TRUE on success FALSE on failure
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
      */
-	public function addEntity(array $list, $status = null)
+    public function insert(Library\ObjectHandlable $entity)
     {
-    	foreach($list as $k => $row)
-		{
-			$hierarchy = !empty($row['hierarchy']) ? $row['hierarchy'] : false;
-			unset($row['hierarchy']);
+        if(isset($entity->hierarchy) && !empty($entity->hierarchy))
+        {
+            $nodes   = $this;
+			$node    = null;
+			$parents = $entity->hierarchy;
 
-		    //Create a row prototype and clone it this is faster then instantiating a new row
-			$instance = $this->createEntity()
-							->setProperties($row)
-							->setStatus($status);
-
-        	if($hierarchy)
-        	{
-        		$nodes   = $this;
-				$node    = null;
-				$parents = $hierarchy;
-
-				foreach($parents as $parent)
-       			{
-       				if($node) {
-						$nodes = $node->getChildren();
-					}
-
-       				$node = $nodes->find($parent);
+			foreach($parents as $parent)
+       		{
+       			if($node) {
+					$nodes = $node->getChildren();
 				}
 
-				$node->insertChild($instance);
-        	}
-            else $this->insert($instance);
-		}
+       		    $node = $nodes->find($parent);
+			}
 
-		return $this;
+            unset($entity->hierarchy);
+			$node->insertChild($entity);
+        }
+        else parent::insert($entity);
+
+		return true;
     }
 }

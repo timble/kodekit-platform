@@ -176,7 +176,13 @@ class ModelModules extends Library\ModelDatabase
                 $modules = array_reverse($modules);
             }
 
-            $data = $this->getTable()->createRowset()->addEntity($modules);
+            $rowset = $this->getTable()->createRowset();
+
+            foreach($modules as $module)
+            {
+                $row = $rowset->create($module);
+                $rowset->insert($row);
+            }
         }
         else
         {
@@ -184,9 +190,9 @@ class ModelModules extends Library\ModelDatabase
                 $context->query->order('position', 'ASC');
             }
 
-            $data = parent::_actionFetch($context);
+            $rowset = parent::_actionFetch($context);
         }
 
-        return $data;
+        return $rowset;
     }
 }

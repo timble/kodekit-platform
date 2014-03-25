@@ -20,47 +20,37 @@ use Nooku\Library;
 class ModelEntityNodes extends Library\ModelEntityRowset
 {
     /**
-     * Adds the rows as an hierarchical tree of nodes.
+     * Insert a entity in an hierarchical tree of nodes.
      *
-     * This function requires each row to contain a an enumerated 'path' array containing the node id's from root to
-     * the node. If no path exists or the path is empty the row will be added to the root node.
+     * This function requires each entity to contain a an enumerated 'path' array containing the node id's from root to
+     * the node. If no path exists or the path is empty the entity will be added to the root node.
      *
-	 * @param  array  	$list   An associative array of row data to be inserted.
-	 * @param  string	$status The row(s) status
-	 * @return  Library\ModelEntityInterface
-	 * @see __construct
+     * @param  Library\ModelEntityInterface $entity
+     * @return boolean    TRUE on success FALSE on failure
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
      */
-	public function addEntity(array $list, $status = null)
+    public function insert(Library\ObjectHandlable $entity)
     {
-        foreach($list as $k => $row)
-		{
-		    $options = array(
-            	'data'   => $row,
-                'status' => $status,
-            );
+        if(isset($entity->path) && !empty($entity->path))
+        {
+        	$nodes   = $this;
+			$node    = null;
+			$parents = $entity->path;
 
-		    $instance = $this->getTable()->createRow($options);
-
-        	if(isset($row['path']) && !empty($row['path']))
-        	{
-        		$nodes   = $this;
-				$node    = null;
-				$parents = $row['path'];
-
-				foreach($parents as $parent)
-       			{
-       				if($node) {
-						$nodes = $node->getChildren();
-					}
-					
-       				$node = $nodes->find($parent);
+			foreach($parents as $parent)
+       		{
+       			if($node) {
+					$nodes = $node->getChildren();
 				}
+					
+       			$node = $nodes->find($parent);
+			}
 
-				$node->insertChild($instance);
-        	}
-        	else $this->insert($instance);
-		}
-		
+            unset($entity->path);
+			$node->insertChild($entity);
+        }
+        else parent::insert($entity);
+
 		return $this;
     }
 
@@ -73,5 +63,4 @@ class ModelEntityNodes extends Library\ModelEntityRowset
     {
         return new \RecursiveArrayIterator($this->_data);
     }
-
 }
