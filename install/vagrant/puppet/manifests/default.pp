@@ -102,6 +102,26 @@ class { 'xdebug':
   service => 'nginx',
 }
 
+class { 'php::pear': }
+
+class yaml {
+    php::pecl::module { "yaml":
+        use_package => no,
+        ensure => present,
+    }
+}
+
+include yaml
+
+puphpet::ini { 'yaml':
+  value   => [
+  'extension=yaml.so'
+  ],
+  ini     => '/etc/php5/conf.d/zzz_yaml.ini',
+  notify  => Service['php5-fpm'],
+  require => [Class['php'], Class['yaml']],
+}
+
 # Install Xdebug but disable it by default since it's super slow
 file { '/etc/php5/cli/conf.d/20-xdebug.ini':
   ensure => absent,
