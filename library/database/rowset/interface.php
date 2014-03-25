@@ -28,12 +28,45 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
     public function find($needle);
 
     /**
-     * Add rows to the rowset
+     * Create an row for this rowset
      *
-     * @param  array   $rows    An associative array of row data to be inserted.
-     * @param  string  $status  The row(s) status
-     * @return DatabaseRowsetInterface
-     * @see __construct
+     * This function will either clone the row prototype, or create a new instance of the row object for each row
+     * being inserted. By default the prototype will be cloned.
+     *
+     * @param   array   $properties The entity properties
+     * @param   string  $status     The entity status
+     * @return  ModelEntityCollection
      */
-    public function addRow(array $rows, $status = null);
+    public function create(array $properties = array(), $status = null);
+
+    /**
+     * Insert an row into the collection
+     *
+     * The row will be stored by it's identity_column if set or otherwise by it's object handle.
+     *
+     * @param  DatabaseRowInterface $row
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
+     * @return boolean    TRUE on success FALSE on failure
+     */
+    public function insert(ObjectHandlable $row);
+
+    /**
+     * Removes a row from the rowset
+     *
+     * The row will be removed based on it's identity_column if set or otherwise by it's object handle.
+     *
+     * @param  DatabaseRowInterface $row
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
+     * @return DatabaseRowsetAbstract
+     */
+    public function extract(ObjectHandlable $row);
+
+    /**
+     * Checks if the collection contains a specific row
+     *
+     * @param  DatabaseRowInterface $row
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
+     * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
+     */
+    public function contains(ObjectHandlable $row);
 }

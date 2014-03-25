@@ -25,11 +25,18 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     protected $_identity_column;
 
     /**
-     * Clone row object when adding data
+     * Clone entity object
      *
      * @var    boolean
      */
-    protected $_row_cloning;
+    protected $_prototypable;
+
+    /**
+     * The entity protoype
+     *
+     * @var  ModelEntityInterface
+     */
+    protected $_prototype;
 
     /**
      * Table object or identifier
@@ -46,11 +53,9 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function __construct(ObjectConfig $config)
     {
-        //Bypass DatabaseRowsetAbstract constructor to prevent data from being added twice
-        ObjectSet::__construct($config);
+        parent::__construct($config);
 
-        //Set the row cloning
-        $this->_row_cloning = $config->row_cloning;
+        $this->_prototypable = $config->prototypable;
 
         //Set the table identifier
         $this->_table = $config->table;
@@ -64,8 +69,13 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         $this->reset();
 
         // Insert the data, if exists
-        if (!empty($config->data)) {
-            $this->addRow($config->data->toArray(), $config->status);
+        if (!empty($config->data))
+        {
+            foreach($config->data->toArray() as $properties)
+            {
+                $entity = $this->create($properties, $config->status);
+                $this->insert($entity);
+            }
         }
 
         //Set the status message
@@ -88,14 +98,96 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             'table'           => $this->getIdentifier()->name,
             'data'            => null,
             'identity_column' => null,
-            'row_cloning'     => true
+            'prototypable'    => true
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Returns a DatabaseRow(set)
+     * Insert a row into the rowset
+     *
+     * The row will be stored by it's identity_column if set or otherwise by it's object handle.
+     *
+     * @param  DatabaseRowInterface $row
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
+     * @return boolean    TRUE on success FALSE on failure
+     */
+    public function insert(ObjectHandlable $row)
+    {
+        if (!$row instanceof DatabaseRowInterface) {
+            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
+        }
+
+        $this->offsetSet($row);
+
+        return true;
+    }
+
+    /**
+     * Removes a row from the rowset
+     *
+     * The row will be removed based on it's identity_column if set or otherwise by it's object handle.
+     *
+     * @param  DatabaseRowInterface $row
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
+     * @return DatabaseRowsetAbstract
+     */
+    public function extract(ObjectHandlable $row)
+    {
+        if (!$row instanceof DatabaseRowInterface) {
+            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
+        }
+
+        return parent::extract($row);
+    }
+
+    /**
+     * Checks if the collection contains a specific row
+     *
+     * @param  DatabaseRowInterface $row
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
+     * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
+     */
+    public function contains(ObjectHandlable $row)
+    {
+        if (!$row instanceof DatabaseRowInterface) {
+            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
+        }
+
+        return parent::contains($row);
+    }
+
+    /**
+     * Create an row for this rowset
+     *
+     * This function will either clone the row prototype, or create a new instance of the row object for each row
+     * being inserted. By default the prototype will be cloned.
+     *
+     * @param   array   $properties The entity properties
+     * @param   string  $status     The entity status
+     * @return  ModelEntityCollection
+     */
+    public function create(array $properties = array(), $status = null)
+    {
+        if($this->_prototypable)
+        {
+            if(!$this->_prototype instanceof DatabaseRowInterface) {
+                $this->_prototype = $this->getTable()->createRow();
+            }
+
+            $row = clone $this->_prototype;
+        }
+        else $row = $this->getTable()->createRow();
+
+        $row->setStatus($status);
+        $row->setProperties($properties, $row->isNew());
+
+        return $row;
+    }
+
+    /**
+     * Find rows in the rowset based on a needle
      *
      * This functions accepts either a know position or associative array of key/value pairs
      *
@@ -190,48 +282,6 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     public function reset()
     {
         $this->_data = array();
-        return $this;
-    }
-
-    /**
-     * Insert a row into the rowset
-     *
-     * The row will be stored by it's identity_column if set or otherwise by it's object handle.
-     *
-     * @param  DatabaseRowInterface $row
-     * @return boolean    TRUE on success FALSE on failure
-     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
-     */
-    public function insert(ObjectHandlable $row)
-    {
-        if (!$row instanceof DatabaseRowInterface) {
-            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
-        }
-
-        $this->offsetSet($row);
-
-        return true;
-    }
-
-    /**
-     * Removes a row from the rowset
-     *
-     * The row will be removed based on it's identity_column if set or otherwise by it's object handle.
-     *
-     * @param  DatabaseRowInterface $row
-     * @return DatabaseRowsetAbstract
-     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
-     */
-    public function extract(ObjectHandlable $row)
-    {
-        if (!$row instanceof DatabaseRowInterface) {
-            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
-        }
-
-        if ($this->offsetExists($row)) {
-            $this->offsetUnset($row);
-        }
-
         return $this;
     }
 
@@ -332,48 +382,6 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
         if($row = $this->getIterator()->current()) {
             $row->setProperties($properties, $modified);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add rows to the rowset
-     *
-     * This function will either clone the row object, or create a new instance of the row object for each row being
-     * inserted. By default the row will be cloned.
-     *
-     * @param  array   $rows    An associative array of row data to be inserted.
-     * @param  string  $status  The row(s) status
-     * @return  DatabaseRowsetAbstract
-     * @see __construct
-     */
-    public function addRow(array $rows, $status = NULL)
-    {
-        if ($this->isConnected())
-        {
-            if ($this->_row_cloning)
-            {
-                $default = $this->getTable()->createRow()->setStatus($status);
-
-                foreach ($rows as $k => $data)
-                {
-                    $row = clone $default;
-                    $row->setProperties($data, $row->isNew());
-
-                    $this->insert($row);
-                }
-            }
-            else
-            {
-                foreach ($rows as $k => $data)
-                {
-                    $row = $this->getTable()->createRow()->setStatus($status);
-                    $row->setProperties($data, $row->isNew());
-
-                    $this->insert($row);
-                }
-            }
         }
 
         return $this;
