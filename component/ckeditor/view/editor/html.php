@@ -30,6 +30,7 @@ class ViewEditorHtml extends Library\ViewHtml
 			'contentsLangDirectiony' => $language->isRTL() ? 'rtl' : 'ltr',
 			'height' 				 => '',
 			'width'					 => '',
+            'removeButtons'			 => '',
             'options'  => array(
                 'autoheight'  => true,
                 'toolbar'     => $this->toolbar ? $this->toolbar : 'standard',
@@ -48,6 +49,10 @@ class ViewEditorHtml extends Library\ViewHtml
         $settings = clone $this->getConfig()->settings;
         $settings->editor_selector = 'editable-'.$this->id;
         $settings->options->toolbar = $this->toolbar ? $this->toolbar : 'standard';
+
+        if($this->removeButtons) {
+            $settings->removeButtons = $this->removeButtons;
+        }
 
 		$context->data->settings = $settings;
 
