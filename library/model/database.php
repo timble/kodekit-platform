@@ -84,7 +84,7 @@ class ModelDatabase extends ModelAbstract
      */
     protected function _actionCreate(ModelContext $context)
     {
-        return $this->getTable()->createRow();
+        return $this->getTable()->createRowset();
     }
 
     /**
