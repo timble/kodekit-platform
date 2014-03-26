@@ -113,7 +113,7 @@ class Translator extends Object implements TranslatorInterface
             throw new InvalidArgumentException('Choose method requires at least 2 strings to choose from');
         }
         
-        $choice = KTranslatorInflector::getPluralPosition($number, $this->_locale);
+        $choice = TranslatorInflector::getPluralPosition($number, $this->_locale);
         
         if ($choice > count($strings)-1) {
             $choice = count($strings)-1;
