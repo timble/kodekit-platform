@@ -81,7 +81,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
      *
      * @return ModelEntityInterface
      */
-    final public function fetch($filter =  null)
+    final public function fetch()
     {
         if(!isset($this->_entity))
         {
