@@ -186,7 +186,7 @@ class TranslationsGenerator
         // Particular case.
         if ($component == 'application')
         {
-            $directories['component'][] = NOOKU_PATH . '/library';
+            $locations['component'][] = NOOKU_PATH . '/library';
         }
 
         return $locations;
