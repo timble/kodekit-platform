@@ -9,20 +9,16 @@
 
 namespace Nooku\Script;
 
-use Symfony\Component\Yaml;
-
 class TranslationsStrategyYaml implements TranslationsStrategyInterface
 {
     public function dump($data)
     {
-        $dumper = new Yaml\Dumper();
-        return $dumper->dump($this->_getAssoc($data), 2);
+        return yaml_emit($this->_getAssoc($data));
     }
 
     public function parse($file)
     {
-        $parser = new Yaml\Parser();
-        return $parser->parse(file_get_contents($file));
+        return yaml_parse_file($file);
     }
 
     protected function _getAssoc($data)
