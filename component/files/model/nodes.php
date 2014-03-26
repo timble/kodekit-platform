@@ -30,7 +30,7 @@ class ModelNodes extends ModelAbstract
         parent::_initialize($config);
     }
 
-    public function _actionCreate(Library\ModelContext $context)
+    protected function _actionCreate(Library\ModelContext $context)
     {
         $identifier         = $this->getIdentifier()->toArray();
         $identifier['path'] = array('model', 'entity');
