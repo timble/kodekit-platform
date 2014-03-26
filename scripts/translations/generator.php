@@ -59,6 +59,15 @@ class TranslationsGenerator
         	foreach ($node->items as $item) {
         		$this->logNode($item->value);
         	}
+        } elseif ($node instanceof \PHPParser_Node_Expr_Ternary) {
+            $outcomes = array('if', 'else');
+            foreach ($outcomes as $outcome)
+            {
+                if ($node->{$outcome} instanceof \PHPParser_Node_Scalar)
+                {
+                    $this->logNode($node->{$outcome});
+                }
+            }
         } elseif ($node instanceof PHPParser_Node_Expr_Variable) {
             $this->errors[] = array(
                 'file' => $this->current_file,
