@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Model
  */
-abstract class ModelAbstract extends Object implements ModelInterface
+abstract class ModelAbstract extends Object implements ModelInterface, CommandCallbackDelegate
 {
     /**
      * A state object
@@ -168,6 +168,18 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
+     * Invoke a command handler
+     *
+     * @param string            $method   The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command)
+    {
+        return $this->$method($command);
+    }
+
+    /**
      * Set the model state values
      *
      * @param  array $values Set the state values
@@ -242,7 +254,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      * Get the total number of entities
      *
      * @param ModelContext $context A model context object
-     * @return string  The output of the view
+     * @return integer  The total number of entities
      */
     protected function _actionCount(ModelContext $context)
     {
