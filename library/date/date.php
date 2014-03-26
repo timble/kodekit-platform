@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class Date extends Object implements DateInterface
 {
     /**
+     * Translator object
+     *
+     * @var TranslatorInterface
+     */
+    private $__translator;
+
+    /**
      * The date object
      *
      * @var \DateTime
@@ -38,11 +45,15 @@ class Date extends Object implements DateInterface
             $config->timezone = new \DateTimeZone($config->timezone);
         }
 
+        //Set the translator
+        $this->__translator = $config->translator;
+
+        //Set the date
         $this->_date = new \DateTime($config->date, $config->timezone);
     }
     
     /**
-     * Initializes the options for the date object
+     * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
@@ -52,13 +63,14 @@ class Date extends Object implements DateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-        	'date'     => 'now',
-            'timezone' => date_default_timezone_get()
+            'date'       => 'now',
+            'timezone'   => date_default_timezone_get(),
+            'translator' => 'lib:translator'
         ));
     }
 
     /**
-     * Returns date formatted according to given format.
+     * Returns the date formatted according to given format.
      *
      * @param  string $format The format to use
      * @return string The formatted date
@@ -77,13 +89,13 @@ class Date extends Object implements DateInterface
      */
     public function humanize($period = 'second')
     {
+        $translator = $this->getTranslator();
+
         $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
         $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
         $now     = new \DateTime();
 
-        $translator = ObjectManager::getInstance()->getObject('translator');
-
-        if($now != $this)
+        if($now != $this->_date)
         {
             if($now->getTimestamp() > $this->getTimestamp())
             {
@@ -111,24 +123,25 @@ class Date extends Object implements DateInterface
                 $i          = $period_index;
             }
 
-            if($periods[$i] == 'day' && ($difference == 1 || $difference == 2))
+            if($periods[$i] == 'day' && $difference == 1)
             {
-                if($difference == 1) {
-                    $result = $translator->translate('Today');
-                } else {
-                    $result = $translator->translate($tense == 'ago' ? 'Yesterday' : 'Tomorrow');
-                }
+                // Since we got 1 by rounding it down and if it's less than 24 hours it would say x hours ago, this
+                // is yesterday
+                return $tense == 'ago' ? $translator->translate('Yesterday') : $translator->translate('Tomorrow');
             }
-            else
-            {
-                if($difference != 1) {
-                    $periods[$i] .= 's';
-                }
 
-                $result = sprintf($translator->translate('%d '.$periods[$i].' '.$tense), $difference);
-            }
+            $period        = $periods[$i];
+            $period_plural = $period . 's';
+
+            // We do not pass $period or $tense as parameters to replace because some languages use different words
+            // for them based on the time difference.
+            $result = $translator->choose(
+                                 array("{number} $period $tense", "{number} $period_plural $tense"),
+                                     $difference,
+                                     array('number' => $difference)
+            );
         }
-        else $result = $translator->translate('Now');
+        else $result = $translator->translate('Just now');
 
         return $result;
     }
@@ -137,7 +150,7 @@ class Date extends Object implements DateInterface
      * Alters the timestamp
      *
      * @param string $modify A date/time string
-     * @return Date Returns the KDate object for method chaining or FALSE on failure.
+     * @return Date Returns the Date object or FALSE on failure.
      */
     public function modify($modify)
     {
@@ -200,7 +213,7 @@ class Date extends Object implements DateInterface
     /**
      * Return time zone relative to given DateTime
      *
-     * @return \DateTimeZone or FALSE on failure.
+     * @return \DateTimeZone Returns a \DateTimeZone object or FALSE on failure.
      */
     public function getTimezone()
     {
@@ -243,6 +256,41 @@ class Date extends Object implements DateInterface
     }
 
     /**
+     * Gets the translator object
+     *
+     * @throws UnexpectedValueException
+     * @return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        if(!$this->__translator instanceof TranslatorInterface)
+        {
+            $this->__translator = $this->getObject($this->__translator);
+
+            if(!$this->__translator instanceof TranslatorInterface)
+            {
+                throw new UnexpectedValueException(
+                    'Translator: '.get_class($this->__translator).' does not implement TranslatorInterface'
+                );
+            }
+        }
+
+        return $this->__translator;
+    }
+
+    /**
+     * Sets the translator object
+     *
+     * @param  TranslatorInterface $translator A translator object
+     * @return Date
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->__translator = $translator;
+        return $this;
+    }
+
+    /**
      * Translates day and month names.
      *
      * @param array $matches Matched elements of preg_replace_callback.
@@ -250,24 +298,25 @@ class Date extends Object implements DateInterface
      */
     protected function _translate($matches)
     {
-        $translator = ObjectManager::getInstance()->getObject('translator');
+        $replacement = '';
+        $translator = $this->getTranslator();
 
-        switch ($matches[0]) 
+        switch ($matches[0])
         {
             case 'D':
-                $replacement = $translator->translate(strtoupper(parent::format('D')));
+                $replacement = $translator->translate(strtoupper($this->_date->format('D')));
                 break;
 
             case 'l':
-                $replacement = $translator->translate(strtoupper(parent::format('l')));
+                $replacement = $translator->translate(strtoupper($this->_date->format('l')));
                 break;
 
             case 'F':
-                $replacement = $translator->translate(strtoupper(parent::format('F')).'_SHORT');
+                $replacement = $translator->translate(strtoupper($this->_date->format('F')));
                 break;
 
             case 'M':
-                $replacement = $translator->translate(strtoupper(parent::format('F')));
+                $replacement = $translator->translate(strtoupper($this->_date->format('F').'_SHORT'));
                 break;
         }
 
