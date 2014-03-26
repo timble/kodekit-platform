@@ -35,6 +35,6 @@ class TranslationsStrategyYaml implements TranslationsStrategyInterface
 
     public function getFileExtension()
     {
-        return 'yml';
+        return 'yaml';
     }
 }
