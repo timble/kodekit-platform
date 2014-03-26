@@ -42,8 +42,9 @@ class Bootstrapper extends Library\ObjectBootstrapperComponent
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'directory'  => '',
-            'aliases'    => array('translator' => 'com:application.translator')
+            'directory' => '',
+            'aliases'   => array('translator' => 'com:application.translator'),
+            'configs'   => array('lib:date' => array('translator' => 'translator'))
         ));
 
         parent::_initialize($config);
