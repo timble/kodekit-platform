@@ -134,7 +134,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      * @param  	string 	$name  The state name.
      * @param  	mixed  	$value The state value.
      *
-*@return  ModelAbstract
+     * @return  ModelAbstract
      */
     public function set($name, $value = null)
     {
@@ -283,7 +283,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function getProperty($name, $property)
     {
-        $value = null;
+        $result = null;
         if($this->has($name))
         {
             if(isset($this->_data[$name]->$property)) {
@@ -291,7 +291,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             }
         }
 
-        return $value;
+        return $result;
     }
 
     /**
