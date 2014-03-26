@@ -123,7 +123,7 @@ puphpet::ini { 'yaml':
 }
 
 # Install Xdebug but disable it by default since it's super slow
-file { '/etc/php5/cli/conf.d/20-xdebug.ini':
+file { '/etc/php5/conf.d/20-xdebug.ini':
   ensure => absent,
   notify  => Service['php5-fpm'],
   require => [Class['nginx'], Class['php']],
