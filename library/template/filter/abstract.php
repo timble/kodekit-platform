@@ -44,7 +44,6 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
         $this->setTemplate($config->template);
 
         $this->_priority = $config->priority;
-        $this->_template = $config->template;
     }
 
     /**
@@ -53,13 +52,12 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'template' => null,
-            'priority' => self::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_NORMAL
         ));
 
         parent::_initialize($config);
@@ -113,7 +111,8 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Set the template object
      *
-     * @return  TemplateInterface $template	The template object
+     * @param KTemplateInterface $template The template object
+     * @return TemplateFilterInterface $template The template object
      */
     public function setTemplate(TemplateInterface $template)
     {
@@ -137,9 +136,11 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
 
             preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-            if (is_array($attr)) {
+            if (is_array($attr))
+            {
                 $numPairs = count($attr[1]);
-                for ($i = 0; $i < $numPairs; $i++) {
+                for ($i = 0; $i < $numPairs; $i++)
+                {
                     $result[$attr[1][$i]] = $attr[2][$i];
                 }
             }
@@ -168,6 +169,12 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
             {
                 if (is_array($item)) {
                     $item = implode(' ', $item);
+                }
+
+                if (is_bool($item))
+                {
+                    if ($item === false) continue;
+                    $item = $key;
                 }
 
                 $output[] = $key . '="' . str_replace('"', '&quot;', $item) . '"';
