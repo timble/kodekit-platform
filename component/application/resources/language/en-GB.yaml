@@ -1,0 +1,36 @@
+# Nooku Framework - http://www.nooku.org
+#
+# @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license	    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link		    git://git.assembla.com/nooku-framework.git for the canonical source repository
+#
+
+Error: Error
+An error has occurred: An error has occurred
+Call stack: Call stack
+Function: Function
+File: File
+Line: Line
+Locked by {user} {date}: Locked by {user} {date}
+Today: Today
+Yesterday: Yesterday
+Tomorrow: Tomorrow
+Now: Now
+Loading...: Loading...
+DATE_FORMAT_LC1: DATE_FORMAT_LC1
+Never: Never
+Go: Go
+Reset: Reset
+Click to sort by this column: Click to sort by this column
+Enabled: Enabled
+Disabled: Disabled
+Disable Item: Disable Item
+Enable Item: Enable Item
+Public: Public
+Registered: Registered
+Published: Published
+Draft: Draft
+Select Time Zone: Select Time Zone
+Display NUM: Display NUM
+Page: Page
+of: of
