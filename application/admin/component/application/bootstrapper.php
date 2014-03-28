@@ -33,7 +33,7 @@ class ApplicationBootstrapper extends Application\Bootstrapper
              'configs' => array(
                  'com:application.translator' => array(
                      'options' => array(
-                         'search_paths' => array(
+                         'sources' => array(
                              JPATH_ROOT,
                              JPATH_BASE)))
              )
