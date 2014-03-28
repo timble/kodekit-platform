@@ -36,7 +36,8 @@ class ModelThumbnails extends Library\ModelDatabase
 
     public function getContainer()
     {
-        if (!isset($this->_container)) {
+        if (!isset($this->_container))
+        {
             //Set the container
             $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->fetch();
 
