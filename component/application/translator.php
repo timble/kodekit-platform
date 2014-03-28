@@ -201,7 +201,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
         foreach ($locales as $locale)
         {
-            $candidate = $this->_getTranslationFile($component, $path, $locale);
+            $candidate = $this->_getTranslationsFile($component, $path, $locale);
 
             if (file_exists($candidate))
             {
@@ -222,7 +222,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      *
      * @return string The translations file.
      */
-    protected function _getTranslationFile($component, $path, $locale)
+    protected function _getTranslationsFile($component, $path, $locale)
     {
         $folder = $this->_getTranslationsFolder($component, $path, $locale);
         $file   = $locale . '.yaml';
