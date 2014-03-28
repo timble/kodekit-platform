@@ -62,7 +62,7 @@ interface TranslatorInterface extends Library\TranslatorInterface
     /**
      * Translations parser.
      *
-     * @param string $file The file path.
+     * @param string $file The translations file.
      *
      * @return array|null Associative array containing the translations, null if not parsed.
      */
