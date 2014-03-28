@@ -28,11 +28,11 @@ interface TranslatorCatalogueInterface extends Library\TranslatorCatalogueInterf
     public function import($translations, $override = false);
 
     /**
-     * Tells if a translation key is found in the catalogue.
+     * Tells if the catalogue contains a given string.
      *
-     * @param string $key The translation key.
+     * @param string $string The string.
      *
      * @return bool True if found, false otherwise.
      */
-    public function hasKey($key);
+    public function hasString($string);
 }
