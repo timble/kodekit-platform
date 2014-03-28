@@ -54,7 +54,7 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
      * @param  string $basepath  The base path
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $basepath = null)
+    public function locate($class, $classpath = null)
 	{
         foreach($this->getNamespaces() as $namespace => $basepath)
         {
