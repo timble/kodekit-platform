@@ -74,14 +74,14 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $row = $this->getObject('com:users.model.users')
+        $entity = $this->getObject('com:users.model.users')
                     ->email($context->request->data->get('email', 'email'))
                     ->fetch();
 
-        if (!$row->isNew())
+        if (!$entity->isNew())
         {
-            $context->row = $row;
-            $result       = true;
+            $context->entity = $entity;
+            $result          = true;
         }
 
         return $result;
@@ -106,10 +106,10 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $row   = $context->row;
+        $entity   = $context->entity;
 
         // Set the password as resettable and keep a copy of the token for further use.
-        if ($token = $row->getPassword()->setReset())
+        if ($token = $entity->getPassword()->setReset())
         {
             $context->token = $token;
             $result         = true;

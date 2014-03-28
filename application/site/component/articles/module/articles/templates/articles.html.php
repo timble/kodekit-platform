@@ -15,7 +15,7 @@
 <?php foreach ($articles as $article): ?>
 <?php echo helper('com:articles.article.render',
     array(
-        'row'              => $article,
+        'entity'              => $article,
         'show_create_date' => false,
         'show_modify_date' => false,
         'show_images'      => false,

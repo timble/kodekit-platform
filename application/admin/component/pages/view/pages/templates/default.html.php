@@ -64,10 +64,10 @@
                     </td>
                 <? endif ?>
                 <td align="center">
-                    <?= helper('grid.checkbox', array('row' => $page)); ?>
+                    <?= helper('grid.checkbox', array('entity' => $page)); ?>
                 </td>
                 <td align="center">
-                    <?= helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('entity' => $page, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?
@@ -96,7 +96,7 @@
                     <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= helper('grid.order', array('row' => $page, 'total' => $total)) ?>
+                    <?= helper('grid.order', array('entity' => $page, 'total' => $total)) ?>
                 </td>
                 <td>
                     <?= $page->getDescription() ?>

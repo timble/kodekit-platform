@@ -28,7 +28,7 @@
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
         <h1 id="title" contenteditable="<?= object('dispatcher')->getController()->canEdit() ? 'true':'false';?>"><?= $article->title ?></h1>
-        <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <?= helper('date.timestamp', array('entity' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
             <span class="label label-info"><?= translate('Unpublished') ?></span>
         <? endif ?>
@@ -93,7 +93,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= translate('Category'); ?></label>
             <div class="controls">
-                <?= helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
+                <?= helper('com:categories.radiolist.categories', array('entity' =>  $article, 'uncategorised' => 'true')) ?>
             </div>
         </div>
     </fieldset>

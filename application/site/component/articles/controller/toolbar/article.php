@@ -33,7 +33,7 @@ class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionba
         {
             $article = $controller->getModel()->fetch();
             $route   = $controller->getView()->getTemplate()->getHelper('route')->article(
-                array('row' => $article, 'layout' => 'form'
+                array('entity' => $article, 'layout' => 'form'
             ));
 
             $this->addCommand('edit', array('href'  => (string) $route));

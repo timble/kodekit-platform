@@ -29,7 +29,7 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
                     'show_modify_date' => $config->parameters->get('show_modify_date', false)
                 ));
 
-        $article = $config->row;
+        $article = $config->entity;
 
         $html = array();
 

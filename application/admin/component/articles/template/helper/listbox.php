@@ -46,11 +46,11 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->row instanceof ArticlesModelEntityArticle) {
+        if (!$config->entity instanceof ArticlesModelEntityArticle) {
             throw new \InvalidArgumentException('The entity is missing.');
         }
 
-        $article = $config->row;
+        $article = $config->entity;
 
         $config->append(array(
             'name'     => 'order',

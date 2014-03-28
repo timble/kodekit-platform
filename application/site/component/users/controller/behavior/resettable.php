@@ -82,13 +82,13 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 'link'      => array(array('view' => 'user'))));
 
             if ($page) {
-                $token = $context->token;
-                $row   = $context->row;
+                $token  = $context->token;
+                $entity = $context->entity;
 
                 $url                  = $page->getLink();
                 $url->query['layout'] = 'password';
                 $url->query['token']  = $token;
-                $url->query['uuid']   = $row->uuid;
+                $url->query['uuid']   = $entity->uuid;
 
                 // TODO: This URL needs to be routed using the site app router.
                 $this->getObject('application')->getRouter()->build($url);
@@ -103,7 +103,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
                 $message = $url;
 
-                if ($row->notify(array('subject' => $subject, 'message' => $message))) {
+                if ($entity->notify(array('subject' => $subject, 'message' => $message))) {
                     $message = array(
                         'text' => \JText::_('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
                         'type' => 'success');

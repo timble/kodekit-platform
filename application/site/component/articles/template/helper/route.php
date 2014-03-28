@@ -26,7 +26,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             'format' => 'html'
         ));
 
-        $article = $config->row;
+        $article = $config->entity;
 
         $needles   = array();
         $needles[] = array('view' => 'article', 'id' => $article->id);
@@ -58,7 +58,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             'layout' => 'table'
         ));
 
-        $category = $config->row;
+        $category = $config->entity;
 
         $needles = array(
             array('view' => 'category', 'id' => $category->id),

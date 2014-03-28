@@ -22,7 +22,7 @@
         </div>
 	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
-	    <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	    <?= helper('date.timestamp', array('entity' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
 	    <span class="label label-info"><?= translate('Unpublished') ?></span>
 	    <? endif ?>
@@ -55,5 +55,5 @@
 </article>
 
 <? if($article->id && $params->get('commentable')) : ?>
-    <?= object('com:articles.controller.comment')->row($article->id)->sort('created_on')->render(array('row' => $article));?>
+    <?= object('com:articles.controller.comment')->row($article->id)->sort('created_on')->render(array('entity' => $article));?>
 <? endif ?>

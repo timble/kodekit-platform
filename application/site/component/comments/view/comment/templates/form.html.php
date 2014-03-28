@@ -8,7 +8,7 @@
  */
 ?>
 
-<form action="<?= helper('com:comments.route.comment', array('row' => $row)) ?>" method="post">
+<form action="<?= helper('com:comments.route.comment', array('entity' => $row)) ?>" method="post">
     <input type="hidden" name="row" value="<?= $state->row ?>" />
 
     <?= object('com:ckeditor.controller.editor')->render(

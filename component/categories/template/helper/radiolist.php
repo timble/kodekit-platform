@@ -24,17 +24,17 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
         $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'          => 'categories_category_id',
-            'row'           => '',
+            'entity'           => '',
             'uncategorised' => false,
             'max_depth'     => '9',
         ))->append(array(
-            'selected'      => $config->row->{$config->name},
+            'selected'      => $config->entity->{$config->name},
         ))->append(array(
             'filter' 	=> array(
                 'sort'      => 'title',
                 'parent'    => null,
                 'published' => null,
-                'table'     => $config->row->getTable()->getBase()
+                'table'     => $config->entity->getTable()->getBase()
             ),
         ));
 
