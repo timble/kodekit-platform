@@ -357,6 +357,16 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     }
 
     /**
+     * Get a new iterator
+     *
+     * @return  \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator(array($this));
+    }
+
+    /**
      * Checks if the entity is new or not
      *
      * @return bool

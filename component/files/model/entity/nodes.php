@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelEntityNodes extends Library\ModelEntityCollection
+class ModelEntityNodes extends Library\ModelEntityComposite
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

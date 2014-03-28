@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationModelEntityModules extends Library\ModelEntityCollection implements Library\ObjectMultiton
+class ApplicationModelEntityModules extends Library\ModelEntityComposite implements Library\ObjectMultiton
 {
 
 }

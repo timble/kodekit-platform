@@ -16,7 +16,7 @@ use Nooku\Component\Pages;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationModelEntityPages extends Library\ModelEntityCollection implements Library\ObjectMultiton
+class ApplicationModelEntityPages extends Library\ModelEntityComposite implements Library\ObjectMultiton
 {
     protected $_active;
     protected $_home;

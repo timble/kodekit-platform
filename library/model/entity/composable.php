@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Traversable Model Entity Interface
+ * Composable Model Entity Interface
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Model
  */
-interface ModelEntityTraversable
+interface ModelEntityComposable
 {
     /**
      * Find an entity in the collection based on a needle
@@ -35,7 +35,7 @@ interface ModelEntityTraversable
      *
      * @param   array   $properties The entity properties
      * @param   string  $status     The entity status
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function create(array $properties = array(), $status = null);
 
@@ -56,7 +56,7 @@ interface ModelEntityTraversable
      * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
      *
      * @param  ModelEntityInterface $entity
-     * @return ModelEntityCollection
+     * @return ModelEntityComposite
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      */
     public function remove(ObjectHandlable $entity);

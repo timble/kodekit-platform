@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Model Entity Collection
+ * Model Entity Composite
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Model
  */
-class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, ModelEntityTraversable
+class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, ModelEntityComposable
 {
     /**
      * Name of the identity key in the collection
@@ -42,7 +42,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * Constructor
      *
      * @param ObjectConfig  $config  An optional ObjectConfig object with configuration options
-     * @return ModelEntityCollection
+     * @return ModelEntityComposite
      */
     public function __construct(ObjectConfig $config)
     {
@@ -113,7 +113,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      *
      * @param  ModelEntityInterface $entity
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
-     * @return ModelEntityCollection
+     * @return ModelEntityComposite
      */
     public function remove(ObjectHandlable $entity)
     {
@@ -148,7 +148,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      *
      * @param   array   $properties The entity properties
      * @param   string  $status     The entity status
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function create(array $properties = array(), $status = null)
     {
@@ -199,7 +199,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * This functions accepts either a know position or associative array of property/value pairs
      *
      * @param   string|array  $needle The position or the key or an associative array of column data to match
-     * @return  ModelEntityCollection Returns a collection if successful. Otherwise NULL.
+     * @return  ModelEntityComposite Returns a collection if successful. Otherwise NULL.
      */
     public function find($needle)
     {
@@ -284,7 +284,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
     /**
      * Reset the collection
      *
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function reset()
     {
@@ -324,7 +324,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * @param   string  $name       The property name.
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function setProperty($name, $value, $modified = true)
     {
@@ -355,7 +355,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * Remove a property
      *
      * @param   string  $name The property name.
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function removeProperty($name)
     {
@@ -388,7 +388,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      *
      * @param   mixed   $data        Either and associative array, an object or a ModelEntityInterface
      * @param   boolean $modified If TRUE, update the modified information for each column being set.
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function setProperties($properties, $modified = true)
     {
@@ -424,7 +424,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * Set the status
      *
      * @param   string|null  $status The status value or NULL to reset the status
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function setStatus($status)
     {
@@ -455,7 +455,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * Set the status message
      *
      * @param   string $message The status message
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function setStatusMessage($message)
     {
@@ -566,7 +566,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
      * Remove a property
      *
      * @param   string  $property The property name.
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function __unset($property)
     {

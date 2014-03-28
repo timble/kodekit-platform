@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationModelEntityLanguages extends Library\ModelEntityCollection implements Library\ObjectMultiton
+class ApplicationModelEntityLanguages extends Library\ModelEntityComposite implements Library\ObjectMultiton
 {
     protected $_active;
     protected $_primary;

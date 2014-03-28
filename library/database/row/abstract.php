@@ -407,6 +407,16 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
+     * Get a new iterator
+     *
+     * @return  \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator(array($this));
+    }
+
+    /**
      * Method to get a table object
      *
      * Function catches DatabaseTableExceptions that are thrown for tables that

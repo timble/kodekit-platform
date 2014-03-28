@@ -35,7 +35,7 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
      *
      * @param   array   $properties The entity properties
      * @param   string  $status     The entity status
-     * @return  ModelEntityCollection
+     * @return  ModelEntityComposite
      */
     public function create(array $properties = array(), $status = null);
 

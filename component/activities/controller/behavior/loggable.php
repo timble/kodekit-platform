@@ -64,7 +64,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
             {
                 $entities = array();
 
-                if (!$entity instanceof Library\ModelEntityTraversable) {
+                if (!$entity instanceof Library\ModelEntityComposable) {
                     $entities[] = $entity;
                 } else {
                     $entities = $entity;
