@@ -62,7 +62,7 @@ class ModelEntityCollection extends ObjectSet implements ModelEntityInterface, M
         if (!empty($config->data))
         {
             foreach($config->data->toArray() as $properties) {
-                $this->create($properties,$config->status);
+                $this->create($properties, $config->status);
             }
         }
     }
