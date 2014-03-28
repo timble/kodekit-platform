@@ -20,33 +20,67 @@ use Nooku\Library;
 class ModelEntityUser extends Library\ModelEntityRow
 {
     /**
-     * User role object.
+     * The User Role
      *
      * @var Library\ModelEntityInterface
      */
     protected $_role;
 
+    /**
+     * The User Groups
+     *
+     *  @var Library\ModelEntityInterface
+     */
     protected $_groups;
 
-    public function getProperty($name)
+    /**
+     * The user parameters
+     *
+     * @var \JParameter
+     */
+    protected $_parameters;
+
+    public function getPropertyTimezone()
     {
-        if ($name == 'params' && !$this->_data['params'] instanceof \JParameter)
-        {
-            $path = JPATH_APPLICATION . '/component/users/databases/rows';
-            $file = str_replace(' ', '_', strtolower((string) $this->getRole()->name));
-            $file = $path . '/' . $file . '.xml';
+        return $this->getParameters()->get('timezone');
+    }
 
-            if (!file_exists($file)) {
-                $file = $path . '/user.xml';
-            }
+    public function setPropertyTimezone($value)
+    {
+        $params = $this->getParameters();
 
-            $params = new \JParameter($this->_data['params']);
-            $params->loadSetupFile($file);
+        //Set the timezone in the parameters
+        $params->set('timezone', $value);
 
-            $this->_data['params'] = $params;
+        //Update the params property
+        $this->params = $params->toString();
+
+        return $value;
+    }
+
+    public function getPropertyLanguage()
+    {
+        return $this->getParameters()->get('language');
+    }
+
+    public function setPropertyLanguage($value)
+    {
+        $params = $this->getParameters();
+
+        //Set the timezone in the parameters
+        $params->set('language', $value);
+
+        //Update the params property
+        $this->params = $params->toString();
+    }
+
+    public function getParameters()
+    {
+        if (empty($this->_parameters)) {
+            $this->_parameters = new \JParameter($this->_data['params']);
         }
 
-        return parent::getProperty($name);
+        return $this->_parameters;
     }
 
     /**
@@ -117,17 +151,6 @@ class ModelEntityUser extends Library\ModelEntityRow
             $this->setStatus(self::STATUS_FAILED);
             $this->setStatusMessage('Invalid role');
             return false;
-        }
-
-        // Set parameters.
-        if ($this->isModified('params'))
-        {
-            $params = new \JParameter('');
-            $params->bind($this->_data['params']);
-            $this->params = $params->toString();
-            /*if(!$this->isNew() && $this->_data['params'] == $current->params->toString()) {
-                unset($this->_modified['params']);
-            }*/
         }
 
         // Clear role cache

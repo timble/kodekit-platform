@@ -74,7 +74,7 @@ class UserProvider extends Library\UserProvider
                 'password'   => $user->getPassword()->password,
                 'salt'       => $user->getPassword()->salt,
                 'enabled'    => $user->enabled,
-                'attributes' => $user->params->toArray(),
+                'attributes' => $user->getParameters()->toArray(),
                 'authentic'  => false
             );
 
