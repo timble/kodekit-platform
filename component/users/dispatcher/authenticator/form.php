@@ -38,7 +38,7 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
             if ($user->id)
             {
                 //Check user password
-                if (!$user->getPassword()->verify($password)) {
+                if (!$user->getPassword()->verifyPassword($password)) {
                     throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
                 }
 

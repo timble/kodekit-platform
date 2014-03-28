@@ -79,7 +79,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
             if (!$this->isNew())
             {
                 // Check if new and current hashes are the same.
-                if ($this->verify($password))
+                if ($this->verifyPassword($password))
                 {
                     $this->setStatus(self::STATUS_FAILED);
                     $this->setStatusMessage(\JText::_('New and old passwords are the same'));
@@ -106,12 +106,23 @@ class ModelEntityPassword extends Library\ModelEntityRow
     }
 
     /**
-     * Generates a random password.
+     * Generates a password hash
      *
      * @param int $length The length of the random password.
      * @return string The generated password.
      */
-    public function createRandom($length = null)
+    public function createHash($password)
+    {
+        return password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    /**
+     * Generates a password.
+     *
+     * @param int $length The length of the random password.
+     * @return string The generated password.
+     */
+    public function createPassword($length = null)
     {
         if (is_null($length))
         {
@@ -161,11 +172,6 @@ class ModelEntityPassword extends Library\ModelEntityRow
         return $return;
     }
 
-    public function createHash($password)
-    {
-        return password_hash($password, PASSWORD_BCRYPT);
-    }
-
     /**
      * Tests the current hash against a provided password.
      *
@@ -175,7 +181,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
      *
      * @return bool True if password matches the current hash, false otherwise.
      */
-    public function verify($password, $hash = null)
+    public function verifyPassword($password, $hash = null)
     {
         $result = false;
 
@@ -213,12 +219,12 @@ class ModelEntityPassword extends Library\ModelEntityRow
      *
      * @return mixed The plain text reset token, null if row is new.
      */
-    public function setReset()
+    public function resetPassword()
     {
         $token = null;
         if (!$this->isNew())
         {
-            $token       = $this->createRandom(32);
+            $token       = $this->createPassword(32);
             $this->reset = $this->createHash($token);
             $this->save();
         }

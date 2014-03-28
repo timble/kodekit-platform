@@ -95,7 +95,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $hash     = $password->reset;
         $token    = $context->request->data->get('token', $this->_filter);
 
-        if ($hash && ($password->verify($token, $hash))) {
+        if ($hash && ($password->verifyPassword($token, $hash))) {
             $result = true;
         }
 
