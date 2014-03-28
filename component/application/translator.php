@@ -85,14 +85,8 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     public function translate($string, array $parameters = array())
     {
-        $result = '';
-
-        if ($key = $this->getKey($string))
-        {
-            $catalogue = $this->getCatalogue();
-
-            $result = parent::translate($catalogue->hasKey($key) ? $catalogue->{$key} : $string, $parameters);
-        }
+        $catalogue = $this->getCatalogue();
+        $result    = parent::translate($catalogue->hasString($string) ? $catalogue->{$string} : $string, $parameters);
 
         return $result;
     }
@@ -121,22 +115,22 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
             return $this->translate($strings[0], $parameters);
         }
 
-        $key   = $this->getKey($strings[1]);
-        $found = null;
+        $string = null;
 
         while ($choice > 0)
         {
-            $looking_for = $key . ($choice === 1 ? '' : '_' . $choice);
-            if ($this->getCatalogue()->hasKey($looking_for))
+            $candidate = $strings[1] . ($choice === 1 ? '' : '_' . $choice);
+
+            if ($this->getCatalogue()->hasString($candidate))
             {
-                $found = $looking_for;
+                $string = $candidate;
                 break;
             }
 
             $choice--;
         }
 
-        return $this->translate($found ? $found : $strings[1], $parameters);
+        return $this->translate($string ? $string : $strings[1], $parameters);
     }
 
     /**
@@ -148,62 +142,37 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     public function isTranslatable($string)
     {
-        return $this->getCatalogue()->hasKey($this->getKey($string));
-    }
-
-    /**
-     * Translation key getter.
-     *
-     * @param string $string String to translate.
-     *
-     * @return string The translation key.
-     */
-    public function getKey($string)
-    {
-        // TODO: Just returning upper cased string for now, since current translation keys are upper cased.
-        return strtoupper($string);
+        return $this->getCatalogue()->hasString($string);
     }
 
     /**
      * @see TranslatorInterface::load()
      */
-    public function load($component, $subcomponent = null, $base_path = null)
+    public function load($component, $source = null)
     {
-        $signature = $component;
-
-        if ($subcomponent)
+        if (!isset($this->_loaded[$component]))
         {
-            $signature .= '.' . (string) $subcomponent;
-        }
-
-        if (!isset($this->_loaded[$signature]))
-        {
-            if ($base_path)
+            if ($source)
             {
                 // Use provided base path.
-                $paths = (array) $base_path;
+                $sources = (array) $source;
             }
-            else
+            elseif (!$sources = Library\ObjectConfig::unbox($this->getConfig()->options->sources))
             {
-                $paths = Library\ObjectConfig::unbox($this->getConfig()->options->search_paths);
-
-                if (empty($paths))
-                {
-                    throw new \RuntimeException('No search paths for looking for translation files');
-                }
+                throw new \RuntimeException('No sources for looking for translation files');
             }
 
-            foreach ($paths as $path)
+            foreach ($sources as $source)
             {
-                if (($file = $this->_findTranslations($signature,
-                        $path)) && ($translations = $this->parseTranslations($file)))
+                if (($file = $this->_findTranslations($component,
+                        $source)) && ($translations = yaml_parse_file($file)))
                 {
                     // Always override while importing through translator.
                     $this->getCatalogue()->import($translations, true);
                 }
             }
 
-            $this->_loaded[$signature] = true;
+            $this->_loaded[$component] = true;
         }
     }
 
@@ -212,12 +181,12 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      *
      * Returns a translation file given its signature.
      *
-     * @param string $signature A string representing a component or one of its subcomponents.
+     * @param string $component The component to look translations for.
      * @param string $path      The path to look for translation files.
      *
      * @return null|string The file path or null if a translation file wasn't found.
      */
-    protected function _findTranslations($signature, $path)
+    protected function _findTranslations($component, $path)
     {
         $file = null;
 
@@ -228,20 +197,11 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
         if ($fallback_locale && ($locale !== $fallback_locale)) $locales[] = $fallback_locale;
 
-        $parts = explode('.', $signature);
-
-        $string = $path . $this->_getTranslationsFolder($parts[0]) . '%s';
-
-        if (isset($parts[1]))
-        {
-            $string .= '.' . $parts[1];
-        }
-
-        $string .= '.ini';
+        $file = null;
 
         foreach ($locales as $locale)
         {
-            $candidate = sprintf($string, $locale);
+            $candidate = $this->_getTranslationFile($component, $path, $locale);
 
             if (file_exists($candidate))
             {
@@ -254,13 +214,32 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     }
 
     /**
+     * Translations file getter.
+     *
+     * @param string $component The component name.
+     * @param string $path      The base path.
+     * @param string $locale    The translations locale.
+     *
+     * @return string The translations file.
+     */
+    protected function _getTranslationFile($component, $path, $locale)
+    {
+        $folder = $this->_getTranslationsFolder($component, $path, $locale);
+        $file   = $locale . '.yaml';
+
+        return $path . $folder . $file;
+    }
+
+    /**
      * Translations folder getter.
      *
      * @param string $component The component name.
+     * @param string $path      The base path.
+     * @param string $locale    The translations locale.
      *
      * @return string The translations folder.
      */
-    protected function _getTranslationsFolder($component)
+    protected function _getTranslationsFolder($component, $path, $locale)
     {
         return "/component/{$component}/resources/language/";
     }
@@ -270,23 +249,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     public function parseTranslations($file)
     {
-        $result = false;
-
-        if ($content = @file_get_contents($file))
-        {
-            //Take off BOM if present in the ini file
-            if ($content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF")
-            {
-                $content = substr($content, 3);
-            }
-
-            // TODO: Review other formats for translation files to get rid of the JRegistry dependency.
-            $registry = new \JRegistry();
-            $registry->loadINI($content);
-            $result = $registry->toArray();
-        }
-
-        return $result;
+        return yaml_parse_file($file);
     }
 
     /**
