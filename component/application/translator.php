@@ -179,8 +179,6 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     /**
      * Translations finder.
      *
-     * Returns a translation file given its signature.
-     *
      * @param string $component The component to look translations for.
      * @param string $path      The path to look for translation files.
      *
