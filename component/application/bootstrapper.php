@@ -43,8 +43,7 @@ class Bootstrapper extends Library\ObjectBootstrapperComponent
     {
         $config->append(array(
             'directory' => '',
-            'aliases'   => array('translator' => 'com:application.translator'),
-            'configs'   => array('lib:date' => array('translator' => 'translator'))
+            'aliases'   => array('translator' => 'com:application.translator')
         ));
 
         parent::_initialize($config);
