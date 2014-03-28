@@ -65,7 +65,7 @@ class Date extends Object implements DateInterface
         $config->append(array(
             'date'       => 'now',
             'timezone'   => date_default_timezone_get(),
-            'translator' => 'lib:translator'
+            'translator' => 'translator'
         ));
     }
 
