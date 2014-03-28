@@ -35,10 +35,10 @@ class TranslatorCatalogue extends Library\TranslatorCatalogue implements Transla
     }
 
     /**
-     * @see TranslatorCatalogueInterface::hasKey()
+     * @see TranslatorCatalogueInterface::hasString()
      */
-    public function hasKey($key)
+    public function hasString($string)
     {
-        return isset($this->_data[$key]);
+        return isset($this->_data[$string]);
     }
 }
