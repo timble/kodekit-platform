@@ -162,19 +162,24 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     /**
      * Get a property
      *
+     * Method provides support for computed properties by calling an getProperty[CamelizedName] if it exists. The getter
+     * should return the computed value to get.
+     *
      * @param   string  $name The property name
      * @return  mixed   The property value.
      */
     public function getProperty($name)
     {
-        $getter = 'getProperty'.StringInflector::camelize($name);
-        if(method_exists($this, $getter)) {
-            $value = $this->$getter();
-        } else {
-            $value = parent::offsetGet($name);
+        //Handle computed properties
+        if(!$this->hasProperty($name))
+        {
+            $getter = 'getProperty'.StringInflector::camelize($name);
+            if(method_exists($this, $getter)) {
+                parent::offsetSet($name, $this->$getter());
+            }
         }
 
-        return $value;
+        return parent::offsetGet($name);
     }
 
     /**
@@ -182,6 +187,9 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      *
      * If the value is the same as the current value and the entity is loaded from the data store the value will not be
      * set. If the entity is new the value will be (re)set and marked as modified.
+     *
+     * Method provides support for computed properties by calling an setProperty[CamelizedName] if it exists. The setter
+     * should return the computed value to set.
      *
      * @param   string  $name       The property name.
      * @param   mixed   $value      The property value.
@@ -193,12 +201,13 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     {
         if (!array_key_exists($name, $this->_data) || ($this->_data[$name] != $value))
         {
+            //Handle computed properties
             $setter = 'setProperty'.StringInflector::camelize($name);
             if(method_exists($this, $setter)) {
-                $this->$setter($value);
-            } else {
-                parent::offsetSet($name, $value);
+                $value = $this->$setter($value);
             }
+
+            parent::offsetSet($name, $value);
 
             if($modified || $this->isNew()) {
                 $this->_modified[$name] = $name;
