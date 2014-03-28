@@ -44,7 +44,8 @@ class ModelFiles extends ModelNodes
         $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_count);
 
         $data = array();
-        foreach ($files as $file) {
+        foreach ($files as $file)
+        {
             $data[] = array(
                 'container' => $state->container,
                 'folder'    => $state->folder,
