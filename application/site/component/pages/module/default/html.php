@@ -21,7 +21,7 @@ class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
     protected function _actionRender(Library\ViewContext $context)
     {
         // Load language
-        $this->getObject('translator')->load($this->getIdentifier()->package, $this->module->name, JPATH_APPLICATION);
+        $this->getObject('translator')->load($this->getIdentifier()->package);
         return parent::_actionRender($context);
     }
 }
