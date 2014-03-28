@@ -49,8 +49,7 @@ class DatabaseTableModules extends Library\DatabaseTableAbstract
 		
 		$defaults['position']    = 'left';
 		$defaults['published']	 = 1;
-		$defaults['description'] = '';
-	     
+
 		return $defaults;
 	}
 }

@@ -22,8 +22,10 @@ class PagesViewModuleHtml extends Library\ViewHtml
         $model  = $this->getModel();
         $module = $model->fetch();
 
-        if ($this->getModel()->getState()->isUnique()) {
-            if ($module->isNew()) {
+        if ($this->getModel()->getState()->isUnique())
+        {
+            if ($module->isNew())
+            {
                 $module->application = $model->application;
                 $module->name        = $model->name;
             }
@@ -51,14 +53,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
                 ->application('site')->fetch();
         }
 
-        // Build path to module config file
-        $path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
-        $path .= '/component/' . $module->component . '/module/' . substr($module->name, 4) . '/config.xml';
-
-        $params = new \JParameter(null, $path);
-        $params->loadArray($module->params->toArray());
-
-        $context->data->params = $params;
+        $context->data->params = $module->getParameters();
 
         parent::_fetchData($context);
     }

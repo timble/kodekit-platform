@@ -22,7 +22,7 @@ class ModelEntityNode extends Library\ModelEntityAbstract
     /**
      * The file adapter
      *
-     * @var FilesAdapterLocalInterface
+     * @var AdapterInterface
      */
     protected $_adapter;
 
@@ -133,38 +133,37 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         return $context->result;
     }
 
-    public function getProperty($name)
+    public function getPropertyFullpath()
     {
-        if ($name == 'fullpath' && !isset($this->_data['fullpath'])) {
-            return $this->getFullpath();
-        }
+        return $this->_adapter->getRealPath();
+    }
 
-        if ($name == 'path') {
-            return trim(($this->folder ? $this->folder . '/' : '') . $this->name, '/\\');
-        }
+    public function getPropertyPath()
+    {
+        return trim(($this->folder ? $this->folder . '/' : '') . $this->name, '/\\');
+    }
 
-        if ($name == 'display_name' && empty($this->_data['display_name'])) {
-            return $this->name;
-        }
+    public function getPropertyDisplayName()
+    {
+        return $this->name;
+    }
 
-        if ($name == 'destination_path')
-        {
-            $folder = !empty($this->destination_folder) ? $this->destination_folder . '/' : (!empty($this->folder) ? $this->folder . '/' : '');
-            $name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
+    public function getPropertyDestinationPath()
+    {
+        $folder = !empty($this->destination_folder) ? $this->destination_folder . '/' : (!empty($this->folder) ? $this->folder . '/' : '');
+        $name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
 
-            return trim($folder . $name, '/\\');
-        }
+        return trim($folder . $name, '/\\');
+    }
 
-        if ($name == 'destination_fullpath') {
-            return $this->container->path . '/' . $this->destination_path;
-        }
+    public function getPropertyDestinationFullpath()
+    {
+        return $this->container->path . '/' . $this->destination_path;
+    }
 
-        if ($name == 'adapter') {
-            return $this->_adapter;
-        }
-
-
-        return parent::getProperty($name);
+    public function getPropertyAdapter()
+    {
+        return $this->_adapter;
     }
 
     public function setProperty($name, $value, $modified = true)
@@ -216,20 +215,14 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         return $this;
     }
 
-    public function setProperties($data, $modified = true)
+    public function isLockable()
     {
-        $result = parent::setProperties($data, $modified);
-
-        if (isset($data['container'])) {
-            $this->setAdapter();
-        }
-
-        return $result;
+        return false;
     }
 
-    public function getFullpath()
+    public function isNew()
     {
-        return $this->_adapter->getRealPath();
+        return empty($this->name) || !$this->_adapter->exists();
     }
 
     public function toArray()
@@ -246,15 +239,5 @@ class ModelEntityNode extends Library\ModelEntityAbstract
         $data['type']      = $this->getIdentifier()->name;
 
         return $data;
-    }
-
-    public function isLockable()
-    {
-        return false;
-    }
-
-    public function isNew()
-    {
-        return empty($this->name) || !$this->_adapter->exists();
     }
 }

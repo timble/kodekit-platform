@@ -50,65 +50,102 @@ class ModelEntityFile extends ModelEntityNode
 		return $context->result;
 	}
 
-	public function getProperty($name)
-	{
-		if (in_array($name, array('size', 'extension', 'modified_date', 'mimetype')))
+    public function getPropertyFilename()
+    {
+        return pathinfo($this->name, PATHINFO_FILENAME);
+    }
+
+    public function getPropertySize()
+    {
+        if($metadata = $this->_adapter->getMetadata())
         {
-			$metadata = $this->_adapter->getMetadata();
-			return $metadata && array_key_exists($name, $metadata) ? $metadata[$name] : false;
-		}
+            if(isset($metadata['size'])) {
+                return $metadata['size'];
+            }
+        }
 
-		if ($name == 'filename') {
-			return pathinfo($this->name, PATHINFO_FILENAME);
-		}
+        return false;
+    }
 
-		if ($name == 'metadata')
-		{
-			$metadata = $this->_adapter->getMetadata();
-			if ($this->isImage() && !empty($metadata))
-			{
-				$image = array(
-					'thumbnail' => $this->thumbnail,
-					'width'     => $this->width,
-					'height'    => $this->height
-				);
-				$metadata['image'] = $image;
-			}
-			return $metadata;
-		}
-
-		if (in_array($name, array('width', 'height', 'thumbnail')) && $this->isImage())
+    public function getPropertyExtension()
+    {
+        if($metadata = $this->_adapter->getMetadata())
         {
-			if ($name == 'thumbnail' && !empty($this->_data['thumbnail'])) {
-				return $this->_data['thumbnail'];
-			}
-			
-			return $this->getImageSize($name);
-		}
+            if(isset($metadata['extension'])) {
+                return $metadata['extension'];
+            }
+        }
 
-		return parent::getProperty($name);
-	}	
-	
-	/**
-	 * This method checks for computed properties as well
-	 * 
-	 * @param string $key
-	 */
-	public function hasProperty($property)
-	{
-		$result = parent::hasProperty($property);
-		
-		if (!$result) 
-		{
-			$var = $this->getProperty($property);
-			if (!empty($var)) {
-				$result = true;
-			}
-		}
-		
-		return $result;
-		
-	}
+        return false;
+    }
+
+    public function getPropertyModifiedDate()
+    {
+        if($metadata = $this->_adapter->getMetadata())
+        {
+            if(isset($metadata['modified_data'])) {
+                return $metadata['modified_data'];
+            }
+        }
+
+        return false;
+    }
+
+    public function getPropertyMimetype()
+    {
+        if($metadata = $this->_adapter->getMetadata())
+        {
+            if(isset($metadata['mimetype'])) {
+                return $metadata['mimetype'];
+            }
+        }
+
+        return false;
+    }
+
+    public function getPropertyWidth()
+    {
+        if($this->isImage())
+        {
+            $size = $this->_adapter->getImageSize();
+
+            if ($size !== false) {
+                return $size[0];
+            }
+        }
+
+        return false;
+    }
+
+    public function getPropertyHeight()
+    {
+        if($this->isImage())
+        {
+            $size = $this->_adapter->getImageSize();
+
+            if ($size !== false) {
+                return $size[1];
+            }
+        }
+
+        return false;
+    }
+
+    public function getPropertyMetadata()
+    {
+        $metadata = $this->_adapter->getMetadata();
+        if ($this->isImage() && !empty($metadata))
+        {
+            $image = array(
+                'width'     => $this->width,
+                'height'    => $this->height
+            );
+
+            $metadata['image'] = $image;
+        }
+
+        return $metadata;
+    }
 
     public function toArray()
     {
@@ -129,36 +166,5 @@ class ModelEntityFile extends ModelEntityNode
 	public function isImage()
 	{
 		return in_array(strtolower($this->extension), self::$image_extensions);
-	}
-
-	public function getImageSize($column)
-	{
-		$size = $this->_adapter->getImageSize();
-
-		if ($size === false) {
-			return false;
-		}
-
-		list($width, $height) = $size;
-
-		switch ($column)
-		{
-			case 'width':
-				return $width;
-			case 'height':
-				return $height;
-			case 'thumbnail':
-				if ($width < 200 && $height < 200) {
-					// go down to default case
-				}
-				else
-                {
-					$higher = $width > $height ? $width : $height;
-					$ratio = 200 / $higher;
-					return array_map('round', array('width' => $ratio*$width, 'height' => $ratio*$height));
-				}
-			default:
-				return array('width' => $width, 'height' => $height);
-		}
 	}
 }

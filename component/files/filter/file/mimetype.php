@@ -21,7 +21,7 @@ class FilterFileMimetype extends Library\FilterAbstract
 {
 	public function validate($entity)
 	{
-		$mimetypes = Library\ObjectConfig::unbox($entity->getContainer()->parameters->allowed_mimetypes);
+		$mimetypes = Library\ObjectConfig::unbox($entity->getContainer()->getParameters()->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{

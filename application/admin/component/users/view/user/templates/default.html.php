@@ -44,8 +44,12 @@
 				<div>
 				    <label for="params[timezone]"><?= translate('Time Zone') ?></label>
 				    <div>
-				        <?= helper('listbox.timezones',
-				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'select-timezone', 'style' => 'width:220px'))) ?>
+				        <?= helper('listbox.timezones', array(
+                            'name'     => 'timezone',
+                            'selected' => $user->timezone,
+                            'deselect' => true,
+                            'attribs'  => array('class' => 'select-timezone', 'style' => 'width:220px')
+                        )) ?>
 				    </div>
 				</div>
 			</fieldset>
@@ -77,7 +81,14 @@
 			</fieldset>
 			<fieldset>
 				<legend><?= translate('Language') ?></legend>
-				<?= $user->params->render('params') ?>
+                <div>
+                    <?= helper('listbox.languages', array(
+                        'name'     => 'language',
+                        'selected' => $user->language,
+                        'deselect' => true,
+                        'attribs'  => array('class' => 'select-language', 'style' => 'width:220px')
+                    )) ?>
+                </div>
 			</fieldset>
 		</div>
 	</div>

@@ -19,15 +19,6 @@ use Nooku\Library;
  */
 class ModelEntityRevision extends Library\ModelEntityRow
 {
-	public function getProperty($name)
-    {
-    	if($name == 'data' && is_string($this->_data['data'])) {
-			$this->_data['data'] = json_decode($this->_data['data'], true);
-		}
-
-    	return parent::getProperty($name);
-    }
-
     public function setStatus($status)
     {
         if($status == 'trashed') {

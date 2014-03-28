@@ -97,37 +97,37 @@ class ModelEntityAttachment extends Library\ModelEntityRow
         return $return;
     }
 
-    public function getProperty($name)
+    public function getPropertRelation()
     {
-        if ($name == 'relation' && !isset($this->relation))
-        {
-            $this->relation = $this->getObject('com:attachments.database.table.relations')
-                ->select(array('attachments_attachment_id' => $this->id), Library\Database::FETCH_ROW);
-        }
+        $relation = $this->getObject('com:attachments.database.table.relations')
+            ->select(array('attachments_attachment_id' => $this->id), Library\Database::FETCH_ROW);
 
-        if ($name == 'file' && !isset($this->file))
-        {
-            $this->file = $this->getObject('com:files.model.files')
-                ->container($this->container)
-                ->name($this->path)
-                ->fetch();
-        }
+        return $relation;
+    }
 
-        if ($name == 'thumbnail' && !isset($this->thumbnail) && $this->file)
-        {
-            $path            = pathinfo($this->path);
-            $path['dirname'] = $path['dirname'] === '.' ? '' : $path['dirname'] . '/';
+    public function getPropertyFile()
+    {
+        $file = $this->getObject('com:files.model.files')
+            ->container($this->container)
+            ->name($this->path)
+            ->fetch();
 
-            $thumbnail = $path['dirname'] . $path['filename'] . '_thumb.' . $path['extension'];
+        return $file;
+    }
 
-            $this->thumbnail = $thumbnail;
-        }
+    public function getPropertyThumbnail()
+    {
+        $path            = pathinfo($this->path);
+        $path['dirname'] = $path['dirname'] === '.' ? '' : $path['dirname'] . '/';
 
-        if ($name == 'thumbnail_fullpath' && $this->file) {
-            $this->thumbnail_fullpath = dirname($this->file->fullpath) . '/' . $this->thumbnail;
-        }
+        $thumbnail = $path['dirname'] . $path['filename'] . '_thumb.' . $path['extension'];
 
-        return parent::getProperty($name);
+        return $thumbnail;
+    }
+
+    public function getPropertyThumbnailFullpath()
+    {
+        return dirname($this->file->fullpath) . '/' . $this->thumbnail;
     }
 
     public function toArray()

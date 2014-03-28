@@ -26,34 +26,22 @@ class ModelEntityContainer extends Library\ModelEntityRow
      */
     protected $_parameters;
 
-    public function getProperty($name)
+    public function setPropertyPath($value)
     {
-        if ($name == 'path' && !empty($this->_data['path']))
-        {
-            $result = $this->_data['path'];
-            // Prepend with site root if it is a relative path
-            if (!preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
-                $result = JPATH_FILES . '/' . $result;
-            }
-
-            $result = rtrim(str_replace('\\', '/', $result), '\\');
-
-            return $result;
+        // Prepend with site root if it is a relative path
+        if (!preg_match('#^(?:[a-z]\:|~*/)#i', $value)) {
+            $value = JPATH_FILES . '/' . $value;
         }
 
-        if ($name == 'relative_path') {
-            return $this->_data['path'];
-        }
+        return rtrim(str_replace('\\', '/', $value), '\\');
+    }
 
-        if ($name == 'path_value') {
-            return $this->_data['path'];
-        }
+    public function getPropertyRelativePath()
+    {
+        $path = $this->path;
+        $root = str_replace('\\', '/', JPATH_FILES);
 
-        if ($name == 'parameters' && !is_object($this->_data['parameters'])) {
-            return $this->getParameters();
-        }
-
-        return parent::getProperty($name);
+        return str_replace($root.'/', '', $path);
     }
 
     public function getParameters()
@@ -67,30 +55,20 @@ class ModelEntityContainer extends Library\ModelEntityRow
         return $this->_parameters;
     }
 
-    public function toArray()
-    {
-        $data = parent::toArray();
-
-        $data['path']          = $this->path_value;
-        $data['parameters']    = $this->parameters->toArray();
-        $data['relative_path'] = $this->relative_path;
-
-        return $data;
-    }
-
-    public function getProperties($modified = false)
-    {
-        $data = parent::getProperties($modified);
-
-        if (isset($data['parameters'])) {
-            $data['parameters'] = $this->parameters->getProperties();
-        }
-
-        return $data;
-    }
-
     public function getAdapter($type, array $config = array())
     {
         return $this->getObject('com:files.adapter.' . $type, $config);
     }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+        $data['path']          = $this->relative_path;
+        $data['relative_path'] = $this->relative_path;
+        $data['parameters']    = $this->getParameters()->toArray();
+
+        return $data;
+    }
+
+
 }

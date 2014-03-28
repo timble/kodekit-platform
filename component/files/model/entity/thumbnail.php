@@ -56,7 +56,6 @@ class ModelEntityThumbnail extends Library\ModelEntityRow
     public function setThumbnailSize($size)
     {
         $this->_thumbnail_size = $size;
-
         return $this;
     }
 
@@ -115,11 +114,13 @@ class ModelEntityThumbnail extends Library\ModelEntityRow
                 $width  = $image_size->getWidth();
                 $height = $image_size->getHeight();
 
-                if ($width > $height) {
+                if ($width > $height)
+                {
                     $x = min($height*$ratio, $width);
                     $y = min($height, 1/$ratio*$x);
                 }
-                else {
+                else
+                {
                     $x = $width;
                     $y = 1/$ratio*$width;
                 }

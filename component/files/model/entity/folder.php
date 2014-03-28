@@ -58,13 +58,9 @@ class ModelEntityFolder extends ModelEntityNode
         return $context->result;
     }
 
-    public function getProperty($name)
+    public function getPropertyChildren()
     {
-        if ($name == 'children' && !isset($this->_data['children'])) {
-            $this->_data['children'] = $this->getObject('com:files.model.entity.folders');
-        }
-
-        return parent::getProperty($name);
+        return $this->getObject('com:files.model.entity.folders');
     }
 
     public function toArray()

@@ -19,9 +19,11 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $start    = $this->module->params->get('start_level');
-        $end      = $this->module->params->get('end_level');
-        $children = $this->module->params->get('show_children', 'active');
+        $params = $this->module->getParameters();
+
+        $start    = $params->get('start_level');
+        $end      = $params->get('end_level');
+        $children = $params->get('show_children', 'active');
         $pages    = $this->getObject('application.pages');
         $groups   = $this->getObject('user')->getGroups();
 
@@ -29,7 +31,7 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
         $groups[] = 0;
 
         $context->data->active = $pages->getActive();
-        $context->data->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
+        $context->data->pages  = $pages->find(array('pages_menu_id' => $params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
 
         foreach(clone $context->data->pages as $page)
         {
@@ -58,8 +60,8 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
             }
         }
 
-        $context->data->show_title = $this->module->params->get('show_title', false);
-        $context->data->class      = $this->module->params->get('class', 'nav');
+        $context->data->show_title = $params->get('show_title', false);
+        $context->data->class      = $params->get('class', 'nav');
 
         parent::_fetchData($context);
     }

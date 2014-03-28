@@ -42,8 +42,8 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
                 ->fetch();
 
 			$config->append(array(
-					'allowed_extensions'  => $container->parameters->allowed_extensions,
-					'allowed_mimetypes'   => $container->parameters->allowed_mimetypes
+					'allowed_extensions'  => $container->getParameters()->allowed_extensions,
+					'allowed_mimetypes'   => $container->getParameters()->allowed_mimetypes
 			));
 		}
 		

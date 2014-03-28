@@ -30,9 +30,9 @@ class UsersModuleLoginHtml extends PagesModuleDefaultHtml
     {
         $page   = $this->getObject('application.pages')->getActive();
 
-        $context->data->name          = $this->module->params->get('name');
-        $context->data->usesecure     = $this->module->params->get('usesecure');
-        $context->data->show_title    = $this->module->params->get('show_title', false);
+        $context->data->name          = $this->module->getParameters()->get('name');
+        $context->data->usesecure     = $this->module->getParameters()->get('usesecure');
+        $context->data->show_title    = $this->module->getParameters()->get('show_title', false);
 
         parent::_fetchData($context);
     }

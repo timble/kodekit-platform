@@ -19,110 +19,103 @@ use Nooku\Library;
  */
 class ModelEntityModule extends Library\ModelEntityRow
 {
-	/**
-     * Whitelist for keys to get from the xml manifest
+    /**
+     * The user parameters
      *
-     * @var array
+     * @var \JParameter
      */
-    protected static $_manifest_fields = array(
-    	'creationDate',
-        'author',
-        'copyright',
-        'authorEmail',
-        'authorUrl',
-        'version',
-        'description'
-    );
+    protected $_parameters;
 
-	/**
-	 * Get a value by key
-	 *
-	 * This method is specialized because of the magic property "pages" which is in a 1:n relation with modules
-	 *
-	 * @param   string  $property The key name.
-	 * @return  string  The corresponding value.
-	 */
-	public function getProperty($name)
-	{  
-	    if($name == 'title' && empty($this->_data['title']))
-	    {
-            if($this->manifest instanceof \SimpleXMLElement) {
-                $this->_data['title'] = $this->manifest->name;
-            } else {
-                 $this->_data['title'] = null;
-            }
-	    }
+	public function getPropertyTitle()
+	{
+        if($this->manifest instanceof \SimpleXMLElement) {
+             return $this->manifest->name;
+        }
 
-        if($name == 'identifier' && empty($this->_data['identifier']))
+        return null;
+    }
+
+    public function getPropertyDescription()
+    {
+        if($this->manifest instanceof \SimpleXMLElement) {
+            return $this->manifest->description;
+        }
+
+        return null;
+    }
+
+    public function getPropertyIdentifier()
+    {
+        $module  = substr( $this->name, 4);
+        $package = $this->component;
+
+        return $this->getIdentifier('com://site/'.$package.'.module.'.$module.'.html');
+    }
+
+    public function getPropertyAttribs()
+    {
+        return array();
+    }
+
+    public function getPropertyChrome()
+    {
+        return array();
+    }
+
+    public function getPropertyManifest()
+    {
+        $class = $this->getObject('manager')->getClass($this->identifier, false);
+        $path  = dirname($this->getObject('manager')->getClassLoader()->getPath($class, 'site'));
+        $file  = $path.'/'.basename($path).'.xml';
+
+        if(file_exists($file)) {
+            $result = simplexml_load_file($file);
+        } else {
+            $result = '';
+        }
+
+        return $result;
+    }
+
+    public function getPropertyPages()
+    {
+        if(!$this->isNew())
         {
-            $module  = substr( $this->name, 4);
-            $package = $this->component;
+            $table = $this->getObject('com:pages.database.table.modules_pages');
+            $query = $this->getObject('lib:database.query.select')
+                ->columns('pages_page_id')
+                ->where('pages_module_id = :id')
+                ->bind(array('id' => $this->id));
 
-            $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$module.'.html');
-        }
+            $pages = $table->select($query, Library\Database::FETCH_FIELD_LIST);
 
-        if($name == 'attribs' && empty($this->_data['attribs'])) {
-            $this->_data['attribs'] = array();
-        }
+            if(count($pages) == 1 && $pages[0] == 0) {
+                $pages = 'all';
+            }
 
-        if($name == 'chrome' && empty($this->_data['chrome'])) {
-            $this->_data['chrome'] = array();
-        }
-
-	    if($name == 'manifest' && empty($this->_data['manifest']))
-		{
-            $class = $this->getObject('manager')->getClass($this->identifier);
-            $path  = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
-            $file  = $path.'/'.basename($path).'.xml';
-
-            if(file_exists($file)) {
-		        $this->_data['manifest'] = simplexml_load_file($file);
-            } else {
-                $this->_data['manifest'] = '';
+            if(!$pages) {
+                $pages = 'none';
             }
         }
+        else $pages = 'all';
 
-		if(in_array($name, self::$_manifest_fields) && empty($this->_data[$name])) {
-            $this->_data[$name] = isset($this->manifest->{$name}) ? $this->manifest->{$name} : '';
-        }
-        
-	    if($name == 'params' && !($this->_data['params']) instanceof \JParameter)
+        return $pages;
+    }
+
+    public function getParameters()
+    {
+        if (empty($this->_parameters))
         {
-            $class = $this->getObject('manager')->getClass($this->identifier);
+            $class = $this->getObject('manager')->getClass($this->identifier, false);
             $path = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
             $file = $path.'/config.xml';
 
-	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'module' );
+            $this->_parameters = new \JParameter( $this->params, $file, 'module' );
         }
 
-	    if($name == 'pages' && !isset($this->_data['pages']))
-		{
-		    if(!$this->isNew()) 
-		    {
-		        $table = $this->getObject('com:pages.database.table.modules_pages');
-				$query = $this->getObject('lib:database.query.select')
-                    ->columns('pages_page_id')
-                    ->where('pages_module_id = :id')
-                    ->bind(array('id' => $this->id));
-                
-				$pages = $table->select($query, Library\Database::FETCH_FIELD_LIST);
-				
-				if(count($pages) == 1 && $pages[0] == 0) {
-		            $pages = 'all';
-				}
-				
-				if(!$pages) {
-				    $pages = 'none';
-				}
-		    }
-		    else $pages = 'all';
-			    
-		    $this->_data['pages'] = $pages;
-		}
-		
-		return parent::getProperty($name);
-	}
-	
+        return $this->_parameters;
+    }
+
 	/**
 	 * Saves the row to the database.
 	 *
@@ -175,13 +168,8 @@ class ModelEntityModule extends Library\ModelEntityRow
     {
         $data = parent::toArray();
 
-        //Include the manifest fields
-        foreach(self::$_manifest_fields as $field) {
-           $data[$field] = (string) $this->$field;
-        }
-
-        $data['title']  = (string) $this->title;
-        $data['params'] = $this->params->toArray();
+        $data['title']       = (string) $this->title;
+        $date['description'] = (string) $this->description;
         return $data;
     }
 }
