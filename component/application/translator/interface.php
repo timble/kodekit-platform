@@ -36,15 +36,6 @@ interface TranslatorInterface extends Library\TranslatorInterface
     public function getCatalogue();
 
     /**
-     * Key getter.
-     *
-     * @param $string The translation string.
-     *
-     * @return string The string key.
-     */
-    public function getKey($string);
-
-    /**
      * Fallback locale setter.
      *
      * @param string $locale The fallback locale.
