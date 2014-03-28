@@ -127,7 +127,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             }
         }
 
-        $this->setTranslator($config->translator);
+        $this->_translator = $config->translator;
 
         //Reset the stack
         $this->_stack = array();
@@ -144,7 +144,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'translator' => null,
+            'translator' => 'translator',
             'data'       => array(),
             'view'       => null,
             'filters'    => array(),
@@ -468,32 +468,23 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function getTranslator()
     {
+        if(!$this->_translator instanceof TranslatorInterface)
+        {
+            $this->setTranslator($this->getObject($this->_translator));
+        }
+
         return $this->_translator;
     }
 
     /**
      * Sets the translator object
      *
-     * @param string|TranslatorInterface $translator A translator object or identifier
-     * @return KTemplateInterface
+     * @param TranslatorInterface $translator A translator object or identifier
+     * @return TemplateInterface
      */
-    public function setTranslator($translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
-        if (!$translator instanceof TranslatorInterface)
-        {
-            if (empty($translator) || (is_string($translator) && strpos($translator, '.') === false && $translator !== 'translator'))
-            {
-                $identifier = $this->getIdentifier()->toArray();
-                $identifier['path'] = array();
-                $identifier['name'] = 'translator';
-            }
-            else $identifier = $this->getIdentifier($translator);
-
-            $translator = $this->getObject($identifier);
-        }
-
         $this->_translator = $translator;
-
         return $this;
     }
 
