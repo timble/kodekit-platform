@@ -124,7 +124,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $view      = $query['view'];
         $layout    = isset($query['layout']) ? $query['layout'] : 'default';
 
-        $path = $this->getObject('manager')->getClassLoader()->getBasepath('site') . '/component/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
+        $path = $this->getObject('manager')->getClassLoader()->getBasepath('site') . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
 
         $xml = \JFactory::getXMLParser('simple');
         if (file_exists($path)) {
@@ -136,7 +136,8 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     protected function _setLinkBeforeSave(Library\DatabaseContext $context)
     {
-        if ($this->isModified('link_url')) {
+        if ($this->isModified('link_url'))
+        {
             // Set link.
             parse_str($this->link_url, $query);
 

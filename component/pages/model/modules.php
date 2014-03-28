@@ -100,7 +100,8 @@ class ModelModules extends Library\ModelDatabase
      */
     protected function _actionCreate(Library\ModelContext $context)
     {
-        if (!isset($this->_data)) {
+        if (!isset($this->_data))
+        {
             $this->_data = parent::_actionCreate($context);
 
             if ($this->_data->isNew()) {
@@ -134,7 +135,7 @@ class ModelModules extends Library\ModelDatabase
         {
             $modules  = array();
             $app_path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
-            $com_path = $app_path . '/component';
+            $com_path = $app_path;
 
             foreach (new \DirectoryIterator($com_path) as $component)
             {
