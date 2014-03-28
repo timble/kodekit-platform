@@ -28,10 +28,10 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
         }
 
         $files = array();
-        foreach ($context->result as $row)
+        foreach ($context->result as $entity)
         {
-            if ($row->getIdentifier()->name === 'file') {
-                $files[] = $row->name;
+            if ($entity->getIdentifier()->name === 'file') {
+                $files[] = $entity->name;
             }
         }
 
@@ -50,15 +50,15 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
 
         foreach ($thumbnails as $thumbnail)
         {
-            if ($row = $context->result->find($thumbnail->filename)) {
-                $row->thumbnail = $thumbnail->thumbnail;
+            if ($entity = $context->result->find($thumbnail->filename)) {
+                $entity->thumbnail = $thumbnail->thumbnail;
             }
         }
 
-        foreach ($context->result as $row)
+        foreach ($context->result as $entity)
         {
-            if (!$row->thumbnail) {
-                $row->thumbnail = null;
+            if (!$entity->thumbnail) {
+                $entity->thumbnail = null;
             }
         }
     }

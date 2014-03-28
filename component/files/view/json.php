@@ -21,13 +21,13 @@ class ViewJson extends Library\ViewJson
 {
     protected function _getItem()
     {
-        $row  = $this->getModel()->fetch();
+        $entity  = $this->getModel()->fetch();
         $data = parent::_getItem();
 
-        $status = $row->getStatus() !== self::STATUS_FAILED;
+        $status = $entity->getStatus() !== self::STATUS_FAILED;
 		$data['status'] = $status;
         if ($data === false){
-            $data['error'] = $row->getStatusMessage();
+            $data['error'] = $entity->getStatusMessage();
         }
 
         return $data;

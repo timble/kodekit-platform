@@ -28,10 +28,10 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
     protected function _beforeRender(Library\ControllerContextInterface $context)
     {
-        $row = $this->getModel()->fetch();
+        $entity = $this->getModel()->fetch();
 
         if (($activation = $context->request->query->get('activation', $this->_filter))) {
-            if (!$row->activation) {
+            if (!$entity->activation) {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
 

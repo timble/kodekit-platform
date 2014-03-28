@@ -89,8 +89,6 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     {
         if (!$context->response->isError())
         {
-            $row = $context->result;
-
             foreach ($this->_attachments as $attachment) {
                 $this->_storeFile($context, $attachment);
             }
@@ -101,7 +99,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
     protected function _storeFile(Library\ControllerContextInterface $context, $attachment)
     {
-        $row = $context->result;
+        $entity = $context->result;
 
         $extension  = pathinfo($attachment['name'], PATHINFO_EXTENSION);
         $name       = md5(time().mt_rand()).'.'.$extension;
@@ -122,8 +120,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
             'path'      => $name,
             'container' => $this->_container,
             'hash'      => $hash,
-            'row'       => $row->id,
-            'table'     => $row->getTable()->getBase()
+            'row'       => $entity->id,
+            'table'     => $entity->getTable()->getBase()
         ));
 
         return true;
@@ -141,12 +139,11 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
             if(!empty($id) && $id != 0)
             {
-                $rows = $this->getObject('com:attachments.model.attachments')
+                $this->getObject('com:attachments.model.attachments')
                     ->row($id)
                     ->table($table)
-                    ->fetch();
-
-                $rows->delete();
+                    ->fetch()
+                    ->delete();
             }
         }
     }

@@ -21,11 +21,11 @@ class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 {
 	protected function _beforeSave(Library\DatabaseContext $context)
 	{
-		$row = $context->getSubject();
+		$entity = $context->getSubject();
 
-		if (!$row->isNew() && !$row->overwrite)
+		if (!$entity->isNew() && !$entity->overwrite)
         {
-			$row->setStatusMessage(\JText::_('Resource already exists and overwrite switch is not present.'));
+			$entity->setStatusMessage(\JText::_('Resource already exists and overwrite switch is not present.'));
 			return false;
 		}
 
@@ -34,34 +34,34 @@ class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 
 	protected function _beforeCopy(Library\DatabaseContext $context)
 	{
-		$row = $context->getSubject();
+		$entity = $context->getSubject();
 
-		if (!$row->isModified('destination_folder') && !$row->isModified('destination_name'))
+		if (!$entity->isModified('destination_folder') && !$entity->isModified('destination_name'))
         {
-            $row->setStatusMessage(\JText::_('Please supply a destination.'));
+            $entity->setStatusMessage(\JText::_('Please supply a destination.'));
 			return false;
 		}
 
-		if ($row->fullpath === $row->destination_fullpath)
+		if ($entity->fullpath === $entity->destination_fullpath)
         {
-            $row->setStatusMessage(JText::_('Source and destination are the same.'));
+            $entity->setStatusMessage(JText::_('Source and destination are the same.'));
 			return false;
 		}
 
-		$dest_adapter = $row->getContainer()->getAdapter($row->getIdentifier()->name, array(
-			'path' => $row->destination_fullpath
+		$dest_adapter = $entity->getContainer()->getAdapter($entity->getIdentifier()->name, array(
+			'path' => $entity->destination_fullpath
 		));
 
 		$exists = $dest_adapter->exists();
 
 		if ($exists)
 		{
-			if (!$row->overwrite)
+			if (!$entity->overwrite)
             {
-                $row->setStatusMessage(\JText::_('Destination resource already exists.'));
+                $entity->setStatusMessage(\JText::_('Destination resource already exists.'));
 				return false;
 			}
-            else $row->overwritten = true;
+            else $entity->overwritten = true;
 		}
 
 		return true;

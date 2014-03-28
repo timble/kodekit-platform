@@ -19,9 +19,9 @@ use Nooku\Library;
  */
 class FilterFolderName extends Library\FilterAbstract
 {
-	public function validate($row)
+	public function validate($entity)
 	{
-		$value = $row->name;
+		$value = $entity->name;
 
 		if (strpos($value, '/') !== false) {
 			return $this->_error(\JText::_('Folder names cannot contain slashes'));

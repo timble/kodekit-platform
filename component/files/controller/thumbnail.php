@@ -33,10 +33,10 @@ class ControllerThumbnail extends ControllerAbstract
         if (!$model->getState()->filename)
         {
             $needed = array();
-            foreach ($nodes as $row)
+            foreach ($nodes as $entity)
             {
-                if ($row instanceof Files\ModelEntityFile && $row->isImage()) {
-                    $needed[] = $row->name;
+                if ($entity instanceof Files\ModelEntityFile && $entity->isImage()) {
+                    $needed[] = $entity->name;
                 }
             }
         }
@@ -48,20 +48,20 @@ class ControllerThumbnail extends ControllerAbstract
         $list = $model->fetch();
 
         $found = array();
-        foreach ($list as $row) {
-            $found[] = $row->filename;
+        foreach ($list as $entity) {
+            $found[] = $entity->filename;
         }
 
         if (count($found) !== count($needed))
         {
             $new = array();
-            foreach ($nodes as $row)
+            foreach ($nodes as $entity)
             {
-                if ($row instanceof Files\ModelEntityFile && $row->isImage() && !in_array($row->name, $found))
+                if ($entity instanceof Files\ModelEntityFile && $entity->isImage() && !in_array($entity->name, $found))
                 {
-                    $result = $row->saveThumbnail();
+                    $result = $entity->saveThumbnail();
                     if ($result) {
-                        $new[] = $row->name;
+                        $new[] = $entity->name;
                     }
                 }
             }
@@ -72,8 +72,8 @@ class ControllerThumbnail extends ControllerAbstract
 
                 $additional = $model->fetch();
 
-                foreach ($additional as $row) {
-                    $list->insert($row);
+                foreach ($additional as $entity) {
+                    $list->insert($entity);
                 }
             }
         }

@@ -20,9 +20,9 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canRead()
     {
         $layout = $this->getView()->getLayout();
-        $row    = $this->getModel()->fetch();
+        $entity    = $this->getModel()->fetch();
 
-        if (!$row->isNew() && $layout != 'password') {
+        if (!$entity->isNew() && $layout != 'password') {
             return $this->canEdit();
         }
 
@@ -38,10 +38,10 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     {
         $result = false;
 
-        $row  = $this->getModel()->fetch();
+        $entity  = $this->getModel()->fetch();
         $user = $this->getUser();
 
-        if ($row->id == $user->getId() || $this->canDelete()) {
+        if ($entity->id == $user->getId() || $this->canDelete()) {
             $result = true;
         }
 
