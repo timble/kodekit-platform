@@ -58,18 +58,10 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
         if(in_array($name, $this->_actions))
         {
-            $entity = $command->result;
+            $entities = $command->result;
 
-            if($entity instanceof Library\ModelEntityInterface)
+            if($entities instanceof Library\ModelEntityInterface)
             {
-                $entities = array();
-
-                if (!$entity instanceof Library\ModelEntityComposable) {
-                    $entities[] = $entity;
-                } else {
-                    $entities = $entity;
-                }
-
                 foreach ($entities as $entity)
                 {
                     //Only log if the row status is valid.
