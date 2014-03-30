@@ -198,7 +198,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     public function getProperty($name)
     {
         //Handle computed properties
-        if(!$this->hasProperty($name))
+        if(!$this->hasProperty($name) && !empty($name))
         {
             $getter = 'getProperty'.StringInflector::camelize($name);
             if(method_exists($this, $getter)) {
@@ -222,7 +222,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      *
-*@return  DatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setProperty($name, $value, $modified = true)
     {
