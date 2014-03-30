@@ -18,6 +18,20 @@ namespace Nooku\Library;
 abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInterface
 {
     /**
+     * List of computed properties
+     *
+     * @var array
+     */
+    private $__computed_properties;
+
+    /**
+     * Tracks if entity data is new
+     *
+     * @var bool
+     */
+    private $__new = true;
+
+    /**
      * List of modified properties
      *
      * @var array
@@ -40,13 +54,6 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      * @var string
      */
     protected $_status_message = '';
-
-    /**
-     * Tracks if entity data is new
-     *
-     * @var bool
-     */
-    private $__new = true;
 
     /**
      * The identity key
@@ -198,16 +205,25 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     {
         if (!array_key_exists($name, $this->_data) || ($this->_data[$name] != $value))
         {
-            //Handle computed properties
-            $setter = 'setProperty'.StringInflector::camelize($name);
-            if(method_exists($this, $setter)) {
-                $value = $this->$setter($value);
-            }
+            $computed = $this->getComputedProperties();
+            if(!in_array($name, $computed))
+            {
+                //Force computed properties to re-calculate
+                foreach($computed as $property) {
+                    parent::offsetUnset($property);
+                }
 
-            parent::offsetSet($name, $value);
+                $setter = 'setProperty'.StringInflector::camelize($name);
+                if(method_exists($this, $setter)) {
+                    $value = $this->$setter($value);
+                }
 
-            if($modified || $this->isNew()) {
-                $this->_modified[$name] = $name;
+                parent::offsetSet($name, $value);
+
+                //Mark the property as modified
+                if($modified || $this->isNew()) {
+                    $this->_modified[$name] = $name;
+                }
             }
         }
 
@@ -276,6 +292,32 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
         }
 
         return $this;
+    }
+
+    /**
+     * Get a list of the computed properties
+     *
+     * @return array An array
+     */
+    public function getComputedProperties()
+    {
+        if (!$this->__computed_properties)
+        {
+            $properties = array();
+
+            foreach ($this->getMethods() as $method)
+            {
+                if (substr($method, 0, 11) == 'getProperty' && $method !== 'getProperty')
+                {
+                    $property = StringInflector::variablize(substr($method, 11));
+                    $properties[$property] = $property;
+                }
+            }
+
+            $this->__computed_properties = $properties;
+        }
+
+        return $this->__computed_properties;
     }
 
     /**

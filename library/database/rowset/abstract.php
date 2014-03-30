@@ -389,6 +389,22 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
+     * Get a list of the computed properties
+     *
+     * @return array An array
+     */
+    public function getComputedProperties()
+    {
+        $result = array();
+
+        if($row = $this->getIterator()->current()) {
+            $result = $row->getComputedProperties();
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the status
      *
      * @return string The status
