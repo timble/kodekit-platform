@@ -42,9 +42,7 @@ class ControllerThumbnail extends ControllerAbstract
         }
         else $needed = $model->getState()->filename;
 
-        $model->setState($state_data)
-            ->filename($needed);
-
+        $model->setState($state_data)->filename($needed);
         $list = $model->fetch();
 
         $found = array();
@@ -66,10 +64,9 @@ class ControllerThumbnail extends ControllerAbstract
                 }
             }
 
-            if (count($new)) {
-                $model->getState()->setValues($state_data)
-                    ->set('filename', $new);
-
+            if (count($new))
+            {
+                $model->getState()->setValues($state_data)->set('filename', $new);
                 $additional = $model->fetch();
 
                 foreach ($additional as $entity) {
