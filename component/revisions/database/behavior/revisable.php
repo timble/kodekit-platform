@@ -103,7 +103,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                 foreach ($revisions as $row)
                 {
                     $options = array(
-                        'data'   => $row->data,
+                        'data'   => json_decode($row->data, true),
                         'status' => 'trashed',
                     );
 
