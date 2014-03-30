@@ -32,42 +32,57 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
             ->insert('search', 'string');
     }
 
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'identity_key' => 'name',
+        ));
+
+        parent::_initialize($config);
+    }
+
     protected function _actionFetch(Library\ModelContext $context)
     {
         $state = $context->state;
-        $data  = array();
+        $sites  = array();
 
         //Get the sites
         foreach (new \DirectoryIterator(JPATH_SITES) as $file)
         {
             if ($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.'))
             {
-                $data[] = array(
+                $sites[] = array(
                     'name' => $file->getFilename()
                 );
             }
         }
 
         //Apply state information
-        foreach ($data as $key => $value)
+        foreach ($sites as $key => $value)
         {
             if ($state->search)
             {
                 if ($value->name != $state->search) {
-                    unset($data[$key]);
+                    unset($sites[$key]);
                 }
             }
         }
 
         //Set the total
-        $this->_count = count($data);
+        $this->_count = count($sites);
 
         //Apply limit and offset
         if ($state->limit) {
-            $data = array_slice($data, $state->offset, $state->limit);
+            $sites = array_slice($sites, $state->offset, $state->limit);
         }
 
-        return $this->getObject('com:sites.model.entity.sites', array('data' => $data));
+        $entity = parent::_actionFetch($context);
+
+        foreach($sites as $site) {
+            $entity->create($site);
+        }
+
+        return $entity;
     }
 
     protected function _actionCount(Library\ModelContext $context)

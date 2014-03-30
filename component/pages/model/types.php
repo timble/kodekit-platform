@@ -26,6 +26,15 @@ class ModelTypes extends Library\ModelAbstract
         $this->getState()->insert('application', 'word');
     }
 
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'identity_key' => 'name',
+        ));
+
+        parent::_initialize($config);
+    }
+
     protected function _actionFetch(Library\ModelContext $context)
     {
         $components = array();
@@ -91,7 +100,13 @@ class ModelTypes extends Library\ModelAbstract
             }
         }
 
-        return $this->getObject('com:pages.model.entity.types', array('data' => $components));
+        $entity = parent::_actionFetch($context);
+
+        foreach($components as $component) {
+            $entity->create($component);
+        }
+
+        return $entity;
     }
 
     protected function _actionCount(Library\ModelContext $context)

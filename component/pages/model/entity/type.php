@@ -19,12 +19,5 @@ use Nooku\Library;
  */
 class ModelEntityType extends Library\ModelEntityAbstract
 {
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'identity_key' => 'name'
-        ));
 
-        parent::_initialize($config);
-    }
 }

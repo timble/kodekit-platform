@@ -24,7 +24,8 @@ class ModelNodes extends ModelAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'behaviors' => array('paginatable'),
+            'identity_key' => 'name',
+            'behaviors'    => array('paginatable'),
         ));
 
         parent::_initialize($config);
@@ -32,17 +33,13 @@ class ModelNodes extends ModelAbstract
 
     protected function _actionCreate(Library\ModelContext $context)
     {
-        $identifier         = $this->getIdentifier()->toArray();
-        $identifier['path'] = array('model', 'entity');
-        $identifier['name'] = Library\StringInflector::singularize($this->getIdentifier()->name);
+        $entity = parent::_actionCreate($context);
 
-        $options = array('data' => array(
+        $entity->setProperties(array(
             'container' => $context->state->container,
             'folder'    => $context->state->folder,
             'name'      => $context->state->name
         ));
-
-        $entity = $this->getObject($identifier, $options);
 
         return $entity;
     }
@@ -50,7 +47,6 @@ class ModelNodes extends ModelAbstract
     protected function _actionFetch(Library\ModelContext $context)
     {
         $state = $context->state;
-
         $type = !empty($state->types) ? (array)$state->types : array();
 
         $list = $this->getObject('com:files.model.entity.nodes');
