@@ -31,7 +31,8 @@ class ModelBehaviorRevisable extends Library\ModelBehaviorAbstract
     {
         $model = $context->getSubject();
 
-        if ($model instanceof Library\ModelDatabase && $this->getTable()->isRevisable()) {
+        if ($model instanceof Library\ModelDatabase && $this->getTable()->isRevisable())
+        {
             $state = $context->state;
 
             if ($state->trashed) {
