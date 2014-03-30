@@ -30,4 +30,11 @@ interface ModelContextInterface extends CommandInterface
      * @return ModelEntityInterface
      */
     public function getEntity();
+
+    /**
+     * Get the identity key
+     *
+     * @return mixed
+     */
+    public function getIdentityKey();
 }

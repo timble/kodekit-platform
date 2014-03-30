@@ -64,10 +64,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     {
         parent::__construct($config);
 
-        // Set the table identifier
-        if (isset($config->identity_key)) {
-            $this->_identity_key = $config->identity_key;
-        }
+        $this->_identity_key = $config->identity_key;
 
         // Reset the entity
         $this->reset();
@@ -171,7 +168,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     public function getProperty($name)
     {
         //Handle computed properties
-        if(!$this->hasProperty($name))
+        if(!$this->hasProperty($name) && !empty($name))
         {
             $getter = 'getProperty'.StringInflector::camelize($name);
             if(method_exists($this, $getter)) {

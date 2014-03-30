@@ -69,8 +69,8 @@ class ModelDatabase extends ModelAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'table'     => $this->getIdentifier()->name,
-            'behaviors' => array('paginatable', 'orderable'),
+            'table'      => $this->getIdentifier()->name,
+            'behaviors'  => array('paginatable', 'orderable'),
         ));
 
         parent::_initialize($config);
@@ -84,7 +84,12 @@ class ModelDatabase extends ModelAbstract
      */
     protected function _actionCreate(ModelContext $context)
     {
-        return $this->getTable()->createRow();
+        //Entity options
+        $options = array(
+            'identity_column' => $context->getIdentityKey()
+        );
+
+        return $this->getTable()->createRow($options);
     }
 
     /**
@@ -98,6 +103,11 @@ class ModelDatabase extends ModelAbstract
         $state   = $context->state;
         $table   = $this->getTable();
 
+        //Entity options
+        $options = array(
+            'identity_column' => $context->getIdentityKey()
+        );
+
         //Select the rows
         if (!$state->isEmpty())
         {
@@ -109,9 +119,9 @@ class ModelDatabase extends ModelAbstract
             $this->_buildQueryWhere($context->query);
             $this->_buildQueryGroup($context->query);
 
-            $data = $table->select($context->query, Database::FETCH_ROWSET);
+            $data = $table->select($context->query, Database::FETCH_ROWSET, $options);
         }
-        else $data = $table->createRowset();
+        else $data = $table->createRowset($options);
 
         return $data;
     }

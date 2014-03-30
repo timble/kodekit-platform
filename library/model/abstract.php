@@ -39,6 +39,13 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     protected $_entity;
 
     /**
+     * Name of the identity key
+     *
+     * @var    string
+     */
+    protected $_identity_key;
+
+    /**
      * Constructor
      *
      * @param  ObjectConfig $config    An optional ObjectConfig object with configuration options
@@ -49,6 +56,9 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
 
         // Set the state identifier
         $this->__state = $config->state;
+
+        // Set the identity key
+        $this->_identity_key = $config->identity_key;
 
         // Mixin the behavior interface
         $this->mixin('lib:behavior.mixin', $config);
@@ -68,6 +78,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'identity_key'     => null,
             'state'            => 'lib:model.state',
             'command_chain'    => 'lib:command.chain',
             'command_handlers' => array('lib:command.handler.event'),
@@ -153,16 +164,13 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
      */
     final public function reset($default = true)
     {
-        $context        = $this->getContext();
-        $context->count = null;
+        $context = $this->getContext();
 
         if ($this->invokeCommand('before.reset', $context) !== false)
         {
             $this->_actionReset($context);
             $this->invokeCommand('after.reset', $context);
         }
-
-        $this->_count = ObjectConfig::unbox($context->count);
 
         return $this;
     }
@@ -223,6 +231,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
         $context = new ModelContext();
         $context->setSubject($this);
         $context->setState($this->getState());
+        $context->setIdentityKey($this->_identity_key);
 
         return $context;
     }
@@ -236,7 +245,15 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
      */
     protected function _actionCreate(ModelContext $context)
     {
-        return $this->_entity;
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
+        $identifier['name'] = StringInflector::singularize($identifier['name']);
+
+        $options = array(
+            'identity_key' => $context->getIdentityKey()
+        );
+
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -247,7 +264,15 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
      */
     protected function _actionFetch(ModelContext $context)
     {
-        return $this->_entity;
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
+        $identifier['name'] = StringInflector::pluralize($identifier['name']);
+
+        $options = array(
+            'identity_key' => $context->getIdentityKey()
+        );
+
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -258,7 +283,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
      */
     protected function _actionCount(ModelContext $context)
     {
-        return $this->_count;
+        return count($this->fetch());
     }
 
     /**

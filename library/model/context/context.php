@@ -27,7 +27,6 @@ class ModelContext extends Command implements ModelContextInterface
     public function setState($state)
     {
         $this->set('state', $state);
-
         return $this;
     }
 
@@ -50,7 +49,6 @@ class ModelContext extends Command implements ModelContextInterface
     public function setEntity($entity)
     {
         $this->set('entity', $entity);
-
         return $this;
     }
 
@@ -62,5 +60,27 @@ class ModelContext extends Command implements ModelContextInterface
     public function getEntity()
     {
         return $this->get('entity');
+    }
+
+    /**
+     * Get the identity key
+     *
+     * @return mixed
+     */
+    public function getIdentityKey()
+    {
+        return $this->get('identity_key');
+    }
+
+    /**
+     * Set the identity key
+     *
+     * @param mixed $value
+     * @return ModelContext
+     */
+    public function setIdentityKey($value)
+    {
+        $this->set('identity_key', $value);
+        return $this;
     }
 }
