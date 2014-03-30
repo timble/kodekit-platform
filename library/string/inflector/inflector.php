@@ -280,7 +280,7 @@ class StringInflector implements StringInflectorInterface
 	 * @param  string $word Word to underscore
 	 * @return string Underscored word
 	 */
-	public static function underscore($word)
+	public static function variablize($word)
 	{
 		$word = preg_replace('/(\s)+/', '_', $word);
 		$word = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $word));
@@ -298,7 +298,7 @@ class StringInflector implements StringInflectorInterface
 	 */
 	public static function explode($word)
 	{
-		$result = explode('_', self::underscore($word));
+		$result = explode('_', self::variablize($word));
 		return $result;
 	}
 
@@ -340,7 +340,7 @@ class StringInflector implements StringInflectorInterface
 	 */
 	public static function tableize($className)
 	{
-		$result = self::underscore($className);
+		$result = self::variablize($className);
 
 		if(!self::isPlural($className)) {
 			$result = self::pluralize($result);
@@ -361,23 +361,6 @@ class StringInflector implements StringInflectorInterface
 	{
 		$result = self::camelize(self::singularize($tableName));
 		return $result;
-	}
-
-	/**
-	 * Returns camelBacked version of a string.
-	 *
-	 * Same as camelize but first char is lowercased
-	 *
-	 * @param string $string
-	 * @return string
-	 * @see camelize
-	 */
-	public static function variablize($string)
-	{
-		$string   = self::camelize(self::underscore($string));
-		$result  = strtolower(substr($string, 0, 1));
-		$variable = preg_replace('/\\w/', $result, $string, 1);
-		return $variable;
 	}
 
 	/**

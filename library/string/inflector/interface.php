@@ -71,7 +71,7 @@ interface StringInflectorInterface
 	 * @param  string $word Word to underscore
 	 * @return string Underscored word
 	 */
-	public static function underscore($word);
+	public static function variablize($word);
 
 	/**
 	 * Convert any "CamelCased" word into an array of strings
@@ -124,17 +124,6 @@ interface StringInflectorInterface
 	 * @return string SingularClassName
 	 */
 	public static function classify($tableName);
-
-	/**
-	 * Returns camelBacked version of a string.
-	 *
-	 * Same as camelize but first char is lowercased
-	 *
-	 * @param string $string
-	 * @return string
-	 * @see camelize
-	 */
-	public static function variablize($string);
 
 	/**
 	 * Check to see if an English word is singular
