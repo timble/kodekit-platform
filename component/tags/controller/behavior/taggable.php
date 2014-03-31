@@ -34,28 +34,28 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
     {
 		if (!$context->response->isError())
         {
-            $row   = $context->result;
-            $table = $row->getTable()->getBase();
+            $entity = $context->result;
+            $table  = $entity->getTable()->getBase();
 
             // Remove all existing relations
-            if($row->id && $row->getTable()->getBase())
+            if($entity->id && $entity->getTable()->getBase())
             {
-                $rows = $this->getObject('com:tags.model.relations')
-                    ->row($row->id)
+                $relations = $this->getObject('com:tags.model.relations')
+                    ->row($entity->id)
                     ->table($table)
                     ->fetch();
 
-                $rows->delete();
+                $relations->delete();
             }
 
-            if($row->tags)
+            if($entity->tags)
             {
                 // Save tags as relations
-                foreach ($row->tags as $tag)
+                foreach ($entity->tags as $tag)
                 {
                     $properties = array(
                         'id'    => $tag,
-                        'row'   => $row->id,
+                        'row'   => $entity->id,
                         'table' => $table
                     );
 
