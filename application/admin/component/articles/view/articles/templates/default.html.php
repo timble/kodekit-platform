@@ -69,10 +69,10 @@
                 </td>
                 <? endif ?>
                 <td align="center">
-                    <?= helper('grid.checkbox' , array('row' => $article)) ?>
+                    <?= helper('grid.checkbox' , array('entity' => $article)) ?>
                 </td>
                 <td align="center">
-                    <?= helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('entity' => $article, 'field' => 'published')) ?>
                 </td>
                 <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>

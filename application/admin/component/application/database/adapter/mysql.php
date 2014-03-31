@@ -22,7 +22,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param 	object 	An optional Library\ObjectConfig object with configuration options
+	 * @param 	Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options
 	 */
 	public function __construct(Library\ObjectConfig $config)
 	{
@@ -37,7 +37,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+     * @param 	Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)

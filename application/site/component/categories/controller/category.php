@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Categories;
 
 /**
  * Category Controller
@@ -15,41 +16,12 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Categories
  */
-abstract class CategoriesControllerCategory extends Library\ControllerModel
-{ 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'model' => 'com:categories.model.categories'
-        ));
-
-        parent::_initialize($config);
-    }
-    
-    protected function _actionRender(Library\ControllerContextInterface $context)
-    {
-        $view = $this->getView();
-
-        //Set the layout
-        if($view instanceof Library\ViewTemplate)
-        {
-            $layout = $view->getIdentifier()->toArray();
-            $layout->name  = $view->getLayout();
-
-            $alias = $layout;
-            $alias['package'] = 'categories';
-
-            $this->getObject('manager')->registerAlias($alias, $this->getIdentifier($layout));
-        }
-
-        return parent::_actionRender($context);
-    }
-    
+abstract class CategoriesControllerCategory extends Categories\ControllerCategory
+{
     public function getRequest()
 	{
 		$request = parent::getRequest();
 
-        $request->query->table     = $this->getIdentifier()->package;
         $request->query->access    = $this->getUser()->isAuthentic();
         $request->query->published = 1;
 

@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -19,85 +19,94 @@ use Nooku\Library;
  */
 class ModelFolders extends ModelNodes
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
         $this->getState()->insert('tree', 'boolean', false);
-	}
+    }
 
-	public function getRowset()
-	{
-		if (!isset($this->_rowset))
-		{
-			$state = $this->getState();
+    protected function _actionFetch(Library\ModelContext $context)
+    {
+        $state = $context->state;
 
-			$folders = $this->getContainer()->getAdapter('iterator')->getFolders(array(
-				'path'    => $this->_getPath(),
-				'recurse' => !!$state->tree,
-				'filter'  => array($this, 'iteratorFilter'),
-				'map'     => array($this, 'iteratorMap'),
-            	'sort'    => $state->sort
-			));
+        $folders = $this->getContainer()->getAdapter('iterator')->getFolders(array(
+            'path'    => $this->_getPath(),
+            'recurse' => !!$state->tree,
+            'filter'  => array($this, 'iteratorFilter'),
+            'map'     => array($this, 'iteratorMap'),
+            'sort'    => $state->sort
+        ));
 
-        	if ($folders === false) {
-        		throw new \UnexpectedValueException('Invalid folder');
-        	}
+        if ($folders === false) {
+            throw new \UnexpectedValueException('Invalid folder');
+        }
 
-			$this->_total = count($folders);
+        $this->_count = count($folders);
 
-			if (strtolower($state->direction) == 'desc') {
-				$folders = array_reverse($folders);
-			}
+        if (strtolower($state->direction) == 'desc') {
+            $folders = array_reverse($folders);
+        }
 
-			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_total);
+        $folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_count);
 
-			$results = array();
-			foreach ($folders as $folder)
-			{
-				$hierarchy = array();
-				if ($state->tree)
-				{
-					$hierarchy = explode('/', dirname($folder));
-					if (count($hierarchy) === 1 && $hierarchy[0] === '.') {
-						$hierarchy = array();
-					}
-				}
+        $identifier         = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
+        $collection = $this->getObject($identifier);
 
-				$results[] = array(
-					'container' => $state->container,
-					'folder' 	=> $hierarchy ? implode('/', $hierarchy) : $state->folder,
-					'name' 		=> basename($folder),
-					'hierarchy' => $hierarchy
-				);
-			}
+        foreach ($folders as $folder)
+        {
+            $hierarchy = array();
+            if ($state->tree)
+            {
+                $hierarchy = explode('/', dirname($folder));
+                if (count($hierarchy) === 1 && $hierarchy[0] === '.') {
+                    $hierarchy = array();
+                }
+            }
 
-			$this->_rowset = $this->createRowset()->addRow($results);
-		}
+            $properties = array(
+                'container' => $state->container,
+                'folder'    => $hierarchy ? implode('/', $hierarchy) : $state->folder,
+                'name'      => basename($folder),
+                'hierarchy' => $hierarchy
+            );
 
-		return parent::getRowset();
-	}
+            $collection->create($properties);
+        }
 
-	public function iteratorMap($path)
-	{
+        return $collection;
+    }
+
+    protected function _actionCount(Library\ModelContext $context)
+    {
+        if (!isset($this->_count)) {
+            $this->fetch();
+        }
+
+        return $this->_count;
+    }
+
+    public function iteratorMap($path)
+    {
         $path = str_replace('\\', '/', $path);
-		$path = str_replace($this->getContainer()->path.'/', '', $path);
+        $path = str_replace($this->getContainer()->path . '/', '', $path);
 
-		return $path;
-	}
+        return $path;
+    }
 
-	public function iteratorFilter($path)
-	{
-		$filename = basename($path);
-		if ($this->getState()->name)
-		{
-			if (!in_array($filename, (array) $this->getState()->name)) {
-				return false;
-			}
-		}
+    public function iteratorFilter($path)
+    {
+        $filename = basename($path);
+        if ($this->getState()->name)
+        {
+            if (!in_array($filename, (array)$this->getState()->name)) {
+                return false;
+            }
+        }
 
-		if ($this->getState()->search && stripos($filename, $this->getState()->search) === false) {
-			return false;
-		}
-	}
+        if ($this->getState()->search && stripos($filename, $this->getState()->search) === false) {
+            return false;
+        }
+    }
 }

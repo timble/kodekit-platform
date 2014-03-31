@@ -8,8 +8,12 @@
  */
 ?>
 
-<? $title = $show_title ? $module->title : null; ?>
+<? $title = $module->getParameters()->get('show_title', false) ? $module->title : null; ?>
 
 <nav role="navigation">
-    <?= helper('com:pages.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
+    <?= helper('com:pages.list.pages', array(
+        'pages'   => $pages,
+        'active'  => $active,
+        'title'   => $title,
+        'attribs' => array('class' => $module->getParameters()->get('class', 'nav')))) ?>
 </nav>

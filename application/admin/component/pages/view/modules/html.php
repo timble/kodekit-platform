@@ -22,12 +22,21 @@ class PagesViewModulesHtml extends Library\ViewHtml
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
 		{
-		    foreach($this->getModel()->getRowset() as $module)
+		    foreach($this->getModel()->fetch() as $module)
 		    {
                 $path =  $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
-		} 
+		}
+
+        //Load a unique list of module positions
+        $positions = array();
+        $modules = $this->getObject('com:pages.model.modules')->application('site')->fetch();
+        foreach($modules as $module) {
+            $positions[] = $module->position;
+        }
+
+        $this->positions = array_unique($positions);
 
         return parent::_actionRender($context);
 	}

@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -22,22 +22,23 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
     /**
      * Authenticate using email and password credentials
      *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     *
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     protected function _beforePost(Library\DispatcherContextInterface $context)
     {
-        if($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic())
+        if ($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic())
         {
             $password = $context->request->data->get('password', 'string');
             $email    = $context->request->data->get('email', 'email');
 
-            $user = $this->getObject('com:users.model.users')->email($email)->getRow();
+            $user = $this->getObject('com:users.model.users')->email($email)->fetch();
 
-            if($user->id)
+            if ($user->id)
             {
                 //Check user password
-                if(!$user->getPassword()->verify($password)) {
+                if (!$user->getPassword()->verifyPassword($password)) {
                     throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
                 }
 
@@ -50,7 +51,7 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
                 $context->user->getSession()->start();
 
                 //Set user data in context
-                $data = $this->getObject('user.provider')->load($user->id)->toArray();
+                $data              = $this->getObject('user.provider')->load($user->id)->toArray();
                 $data['authentic'] = true;
 
                 $context->user->setData($data);

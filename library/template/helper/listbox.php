@@ -231,10 +231,14 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		    'filter' 	=> array('sort' => $config->label),
 		));
 
-		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->getRowset();
+		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->fetch();
 
 		//Get the list of items
- 	    $items = $list->get($config->value);
+        $items = array();
+        foreach($list as $key => $item) {
+            $items[$key] = $item->getProperty($config->value);
+        }
+
 		if($config->unique) {
 		    $items = array_unique($items);
 		}

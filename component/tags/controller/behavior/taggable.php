@@ -43,7 +43,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $rows = $this->getObject('com:tags.model.relations')
                     ->row($row->id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
                 $rows->delete();
             }
@@ -53,12 +53,19 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 // Save tags as relations
                 foreach ($row->tags as $tag)
                 {
-                    $relation = $this->getObject('com:tags.database.row.relation');
-                    $relation->tags_tag_id = $tag;
-                    $relation->row		  = $row->id;
-                    $relation->table      = $table;
+                    $properties = array(
+                        'id'    => $tag,
+                        'row'   => $row->id,
+                        'table' => $table
+                    );
 
-                    if(!$relation->load()) {
+                    $relation = $this->getObject('com:tags.model.relations')
+                        ->setState($properties)
+                        ->fetch();
+
+                    if($relation->isNew)
+                    {
+                        $relation->setProperties($properties);
                         $relation->save();
                     }
                 }
@@ -70,9 +77,10 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 	
 	protected function _deleteTags(Library\ControllerContextInterface $context)
     {
-        $status = $context->result->getStatus();
+        $entity = $context->result;
+        $status = $entity->getStatus();
 
-        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
             $id    = $context->result->get('id');
             $table = $context->result->getTable()->getBase();
@@ -82,7 +90,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $rows = $this->getObject('com:tags.model.relations')
                     ->row($id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
                 $rows->delete();
             }

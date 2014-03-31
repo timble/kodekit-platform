@@ -62,10 +62,10 @@
 		<? foreach($users as $user) : ?>
 			<tr>
 				<td align="center">
-					<?= helper('grid.checkbox' , array('row' => $user)) ?>
+					<?= helper('grid.checkbox' , array('entity' => $user)) ?>
 				</td>
                 <td align="center">
-                    <?= helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
+                    <?= helper('grid.enable', array('entity' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
                 </td>
 				<td>
 					<a href="<?= route('view=user&id='.$user->id) ?>">

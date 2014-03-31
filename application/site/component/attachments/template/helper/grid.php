@@ -77,8 +77,10 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
         if(count($list))
         {
             $html[] = '<ul>';
-            foreach($list as $item) {
-                if(!$item->file->isImage()) {
+            foreach($list as $item)
+            {
+                if(!$item->file->isImage())
+                {
                     $html[] = '<li>';
                     $html[] = '<a href="#">';
                     $html[] = $item->name;
@@ -86,6 +88,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
                     $html[] = '</li>';
                 }
             }
+
             $html[] = '</ul>';
     
             return implode(' ', $html);

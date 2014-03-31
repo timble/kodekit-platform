@@ -8,7 +8,7 @@
  */
 ?>
 
-<?if(object('com:comments.controller.comment')->canDelete()):?>
+<? if(object('com:comments.controller.comment')->canDelete()) : ?>
     <?= helper('behavior.mootools') ?>
     <script src="assets://application/js/jquery.js" />
     <script src="assets://comments/js/comments.js" />
@@ -27,7 +27,7 @@
     </script>
 <? endif ?>
 
-<?if(object('com:comments.controller.comment')->canAdd()):?>
+<? if(object('com:comments.controller.comment')->canAdd()) : ?>
     <script src="assets://application/js/jquery.js" />
     <script src="assets://ckeditor/ckeditor/ckeditor.js" />
 
@@ -71,13 +71,13 @@
                </span>
                <span class="comment__header--right">
                     <time datetime="<?= $comment->created_on ?>" pubdate><?= helper('date.humanize', array('date' => $comment->created_on)) ?></time>
-                   <?if(object('com:comments.controller.comment')->id($comment->id)->canDelete()):?>
+                   <? if(object('com:comments.controller.comment')->id($comment->id)->canDelete()) : ?>
                        <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
                    <? endif;?>
                </span>
             </div>
 
-            <div class="comment__text" id="comment-<?=$comment->id;?>" contenteditable="<?= object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true":"false";?>" >
+            <div class="comment__text" id="comment-<?=$comment->id;?>" contenteditable="<?= object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true" : "false"; ?>" >
                 <?=$comment->text?>
             </div>
         </div>
@@ -86,4 +86,4 @@
         <?= import('com:comments.view.comment.form.html'); ?>
     <?endif;?>
 </div>
-<?endif;?>
+<? endif; ?>

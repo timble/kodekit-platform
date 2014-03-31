@@ -34,7 +34,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canEdit()
     {
         $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
         // Don't allow a user to edit another user that has a higher role
         if($user->getRole() < $entity->role_id) {
@@ -47,7 +47,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canDelete()
     {
         $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
         // Users cannot delete themselves
         if($user->getId() == $entity->id) {

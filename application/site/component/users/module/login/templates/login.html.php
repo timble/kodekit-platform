@@ -12,7 +12,7 @@
 <?=helper('behavior.validator')?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
-	<? if($show_title) : ?>
+	<? if($module->getParameters()->get('show_title', false)) : ?>
 	<h3><?= $module->title ?></h3>
 	<? endif ?>
 

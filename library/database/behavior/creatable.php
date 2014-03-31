@@ -18,6 +18,22 @@ namespace Nooku\Library;
 class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
 {
     /**
+     * Get the user that created the resource
+     *
+     * @return UserInterface|null Returns a User object or NULL if no user could be found
+     */
+    public function getAuthor()
+    {
+        $user = null;
+
+        if($this->hasProperty('created_by') && !empty($this->created_by)) {
+            $user = $this->getObject('user.provider')->fetch($this->created_by);
+        }
+
+        return $user;
+    }
+
+    /**
      * Check if the behavior is supported
      *
      * Behavior requires a 'created_by' or 'created_on' row property
@@ -46,11 +62,11 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->has('created_by') && empty($this->created_by)) {
+        if($this->hasProperty('created_by') && empty($this->created_by)) {
             $this->created_by  = (int) $this->getObject('user')->getId();
         }
 
-        if($this->has('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {
+        if($this->hasProperty('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {
             $this->created_on  = gmdate('Y-m-d H:i:s');
         }
     }

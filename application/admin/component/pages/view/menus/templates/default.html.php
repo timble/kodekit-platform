@@ -46,7 +46,7 @@
         <? foreach($menus as $menu) : ?>
             <tr>
                 <td align="center">
-                    <?= helper('grid.checkbox',array('row' => $menu)); ?>
+                    <?= helper('grid.checkbox',array('entity' => $menu)); ?>
                 </td>
                 <td>
                     <? if(!$state->trash) : ?>

@@ -24,19 +24,24 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'       => 'articles',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable',
                 'orderable' => array(
                     'strategy' => 'flat'
                 ),
                 'com:languages.database.behavior.translatable',
                 'com:attachments.database.behavior.attachable',
+                'com:categories.database.behavior.categorizable',
                 'com:tags.database.behavior.taggable',
                 'com:comments.database.behavior.commentable'
             ),
             'filters' => array(
+                'parameters' => 'json',
                 'introtext'   => array('html', 'tidy'),
                 'fulltext'    => array('html', 'tidy'),
-		    )
+		    ),
+            'column_map' => array(
+                'parameters' => 'params',
+            )
         ));
 
         parent::_initialize($config);

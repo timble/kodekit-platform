@@ -32,7 +32,7 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
         ));
 
         $value = null;
-        if($value = $config->row->{$config->name}) {
+        if($value = $config->entity->{$config->name}) {
             switch($config->type) {
                 case 'date':
                     $value = gmdate('Y-m-d', strtotime($value));

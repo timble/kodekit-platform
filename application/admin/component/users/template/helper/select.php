@@ -22,7 +22,7 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
     	$config = new Library\ObjectConfig($config);
 
         $options_config = new Library\ObjectConfig(array(
-            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->fetch(),
             'label'  => 'name',
             'value'  => 'id'));
 
@@ -44,7 +44,7 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
         ));
 
         $config->options = $this->options(array(
-            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->fetch(),
             'label'   => 'name'
         ));
 

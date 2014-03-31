@@ -34,12 +34,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach ($config as $key => $value)
-        {
-            if (property_exists($this, '_' . $key)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
+        $this->_auto_generate = $config->auto_generate;
     }
 
     /**
@@ -93,7 +88,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         if($this->getMixer() instanceof DatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
-            if($this->has('uuid') && empty($this->uuid))
+            if($this->hasProperty('uuid') && empty($this->uuid))
             {
                 $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
                 $this->uuid = $this->_uuid($hex);
@@ -116,7 +111,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         if($this->getMixer() instanceof DatabaseRowInterface)
         {
-            if($this->has('uuid') && empty($this->uuid))
+            if($this->hasProperty('uuid') && empty($this->uuid))
             {
                 $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
                 $this->uuid = $this->_uuid($hex);

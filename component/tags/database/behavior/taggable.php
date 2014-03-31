@@ -19,10 +19,27 @@ use Nooku\Library;
  */
 class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 {
-	/**
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  Library\ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'auto_mixin' => true
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
 	 * Get a list of tags
-	 * 
-	 * @return DatabaseRowsetTags
+	 *
+	 * @return Library\DatabaseRowsetInterface
 	 */
 	public function getTags()
 	{
@@ -32,9 +49,9 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
         {
             $tags = $model->row($this->id)
                 ->table($this->getTable()->getName())
-                ->getRowset();
+                ->fetch();
         }
-        else $tags = $model->getRowset();
+        else $tags = $model->fetch();
 
         return $tags;
 	}
@@ -48,23 +65,15 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 	protected function _beforeSelect(Library\DatabaseContext $context)
 	{
 		$query = $context->query;
-		
-		if(!is_null($query)) 
+
+        if($context->query->params->has('tag'))
 		{
-            foreach($query->where as $key => $where) 
-			{	
-                if($where['condition'] == 'tbl.tag') 
-                {
-                    $table = $context->caller;
-                                        
-					$query->where('tags.slug', $where['constraint'],  $where['value']);
-					$query->where('tags_relations.table','=', $table->getName());
-					$query->join('LEFT', 'tags_relations AS tags_relations', 'tags_relations.row = tbl.'.$table->getIdentityColumn());
-					$query->join('LEFT', 'tags AS tags', 'tags.tags_tag_id = tags_relations.tags_tag_id');
-				
-					unset($context->query->where[$key]);
-				}
-			}
+            $table = $context->getSubject();
+
+            $query->where('tags.slug = :tag');
+            $query->where('tags_relations.table = :table')->bind(array('table' => $table->getName()));
+            $query->join('LEFT', 'tags_relations AS tags_relations', 'tags_relations.row = tbl.'.$table->getIdentityColumn());
+            $query->join('LEFT', 'tags AS tags', 'tags.tags_tag_id = tags_relations.tags_tag_id');
 		}
 	}
 }

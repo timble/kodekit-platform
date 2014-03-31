@@ -48,10 +48,10 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
     {
         $config->append(array(
             'formats' => array(
-                'ini'  => 'Nooku\Library\Object\ObjectConfigIni',
-                'json' => 'Nooku\Library\Object\ObjectConfigJson',
-                'xml'  => 'Nooku\Library\Object\ObjectConfigXml',
-                'yaml' => 'Nooku\Library\Object\ObjectConfigYaml'
+                'ini'  => 'Nooku\Library\ObjectConfigIni',
+                'json' => 'Nooku\Library\ObjectConfigJson',
+                'xml'  => 'Nooku\Library\ObjectConfigXml',
+                'yaml' => 'Nooku\Library\ObjectConfigYaml'
             )
         ));
 
@@ -62,12 +62,12 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
      * Get a registered config object.
      *
      * @param  string $format The format name
-     * @param  array  $config A optional array of configuration options
+     * @param   array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
      * @throws \InvalidArgumentException    If the format isn't registered
      * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
-     * @return ObjectConfig
+     * @return ObjectConfigInterface
      */
-    public function getFormat($format, $config = array())
+    public function createFormat($format, $options = array())
     {
         $format = strtolower($format);
 
@@ -79,7 +79,7 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
 
         if(!($format instanceof ObjectConfigSerializable))
         {
-            $format = new $format();
+            $format = new $format($options);
 
             if(!$format instanceof ObjectConfigSerializable)
             {
@@ -115,10 +115,25 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
     }
 
     /**
+     * Read a config from a string
+     *
+     * @param  string  $format
+     * @param  string  $config
+     * @return ObjectConfigInterface
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
+    public function fromString($format, $config)
+    {
+        $config = $this->createFormat($format)->fromString($config);
+        return $config;
+    }
+
+    /**
      * Read a config from a file.
      *
      * @param  string  $filename
-     * @return ObjectConfig
+     * @return ObjectConfigInterface
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
@@ -133,7 +148,7 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
             ));
         }
 
-        $config = $this->getFormat($pathinfo['extension'])->fromFile($filename);
+        $config = $this->createFormat($pathinfo['extension'])->fromFile($filename);
         return $config;
     }
 
@@ -141,11 +156,11 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
      * Writes a config to a file
      *
      * @param string $filename
-     * @param ObjectConfig $config
+     * @param ObjectConfigInterface $config
      * @return boolean TRUE on success. FALSE on failure
      * @throws \RuntimeException
      */
-    public function toFile($filename, ObjectConfig $config)
+    public function toFile($filename, ObjectConfigInterface $config)
     {
         $pathinfo = pathinfo($filename);
 
@@ -156,6 +171,6 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
             ));
         }
 
-        return $this->getFormat($pathinfo['extension'])->toFile($filename, $config);
+        return $this->createFormat($pathinfo['extension'])->toFile($filename, $config);
     }
 }

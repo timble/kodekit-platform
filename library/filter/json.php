@@ -25,33 +25,32 @@ class FilterJson extends FilterAbstract
      */
     public function validate($value)
     {
-        return is_string($value) && !is_null(json_decode($value));
+        try {
+            $config = $this->getObject('lib:object.config.factory')->fromString('json', $value);
+        } catch(\RuntimeException $e) {
+            $config = null;
+        }
+
+        return is_string($value) && !is_null($config);
     }
 
     /**
      * Sanitize a value
-     *
-     * The value passed will be encoded to JSON format.
      *
      * @param   scalar  $value Value to be sanitized
      * @return  string
      */
     public function sanitize($value)
     {
-        // If instance of ObjectConfig casting to string will make it encode itself to JSON
-        if($value instanceof ObjectConfig) {
-            $result = (string) $value;
-        }
-        else
+        if(!$value instanceof ObjectConfigJson)
         {
-            //Don't re-encode if the value is already in json format
-            if(is_string($value) && (json_decode($value) !== NULL)) {
-                $result = $value;
+            if(is_string($value)) {
+                $value = $this->getObject('lib:object.config.factory')->fromString('json', $value);
             } else {
-                $result = json_encode($value);
+                $value = $this->getObject('lib:object.config.factory')->createFormat('json', $value);
             }
         }
 
-        return $result;
+        return $value;
     }
 }

@@ -10,8 +10,8 @@
 
 <article>
     <header>
-        <h1><a href="<?= helper('route.article', array('row' => $article)) ?>"><?= highlight($article->title) ?></a></h1>
-        <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <h1><a href="<?= helper('route.article', array('entity' => $article)) ?>"><?= highlight($article->title) ?></a></h1>
+        <?= helper('date.timestamp', array('entity' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
         <span class="label label-info"><?= translate('Unpublished') ?></span>
         <? endif ?>
@@ -26,6 +26,6 @@
 
     <? if ($article->introtext) : ?>
         <?= highlight($article->introtext) ?>
-        <a class="article__readmore" href="<?= helper('route.article', array('row' => $article)) ?>"><?= translate('Read more') ?></a>
+        <a class="article__readmore" href="<?= helper('route.article', array('entity' => $article)) ?>"><?= translate('Read more') ?></a>
     <? endif; ?>
 </article>

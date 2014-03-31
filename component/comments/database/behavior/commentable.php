@@ -19,17 +19,34 @@ use Nooku\Library;
  */
 class DatabaseBehaviorCommentable extends Library\DatabaseBehaviorAbstract
 {
-	/**
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  Library\ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'auto_mixin' => true
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
 	 * Get a list of comments
 	 *
-	 * @return Library\DatabaseRowsetInterface
+	 * @return Library\ModelEntityInterface
 	 */
 	public function getComments()
 	{
 		$comments = $this->getObject('com:comments.model.comments')
 					->row($this->id)
 					->table($this->getTable()->getName())
-					->getRowset();
+					->fetch();
 
 		return $comments;
 	}

@@ -13,8 +13,8 @@ use Nooku\Component\Comments;
 /**
  * Comment Controller
  *
- * @author    	Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package     Component\Comments
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Comments
  */
 class CommentsControllerComment extends Comments\ControllerComment
 {
@@ -23,10 +23,13 @@ class CommentsControllerComment extends Comments\ControllerComment
         $config->append(array(
             'behaviors' => array(
                 'editable', 'persistable',
+                'com:activities.controller.behavior.loggable'
             ),
-            'model' => 'com:comments.model.comments'
         ));
 
         parent::_initialize($config);
+
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:ccomment.controller.toolbar.comment');
     }
 }

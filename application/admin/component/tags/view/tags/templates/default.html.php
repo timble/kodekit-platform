@@ -41,7 +41,7 @@
             <? foreach ($tags as $tag) : ?>
             <tr>
                 <td align="center">
-                    <?= helper('grid.checkbox', array('row' => $tag)); ?>
+                    <?= helper('grid.checkbox', array('entity' => $tag)); ?>
                 </td>
                 <td>
                     <a href="<?= route('view=tag&id='.$tag->id); ?>">

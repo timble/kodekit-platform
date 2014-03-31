@@ -22,17 +22,17 @@ class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 	{
 	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'row'      => ''
+			'entity'      => ''
 		));
 		
-		$row = $config->row;
+		$entity = $config->entity;
 
-        if($row->name == 'session')
+        if($entity->name == 'session')
         {
-		    $item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view=user&id='.$row->created_by);
+		    $item = $this->getTemplate()->getView()->getRoute('option='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
 		    
-		    $message   = '<a href="'.$item.'">'.$row->title.'</a>'; 
-		    $message  .= ' <span class="action">'.$row->status.'</span>';
+		    $message   = '<a href="'.$item.'">'.$entity->title.'</a>';
+		    $message  .= ' <span class="action">'.$entity->status.'</span>';
 		}
 		else $message = parent::message($config);
 		

@@ -48,7 +48,7 @@
         <? foreach ($comments as $comment) : ?>
             <tr>
                 <td align="center">
-                    <?= helper('grid.checkbox', array('row' => $comment)); ?>
+                    <?= helper('grid.checkbox', array('entity' => $comment)); ?>
                 </td>
                 <td>
                     <?= helper('date.humanize', array('date' => $comment->created_on)) ?>

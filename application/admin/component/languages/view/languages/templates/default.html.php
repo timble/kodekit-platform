@@ -58,7 +58,7 @@
 			<? foreach($languages as $language) : ?>
 			<tr>
 				<td align="center">
-					<?= helper('grid.checkbox', array('row' => $language)) ?>
+					<?= helper('grid.checkbox', array('entity' => $language)) ?>
 				</td>
 				<td>
 					<a href="<?= route('view=language&id='.$language->id) ?>"><?= $language->name ?></a>
@@ -81,7 +81,7 @@
 					<? if($language->primary) : ?>
                 	 	<?= translate('n/a') ?>
                     <? else: ?>
-                    	<?= helper('grid.enable', array('row' => $language)) ?>
+                    	<?= helper('grid.enable', array('entity' => $language)) ?>
                     <? endif ?>
 				</td>
 			</tr>

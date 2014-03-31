@@ -61,7 +61,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an 'ordering' column
 	 *
-	 * @param	integer	Amount to move up or down
+	 * @param	integer	$change Amount to move up or down
 	 * @return 	DatabaseRowAbstract
 	 */
 	public function order($change)
@@ -106,13 +106,12 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 		return $this->getMixer();
 	}
 
-	 /**
+	/**
      * Resets the order of all rows
      * 
-     * Resetting starts at $base to allow creating space in sequence for later 
-     * record insertion.
+     * Resetting starts at $base to allow creating space in sequence for later  record insertion.
      *
-     * @param	integer 	Order at which to start resetting.
+     * @param	integer $base Order at which to start resetting.
      * @return	DatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
@@ -162,14 +161,13 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
  	/**
      * Saves the row to the database.
      *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
      *
      * @param DatabaseContext	$context A database context object
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->has('ordering'))
+        if($this->hasProperty('ordering'))
         {
             if($this->ordering <= 0) {
                 $this->ordering = $this->getMaxOrdering() + 1;
@@ -187,7 +185,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(DatabaseContext $context)
     {
-        if(isset($this->order) && $this->has('ordering')) {
+        if(isset($this->order) && $this->hasProperty('ordering')) {
             $this->order($this->order);
         }
     }

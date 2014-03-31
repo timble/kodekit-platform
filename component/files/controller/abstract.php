@@ -38,11 +38,11 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 	protected function _actionCopy(Library\ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->getRow();
+		$entity = $this->getModel()->fetch();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
+			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
@@ -53,7 +53,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
+                    $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}
@@ -64,11 +64,11 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 	protected function _actionMove(Library\ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->getRow();
+		$entity = $this->getModel()->fetch();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
+			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)
@@ -79,7 +79,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
+                    $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}

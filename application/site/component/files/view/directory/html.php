@@ -37,7 +37,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $context->data->files = $files['items'];
         $context->data->total = $files['total'];
 
-        $folder = $this->getModel()->getRow();
+        $folder = $this->getModel()->fetch();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
         {
@@ -74,8 +74,8 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $identifier['name'] = Library\StringInflector::pluralize($this->getName());
 
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
-            $folders          = $model->getRowset();
-            $total            = $model->getTotal();
+            $folders          = $model->fetch();
+            $total            = $model->count();
 
             if ($params->get('humanize_filenames', 1))
             {
@@ -120,7 +120,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $controller         = $this->getObject($identifier, array('request' => $request));
 
         $files = $controller->browse();
-        $total = $controller->getModel()->getTotal();
+        $total = $controller->getModel()->count();
 
         if ($params->get('humanize_filenames', 1))
         {
@@ -136,7 +136,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 	{
 		if ($this->parent !== null)
 		{
-            $folder = $this->getModel()->getRow();
+            $folder = $this->getModel()->fetch();
 
 			$pathway = $this->getObject('application')->getPathway();
 			$path    = $folder->path;

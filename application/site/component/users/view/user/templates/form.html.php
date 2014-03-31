@@ -38,15 +38,15 @@
     <div class="control-group">
         <label class="control-label" for="password"><?= translate('Password') ?></label>
         <div class="controls">
-            <input class="inputbox <?=!$user->isNew()?:'required'?> passwordLength:<?=$password_length?>" type="password" id="password" name="password" value="" size="40" />
-            <?=helper('com:users.form.password');?>
+            <input class="inputbox <?=!$user->isNew()?:'required'?> passwordLength:<?= $password_length ?>" type="password" id="password" name="password" value="" size="40" />
+            <?= helper('com:users.form.password');?>
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label" for="password_verify"><?= translate('Verify Password') ?></label>
         <div class="controls">
-            <input class="inputbox <?=!$user->isNew()?:'required'?> passwordVerify matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
+            <input class="inputbox <?= !$user->isNew()?:'required'?> passwordVerify matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
         </div>
     </div>
 
@@ -54,8 +54,11 @@
     <div class="control-group">
         <label class="control-label"><?=translate('Timezone');?></label>
         <div class="controls">
-            <?= helper('listbox.timezones',
-            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true));?>
+            <?= helper('listbox.timezones', array(
+                'name'     => 'timezone',
+                'selected' => $user->timezone,
+                'deselect' => true)
+            );?>
         </div>
     </div>
     <? endif;?>

@@ -19,9 +19,13 @@ class UsersViewGroupHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $group = $this->getModel()->getRow();
-        $context->data->users = $this->getObject('com:users.model.groups_users')->group_id($group->id)->getRowset()->user_id;
+        $group = $this->getModel()->fetch();
+        $users = $this->getObject('com:users.model.groups_users')->group_id($group->id)->fetch();
 
+        foreach($users as $user) {
+            $context->data->selected[] = $user->user_id;
+        }
+        
         parent::_fetchData($context);
     }
 }

@@ -115,7 +115,7 @@ interface DatabaseTableInterface
     public function mapColumns($data, $reverse = false);
 
     /**
-     * Gets the identitiy column of the table.
+     * Gets the identity column of the table.
      *
      * @return string
      */
@@ -133,7 +133,7 @@ interface DatabaseTableInterface
     /**
      * Gets the unqiue columns of the table
      *
-     * @return array    An asscociate array of unique table columns by column name
+     * @return array An asscociate array of unique table columns by column name
      */
     public function getUniqueColumns();
 
@@ -157,7 +157,7 @@ interface DatabaseTableInterface
      * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRow(array $options = array());
+    public function createRow(array $options = array());
 
     /**
      * Get an instance of a rowset object for this table
@@ -165,7 +165,7 @@ interface DatabaseTableInterface
      * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRowset(array $options = array());
+    public function createRowset(array $options = array());
 
     /**
      * Table select method
@@ -175,7 +175,7 @@ interface DatabaseTableInterface
      * @param mixed    $query DatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode  The database fetch style.
      * @param array    $state An optional associative array of configuration options.
-     * @return  DatabaseRow(set) depending on the mode.
+     * @return  DatabaseRowInterface or DatabaseRowsetInterface depending on the mode.
      */
     public function select($query = null, $mode = Database::FETCH_ROWSET, array $options = array());
 
@@ -190,7 +190,7 @@ interface DatabaseTableInterface
     /**
      * Table insert method
      *
-     * @param  object       A DatabaseRow object
+     * @param  DatabaseRowInterface $row A DatabaseRow object
      * @return bool|integer Returns the number of rows inserted, or FALSE if insert query was not executed.
      */
     public function insert(DatabaseRowInterface $row);
@@ -198,15 +198,15 @@ interface DatabaseTableInterface
     /**
      * Table update method
      *
-     * @param  object           $row A DatabaseRow object
+     * @param  DatabaseRowInterface $row  A DatabaseRowInterface object
      * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
-    public function update(DatabaseRowTable $row);
+    public function update(DatabaseRowInterface $row);
 
     /**
      * Table delete method
      *
-     * @param  object       $row A DatabaseRow object
+     * @param  DatabaseRowInterface $row A DatabaseRow object
      * @return bool|integer Returns the number of rows deleted, or FALSE if delete query was not executed.
      */
     public function delete(DatabaseRowInterface $row);

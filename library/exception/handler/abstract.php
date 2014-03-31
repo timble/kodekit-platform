@@ -54,6 +54,17 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     protected $_exception_type;
 
     /**
+     * Result of error_get_last() cached before the class registers its handlers
+     *
+     * This is needed to make sure _handleFailure does not handle PHP errors that had happened before
+     * the class started handling them
+     *
+     * @var string
+     * @see _handleFailure
+     */
+    protected $_last_unhandled_error;
+
+    /**
      * Constructor.
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
@@ -61,6 +72,10 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
+
+        if ($error = error_get_last()) {
+            $this->_last_unhandled_error = md5(serialize($error));
+        }
 
         //Set the error level
         $this->setErrorLevel($config->error_level);
@@ -376,12 +391,17 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
         if($this->isEnabled(self::TYPE_FAILURE))
         {
             $error = error_get_last();
-            $level = $error['type'];
 
-            if ($this->getErrorLevel() & $level)
+            // Make sure error happened after we started handling them
+            if ($error && md5(serialize($error)) !== $this->_last_unhandled_error)
             {
-                $exception = new ExceptionFailure($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
-                $this->handleException($exception);
+                $level = $error['type'];
+
+                if ($this->getErrorLevel() & $level)
+                {
+                    $exception = new ExceptionFailure($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
+                    $this->handleException($exception);
+                }
             }
         }
     }
