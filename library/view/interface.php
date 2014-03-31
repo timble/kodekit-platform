@@ -157,4 +157,11 @@ interface ViewInterface
      * @return  ViewContext
      */
     public function getContext();
+
+    /**
+     * Check if we are rendering an entity collection
+     *
+     * @return bool
+     */
+    public function isCollection();
 }

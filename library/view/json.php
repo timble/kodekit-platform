@@ -132,16 +132,6 @@ class ViewJson extends ViewAbstract
     }
 
     /**
-     * Check if we are rendering an entity collection
-     *
-     * @return bool
-     */
-    public function isCollection()
-    {
-        return StringInflector::isPlural($this->getName());
-    }
-
-    /**
      * Returns the JSON data
      *
      * It converts relative URLs in the content to relative before returning the result
@@ -198,10 +188,10 @@ class ViewJson extends ViewAbstract
     /**
      * Returns the JSON representation of an entity collection
      *
-     * @param  ModelEntityInterface|array $collection
+     * @param  ModelEntityInterface $collection
      * @return array
      */
-    protected function _getCollection($collection)
+    protected function _getCollection(ModelEntityInterface $collection)
     {
         $result = array();
 

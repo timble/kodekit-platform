@@ -437,6 +437,16 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     }
 
     /**
+     * Check if we are rendering an entity collection
+     *
+     * @return bool
+     */
+    public function isCollection()
+    {
+        return StringInflector::isPlural($this->getName());
+    }
+
+    /**
      * Set a view data property
      *
      * @param   string  $property The property name.
