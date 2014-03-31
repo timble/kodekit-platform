@@ -316,7 +316,7 @@ class Date extends Object implements DateInterface
                 break;
 
             case 'M':
-                $replacement = $translator->translate(strtoupper($this->_date->format('F').'_SHORT'));
+                $replacement = $translator->translate(strtoupper($this->_date->format('F').' short'));
                 break;
         }
 
