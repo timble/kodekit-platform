@@ -65,8 +65,7 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
             'category'  => $category))
             ->fetch();
 
-        $context->data->articles   = $articles;
-        $context->data->show_title = $params->get('show_title', false);
+        $context->data->articles = $articles;
 
         // Set layout based on params.
         $this->setLayout($params->get('show_content', 0) ? 'articles' : 'links');

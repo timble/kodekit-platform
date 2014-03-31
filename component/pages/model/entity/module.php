@@ -26,15 +26,6 @@ class ModelEntityModule extends Library\ModelEntityRow
      */
     protected $_parameters;
 
-	public function getPropertyTitle()
-	{
-        if($this->manifest instanceof \SimpleXMLElement) {
-             return $this->manifest->name;
-        }
-
-        return null;
-    }
-
     public function getPropertyDescription()
     {
         if($this->manifest instanceof \SimpleXMLElement) {
@@ -110,7 +101,7 @@ class ModelEntityModule extends Library\ModelEntityRow
             $path = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
             $file = $path.'/config.xml';
 
-            $this->_parameters = new \JParameter( $this->params, $file, 'module' );
+            $this->_parameters = new \JParameter( $this->parameters, $file, 'module' );
         }
 
         return $this->_parameters;

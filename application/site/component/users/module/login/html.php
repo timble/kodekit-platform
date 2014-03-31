@@ -25,15 +25,4 @@ class UsersModuleLoginHtml extends PagesModuleDefaultHtml
         
         parent::_initialize($config);
     }
-
-    protected function _fetchData(Library\ViewContext $context)
-    {
-        $page   = $this->getObject('application.pages')->getActive();
-
-        $context->data->name          = $this->module->getParameters()->get('name');
-        $context->data->usesecure     = $this->module->getParameters()->get('usesecure');
-        $context->data->show_title    = $this->module->getParameters()->get('show_title', false);
-
-        parent::_fetchData($context);
-    }
 } 

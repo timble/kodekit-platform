@@ -60,9 +60,6 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
             }
         }
 
-        $context->data->show_title = $params->get('show_title', false);
-        $context->data->class      = $params->get('class', 'nav');
-
         parent::_fetchData($context);
     }
 }

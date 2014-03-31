@@ -19,13 +19,6 @@ use Nooku\Library;
  */
 class ModelEntityContainer extends Library\ModelEntityRow
 {
-    /**
-     * A reference to the container configuration
-     *
-     * @var Library\ModelEntityInterface
-     */
-    protected $_parameters;
-
     public function setPropertyPath($value)
     {
         // Prepend with site root if it is a relative path
@@ -44,17 +37,6 @@ class ModelEntityContainer extends Library\ModelEntityRow
         return str_replace($root.'/', '', $path);
     }
 
-    public function getParameters()
-    {
-        if (empty($this->_parameters))
-        {
-            $this->_parameters = $this->getObject('com:files.model.entity.config')
-                ->setProperties(json_decode($this->_data['parameters'], true));
-        }
-
-        return $this->_parameters;
-    }
-
     public function getAdapter($type, array $config = array())
     {
         return $this->getObject('com:files.adapter.' . $type, $config);
@@ -65,7 +47,6 @@ class ModelEntityContainer extends Library\ModelEntityRow
         $data = parent::toArray();
         $data['path']          = $this->relative_path;
         $data['relative_path'] = $this->relative_path;
-        $data['parameters']    = $this->getParameters()->toArray();
 
         return $data;
     }

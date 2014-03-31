@@ -34,56 +34,6 @@ class ModelEntityUser extends Library\ModelEntityRow
     protected $_groups;
 
     /**
-     * The user parameters
-     *
-     * @var \JParameter
-     */
-    protected $_parameters;
-
-    public function getPropertyTimezone()
-    {
-        return $this->getParameters()->get('timezone');
-    }
-
-    public function setPropertyTimezone($value)
-    {
-        $params = $this->getParameters();
-
-        //Set the timezone in the parameters
-        $params->set('timezone', $value);
-
-        //Update the params property
-        $this->params = $params->toString();
-
-        return $value;
-    }
-
-    public function getPropertyLanguage()
-    {
-        return $this->getParameters()->get('language');
-    }
-
-    public function setPropertyLanguage($value)
-    {
-        $params = $this->getParameters();
-
-        //Set the timezone in the parameters
-        $params->set('language', $value);
-
-        //Update the params property
-        $this->params = $params->toString();
-    }
-
-    public function getParameters()
-    {
-        if (empty($this->_parameters)) {
-            $this->_parameters = new \JParameter($this->_data['params']);
-        }
-
-        return $this->_parameters;
-    }
-
-    /**
      * User role getter.
      *
      * @return Library\ModelEntityInterface The user's role row object.
@@ -201,9 +151,7 @@ class ModelEntityUser extends Library\ModelEntityRow
     public function toArray()
     {
         $data = parent::toArray();
-        
         unset($data['activation']);
-        $data['params'] = $this->params->toArray();
 
         return $data;
     }

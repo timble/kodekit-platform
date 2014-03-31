@@ -41,17 +41,6 @@
 				        <input class="required validate-email" type="email" id="email" name="email" value="<?= $user->email ?>" />
 				    </div>
 				</div>
-				<div>
-				    <label for="params[timezone]"><?= translate('Time Zone') ?></label>
-				    <div>
-				        <?= helper('listbox.timezones', array(
-                            'name'     => 'timezone',
-                            'selected' => $user->timezone,
-                            'deselect' => true,
-                            'attribs'  => array('class' => 'select-timezone', 'style' => 'width:220px')
-                        )) ?>
-				    </div>
-				</div>
 			</fieldset>
 			<fieldset>
 				<legend><?= translate('Password') ?></legend>
@@ -80,14 +69,28 @@
 			    <? endif; ?>
 			</fieldset>
 			<fieldset>
-				<legend><?= translate('Language') ?></legend>
+				<legend><?= translate('Locale') ?></legend>
                 <div>
-                    <?= helper('listbox.languages', array(
-                        'name'     => 'language',
-                        'selected' => $user->language,
-                        'deselect' => true,
-                        'attribs'  => array('class' => 'select-language', 'style' => 'width:220px')
-                    )) ?>
+                    <label for="parameters[timezone]"><?= translate('Time Zone') ?></label>
+                    <div>
+                        <?= helper('listbox.timezones', array(
+                            'name'     => 'parameters[timezone]',
+                            'selected' => $user->getParameters()->timezone,
+                            'deselect' => true,
+                            'attribs'  => array('class' => 'select-timezone', 'style' => 'width:220px')
+                        )) ?>
+                    </div>
+                </div>
+                <div>
+                    <label for="parameters[language]"><?= translate('Language') ?></label>
+                    <div>
+                        <?= helper('listbox.languages', array(
+                            'name'     => 'parameters[language]',
+                            'selected' => $user->getParameters()->language,
+                            'deselect' => true,
+                            'attribs'  => array('class' => 'select-language', 'style' => 'width:220px')
+                        )) ?>
+                    </div>
                 </div>
 			</fieldset>
 		</div>

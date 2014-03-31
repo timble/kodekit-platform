@@ -24,7 +24,7 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'       => 'articles',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable',
                 'orderable' => array(
                     'strategy' => 'flat'
                 ),
@@ -35,9 +35,13 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
                 'com:comments.database.behavior.commentable'
             ),
             'filters' => array(
+                'parameters' => 'json',
                 'introtext'   => array('html', 'tidy'),
                 'fulltext'    => array('html', 'tidy'),
-		    )
+		    ),
+            'column_map' => array(
+                'parameters' => 'params',
+            )
         ));
 
         parent::_initialize($config);

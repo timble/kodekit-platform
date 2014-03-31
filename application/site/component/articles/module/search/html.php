@@ -17,16 +17,5 @@ use Nooku\Library;
  */
 class ArticlesModuleSearchHtml extends PagesModuleDefaultHtml
 {
-    protected function _fetchData(Library\ViewContext $context)
-    {
-        $params = $this->module->getParameters();
 
-        $context->data->form_class   = $params->get('form_class', 'form-search');
-        $context->data->input_class  = $params->get('input_class', 'span2 search-query');
-        $context->data->button_class = $params->get('button_class', 'btn');
-        $context->data->placeholder  = $params->get('placeholder', 'Search articles');
-        $context->data->item_id      = $params->get('item_id', null);
-
-        parent::_fetchData($context);
-    }
 }
