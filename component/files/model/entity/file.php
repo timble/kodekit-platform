@@ -83,8 +83,8 @@ class ModelEntityFile extends ModelEntityNode
     {
         if($metadata = $this->_adapter->getMetadata())
         {
-            if(isset($metadata['modified_data'])) {
-                return $metadata['modified_data'];
+            if(isset($metadata['modified_date'])) {
+                return $metadata['modified_date'];
             }
         }
 
