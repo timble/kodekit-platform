@@ -27,7 +27,14 @@ class TranslationsStrategyYaml implements TranslationsStrategyInterface
 
         foreach ($data as $key => $value)
         {
-            $assoc[$key] = $value['value'];
+            if (is_array($value))
+            {
+                $assoc[$key] = $value['value'];
+            }
+            else
+            {
+                $assoc[$key] = $value;
+            }
         }
 
         return $assoc;
