@@ -18,9 +18,7 @@ Advanced Parameters: Advanced Parameters
 Other Parameters: Other Parameters
 Custom Output: Custom Output
 Publish: Publish
-Published: Published
 Position: Position
-Registered: Registered
 All: All
 Selected: Selected
 None: None
@@ -30,13 +28,9 @@ Unpublished: Unpublished
 Positions: Positions
 All positions: All positions
 Select module: Select module
-Component: Component
 Other: Other
 Page link: Page link
 External link: External link
-Redirect: Redirect
-Separator: Separator
-Page: Page
 Modules: Modules
 Module assignment: Module assignment
 URL: URL

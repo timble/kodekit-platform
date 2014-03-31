@@ -5,14 +5,12 @@
 # @link		    git://git.assembla.com/nooku-framework.git for the canonical source repository
 #
 
-CLOAKING: CLOAKING
+Cloaking: Cloaking
 Last Updated on {date}: Last Updated on {date}
 Unpublished: Unpublished
-Registered: Registered
 Comment on: Comment on
 by: by
 Publishing: Publishing
-Published: Published
 Publish on: Publish on
 Unpublish on: Unpublish on
 Category: Category

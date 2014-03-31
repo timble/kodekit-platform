@@ -448,7 +448,7 @@ window.addEvent('domready', function() {
     <div id="files-upload" style="clear: both" class="uploader-files-empty well">
 	<div style="text-align: center;">
 		<h3 style=" float: none">
-			<?= sprintf(translate('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
+			<?= translate('Upload files to {target}', array('target' => '<span id="upload-files-to"></span>')) ?>
 		</h3>
 	</div>
 	<div id="files-upload-controls">
@@ -457,7 +457,7 @@ window.addEvent('domready', function() {
 			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= translate('Computer'); ?></a></li>
 			<li><a class="upload-form-toggle target-web" href="#web"><?= translate('Web'); ?></a></li>
 			<li id="upload-max">
-                <?= str_replace('%size%', '<span id="upload-max-size"></span>',  translate('Each file should be smaller than %size%')) ?>
+                <?=  translate('Each file should be smaller than {size}', array('size' => '<span id="upload-max-size"></span>')) ?>
 			</li>
 		</ul>
 	</div>

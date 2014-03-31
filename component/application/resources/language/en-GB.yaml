@@ -12,11 +12,11 @@ Function: Function
 File: File
 Line: Line
 Locked by {user} {date}: Locked by {user} {date}
-Today: Today
 Yesterday: Yesterday
 Tomorrow: Tomorrow
-Now: Now
+Just now: Just now
 Loading...: Loading...
+Long Date Format: l, d F Y H:i
 Never: Never
 Go: Go
 Reset: Reset

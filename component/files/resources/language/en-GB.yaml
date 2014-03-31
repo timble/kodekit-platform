@@ -19,7 +19,7 @@ Invalid folder name: Invalid folder name
 Select: Select
 Show files as icons: Show files as icons
 Show files in a list: Show files in a list
-Create a new folder in %folder%: Create a new folder in %folder%
+Create a new folder in {folder}: Create a new folder in {folder}
 Enter a folder name: Enter a folder name
 Create: Create
 Name: Name
@@ -28,11 +28,11 @@ Last Modified: Last Modified
 View: View
 Are you sure you want to clear the upload queue? This cannot be undone!: Are you sure
   you want to clear the upload queue? This cannot be undone!
-Upload files to %s: Upload files to %s
+Upload files to {target}: Upload files to {target}
 'Upload from:': 'Upload from:'
 Computer: Computer
 Web: Web
-Each file should be smaller than %size%: Each file should be smaller than %size%
+Each file should be smaller than {size}: Each file should be smaller than {size}
 Drag files here: Drag files here
 'OR Select a file to upload:': 'OR Select a file to upload:'
 Remote URL: Remote URL

@@ -6,7 +6,8 @@
 #
 
 Make Default: Make Default
-You cannot move a node under one of its descendants: You cannot move a node under one of its descendants
+You cannot move a node under one of its descendants: You cannot move a node under
+  one of its descendants
 Component: Component
 Page Link: Page Link
 Redirect: Redirect

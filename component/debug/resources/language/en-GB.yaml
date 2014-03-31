@@ -17,7 +17,6 @@ Type: Type
 Query: Query
 Component: Component
 Size: Size
-File: File
 language: language
 PHP: PHP
 Untranslated Strings: Untranslated Strings
