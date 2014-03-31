@@ -77,7 +77,7 @@ class Date extends Object implements DateInterface
      */
     public function format($format)
     {
-        $format = preg_replace_callback('/(?<!\\\)[DlFM]/', array($this, '_translate'), $format);
+        $format = preg_replace_callback('/(?<!\\\\)[DlFM]/', array($this, '_translate'), $format);
         return $this->_date->format($format);
     }
 
