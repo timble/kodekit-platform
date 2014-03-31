@@ -19,17 +19,22 @@ use Nooku\Library;
  */
 class ViewJson extends Library\ViewJson
 {
-    protected function _getItem()
+    protected function _renderData()
     {
-        $entity  = $this->getModel()->fetch();
-        $data = parent::_getItem();
+        $output = parent::_renderData();
 
-        $status = $entity->getStatus() !== self::STATUS_FAILED;
-		$data['status'] = $status;
-        if ($data === false){
-            $data['error'] = $entity->getStatusMessage();
+        if (!$this->isCollection())
+        {
+            $entity = $this->getModel()->getRow();
+            $status = $entity->getStatus() !== $entity::STATUS_FAILED;
+
+            $output['status'] = $status;
+
+            if ($status === false) {
+                $output['error'] = $entity->getStatusMessage();
+            }
         }
 
-        return $data;
+        return $output;
     }
 }

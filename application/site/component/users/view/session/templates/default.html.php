@@ -35,7 +35,7 @@
         <button type="submit" class="validate btn btn-primary"><?= translate('Sign in') ?></button>
         <? if($parameters->get('registration')) : ?>
         	<?= translate('or') ?>
-        	<a href="<?= helper('route.user', array('layout' => 'form')); ?>"><?= translate('Sign up'); ?></a>
+        	<a href="<?= helper('route.user', array('layout' => 'register')); ?>"><?= translate('Sign up'); ?></a>
         <?php endif; ?>
     </div>
 </form>

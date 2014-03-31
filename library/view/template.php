@@ -247,15 +247,30 @@ abstract class ViewTemplate extends ViewAbstract
      */
     public function getRoute($route = '', $fqr = null, $escape = null)
     {
-        $route = parent::getRoute($route, $fqr, $escape);
+        //@TODO : Check if $route if valid. Throw exception if not.
+        if(is_string($route)) {
+            parse_str(trim($route), $parts);
+        } else {
+            $parts = $route;
+        }
 
-        if (!isset($route->query['layout']) && !empty($this->_layout))
+        // Check to see if there is component information in the route if not add it
+        if (!isset($parts['option'])) {
+            $parts['option'] = 'com_' . $this->getIdentifier()->package;
+        }
+
+        // Add the view information to the route if it's not set
+        if (!isset($parts['view'])) {
+            $parts['view'] = $this->getName();
+        }
+
+        if (!isset($parts['layout']) && !empty($this->_layout))
         {
-            if ($route->query['view'] == $this->getName()) {
-                $route->query['layout'] = $this->getLayout();
+            if ((substr($parts['option'], 4) == $this->getIdentifier()->package) && ($parts['view'] == $this->getName())) {
+                $parts['layout'] = $this->getLayout();
             }
         }
 
-        return $route;
+        return parent::getRoute($parts, $fqr, $escape);
     }
 }

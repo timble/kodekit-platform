@@ -20,106 +20,41 @@ use Nooku\Library;
  */
 class ViewActivitiesJson extends Library\ViewJson
 {
-	/**
-	 * Get the list data
-	 *
-	 * @return array 	The array with data to be encoded to json
-	 */
-	protected function _getList()
-	{
-		//Get the model
-	    $model = $this->getModel();
+    protected function _getItem(Library\DatabaseRowInterface $row)
+    {
+        $data = parent::_getItem($row);
 
-	    //Get the route
-		$route = $this->getRoute();
+        unset($data['links']); // Cleanup.
 
-		//Get the model state
-		$state = $model->getState();
+        return $data;
+    }
 
-        //Get the model paginator
-        $paginator = $model->getPaginator();
+    protected function _getActivity(Library\DatabaseRowInterface $row)
+    {
+        $id = array(
+            'tag:'.$this->getUrl()->toString(Library\HttpUrl::BASE),
+            'id:'.$row->id
+        );
 
-	    $vars = array();
-	    foreach($state->toArray() as $var)
-	    {
-	        if(!$var->unique) {
-	            $vars[] = $var->name;
-	        }
-	    }
+        $template = $this->getObject('template.default', array('view' => $this));
+        $item = array(
+            'id' => implode(',', $id),
+            'published' => $this->getObject('com:activities.template.helper.date', array('template' => $template))->format(array(
+                    'date'   => $row->created_on,
+                    'format' => 'Y-m-dTZ'
+                )),
+            'verb' => $row->action,
+            'object' => array(
+                'url' => (string)$this->getRoute('option=com_'.$row->package.'&view='.$row->name.'&id='.$row->row),
+            ),
+            'target' => array(
+                'url' => (string)$this->getRoute('option=com_'.$row->package.'&view='.$row->name),
+            ),
+            'actor' => array(
+                'url' => (string)$this->getRoute('option=com_users&view=user&id='.$row->created_by),
+            )
+        );
 
-		$data = array(
-			'version'  => '1.0',
-			'href'     => (string) $route->setQuery($state->getValues()),
-			'url'      => array(
-				'type'     => 'application/json',
-				'template' => (string) $route->get(Library\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
-			),
-			'offset'   => (int) $paginator->offset,
-			'limit'    => (int) $paginator->limit,
-			'total'	   => 0,
-			'items'    => array(),
-			'queries'  => array()
-		);
-
-		if($list = $model->fetch())
-		{
-		    $vars = array();
-	        foreach($state->toArray() as $var)
-	        {
-	            if($var->unique)
-	            {
-	                $vars[] = $var->name;
-	                $vars   = array_merge($vars, $var->required);
-	            }
-	        }
-
-		    $items = array();
-			foreach($list as $item)
-			{
-			    $id = array(
-			    	'tag:'.$this->getObject('request')->getUrl()->toString(Library\HttpUrl::BASE),
-			    	'id:'.$item->id
-				);
-
-			    $items[] = array(
-			    	'id' => implode(',', $id),
-			    	'published' => $this->getObject('com:activities.template.helper.date')->format(array(
-			    		'date'   => $item->created_on,
-			    		'format' => '%Y-%m-%dT%TZ'
-				    )),
-		    		'verb' => $item->action,
-	        		'object' => array(
-	        			'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name.'&id='.$item->row),
-	                ),
-			    	'target' => array(
-			    		'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name),
-				    ),
-				    'actor' => array(
-				    	'url' => $this->getRoute('option=com_users&view=user&id='.$item->created_by),
-					)
-			    );
-			}
-
-			$queries = array();
-            foreach(array('first', 'prev', 'next', 'last') as $offset)
-            {
-                $page = $paginator->pages->{$offset};
-                if($page->active)
-                {
-                    $queries[] = array(
-		   				'rel' => $page->rel,
-		   				'href' => (string) $this->getRoute('limit='.$page->limit.'&offset='.$page->offset)
-                    );
-                }
-            }
-
-            $data = array_merge($data, array(
-				'total'    => $paginator->total,
-				'items'    => $items,
-		        'queries'  => $queries
-			 ));
-		}
-
-		return $data;
-	}
+        return $item;
+    }
 }

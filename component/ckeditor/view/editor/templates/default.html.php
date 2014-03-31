@@ -20,7 +20,8 @@
             language   : '<?= $settings->language ?>',
             contentsLanguage     : '<?= $settings->contentsLanguage ?>',
             contentsLangDirection: '<?= $settings->contentsLangDirection ?>',
-            scayt_autoStartup    : '<?= $settings->scayt_autoStartup ?>'
+            scayt_autoStartup    : '<?= $settings->scayt_autoStartup ?>',
+            removeButtons        : '<?= $settings->removeButtons ?>'
         });
     });
 </script>

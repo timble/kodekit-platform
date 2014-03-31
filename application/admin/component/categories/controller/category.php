@@ -17,7 +17,15 @@ use Nooku\Component\Categories;
  * @package Component\Categories
  */
 abstract class CategoriesControllerCategory extends Categories\ControllerCategory
-{ 
+{
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->registerCallback('after.save'  , array($this, 'setDefaultAttachment'));
+        $this->registerCallback('after.apply'  , array($this, 'setDefaultAttachment'));
+    }
+    
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -32,5 +40,25 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
 
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
+    }
+
+    public function setDefaultAttachment(Library\CommandContext $context)
+    {
+        if($this->isAttachable()) 
+        {
+            $entity = $context->result;
+
+            $attachment = $this->getObject('com:attachments.model.attachments')
+                ->row($entity->id)
+                ->table($entity->getTable()->getBase())
+                ->getRowset();
+
+            // If attachments have been linked to this row but there's no default attachment ID is still empty, set the first one as default.
+            if(!$entity->attachments_attachment_id && count($attachment))
+            {
+                $entity->attachments_attachment_id = $entity->id;
+                $entity->save();
+            }
+        }
     }
 }
