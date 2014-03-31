@@ -189,16 +189,32 @@ class TranslationsGenerator
 
         foreach ($translations as $location => $data)
         {
-            // Do not list translations that are already included in the application translations files, aka common.
+            // Do not list translations that are already included in the application translations files unless they are
+            // overrides.
             if (isset($application) && !empty($application[$location]))
             {
-                $ignored = array_intersect_key($data, $application[$location]);
-                $data    = array_diff_key($data, $application[$location]);
+                $app_overrides = array();
+                $app_ignored   = array();
+
+                foreach (array_keys(array_intersect_key($data, $application[$location])) as $key)
+                {
+                    if (isset($files[$location][$key]))
+                    {
+                        // Report the override.
+                        $app_overrides[$key] = $data[$key];
+                    }
+                    else
+                    {
+                        // Remove it from translations list and notify.
+                        $app_ignored[$key] = $data[$key];
+                        unset($data[$key]);
+                    }
+                }
             }
 
             if ($location != 'component') {
-                // Do not list translations that are already included in the component's layer translation (unless they
-                // are overrides).
+                // Do not list translations that are already included in the component's layer translation unless they
+                // are overrides.
                 foreach (array_keys(array_intersect_key($data, $translations['component'])) as $key)
                 {
                     // Remove the common string if there's no override present in the current translation file.
@@ -209,38 +225,42 @@ class TranslationsGenerator
                 }
             }
 
-            $output .= "\n\nLocation: {$location} ...\n\n";
+            $output .= "\n\n### Location: {$location} ... ###\n\n";
             $output .= $strategy->dump($data);
             $output .= "\n";
 
-            // Check for overridden translations.
+            // Check for component overridden translations.
             if ($location != 'component') {
 
-                $common = array_intersect_key($data, $translations['component']);
+                $component_overrides = array_intersect_key($data, $translations['component']);
 
-                if (!empty($common))
+                if (!empty($component_overrides))
                 {
-                    $output .= "The following translations are being overridden in the {$location} app:\n\n";
-                    $output .= $strategy->dump($common);
+                    $output .= '!!! ' . ucfirst($this->_component) . " {$location} overrides: !!!\n\n";
+                    $output .= $strategy->dump($component_overrides);
                     $output .= "\n";
                 }
             }
 
-            $leftovers = array_diff_key($files[$location], $translations[$location]);
+            $unfound = array_diff_key($files[$location], $translations[$location]);
 
-            // Report leftovers.
-            if (!empty($leftovers)) {
-                $output .= "The following translations were found in the {$location} translations file but are no longer
-                 being used:\n\n";
-                $output .= $strategy->dump($leftovers);
+            // Report non-referenced (not found) translations.
+            if (!empty($unfound)) {
+                $output .= "!!! Non-referenced translations (present in translations file, but not used on {$location} layer code): !!!\n\n";
+                $output .= $strategy->dump($unfound);
                 $output .= "\n";
             }
 
-            if (!empty($ignored))
+            if (!empty($app_ignored))
             {
-                $output .= "The following translations were found but not included in the translations list since they
-                are already present in he application translations files:\n\n";
-                $output .= $strategy->dump($ignored);
+                $output .= "!!! Ignored translations (already available on Application component translations): !!!\n\n";
+                $output .= $strategy->dump($app_ignored);
+                $output .= "\n";
+            }
+
+            if (!empty($app_overrides)) {
+                $output .= "!!! Application component overrides: !!!\n\n";
+                $output .= $strategy->dump($app_overrides);
                 $output .= "\n";
             }
         }
