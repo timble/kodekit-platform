@@ -71,7 +71,7 @@ interface StringInflectorInterface
 	 * @param  string $word Word to underscore
 	 * @return string Underscored word
 	 */
-	public static function variablize($word);
+	public static function underscore($word);
 
 	/**
 	 * Convert any "CamelCased" word into an array of strings

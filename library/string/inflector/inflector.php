@@ -280,7 +280,7 @@ class StringInflector implements StringInflectorInterface
 	 * @param  string $word Word to underscore
 	 * @return string Underscored word
 	 */
-	public static function variablize($word)
+	public static function underscore($word)
 	{
 		$word = preg_replace('/(\s)+/', '_', $word);
 		$word = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $word));
@@ -298,7 +298,7 @@ class StringInflector implements StringInflectorInterface
 	 */
 	public static function explode($word)
 	{
-		$result = explode('_', self::variablize($word));
+		$result = explode('_', self::underscore($word));
 		return $result;
 	}
 
@@ -340,7 +340,7 @@ class StringInflector implements StringInflectorInterface
 	 */
 	public static function tableize($className)
 	{
-		$result = self::variablize($className);
+		$result = self::underscore($className);
 
 		if(!self::isPlural($className)) {
 			$result = self::pluralize($result);

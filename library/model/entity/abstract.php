@@ -309,7 +309,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
             {
                 if (substr($method, 0, 11) == 'getProperty' && $method !== 'getProperty')
                 {
-                    $property = StringInflector::variablize(substr($method, 11));
+                    $property = StringInflector::underscore(substr($method, 11));
                     $properties[$property] = $property;
                 }
             }

@@ -112,7 +112,7 @@ class KInflectorTest extends PHPUnit_Framework_TestCase
      */
     public function testCamelizeToUnderscored($classified, $separator, $split, $exploded, $camelized, $underscored)
     {
-        $this->assertEquals(KInflector::variablize($camelized), $underscored);
+        $this->assertEquals(KInflector::underscore($camelized), $underscored);
     }
 
     /**
@@ -128,7 +128,7 @@ class KInflectorTest extends PHPUnit_Framework_TestCase
      */
     public function testClassifyToUnderscore($classified, $separator, $split, $exploded, $camelized, $underscored)
     {
-        $this->assertEquals(KInflector::variablize($classified), $underscored);
+        $this->assertEquals(KInflector::underscore($classified), $underscored);
     }
 
     /**
