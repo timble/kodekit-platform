@@ -191,22 +191,26 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         }
 
         return $this;
-    }/**
- * Get a property
- *
- * Method provides support for computed properties by calling an getProperty[CamelizedName] if it exists. The getter
- * should return the computed value to get.
- *
- * @param   string  $name The property name
- * @return  mixed   The property value.
- */
+    }
+
+    /**
+     * Get a property
+     *
+     * Method provides support for computed properties by calling an getProperty[CamelizedName] if it exists. The getter
+     * should return the computed value to get.
+     *
+     * @param   string  $name The property name
+     * @return  mixed   The property value.
+     */
     public function getProperty($name)
     {
         //Handle computed properties
         if(!$this->hasProperty($name) && !empty($name))
         {
             $getter = 'getProperty'.StringInflector::camelize($name);
-            if(method_exists($this, $getter)) {
+            $methods = $this->getMethods();
+
+            if(isset($methods[$getter])) {
                 parent::offsetSet($name, $this->$getter());
             }
         }
@@ -227,7 +231,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      *
-     * @return  ModelEntityAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setProperty($name, $value, $modified = true)
     {
@@ -241,11 +245,15 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
                     parent::offsetUnset($property);
                 }
 
+                //Call the setter if it exists
                 $setter = 'setProperty'.StringInflector::camelize($name);
-                if(method_exists($this, $setter)) {
+                $methods = $this->getMethods();
+
+                if(isset($methods[$setter])) {
                     $value = $this->$setter($value);
                 }
 
+                //Set the property value
                 parent::offsetSet($name, $value);
 
                 //Mark the property as modified

@@ -178,7 +178,9 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
         if(!$this->hasProperty($name) && !empty($name))
         {
             $getter = 'getProperty'.StringInflector::camelize($name);
-            if(method_exists($this, $getter)) {
+            $methods = $this->getMethods();
+
+            if(isset($methods[$getter])) {
                 parent::offsetSet($name, $this->$getter());
             }
         }
@@ -213,11 +215,15 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
                     parent::offsetUnset($property);
                 }
 
+                //Call the setter if it exists
                 $setter = 'setProperty'.StringInflector::camelize($name);
-                if(method_exists($this, $setter)) {
+                $methods = $this->getMethods();
+
+                if(isset($methods[$setter])) {
                     $value = $this->$setter($value);
                 }
 
+                //Set the property value
                 parent::offsetSet($name, $value);
 
                 //Mark the property as modified
