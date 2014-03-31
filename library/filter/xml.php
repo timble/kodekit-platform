@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Json Filter
+ * Yaml Filter
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterJson extends FilterAbstract
+class FilterXml extends FilterAbstract
 {
     /**
      * Validate a value
@@ -26,7 +26,7 @@ class FilterJson extends FilterAbstract
     public function validate($value)
     {
         try {
-            $config = $this->getObject('lib:object.config.factory')->fromString('json', $value);
+            $config = $this->getObject('lib:object.config.factory')->fromString('xml', $value);
         } catch(\RuntimeException $e) {
             $config = null;
         }
@@ -42,12 +42,12 @@ class FilterJson extends FilterAbstract
      */
     public function sanitize($value)
     {
-        if(!$value instanceof ObjectConfigJson)
+        if(!$value instanceof ObjectConfigXml)
         {
             if(is_string($value)) {
-                $value = $this->getObject('lib:object.config.factory')->fromString('json', $value);
+                $value = $this->getObject('lib:object.config.factory')->fromString('xml', $value);
             } else {
-                $value = $this->getObject('lib:object.config.factory')->createFormat('json', $value);
+                $value = $this->getObject('lib:object.config.factory')->createFormat('xml', $value);
             }
         }
 
