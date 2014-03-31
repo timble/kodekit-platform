@@ -169,11 +169,80 @@ class TranslationsGenerator
             $output .= "\nNo translations where found for  *** {$component} *** component ...\n\n";
         }
 
+        // Load current application translations if generating translations for any other component.
+        if ($this->_component != 'application')
+        {
+            $application = array('site' => array(), 'admin' => array(), 'component' => array());
+
+            foreach ($this->_getLocations('application') as $location => $directories)
+            {
+                if ($file = $this->_getLanguageFile($directories))
+                {
+                    $application[$location] = $strategy->parse($file);
+                }
+            }
+
+            // Merge component layer with application layer translations.
+            $application['site'] = array_merge($application['component'], $application['site']);
+            $application['admin'] = array_merge($application['component'], $application['admin']);
+        }
+
         foreach ($translations as $location => $data)
         {
+            // Do not list translations that are already included in the application translations files, aka common.
+            if (isset($application) && !empty($application[$location]))
+            {
+                $ignored = array_intersect_key($data, $application[$location]);
+                $data    = array_diff_key($data, $application[$location]);
+            }
+
+            if ($location != 'component') {
+                // Do not list translations that are already included in the component's layer translation (unless they
+                // are overrides).
+                foreach (array_keys(array_intersect_key($data, $translations['component'])) as $key)
+                {
+                    // Remove the common string if there's no override present in the current translation file.
+                    if (!isset($files[$location][$key]))
+                    {
+                        unset($data[$key]);
+                    }
+                }
+            }
+
             $output .= "\n\nLocation: {$location} ...\n\n";
             $output .= $strategy->dump($data);
             $output .= "\n";
+
+            // Check for overridden translations.
+            if ($location != 'component') {
+
+                $common = array_intersect_key($data, $translations['component']);
+
+                if (!empty($common))
+                {
+                    $output .= "The following translations are being overridden in the {$location} app:\n\n";
+                    $output .= $strategy->dump($common);
+                    $output .= "\n";
+                }
+            }
+
+            $leftovers = array_diff_key($files[$location], $translations[$location]);
+
+            // Report leftovers.
+            if (!empty($leftovers)) {
+                $output .= "The following translations were found in the {$location} translations file but are no longer
+                 being used:\n\n";
+                $output .= $strategy->dump($leftovers);
+                $output .= "\n";
+            }
+
+            if (!empty($ignored))
+            {
+                $output .= "The following translations were found but not included in the translations list since they
+                are already present in he application translations files:\n\n";
+                $output .= $strategy->dump($ignored);
+                $output .= "\n";
+            }
         }
 
         return $output;
@@ -196,6 +265,8 @@ class TranslationsGenerator
         if ($component == 'application')
         {
             $locations['component'][] = NOOKU_PATH . '/library';
+        } else {
+
         }
 
         return $locations;
