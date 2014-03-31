@@ -320,8 +320,8 @@ class Date extends Object implements DateInterface
                 break;
         }
 
-        $replacement = preg_replace('/^([0-9])/', '\\\\\\\\\1', $replacement);
-        $replacement = preg_replace('/([a-z])/i', '\\\\\1', $replacement);
+        $replacement = preg_replace('/^([0-9])/', '$1', $replacement);
+        $replacement = preg_replace('/([a-z])/i', '$1', $replacement);
 
         return $replacement;
     }
