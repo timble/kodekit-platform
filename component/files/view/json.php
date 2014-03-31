@@ -25,7 +25,7 @@ class ViewJson extends Library\ViewJson
 
         if (!$this->isCollection())
         {
-            $entity = $this->getModel()->getRow();
+            $entity = $this->getModel()->fetch();
             $status = $entity->getStatus() !== $entity::STATUS_FAILED;
 
             $output['status'] = $status;

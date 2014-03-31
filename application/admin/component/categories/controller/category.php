@@ -22,8 +22,8 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.save'  , array($this, 'setDefaultAttachment'));
-        $this->registerCallback('after.apply'  , array($this, 'setDefaultAttachment'));
+        $this->addCommandCallback('after.save'  , 'setDefaultAttachment');
+        $this->addCommandCallback('after.apply' , 'setDefaultAttachment');
     }
     
     protected function _initialize(Library\ObjectConfig $config)
