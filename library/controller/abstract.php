@@ -138,6 +138,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
         $context_action = $context->getAction();
         $context->setAction($action);
 
+        // Get the current command name
+        $context_name = $context->getName();
+
         if($this->invokeCommand('before.'.$action, $context) !== false)
         {
             $method = '_action' . ucfirst($action);
@@ -161,9 +164,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
             $this->invokeCommand('after.'.$action, $context);
         }
 
-        //Reset the context subject
+        // Reset the context
         $context->setSubject($context_subject);
         $context->setAction($context_action);
+        $context->setName($context_name);
 
         return $context->result;
     }
