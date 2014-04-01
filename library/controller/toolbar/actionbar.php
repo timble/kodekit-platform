@@ -97,7 +97,8 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
         $command->append(array(
             'attribs' => array(
                 'data-action' => 'delete',
-                'data-prompt' => \JText::_('Deleted items will be lost forever. Would you like to continue?')
+                'data-prompt' => $this->getObject('translator')
+                        ->translate('Deleted items will be lost forever. Would you like to continue?')
             )
         ));
     }
