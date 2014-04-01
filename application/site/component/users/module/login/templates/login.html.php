@@ -29,7 +29,7 @@
 			<input id="modlgn_passwd" class="required" type="password" name="password" />
             <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
                 <span class="help-block">
-			        <small><a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
+			        <small><a href="<?= $user_route ?>"><?= translate('Forgot your password?'); ?></a></small>
 			    </span>
             <? endif; ?>
 		</div>
