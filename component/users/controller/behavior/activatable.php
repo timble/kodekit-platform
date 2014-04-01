@@ -72,7 +72,8 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         $row->setData(array('activation' => '', 'enabled' => 1));
 
         if (!$row->save()) {
-            $result = false;
+            $context->error = $row->getStatusMessage();
+            $result         = false;
         }
 
         return $result;
