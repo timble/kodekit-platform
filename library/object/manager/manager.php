@@ -310,17 +310,17 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * Takes an object's identifier and public properties and serializes them
      *
      * @param $object  object
-     * @param $to_array boolean Returns a raw array if true
+     * @param $toArray boolean Returns a raw array if true
      * @return string
      */
-    public function serializeObject($object, $to_array = false)
+    public function serializeObject($object, $toArray = false)
     {
         $data = array(
             'properties' => get_object_vars($object),
             'identifier' => (string) $object->getIdentifier()
         );
 
-        return $to_array ? $data : serialize($data);
+        return $toArray ? $data : serialize($data);
     }
 
     /**
