@@ -39,3 +39,16 @@ All groups: All groups
 User Group: User Group
 Last Activity: Last Activity
 Edit User: Edit User
+Access denied: Access denied
+Reset your password: Reset your password
+Password reset instructions E-mail: "Hello {name},\n\nA user account has been created for you on {site} by a site
+  administrator.\n\nPlease make use of the following URL for setting a password for your account:\n\n{url}\n\nPlease
+  do not reply to this message as it is automatically generated and for information purposes only.\n\nThank you."
+Unable to send password reset E-mail: Unable to send password reset E-mail
+Unable to get a password reset URL: Unable to get a password reset URL
+User Account Activation: User Account Activation
+Failed to send activation E-mail: Failed to send activation E-mail
+Unable to get a user account activation URL: Unable to get a user account activation URL
+User account activation E-mail: "Hello {name},\n\nA user account has been created for you on {site} by a site
+  administrator.\n\nPlease make use of the following URL for activating your account:\n\n{url}\n\nPlease do not reply
+  to this message as it is automatically generated and for information purposes only.\n\nThank you."
