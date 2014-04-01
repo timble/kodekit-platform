@@ -91,6 +91,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 'access'    => 0,
                 'link'      => array(array('view' => 'user'))));
 
+            $translator = $this->getObject('translator');
+
             if ($page)
             {
                 $token = $context->token;
@@ -101,18 +103,14 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $url->query['token']  = $token;
                 $url->query['uuid']   = $row->uuid;
 
-                // TODO: This URL needs to be routed using the site app router.
                 $this->getObject('application')->getRouter()->build($url);
 
                 $url = $context->request->getUrl()
                                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site_name = \JFactory::getConfig()->getValue('sitename');
-
-                $subject = $this->getObject('translator')->translate('{site} password reset', array('site' => $site_name));
-                // TODO Fix when language package is re-factored.
-                //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-                $message = $url;
+                $subject = $translator->translate('Reset your password');
+                $message = $translator->translate('Password reset instructions E-mail',
+                    array('name' => $row->name, 'url' => $url));
 
                 if ($row->notify(array('subject' => $subject, 'message' => $message)))
                 {
@@ -134,7 +132,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             }
             else
             {
-                $context->response->addMessage('Unable to get a password reset URL', 'error');
+                $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
             }
         }
     }
