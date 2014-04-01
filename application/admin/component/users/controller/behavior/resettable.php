@@ -41,6 +41,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 'access'    => 0,
                 'link'      => array(array('view' => 'user'))));
 
+            $translator = $this->getObject('translator');
+
             if ($page)
             {
                 $token = $context->token;
@@ -51,27 +53,26 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $url->query['token']  = $token;
                 $url->query['uuid']   = $row->uuid;
 
-                // TODO: This URL needs to be routed using the site app router.
+                // TODO: This is a frontend URL and we can't get a frontend router. To be solved.
                 $this->getObject('application')->getRouter()->build($url);
 
                 $url = $context->request->getUrl()
                                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site_name = \JFactory::getConfig()->getValue('sitename');
+                $site = $this->getObject('application')->getCfg('sitename');
 
-                $subject = $this->getObject('translator')->translate('{site} account activation', array('site' => $site_name));
-                // TODO Fix when language package is re-factored.
-                //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-                $message = $url;
+                $subject = $this->getObject('translator')->translate('Reset your password');
+                $message = $translator->translate('Password reset instructions E-mail',
+                    array('name' => $row->name, 'site' => $site, 'url' => $url));
 
                 if (!$row->notify(array('subject' => $subject, 'message' => $message)))
                 {
-                    $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
+                    $context->getResponse()->addMessage($translator->translate('Unable to send password reset E-mail'), 'notice');
                 }
             }
             else
             {
-                $context->response->addMessage('Unable to get a password reset URL', 'error');
+                $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
             }
         }
     }
