@@ -309,7 +309,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     /**
      * Get the class registry object
      *
-     * @return KObjectRegistryInterface
+     * @return ObjectRegistryInterface
      */
     public function getRegistry()
     {
