@@ -132,7 +132,8 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             $pages = $this->getObject('com:pages.model.pages')
                            ->application('site')
                            ->published(true)
-                           ->getRowset()->find($needles);
+                           ->fetch()
+                           ->find($needles);
 
             $this->_pages = $pages;
         }
@@ -157,7 +158,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             if (is_null($page))
             {
                 // Look for a category page.
-                $category = $this->getObject('com:categories.model.categories')->category($this->category)->getRow();
+                $category = $this->getObject('com:categories.model.categories')->category($this->category)->fetch();
                 $page     = $pages->find(array('link' => array(
                         array(
                             'view'     => 'categories',

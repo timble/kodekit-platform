@@ -41,7 +41,7 @@ abstract class ControllerToolbarAbstract extends CommandHandlerAbstract implemen
     /**
      * Constructor.
      *
-     * @param  ObjectConfig  $config An associative array of configuration settings or a ObjectConfig instance.
+     * @param  ObjectConfig $config An associative array of configuration settings or a ObjectConfig instance.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -223,7 +223,7 @@ abstract class ControllerToolbarAbstract extends CommandHandlerAbstract implemen
     /**
      * Reset the commands array
      *
-     * @return  ControllerToolbarAbstract
+     * @return ControllerToolbarAbstract
      */
     public function reset()
     {

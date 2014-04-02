@@ -62,6 +62,5 @@ class JElementFolders extends JElement
 				$this->_addFolder($child, $options);
 			}
 		}
-
 	}
 }

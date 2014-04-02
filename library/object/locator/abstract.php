@@ -81,7 +81,7 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
             'file'    => $file
         );
 
-        return $this->find($info, $identifier->domain, $fallback);
+        return $this->find($info, $fallback);
     }
 
     /**

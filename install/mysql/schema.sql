@@ -178,8 +178,7 @@ CREATE TABLE `files_thumbnails` (
   `folder` varchar(255) NOT NULL,
   `filename` varchar(255) NOT NULL,
   `thumbnail` MEDIUMTEXT NOT NULL,
-  PRIMARY KEY (`files_thumbnail_id`),
-  KEY `filename` (`filename`)
+  PRIMARY KEY (`files_thumbnail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

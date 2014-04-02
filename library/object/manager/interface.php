@@ -101,6 +101,24 @@ interface ObjectManagerInterface
     public function setConfig($identifier, $config = array(), $merge = true);
 
     /**
+     * Takes an object's identifier and public properties and serializes them
+     *
+     * @param $object  object
+     * @param $to_array boolean Returns a raw array if true
+     * @return string
+     */
+    public function serializeObject($object, $to_array = false);
+
+    /**
+     * Unserializes an object and injects the object manager
+     *
+     * @param $object object
+     * @param $data   string serialized string
+     * @throws \UnexpectedValueException
+     */
+    public function unserializeObject($object, $data);
+
+    /**
      * Register a mixin for an identifier
      *
      * The mixin is mixed when the identified object is first instantiated see {@link get} The mixin is also mixed with

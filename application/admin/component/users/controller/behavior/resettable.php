@@ -46,12 +46,12 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             if ($page)
             {
                 $token = $context->token;
-                $row   = $context->row;
+                $entity   = $context->entity;
 
                 $url                  = $page->getLink();
                 $url->query['layout'] = 'password';
                 $url->query['token']  = $token;
-                $url->query['uuid']   = $row->uuid;
+                $url->query['uuid']   = $entity->uuid;
 
                 // TODO: This is a frontend URL and we can't get a frontend router. To be solved.
                 $this->getObject('application')->getRouter()->build($url);
@@ -65,7 +65,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $message = $translator->translate('Password reset instructions E-mail',
                     array('name' => $row->name, 'site' => $site, 'url' => $url));
 
-                if (!$row->notify(array('subject' => $subject, 'message' => $message)))
+                if (!$entity->notify(array('subject' => $subject, 'message' => $message)))
                 {
                     $context->getResponse()->addMessage($translator->translate('Unable to send password reset E-mail'), 'notice');
                 }

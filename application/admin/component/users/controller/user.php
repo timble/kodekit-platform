@@ -36,7 +36,7 @@ class UsersControllerUser extends Users\ControllerUser
 
         $this->getObject('com:users.model.sessions')
             ->email($entity->email)
-            ->getRowset()
+            ->fetch()
             ->delete();
 
         return $entity;
@@ -45,16 +45,14 @@ class UsersControllerUser extends Users\ControllerUser
     protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
         // Expire password
-        if (!$context->request->data->get('password', 'string'))
-        {
+        if (!$context->request->data->get('password', 'string')) {
             $this->addCommandCallback('after.add', '_resetPassword');
         }
     }
 
     protected function _beforeEdit(Library\ControllerContextInterface $context)
     {
-        if ($context->request->data->get('password_reset', 'boolean'))
-        {
+        if ($context->request->data->get('password_reset', 'boolean')) {
             $this->addCommandCallback('after.edit', '_expirePassword');
         }
     }
@@ -68,7 +66,7 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $user = $context->result;
 
-        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $this->isResettable())
+        if ($user->getStatus() !== $user::STATUS_FAILED && $this->isResettable())
         {
             if (!$this->token())
             {
@@ -87,8 +85,7 @@ class UsersControllerUser extends Users\ControllerUser
         $user = $context->result;
 
         // Expire the user's password if a password reset was requested.
-        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $user->isExpirable())
-        {
+        if ($user->getStatus() !== $user::STATUS_FAILED && $user->isExpirable()){
             $user->getPassword()->expire();
         }
     }

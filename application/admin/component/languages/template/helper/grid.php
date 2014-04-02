@@ -28,9 +28,9 @@ class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
         ));
     
         $statuses = array(
-            DatabaseRowTranslation::STATUS_COMPLETED => 'Completed',
-            DatabaseRowTranslation::STATUS_MISSING   => 'Missing',
-            DatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated'
+            ModelEntityTranslation::STATUS_COMPLETED => 'Completed',
+            ModelEntityTranslation::STATUS_MISSING   => 'Missing',
+            ModelEntityTranslation::STATUS_OUTDATED  => 'Outdated'
         );
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];

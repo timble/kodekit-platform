@@ -15,7 +15,7 @@
             <?= translate('All positions') ?>
         </a>
 	</li>
-	<? foreach(array_unique(object('com:pages.model.modules')->application('site')->getRowset()->position) as $position) : ?>
+	<? foreach($positions as $position) : ?>
 	<li>
         <a <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?> href="<?= route('sort=ordering&position='.$position.'&application=site') ?>">
             <?= $position; ?>

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseSchemaColumn extends Object
+class DatabaseSchemaColumn extends Object implements \Serializable
 {
 	/**
 	 * Column name
@@ -127,10 +127,29 @@ class DatabaseSchemaColumn extends Object
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getObject('lib:filter.factory')->getFilter($this->_filter);
+                $this->_filter = $this->getObject('lib:filter.factory')->createFilter($this->_filter);
             }
 
             return $this->_filter;
+        }
+    }
+
+    public function serialize()
+    {
+        $data = ObjectManager::getInstance()->serializeObject($this, true);
+        $data['properties']['filter'] = (string)$this->filter->getIdentifier();
+
+        return serialize($data);
+    }
+
+    public function unserialize($data)
+    {
+        ObjectManager::getInstance()->unserializeObject($this, $data);
+
+        $data = unserialize($data);
+
+        if (isset($data['properties']['filter'])) {
+            $this->filter = $data['properties']['filter'];
         }
     }
 }

@@ -22,7 +22,7 @@ class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
  	/**
      * Render the menubar
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function render($config = array())
@@ -32,7 +32,7 @@ class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
             'attribs' => array('class' => array())
         ));
 
-        $groups   = $this->getObject('user')->getGroups();
+        $groups = $this->getObject('user')->getGroups();
 
         // Make sure that pages without an assigned group are also included.
         $groups[] = 0;
@@ -41,13 +41,13 @@ class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
 
         $menus = $this->getObject('com:pages.model.menus')
             ->application('admin')
-            ->getRowset();
+            ->fetch();
 
         $menu = $menus->find(array('slug' => 'menubar'));
 
         if(count($menu))
         {
-            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->top()->id, 'hidden' => 0, 'users_group_id' => $groups));
+            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->id, 'hidden' => 0, 'users_group_id' => $groups));
             $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 

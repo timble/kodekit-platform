@@ -27,7 +27,7 @@ class FilterFactory extends Object implements ObjectMultiton
 	 * @param 	object|array $config     An optional ObjectConfig object with configuration options
 	 * @return  FilterInterface
 	 */
-	public function getFilter($identifier, $config = array())
+	public function createFilter($identifier, $config = array())
 	{
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;

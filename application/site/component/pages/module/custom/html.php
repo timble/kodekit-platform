@@ -17,11 +17,5 @@ use Nooku\Library;
  */
 class PagesModuleCustomHtml extends PagesModuleDefaultHtml
 {
-    protected function _fetchData(Library\ViewContext $context)
-    {        
-        $context->data->show_title = $this->module->params->get('show_title', false);
-        $context->data->class      = $this->module->params->get('class', false);
 
-        parent::_fetchData($context);
-    }
 } 

@@ -432,7 +432,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * @param array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRow(array $options = array())
+    public function createRow(array $options = array())
     {
         $identifier = $this->getIdentifier()->toArray();
         $identifier['path'] = array('database', 'row');
@@ -455,7 +455,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * @param   array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRowset(array $options = array())
+    public function createRowset(array $options = array())
     {
         $identifier = $this->getIdentifier()->toArray();
         $identifier['path'] = array('database', 'rowset');
@@ -491,9 +491,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      *
      * @param mixed    $query   DatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode    The database fetch style.
-     * @param integer  $mode    The database fetch style.
      * @param array    $options An optional associative array of configuration options.
-     * @return DatabaseRow(set) depending on the mode.
+     * @return  DatabaseRowInterface or DatabaseRowsetInterface depending on the mode.
      */
     public function select($query = null, $mode = Database::FETCH_ROWSET, array $options = array())
     {
@@ -571,18 +570,19 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                         $options['status'] = Database::STATUS_LOADED;
                     }
 
-                    $context->data = $this->getRow($options);
+                    $context->data = $this->createRow($options);
                     break;
                 }
 
                 case Database::FETCH_ROWSET :
                 {
-                    if (isset($data) && !empty($data)) {
+                    if (isset($data) && !empty($data)) 
+                    {
                         $options['data']   = $data;
                         $options['status'] = Database::STATUS_LOADED;
                     }
 
-                    $context->data = $this->getRowset($options);
+                    $context->data = $this->createRowset($options);
                     break;
                 }
 
@@ -606,7 +606,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function count($query = null, array $options = array())
     {
         //Count using the identity column
-        if (is_scalar($query)) {
+        if (is_scalar($query))
+        {
             $key = $this->getIdentityColumn();
             $query = array($key => $query);
         }
@@ -661,7 +662,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($this->invokeCommand('before.insert', $context) !== false)
         {
             // Filter the data and remove unwanted columns.
-            $data = $this->filter($context->data->getData());
+            $data = $this->filter($context->data->getProperties());
             $context->query->values($this->mapColumns($data));
 
             // Execute the insert query.
@@ -676,7 +677,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                         $data[$this->getIdentityColumn()] = $this->getAdapter()->getInsertId();
                     }
 
-                    $context->data->setData($this->mapColumns($data, true))->setStatus(Database::STATUS_CREATED);
+                    $context->data->setProperties($this->mapColumns($data, true))->setStatus(Database::STATUS_CREATED);
                 }
                 else $context->data->setStatus(Database::STATUS_FAILED);
             }
@@ -690,10 +691,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     /**
      * Table update method
      *
-     * @param  DatabaseRowTable $row A DatabaseRow object
+     * @param  DatabaseRowInterface $row A DatabaseRow object
      * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
-    public function update(DatabaseRowTable $row)
+    public function update(DatabaseRowInterface $row)
     {
         // Create query object.
         $query = $this->getObject('lib:database.query.update')
@@ -715,7 +716,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
 
             // Filter the data and remove unwanted columns.
-            $data = $this->filter($context->data->getData(true));
+            $data = $this->filter($context->data->getProperties(true));
 
             foreach ($this->mapColumns($data) as $key => $value) {
                 $query->values($key . ' = :_' . $key)->bind(array('_' . $key => $value));
@@ -728,7 +729,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             if ($context->affected !== false)
             {
                 if ($context->affected) {
-                    $context->data->setData($this->mapColumns($data, true), true)->setStatus(Database::STATUS_UPDATED);
+                    $context->data->setProperties($this->mapColumns($data, true), true)->setStatus(Database::STATUS_UPDATED);
                 } else {
                     $context->data->setStatus(Database::STATUS_FAILED);
                 }

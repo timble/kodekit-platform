@@ -14,44 +14,43 @@ use Nooku\Library;
 /**
  * Activities JSON View Class
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */
 class ViewActivitiesJson extends Library\ViewJson
 {
-    protected function _getItem(Library\DatabaseRowInterface $row)
+    protected function _getEntity(Library\ModelEntityInterface $entity)
     {
-        $data = parent::_getItem($row);
-
+        $data = parent::_getEntity($entity);
         unset($data['links']); // Cleanup.
 
         return $data;
     }
 
-    protected function _getActivity(Library\DatabaseRowInterface $row)
+    protected function _getActivity(Library\ModelEntityInterface $entity)
     {
         $id = array(
             'tag:'.$this->getUrl()->toString(Library\HttpUrl::BASE),
-            'id:'.$row->id
+            'id:'.$entity->id
         );
 
         $template = $this->getObject('template.default', array('view' => $this));
         $item = array(
             'id' => implode(',', $id),
             'published' => $this->getObject('com:activities.template.helper.date', array('template' => $template))->format(array(
-                    'date'   => $row->created_on,
+                    'date'   => $entity->created_on,
                     'format' => 'Y-m-dTZ'
                 )),
-            'verb' => $row->action,
+            'verb' => $entity->action,
             'object' => array(
-                'url' => (string)$this->getRoute('option=com_'.$row->package.'&view='.$row->name.'&id='.$row->row),
+                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row),
             ),
             'target' => array(
-                'url' => (string)$this->getRoute('option=com_'.$row->package.'&view='.$row->name),
+                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name),
             ),
             'actor' => array(
-                'url' => (string)$this->getRoute('option=com_users&view=user&id='.$row->created_by),
+                'url' => (string)$this->getRoute('option=com_users&view=user&id='.$entity->created_by),
             )
         );
 

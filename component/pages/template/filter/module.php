@@ -35,7 +35,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -77,19 +77,19 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Get the modules
      *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the Library\DatabaseRowsetInterface
-     * @return Library\DatabaseRowsetInterface
+     * @throws	\UnexpectedValueException	If the request doesn't implement the Library\ModelEntityInterface
+     * @return Library\ModelEntityInterface
      */
     public function getModules()
     {
-        if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
+        if(!$this->_modules instanceof Library\ModelEntityInterface)
         {
             $this->_modules = $this->getObject($this->_modules);
 
-            if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
+            if(!$this->_modules instanceof Library\ModelEntityInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Modules: '.get_class($this->_modules).' does not implement Library\DatabaseRowsetInterface'
+                    'Modules: '.get_class($this->_modules).' does not implement Library\ModelEntityInterface'
                 );
             }
         }
@@ -131,7 +131,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
-                $this->getModules()->addRow(array($values), Library\Database::STATUS_LOADED);
+                $this->getModules()->create($values, Library\ModelEntityInterface::STATUS_LOADED);
             }
 
             //Remove the <khtml:module></khtml:module> tags

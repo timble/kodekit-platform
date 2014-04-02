@@ -126,17 +126,6 @@ interface StringInflectorInterface
 	public static function classify($tableName);
 
 	/**
-	 * Returns camelBacked version of a string.
-	 *
-	 * Same as camelize but first char is lowercased
-	 *
-	 * @param string $string
-	 * @return string
-	 * @see camelize
-	 */
-	public static function variablize($string);
-
-	/**
 	 * Check to see if an English word is singular
 	 *
 	 * @param string $string The word to check

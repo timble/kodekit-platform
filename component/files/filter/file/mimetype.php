@@ -19,23 +19,23 @@ use Nooku\Library;
  */
 class FilterFileMimetype extends Library\FilterAbstract
 {
-	public function validate($row)
+	public function validate($entity)
 	{
-		$mimetypes = Library\ObjectConfig::unbox($row->getContainer()->parameters->allowed_mimetypes);
+		$mimetypes = Library\ObjectConfig::unbox($entity->getContainer()->getParameters()->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{
-			$mimetype = $row->mimetype;
+			$mimetype = $entity->mimetype;
 
 			if (empty($mimetype))
             {
-				if (is_uploaded_file($row->file) && $row->isImage())
+				if (is_uploaded_file($entity->file) && $entity->isImage())
                 {
-					$info = getimagesize($row->file);
+					$info = getimagesize($entity->file);
 					$mimetype = $info ? $info['mime'] : false;
 				}
-                elseif ($row->file instanceof SplFileInfo) {
-					$mimetype = $this->getObject('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
+                elseif ($entity->file instanceof SplFileInfo) {
+					$mimetype = $this->getObject('com:files.mixin.mimetype')->getMimetype($entity->file->getPathname());
 				}
 			}
 

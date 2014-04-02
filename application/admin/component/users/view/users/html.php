@@ -19,9 +19,9 @@ class UsersViewUsersHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
 	{
-	    $context->data->groups       = $this->getObject('com:users.model.groups')->getRowset();
-		$context->data->roles        = $this->getObject('com:users.model.roles')->getRowset();
-		$context->data->groups_users = $this->getObject('com:users.model.groups_users')->getRowset();
+	    $context->data->groups       = $this->getObject('com:users.model.groups')->fetch();
+		$context->data->roles        = $this->getObject('com:users.model.roles')->fetch();
+		$context->data->groups_users = $this->getObject('com:users.model.groups_users')->fetch();
 
         parent::_fetchData($context);
 	}

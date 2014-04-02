@@ -16,19 +16,7 @@ use Nooku\Component\Attachments;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Attachments
  */
-class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
+abstract class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-		    'model'   => 'com:attachments.model.attachments',
-			'request' => array(
-				'view' => 'attachment'
-			)
-		));
-		
-		parent::_initialize($config);
-		
-		$config->view = 'com:attachments.view.'.$config->request->view.'.'.$config->request->format;
-	}
+
 }

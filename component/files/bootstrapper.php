@@ -24,8 +24,8 @@ use Nooku\Library;
          $config->append(array(
              'priority' => self::PRIORITY_LOW,
              'aliases'  => array(
-                 'com:files.database.rowset.directories'  => 'com:files.database.rowset.folders',
-                 'com:files.database.row.directory'       => 'com:files.database.row.folder',
+                 'com:files.model.entity.directories'  => 'com:files.model.entity.folders',
+                 'com:files.model.entity.directory'    => 'com:files.model.entity.folder',
              ),
              'namespaces' => array(
                  'standard' => array('Imagine' =>  JPATH_VENDOR.'/imagine/imagine/lib')

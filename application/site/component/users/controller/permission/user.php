@@ -21,12 +21,9 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     {
         $layout = $this->getView()->getLayout();
 
-        if (in_array($layout, array('reset', 'password', 'register')))
-        {
+        if (in_array($layout, array('reset', 'password', 'register'))) {
             $result = true;
-        }
-        else
-        {
+        } else {
             $result = $this->canEdit();
         }
 
@@ -42,11 +39,10 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     {
         $result = false;
 
-        $row  = $this->getModel()->getRow();
-        $user = $this->getUser();
+        $entity  = $this->getModel()->fetch();
+        $user    = $this->getUser();
 
-        if (($user->isAuthentic() && ($row->id == $user->getId())) || $this->canDelete())
-        {
+        if (($user->isAuthentic() && ($entity->id == $user->getId())) || $this->canDelete()) {
             $result = true;
         }
 

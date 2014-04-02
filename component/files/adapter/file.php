@@ -33,7 +33,7 @@ class AdapterFile extends AdapterAbstract
             try
             {
                 $this->_metadata += array(
-                    'size' => $this->_handle->getSize(),
+                    'size'          => $this->_handle->getSize(),
                     'modified_date' => $this->_handle->getMTime()
                 );
 			}

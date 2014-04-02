@@ -32,7 +32,7 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
     public function canEdit()
     {
         $result  = false;
-        $comment = $this->getModel()->getRow();
+        $comment = $this->getModel()->fetch();
 
         // If the user is manager he can moderator comments
         if($this->getUser()->getRole() >= 23) {
@@ -49,7 +49,7 @@ class CommentsControllerPermissionComment extends ApplicationControllerPermissio
 
     public function canDelete()
     {
-        $comment = $this->getModel()->getRow();
+        $comment = $this->getModel()->fetch();
         $result = false;
 
         // If the user is author he can delete comments

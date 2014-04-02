@@ -22,7 +22,7 @@ class PagesViewPagesHtml extends Library\ViewHtml
         $basepaths = $this->getObject('manager')->getClassLoader()->getBasepaths();
 
         $context->data->applications = array_keys($basepaths);
-        $context->data->menus        = $this->getObject('com:pages.model.menus')->getRowset();
+        $context->data->menus        = $this->getObject('com:pages.model.menus')->fetch();
 
         parent::_fetchData($context);
     }

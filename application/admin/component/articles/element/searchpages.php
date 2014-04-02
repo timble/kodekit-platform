@@ -25,7 +25,6 @@ class JElementSearchpages extends JElement
             'name'     => $control_name . '[' . $name . ']',
             'selected' => $value,
             'deselect' => false,
-
         );
 
         $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();

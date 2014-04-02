@@ -20,10 +20,6 @@
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
-    <input type="hidden" name="access" value="0" />
-    <input type="hidden" name="published" value="0" />
-    <input type="hidden" name="table" value="<?= $state->table ?>" />
-    
     <div class="main">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= translate( 'Title' ); ?>" />

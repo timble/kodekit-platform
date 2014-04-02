@@ -307,9 +307,60 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
+     * Takes an object's identifier and public properties and serializes them
+     *
+     * @param $object  object
+     * @param $to_array boolean Returns a raw array if true
+     * @return string
+     */
+    public function serializeObject($object, $to_array = false)
+    {
+        $data = array(
+            'properties' => get_object_vars($object),
+            'identifier' => (string) $object->getIdentifier()
+        );
+
+        return $to_array ? $data : serialize($data);
+    }
+
+    /**
+     * Unserializes an object and injects the object manager
+     *
+     * @param $object object
+     * @param $data   string serialized string
+     * @throws \UnexpectedValueException
+     */
+    public function unserializeObject($object, $data)
+    {
+        $data = unserialize($data);
+
+        if (!is_array($data)) {
+            throw new \UnexpectedValueException('Unexpected input. Expected array.');
+        }
+
+        if (empty($data['identifier'])) {
+            throw new \UnexpectedValueException('Identifier not found in unserialized data');
+        }
+
+        $config  = new ObjectConfig(array(
+            'object_manager'    => $this,
+            'object_identifier' => $this->getIdentifier($data['identifier'])
+        ));
+
+        $object->__construct($config);
+
+        if (!empty($data['properties']) && is_array($data['properties']))
+        {
+            foreach ($data['properties'] as $key => $value) {
+                $object->$key = $value;
+            }
+        }
+    }
+
+    /**
      * Get the class registry object
      *
-     * @return KObjectRegistryInterface
+     * @return ObjectRegistryInterface
      */
     public function getRegistry()
     {

@@ -19,8 +19,10 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
+        $params = $this->module->getParameters();
+
         // Preparing the sort and direction model states.
-        switch ($this->module->params->get('sort_by', 'newest'))
+        switch ($params->get('sort_by', 'newest'))
         {
             default:
             case 'newest':
@@ -38,13 +40,13 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
         }
 
         // Prepare category state.
-        $category = str_replace(' ', '', $this->module->params->get('category', ''));
+        $category = str_replace(' ', '', $params->get('category', ''));
         if ($category) {
             $category = explode(',', $category);
         }
 
         // Prepare section state.
-        $section = str_replace(' ', '', $this->module->params->get('section', ''));
+        $section = str_replace(' ', '', $params->get('section', ''));
         if ($section) {
             $section = explode(',', $section);
         }
@@ -56,18 +58,17 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
             ->set(array(
             'access'    => $user->isAuthentic(),
             'published' => 1,
-            'limit'     => $this->module->params->get('count', 5),
+            'limit'     => $params->get('count', 5),
             'sort'      => $sort,
             'direction' => $direction,
             'section'   => $section,
             'category'  => $category))
-            ->getRowset();
+            ->fetch();
 
-        $context->data->articles   = $articles;
-        $context->data->show_title = $this->module->params->get('show_title', false);
+        $context->data->articles = $articles;
 
         // Set layout based on params.
-        $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');
+        $this->setLayout($params->get('show_content', 0) ? 'articles' : 'links');
 
         parent::_fetchData($context);
     }

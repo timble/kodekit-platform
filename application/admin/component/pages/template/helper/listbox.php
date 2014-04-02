@@ -44,8 +44,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('label' => $this->translate($config->prompt)));
         }
 
-        $menus = $this->getObject('com:pages.model.menus')->getRowset();
-        $pages = $this->getObject('com:pages.model.pages')->published(true)->getRowset();
+        $menus = $this->getObject('com:pages.model.menus')->fetch();
+        $pages = $this->getObject('com:pages.model.pages')->published(true)->fetch();
 
         foreach($menus as $menu)
         {
@@ -78,7 +78,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             ->published(true)
             ->menu($config->menu)
             ->limit(0)
-            ->getRowset();
+            ->fetch();
 
         if($config->page)
         {
@@ -86,7 +86,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             foreach(clone $pages as $page)
             {
                 if(strpos($page->path, $config->page->path) === 0) {
-                    $pages->extract($page);
+                    $pages->remove($page);
                 }
             }
         }
@@ -120,7 +120,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
         $options = array();
 
         $path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
-        $path = $path.'/public/theme/'.$this->getObject('application')->getCfg('theme').'/config.xml';
+        $path = dirname($path).'/public/theme/'.$this->getObject('application')->getCfg('theme').'/config.xml';
 
         if (file_exists($path))
         {

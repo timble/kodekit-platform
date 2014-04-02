@@ -21,29 +21,29 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
 {
 	protected function _beforeSave(Library\DatabaseContext $context)
 	{
-		$row = $context->getSubject();
+		$entity = $context->getSubject();
 
-		if (is_string($row->file) && !is_uploaded_file($row->file))
+		if (is_string($entity->file) && !is_uploaded_file($entity->file))
 		{
             // remote file
-            $file = $this->getObject('com:files.database.row.url');
-            $file->setData(array('file' => $row->file));
+            $file = $this->getObject('com:files.model.entity.url');
+            $file->setProperties(array('file' => $entity->file));
 
-            if (!$file->load()) {
+            if (!$file->get('contents')) {
                 throw new Library\ControllerExceptionActionFailed('File cannot be downloaded');
             }
 
-            $row->contents = $file->contents;
+            $entity->contents = $file->contents;
 
-			if (empty($row->name))
+			if (empty($entity->name))
 			{
-				$uri  = $this->getObject('lib:http.url', array('url' => $row->file));
+				$uri  = $this->getObject('lib:http.url', array('url' => $entity->file));
 	        	$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}
 
-	        	$row->name = $path;
+	        	$entity->name = $path;
 			}
 		}
 

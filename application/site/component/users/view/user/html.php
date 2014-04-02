@@ -22,7 +22,7 @@ class UsersViewUserHtml extends Library\ViewHtml
         $page = $this->getObject('application.pages')->getActive();
 
         $context->data->page            = $page;
-        $context->data->password_length = $this->getObject('com:users.database.row.password')->getLength();
+        $context->data->password_length = $this->getObject('com:users.model.entity.password')->getLength();
 
         parent::_fetchData($context);
     }

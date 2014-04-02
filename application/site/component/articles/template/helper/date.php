@@ -23,17 +23,18 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 
         $params = $this->getObject('application.pages')->getActive()->getParams('page');
 
-        $config->append(array('parameters' => $params))
+        $config->append(array('params' => $params))
                ->append(array(
-                    'show_create_date' => $config->parameters->get('show_create_date', false),
-                    'show_modify_date' => $config->parameters->get('show_modify_date', false)
+                    'show_create_date' => $config->params->get('show_create_date', false),
+                    'show_modify_date' => $config->params->get('show_modify_date', false)
                 ));
 
-        $article = $config->row;
+        $article = $config->entity;
 
         $html = array();
 
-        if ($config->show_create_date) {
+        if ($config->show_create_date)
+        {
             $html[] = '<span class="timestamp">';
             $html[] = $this->format(array('date'=> $article->ordering_date, 'format' => $this->translate('Timestamp Date Format')));
         }

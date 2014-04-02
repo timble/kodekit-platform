@@ -60,7 +60,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Get an item from the array by offset
      *
-     * Required by interface ArrayAccess
+     * Required by interface \ArrayAccess
      *
      * @param   int     $offset
      * @return  mixed The item from the array
@@ -79,7 +79,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Set an item in the array
      *
-     * Required by interface ArrayAccess
+     * Required by interface \ArrayAccess
      *
      * @param   int     $offset
      * @param   mixed   $value
@@ -97,7 +97,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Check if the offset exists
      *
-     * Required by interface ArrayAccess
+     * Required by interface \ArrayAccess
      *
      * @param   int   $offset
      * @return  bool
@@ -112,7 +112,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      *
      * All numerical array keys will be modified to start counting from zero while literal keys won't be touched.
      *
-     * Required by interface ArrayAccess
+     * Required by interface \ArrayAccess
      *
      * @param   int     $offset
      * @return  void
@@ -159,7 +159,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Returns the number of items
      *
-     * Required by interface Countable
+     * Required by interface \Countable
      *
      * @return int The number of items
      */

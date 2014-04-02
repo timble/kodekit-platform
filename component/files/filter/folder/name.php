@@ -19,9 +19,9 @@ use Nooku\Library;
  */
 class FilterFolderName extends Library\FilterAbstract
 {
-	public function validate($row)
+	public function validate($entity)
 	{
-		$value = $row->name;
+		$value = $entity->name;
 
         $translator = $this->getObject('translator');
 

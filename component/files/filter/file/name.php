@@ -19,9 +19,9 @@ use Nooku\Library;
  */
 class FilterFileName extends Library\FilterAbstract
 {
-	public function validate($row)
+	public function validate($entity)
 	{
-		$value = $this->sanitize($row->name);
+		$value = $this->sanitize($entity->name);
 
 		if ($value == '') {
 			return $this->_error($this->getObject('translator')->translate('Invalid file name'));

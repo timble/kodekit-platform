@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -19,29 +19,29 @@ use Nooku\Library;
  */
 class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 {
-    protected $_type_title;
+    protected $_title;
 
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->isRegistered($config->object_identifier)) {
+        if (!$manager->isRegistered($config->object_identifier)) {
             $manager->setObject($config->object_identifier, $instance);
         }
 
         return $manager->getObject($config->object_identifier);
     }
 
-    public function getTypeTitle()
+    public function getTitle()
     {
         if(!isset($this->_type_title)) {
             $this->_type_title = $this->getObject('translator')->translate('Component');
         }
 
-        return $this->_type_title;
+        return $this->_title;
     }
 
-    public function getTypeDescription()
+    public function getDescription()
     {
         $query       = $this->getLink()->query;
         $description = $this->component ? ucfirst($this->component) : ucfirst(substr($query['option'], 4));
@@ -61,7 +61,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     public function getLink()
     {
-        $link = $this->getObject('lib:http.url', array('url' => '?'.$this->link_url));
+        $link                  = $this->getObject('lib:http.url', array('url' => '?' . $this->link_url));
         $link->query['Itemid'] = $this->id;
 
         return $link;
@@ -69,12 +69,12 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     public function getParams($group)
     {
-        return $this->{'_get'.ucfirst($group).'Params'}();
+        return $this->{'_get' . ucfirst($group) . 'Params'}();
     }
 
     protected function _getPageParams()
     {
-        $file = __DIR__.'/component.xml';
+        $file = __DIR__ . '/component.xml';
 
         $xml = \JFactory::getXMLParser('simple');
         $xml->loadFile($file);
@@ -90,11 +90,10 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $state  = $this->_getPageXml()->document->getElementByPath('state');
         $params = new \JParameter(null);
 
-        if($state instanceof \JSimpleXMLElement)
-        {
+        if ($state instanceof \JSimpleXMLElement) {
             $params->setXML($state->getElementByPath('url'));
 
-            if($this->link_url) {
+            if ($this->link_url) {
                 $params->loadArray($this->getLink()->query);
             }
         }
@@ -107,11 +106,10 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $state  = $this->_getPageXml()->document->getElementByPath('state');
         $params = new \JParameter(null);
 
-        if($state instanceof \JSimpleXMLElement)
-        {
+        if ($state instanceof \JSimpleXMLElement) {
             $params->setXML($state->getElementByPath('params'));
 
-            if($this->link_url) {
+            if ($this->link_url) {
                 $params->loadArray($this->getLink()->query);
             }
         }
@@ -121,11 +119,17 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     protected function _getPageXml()
     {
-        $xml  = \JFactory::getXMLParser('simple');
-        $type = $this->getType();
-        $path =  $this->getObject('manager')->getClassLoader()->getBasepath('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $type  = $this->getLink();
+        $query = $type->getQuery(true);
 
-        if(file_exists($path)) {
+        $component = substr($query['option'], 4);
+        $view      = $query['view'];
+        $layout    = isset($query['layout']) ? $query['layout'] : 'default';
+
+        $path = $this->getObject('manager')->getClassLoader()->getBasepath('site') . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
+
+        $xml = \JFactory::getXMLParser('simple');
+        if (file_exists($path)) {
             $xml->loadFile($path);
         }
 
@@ -134,12 +138,12 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     protected function _setLinkBeforeSave(Library\DatabaseContext $context)
     {
-        if($this->isModified('link_url'))
+        if ($this->isModified('link_url'))
         {
             // Set link.
             parse_str($this->link_url, $query);
 
-            if($this->urlparams) {
+            if ($this->urlparams) {
                 $query += $this->urlparams;
             }
 

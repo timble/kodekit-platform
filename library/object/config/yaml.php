@@ -20,10 +20,10 @@ class ObjectConfigYaml extends ObjectConfigFormat
      * Read from a YAML string and create a config object
      *
      * @param  string $string
-     * @return ObjectConfigYaml|false   Returns a ObjectConfig object. False on failure.
+     * @return ObjectConfigYaml
      * @throws \RuntimeException
      */
-    public static function fromString($string)
+    public function fromString($string)
     {
         $config = false;
 
@@ -40,10 +40,10 @@ class ObjectConfigYaml extends ObjectConfigFormat
                 }
             }
 
-            $config = new static($data);
+            $this->add($data);
         }
 
-        return $config;
+        return $this;
     }
 
     /**

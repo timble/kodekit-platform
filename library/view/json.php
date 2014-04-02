@@ -43,13 +43,6 @@ class ViewJson extends ViewAbstract
     protected $_text_fields;
 
     /**
-     * True if the view is for a plural resource
-     *
-     * @var boolean
-     */
-    protected $_plural;
-
-    /**
      * Constructor
      *
      * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
@@ -62,14 +55,12 @@ class ViewJson extends ViewAbstract
         $this->_plural  = $config->plural;
 
         $this->_text_fields = ObjectConfig::unbox($config->text_fields);
-
-        $this->_fields = ObjectConfig::unbox($config->fields);
+        $this->_fields      = ObjectConfig::unbox($config->fields);
 
         $query = $this->getUrl()->getQuery(true);
         if (!empty($query['fields']))
         {
             $fields = explode(',', $query['fields']);
-
             $this->_fields = array_merge($this->_fields, $fields);
         }
     }
@@ -88,7 +79,6 @@ class ViewJson extends ViewAbstract
             'version'     => '1.0',
             'fields'      => array(),
             'text_fields' => array('description', 'introtext'), // Links are converted to absolute ones in these fields
-            'plural'      => StringInflector::isPlural($this->getName())
         ))->append(array(
             'mimetype' => 'application/json; version=' . $config->version,
         ));
@@ -151,21 +141,21 @@ class ViewJson extends ViewAbstract
     protected function _renderData()
     {
         $model  = $this->getModel();
-        $data   = $this->_getList($this->_plural ? $model->getRowset() : array($model->getRow()));
+        $data   = $this->_getCollection($model->fetch());
         $output = array(
             'version' => $this->_version,
             'links' => array(
                 'self' => array(
-                    'href' => $this->_getPageLink(),
+                    'href' => $this->_getPageUrl(),
                     'type' => $this->mimetype
                 )
             ),
             'entities' => $data
         );
 
-        if ($this->_plural)
+        if ($this->isCollection())
         {
-            $total  = $model->getTotal();
+            $total  = $model->count();
             $limit  = (int) $model->getState()->limit;
             $offset = (int) $model->getState()->offset;
 
@@ -178,7 +168,7 @@ class ViewJson extends ViewAbstract
             if ($limit && $total-($limit + $offset) > 0)
             {
                 $output['links']['next'] = array(
-                    'href' => $this->_getPageLink(array('offset' => $limit+$offset)),
+                    'href' => $this->_getPageUrl(array('offset' => $limit+$offset)),
                     'type' => $this->mimetype
                 );
             }
@@ -186,7 +176,7 @@ class ViewJson extends ViewAbstract
             if ($limit && $offset && $offset >= $limit)
             {
                 $output['links']['previous'] = array(
-                    'href' => $this->_getPageLink(array('offset' => max($offset-$limit, 0))),
+                    'href' => $this->_getPageUrl(array('offset' => max($offset-$limit, 0))),
                     'type' => $this->mimetype
                 );
             }
@@ -196,17 +186,17 @@ class ViewJson extends ViewAbstract
     }
 
     /**
-     * Returns the JSON representation of a rowset
+     * Returns the JSON representation of an entity collection
      *
-     * @param  DatabaseRowsetInterface|array $rowset
+     * @param  ModelEntityInterface $collection
      * @return array
      */
-    protected function _getList($rowset)
+    protected function _getCollection(ModelEntityInterface $collection)
     {
         $result = array();
 
-        foreach ($rowset as $row) {
-            $result[] = $this->_getItem($row);
+        foreach ($collection as $row) {
+            $result[] = $this->_getEntity($row);
         }
 
         return $result;
@@ -215,17 +205,17 @@ class ViewJson extends ViewAbstract
     /**
      * Get the item data
      *
-     * @param DatabaseRowInterface  $row   Document row
+     * @param ModelEntityInterface  $entity   Document entity
      * @return array The array with data to be encoded to json
      */
-    protected function _getItem(DatabaseRowInterface $row)
+    protected function _getEntity(ModelEntityInterface $entity)
     {
-        $method = '_get'.ucfirst($row->getIdentifier()->name);
+        $method = '_get'.ucfirst($entity->getIdentifier()->name);
 
-        if ($method !== '_getItem' && method_exists($this, $method)) {
-            $data = $this->$method($row);
+        if ($method !== '_getEntity' && method_exists($this, $method)) {
+            $data = $this->$method($entity);
         } else {
-            $data = $row->toArray();
+            $data = $entity->toArray();
         }
 
         if (!empty($this->_fields)) {
@@ -239,7 +229,7 @@ class ViewJson extends ViewAbstract
         if (!isset($data['links']['self']))
         {
             $data['links']['self'] = array(
-                'href' => $this->_getItemLink($row),
+                'href' => $this->_getEntityRoute($entity),
                 'type' => $this->mimetype
             );
         }
@@ -248,17 +238,17 @@ class ViewJson extends ViewAbstract
     }
 
     /**
-     * Get the item link
+     * Get the entity link
      *
-     * @param DatabaseRowInterface  $row
+     * @param ModelEntityInterface  $entity
      * @return string
      */
-    protected function _getItemLink(DatabaseRowInterface $row)
+    protected function _getEntityRoute(ModelEntityInterface $entity)
     {
         $package = $this->getIdentifier()->package;
-        $view    = $row->getIdentifier()->name;
+        $view    = $entity->getIdentifier()->name;
 
-        return $this->getRoute(sprintf('option=com_%s&view=%s&slug=%s&format=json', $package, $view, $row->slug));
+        return $this->getRoute(sprintf('option=com_%s&view=%s&slug=%s&format=json', $package, $view, $entity->slug));
     }
 
     /**
@@ -267,7 +257,7 @@ class ViewJson extends ViewAbstract
      * @param  array  $query Additional query parameters to merge
      * @return string
      */
-    protected function _getPageLink(array $query = array())
+    protected function _getPageUrl(array $query = array())
     {
         $url = $this->getUrl();
 

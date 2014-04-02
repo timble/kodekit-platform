@@ -28,7 +28,8 @@ class DatabaseTableContainers extends Library\DatabaseTableAbstract
 				'parameters' => 'json'
 			),
 			'behaviors' => array(
-			    'sluggable' => array('columns' => array('id', 'title'))
+			    'sluggable' => array('columns' => array('id', 'title')),
+                'parameterizable'
 			)
 		));
 

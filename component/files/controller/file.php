@@ -57,7 +57,7 @@ class ControllerFile extends ControllerAbstract
 
         if($model->getState()->isUnique())
         {
-            $file = $this->getModel()->getRow();
+            $file = $this->getModel()->fetch();
 
             try
             {

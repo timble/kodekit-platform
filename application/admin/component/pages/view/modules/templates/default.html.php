@@ -62,10 +62,10 @@
                 </td>
                 <? endif ?>
 				<td align="center">
-					<?= helper('grid.checkbox',array('row' => $module)) ?>
+					<?= helper('grid.checkbox',array('entity' => $module)) ?>
 				</td>
                 <td align="center">
-                    <?= helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('entity' => $module, 'field' => 'published')) ?>
                 </td>
 				<td>
 					<a href="<?= route('view=module&id='.$module->id) ?>">

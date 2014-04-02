@@ -23,15 +23,15 @@ class ViewJson extends Library\ViewJson
     {
         $output = parent::_renderData();
 
-        if (!$this->_plural)
+        if (!$this->isCollection())
         {
-            $row    = $this->getModel()->getRow();
-            $status = $row->getStatus() !== Library\Database::STATUS_FAILED;
+            $entity = $this->getModel()->fetch();
+            $status = $entity->getStatus() !== $entity::STATUS_FAILED;
 
             $output['status'] = $status;
 
-            if ($status === false){
-                $output['error'] = $row->getStatusMessage();
+            if ($status === false) {
+                $output['error'] = $entity->getStatusMessage();
             }
         }
 

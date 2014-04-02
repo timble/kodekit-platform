@@ -35,6 +35,22 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
    	}
 
     /**
+     * Get the user that last edited the resource
+     *
+     * @return UserInterface|null Returns a User object or NULL if no user could be found
+     */
+    public function getEditor()
+    {
+        $user = null;
+
+        if($this->hasProperty('modified_by') && !empty($this->modified_by)) {
+            $user = $this->getObject('user.provider')->fetch($this->modified_by);
+        }
+
+        return $user;
+    }
+
+    /**
      * Check if the behavior is supported
      *
      * Behavior requires a 'modified_by' or 'modified_by' row property
@@ -64,15 +80,15 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _beforeUpdate(DatabaseContext $context)
 	{
 		//Get the modified columns
-		$modified = $this->getTable()->filter($this->getModified());
+		$modified   = $this->getTable()->filter($this->getProperties(true));
 
 		if(!empty($modified))
 		{
-			if($this->has('modified_by')) {
+			if($this->hasProperty('modified_by')) {
 				$this->modified_by = (int) $this->getObject('user')->getId();
 			}
 
-			if($this->has('modified_on')) {
+			if($this->hasProperty('modified_on')) {
 				$this->modified_on = gmdate('Y-m-d H:i:s');
 			}
 		}

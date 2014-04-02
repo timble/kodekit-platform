@@ -17,13 +17,8 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class ModelUsers extends Library\ModelTable
+class ModelUsers extends Library\ModelDatabase
 {
-    /**
-     * Constructor.
-     *
-     * @param   ObjectConfig  $config An optional Library\ObjectConfig object with configuration options.
-     */
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
@@ -37,13 +32,16 @@ class ModelUsers extends Library\ModelTable
             ->insert('loggedin'   , 'boolean');
 	}
 
-	/**
-     * Builds SELECT columns list for the query.
-     *
-     * @param   Library\DatabaseQuerySelect  A query object.
-     * @return  void
-     */
-	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('searchable' => array('columns' => 'name')),
+        ));
+
+        parent::_initialize($config);
+    }
+
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryColumns($query);
 	    $state = $this->getState();
@@ -64,12 +62,6 @@ class ModelUsers extends Library\ModelTable
 	    }
 	}
 
-	/**
-     * Builds LEFT JOINS clauses for the query.
-     *
-     * @param   Library\DatabaseQuerySelect  A query object.
-     * @return  void
-     */
 	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
 	    $state = $this->getState();
@@ -79,12 +71,6 @@ class ModelUsers extends Library\ModelTable
         $query->join(array('group' => 'users_groups_users'), 'group.users_user_id = tbl.users_user_id');
 	}
 
-	/**
-     * Builds a WHERE clause for the query.
-     *
-     * @param   Library\DatabaseQuerySelect  A query object.
-     * @return  void
-     */
 	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
@@ -117,11 +103,6 @@ class ModelUsers extends Library\ModelTable
         {
             $query->where('last_visited_on '.($state->visited ? '!=' : '=').' :last_visited_on')
                   ->bind(array('last_visited_on', '0000-00-00 00:00:00'));
-        }
-
-	    if ($state->search)
-        {
-	        $query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
     }
 }
