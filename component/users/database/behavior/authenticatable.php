@@ -65,9 +65,13 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         if ($data->getStatus() == Library\Database::STATUS_CREATED)
         {
             // Create a password row for the user.
-            $data->getPassword()
-                  ->setProperties(array('id' => $data->email, 'password' => $data->password))
-                  ->save();
+            $password = $this->getPassword();
+
+            $data = array('id' => $data->email, 'password' => $data->password);
+
+            $password->isNew() ? $password->create($data) : $password->setProperties($data);
+
+            $password->save();
         }
     }
 
