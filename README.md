@@ -36,7 +36,7 @@ Installation
 
 * Add the following line into /etc/hosts
 
-    33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev
+    33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev apc.nooku.dev
 
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
 

@@ -264,3 +264,32 @@ nginx::resource::location { "webgrind-php":
   notify              => Class['nginx::service'],
   require             => Nginx::Resource::Vhost['webgrind.nooku.dev'],
 }
+
+nginx::resource::vhost { 'apc.nooku.dev':
+  ensure      => present,
+  server_name => ['apc.nooku.dev'],
+  listen_port => 80,
+  www_root    => '/home/vagrant/scripts/apc',
+  try_files   => ['$uri', '$uri/', '/index.php?$args'],
+  require     => Class['php'],
+}
+
+nginx::resource::location { "apc-php":
+  ensure              => 'present',
+  vhost               => 'apc.nooku.dev',
+  location            => '~ \.php$',
+  proxy               => undef,
+  try_files           => ['$uri', '$uri/', '/index.php?$args'],
+  www_root            => '/home/vagrant/scripts/apc',
+  location_cfg_append => {
+  'fastcgi_split_path_info' => '^(.+\.php)(/.+)$',
+  'fastcgi_param'           => 'PATH_INFO $fastcgi_path_info',
+  'fastcgi_param '          => 'PATH_TRANSLATED $document_root$fastcgi_path_info',
+  'fastcgi_param  '         => 'SCRIPT_FILENAME $document_root$fastcgi_script_name',
+  'fastcgi_pass'            => 'unix:/var/run/php5-fpm.sock',
+  'fastcgi_index'           => 'index.php',
+  'include'                 => 'fastcgi_params'
+  },
+  notify              => Class['nginx::service'],
+  require             => Nginx::Resource::Vhost['apc.nooku.dev'],
+}
