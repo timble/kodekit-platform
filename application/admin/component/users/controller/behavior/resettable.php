@@ -63,7 +63,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $subject = $this->getObject('translator')->translate('Reset your password');
                 $message = $translator->translate('Password reset instructions E-mail',
-                    array('name' => $row->name, 'site' => $site, 'url' => $url));
+                    array('name' => $entity->name, 'site' => $site, 'url' => $url));
 
                 if (!$entity->notify(array('subject' => $subject, 'message' => $message)))
                 {
