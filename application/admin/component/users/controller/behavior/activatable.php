@@ -23,7 +23,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user instanceof Users\DatabaseRowUser && $user->getStatus() == $user::STATUS_CREATED && $user->activation)
+        if ($user instanceof Users\ModelEntityUser && $user->getStatus() == $user::STATUS_CREATED && $user->activation)
         {
             $translator = $this->getObject('translator');
 
