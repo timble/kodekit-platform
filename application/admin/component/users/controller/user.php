@@ -70,7 +70,7 @@ class UsersControllerUser extends Users\ControllerUser
 
         if ($user->getStatus() !== Library\Database::STATUS_FAILED && $this->isResettable())
         {
-            if (!$this->token($context))
+            if (!$this->token())
             {
                 $context->response->addMessage('Failed to deliver the password reset token', 'error');
             }
