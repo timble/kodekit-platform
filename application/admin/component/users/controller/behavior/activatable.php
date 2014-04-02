@@ -43,7 +43,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                     $context->reponse->addMessage($translator->translate('Failed to send activation E-mail'), 'error');
                 }
             }
-                $context->reponse->addMessage($translator->translate('Unable to get a user account activation URL'), 'error');
+            else $context->response->addMessage($translator->translate('Unable to get a user account activation URL'), 'error');
         }
     }
 
