@@ -15,9 +15,30 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterFactory extends Object implements ObjectMultiton
+class FilterFactory extends Object implements ObjectInstantiable, ObjectSingleton
 {
-	/**
+    /**
+     * Force creation of a singleton
+     *
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
+     * @return DispatcherRequest
+     */
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
+    {
+        if (!$manager->isRegistered('filter.factory'))
+        {
+            $class    = $manager->getClass($config->object_identifier);
+            $instance = new $class($config);
+            $manager->setObject($config->object_identifier, $instance);
+
+            $manager->registerAlias($config->object_identifier, 'filter.factory');
+        }
+
+        return $manager->getObject('filter.factory');
+    }
+
+    /**
 	 * Factory method for FilterInterface classes.
      *
      * Method accepts an array of filter names, or filter service identifiers and will create a chained filter
