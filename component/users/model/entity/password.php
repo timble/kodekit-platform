@@ -72,8 +72,9 @@ class ModelEntityPassword extends Library\ModelEntityRow
             if (strlen($password) < $this->getLength())
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage($translator->translate('You need to provide a password with at least {number} characters.',
-                    array('number' => $length)));
+                $this->setStatusMessage($this->getObject('translator')
+                                             ->translate('You need to provide a password with at least {number} characters.',
+                    array('number' => $this->getLength())));
                 return false;
             }
 
