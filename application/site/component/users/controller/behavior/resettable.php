@@ -29,11 +29,15 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             if (!$user->enabled) {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
+
+                $translator = $this->getObject('translator');
+
                 $context->response->setRedirect($url,
-                    $this->getObject('translator')->translate('The user account you are trying to reset the password for is not enabled'), 'error');
+                    $translator->translate('The user account you are trying to reset the password for is not enabled'),
+                    'error');
 
                 if ($user->activation) {
-                    $context->response->addMessage($this->getObject('translator')->translate('Please activate your account before resetting your password'),
+                    $context->response->addMessage($translator->translate('Please activate your account before resetting your password'),
                         'notice');
                 }
 
