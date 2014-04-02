@@ -57,9 +57,9 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
 
             //Create the parameters object
             if(empty($data)) {
-                $config = $this->getObject('lib:object.config.factory')->createFormat($type);
+                $config = $this->getObject('object.config.factory')->createFormat($type);
             } else {
-                $config = $this->getObject('lib:object.config.factory')->fromString($type, $data);
+                $config = $this->getObject('object.config.factory')->fromString($type, $data);
             }
 
             $this->_parameters = $config;
@@ -77,14 +77,12 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     {
         if(!empty($value))
         {
-            if(is_string($value)) {
-                $this->getParameters()->fromString(trim($value));
-            } else {
-                $this->getParameters()->add($value);
+            if(!is_string($value)) {
+                $value = $this->getParameters()->add($value)->toString();
             }
         }
 
-        return $this->getParameters()->toString();
+        return $value;
     }
 
     /**
@@ -114,8 +112,8 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->getParameters() instanceof ObjectConfigInterface) {
-            $context->data->setProperty('parameters', $this->getParameters()->toString());
+        if($context->data->getParameters() instanceof ObjectConfigInterface) {
+            $context->data->setProperty('parameters', $context->data->getParameters()->toString());
         }
     }
 
@@ -127,8 +125,8 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(DatabaseContext $context)
     {
-        if($this->getParameters() instanceof ObjectConfigInterface) {
-            $context->data->setProperty('parameters', $this->getParameters()->toString());
+        if($context->data->getParameters() instanceof ObjectConfigInterface) {
+            $context->data->setProperty('parameters', $context->data->getParameters()->toString());
         }
     }
 }

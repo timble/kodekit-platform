@@ -26,7 +26,7 @@ class FilterJson extends FilterAbstract
     public function validate($value)
     {
         try {
-            $config = $this->getObject('lib:object.config.factory')->fromString('json', $value);
+            $config = $this->getObject('object.config.factory')->fromString('json', $value);
         } catch(\RuntimeException $e) {
             $config = null;
         }
@@ -45,9 +45,9 @@ class FilterJson extends FilterAbstract
         if(!$value instanceof ObjectConfigJson)
         {
             if(is_string($value)) {
-                $value = $this->getObject('lib:object.config.factory')->fromString('json', $value);
+                $value = $this->getObject('object.config.factory')->fromString('json', $value);
             } else {
-                $value = $this->getObject('lib:object.config.factory')->createFormat('json', $value);
+                $value = $this->getObject('object.config.factory')->createFormat('json', $value);
             }
         }
 

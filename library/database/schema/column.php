@@ -127,7 +127,7 @@ class DatabaseSchemaColumn extends Object implements \Serializable
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getObject('lib:filter.factory')->createFilter($this->_filter);
+                $this->_filter = $this->getObject('filter.factory')->createFilter($this->_filter);
             }
 
             return $this->_filter;

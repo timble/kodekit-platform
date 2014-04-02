@@ -46,7 +46,7 @@ abstract class ControllerComment extends Library\ControllerModel
             $alias            = $layout;
             $alias['package'] = 'comments';
 
-            $this->getObject('manager')->registerAlia($alias, $layout);
+            $this->getObject('manager')->registerAlias($alias, $layout);
         }
 
         return parent::_actionRender($context);
