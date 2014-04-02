@@ -23,7 +23,7 @@ class DatabaseTableAttachments extends Library\DatabaseTableAbstract
     {
     	$config->append(array(
     		'name'      => 'attachments',
-    		'behaviors' => array('creatable', 'modifiable', 'lockable'),
+    		'behaviors' => array('creatable', 'modifiable', 'lockable', 'identifiable'),
     	    'filters'   => array(
                 'description' => array('html', 'tidy')
             )

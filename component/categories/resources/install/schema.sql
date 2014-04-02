@@ -8,9 +8,9 @@
 CREATE TABLE `categories` (
   `categories_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
+  `attachments_attachment_id` int(11) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
-  `image` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(50) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
@@ -23,7 +23,9 @@ CREATE TABLE `categories` (
   `ordering` int(11) NOT NULL DEFAULT '0',
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`categories_category_id`),
+  UNIQUE KEY `uuid` (`uuid`),
   KEY `cat_idx` (`table`,`published`,`access`),
   KEY `idx_access` (`access`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

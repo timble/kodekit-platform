@@ -12,24 +12,18 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Containers Database Table
+ * Tables Database Table
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package Nooku\Component\Files
+ * @package Nooku\Component\Languages
  */
-class DatabaseTableContainers extends Library\DatabaseTableAbstract
+class DatabaseTableTables extends Library\DatabaseTableAbstract
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'filters' => array(
-				'slug' 	     => 'cmd',
-				'path'       => 'com:files.filter.path',
-				'parameters' => 'json'
-			),
 			'behaviors' => array(
-			    'sluggable' => array('columns' => array('id', 'title')),
-                'identifiable', 'parameterizable'
+                'identifiable',
 			)
 		));
 

@@ -23,7 +23,7 @@ class DatabaseTableModules extends Library\DatabaseTableAbstract
     {
         $config->append(array(
             'behaviors'  => array(
-                'creatable', 'modifiable', 'lockable', 'parameterizable',
+                'creatable', 'modifiable', 'lockable', 'parameterizable', 'identifiable',
                 'com:pages.database.behavior.orderable' => array('strategy' => 'flat')
             ),
             'filters' => array(

@@ -5,28 +5,28 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 -- Dumping data for table `languages`
 --
 
-INSERT INTO `languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
+INSERT INTO `languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `uuid`)
 VALUES
-    (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1),
-    (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1);
+    (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, UUID()),
+    (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, UUID());
 
 --
 -- Dumping data for table `languages_tables`
 --
 
-INSERT INTO `languages_tables` (`component`, `name`, `unique_column`, `enabled`)
+INSERT INTO `languages_tables` (`languages_table_id`, `component`, `name`, `unique_column`, `enabled`, `uuid`)
 VALUES
-    (20, 'articles', 'articles_article_id', 0),
-    (20, 'categories', 'categories_category_id', 0);
+    (1, 'articles', 'articles', 'articles_article_id', 0, UUID()),
+    (2, 'articles', 'categories', 'categories_category_id', 0, UUID());
 
 --
 -- Dumping data for table `pages_menus`
 --
 
-INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
+INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `uuid`)
 VALUES
-	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, NULL, NULL, NULL, NULL, NULL),
-	(2, 'admin', 'Menubar', 'menubar', '1', 1, NULL, NULL, NULL, NULL, NULL);
+	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, NULL, NULL, NULL, NULL, NULL, UUID()),
+	(2, 'admin', 'Menubar', 'menubar', '1', 1, NULL, NULL, NULL, NULL, NULL, UUID());
 
 
 --
@@ -126,44 +126,44 @@ VALUES
 -- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`)
+INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
 VALUES
-	(1, 'Main Menu', '', 2, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1\nclass=nav nav-list', 'pages', 'site');
+	(1, 'Main Menu', '', 2, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1\nclass=nav nav-list', 'pages', 'site', UUID());
 
 --
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`, `uuid`)
 VALUES
-	(1, 1, NULL, 'Home', 'home', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(2, 2, NULL, 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', NULL, 'component', 1, 0, 0, 'dashboard', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(3, 2, NULL, 'Pages', 'pages', 'option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(4, 2, NULL, 'Content', 'content', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(5, 2, NULL, 'Files', 'files', 'option=com_files&view=files', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(6, 2, NULL, 'Users', 'users', 'option=com_users&view=users', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(9, 2, NULL, 'Tools', 'tools', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', NULL, 'component', 1, 0, 0, 'activities', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(12, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(14, 2, NULL, 'Languages', 'languages', 'option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 'languages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(15, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(16, 2, NULL, 'Categories', 'categories', 'option=com_articles&view=categories', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(21, 2, NULL, 'Pages', 'pages', 'option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(22, 2, NULL, 'Menus', 'menus', 'option=com_pages&view=menus', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(23, 2, NULL, 'Modules', 'modules', 'option=com_pages&view=modules', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(24, 2, NULL, 'Users', 'users', 'option=com_users&view=users', NULL, 'component', 1, 0, 0,'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(25, 2, NULL, 'Groups', 'groups', 'option=com_users&view=groups', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(28, 2, NULL, 'Tags', 'tags', 'option=com_articles&view=tags', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
+	(1, 1, NULL, 'Home', 'home', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(2, 2, NULL, 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', NULL, 'component', 1, 0, 0, 'dashboard', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(3, 2, NULL, 'Pages', 'pages', 'option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(4, 2, NULL, 'Content', 'content', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(5, 2, NULL, 'Files', 'files', 'option=com_files&view=files', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(6, 2, NULL, 'Users', 'users', 'option=com_users&view=users', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(9, 2, NULL, 'Tools', 'tools', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', NULL, 'component', 1, 0, 0, 'activities', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(12, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(14, 2, NULL, 'Languages', 'languages', 'option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 'languages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(15, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(16, 2, NULL, 'Categories', 'categories', 'option=com_articles&view=categories', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(21, 2, NULL, 'Pages', 'pages', 'option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(22, 2, NULL, 'Menus', 'menus', 'option=com_pages&view=menus', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(23, 2, NULL, 'Modules', 'modules', 'option=com_pages&view=modules', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(24, 2, NULL, 'Users', 'users', 'option=com_users&view=users', NULL, 'component', 1, 0, 0,'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(25, 2, NULL, 'Groups', 'groups', 'option=com_users&view=groups', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(28, 2, NULL, 'Tags', 'tags', 'option=com_articles&view=tags', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID());
 
 
 --
 -- Dumping data for table `files_containers`
 --
 
-INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
+INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`, `uuid`)
 VALUES
-    (NULL, 'files-files', 'Files', 'files', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}'),
-	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": false,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
+    (NULL, 'files-files', 'Files', 'files', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}', UUID()),
+	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": false,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}', UUID());
 --
 -- Dumping data for table `users`
 --

@@ -5,18 +5,18 @@
 --
 
 CREATE TABLE `pages` (
-  `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pages_page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
   `users_group_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
   `link_url` TEXT,
-  `link_id` INT UNSIGNED,
+  `link_id` INT(11) UNSIGNED,
   `type` VARCHAR(50),
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
-  `component` VARCHAR (50),
+  `component` VARCHAR(50),
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -25,7 +25,9 @@ CREATE TABLE `pages` (
   `locked_on` DATETIME,
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `params` TEXT,
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`pages_page_id`),
+  UNIQUE KEY `uuid` (`uuid`),
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
@@ -84,9 +86,12 @@ CREATE TABLE `pages_menus` (
   `modified_on` datetime DEFAULT NULL,
   `locked_by` int(10) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`pages_menu_id`),
+  UNIQUE KEY `uuid` (`uuid`),
   KEY `ix_application` (`application`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -108,7 +113,7 @@ CREATE TABLE `pages_modules_pages` (
 --
 
 CREATE TABLE `pages_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pages_module_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `content` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
@@ -123,8 +128,11 @@ CREATE TABLE `pages_modules` (
   `name` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `component` VARCHAR (50) NOT NULL,
+  `component` VARCHAR(50) NOT NULL,
   `application` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
+  `uuid` char(36) NOT NULL,
+  PRIMARY KEY (`pages_module_id`),
+  UNIQUE KEY `uuid` (`uuid`),
   KEY `published` (`published`,`access`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

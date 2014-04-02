@@ -24,7 +24,7 @@ class DatabaseTableTags extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'       => 'tags',
             'behaviors'  => array(
-                'creatable', 'modifiable', 'lockable', 'sluggable'
+                'creatable', 'modifiable', 'lockable', 'sluggable', 'identifiable'
             )
         ));
 

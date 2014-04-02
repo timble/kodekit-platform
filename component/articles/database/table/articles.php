@@ -24,7 +24,7 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'       => 'articles',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable', 'identifiable',
                 'orderable' => array(
                     'strategy' => 'flat'
                 ),
