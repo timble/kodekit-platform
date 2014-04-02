@@ -26,7 +26,7 @@ class FilterYaml extends FilterAbstract
     public function validate($value)
     {
         try {
-            $config = $this->getObject('lib:object.config.factory')->fromString('yaml', $value);
+            $config = $this->getObject('object.config.factory')->fromString('yaml', $value);
         } catch(\RuntimeException $e) {
             $config = null;
         }
@@ -45,9 +45,9 @@ class FilterYaml extends FilterAbstract
         if(!$value instanceof ObjectConfigYaml)
         {
             if(is_string($value)) {
-                $value = $this->getObject('lib:object.config.factory')->fromString('yaml', $value);
+                $value = $this->getObject('object.config.factory')->fromString('yaml', $value);
             } else {
-                $value = $this->getObject('lib:object.config.factory')->createFormat('yaml', $value);
+                $value = $this->getObject('object.config.factory')->createFormat('yaml', $value);
             }
         }
 
