@@ -38,7 +38,6 @@ class UsersViewSessionHtml extends Library\ViewHtml
         $page       = $this->getObject('application.pages')->getActive();
         $parameters = $page->getParams('page');
 
-        $parameters->def('description_login_text', 'LOGIN_DESCRIPTION');
         $parameters->def('registration', true);
 
         return $parameters;

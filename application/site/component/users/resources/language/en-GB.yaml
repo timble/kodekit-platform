@@ -50,3 +50,4 @@ Password reset instructions E-mail: "Hello {name},\n\nPlease make use of the fol
   for your account:\n\n{url}\n\nPlease do not reply to this message as it is automatically generated and for information
   purposes only.\n\nThank you."
 Unable to get a password reset URL: Unable to get a password reset URL
+To access the private area of this site, please log in: To access the private area of this site, please log in
