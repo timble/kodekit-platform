@@ -44,6 +44,13 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     protected $_loaded = array();
 
     /**
+     * Determines if we should cache translations or not.
+     *
+     * @var bool True if cache is enabled, false otherwise.
+     */
+    protected $_caching;
+
+    /**
      * @param Library\ObjectConfig $config
      */
     public function __construct(Library\ObjectConfig $config)
@@ -52,6 +59,18 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
         $this->_fallback_locale = $config->fallback_locale;
         $this->_catalogue       = $config->catalogue;
+        $this->_caching = $config->caching;
+
+        if ($this->_caching && !extension_loaded('apc'))
+        {
+            throw new \RuntimeException('Translations cannot be cached since APC is not loaded.');
+        }
+
+        if ($this->_caching && ($data = $this->_getCacheData()))
+        {
+            $this->_loaded = $data['loaded'];
+            $config->object_manager->setConfig($this->_catalogue, array('data' => $data['catalogue']));
+        }
     }
 
     /**
@@ -65,11 +84,15 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
+        $namespace = $config->object_manager->getRegistry()->getNamespace();
+
         $config->append(array(
+            'caching'         => $this->getObject('application')->getCfg('caching'),
             'catalogue'       => 'com:application.translator.catalogue',
             'fallback_locale' => 'en-GB',
             'locale'          => 'en-GB',
-            'options'         => array('search_paths' => array())
+            'options'         => array('search_paths'      => array(),
+                                       'caching_container' => $namespace . '-translator-' . $config->object_identifier)
         ));
 
         parent::_initialize($config);
@@ -173,7 +196,44 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
             }
 
             $this->_loaded[$component] = true;
+
+            if ($this->_caching)
+            {
+                $this->_setCacheData(array('catalogue' => $this->getCatalogue()->toArray(), 'loaded' => $this->_loaded));
+            }
         }
+    }
+
+    /**
+     * Cache data getter.
+     *
+     * @return array Associative array containing translator data.
+     */
+    protected function _getCacheData()
+    {
+        $data = array();
+
+        $container = $this->getConfig()->options->caching_container;
+
+        if (apc_exists($container))
+        {
+            $data = unserialize(apc_fetch($container));
+        }
+
+        return $data;
+    }
+
+    /**
+     * Cache data setter
+     *
+     * @param $data array The data to be cached.
+     *
+     * @return $this TranslatorInterface
+     */
+    protected function _setCacheData($data)
+    {
+        apc_store($this->getConfig()->options->caching_container, serialize($data));
+        return $this;
     }
 
     /**
@@ -264,7 +324,6 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     public function getCatalogue()
     {
-
         if (!$this->_catalogue instanceof TranslatorCatalogueInterface)
         {
             $this->setCatalogue($this->getObject($this->_catalogue));
