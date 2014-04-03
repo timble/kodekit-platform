@@ -17,9 +17,11 @@ CREATE TABLE `tags` (
   `locked_by` int(10) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
   `params` text NOT NULL,
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`tags_tag_id`),
   UNIQUE KEY `slug` (`slug`),
   UNIQUE KEY `title` (`title`),
+  UNIQUE KEY `uuid` (`uuid`),
   KEY `table` (`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

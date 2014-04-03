@@ -52,7 +52,9 @@ CREATE TABLE `users_groups` (
   `users_group_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`users_group_id`),
+  UNIQUE KEY `uuid` (`uuid`),
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

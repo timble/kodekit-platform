@@ -24,7 +24,7 @@ class DatabaseTableLanguages extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'      => 'languages',
             'behaviors' => array(
-                'sluggable' => array('columns' => array('name'))
+                'sluggable' => array('columns' => array('name')), 'identifiable'
             ),
             'filters'   => array(
                 'iso_code'  => array('com:languages.filter.iso'),

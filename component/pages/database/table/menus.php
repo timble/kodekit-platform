@@ -23,7 +23,7 @@ class DatabaseTableMenus extends Library\DatabaseTableAbstract
     {		
         $config->append(array(
             'behaviors'  => array(
-                'creatable', 'modifiable', 'lockable', 'sluggable'
+                'creatable', 'modifiable', 'lockable', 'sluggable', 'identifiable'
             )
             ));
      

@@ -128,7 +128,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'title'      => $attributes['title'],
                     'name'       => 'mod_dynamic',
                     'identifier' => $this->getIdentifier('com:pages.module.dynamic.html'),
-                    'attribs'    => array_diff_key($attributes, $defaults)
+                    'attribs'    => (array) array_diff_key($attributes, $defaults)
                 );
 
                 $this->getModules()->create($values, Library\ModelEntityInterface::STATUS_LOADED);
@@ -216,7 +216,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                 $attribs['rel']['last'] = 'last';
             }
 
-            $module->attribs = array_merge($module->attribs, $attribs);
+            $module->attribs = array_merge((array) $module->attribs, $attribs);
 
             //Render the module
             $content = $this->getObject($module->identifier)

@@ -43,16 +43,6 @@ class ModelEntityModule extends Library\ModelEntityRow
         return $this->getIdentifier('com://site/'.$package.'.module.'.$module.'.html');
     }
 
-    public function getPropertyAttribs()
-    {
-        return array();
-    }
-
-    public function getPropertyChrome()
-    {
-        return array();
-    }
-
     public function getPropertyManifest()
     {
         $class = $this->getObject('manager')->getClass($this->identifier, false);
