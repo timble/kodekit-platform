@@ -364,9 +364,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
                 $user = $this->getObject('user.provider')->load($entity->locked_by);
                 $date = $this->getObject('lib:date',array('date' => $entity->locked_on));
 
-                $message = \JText::sprintf('Locked by %s %s', $user->getName(), $date->humanize());
-                $message = $this->getObject('translator')
-                           ->translate('Locked by {user} {date}',
+                $message = $this->getObject('translator')->translate('Locked by {user} {date}',
                     array('user' => $user->get('name'), 'date' => $date->humanize()));
 
                 $context->response->addMessage($message, 'notice');
