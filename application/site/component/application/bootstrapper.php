@@ -33,9 +33,10 @@ class ApplicationBootstrapper extends Application\Bootstrapper
             'configs' => array(
                 'com:application.translator' => array(
                     'options' => array(
-                        'sources' => array(
+                        'sources'           => array(
                             JPATH_ROOT,
-                            JPATH_BASE)))
+                            JPATH_BASE),
+                        'caching_container' => 'site-translator-com:application.translator'))
             )
         ));
 

@@ -44,9 +44,9 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     protected $_loaded = array();
 
     /**
-     * Determines if we should cache translations or not.
+     * Tells if translations should be cached.
      *
-     * @var bool True if cache is enabled, false otherwise.
+     * @var bool
      */
     protected $_caching;
 
@@ -84,15 +84,14 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $namespace = $config->object_manager->getRegistry()->getNamespace();
-
         $config->append(array(
             'caching'         => $this->getObject('application')->getCfg('caching'),
             'catalogue'       => 'com:application.translator.catalogue',
             'fallback_locale' => 'en-GB',
             'locale'          => 'en-GB',
-            'options'         => array('search_paths'      => array(),
-                                       'caching_container' => $namespace . '-translator-' . $config->object_identifier)
+            'options'         => array(
+                'sources'           => array(),
+                'caching_container' => 'application-translator-' . $config->object_identifier)
         ));
 
         parent::_initialize($config);
