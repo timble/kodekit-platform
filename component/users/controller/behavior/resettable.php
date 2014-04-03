@@ -106,10 +106,10 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $entity   = $context->entity;
+        $entity = $context->entity;
 
         // Set the password as resettable and keep a copy of the token for further use.
-        if ($token = $entity->getPassword()->setReset())
+        if ($token = $entity->getPassword()->resetPassword())
         {
             $context->token = $token;
             $result         = true;
