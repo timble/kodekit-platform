@@ -34,7 +34,7 @@
             <?= $user->role_name;?>
         </td>
         <td>
-            <?= helper('date.humanize', array('date' => '@'.$user->loggedin_on));?>
+            <?= helper('date.humanize', array('date' => '@'.$user->session_time));?>
         </td>
     </tr>
         <?php endforeach; ?>

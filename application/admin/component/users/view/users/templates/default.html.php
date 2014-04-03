@@ -34,7 +34,7 @@
 					<?= helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
 				</th>
 				<th width="1">
-					<?= helper('grid.sort',  array('title' => 'Logged In', 'column' => 'loggedin')) ?>
+					<?= helper('grid.sort',  array('title' => 'Logged In', 'column' => 'authentic')) ?>
 				</th>
 				<th width="1">
 					<?= helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
@@ -73,7 +73,7 @@
 					</a>
 				</td>
 				<td align="center">
-					<i class="<?= $user->loggedin ? 'icon-ok' : 'icon-remove' ?>"></i>
+					<i class="<?= $user->authentic ? 'icon-ok' : 'icon-remove' ?>"></i>
 				</td>
 				<td>
 					<?= escape($user->role_name) ?>
