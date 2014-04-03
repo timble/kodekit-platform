@@ -32,11 +32,6 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $request = parent::getRequest();
 
-        // Set request so that actions are made against logged user if none was given.
-        if (!$request->query->get('id','int') && ($id = $this->getUser()->getId())) {
-            $request->query->id = $id;
-        }
-
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
             $request->data->remove($variable);
