@@ -27,11 +27,11 @@ class ModelThumbnails extends Library\ModelDatabase
 
         $this->getState()
             ->insert('container', 'com:files.filter.container', null)
-            ->insert('folder', 'com:files.filter.path')
-            ->insert('filename', 'com:files.filter.path' /*, null, true, array('container')*/)
-            ->insert('source', 'raw', null, true)
-            ->insert('types', 'cmd', '')
-            ->insert('config', 'json', '');
+            ->insert('folder'   , 'com:files.filter.path')
+            ->insert('filename' , 'com:files.filter.path' /*, null, true, array('container')*/)
+            ->insert('source'   , 'raw', null, true)
+            ->insert('types'    , 'cmd', '')
+            ->insert('config'   , 'json', '');
     }
 
     public function getContainer()
