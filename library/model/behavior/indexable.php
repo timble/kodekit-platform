@@ -60,18 +60,22 @@ class ModelBehaviorIndexable extends ModelBehaviorAbstract
     {
         $model = $context->getSubject();
 
-        if ($model instanceof ModelDatabase) {
+        if ($model instanceof ModelDatabase)
+        {
             //Get only the unique states
             $states = $context->state->getValues(true);
 
-            if (!empty($states)) {
-                $fields = array_keys($model->getTable()->getColumns());
-                $states = $model->getTable()->mapColumns($states);
+            if (!empty($states))
+            {
+                $columns = array_intersect_key($states, $model->getTable()->getColumns());
+                $columns = $model->getTable()->mapColumns($columns);
 
-                foreach ($states as $key => $value) {
-                    if (in_array($key, $fields) && isset($value)) {
-                        $context->query->where('tbl.' . $key . ' ' . (is_array($value) ? 'IN' : '=') . ' :' . $key)
-                            ->bind(array($key => $value));
+                foreach ($columns as $column => $value)
+                {
+                    if (isset($value))
+                    {
+                        $context->query->where('tbl.' . $column . ' ' . (is_array($value) ? 'IN' : '=') . ' :' . $column)
+                            ->bind(array($column => $value));
                     }
                 }
             }
