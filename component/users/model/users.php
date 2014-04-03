@@ -29,7 +29,7 @@ class ModelUsers extends Library\ModelDatabase
             ->insert('group_tree' , 'boolean', false)
             ->insert('enabled'    , 'boolean')
             ->insert('visited'    , 'boolean')
-            ->insert('loggedin'   , 'boolean');
+            ->insert('authentic'  , 'boolean');
 	}
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -47,17 +47,17 @@ class ModelUsers extends Library\ModelDatabase
 	    $state = $this->getState();
 
 	    $query->columns(array(
-	    	'loggedin'  => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
+	    	'authentic'  => 'IF(tbl.users_user_id IS NOT NULL, 1, 0)',
 	    	'role_name' => 'role.name'
 	    ));
 	    
-	    if($state->loggedin)
+	    if($state->authentic)
         {
 	        $query->columns(array(
-	        	'loggedin_path'        => 'session.path',
-                'loggedin_domain'      => 'session.domain',
-	        	'loggedin_on'          => 'session.time',
-	        	'loggedin_session_id'  => 'session.users_session_id'
+	        	'session_path'   => 'session.path',
+                'session_domain' => 'session.domain',
+	        	'session_time'     => 'session.time',
+	        	'session_id'     => 'session.users_session_id'
 	        ));
 	    }
 	}
@@ -66,7 +66,7 @@ class ModelUsers extends Library\ModelDatabase
 	{
 	    $state = $this->getState();
 	    
-        $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->loggedin ? 'RIGHT' : 'LEFT');
+        $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->authentic ? 'RIGHT' : 'LEFT');
         $query->join(array('role' => 'users_roles'), 'role.users_role_id = tbl.users_role_id');
         $query->join(array('group' => 'users_groups_users'), 'group.users_user_id = tbl.users_user_id');
 	}
@@ -94,9 +94,16 @@ class ModelUsers extends Library\ModelDatabase
             $query->where('tbl.enabled = :enabled')
                    ->bind(array('enabled' => $state->enabled));
         }
-        
-        if ($state->loggedin === false) {
-            $query->where('loggedin IS NULL');
+
+        if (is_bool($state->authentic))
+        {
+            if($state->authentic  === true) {
+                $query->where('tbl.users_user_id IS NOT NULL');
+            }
+
+            if($state->authentic  === false) {
+                $query->where('tbl.users_user_id IS NULL');
+            }
         }
         
         if (is_bool($state->visited))
