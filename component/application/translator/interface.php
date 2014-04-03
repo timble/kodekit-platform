@@ -23,7 +23,6 @@ interface TranslatorInterface extends Library\TranslatorInterface
      * Catalogue setter.
      *
      * @param TranslatorCatalogueInterface $catalogue The catalogue.
-     *
      * @return TranslatorInterface this.
      */
     public function setCatalogue(TranslatorCatalogueInterface $catalogue);
@@ -39,7 +38,6 @@ interface TranslatorInterface extends Library\TranslatorInterface
      * Fallback locale setter.
      *
      * @param string $locale The fallback locale.
-     *
      * @return TranslatorInterface this.
      */
     public function setFallbackLocale($locale);
@@ -63,7 +61,6 @@ interface TranslatorInterface extends Library\TranslatorInterface
      * Translations parser.
      *
      * @param string $file The translations file.
-     *
      * @return array|null Associative array containing the translations, null if not parsed.
      */
     public function parseTranslations($file);

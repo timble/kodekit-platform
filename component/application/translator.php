@@ -61,8 +61,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
         $this->_catalogue       = $config->catalogue;
         $this->_caching = $config->caching;
 
-        if ($this->_caching && !extension_loaded('apc'))
-        {
+        if ($this->_caching && !extension_loaded('apc')) {
             throw new \RuntimeException('Translations cannot be cached since APC is not loaded.');
         }
 
@@ -120,20 +119,18 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      * @param integer $number     The number of items
      * @param array   $parameters An array of parameters
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return string Translated string
      */
     public function choose(array $strings, $number, array $parameters = array())
     {
-        if (count($strings) < 2)
-        {
-            throw new InvalidArgumentException('Choose method requires at least 2 strings to choose from');
+        if (count($strings) < 2) {
+            throw new \InvalidArgumentException('Choose method requires at least 2 strings to choose from');
         }
 
         $choice = Library\TranslatorInflector::getPluralPosition($number, $this->getLocale());
 
-        if ($choice === 0)
-        {
+        if ($choice === 0) {
             return $this->translate($strings[0], $parameters);
         }
 
@@ -156,18 +153,6 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     }
 
     /**
-     * Checks if a string is translatable.
-     *
-     * @param $string String to check
-     *
-     * @return bool
-     */
-    public function isTranslatable($string)
-    {
-        return $this->getCatalogue()->hasString($string);
-    }
-
-    /**
      * @see TranslatorInterface::load()
      */
     public function load($component, $source = null)
@@ -186,18 +171,15 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
             foreach ($sources as $source)
             {
-                if (($file = $this->_findTranslations($component,
-                        $source)) && ($translations = yaml_parse_file($file)))
-                {
-                    // Always override while importing through translator.
+                // Always override while importing through translator.
+                if (($file = $this->_findTranslations($component, $source)) && ($translations = yaml_parse_file($file))) {
                     $this->getCatalogue()->import($translations, true);
                 }
             }
 
             $this->_loaded[$component] = true;
 
-            if ($this->_caching)
-            {
+            if ($this->_caching) {
                 $this->_setCacheData(array('catalogue' => $this->getCatalogue()->toArray(), 'loaded' => $this->_loaded));
             }
         }
@@ -214,8 +196,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
 
         $container = $this->getConfig()->options->caching_container;
 
-        if (apc_exists($container))
-        {
+        if (apc_exists($container)) {
             $data = unserialize(apc_fetch($container));
         }
 
@@ -323,8 +304,7 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
      */
     public function getCatalogue()
     {
-        if (!$this->_catalogue instanceof TranslatorCatalogueInterface)
-        {
+        if (!$this->_catalogue instanceof TranslatorCatalogueInterface) {
             $this->setCatalogue($this->getObject($this->_catalogue));
         }
 
@@ -346,5 +326,17 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     public function getFallbackLocale()
     {
         return $this->_fallback_locale;
+    }
+
+    /**
+     * Checks if a string is translatable.
+     *
+     * @param $string String to check
+     *
+     * @return bool
+     */
+    public function isTranslatable($string)
+    {
+        return $this->getCatalogue()->hasString($string);
     }
 }

@@ -31,7 +31,6 @@ interface TranslatorCatalogueInterface extends Library\TranslatorCatalogueInterf
      * Tells if the catalogue contains a given string.
      *
      * @param string $string The string.
-     *
      * @return bool True if found, false otherwise.
      */
     public function hasString($string);

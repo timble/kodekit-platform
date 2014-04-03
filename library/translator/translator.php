@@ -10,148 +10,31 @@
 namespace Nooku\Library;
 
 /**
- * Translator
+ * Translator Singleton
  *
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
  * @package Nooku\Library\Translator
  */
-class Translator extends Object implements TranslatorInterface
+class Translator extends TranslatorAbstract implements ObjectInstantiable, ObjectSingleton
 {
     /**
-     * Locale
+     * Force creation of a singleton
      *
-     * @var string
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
+     * @return DispatcherRequest
      */
-    protected $_locale;
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
+    {
+        if (!$manager->isRegistered('translator'))
+        {
+            $class     = $manager->getClass($config->object_identifier);
+            $instance  = new $class($config);
+            $manager->setObject($config->object_identifier, $instance);
 
-    /**
-     * Constructor.
-     *
-     * @param   ObjectConfig $config Configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-        
-        $this->setLocale($config->locale);
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   ObjectConfig $config Configuration options.
-     * @return  void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'locale' => 'en-GB'
-        ));
-        
-        parent::_initialize($config);
-    }
-    
-    /**
-     * Translates a string and handles parameter replacements
-     *
-     * Parameters are wrapped in curly braces. So {foo} would be replaced with bar given that $parameters['foo'] = 'bar'
-     * 
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array())
-    {
-        if (count($parameters)) {
-            $string = $this->replaceParameters($string, $parameters);
+            $manager->registerAlias($config->object_identifier, 'translator');
         }
 
-        return $string;
-    }
-
-    /**
-     * Handles parameter replacements
-     *
-     * @param string $string String
-     * @param array  $parameters An array of parameters
-     * @return string String after replacing the parameters
-     */
-    public function replaceParameters($string, array $parameters = array())
-    {
-        $keys = array_map(array($this, '_replaceKeys'), array_keys($parameters));
-
-        $parameters = array_combine($keys, $parameters);
-
-        return strtr($string, $parameters);
-    }
-
-    /**
-     * Adds curly braces around keys to make strtr work in replaceParameters method
-     *
-     * @param string $key
-     * @return string
-     */
-    protected function _replaceKeys($key)
-    {
-        return '{'.$key.'}';
-    }
-
-    /**
-     * Translates a string based on the number parameter passed
-     *
-     * @param array   $strings Strings to choose from
-     * @param integer $number The umber of items
-     * @param array   $parameters An array of parameters
-     * @throws InvalidArgumentException
-     * @return string Translated string
-     */
-    public function choose(array $strings, $number, array $parameters = array())
-    {
-        if (count($strings) < 2) {
-            throw new InvalidArgumentException('Choose method requires at least 2 strings to choose from');
-        }
-        
-        $choice = TranslatorInflector::getPluralPosition($number, $this->_locale);
-        
-        if ($choice > count($strings)-1) {
-            $choice = count($strings)-1;
-        }
-        
-        return $this->translate($strings[$choice], $parameters);
-    }
-
-    /**
-     * Checks if the translator can translate a string
-     *
-     * @param $string String to check
-     * @return bool
-     */
-    public function isTranslatable($string)
-    {
-        return false;
-    }
-
-    /**
-     * Sets the locale
-     *
-     * @param string $locale
-     * @return KTranslator
-     */
-    public function setLocale($locale)
-    {
-        $this->_locale = $locale;
-        return $this;
-    }
-
-    /**
-     * Gets the locale
-     *
-     * @return string|null
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
+        return $manager->getObject('translator');
     }
 }

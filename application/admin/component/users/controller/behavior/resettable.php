@@ -65,15 +65,11 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $message = $translator->translate('Password reset instructions E-mail',
                     array('name' => $entity->name, 'site' => $site, 'url' => $url));
 
-                if (!$entity->notify(array('subject' => $subject, 'message' => $message)))
-                {
+                if (!$entity->notify(array('subject' => $subject, 'message' => $message))) {
                     $context->getResponse()->addMessage($translator->translate('Unable to send password reset E-mail'), 'notice');
                 }
             }
-            else
-            {
-                $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
-            }
+            else $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
         }
     }
 }

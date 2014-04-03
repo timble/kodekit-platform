@@ -19,24 +19,15 @@ use Nooku\Library;
  */
 class TranslatorCatalogue extends Library\TranslatorCatalogue implements TranslatorCatalogueInterface
 {
-    /**
-     * @see TranslatorCatalogueInterface::import()
-     */
     public function import($translations, $override = false)
     {
-        if ($override)
-        {
+        if ($override) {
             $this->_data = array_merge($this->_data, $translations);
-        }
-        else
-        {
+        } else {
             $this->_data = array_merge($translations, $this->_data);
         }
     }
 
-    /**
-     * @see TranslatorCatalogueInterface::hasString()
-     */
     public function hasString($string)
     {
         return isset($this->_data[$string]);

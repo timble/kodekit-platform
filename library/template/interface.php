@@ -100,7 +100,7 @@ interface TemplateInterface
      * @param integer $number     The number of items
      * @param array   $parameters An array of parameters
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return string Translated string
      */
     public function choose(array $strings, $number, array $parameters = array());

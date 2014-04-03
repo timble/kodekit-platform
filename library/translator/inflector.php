@@ -27,13 +27,12 @@ class TranslatorInflector extends StringInflector
      *
      * @param integer $number The number
      * @param string  $locale The locale
-     *
      * @return integer The plural position
      */
     public static function getPluralPosition($number, $locale)
     {
+        //Temporary set a locale for brazilian
         if ("pt-BR" == $locale) {
-            // temporary set a locale for brazilian
             $locale = "xbr";
         }
 
@@ -41,7 +40,8 @@ class TranslatorInflector extends StringInflector
             $locale = substr($locale, 0, -strlen(strrchr($locale, '-')));
         }
 
-        if (isset(self::$position_rules[$locale])) {
+        if (isset(self::$position_rules[$locale]))
+        {
             $return = call_user_func(self::$position_rules[$locale], $number);
 
             if (!is_int($return) || $return < 0) {
@@ -193,14 +193,13 @@ class TranslatorInflector extends StringInflector
      *
      * @param string $rule   A PHP callable
      * @param string $locale The locale
-     *
      * @throws \LogicException
-     * @return null
+     * @return void
      */
     public static function setPluralRule($rule, $locale)
     {
+        // temporary set a locale for brazilian
         if ("pt_BR" == $locale) {
-            // temporary set a locale for brazilian
             $locale = "xbr";
         }
         

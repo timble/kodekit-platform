@@ -43,9 +43,7 @@ interface TranslatorInterface
      * @param array   $strings Strings to choose from
      * @param integer $number The umber of items
      * @param array   $parameters An array of parameters
-     *
-     * @throws InvalidArgumentException
-     *
+     * @throws \InvalidArgumentException
      * @return string Translated string
      */
     public function choose(array $strings, $number, array $parameters = array());
@@ -62,7 +60,7 @@ interface TranslatorInterface
      * Sets the locale
      *
      * @param string $locale
-     * @return KTranslator
+     * @return TranslatorInterface
      */
     public function setLocale($locale);
 
