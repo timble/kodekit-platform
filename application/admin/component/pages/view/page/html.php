@@ -20,7 +20,7 @@ class PagesViewPageHtml extends Library\ViewHtml
     protected function _actionRender(Library\ViewContext $context)
     {
         // Load languages.
-        $language = JFactory::getLanguage();
+        $translator = $this->getObject('translator');
 
         foreach($context->data->components as $component) {
             $translator->import($component->name);
