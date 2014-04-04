@@ -20,21 +20,6 @@ use Nooku\Library;
 interface TranslatorInterface extends Library\TranslatorInterface
 {
     /**
-     * Catalogue setter.
-     *
-     * @param TranslatorCatalogueInterface $catalogue The catalogue.
-     * @return TranslatorInterface this.
-     */
-    public function setCatalogue(TranslatorCatalogueInterface $catalogue);
-
-    /**
-     * Catalogue getter.
-     *
-     * @return TranslatorCatalogueInterface The catalogue.
-     */
-    public function getCatalogue();
-
-    /**
      * Fallback locale setter.
      *
      * @param string $locale The fallback locale.
@@ -50,18 +35,11 @@ interface TranslatorInterface extends Library\TranslatorInterface
     public function getFallbackLocale();
 
     /**
-     * Loads a component into the translator.
+     * Imports component translations.
      *
      * @param string $component The component name.
-     * @param mixed  $source    The source (location) to lookup for translation files.
-     */
-    public function load($component, $source = null);
-
-    /**
-     * Translations parser.
      *
-     * @param string $file The translations file.
-     * @return array|null Associative array containing the translations, null if not parsed.
+     * @return bool True on success, false otherwise.
      */
-    public function parseTranslations($file);
+    public function import($component);
 }
