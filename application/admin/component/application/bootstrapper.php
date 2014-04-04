@@ -31,12 +31,17 @@ class ApplicationBootstrapper extends Application\Bootstrapper
                  'lib:template.locator.component' => 'com:application.template.locator.component'
              ),
              'configs' => array(
-                 'com:application.translator' => array(
+                 'com:application.translator.catalogue.cache' => array(
+                     'namespace' => 'admin'
+                 ),
+                 'com:application.translator'                 => array(
                      'options' => array(
-                         'sources'           => array(
+                         'sources' => array(
                              JPATH_ROOT,
-                             JPATH_BASE),
-                         'caching_container' => 'admin-translator-com:application.translator'))
+                             JPATH_BASE
+                         )
+                     )
+                 )
              )
          ));
 
