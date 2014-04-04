@@ -70,4 +70,46 @@ interface TranslatorInterface
      * @return string|null
      */
     public function getLocale();
+
+    /**
+     * Loads translations from a source.
+     *
+     * @param mixed $source   A source containing translations.
+     * @param bool  $override Tells if previous loaded translations should be overridden
+     *
+     * @return bool True if translations were loaded, false otherwise
+     */
+    public function load($source, $override = false);
+
+    /**
+     * Translator catalogue getter.
+     *
+     * @return TranslatorCatalogueInterface The translator catalogue.
+     */
+    public function getCatalogue();
+
+    /**
+     * Translator catalogue setter.
+     *
+     * @param TranslatorCatalogueInterface $catalogue
+     *
+     * @return TranslatorInterface
+     */
+    public function setCatalogue(TranslatorCatalogueInterface $catalogue);
+
+    /**
+     * Parser setter.
+     *
+     * @param TranslatorParserInterface $parser
+     *
+     * @return TranslatorInterface
+     */
+    public function setParser(TranslatorParserInterface $parser);
+
+    /**
+     * Parser getter.
+     *
+     * @return TranslatorParserInterface
+     */
+    public function getParser();
 }
