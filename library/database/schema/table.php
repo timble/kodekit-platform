@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseSchemaTable extends Object implements \Serializable
+class DatabaseSchemaTable
 {
 	/**
 	 * Table name
@@ -83,14 +83,4 @@ class DatabaseSchemaTable extends Object implements \Serializable
 	 * @var	array
 	 */
 	public $indexes = array();
-
-    public function serialize()
-    {
-        return ObjectManager::getInstance()->serializeObject($this);
-    }
-
-    public function unserialize($data)
-    {
-        ObjectManager::getInstance()->unserializeObject($this, $data);
-    }
 }
