@@ -193,11 +193,21 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         return '{'.$key.'}';
     }
 
-    public function load($source, $override = false)
+    abstract public function import($resource);
+
+    /**
+     * Loads translations from a file.
+     *
+     * @param mixed $file     The path to the file containing translations.
+     * @param bool  $override Tells if previous loaded translations should be overridden
+     *
+     * @return bool True if translations were loaded, false otherwise
+     */
+    public function load($file, $override = false)
     {
         $result = false;
 
-        if (file_exists($source) && ($string = file_get_contents($source)))
+        if (file_exists($file) && ($string = file_get_contents($file)))
         {
             $translations = $this->getParser()->parse($string);
             $result       = $this->getCatalogue()->load($translations, $override);

@@ -17,6 +17,18 @@ namespace Nooku\Library;
  */
 class TranslatorCatalogueCache extends TranslatorCatalogue
 {
+    /**
+     * List containing sources of loaded translations.
+     *
+     * @var array
+     */
+    protected $_loaded;
+
+    /**
+     * The registry key namespace.
+     *
+     * @var string
+     */
     protected $_namespace;
 
     public function __construct(ObjectConfig $config)
@@ -30,7 +42,8 @@ class TranslatorCatalogueCache extends TranslatorCatalogue
             throw new \RuntimeException('APC is not loaded');
         }
 
-        $this->_data = (array) $this->_getFromRegistry('translations');
+        $this->_data   = (array) $this->_getFromRegistry('translations');
+        $this->_loaded = (array) $this->_getFromRegistry('loaded');
     }
 
     protected function _initialize(ObjectConfig $config)
@@ -49,6 +62,13 @@ class TranslatorCatalogueCache extends TranslatorCatalogue
         }
 
         return $result;
+    }
+
+    public function setLoaded($source)
+    {
+        parent::setLoaded($source);
+        $this->_setInRegistry($this->_getRegistryKey('loaded'), $this->_loaded);
+        return $this;
     }
 
     /**

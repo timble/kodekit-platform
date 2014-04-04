@@ -17,6 +17,32 @@ namespace Nooku\Library;
  */
 class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInterface
 {
+    /**
+     * List containing sources of loaded translations.
+     *
+     * @var array
+     */
+    protected $_loaded;
+
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_loaded = array();
+    }
+
+    public function isLoaded($source)
+    {
+        return in_array($source, $this->_loaded);
+    }
+
+    public function setLoaded($source)
+    {
+        $this->_loaded[] = $source;
+        $this->_loaded   = array_unique($this->_loaded);
+        return $this;
+    }
+
     public function load($translations, $override = false)
     {
         if ($override)

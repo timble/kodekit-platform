@@ -82,6 +82,15 @@ interface TranslatorInterface
     public function load($source, $override = false);
 
     /**
+     * Imports a resource translations.
+     *
+     * @param mixed $resource The resource for which translations will be imported.
+     *
+     * @return bool True if loaded, false otherwise.
+     */
+    public function import($resource);
+
+    /**
      * Translator catalogue getter.
      *
      * @return TranslatorCatalogueInterface The translator catalogue.

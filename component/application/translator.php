@@ -18,7 +18,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Koowa
  */
-class Translator extends Library\Translator implements Library\ObjectMultiton, TranslatorInterface
+class Translator extends Library\TranslatorAbstract implements Library\ObjectMultiton, TranslatorInterface
 {
     /**
      * Fallback locale.
@@ -57,7 +57,13 @@ class Translator extends Library\Translator implements Library\ObjectMultiton, T
     }
 
     /**
+     * Imports component translations.
+     *
+     * @param string $component The component name.
+     *
      * @throws \RuntimeException if a translation file is not loaded.
+     *
+     * @return bool True on success, false otherwise.
      */
     public function import($component) {
 

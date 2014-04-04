@@ -35,4 +35,22 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      * @return bool True if found, false otherwise.
      */
     public function hasString($string);
+
+    /**
+     * Sets a source as loaded.
+     *
+     * @param string $source The source.
+     *
+     * @return TranslatorCatalogueInterface
+     */
+    public function setLoaded($source);
+
+    /**
+     * Tells if translations from a given source are already loaded.
+     *
+     * @param string $bundle The source to check against.
+     *
+     * @return bool True if loaded, false otherwise.
+     */
+    public function isLoaded($source);
 }

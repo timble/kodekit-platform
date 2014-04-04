@@ -37,4 +37,21 @@ class Translator extends TranslatorAbstract implements ObjectInstantiable, Objec
 
         return $manager->getObject('translator');
     }
+
+    /**
+     * Imports translations from a file.
+     *
+     * @param string $file The translations file path.
+     *
+     * @return bool True if loaded, false otherwise.
+     */
+    public function import($file)
+    {
+        $catalogue = $this->getCatalogue();
+
+        if (!$catalogue->isLoaded($file) && $this->load($file, true))
+        {
+            $catalogue->setLoaded($file);
+        }
+    }
 }

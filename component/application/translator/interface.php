@@ -33,13 +33,4 @@ interface TranslatorInterface extends Library\TranslatorInterface
      * @return string The fallback locale.
      */
     public function getFallbackLocale();
-
-    /**
-     * Imports component translations.
-     *
-     * @param string $component The component name.
-     *
-     * @return bool True on success, false otherwise.
-     */
-    public function import($component);
 }
