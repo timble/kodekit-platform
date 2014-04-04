@@ -41,9 +41,10 @@ interface ModelInterface
     /**
      * Reset the model data and state
      *
+     * @param  array $modified List of changed state names
      * @return ModelInterface
      */
-    public function reset();
+    public function reset(array $modified = array());
 
     /**
      * Set the model state values

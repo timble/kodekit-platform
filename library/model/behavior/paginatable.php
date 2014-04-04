@@ -88,7 +88,14 @@ class ModelBehaviorPaginatable extends ModelBehaviorAbstract
      */
     protected function _afterReset(ModelContextInterface $context)
     {
-        $limit                  = $context->state->limit;
-        $context->state->offset = $limit != 0 ? (floor($context->state->offset / $limit) * $limit) : 0;
+        $modified = (array) ObjectConfig::unbox($context->modified);
+        if (in_array('limit', $modified))
+        {
+            $limit = $context->state->limit;
+
+            if ($limit) {
+                $context->state->offset = floor($context->state->offset / $limit) * $limit;
+            }
+        }
     }
 }
