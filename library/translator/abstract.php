@@ -12,10 +12,11 @@ namespace Nooku\Library;
 /**
  * Abstract Translator
  *
+ * @author  Arunas Mazeika <https://github.com/arunasmazeika>
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
  * @package Nooku\Library\Translator
  */
-class TranslatorAbstract extends Object implements TranslatorInterface
+abstract class TranslatorAbstract extends Object implements TranslatorInterface
 {
     /**
      * Locale
@@ -25,6 +26,20 @@ class TranslatorAbstract extends Object implements TranslatorInterface
     protected $_locale;
 
     /**
+     * The translator catalogue.
+     *
+     * @var TranslatorCatalogueInterface
+     */
+    protected $_catalogue;
+
+    /**
+     * The translator parser.
+     *
+     * @var TranslatorParserInterface
+     */
+    protected $_parser;
+
+    /**
      * Constructor.
      *
      * @param   ObjectConfig $config Configuration options
@@ -32,8 +47,10 @@ class TranslatorAbstract extends Object implements TranslatorInterface
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
-        
+
         $this->setLocale($config->locale);
+        $this->_parser    = $config->parser;
+        $this->_catalogue = $config->catalogue;
     }
 
     /**
@@ -47,9 +64,11 @@ class TranslatorAbstract extends Object implements TranslatorInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'locale' => 'en-GB'
-        ));
-        
+            'caching' => false,
+            'parser'  => 'lib:translator.parser.yaml',
+            'locale'  => 'en-GB'
+        ))->append(array('catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')));
+
         parent::_initialize($config);
     }
     
@@ -64,11 +83,15 @@ class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function translate($string, array $parameters = array())
     {
+        $catalogue = $this->getCatalogue();
+
+        $translation = $catalogue->hasString($string) ? $catalogue->{$string} : $string;
+
         if (count($parameters)) {
-            $string = $this->replaceParameters($string, $parameters);
+            $translation = $this->replaceParameters($translation, $parameters);
         }
 
-        return $string;
+        return $translation;
     }
 
     /**
@@ -100,14 +123,30 @@ class TranslatorAbstract extends Object implements TranslatorInterface
         if (count($strings) < 2) {
             throw new \InvalidArgumentException('Choose method requires at least 2 strings to choose from');
         }
-        
-        $choice = TranslatorInflector::getPluralPosition($number, $this->_locale);
-        
-        if ($choice > count($strings)-1) {
-            $choice = count($strings)-1;
+
+        $choice = TranslatorInflector::getPluralPosition($number, $this->getLocale());
+
+        if ($choice === 0)
+        {
+            $string = $strings[0];
         }
-        
-        return $this->translate($strings[$choice], $parameters);
+        else
+        {
+            while ($choice > 0)
+            {
+                $candidate = $strings[1] . ($choice === 1 ? '' : ' ' . $choice);
+
+                if ($this->getCatalogue()->hasString($candidate))
+                {
+                    $string = $candidate;
+                    break;
+                }
+
+                $choice--;
+            }
+        }
+
+        return $this->translate(isset($string) ? $string : $strings[1], $parameters);
     }
 
     /**
@@ -118,7 +157,7 @@ class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function isTranslatable($string)
     {
-        return false;
+        return $this->getCatalogue()->hasString($string);
     }
 
     /**
@@ -152,5 +191,50 @@ class TranslatorAbstract extends Object implements TranslatorInterface
     protected function _replaceKeys($key)
     {
         return '{'.$key.'}';
+    }
+
+    public function load($source, $override = false)
+    {
+        $result = false;
+
+        if (file_exists($source) && ($string = file_get_contents($source)))
+        {
+            $translations = $this->getParser()->parse($string);
+            $result       = $this->getCatalogue()->load($translations, $override);
+        }
+
+        return $result;
+    }
+
+    public function setParser(TranslatorParserInterface $parser)
+    {
+        $this->_parser = $parser;
+        return $this;
+    }
+
+    public function getParser()
+    {
+        if (!$this->_parser instanceof TranslatorParserInterface)
+        {
+            $this->setParser($this->getObject($this->_parser));
+        }
+
+        return $this->_parser;
+    }
+
+    public function getCatalogue()
+    {
+        if (!$this->_catalogue instanceof TranslatorCatalogueInterface)
+        {
+            $this->setCatalogue($this->getObject($this->_catalogue));
+        }
+
+        return $this->_catalogue;
+    }
+
+    public function setCatalogue(TranslatorCatalogueInterface $catalogue)
+    {
+        $this->_catalogue = $catalogue;
+        return $this;
     }
 }
