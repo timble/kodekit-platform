@@ -24,8 +24,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
 		{
 		    foreach($this->getModel()->fetch() as $module)
 		    {
-                $path =  $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
-                $this->getObject('translator')->load($module->getIdentifier()->package, $module->name, $path);
+                $this->getObject('translator')->import($module->getIdentifier()->package);
 		    }
 		}
 

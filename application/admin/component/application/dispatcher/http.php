@@ -190,7 +190,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         $languages->setActive($language);
 
-        $this->getObject('translator', array('locale' => $language->iso_code))->load('application');
+        $this->getObject('translator', array('locale' => $language->iso_code))->import('application');
 
         // TODO: Remove this.
         JFactory::getConfig()->setValue('config.language', $language->iso_code);

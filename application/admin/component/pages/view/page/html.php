@@ -23,7 +23,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         $language = JFactory::getLanguage();
 
         foreach($context->data->components as $component) {
-            $language->load($component->name);
+            $translator->import($component->name);
         }
 
         return parent::_actionRender($context);

@@ -30,8 +30,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
-            $this->getObject('translator')->load(substr($module->extension_name, 4), $module->name, $path);
+            $this->getObject('translator')->import($module-getIdenfier()->package);
         }
 
         return parent::_actionRender($context);

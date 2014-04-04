@@ -41,7 +41,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 		parent::__construct($config);
 
         // Load language
-        $this->getObject('translator')->load($this->getIdentifier()->package);
+        $this->getObject('translator')->import($this->getIdentifier()->package);
 
         //Force the view to the information found in the request
         $this->_view = $config->view;
