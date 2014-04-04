@@ -159,12 +159,14 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     /**
      * Reset the model data and state
      *
-     * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
-     * @return ModelAbstract
+     * @param  array $modified List of changed state names
+     * @return $this
      */
-    final public function reset($default = true)
+    final public function reset(array $modified = array())
     {
         $context = $this->getContext();
+        $context->modified = $modified;
+
 
         if ($this->invokeCommand('before.reset', $context) !== false)
         {

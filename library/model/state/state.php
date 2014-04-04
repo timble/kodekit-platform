@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model State Class
  *
- * A state requires a model object. It will call back to the model upon a state change using the onStateChange notifier.
+ * A state requires a model object. It will call back to the model upon a state change by calling reset method.
  *
  * State values can only be of type scalar or array. Values are only filtered if not NULL. If the value is an empty
  * string it will be filtered to NULL. Values will only be set if the state exists. To insert new states use the
@@ -33,8 +33,10 @@ class ModelState extends ObjectArray implements ModelStateInterface
     /**
      * Constructor
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return ObjectArray
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     * @return \Nooku\Library\ModelState
      */
     public function __construct(ObjectConfig $config)
     {
@@ -62,7 +64,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -143,7 +145,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             $this->offsetSet($name, $value);
 
             //Reset the model
-            $this->_model->reset();
+            $this->_model->reset(array($name));
         }
 
         return $this;
