@@ -15,4 +15,24 @@ namespace Nooku\Library;
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
  * @package Nooku\Library\Translator
  */
-interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess, \Serializable {}
+interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess, \Serializable
+{
+    /**
+     * Load translations into the catalogue.
+     *
+     * @param array  $translations Associative array containing translations.
+     * @param bool   $override     Whether or not existing translations can be overridden during import.
+     *
+     * @return bool True on success, false otherwise.
+     */
+    public function load($translations, $override = false);
+
+    /**
+     * Tells if the catalogue contains a given string.
+     *
+     * @param string $string The string.
+     *
+     * @return bool True if found, false otherwise.
+     */
+    public function hasString($string);
+}
