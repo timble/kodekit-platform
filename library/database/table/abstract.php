@@ -848,8 +848,11 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         // Filter data based on column type
         foreach ($data as $key => $value)
         {
-            $column     = $this->getColumn($key, $base);
-            $data[$key] = $column->filter->sanitize($value);
+            $column = $this->getColumn($key, $base);
+
+            if ($column->filter) {
+                $data[$key] = $this->getObject('filter.factory')->createFilter($column->filter)->sanitize($value);
+            }
 
             // If NULL is allowed and default is NULL, set value to NULL in the following cases.
             if (!$column->required && is_null($column->default))
