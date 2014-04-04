@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseSchemaColumn extends Object implements \Serializable
+class DatabaseSchemaColumn
 {
 	/**
 	 * Column name
@@ -87,69 +87,10 @@ class DatabaseSchemaColumn extends Object implements \Serializable
 	 */
 	public $related = array();
 
-	/**
-	 * Filter object
-	 *
-	 * Public access is allowed via __get() with $filter.
-	 *
-	 * @var	FilterInterface
-	 */
-	protected $_filter;
-
-	/**
-     * Implements the virtual $filter property.
-     *
-     * The value can be a Filter object, a filter name, an array of filter
-     * names or a filter identifier
-     *
-     * @param 	string 	$key   The virtual property to set, only accepts 'filter'
-     * @param 	string 	$value Set the virtual property to this value.
-     */
-    public function __set($key, $value)
-    {
-        if ($key == 'filter') {
-        	$this->_filter = $value;
-        }
-    }
-
     /**
-     * Implements access to $_filter by reference so that it appears to be a public $filter property.
+     * Filter
      *
-     * @param   string  $key The virtual property to return, only accepts 'filter'
-     * @return  mixed   The value of the virtual property.
+     * @var	string
      */
-    public function __get($key)
-    {
-        if ($key == 'filter')
-        {
-           if(!isset($this->_filter)) {
-                $this->_filter = $this->type;
-            }
-
-            if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getObject('filter.factory')->createFilter($this->_filter);
-            }
-
-            return $this->_filter;
-        }
-    }
-
-    public function serialize()
-    {
-        $data = ObjectManager::getInstance()->serializeObject($this, true);
-        $data['properties']['filter'] = (string)$this->filter->getIdentifier();
-
-        return serialize($data);
-    }
-
-    public function unserialize($data)
-    {
-        ObjectManager::getInstance()->unserializeObject($this, $data);
-
-        $data = unserialize($data);
-
-        if (isset($data['properties']['filter'])) {
-            $this->filter = $data['properties']['filter'];
-        }
-    }
+    public $filter;
 }

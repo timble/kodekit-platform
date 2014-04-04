@@ -481,7 +481,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      */
     protected function _parseTableInfo($info)
     {
-        $table              = $this->getObject('lib:database.schema.table');
+        $table              = new DatabaseSchemaTable();
         $table->name        = $info->Name;
         $table->engine      = $info->Engine;
         $table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
@@ -504,7 +504,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     {
         list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 
-        $column = $this->getObject('lib:database.schema.column');
+        $column           = new DatabaseSchemaColumn();
         $column->name     = $info->Field;
         $column->type     = $type;
         $column->length   = $length ? $length : null;
