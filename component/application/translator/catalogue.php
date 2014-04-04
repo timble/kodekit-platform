@@ -12,24 +12,29 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Translator Catalogue
+ * Translator Catalogue Interface
  *
  * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Koowa
  */
 class TranslatorCatalogue extends Library\TranslatorCatalogue implements TranslatorCatalogueInterface
 {
-    public function import($translations, $override = false)
+    /**
+     * List containing sources of loaded translations.
+     *
+     * @var array
+     */
+    protected $_loaded;
+
+    public function isLoaded($source)
     {
-        if ($override) {
-            $this->_data = array_merge($this->_data, $translations);
-        } else {
-            $this->_data = array_merge($translations, $this->_data);
-        }
+        return isset($this->_loaded[$source]);
     }
 
-    public function hasString($string)
+    public function setLoaded($source)
     {
-        return isset($this->_data[$string]);
+        $this->_loaded[] = $source;
+        $this->_loaded = array_unique($this->_loaded);
+        return $this;
     }
 }
