@@ -666,7 +666,9 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             //Check if a behavior is mixed
             if ($parts[0] == 'is' && isset($parts[1]))
             {
-                if($row = $this->getIterator()->current())
+                $row = $this->getIterator()->current();
+
+                if ($row && !in_array($method, $row->getMethods()))
                 {
                     //Lazy mix behaviors
                     $behavior = strtolower($parts[1]);
