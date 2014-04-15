@@ -214,19 +214,23 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionRead(ControllerContextInterface $context)
 	{
-        if($this->getModel()->getState()->isUnique())
+        if(!$context->result instanceof ModelEntityInterface)
         {
-            $entity = $this->getModel()->fetch();
-
-            if(!count($entity))
+            if($this->getModel()->getState()->isUnique())
             {
-                $name   = ucfirst($this->getView()->getName());
-                throw new ControllerExceptionResourceNotFound($name.' Not Found');
-            }
-        }
-        else $entity = $this->getModel()->create();
+                $entity = $this->getModel()->fetch();
 
-		return $entity;
+                if(!count($entity))
+                {
+                    $name   = ucfirst($this->getView()->getName());
+                    throw new ControllerExceptionResourceNotFound($name.' Not Found');
+                }
+            }
+            else $entity = $this->getModel()->create();
+        }
+        else $entity = $context->result;
+
+        return $entity;
 	}
 
 	/**
