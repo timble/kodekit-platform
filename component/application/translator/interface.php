@@ -33,4 +33,15 @@ interface TranslatorInterface extends Library\TranslatorInterface
      * @return string The fallback locale.
      */
     public function getFallbackLocale();
+
+    /**
+     * Translations finder.
+     *
+     * Looks for translation files on the provided path.
+     *
+     * @param string $path The path to look for translations.
+     *
+     * @return string|false The translation file, false in no translations file is found.
+     */
+    public function find($path);
 }
