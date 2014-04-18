@@ -18,38 +18,57 @@ namespace Nooku\Library;
 class TranslatorCatalogueCache extends TranslatorCatalogue
 {
     /**
-     * List containing sources of loaded translations.
+     * Catalogue registry.
      *
-     * @var array
+     * @var TranslatorCatalogueRegistryInterface
      */
-    protected $_loaded;
-
-    /**
-     * The registry key namespace.
-     *
-     * @var string
-     */
-    protected $_namespace;
+    protected $_registry;
 
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_namespace = $config->namespace;
+        $this->_registry  = $config->registry;
 
-        if (!extension_loaded('apc'))
-        {
-            throw new \RuntimeException('APC is not loaded');
-        }
+        $registry = $this->getRegistry();
 
-        $this->_data   = (array) $this->_getFromRegistry('translations');
-        $this->_loaded = (array) $this->_getFromRegistry('loaded');
+        // Load registry data.
+        if ($registry->has('translations')) $this->_data = (array) $registry->get('translations');
+        if ($registry->has('loaded')) $this->_loaded = (array) $registry->get('loaded');
     }
 
     protected function _initialize(ObjectConfig $config)
     {
-        $config->append(array('namespace' => 'nooku'));
+        $config->append(array('registry' => 'lib:translator.catalogue.registry.apc'));
         parent::_initialize($config);
+    }
+
+    /**
+     * Registry setter.
+     *
+     * @param TranslatorCatalogueRegistryInterface $handler The registry object.
+     *
+     * @return TranslatorCatalogueInterface
+     */
+    public function setRegistry(TranslatorCatalogueRegistryInterface $registry)
+    {
+        $this->_registry = $registry;
+    }
+
+    /**
+     * Registry getter.
+     *
+     * @return TranslatorCatalogueRegistryInterface The registry object.
+     */
+    public function getRegistry()
+    {
+        if (!$this->_registry instanceof TranslatorCatalogueRegistryInterface)
+        {
+            $registry = $this->getObject($this->_registry);
+            $this->setRegistry($registry);
+        }
+
+        return $this->_registry;
     }
 
     public function load($translations, $override = false)
@@ -58,7 +77,7 @@ class TranslatorCatalogueCache extends TranslatorCatalogue
 
         if ($result)
         {
-            $result = $this->_setInRegistry($this->_getRegistryKey('translations'), $this->toArray());
+            $result = $this->getRegistry()->set('translations', $this->toArray());
         }
 
         return $result;
@@ -67,79 +86,9 @@ class TranslatorCatalogueCache extends TranslatorCatalogue
     public function setLoaded($source)
     {
         parent::setLoaded($source);
-        $this->_setInRegistry($this->_getRegistryKey('loaded'), $this->_loaded);
+        $this->getRegistry()->set('loaded', $this->_loaded);
         return $this;
     }
 
-    /**
-     * Registry data getter.
-     *
-     * Gets data from the registry given a registry name.
-     *
-     * @param string $name The registry name.
-     *
-     * @return mixed
-     */
-    protected function _getFromRegistry($name)
-    {
-        $data = null;
 
-        $key = $this->_getRegistryKey($name);
-
-        if ($this->_isInRegistry($key))
-        {
-           $data = $this->_fetchFromRegistry($key);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Fetches data from the registry.
-     *
-     * @param string $key The registry key.
-     *
-     * @return mixed The data from the registry.
-     */
-    protected function _fetchFromRegistry($key)
-    {
-        return unserialize(apc_fetch($key));
-    }
-
-    /**
-     * Checks is a given key is present in the registry.
-     *
-     * @param string $key The registry key.
-     *
-     * @return bool True if exists, false otherwise.
-     */
-    protected function _isInRegistry($key)
-    {
-        return apc_exists($key);
-    }
-
-    /**
-     * Sets data in the registry.
-     *
-     * @param string $key   The registry key.
-     * @param mixed  $value The registry value.
-     *
-     * @return bool True on success, false otherwise.
-     */
-    protected function _setInRegistry($key, $value)
-    {
-        return apc_store($key, serialize($value));
-    }
-
-    /**
-     * Registry key getter.
-     *
-     * @param $name The name of the registry.
-     *
-     * @return string The registry key.
-     */
-    protected function _getRegistryKey($name)
-    {
-        return $this->_namespace . '-' . $name . '-' . $this->getIdentifier();
-    }
 }
