@@ -23,7 +23,7 @@ class TranslationsGenerator
 
     protected $_location;
 
-    protected $_component;
+    protected $_source;
 
     protected $_language;
 
@@ -32,7 +32,7 @@ class TranslationsGenerator
         // Only one supported for now ... forcing.
         $this->format = 'yaml';
 
-        $this->_component = isset($config[1]) ? $config[1] : 'application';
+        $this->_source = isset($config[1]) ? $config[1] : 'lib';
 
         $this->_language = isset($config[2]) ? $config[2] : 'en-GB';
 
@@ -84,58 +84,110 @@ class TranslationsGenerator
         }
     }
 
-    protected function _parse($directories)
+    protected function _parse($directory)
     {
-        foreach ($directories as $directory)
+        if (file_exists($directory))
         {
-            if (file_exists($directory))
+            foreach (new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($directory),
+                \RecursiveIteratorIterator::LEAVES_ONLY)
+                as $file)
             {
-                foreach (new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($directory),
-                    \RecursiveIteratorIterator::LEAVES_ONLY)
-                    as $file)
+
+                if ($file->getExtension() !== 'php')
                 {
+                    continue;
+                }
 
-                    if ($file->getExtension() !== 'php')
-                    {
-                        continue;
-                    }
+                try
+                {
+                    $code               = file_get_contents($file);
+                    $this->current_file = $file->getRealPath();
 
-                    try
-                    {
-                        $code               = file_get_contents($file);
-                        $this->current_file = $file->getRealPath();
+                    $stmts = $this->parser->parse($code);
 
-                        $stmts = $this->parser->parse($code);
+                    /*$nodeDumper = new PHPParser_NodeDumper;
+                    echo $nodeDumper->dump($stmts);*/
 
-                        /*$nodeDumper = new PHPParser_NodeDumper;
-                        echo $nodeDumper->dump($stmts);*/
-
-                        $stmts = $this->traverser->traverse($stmts);
-                    } catch (PHPParser_Error $e)
-                    {
-                        echo 'Parse Error: ', $e->getMessage();
-                    }
+                    $stmts = $this->traverser->traverse($stmts);
+                } catch (PHPParser_Error $e)
+                {
+                    echo 'Parse Error: ', $e->getMessage();
                 }
             }
         }
     }
 
-    public function getTranslations()
+    protected function _loadLanguageFiles($source)
     {
-        $files     = array();
-        $strategy  = $this->getStrategy();
-        $component = $this->_component;
+        $files = array();
 
-        foreach ($this->_getLocations($component) as $location => $directories)
+        $strategy = $this->getStrategy();
+
+        foreach ($this->_getLocations($source) as $location => $directory)
         {
-            $this->_setLocation($location);
-            $this->_parse($directories);
-
-            if ($file = $this->_getLanguageFile($directories)) {
+            if ($file = $this->_getLanguageFile($directory))
+            {
                 $files[$location] = $strategy->parse($file);
             }
         }
+
+        return $files;
+    }
+
+    protected function _getBaseTranslations($source)
+    {
+        $translations = array();
+
+        $parts = explode(':', $source);
+
+        if ($parts[0] == 'com')
+        {
+            // Load Framework translations.
+            $library = $this->_loadLanguageFiles('lib');
+
+            if ($parts[1] != 'application')
+            {
+                // Load Application translations.
+                $application = $this->_loadLanguageFiles('com:application');
+
+                // Calculate base by merging library and application translations.
+                $translations['component'] = array_merge($library['library'], $application['component']);
+                $translations['admin']     = array_merge($library['library'], $application['component'],
+                    $application['admin']);
+                $translations['site']      = array_merge($library['library'], $application['component'],
+                    $application['site']);
+            }
+            else
+            {
+                // Use library translations as base.
+                $translations['component'] = $library['library'];
+                $translations['admin']     = $library['library'];
+                $translations['site']      = $library['library'];
+            }
+        }
+
+        return $translations;
+    }
+
+    protected function _isComponent($source)
+    {
+        $parts = explode(':', $source);
+        return $parts[0] == 'com';
+    }
+
+    public function getTranslations()
+    {
+        $strategy  = $this->getStrategy();
+        $source = $this->_source;
+
+        foreach ($this->_getLocations($source) as $location => $directory)
+        {
+            $this->_setLocation($location);
+            $this->_parse($directory);
+        }
+
+        $files = $this->_loadLanguageFiles($source);
 
         $translations = array();
 
@@ -152,9 +204,7 @@ class TranslationsGenerator
                     $value = $files[$location][$key];
                 }
 
-                $data = array('value' => $value, 'occurrences' => $occurrences);
-
-                $translations[$location][$key] = $data;
+                $translations[$location][$key] = array('value' => $value, 'occurrences' => $occurrences);;
             }
         }
 
@@ -162,65 +212,55 @@ class TranslationsGenerator
 
         if (count($translations))
         {
-            $output .= "\nTranslations for *** {$component} *** component:\n";
+            $output .= "\nTranslations for *** {$source} ***:\n";
         }
         else
         {
-            $output .= "\nNo translations where found for  *** {$component} *** component ...\n\n";
+            $output .= "\nNo translations where found for  *** {$source} *** ...\n\n";
         }
 
-        // Load current application translations if generating translations for any other component.
-        if ($this->_component != 'application')
-        {
-            $application = array('site' => array(), 'admin' => array(), 'component' => array());
-
-            foreach ($this->_getLocations('application') as $location => $directories)
-            {
-                if ($file = $this->_getLanguageFile($directories))
-                {
-                    $application[$location] = $strategy->parse($file);
-                }
-            }
-
-            // Merge component layer with application layer translations.
-            $application['site'] = array_merge($application['component'], $application['site']);
-            $application['admin'] = array_merge($application['component'], $application['admin']);
-        }
+        $base = $this->_getBaseTranslations($source);
 
         foreach ($translations as $location => $data)
         {
-            // Do not list translations that are already included in the application translations files unless they are
-            // overrides.
-            if (isset($application) && !empty($application[$location]))
-            {
-                $app_overrides = array();
-                $app_ignored   = array();
+            $overrides = array();
+            $ignored = array();
 
-                foreach (array_keys(array_intersect_key($data, $application[$location])) as $key)
+            // Do not list translations that are already included on base translations (application component
+            // and/or framework).
+            if ($this->_isComponent($source))
+            {
+                foreach (array_keys(array_intersect_key($data, $base[$location])) as $key)
                 {
                     if (isset($files[$location][$key]))
                     {
                         // Report the override.
-                        $app_overrides[$key] = $data[$key];
+                        $overrides[$key] = $data[$key];
                     }
                     else
                     {
                         // Remove it from translations list and notify.
-                        $app_ignored[$key] = $data[$key];
+                        $ignored[$key] = $data[$key];
                         unset($data[$key]);
                     }
                 }
-            }
 
-            if ($location != 'component') {
-                // Do not list translations that are already included in the component's layer translation unless they
-                // are overrides.
-                foreach (array_keys(array_intersect_key($data, $translations['component'])) as $key)
+                if ($location != 'component')
                 {
-                    // Remove the common string if there's no override present in the current translation file.
-                    if (!isset($files[$location][$key]))
+                    // Do not list translations that are already included in the component's layer file unless they
+                    // are overrides.
+                    foreach (array_keys(array_intersect_key($data, $translations['component'])) as $key)
                     {
-                        unset($data[$key]);
+                        if (isset($files[$location][$key]))
+                        {
+                            // Report the override.
+                            $overrides[$key] = $data[$key];
+                        }
+                        else
+                        {
+                            // Remove it from translations list and notify.
+                            unset($data[$key]);
+                        }
                     }
                 }
             }
@@ -229,38 +269,26 @@ class TranslationsGenerator
             $output .= $strategy->dump($data);
             $output .= "\n";
 
-            // Check for component overridden translations.
-            if ($location != 'component') {
-
-                $component_overrides = array_intersect_key($data, $translations['component']);
-
-                if (!empty($component_overrides))
-                {
-                    $output .= '!!! ' . ucfirst($this->_component) . " {$location} overrides: !!!\n\n";
-                    $output .= $strategy->dump($component_overrides);
-                    $output .= "\n";
-                }
-            }
-
-            $unfound = array_diff_key($files[$location], $translations[$location]);
+            $unreferenced = array_diff_key($files[$location], $translations[$location]);
 
             // Report non-referenced (not found) translations.
-            if (!empty($unfound)) {
-                $output .= "!!! Non-referenced translations (present in translations file, but not used on {$location} layer code): !!!\n\n";
-                $output .= $strategy->dump($unfound);
-                $output .= "\n";
-            }
-
-            if (!empty($app_ignored))
+            if (!empty($unreferenced))
             {
-                $output .= "!!! Ignored translations (already available on Application component translations): !!!\n\n";
-                $output .= $strategy->dump($app_ignored);
+                $output .= "!!! Non-referenced translations (present on current location file, but not referenced/present on location): !!!\n\n";
+                $output .= $strategy->dump($unreferenced);
                 $output .= "\n";
             }
 
-            if (!empty($app_overrides)) {
-                $output .= "!!! Application component overrides: !!!\n\n";
-                $output .= $strategy->dump($app_overrides);
+            if (!empty($ignored))
+            {
+                $output .= "!!! Ignored translations (already present on a base translations file): !!!\n\n";
+                $output .= $strategy->dump($ignored);
+                $output .= "\n";
+            }
+
+            if (!empty($overrides)) {
+                $output .= "!!! Overridden translations (present on any base translations file but overridden on current location): !!!\n\n";
+                $output .= $strategy->dump($overrides);
                 $output .= "\n";
             }
         }
@@ -275,38 +303,39 @@ class TranslationsGenerator
         if (isset($this->strings[$location])) $this->strings[$location] = array();
     }
 
-    protected function _getLocations($component) {
-        $locations              = array();
-        $locations['site']      = array(NOOKU_PATH . "/application/site/component/{$component}");
-        $locations['admin']     = array(NOOKU_PATH . "/application/admin/component/{$component}");
-        $locations['component'] = array(NOOKU_PATH . "/component/{$component}");
+    protected function _getLocations($source) {
 
-        // Particular case.
-        if ($component == 'application')
+        $parts = explode(':', $source);
+
+        switch ($parts[0])
         {
-            $locations['component'][] = NOOKU_PATH . '/library';
-        } else {
-
+            case 'lib':
+                $locations = array('library' => NOOKU_PATH . '/library');
+                break;
+            case 'com':
+                $component = $parts[1];
+                $locations = array(
+                    'site'      => NOOKU_PATH . "/application/site/component/{$component}",
+                    "admin"     => NOOKU_PATH . "/application/admin/component/{$component}",
+                    'component' => NOOKU_PATH . "/component/{$component}");
+                break;
+            default:
+                $locations = array();
+                break;
         }
 
         return $locations;
     }
 
-    protected function _getLanguageFile($directories)
+    protected function _getLanguageFile($directory)
     {
-        $result = null;
-
         $strategy = $this->getStrategy();
 
-        foreach ($directories as $directory)
-        {
-            $candidate = $directory . "/resources/language/{$this->_language}." . $strategy->getFileExtension();
-            if (!file_exists($candidate)) continue;
-            $result = $candidate;
-            break;
-        }
+        $file = $directory . "/resources/language/{$this->_language}." . $strategy->getFileExtension();
 
-        return $result;
+        if (!file_exists($file)) $file = null;
+
+        return $file;
     }
 
     public function getStrategy()
