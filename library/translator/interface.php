@@ -74,21 +74,21 @@ interface TranslatorInterface
     /**
      * Loads translations from a source.
      *
-     * @param mixed $source   A source containing translations.
+     * @param mixed $file     The file containing translations.
      * @param bool  $override Tells if previous loaded translations should be overridden
      *
      * @return bool True if translations were loaded, false otherwise
      */
-    public function load($source, $override = false);
+    public function load($file, $override = false);
 
     /**
-     * Imports a resource translations.
+     * Imports a source translations.
      *
-     * @param mixed $resource The resource for which translations will be imported.
+     * @param mixed $source The source for which translations will be imported.
      *
-     * @return bool True if loaded, false otherwise.
+     * @return TranslatorInterface
      */
-    public function import($resource);
+    public function import($source);
 
     /**
      * Translator catalogue getter.
