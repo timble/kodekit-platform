@@ -37,9 +37,12 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
     public function hasString($string);
 
     /**
-     * Sets a source as loaded.
+     * Sets a source as loaded in the catalogue.
      *
-     * @param string $source The source.
+     * A source can be anything that contains translations, e.g. a component, an object, a file, an URI, etc. They
+     * are referenced on catalogues for determining if their translations were already loaded.
+     *
+     * @param mixed $source The source.
      *
      * @return TranslatorCatalogueInterface
      */
@@ -48,7 +51,9 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
     /**
      * Tells if translations from a given source are already loaded.
      *
-     * @param string $bundle The source to check against.
+     * For more information about what a source is @see TranslatorCatalogueInterface::setLoaded
+     *
+     * @param mixed $source The source to check against.
      *
      * @return bool True if loaded, false otherwise.
      */
