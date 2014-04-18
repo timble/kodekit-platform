@@ -193,13 +193,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         return '{'.$key.'}';
     }
 
-    abstract public function import($resource);
+    abstract public function import($source);
 
     /**
      * Loads translations from a file.
      *
-     * @param mixed $file     The path to the file containing translations.
-     * @param bool  $override Tells if previous loaded translations should be overridden
+     * @param string $file     The path to the file containing translations.
+     * @param bool   $override Tells if previous loaded translations should be overridden
      *
      * @return bool True if translations were loaded, false otherwise
      */
