@@ -43,7 +43,7 @@ class Translator extends TranslatorAbstract implements ObjectInstantiable, Objec
      *
      * @param string $file The translations file path.
      *
-     * @return bool True if loaded, false otherwise.
+     * @return TranslatorInterface
      */
     public function import($file)
     {
@@ -53,5 +53,7 @@ class Translator extends TranslatorAbstract implements ObjectInstantiable, Objec
         {
             $catalogue->setLoaded($file);
         }
+
+        return $this;
     }
 }
