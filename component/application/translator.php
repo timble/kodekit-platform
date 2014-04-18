@@ -50,7 +50,7 @@ class Translator extends Library\TranslatorAbstract implements Library\ObjectMul
             'fallback_locale' => 'en-GB',
             'locale'          => 'en-GB',
             'options'         => array(
-                'sources' => array())
+                'paths' => array())
         ))->append(array('catalogue' => 'com:application.translator.catalogue' . ($config->caching ? '.cache' : '')));
 
         parent::_initialize($config);
@@ -63,40 +63,37 @@ class Translator extends Library\TranslatorAbstract implements Library\ObjectMul
      *
      * @throws \RuntimeException if a translation file is not loaded.
      *
-     * @return bool True on success, false otherwise.
+     * @return TranslatorInterface
      */
-    public function import($component) {
-
+    public function import($component)
+    {
         $catalogue = $this->getCatalogue();
 
-        if (!$catalogue->isLoaded($component))
-        {
-            $sources = Library\ObjectConfig::unbox($this->getConfig()->options->sources);
+        // Append current locale to source.
+        $source = 'com:' . $component . '.' . $this->getLocale();
 
-            foreach ($sources as $source)
+        if (!$catalogue->isLoaded($source))
+        {
+            $paths = $this->getConfig()->options->paths;
+
+            foreach ($paths as $path)
             {
-                if ($file = $this->_findTranslations($component, $source))
+                $path .= "/component/{$component}/resources/language/";
+
+                if (($file = $this->find($path)) && !$this->load($file, true))
                 {
-                    // Always override while loading.
-                    if (!$this->load($file, true)
-                    ) throw new \RuntimeException('Unable to load translations from .' . $file);
+                    throw new \RuntimeException('Unable to load translations from .' . $file);
                 }
             }
 
             // Set component as loaded.
-            $catalogue->setLoaded($component);
+            $catalogue->setLoaded($source);
         }
+
+        return $this;
     }
 
-    /**
-     * Translations finder.
-     *
-     * @param string $component The component to look for translations.
-     * @param string $path      The path to look for translation files.
-     *
-     * @return null|string The file path or null if a translation file wasn't found.
-     */
-    protected function _findTranslations($component, $path)
+    public function find($path)
     {
         $locale          = $this->getLocale();
         $fallback_locale = $this->getFallbackLocale();
@@ -109,7 +106,7 @@ class Translator extends Library\TranslatorAbstract implements Library\ObjectMul
 
         foreach ($locales as $locale)
         {
-            $candidate = $this->_getTranslationsFile($component, $path, $locale);
+            $candidate = $path . $locale . '.' . $this->getParser()->getFileExtension();
 
             if (file_exists($candidate))
             {
@@ -119,37 +116,6 @@ class Translator extends Library\TranslatorAbstract implements Library\ObjectMul
         }
 
         return $file;
-    }
-
-    /**
-     * Translations file getter.
-     *
-     * @param string $component The component name.
-     * @param string $path      The base path.
-     * @param string $locale    The translations locale.
-     *
-     * @return string The translations file.
-     */
-    protected function _getTranslationsFile($component, $path, $locale)
-    {
-        $folder = $this->_getTranslationsFolder($component, $path, $locale);
-        $file   = $locale . '.' . $this->getParser()->getFileExtension();
-
-        return $path . $folder . $file;
-    }
-
-    /**
-     * Translations folder getter.
-     *
-     * @param string $component The component name.
-     * @param string $path      The base path.
-     * @param string $locale    The translations locale.
-     *
-     * @return string The translations folder.
-     */
-    protected function _getTranslationsFolder($component, $path, $locale)
-    {
-        return "/component/{$component}/resources/language/";
     }
 
     /**
