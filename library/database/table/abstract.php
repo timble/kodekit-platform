@@ -851,7 +851,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $column = $this->getColumn($key, $base);
 
             if ($column->filter) {
-                $data[$key] = $this->getObject('filter.factory')->createFilter($column->filter)->sanitize($value);
+                $data[$key] = $this->getObject('filter.factory')->createChain($column->filter)->sanitize($value);
             }
 
             // If NULL is allowed and default is NULL, set value to NULL in the following cases.
