@@ -52,16 +52,14 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     {
         if($this->hasProperty('parameters') && !isset($this->_parameters))
         {
-            $filter = $this->getTable()->getColumn('parameters')->filter;
-            $type   = $this->getObject('filter.factory')->createFilter($filter)->getIdentifier()->name;
-            $data   = trim($this->getProperty('parameters'));
-
+            $type = (array) $this->getTable()->getColumn('parameters')->filter;
+            $data = trim($this->getProperty('parameters'));
 
             //Create the parameters object
             if(empty($data)) {
-                $config = $this->getObject('object.config.factory')->createFormat($type);
+                $config = $this->getObject('object.config.factory')->createFormat($type[0]);
             } else {
-                $config = $this->getObject('object.config.factory')->fromString($type, $data);
+                $config = $this->getObject('object.config.factory')->fromString($type[0], $data);
             }
 
             $this->_parameters = $config;
