@@ -168,12 +168,21 @@ class FilterChain extends Object implements FilterInterface
      */
     public function __call($method, $arguments)
     {
-        if(!($this->_last instanceof FilterInterface && is_callable(array($this->_last, $method))))
+        //Call the method on the filter if it exists
+        if($this->_last instanceof FilterInterface)
         {
-            $filter = $this->getObject('filter.factory')->createFilter($method, $arguments);
-            $this->addFilter($filter);
+            $methods = $this->_last->getMethods();
+
+            if(isset($methods[$method]))
+            {
+                call_user_func_array(array($this->_last, $method), $arguments);
+                return $this;
+            }
         }
-        else  call_user_func_array(array($this->_last, $method), $arguments);
+
+        //Create a new filter based on the method name
+        $filter = $this->getObject('filter.factory')->createFilter($method, $arguments);
+        $this->addFilter($filter);
 
         return $this;
     }
