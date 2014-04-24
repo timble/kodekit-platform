@@ -145,6 +145,9 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
      * string. Function recursively resolves identifier aliases and returns the aliased identifier.
      *
+     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
+     * lib:event.publisher.
+     *
      * If no identifier is passed the object identifier of this object will be returned.
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
@@ -163,6 +166,12 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
                 if(is_array($identifier)) {
                     $identifier = new ObjectIdentifier($identifier);
+                }
+            }
+            else
+            {
+                if(strpos($identifier, ':') === false ) {
+                    $identifier = 'lib:'.$identifier;
                 }
             }
 
