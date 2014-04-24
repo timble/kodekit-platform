@@ -93,9 +93,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     /**
      * Constructor
      *
-     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
-     * lib:event.publisher.
-     *
      * @param  string|array $identifier Identifier string or array in type://domain/package.[.path].name format
      * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
      */
@@ -109,7 +106,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             }
 
             // Set the type
-            $this->_type = isset($parts['scheme']) ? $parts['scheme'] : 'lib';
+            $this->_type = isset($parts['scheme']) ? $parts['scheme'] : '';
 
             //Set the domain
             if(isset($parts['host'])) {
