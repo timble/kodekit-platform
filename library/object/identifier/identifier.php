@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Identifier
  *
- * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors and methods for
+ * Wraps identifiers of the form type:[//domain/]package.[.path].name in an object, providing public accessors and methods for
  * derived formats.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
@@ -32,7 +32,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @var string
      */
-    protected $_type = '';
+    protected $_type = 'lib';
 
     /**
      * The identifier domain
@@ -106,7 +106,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             }
 
             // Set the type
-            $this->_type = isset($parts['scheme']) ? $parts['scheme'] : '';
+            $this->_type = isset($parts['scheme']) ? $parts['scheme'] : 'lib';
 
             //Set the domain
             if(isset($parts['host'])) {
@@ -130,14 +130,11 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             $parts = $identifier;
             foreach ($parts as $key => $value) {
                 $this->{'_'.$key} = $value;
-
             }
-
-            $identifier = $this->toString();
         }
 
         //Cache the identifier to increase performance
-        $this->_identifier = $identifier;
+        $this->_identifier = $this->toString();
     }
 
     /**
@@ -332,26 +329,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function getDecorators()
     {
         return $this->_decorators;
-    }
-
-    /**
-     * Check if the object is a multiton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isMultiton()
-    {
-        return array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($this->class));
-    }
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isSingleton()
-    {
-        return array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($this->class));
     }
 
     /**
