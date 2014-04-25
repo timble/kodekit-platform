@@ -22,7 +22,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectInstantiable, ObjectMultiton
+class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectSingleton
 {
     /**
      * The command priority
@@ -76,27 +76,6 @@ class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectInstan
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Force creation of a singleton
-     *
-     * @param  ObjectConfigInterface   $config	  A ObjectConfig object with configuration options
-     * @param  ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return EventPublisher
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        // Check if an instance with this identifier already exists or not
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            //Create the singleton
-            $class    = $manager->getClass($config->object_identifier);
-            $instance = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
-        }
-
-        return $manager->getObject($config->object_identifier);
     }
 
     /**

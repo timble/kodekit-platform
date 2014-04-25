@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectConfigFactory extends Object implements ObjectInstantiable, ObjectSingleton
+class ObjectConfigFactory extends Object implements ObjectSingleton
 {
     /**
      * Registered config file formats.
@@ -34,27 +34,6 @@ class ObjectConfigFactory extends Object implements ObjectInstantiable, ObjectSi
         parent::__construct($config);
 
         $this->_formats = $config->formats;
-    }
-
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered('object.config.factory'))
-        {
-            $class    = $manager->getClass($config->object_identifier);
-            $instance = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
-
-            $manager->registerAlias($config->object_identifier, 'object.config.factory');
-        }
-
-        return $manager->getObject('object.config.factory');
     }
 
     /**
