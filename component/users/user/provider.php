@@ -40,8 +40,17 @@ class UserProvider extends Library\UserProvider
         }
 
         // Fetch the user if not exists
-        if ($current != $identifier) {
+        if ($current != $identifier)
+        {
             $user = parent::load($identifier, $refresh);
+
+            if (empty($user))
+            {
+                $user = $this->create(array(
+                    'id'   => $identifier,
+                    'name' => $this->getObject('translator')->translate('Anonymous')
+                ));
+            }
         }
 
         return $user;
