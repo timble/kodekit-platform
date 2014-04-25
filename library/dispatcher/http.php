@@ -45,21 +45,17 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'dispatcher');
+        //Add the object alias to allow easy access to the singleton
+        $manager->registerAlias($config->object_identifier, 'dispatcher');
 
-            //Merge alias configuration into the identifier
-            $config->append($manager->getIdentifier('dispatcher')->getConfig());
+        //Merge alias configuration into the identifier
+        $config->append($manager->getIdentifier('dispatcher')->getConfig());
 
-            //Instantiate the class
-            $class     = $manager->getClass($config->object_identifier);
-            $instance  = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
-        }
+        //Instantiate the class
+        $class     = $manager->getClass($config->object_identifier);
+        $instance  = new $class($config);
 
-        return $manager->getObject($config->object_identifier);
+        return $instance;
     }
 
     /**
