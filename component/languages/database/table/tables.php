@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Files;
+namespace Nooku\Component\Languages;
 
 use Nooku\Library;
 

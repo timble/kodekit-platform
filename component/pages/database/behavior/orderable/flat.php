@@ -22,7 +22,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
     protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $query = $this->getObject('lib:database.query.select')
-            ->columns('MAX(ordering)');
+            ->columns('MAX(tbl.ordering)');
         
         $this->_buildQuery($query);
         
