@@ -83,7 +83,7 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Get the mixins
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getMixins();
 
@@ -100,7 +100,7 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Get the decorators
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getDecorators();
 

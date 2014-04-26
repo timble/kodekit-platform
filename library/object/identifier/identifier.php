@@ -232,12 +232,8 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getConfig()
     {
-        if(!isset($this->_config))
-        {
-            $this->_config = new ObjectConfig(array(
-                'mixins'     => array(),
-                'decorators' => array()
-            ));
+        if(!isset($this->_config)) {
+            $this->_config = new ObjectConfig();
         }
 
         return $this->_config;
@@ -274,9 +270,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function addMixin($mixin, $config = array())
     {
         if ($mixin instanceof ObjectMixinInterface || $mixin instanceof ObjectIdentifier) {
-            $this->getConfig()->mixins->append(array($mixin));
+            $this->getMixins()->append(array($mixin));
         } else {
-            $this->getConfig()->mixins->append(array($mixin => $config));
+            $this->getMixins()->append(array($mixin => $config));
         }
 
         return $this;
@@ -289,6 +285,10 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getMixins()
     {
+        if(!isset($this->getConfig()->mixins)) {
+            $this->getConfig()->append(array('mixins' => array()));
+        }
+
         return $this->getConfig()->mixins;
     }
 
@@ -303,9 +303,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function addDecorator($decorator, $config = array())
     {
         if ($decorator instanceof ObjectDecoratorInterface || $decorator instanceof ObjectIdentifier) {
-            $this->getConfig()->decorators->append(array($decorator));
+            $this->getDecorators()->append(array($decorator));
         } else {
-            $this->getConfig()->decorators->append(array($decorator => $config));
+            $this->getDecorators()->append(array($decorator => $config));
         }
 
         return $this;
@@ -318,6 +318,10 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getDecorators()
     {
+        if(!isset($this->getConfig()->decorators)) {
+            $this->getConfig()->append(array('decorators' => array()));
+        }
+
         return $this->getConfig()->decorators;
     }
 
