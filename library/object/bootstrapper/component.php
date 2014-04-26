@@ -81,14 +81,14 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
         $manager = $this->getObjectManager();
         $loader  = $this->getClassLoader();
 
+        //Identifiers
+        foreach ($this->_identifiers as $identifier => $config) {
+            $manager->setIdentifier($identifier, $config, false);
+        }
+
         //Aliases
         foreach ($this->_aliases as $alias => $identifier) {
             $manager->registerAlias($identifier, $alias);
-        }
-
-        //Identifiers
-        foreach ($this->_identifiers as $identifier => $config) {
-            $manager->setConfig($identifier, $config);
         }
 
         //Namespaces

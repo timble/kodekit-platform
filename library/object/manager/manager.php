@@ -181,6 +181,23 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
+     * Set an identifier configuration
+     *
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param array $config      An associative array of configuration options
+     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
+     * @return ObjectManager
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
+     */
+    public function setIdentifier($identifier, $config = array(), $merge = true)
+    {
+        $identifier = $this->getIdentifier($identifier);
+        $identifier->setConfig($config, $merge);
+
+        return $this;
+    }
+
+    /**
      * Get the identifier class
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
@@ -299,23 +316,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         }
 
         $this->_registry->set($identifier, $object);
-
-        return $this;
-    }
-
-    /**
-     * Set the configuration options for an identifier
-     *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An associative array of configuration options
-     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
-     * @return ObjectManager
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     */
-    public function setConfig($identifier, $config = array(), $merge = true)
-    {
-        $identifier = $this->getIdentifier($identifier);
-        $identifier->setConfig($config, $merge);
 
         return $this;
     }
