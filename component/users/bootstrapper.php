@@ -26,7 +26,7 @@ use Nooku\Library;
              'aliases'  => array(
                  'user.provider'  => 'com:users.user.provider',
              ),
-             'configs' => array(
+             'identifiers' => array(
                  'dispatcher' => array(
                     'authenticators' => array('com:users.dispatcher.authenticator.cookie'),
                  ),

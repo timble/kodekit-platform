@@ -77,20 +77,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_config = null;
 
     /**
-     * The object mixins
-     *
-     * @var array
-     */
-    protected $_mixins = array();
-
-    /**
-     * The object decorators
-     *
-     * @var array
-     */
-    protected $_decorators = array();
-
-    /**
      * Constructor
      *
      * @param  string|array $identifier Identifier string or array in type://domain/package.[.path].name format
@@ -246,8 +232,12 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getConfig()
     {
-        if(!isset($this->_config)) {
-            $this->_config = new ObjectConfig();
+        if(!isset($this->_config))
+        {
+            $this->_config = new ObjectConfig(array(
+                'mixins'     => array(),
+                'decorators' => array()
+            ));
         }
 
         return $this->_config;
@@ -284,9 +274,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function addMixin($mixin, $config = array())
     {
         if ($mixin instanceof ObjectMixinInterface || $mixin instanceof ObjectIdentifier) {
-            $this->_mixins[] = $mixin;
+            $this->getConfig()->mixins->append(array($mixin));
         } else {
-            $this->_mixins[$mixin] = $config;
+            $this->getConfig()->mixins->append(array($mixin => $config));
         }
 
         return $this;
@@ -299,7 +289,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getMixins()
     {
-        return $this->_mixins;
+        return $this->getConfig()->mixins;
     }
 
     /**
@@ -313,9 +303,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function addDecorator($decorator, $config = array())
     {
         if ($decorator instanceof ObjectDecoratorInterface || $decorator instanceof ObjectIdentifier) {
-            $this->_decorators[] = $decorator;
+            $this->getConfig()->decorators->append(array($decorator));
         } else {
-            $this->_decorators[$decorator] = $config;
+            $this->getConfig()->decorators->append(array($decorator => $config));
         }
 
         return $this;
@@ -328,7 +318,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getDecorators()
     {
-        return $this->_decorators;
+        return $this->getConfig()->decorators;
     }
 
     /**

@@ -83,18 +83,6 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
 
         //Set the object config
         $this->__object_config = $config;
-
-        //Add the mixins
-        $mixins = (array) ObjectConfig::unbox($config->mixins);
-
-        foreach ($mixins as $key => $value)
-        {
-            if (is_numeric($key)) {
-                $this->mixin($value);
-            } else {
-                $this->mixin($key, $value);
-            }
-        }
     }
 
     /**
@@ -108,7 +96,8 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'mixins' => array(),
+            'mixins'     => array(),
+            'decorators' => array(),
         ));
     }
 
