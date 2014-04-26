@@ -51,7 +51,7 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
             $attachment = $this->getObject('com:attachments.model.attachments')
                 ->row($entity->id)
                 ->table($entity->getTable()->getBase())
-                ->getRowset();
+                ->fetch();
 
             // If attachments have been linked to this row but there's no default attachment ID is still empty, set the first one as default.
             if(!$entity->attachments_attachment_id && count($attachment))
