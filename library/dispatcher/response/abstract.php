@@ -305,7 +305,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     /**
      * Check if the response is attachable
      *
-     * A response is attachable if the request is downloadable or the content type is 'application/force-download'
+     * A response is attachable if the request is downloadable or the content type is 'application/octet-stream'
      *
      * If the request is made by an Ipad, iPod or iPhone user agent the response will never be attachable. iOS browsers
      * cannot handle files send as disposition : attachment.
@@ -318,7 +318,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
 
         if(!preg_match('#(iPad|iPod|iPhone)#', $request->getAgent()))
         {
-            if($request->isDownload() || $this->getContentType() == 'application/force-download') {
+            if($request->isDownload() || $this->getContentType() == 'application/octet-stream') {
                 return true;
             }
         }
