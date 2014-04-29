@@ -12,9 +12,9 @@
 
 CKEDITOR.editorConfig = function( config ) {
 
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
+    // Define changes to default configuration here. For example:
+    // config.language = 'fr';
+    // config.uiColor = '#AADC6E';
 
     config.extraPlugins = 'codemirror,readmore,images,onchange,files';
     // wee need to remove the default image and link plugins for the custom plugin's to work properly
@@ -40,7 +40,7 @@ CKEDITOR.editorConfig = function( config ) {
         showUncommentButton: true
     };
 
-    // Pasting operations will loose all formatting information
+    // Pasting operations will loose any formatting information in the source text.
     config.forcePasteAsPlainText = true;
 
     config.allowedContent = true;
@@ -74,7 +74,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'basicstyles', items: [ 'Bold', 'Italic' ] },
             { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
             { name: 'links', items: [ 'readmore' ] },
-            { name: 'insert', items: [ 'images', 'files','Link','Unlink' ,'Table' ] },
+            { name: 'insert', items: [ 'images', 'files','Link','Unlink','Anchor','Table' ] },
             { name: 'clipboard', items: [ 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'document', items: [ 'Source' ] }
         ];
