@@ -83,8 +83,7 @@ class MixinMimetype extends Library\Object
 
 	protected function _detectImage($path)
 	{
-        if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), DatabaseRowFile::$image_extensions)
-			&& $info = getimagesize($path)) {
+        if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), ModelEntityFile::$image_extensions) && $info = getimagesize($path)) {
 			return $info['mime'];
 		}
 

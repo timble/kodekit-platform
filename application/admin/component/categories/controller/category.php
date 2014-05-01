@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Categories;
 
 /**
  * Category Controller
@@ -15,16 +16,16 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Categories
  */
-abstract class CategoriesControllerCategory extends Library\ControllerModel
+abstract class CategoriesControllerCategory extends Categories\ControllerCategory
 {
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.save'  , array($this, 'setDefaultAttachment'));
-        $this->registerCallback('after.apply'  , array($this, 'setDefaultAttachment'));
+        $this->addCommandCallback('after.save'  , 'setDefaultAttachment');
+        $this->addCommandCallback('after.apply' , 'setDefaultAttachment');
     }
-
+    
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -33,64 +34,31 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
                 'com:activities.controller.behavior.loggable',
                 'com:attachments.controller.behavior.attachable',
             ),
-            'model' => 'com:categories.model.categories'
         ));
         
         parent::_initialize($config);
-        
+
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
-    
-    protected function _actionRender(Library\ControllerContextInterface $context)
-    {
-        $view = $this->getView();
-        
-	    //Set the layout
-        if($view instanceof Library\ViewTemplate)
-	    {
-	        $layout = $view->getIdentifier()->toArray();
-            $layout['name'] = $view->getLayout();
-
-            $alias = $layout;
-            $alias['package'] = 'categories';
-
-	        $this->getObject('manager')->registerAlias($alias, $this->getIdentifier($layout));
-	    }
-	        
-        return parent::_actionRender($context);
-    }
-    
-    public function getRequest()
-	{
-		$request = parent::getRequest();
-        $request->query->table  = $this->getIdentifier()->package;
-
-	    return $request;
-	}
 
     public function setDefaultAttachment(Library\CommandContext $context)
     {
-        if(!$this->isAttachable()) {
-            return;
-        }
-
-        $row = $context->result;
-
-        $attachments = $this->getObject('com:attachments.model.attachments')
-            ->row($row->id)
-            ->table($row->getTable()->getBase())
-            ->getRowset();
-
-        // If attachments have been linked to this row but there's no default attachment ID is still empty, set the first one as default.
-        if(!$row->attachments_attachment_id && count($attachments))
+        if($this->isAttachable()) 
         {
-            $top = $attachments->top();
+            $entity = $context->result;
 
-            $row->attachments_attachment_id = $top->id;
-            $row->save();
+            $attachment = $this->getObject('com:attachments.model.attachments')
+                ->row($entity->id)
+                ->table($entity->getTable()->getBase())
+                ->fetch();
+
+            // If attachments have been linked to this row but there's no default attachment ID is still empty, set the first one as default.
+            if(!$entity->attachments_attachment_id && count($attachment))
+            {
+                $entity->attachments_attachment_id = $entity->id;
+                $entity->save();
+            }
         }
-
-        return;
     }
 }

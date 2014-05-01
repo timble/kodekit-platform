@@ -46,11 +46,11 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->row instanceof ArticlesDatabaseRowArticle) {
-            throw new \InvalidArgumentException('The row is missing.');
+        if (!$config->entity instanceof ArticlesModelEntityArticle) {
+            throw new \InvalidArgumentException('The entity is missing.');
         }
 
-        $article = $config->row;
+        $article = $config->entity;
 
         $config->append(array(
             'name'     => 'order',
@@ -62,7 +62,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $list = $this->getObject('com:articles.model.articles')
                      ->set($config->filter)
-                     ->getRowset();
+                     ->fetch();
 
         foreach ($list as $item)
         {
@@ -80,7 +80,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
+        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->fetch();
         $pages = $pages->find(array(
             'link_url' => 'option=com_articles&view=articles&layout=search'));
 

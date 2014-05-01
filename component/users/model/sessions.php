@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class ModelSessions extends Library\ModelTable
+class ModelSessions extends Library\ModelDatabase
 {
     /**
      * Constructor.

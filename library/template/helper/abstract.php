@@ -122,6 +122,12 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
                     $item = implode(' ', $item);
                 }
 
+                if (is_bool($item))
+                {
+                    if ($item === false) continue;
+                    $item = $key;
+                }
+
                 $output[] = $key.'="'.str_replace('"', '&quot;', $item).'"';
             }
         }

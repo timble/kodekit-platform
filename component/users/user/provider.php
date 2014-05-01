@@ -40,8 +40,17 @@ class UserProvider extends Library\UserProvider
         }
 
         // Fetch the user if not exists
-        if ($current != $identifier) {
+        if ($current != $identifier)
+        {
             $user = parent::load($identifier, $refresh);
+
+            if (empty($user))
+            {
+                $user = $this->create(array(
+                    'id'   => $identifier,
+                    'name' => $this->getObject('translator')->translate('Anonymous')
+                ));
+            }
         }
 
         return $user;
@@ -57,9 +66,9 @@ class UserProvider extends Library\UserProvider
     {
         // Find session user identifier
         if (!is_numeric($identifier)) {
-            $user = $this->getObject('com:users.model.users')->email($identifier)->getRow();
+            $user = $this->getObject('com:users.model.users')->email($identifier)->fetch();
         } else {
-            $user = $this->getObject('com:users.model.users')->id($identifier)->getRow();
+            $user = $this->getObject('com:users.model.users')->id($identifier)->fetch();
         }
 
         //Load the user
@@ -74,7 +83,7 @@ class UserProvider extends Library\UserProvider
                 'password'   => $user->getPassword()->password,
                 'salt'       => $user->getPassword()->salt,
                 'enabled'    => $user->enabled,
-                'attributes' => $user->params->toArray(),
+                'attributes' => $user->getParameters()->toArray(),
                 'authentic'  => false
             );
 

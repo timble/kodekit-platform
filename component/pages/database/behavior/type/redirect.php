@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -19,42 +19,42 @@ use Nooku\Library;
  */
 class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
 {
-    protected $_type_title;
+    protected $_title;
 
-    protected $_type_description;
+    protected $_description;
 
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->isRegistered($config->object_identifier)) {
+        if (!$manager->isRegistered($config->object_identifier)) {
             $manager->setObject($config->object_identifier, $instance);
         }
 
         return $manager->getObject($config->object_identifier);
     }
 
-    public function getTypeTitle()
+    public function getTitle()
     {
-        if(!isset($this->_type_title)) {
-            $this->_type_title = \JText::_('Redirect');
+        if (!isset($this->_title)) {
+            $this->_title = \JText::_('Redirect');
         }
 
-        return $this->_type_title;
+        return $this->_title;
     }
 
-    public function getTypeDescription()
+    public function getDescription()
     {
-        if(!isset($this->_type_description)) {
-            $this->_type_description = \JText::_('Redirect');
+        if (!isset($this->_description)) {
+            $this->_description = \JText::_('Redirect');
         }
 
-        return $this->_type_description;
+        return $this->_description;
     }
 
     protected function _setLinkBeforeSave(Library\DatabaseContext $context)
     {
-        if($this->link_type) {
+        if ($this->link_type) {
             $this->link_type == 'id' ? $this->link_url = null : $this->link_id = null;
         }
     }

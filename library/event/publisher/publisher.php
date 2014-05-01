@@ -15,27 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Event
  */
-class EventPublisher extends EventPublisherException implements ObjectInstantiable, ObjectSingleton
+class EventPublisher extends EventPublisherException implements ObjectSingleton
 {
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  EventPublisher
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered('event.publisher'))
-        {
-            $class    = $manager->getClass($config->object_identifier);
-            $instance = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
 
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'event.publisher');
-        }
-
-        return $manager->getObject('event.publisher');
-    }
 }

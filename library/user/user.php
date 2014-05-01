@@ -19,29 +19,8 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
  */
-class User extends UserAbstract implements ObjectInstantiable, ObjectSingleton
+class User extends UserAbstract implements ObjectSingleton
 {
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered('user'))
-        {
-            $class     = $manager->getClass($config->object_identifier);
-            $instance  = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
-
-            $manager->registerAlias($config->object_identifier, 'user');
-        }
-
-        return $manager->getObject('user');
-    }
-
     /**
      * Returns the id of the user
      *

@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Model
  */
-final class ModelDefault extends ModelTable { }
+final class ModelDefault extends ModelDatabase { }

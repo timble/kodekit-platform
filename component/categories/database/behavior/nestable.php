@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Categories;
@@ -25,12 +25,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach($config as $key => $value)
-        {
-            if(property_exists($this, '_'.$key)) {
-                $this->{'_'.$key} = $value;
-            }
-        }
+        $this->_table = $config->table;
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -44,7 +39,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        if($context->getSubject() instanceof Library\DatabaseAdapterInterface)
+        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface)
         {
             $context->limit  = $context->query->limit;
             $context->offset = $context->query->offset;
@@ -53,7 +48,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         }
         else
         {
-            if($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
+            if ($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
             {
                 $this->_table = $context->getSubject();
                 $this->_table->getAdapter()->addCommandHandler($this);
@@ -63,26 +58,26 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 
     protected function _afterSelect(Library\DatabaseContext $context)
     {
-        if($context->getSubject() instanceof Library\DatabaseAdapterInterface)
+        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface)
         {
             //Get the data
             $rows = Library\ObjectConfig::unbox($context->result);
 
-            if(is_array($rows))
+            if (is_array($rows))
             {
                 $children = array();
-                $result = array();
+                $result   = array();
 
                 /*
                 * Create the children array
                 */
-                foreach($rows as $key => $row)
+                foreach ($rows as $key => $row)
                 {
                     $path   = array();
                     $parent = $row['parent_id'];
 
                     //Store node by parent
-                    if(!empty($parent) && isset($rows[$parent])) {
+                    if (!empty($parent) && isset($rows[$parent])) {
                         $children[$parent][] = $key;
                     }
                 }
@@ -90,13 +85,12 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                 /*
                  * Create the result array
                  */
-                foreach($rows as $key => $row)
+                foreach ($rows as $key => $row)
                 {
-                    if(empty($row['parent_id']))
-                    {
+                    if (empty($row['parent_id'])) {
                         $result[$key] = $row;
 
-                        if(isset($children[$key])) {
+                        if (isset($children[$key])) {
                             $this->_getChildren($rows, $children, $key, $result);
                         }
                     }
@@ -106,23 +100,22 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
                  * If we have not been able to match all children to their parents don't perform
                  * the path enumeration for the children.
                  */
-                if(count($result) == count($rows))
+                if (count($result) == count($rows))
                 {
-                    if($context->limit) {
-                        $result = array_slice( $result, $context->offset, $context->limit, true);
+                    if ($context->limit) {
+                        $result = array_slice($result, $context->offset, $context->limit, true);
                     }
 
                     /*
                       * Create the paths of each node
                       */
-                    foreach($result as $key => $row)
+                    foreach ($result as $key => $row)
                     {
                         $path   = array();
                         $parent = $row['parent_id'];
 
-                        if(!empty($parent))
-                        {
-                            $table  = $this->_table;
+                        if (!empty($parent)) {
+                            $table = $this->_table;
 
                             //Create node path
                             $path = $result[$parent]['path'];
@@ -142,7 +135,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         }
         else
         {
-            if(isset($this->_table))
+            if (isset($this->_table))
             {
                 $this->_table->getAdapter()->removeCommandHandler($this);
                 $this->_table = null;
@@ -152,12 +145,12 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 
     protected function _getChildren($rows, $children, $parent, &$result)
     {
-        foreach($children[$parent] as $child)
+        foreach ($children[$parent] as $child)
         {
             //Add the child to the rows
             $result[$child] = $rows[$child];
 
-            if(isset($children[$child])) {
+            if (isset($children[$child])) {
                 $this->_getChildren($rows, $children, $child, $result);
             }
         }

@@ -108,20 +108,39 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
                 $response->setLastModified($time);
             };
 
+            $user_agent = $response->getRequest()->getAgent();
+            // basename does not work if the string starts with a UTF character
+            $filename   = ltrim(basename(' '.strtr($response->getStream()->getPath(), array('/' => '/ '))));
+
+            // Android cuts file names after #
+            if (stripos($user_agent, 'Android')) {
+                $filename = str_replace('#', '_', $filename);
+            }
+
+            $disposition = array('filename' => '"'.$filename.'"');
+
+            // IE7 and 8 accepts percent encoded file names as the filename value
+            // Other browsers (except Safari) use filename* header starting with UTF-8''
+            $encoded_name = rawurlencode($filename);
+
+            if($encoded_name !== $filename)
+            {
+                if (preg_match('/(?i)MSIE [4-8]/i', $user_agent)) {
+                    $disposition['filename'] = '"'.$encoded_name.'"';
+                }
+                elseif (!stripos($user_agent, 'AppleWebkit')) {
+                    $disposition['filename*'] = 'UTF-8\'\''.$encoded_name;
+                }
+            }
+
             //Disposition header
-            $response->headers->set('Content-Disposition', array(
-                'inline',
-                'filename' => '"'.basename($response->getStream()->getPath()).'"',
-            ));
+            $response->headers->set('Content-Disposition', array_merge(array('inline'), $disposition));
 
             //Force a download by the browser by setting the disposition to 'attachment'.
             if($response->isAttachable())
             {
-                $response->setContentType('application/force-download');
-                $response->headers->set('Content-Disposition', array(
-                    'attachment',
-                    'filename'  => '"'.basename($response->getStream()->getPath()).'"',
-                ));
+                $response->setContentType('application/octet-stream');
+                $response->headers->set('Content-Disposition', array_merge(array('attachment'), $disposition));
             }
         }
 

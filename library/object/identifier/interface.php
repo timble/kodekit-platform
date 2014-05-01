@@ -83,7 +83,7 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Get the mixins
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getMixins();
 
@@ -100,23 +100,9 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Get the decorators
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getDecorators();
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a multiton, FALSE otherwise.
-     */
-    public function isMultiton();
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isSingleton();
 
     /**
      * Formats the identifier as a [application::]type.component.[.path].name string

@@ -33,7 +33,7 @@ window.addEvent('domready', function() {
 			types: <?= json_encode($state->types); ?>,
             site: <?= json_encode($site); ?>,
 			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
-			thumbnails: <?= json_encode($container ? $container->parameters->thumbnails : true); ?>
+			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
 		};
 	options = $extend(options, config);
 

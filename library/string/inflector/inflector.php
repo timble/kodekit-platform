@@ -364,23 +364,6 @@ class StringInflector implements StringInflectorInterface
 	}
 
 	/**
-	 * Returns camelBacked version of a string.
-	 *
-	 * Same as camelize but first char is lowercased
-	 *
-	 * @param string $string
-	 * @return string
-	 * @see camelize
-	 */
-	public static function variablize($string)
-	{
-		$string   = self::camelize(self::underscore($string));
-		$result  = strtolower(substr($string, 0, 1));
-		$variable = preg_replace('/\\w/', $result, $string, 1);
-		return $variable;
-	}
-
-	/**
 	 * Check to see if an English word is singular
 	 *
 	 * @param string $string The word to check

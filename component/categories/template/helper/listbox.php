@@ -36,7 +36,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Library\StringInflector::pluralize($config->package));
 
-        $list = $this->getObject($identifier)->set($config->filter)->getRowset();
+        $list = $this->getObject($identifier)->set($config->filter)->fetch();
 
         $options = array();
         foreach($list as $item) {
@@ -70,12 +70,12 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         }
 
         $categories = $this->getObject('com:categories.model.categories')
-                         ->table($config->table)
+                        ->table($config->table)
                         ->parent($config->parent)
                         ->sort('title')
-                        ->getRowset();
+                        ->fetch();
 
-        $iterator = new DatabaseIteratorNode($categories);
+        $iterator = new ModelIteratorNode($categories);
         $iterator->setMaxDepth($config->max_depth);
 
         foreach($iterator as $category)

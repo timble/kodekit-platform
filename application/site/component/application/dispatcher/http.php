@@ -161,7 +161,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     public function loadConfig()
     {
         // Check if the site exists
-        if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getObject('com:sites.model.sites')->fetch()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->getConfig()->options->toArray());
@@ -218,21 +218,13 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $language = null;
 
         // If a language was specified it has priority.
-        if($iso_code = $this->getConfig()->options->language)
-        {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
-            }
+        if($iso_code = $this->getConfig()->options->language) {
+            $language = $languages->find(array('iso_code' => $iso_code));
         }
 
         // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language'))
-        {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
-            }
+        if(!$language && $iso_code = $context->user->get('language')) {
+            $language = $languages->find(array('iso_code' => $iso_code));
         }
 
         // If language still not set, use the primary.
@@ -346,7 +338,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $uri  = clone($this->getRequest()->getUrl());
 
             $host = $uri->getHost();
-            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
+            if(!$this->getObject('com:sites.model.sites')->fetch()->find($host))
             {
                 // Check folder
                 $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -358,7 +350,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
                 }
 
                 //Check if the site can be found, otherwise use 'default'
-                if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
+                if(!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
                     $site = 'default';
                 }
 

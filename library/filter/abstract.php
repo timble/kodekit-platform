@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectMultiton
+abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable
 {
     /**
      * The filter errors
@@ -45,6 +45,13 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
         parent::__construct($config);
 
         $this->_priority = $config->priority;
+
+        foreach($config as $key => $value)
+        {
+            if(property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /**

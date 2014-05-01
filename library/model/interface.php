@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -18,18 +18,40 @@ namespace Nooku\Library;
 interface ModelInterface
 {
     /**
+     * Create a new entity for the data source
+     *
+     * @return  ModelEntityInterface
+     */
+    public function create();
+
+    /**
+     * Fetch an entity from the datasource on the model state
+     *
+     * @return ModelEntityInterface
+     */
+    public function fetch();
+
+    /**
+     * Get the total amount of items
+     *
+     * @return  int
+     */
+    public function count();
+
+    /**
      * Reset the model data and state
      *
-     * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
-     * @return ModelAbstract
+     * @param  array $modified List of changed state names
+     * @return ModelInterface
      */
-    public function reset($default = true);
+    public function reset(array $modified = array());
 
     /**
      * Set the model state values
      *
      * @param  array $values Set the state values
-     * @return ModelAbstract
+     *
+     * @return ModelInterface
      */
     public function setState(array $values);
 
@@ -39,51 +61,4 @@ interface ModelInterface
      * @return  ModelStateInterface  The model state object
      */
     public function getState();
-
-    /**
-     * State Change notifier
-     *
-     * This function is called when the state has changed.
-     *
-     * @param  string 	$name  The state name being changed
-     * @return void
-     */
-    public function onStateChange($name);
-
-    /**
-     * Method to get a item
-     *
-     * @return  DatabaseRowInterface
-     */
-    public function getRow();
-
-    /**
-     * Get a list of items
-     *
-     * @return  DatabaseRowsetInterface
-     */
-    public function getRowset();
-
-    /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
-    public function getTotal();
-
-    /**
-     * Get the model data
-     *
-     * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
-     *
-     * @return DatabaseRowsetInterface or DatabaseRowInterface
-     */
-    public function getData();
-
-    /**
-     * Get the model paginator object
-     *
-     * @return  ModelPaginator  The model paginator object
-     */
-    public function getPaginator();
 }

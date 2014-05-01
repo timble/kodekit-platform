@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Tags
  */
-class ModelRelations extends Library\ModelTable
+class ModelRelations extends Library\ModelDatabase
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

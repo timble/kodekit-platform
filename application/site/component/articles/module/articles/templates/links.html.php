@@ -8,14 +8,14 @@
  */
 ?>
 
-<? if($show_title) : ?>
+<? if($module->getParameters()->get('show_title', false)) : ?>
 <h3><?= $module->title ?></h3>
 <? endif ?>
 
 <ul>
     <?php foreach ($articles as $article): ?>
     <li>
-        <a href="<?php echo helper('com:articles.route.article', array('row' => $article)) ?>"><?php echo escape($article->title) ?></a>
+        <a href="<?php echo helper('com:articles.route.article', array('entity' => $article)) ?>"><?php echo escape($article->title) ?></a>
     </li>
     <?php endforeach; ?>
 </ul>

@@ -25,25 +25,11 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     protected $_aliases;
 
     /**
-     * The object mixins
+     * The object identifiers
      *
      * @var array
      */
-    protected $_mixins;
-
-    /**
-     * The object decorators
-     *
-     * @var array
-     */
-    protected $_decorators;
-
-    /**
-     * The object configs
-     *
-     * @var array
-     */
-    protected $_configs;
+    protected $_identifiers;
 
     /**
      * The class namespaces
@@ -61,11 +47,9 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     {
         parent::__construct($config);
 
-        $this->_aliases    = $config->aliases;
-        $this->_mixins     = $config->mixins;
-        $this->_decorators = $config->decorators;
-        $this->_configs    = $config->configs;
-        $this->_namespaces = $config->namespaces;
+        $this->_aliases     = $config->aliases;
+        $this->_identifiers = $config->identifiers;
+        $this->_namespaces  = $config->namespaces;
      }
 
     /**
@@ -79,10 +63,8 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'aliases'    => array(),
-            'configs'    => array(),
-            'mixins'     => array(),
-            'decorators' => array(),
+            'aliases'     => array(),
+            'identifiers' => array(),
             'namespaces' => array(),
         ));
 
@@ -99,40 +81,14 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
         $manager = $this->getObjectManager();
         $loader  = $this->getClassLoader();
 
+        //Identifiers
+        foreach ($this->_identifiers as $identifier => $config) {
+            $manager->setIdentifier($identifier, $config, false);
+        }
+
         //Aliases
         foreach ($this->_aliases as $alias => $identifier) {
             $manager->registerAlias($identifier, $alias);
-        }
-
-        //Configs
-        foreach ($this->_configs as $identifier => $config) {
-            $manager->setConfig($identifier, $config);
-        }
-
-        //Mixins
-        foreach ($this->_mixins as $identifier => $mixins)
-        {
-            foreach($mixins as $key => $value)
-            {
-                if (is_numeric($key)) {
-                    $manager->registerMixin($identifier, $value);
-                } else {
-                    $manager->registerMixin($identifier, $key, $value);
-                }
-            }
-        }
-
-        //Decorators
-        foreach ($this->_decorators as $identifier => $decorators)
-        {
-            foreach($decorators as $key => $value)
-            {
-                if (is_numeric($key)) {
-                    $manager->registerDecorator($identifier, $value);
-                } else {
-                    $manager->registerDecorator($identifier, $key, $value);
-                }
-            }
         }
 
         //Namespaces

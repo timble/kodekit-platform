@@ -97,7 +97,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      * Set the controller action
      *
      * @param string $action
-     * @return KControllerContext
+     * @return ControllerContext
      */
     public function setAction($action)
     {

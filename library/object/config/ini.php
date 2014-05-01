@@ -21,10 +21,10 @@ class ObjectConfigIni extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ObjectConfigIni|false   Returns a ObjectConfig object. False on failure.
+     * @return ObjectConfigIni
      * @throws \RuntimeException
      */
-    public static function fromString($string)
+    public function fromString($string)
     {
         $data = array();
 
@@ -37,9 +37,9 @@ class ObjectConfigIni extends ObjectConfigFormat
             }
         }
 
-        $config = new static($data);
+        $this->add($data);
 
-        return $config;
+        return $this;
     }
 
     /**

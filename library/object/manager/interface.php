@@ -33,6 +33,17 @@ interface ObjectManagerInterface
     public function getIdentifier($identifier = null);
 
     /**
+     * Set an identifier configuration
+     *
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param array $config      An associative array of configuration options
+     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
+     * @return ObjectManager
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
+     */
+    public function setIdentifier($identifier, $config = array(), $merge = true);
+
+    /**
      * Get the identifier class
      *
      * @param mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
@@ -79,26 +90,6 @@ interface ObjectManagerInterface
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
 	public function setObject($identifier, ObjectInterface $object);
-
-    /**
-     * Get the object configuration based on an object identifier
-     *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @return ObjectConfig
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     */
-    public function getConfig($identifier = null);
-
-    /**
-     * Set the configuration options for an identifier
-     *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An associative array of configuration options
-     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
-     * @return ObjectManager
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     */
-    public function setConfig($identifier, $config = array(), $merge = true);
 
     /**
      * Register a mixin for an identifier

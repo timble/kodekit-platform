@@ -22,7 +22,7 @@ class ActivitiesViewActivitiesHtml extends Library\ViewHtml
         if ($this->getLayout() == 'default')
 		{
 			$model = $this->getObject($this->getModel()->getIdentifier());
-            $context->data->packages = $model->distinct(true)->column('package')->getRowset();
+            $context->data->packages = $model->distinct(true)->column('package')->fetch();
 		} 
 		
 		parent::_fetchData($context);

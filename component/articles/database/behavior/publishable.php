@@ -104,7 +104,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
                          'published' => 0,
                          'value'     => 1));
 
-        $this->getMixer()->getAdapter()->update($query);
+        $this->getMixer()->getTable()->getAdapter()->update($query);
     }
 
     /**
@@ -120,7 +120,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
                          'published' => 1,
                          'value'     => 0));
 
-        $this->getMixer()->getAdapter()->update($query);
+        $this->getMixer()->getTable()->getAdapter()->update($query);
     }
 
     /**

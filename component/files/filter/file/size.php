@@ -19,18 +19,18 @@ use Nooku\Library;
  */
 class FilterFileSize extends Library\FilterAbstract
 {
-	public function validate($row)
+	public function validate($entity)
 	{
-		$max = $row->getContainer()->parameters->maximum_size;
+		$max = $entity->getContainer()->getParameters()->maximum_size;
 
 		if ($max)
 		{
-			$size = $row->contents ? strlen($row->contents) : false;
+			$size = $entity->contents ? strlen($entity->contents) : false;
 
-			if (!$size && is_uploaded_file($row->file)) {
-				$size = filesize($row->file);
-			} elseif ($row->file instanceof \SplFileInfo && $row->file->isFile()) {
-				$size = $row->file->getSize();
+			if (!$size && is_uploaded_file($entity->file)) {
+				$size = filesize($entity->file);
+			} elseif ($entity->file instanceof \SplFileInfo && $entity->file->isFile()) {
+				$size = $entity->file->getSize();
 			}
 
 			if ($size && $size > $max) {

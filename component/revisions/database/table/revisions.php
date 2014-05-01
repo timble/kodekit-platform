@@ -23,7 +23,7 @@ class DatabaseTableRevisions extends Library\DatabaseTableAbstract
     {     
         $config->append(array(
             'name'      => 'revisions',
-            'behaviors' => array('creatable'),
+            'behaviors' => array('creatable', 'identifiable'),
             'filters'   => array(
                 'data' => array('json')
             )

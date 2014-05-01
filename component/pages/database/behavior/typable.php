@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -24,8 +24,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     protected $_strategies = array();
 
     protected $_methods = array(
-        'getTypeTitle',
-        'getTypeDescription',
+        'getTitle',
+        'getDescription',
         'getParams',
         'getLink',
         '_beforeInsert',
@@ -33,8 +33,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     );
 
     protected $_mixable_methods = array(
-        'getTypeTitle',
-        'getTypeDescription',
+        'getTitle',
+        'getDescription',
         'getParams',
         'getLink'
     );
@@ -59,7 +59,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->isRegistered($config->object_identifier)) {
+        if (!$manager->isRegistered($config->object_identifier)) {
             $manager->setObject($config->object_identifier, $instance);
         }
 
@@ -68,14 +68,14 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     protected function _populateStrategies()
     {
-        foreach(new \DirectoryIterator(__DIR__.'/type') as $fileinfo)
+        foreach (new \DirectoryIterator(__DIR__ . '/type') as $fileinfo)
         {
-            if($fileinfo->isFile() && $fileinfo->getExtension() == 'php')
+            if ($fileinfo->isFile() && $fileinfo->getExtension() == 'php')
             {
                 $name = $fileinfo->getBasename('.php');
-                if($name != 'abstract' && $name != 'interface')
+                if ($name != 'abstract' && $name != 'interface')
                 {
-                    $strategy = $this->getObject('com:pages.database.behavior.type.'.$name);
+                    $strategy                 = $this->getObject('com:pages.database.behavior.type.' . $name);
                     $this->_strategies[$name] = $strategy;
                 }
             }
@@ -106,8 +106,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     public function getMixableMethods($exclude = array())
     {
-        $methods = array_fill_keys($this->_mixable_methods, $this);
-        $methods['is'.ucfirst($this->getIdentifier()->name)] = true;
+        $methods                                               = array_fill_keys($this->_mixable_methods, $this);
+        $methods['is' . ucfirst($this->getIdentifier()->name)] = true;
 
         return $methods;
     }
@@ -116,16 +116,11 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     {
         $name = $command->getName();
 
-        if($name == 'before.insert' || $name == 'before.update')
+        if ($name == 'before.insert' || $name == 'before.update')
         {
             $this->setMixer($command->data);
 
-            if(is_array($this->getType()))
-            {
-                $type = $this->getType();
-                $type = $type['name'];
-            }
-            else $type = $this->type;
+            $type = $this->getType();
 
             $this->setStrategy($type);
             $return = $this->getStrategy()->setMixer($command->data)->execute($command, $chain);
@@ -137,20 +132,14 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     public function __call($method, $arguments)
     {
-        if(in_array($method, $this->_mixable_methods))
+        if (in_array($method, $this->_mixable_methods))
         {
-            if(is_array($this->getType()))
-            {
-                $type = $this->getType();
-                $type = $type['name'];
-            }
-            else $type = $this->type;
+            $type = $this->getType();
 
             $this->setStrategy($type);
             $this->getStrategy()->setMixer($this->getMixer());
 
-            switch(count($arguments))
-            {
+            switch (count($arguments)) {
                 case 0:
                     $return = $this->getStrategy()->$method();
                     break;

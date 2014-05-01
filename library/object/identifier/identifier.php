@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Identifier
  *
- * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors and methods for
+ * Wraps identifiers of the form type:[//domain/]package.[.path].name in an object, providing public accessors and methods for
  * derived formats.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
@@ -32,7 +32,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @var string
      */
-    protected $_type = '';
+    protected $_type = 'lib';
 
     /**
      * The identifier domain
@@ -77,24 +77,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_config = null;
 
     /**
-     * The object mixins
-     *
-     * @var array
-     */
-    protected $_mixins = array();
-
-    /**
-     * The object decorators
-     *
-     * @var array
-     */
-    protected $_decorators = array();
-
-    /**
      * Constructor
-     *
-     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
-     * lib:event.publisher.
      *
      * @param  string|array $identifier Identifier string or array in type://domain/package.[.path].name format
      * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
@@ -133,14 +116,11 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             $parts = $identifier;
             foreach ($parts as $key => $value) {
                 $this->{'_'.$key} = $value;
-
             }
-
-            $identifier = $this->toString();
         }
 
         //Cache the identifier to increase performance
-        $this->_identifier = $identifier;
+        $this->_identifier = $this->toString();
     }
 
     /**
@@ -290,9 +270,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function addMixin($mixin, $config = array())
     {
         if ($mixin instanceof ObjectMixinInterface || $mixin instanceof ObjectIdentifier) {
-            $this->_mixins[] = $mixin;
+            $this->getMixins()->append(array($mixin));
         } else {
-            $this->_mixins[$mixin] = $config;
+            $this->getMixins()->append(array($mixin => $config));
         }
 
         return $this;
@@ -305,7 +285,11 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getMixins()
     {
-        return $this->_mixins;
+        if(!isset($this->getConfig()->mixins)) {
+            $this->getConfig()->append(array('mixins' => array()));
+        }
+
+        return $this->getConfig()->mixins;
     }
 
     /**
@@ -319,9 +303,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function addDecorator($decorator, $config = array())
     {
         if ($decorator instanceof ObjectDecoratorInterface || $decorator instanceof ObjectIdentifier) {
-            $this->_decorators[] = $decorator;
+            $this->getDecorators()->append(array($decorator));
         } else {
-            $this->_decorators[$decorator] = $config;
+            $this->getDecorators()->append(array($decorator => $config));
         }
 
         return $this;
@@ -334,27 +318,11 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getDecorators()
     {
-        return $this->_decorators;
-    }
+        if(!isset($this->getConfig()->decorators)) {
+            $this->getConfig()->append(array('decorators' => array()));
+        }
 
-    /**
-     * Check if the object is a multiton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isMultiton()
-    {
-        return array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($this->class));
-    }
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isSingleton()
-    {
-        return array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($this->class));
+        return $this->getConfig()->decorators;
     }
 
     /**

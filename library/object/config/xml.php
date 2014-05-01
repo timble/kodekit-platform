@@ -21,10 +21,10 @@ class ObjectConfigXml extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ObjectConfigXml|false   Returns a ObjectConfig object. False on failure.
+     * @return ObjectConfigXml
      * @throws \RuntimeException
      */
-    public static function fromString($string)
+    public function fromString($string)
     {
         $data = array();
 
@@ -36,9 +36,9 @@ class ObjectConfigXml extends ObjectConfigFormat
             }
         }
 
-        $config = new static($data);
+        $this->add($data);
 
-        return $config;
+        return $this;
     }
 
     /**

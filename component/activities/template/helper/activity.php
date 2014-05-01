@@ -29,7 +29,7 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $identifier = $config->object_identifier->toArray();
-        $identifier['package'] = $config->row->package;
+        $identifier['package'] = $config->entity->package;
        
         $identifier = $manager->getIdentifier($identifier);
 
@@ -47,23 +47,23 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 	{
 	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'row'      => ''
+			'entity'      => ''
 		));
 	
-		$row  = $config->row;
-		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$row->package.'&view='.$row->name.'&id='.$row->row);
-		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$row->created_by); 
+		$entity  = $config->entity;
+		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
+		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$entity->created_by);
 		
-		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a> '; 
-		$message  .= $row->status;
+		$message   = '<a href="'.$user.'">'.$entity->created_by_name.'</a> ';
+		$message  .= $entity->status;
        
-		if ($row->status != 'trashed') {
-			$message .= ' <a href="'.$item.'">'.$row->title.'</a>';
+		if ($entity->status != 'trashed') {
+			$message .= ' <a href="'.$item.'">'.$entity->title.'</a>';
 		} else {
-			$message .= ' <span class="trashed">'.$row->title.'</span>';
+			$message .= ' <span class="trashed">'.$entity->title.'</span>';
 		}
 		
-		$message .= ' '.$row->name; 
+		$message .= ' '.$entity->name;
 		
 		return $message;
 	}

@@ -29,7 +29,7 @@ class TemplateHelperModule extends Library\TemplateHelperAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -43,7 +43,7 @@ class TemplateHelperModule extends Library\TemplateHelperAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param   Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -58,19 +58,19 @@ class TemplateHelperModule extends Library\TemplateHelperAbstract
     /**
      * Get the modules
      *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the Library\DatabaseRowsetInterface
-     * @return Library\DatabaseRowsetInterface
+     * @throws	\UnexpectedValueException	If the request doesn't implement the Library\ModelEntityInterface
+     * @return Library\ModelEntityInterface
      */
     public function getModules()
     {
-        if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
+        if(!$this->_modules instanceof Library\ModelEntityInterface)
         {
             $this->_modules = $this->getObject($this->_modules);
 
-            if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
+            if(!$this->_modules instanceof Library\ModelEntityInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Modules: '.get_class($this->_modules).' does not implement Library\DatabaseRowsetInterface'
+                    'Modules: '.get_class($this->_modules).' does not implement Library\ModelEntityInterface'
                 );
             }
         }

@@ -569,8 +569,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
         else
         {
-            if($item = $view->getModel()->getRow()) {
-                $params = array_merge( $item->toArray(), $params);
+            if($entity = $view->getModel()->fetch()) {
+                $params = array_merge( $entity->getProperties(), $params);
             }
         }
 

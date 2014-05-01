@@ -26,10 +26,11 @@ class FilterIni extends FilterAbstract
     public function validate($value)
     {
         try {
-            $config = ObjectConfigIni::fromString($value);
+            $config = $this->getObject('object.config.factory')->fromString('ini', $value);
         } catch(\RuntimeException $e) {
             $config = null;
         }
+
         return is_string($value) && !is_null($config);
     }
 
@@ -44,9 +45,9 @@ class FilterIni extends FilterAbstract
         if(!$value instanceof ObjectConfig)
         {
             if(is_string($value)) {
-                $value = ObjectConfigIni::fromString($value);
+                $value = $this->getObject('object.config.factory')->fromString('ini', $value);
             } else {
-                $value = new ObjectConfigIni($value);
+                $value = $this->getObject('object.config.factory')->createFormat('ini', $value);
             }
         }
 
