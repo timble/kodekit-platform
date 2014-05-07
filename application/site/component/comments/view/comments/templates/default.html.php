@@ -18,7 +18,7 @@
             options = {
                 container: 'comments',
                 data: {
-                    _token: '<?= object('user')->getSession()->getToken() ?>'
+                    csrf_token: '<?= object('user')->getSession()->getToken() ?>'
                 }
             };
 
@@ -49,7 +49,7 @@
                         url: '?view=comment&id='+id[1],
                         data: {
                             text: e.editor.getData(),
-                            _token:'<?= object('user')->getSession()->getToken() ?>'
+                            csrf_token:'<?= object('user')->getSession()->getToken() ?>'
                         },
                         success: function() {
 

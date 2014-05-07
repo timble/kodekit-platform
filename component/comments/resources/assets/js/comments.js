@@ -27,7 +27,7 @@ Comments = new Class({
             url: '?view=comment&id='+id,
             data: {
                 id: id,
-                _token: options.data._token,
+                csrf_token: options.data.csrf_token,
                 _action: 'delete'
             },
             success: function(response){

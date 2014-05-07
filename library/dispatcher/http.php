@@ -29,7 +29,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     {
     	$config->append(array(
             'behaviors'      => array('resettable'),
-            'authenticators' => array('token'),
+            'authenticators' => array('csrf'),
             'limit'          => array('max' => 1000, 'default' => 20)
          ));
 

@@ -61,7 +61,7 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     {
         $config->append(array(
             'token_value' => '',
-            'token_name'  => '_token',
+            'token_name'  => 'csrf_token',
         ));
 
         parent::_initialize($config);

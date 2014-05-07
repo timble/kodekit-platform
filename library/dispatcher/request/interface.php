@@ -164,13 +164,6 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     public function setBasePath($path);
 
     /**
-     * Return the request token
-     *
-     * @return  string  The request token or NULL if no token could be found
-     */
-    public function getToken();
-
-    /**
      * Return the request format
      *
      * Find the format by using following sequence :
