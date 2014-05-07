@@ -386,7 +386,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
                         'options'	=> array(
                             'url'		=> $config->url,
                             'data'	=> array(
-                                '_token'	=> $this->getObject('user')->getSession()->getToken(),
+                                'csrf_token'	=> $this->getObject('user')->getSession()->getToken(),
                                 '_action'	=> 'edit'
                             ),
                             'key'		=> 'order',
@@ -470,7 +470,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
                             // Need to do this because we don't know what field there is being edited....
                             data[editor.element.getId()] = editor.getData();
-                            data['_token'] = '".$this->getObject('user')->getSession()->getToken()."';
+                            data['csrf_token'] = '".$this->getObject('user')->getSession()->getToken()."';
 
                             jQuery.post('".$url."', data);
                         });

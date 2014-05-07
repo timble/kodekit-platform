@@ -39,7 +39,7 @@ class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarAct
         $url = $controller->getView()->getRoute($url);
 
         //Form configuration
-        $config = "{method:'post', url:'".$url."', params:{_action:'delete', _token:'".$session->getToken()."'}}";
+        $config = "{method:'post', url:'".$url."', params:{_action:'delete', csrf_token:'".$session->getToken()."'}}";
 
         $command->append(array(
             'attribs' => array(

@@ -84,7 +84,7 @@ Attachments.List = new Class({
             url: uri.toString(),
             params: {
                 _action: 'delete',
-                _token: this.token
+                csrf_token: this.token
             }
         });
 
@@ -99,7 +99,7 @@ Attachments.List = new Class({
             method: 'post',
             data: {
                 _action: 'edit',
-                _token: this.token,
+                csrf_token: this.token,
                 x1: this.coordinates.x,
                 y1: this.coordinates.y,
                 x2: this.coordinates.x2,
