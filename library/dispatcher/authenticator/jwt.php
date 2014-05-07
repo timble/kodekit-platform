@@ -104,7 +104,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      *
      * @return HttpToken  The authorisation token or NULL if no token could be found
      */
-    public function getJwtToken()
+    public function getToken()
     {
         if(!isset($this->token))
         {
@@ -152,7 +152,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      */
     protected function _beforeDispatch(DispatcherContextInterface $context)
     {
-        if(!$context->user->isAuthentic() && $token = $this->getJwtToken())
+        if(!$context->user->isAuthentic() && $token = $this->getToken())
         {
             if($token->verify($this->_secret))
             {
