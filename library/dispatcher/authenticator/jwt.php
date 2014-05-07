@@ -161,12 +161,12 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
 
                 //Ensure the token is not expired
                 if(!$token->getExpireTime() || $token->isExpired()) {
-                    throw new ControllerExceptionRequestNotAuthenticated('JWT Token Expired');
+                    throw new ControllerExceptionRequestNotAuthenticated('Token Expired');
                 }
 
                 //Ensure the token is not too old
                 if(!$token->getIssueTime() || $token->getAge() > $this->_max_age) {
-                    throw new ControllerExceptionRequestNotAuthenticated('JWT Token Expired');
+                    throw new ControllerExceptionRequestNotAuthenticated('Token Expired');
                 }
 
                 //Ensure we have a username
@@ -181,7 +181,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
 
                 return $this->_loginUser($username, $data);
             }
-            else throw new ControllerExceptionRequestNotAuthenticated('Invalid JWT Token');
+            else throw new ControllerExceptionRequestNotAuthenticated('Invalid Token');
         }
 
         return true;
