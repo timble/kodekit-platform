@@ -25,8 +25,8 @@
         <? endif ?>
 
         <fieldset>
-            <input id="email" class="required validate-email input-block-level" name="email" type="email" alt="email" placeholder="Email address" />
-            <input id="password" class="required input-block-level" type="password" name="password" alt="password" placeholder="Password"/>
+            <input id="email" class="required validate-email form-control" name="email" type="email" alt="email" placeholder="Email address" />
+            <input id="password" class="required form-control" type="password" name="password" alt="password" placeholder="Password"/>
         </fieldset>
         <small><a href="<?= helper('route.user', array('layout' => 'reset')); ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
     </div>

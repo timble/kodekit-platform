@@ -16,13 +16,10 @@
 </div>
 
 <p><?= translate('Please enter the E-mail address of the account you would like to reset.');?></p>
-<form action="" method="post" class="-koowa-form form-horizontal">
-    <div class="control-group">
-        <label class="control-label" for="email"><?= translate('E-mail') ?></label>
-
-        <div class="controls">
-            <input class="required validate-email" type="email" id="email" name="email" placeholder="E-mail"/>
-        </div>
+<form action="" method="post" class="-koowa-form">
+    <div class="form-group">
+        <label for="email"><?= translate('E-mail') ?></label>
+        <input class="form-control required validate-email" type="email" id="email" name="email" placeholder="E-mail"/>
     </div>
     <div class="form-actions">
         <button type="submit" class="btn btn-primary"><?=translate('Submit');?></button>
