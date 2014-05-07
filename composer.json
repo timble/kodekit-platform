@@ -1,13 +1,6 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jlong/sass-bootstrap"
-        }
-    ],
     "require": {
         "swiftmailer/swiftmailer": "5.0.*",
-        "imagine/imagine": "0.4.*",
-        "jlong/sass-bootstrap": "2.3.*"
+        "imagine/imagine": "0.4.*"
     }
 }
