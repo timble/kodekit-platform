@@ -471,7 +471,7 @@ class HttpToken extends Object implements HttpTokenInterface
         }
 
         //Verify the signature
-        if ($this->_signature != $this->getSignature($secret)) {
+        if ($this->_signature !== $this->getSignature($secret)) {
             return false;
         }
 
