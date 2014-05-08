@@ -175,11 +175,19 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             }
 
             $row = clone $this->_prototype;
-        }
-        else $row = $this->getTable()->createRow();
 
-        $row->setStatus($status);
-        $row->setProperties($properties, $row->isNew());
+            $row->setStatus($status);
+            $row->setProperties($properties, $row->isNew());
+        }
+        else
+        {
+            $config = array(
+                'data'   => $properties,
+                'status' => $status,
+            );
+
+            $row = $this->getTable()->createRow($config);
+        }
 
         //Insert the row into the rowset
         $this->insert($row);

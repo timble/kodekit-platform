@@ -20,9 +20,10 @@ interface ModelInterface
     /**
      * Create a new entity for the data source
      *
+     * @param  array $properties Array of entity properties
      * @return  ModelEntityInterface
      */
-    public function create();
+    public function create(array $properties = array());
 
     /**
      * Fetch an entity from the datasource on the model state
