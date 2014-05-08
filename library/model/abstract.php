@@ -114,12 +114,13 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     /**
      * Create a new entity for the data source
      *
+     * @param  array $properties Array of entity properties
      * @return  ModelEntityInterface
      */
-    final public function create()
+    final public function create(array $properties = array())
     {
         $context = $this->getContext();
-        $context->entity  = null;
+        $context->entity = $properties;
 
         if ($this->invokeCommand('before.create', $context) !== false)
         {
@@ -252,6 +253,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
         $identifier['name'] = StringInflector::singularize($identifier['name']);
 
         $options = array(
+            'data'         => $context->entity,
             'identity_key' => $context->getIdentityKey()
         );
 
