@@ -8,7 +8,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
 INSERT INTO `extensions` (`extensions_extension_id`, `title`, `name`, `params`, `enabled`)
 VALUES
-    (7, 'Contacts', 'com_contacts', '', 1),
     (19, 'Files', 'com_files', '', 1),
     (20, 'Articles', 'com_articles', '', 1),
     (23, 'Languages', 'com_languages', '', 1),
@@ -70,9 +69,7 @@ VALUES
 	(8, 1, 1),
 	(9, 7, 7),
 	(10, 1, 1),
-	(11, 2, 2),
 	(12, 1, 1),
-	(13, 2, 2),
 	(14, 3, 3),
 	(15, 1, 1),
 	(16, 1, 1),
@@ -177,7 +174,6 @@ VALUES
 	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', NULL, 'component', 1, 0, 0, 34, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(11, 2, NULL, 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(12, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(13, 2, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=contacts', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(14, 2, NULL, 'Languages', 'languages', 'option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 23, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(15, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(16, 2, NULL, 'Categories', 'categories', 'option=com_articles&view=categories', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
