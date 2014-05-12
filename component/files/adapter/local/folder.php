@@ -103,7 +103,7 @@ class AdapterLocalFolder extends AdapterLocalAbstract
 			return true;
 		}
 
-		$iter = new \RecursiveDirectoryIterator($this->_encoded, FilesystemIterator::SKIP_DOTS);
+		$iter = new \RecursiveDirectoryIterator($this->_encoded, \FilesystemIterator::SKIP_DOTS);
 		foreach (new \RecursiveIteratorIterator($iter, \RecursiveIteratorIterator::CHILD_FIRST) as $f)
 		{
 			if ($f->isDir()) {
