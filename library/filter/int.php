@@ -42,8 +42,8 @@ class FilterInt extends FilterAbstract implements FilterTraversable
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'max' => PHP_MAX_INT ,
-            'min' => ~PHP_MAX_INT,
+            'max' => PHP_INT_MAX,
+            'min' => ~PHP_INT_MAX,
         ));
 
         parent::_initialize($config);
