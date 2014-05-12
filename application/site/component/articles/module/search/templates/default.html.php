@@ -9,10 +9,10 @@
 ?>
 
 <? if ($module->getParameters()->get('item_id', null)): ?>
-    <form action="<?= route('option=com_articles&view=articles&Itemid=' . $module->getParameters()->get('item_id')) ?>" method="get" class="navbar-search form-search pull-right">
-        <div class="input-append">
-            <input id="search" name="search" class="pan2 search-query" type="text" value="" placeholder="<?= translate('Search articles') ?>"/>
-            <button type="submit" class="btn"><i class="icon-search"></i></button>
+    <form action="<?= route('option=com_articles&view=articles&Itemid=' . $module->getParameters()->get('item_id')) ?>" method="get" class="navbar-form pull-right">
+        <div class="form-group">
+            <input id="search" name="search" class="form-control" type="text" value="" placeholder="<?= translate('Search articles') ?>"/>
         </div>
+        <button type="submit" class="btn btn-default"><?= translate('Submit') ?></button>
     </form>
 <? endif; ?>

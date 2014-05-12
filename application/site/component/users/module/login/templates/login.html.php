@@ -17,25 +17,21 @@
 	<? endif ?>
 
 	<fieldset class="input">
-	<div class="control-group">
-		<label class="control-label" for="modlgn_email"><?= translate('Email') ?>:</label>
-		<div class="controls">
-			<input id="modlgn_email" class="required validate-email" type="email" name="email" />
-		</div>
+	<div class="form-group">
+		<label for="modlgn_email"><?= translate('Email') ?>:</label>
+        <input id="modlgn_email" class="required validate-email form-control" type="email" name="email" />
 	</div>
-	<div class="control-group">
-		<label class="control-label" for="modlgn_passwd"><?= translate('Password') ?>:</label>
-		<div class="controls">
-			<input id="modlgn_passwd" class="required" type="password" name="password" />
-            <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
-                <span class="help-block">
-			        <small><a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
-			    </span>
-            <? endif; ?>
-		</div>
+	<div class="form-group">
+		<label for="modlgn_passwd"><?= translate('Password') ?>:</label>
+        <input id="modlgn_passwd" class="required form-control" type="password" name="password" />
+        <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
+            <span class="help-block">
+                <a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a>
+            </span>
+        <? endif; ?>
 	</div>
 	<div class="form-actions">
-		<input type="submit" name="Submit" class="btn" value="<?= translate('Sign in') ?>" />
+		<input type="submit" name="Submit" class="btn btn-primary" value="<?= translate('Sign in') ?>" />
         <?= translate('or') ?>
 		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
 	</div>

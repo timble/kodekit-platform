@@ -23,7 +23,6 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
      * Authenticate using email and password credentials
      *
      * @param Library\DispatcherContextInterface $context A dispatcher context object
-     *
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     protected function _beforePost(Library\DispatcherContextInterface $context)
@@ -51,7 +50,7 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstrac
                 $context->user->getSession()->start();
 
                 //Set user data in context
-                $data              = $this->getObject('user.provider')->load($user->id)->toArray();
+                $data  = $this->getObject('user.provider')->load($user->id)->toArray();
                 $data['authentic'] = true;
 
                 $context->user->setData($data);

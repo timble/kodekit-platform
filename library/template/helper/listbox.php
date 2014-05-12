@@ -148,10 +148,8 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options[] = $this->option(array('label' => 'Coordinated Universal Time', 'value' => 'UTC'));
         foreach ($groups as $group => $locales)
         {
-            $options[] = $this->option(array('label' => $group, 'group' => true));
-
             foreach ($locales as $locale) {
-                $options[] = $this->option(array('label' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
+                $options[$group][] = $this->option(array('label' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
             }
         }
 

@@ -1,7 +1,7 @@
 article {
   @extend .clearfix;
 
-  margin-bottom: $gridGutterWidth * 2;
+  margin-bottom: $grid-gutter-width;
 
   .page-header {
     margin-bottom: 14px;

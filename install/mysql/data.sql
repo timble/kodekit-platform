@@ -128,7 +128,7 @@ VALUES
 
 INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
 VALUES
-	(1, 'Main Menu', '', 2, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1\nclass=nav nav-list', 'pages', 'site', UUID());
+	(1, 'Main Menu', '', 2, 'user3', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=0\nclass=nav navbar-nav\nend_level=1', 'pages', 'site', UUID());
 
 --
 -- Dumping data for table `pages`

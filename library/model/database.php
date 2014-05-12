@@ -86,6 +86,7 @@ class ModelDatabase extends ModelAbstract
     {
         //Entity options
         $options = array(
+            'data'            => $context->entity,
             'identity_column' => $context->getIdentityKey()
         );
 

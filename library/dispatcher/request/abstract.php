@@ -60,13 +60,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     protected $_referrer;
 
     /**
-     * The token
-     *
-     * @var string
-     */
-    protected $_token;
-
-    /**
      * The supported languages
      *
      * @var array
@@ -715,31 +708,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     {
         $this->_base_path = $path;
         return $this;
-    }
-
-    /**
-     * Return the request token
-     *
-     * @return  string  The request token or NULL if no token could be found
-     */
-    public function getToken()
-    {
-        if(!isset($this->_token))
-        {
-            $token = null;
-
-            if($this->_headers->has('X-Token')) {
-                $token = $this->_headers->get('X-Token');
-            }
-
-            if($this->data->has('_token')) {
-                $token = $this->data->get('_token', 'sha1');
-            }
-
-            $this->_token = $token;
-        }
-
-        return $this->_token;
     }
 
     /**
