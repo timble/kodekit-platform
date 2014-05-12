@@ -31,7 +31,9 @@ class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
 
             //Make sure the thumbnail exist
             if($thumbnail) {
-                return '<img '.$this->buildAttributes($config->attribs).' src="attachments://'.$thumbnail->thumbnail.'" />';
+                $filename = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', pathinfo($thumbnail->name, PATHINFO_FILENAME)));
+
+                return '<img alt="'.$filename.'" '.$this->buildAttributes($config->attribs).' src="attachments://'.$thumbnail->thumbnail.'" />';
             }
         }
 
