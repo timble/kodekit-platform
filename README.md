@@ -20,11 +20,15 @@ Installation
 
 * Clone this repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
 
+```
     $ git clone git://git.assembla.com/nooku-framework.git
+```
 
 * Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
 
+```
     $ git checkout develop
+```
 
 * Install [VirtualBox](http://www.virtualbox.org/)
 
@@ -32,11 +36,15 @@ Installation
 
 * Run `vagrant up` in the repository directory
 
+```
     $ vagrant up
+```
 
 * Add the following line into /etc/hosts
 
+```
     33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev
+```
 
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
 
