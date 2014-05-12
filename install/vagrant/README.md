@@ -28,7 +28,9 @@ Building the box
 Repackaging the box
 -----------------
 
-* Run [this script](https://gist.github.com/adrienbrault/3775253) to reduce the VM size.
+* Run purge.sh to reduce the VM size:
+
+	$ sudo purge.sh
 
 * Make sure to remove the Nooku flag: 
 

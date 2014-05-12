@@ -11,7 +11,7 @@ class scripts::install {
   }
   
   exec { 'make-scripts-executable': 
-    command => 'chmod +x /home/vagrant/scripts/nooku',
+    command => 'chmod +x /home/vagrant/scripts/nooku && chmod +x /home/vagrant/scripts/purge.sh',
     require => File['/home/vagrant/scripts']
   }
 
