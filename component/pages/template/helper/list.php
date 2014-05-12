@@ -132,7 +132,11 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
                 $result .= "</li>";
 
                 for($i = 0; $i < $level - $next_level; ++$i){
-                    $result .= "</ul></li>";
+                    if($next_level === false) {
+                        $result .= "</ul>";
+                    } else {
+                        $result .= "</ul></li>";
+                    }
                 }
             }
 
