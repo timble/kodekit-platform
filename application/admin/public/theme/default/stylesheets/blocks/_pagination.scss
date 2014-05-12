@@ -1,20 +1,22 @@
 .pagination {
-  float: right;
-  font-size: $baseFontSize - 1px;
+    float: right;
+    font-size: $baseFontSize - 1px;
 
-  > div {
-    float: left;
+    > div {
+        float: left;
 
-    &.limit {
-      line-height: 22px;
-      margin: 0 10px;
+        &.limit {
+            line-height: 22px;
+            margin: 0 10px;
+        }
+
+        select[name="limit"] {
+            width: 50px;
+        }
     }
 
-    select[name="limit"] { width: 50px; }
-  }
-
-  a {
-    @extend .btn;
-    font-size: $baseFontSize - 1px !important;
-  }
+    a {
+        @extend .btn;
+        font-size: $baseFontSize - 1px !important;
+    }
 }
