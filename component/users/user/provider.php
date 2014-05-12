@@ -60,7 +60,7 @@ class UserProvider extends Library\UserProvider
      * Fetch the user for the given user identifier from the backend
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @return Library\UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
      */
     public function fetch($identifier)
     {
