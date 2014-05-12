@@ -113,6 +113,8 @@ class ObjectConfig implements ObjectConfigInterface
                 $this->set($key, $value);
             }
         }
+
+        return $this;
     }
 
     /**
