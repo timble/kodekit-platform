@@ -51,8 +51,8 @@ Repackaging the box
 	
 * Go to your Nooku Framework clone and test: 
 
+	$ cd /path/to/nooku-framework
 	$ vagrant destroy # if you've created the box before
 	$ vagrant up
 	
-* If all is well, re-upload the box to Cloud Files and add a new release on Vagrant Cloud.
-
+* Share your box using Vagrant Cloud.
