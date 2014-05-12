@@ -1,0 +1,10 @@
+Vagrant.configure("2") do |config|
+  config.vm.network :private_network, ip: "33.33.33.63"
+  config.ssh.forward_agent = true
+
+  nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
+  config.vm.synced_folder ".", "/var/www/nooku.dev", id: "vagrant-root" , :nfs => nfs_setting
+
+  config.vm.provision :shell, :inline =>
+      "if [[ ! -f /nooku-install-run ]]; then /home/vagrant/scripts/nooku install > /dev/null 2>&1 && sudo touch /nooku-install-run; fi"
+end
