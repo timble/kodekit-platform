@@ -25,6 +25,25 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     protected $_parameters;
 
     /**
+     * The column name
+     *
+     * @var string
+     */
+    protected $_column;
+
+    /**
+     * Constructor.
+     *
+     * @param   ObjectConfig $config Configuration options
+     */
+    public function __construct(ObjectConfig $config = null)
+    {
+        parent::__construct($config);
+
+        $this->_column = $config->column;
+    }
+
+    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -36,6 +55,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     {
         $config->append(array(
             'row_mixin' => true,
+            'column'    => 'parameters'
         ));
 
         parent::_initialize($config);
@@ -50,10 +70,10 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     public function getParameters()
     {
-        if($this->hasProperty('parameters') && !isset($this->_parameters))
+        if($this->hasProperty($this->_column) && !isset($this->_parameters))
         {
-            $type = (array) $this->getTable()->getColumn('parameters')->filter;
-            $data = trim($this->getProperty('parameters'));
+            $type = (array) $this->getTable()->getColumn($this->_column)->filter;
+            $data = trim($this->getProperty($this->_column));
 
             //Create the parameters object
             if(empty($data)) {
@@ -97,7 +117,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
         $mixer = $this->getMixer();
         $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-        if($table->hasColumn('parameters'))  {
+        if($table->hasColumn($this->_column))  {
             return true;
         }
 
@@ -112,8 +132,8 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($context->data->getParameters() instanceof ObjectConfigInterface) {
-            $context->data->setProperty('parameters', $context->data->getParameters()->toString());
+        if($this->getParameters() instanceof ObjectConfigInterface) {
+            $context->data->setProperty($this->_column, $this->getParameters()->toString());
         }
     }
 
@@ -125,8 +145,56 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(DatabaseContext $context)
     {
-        if($context->data->getParameters() instanceof ObjectConfigInterface) {
-            $context->data->setProperty('parameters', $context->data->getParameters()->toString());
+        if($this->getParameters() instanceof ObjectConfigInterface) {
+            $context->data->setProperty($this->_column, $this->getParameters()->toString());
         }
+    }
+
+    /**
+     * Get the methods that are available for mixin based
+     *
+     * @param  array $exclude   A list of methods to exclude
+     * @return array  An array of methods
+     */
+    public function getMixableMethods($exclude = array())
+    {
+        if($this->_column !== 'parameters')
+        {
+            $exclude += array('getParameters');
+            $methods = parent::getMixableMethods($exclude);
+
+            //Add dynamic methods based on the column name
+            $methods['get'.ucfirst($this->_column)] = $this;
+            $methods['setProperty'.ucfirst($this->_column)] = $this;
+        }
+        else $methods = parent::getMixableMethods();
+
+        return $methods;
+    }
+
+    /**
+     * Intercept parameter getter and setter calls
+     *
+     * @param  string   $method     The function name
+     * @param  array    $arguments  The function arguments
+     * @throws \BadMethodCallException   If method could not be found
+     * @return mixed The result of the function
+     */
+    public function __call($method, $arguments)
+    {
+        if($this->_column !== 'parameters')
+        {
+            //Call getParameters()
+            if($method == 'get'.ucfirst($this->_column)) {
+                return $this->getParameters();
+            }
+
+            //Call setPropertyParameters()
+            if($method == 'setProperty'.ucfirst($this->_column)) {
+                return $this->setPropertyParameters($arguments[0]);
+            }
+        }
+
+        return parent::__call($method, $arguments);
     }
 }
