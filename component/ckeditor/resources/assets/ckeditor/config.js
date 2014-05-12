@@ -40,6 +40,9 @@ CKEDITOR.editorConfig = function( config ) {
         showUncommentButton: true
     };
 
+    // Pasting operations will loose all formatting information
+    config.forcePasteAsPlainText = true,
+
     config.allowedContent = true;
     config.toolbar_full =
         [
