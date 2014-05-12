@@ -29,6 +29,7 @@ body {
     a {
         @include flex();
         @include flex-grow(1);
+        @include flex-shrink(0);
         @include flex-justify-content(space-between);
 
         .navigation__badge {
