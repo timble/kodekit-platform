@@ -62,13 +62,17 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * Get the referrer
      *
      * @param   ControllerContextInterface $context A controller context object
-     * @return HttpUrl    A HttpUrl object.
+     * @return  HttpUrl|null    A HttpUrl object or NULL if no referrer can be found
      */
     public function getReferrer(ControllerContextInterface $context)
     {
-        $referrer = $this->getObject('lib:http.url',
-            array('url' => $context->request->cookies->get('referrer', 'url'))
-        );
+        $referrer = null;
+        if($context->request->cookies->has('referrer'))
+        {
+            $referrer = $this->getObject('lib:http.url',
+                array('url' => $context->request->cookies->get('referrer', 'url'))
+            );
+        }
 
         return $referrer;
     }
