@@ -243,17 +243,25 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
      * Create a new entity for the data source
      *
      * @param ModelContext $context A model context object
-     *
      * @return  ModelEntityInterface The entity
      */
     protected function _actionCreate(ModelContext $context)
     {
+        //Get the data
+        $data = ModelContext::unbox($context->entity);
+
+        //Create the entity identifier
         $identifier = $this->getIdentifier()->toArray();
         $identifier['path'] = array('model', 'entity');
-        $identifier['name'] = StringInflector::singularize($identifier['name']);
+
+        if(!is_numeric(key($data))) {
+            $identifier['name'] = StringInflector::singularize($identifier['name']);
+        } else {
+            $identifier['name'] = StringInflector::pluralize($identifier['name']);
+        }
 
         $options = array(
-            'data'         => $context->entity,
+            'data'         => $data,
             'identity_key' => $context->getIdentityKey()
         );
 
