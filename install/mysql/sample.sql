@@ -28,16 +28,7 @@ INSERT INTO `articles` (`articles_article_id`, `categories_category_id`, `attach
 INSERT INTO `categories` (`categories_category_id`, `parent_id`, `attachments_attachment_id`, `title`, `slug`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
   VALUES
   (1, 0, 0, 'Tristique', 'tristique', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 1, 0, ''),
-  (2, 0, 0, 'Tellus', 'tellus', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, ''),
-  (3, 0, 0, 'Tellus Mollis', 'tellus-mollis', 'contacts', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 1, 0, '');
-
---
--- Dumping data for table `contacts`
---
-
-INSERT INTO `contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`)
-  VALUES
-  (1, 'Dolor Sit', 'dolor-sit', 'Porta Ornare', 'Fermentum 1', 'Condimentum', 'Lorem', 'Pharetra', '61803', '161803', '618', '<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>', 'dolor@pellentesque.com', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 'show_email=\"0\"\nshow_email_form=\"1\"\nallow_vcard=\"0\"', 3, 0, '39887');
+  (2, 0, 0, 'Tellus', 'tellus', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, '');
 
 --
 -- Dumping data for table `pages`
@@ -52,7 +43,6 @@ INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`
   (33, 1, 0, 'Pharetra Inceptos', 'pharetra-inceptos', 'option=com_articles&view=article&id=9', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
   (34, 1, 0, 'Cursus', 'cursus', 'option=com_articles&view=article&id=8', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
   (35, 1, 0, 'Elit Risus', 'elit-risus', 'option=com_articles&view=article&id=7', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
-  (36, 1, 0, 'Contacts', 'contacts', 'option=com_contacts&view=contacts&category=3', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_telephone=\"1\"\npage_title=\"\"'),
   (37, 1, 0, 'Files Gallery', 'files-gallery', 'option=com_files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 19, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
   (38, 1, 0, 'Files Table', 'files-table', 'option=com_files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 19, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"'),
   (39, 3, 0, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"'),
@@ -134,7 +124,6 @@ INSERT INTO `pages_orderings` (`pages_page_id`, `title`, `custom`)
 --
 UPDATE `articles` SET `created_on` = now();
 UPDATE `categories` SET `created_on` = now();
-UPDATE `contacts` SET `created_on` = now();
 UPDATE `articles` SET `created_on` = now();
 UPDATE `pages` SET `created_on` = now();
 UPDATE `pages_menus` SET `created_on` = now();

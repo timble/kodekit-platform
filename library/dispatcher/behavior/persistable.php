@@ -57,7 +57,7 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 		$context->request->query->add($state);
 
 		//Push the request in the model
-		$model->set($context->request->query->toArray());
+		$model->getState()->setValues($context->request->query->toArray());
 	}
 
 	/**

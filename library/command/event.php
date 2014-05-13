@@ -34,7 +34,6 @@ class CommandEvent extends EventMixin implements CommandInterface
      * Object constructor
      *
      * @param ObjectConfig $config Configuration options
-     * @throws \InvalidArgumentException
      */
     public function __construct(ObjectConfig $config)
     {
@@ -42,24 +41,6 @@ class CommandEvent extends EventMixin implements CommandInterface
 
         //Set the command priority
         $this->_priority = $config->priority;
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'priority'      => Command::PRIORITY_NORMAL,
-            'clone_context' => true,
-        ));
-
-        parent::_initialize($config);
     }
 
     /**

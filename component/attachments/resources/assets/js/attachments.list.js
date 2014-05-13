@@ -7,10 +7,14 @@ Attachments.List = new Class({
         this.element = document.id(options.container);
         this.url = options.action;
         this.token = options.token;
+        this.coordinates = '';
+        this.trueSize = '';
 
         if(!this.element) {
             return;
         }
+
+        this.addCrop();
 
         var that = this;
         this.element.getElements('a[data-action]').each(function(a) {
@@ -22,6 +26,40 @@ Attachments.List = new Class({
                 });
             }
         });
+    },
+
+    addCrop: function()
+    {
+        var target = jQuery('#target');
+        var img = new Image(), self = this;
+
+        img.onload = function() {
+            self.trueSize = [this.width, this.height];
+
+            if (target.length) {
+                target.Jcrop({
+                    boxWidth: 600,
+                    boxHeight: 600,
+                    trueSize: self.trueSize,
+                    aspectRatio: 4 / 3,
+                    minSize: [200, 150],
+                    setSelect: [0, 0, 200, 150],
+                    onSelect: self.setCoordinates.bind(self),
+                    onChange: self.setCoordinates.bind(self)
+                });
+            }
+        };
+
+        var source = target.attr("src");
+        if (source) {
+            img.src = source;
+        }
+
+    },
+
+    setCoordinates: function(c)
+    {
+        this.coordinates = c;
     },
 
     execute: function(action, id, row)
@@ -51,5 +89,46 @@ Attachments.List = new Class({
         });
 
         form.submit();
+    },
+
+    _actionCrop: function(uri)
+    {
+        jQuery.ajax({
+            url: uri.toString(),
+            dataType: 'json',
+            method: 'post',
+            data: {
+                _action: 'edit',
+                _token: this.token,
+                x1: this.coordinates.x,
+                y1: this.coordinates.y,
+                x2: this.coordinates.x2,
+                y2: this.coordinates.y2
+            }
+        }).then(function(data, textStatus, xhr) {
+            if (xhr.status === 204) {
+                jQuery.ajax({
+                    url: uri.toString(),
+                    dataType: 'json',
+                    method: 'get'
+                }).then(function(data, textStatus, xhr) {
+                    if (xhr.status === 200 && typeof data.item === 'object') {
+                        var thumbnail = data.item.thumbnail,
+                            element   = window.parent.jQuery('.thumbnail[data-id="'+data.item.id+'"] img'),
+                            source    = element.attr('src');
+
+                        thumbnail = source.substring(0, source.lastIndexOf('/'))+'/'+thumbnail;
+
+                        element.attr('src', thumbnail);
+
+                        if (window.parent.SqueezeBox) {
+                            window.parent.SqueezeBox.close();
+                        }
+                    }
+                });
+            } else {
+                alert('Unable to crop thumbnail');
+            }
+        });
     }
 });

@@ -8,7 +8,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
 INSERT INTO `extensions` (`extensions_extension_id`, `title`, `name`, `params`, `enabled`)
 VALUES
-    (7, 'Contacts', 'com_contacts', '', 1),
     (19, 'Files', 'com_files', '', 1),
     (20, 'Articles', 'com_articles', '', 1),
     (23, 'Languages', 'com_languages', '', 1),
@@ -70,14 +69,10 @@ VALUES
 	(8, 1, 1),
 	(9, 7, 7),
 	(10, 1, 1),
-	(11, 2, 2),
 	(12, 1, 1),
-	(13, 2, 2),
 	(14, 3, 3),
 	(15, 1, 1),
 	(16, 1, 1),
-	(17, 2, 1),
-	(18, 1, 2),
 	(19, 2, 1),
 	(20, 1, 2),
 	(21, 3, 1),
@@ -104,8 +99,6 @@ VALUES
 	(4, 14, 1),
 	(4, 15, 2),
 	(4, 16, 2),
-	(4, 17, 2),
-	(4, 18, 2),
 	(4, 19, 2),
 	(4, 20, 2),
 	(4, 28, 2),
@@ -130,15 +123,11 @@ VALUES
 	(12, 16, 1),
 	(12, 28, 1),
 	(13, 13, 0),
-	(13, 17, 1),
-	(13, 18, 1),
 	(14, 14, 0),
 	(14, 19, 1),
 	(14, 20, 1),
 	(15, 15, 0),
 	(16, 16, 0),
-	(17, 17, 0),
-	(18, 18, 0),
 	(19, 19, 0),
 	(20, 20, 0),
 	(21, 21, 0),
@@ -177,12 +166,9 @@ VALUES
 	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', NULL, 'component', 1, 0, 0, 34, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(11, 2, NULL, 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(12, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(13, 2, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=contacts', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(14, 2, NULL, 'Languages', 'languages', 'option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 23, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(15, 2, NULL, 'Articles', 'articles', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(16, 2, NULL, 'Categories', 'categories', 'option=com_articles&view=categories', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(17, 2, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=contacts', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(18, 2, NULL, 'Categories', 'categories', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(19, 2, NULL, 'Languages', 'languages', 'option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 23, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(20, 2, NULL, 'Extensions', 'extensions', 'option=com_languages&view=extensions', NULL, 'component', 1, 0, 0, 23, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(21, 2, NULL, 'Pages', 'pages', 'option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 25, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
@@ -202,7 +188,7 @@ VALUES
 INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
 VALUES
     (NULL, 'files-files', 'Files', 'files', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}'),
-	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": true,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
+	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": false,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
 --
 -- Dumping data for table `users`
 --

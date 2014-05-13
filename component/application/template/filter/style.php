@@ -22,6 +22,6 @@ class TemplateFilterStyle extends Library\TemplateFilterStyle
     public function render(&$text)
     {
         $styles = $this->_parseTags($text);
-        $text = str_replace('<ktml:style>'.PHP_EOL, $styles, $text);
+        $text = str_replace('<ktml:style>', $styles, $text);
     }
 }

@@ -18,11 +18,25 @@ namespace Nooku\Library;
 class DispatcherResponseAbstract extends ControllerResponse implements DispatcherResponseInterface
 {
     /**
-     * Transport object or identifier
+     * The transport queue
      *
-     * @var	string|object
+     * @var	ObjectQueue
      */
-    protected $_transport;
+    protected $_queue;
+
+    /**
+     * Stream resource
+     *
+     * @var FilesystemStreamInterface
+     */
+    protected $_stream;
+
+    /**
+     * List of transport handlers
+     *
+     * @var array
+     */
+    protected $_transports;
 
     /**
      * Constructor.
@@ -33,11 +47,23 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     {
         parent::__construct($config);
 
-        //Set the transport
-        $this->_transport = $config->transport;
+        //Create the transport queue
+        $this->_queue = $this->getObject('lib:object.queue');
 
-        //Set the messages
+        //Set the response messages
         $this->_messages = $this->getUser()->getSession()->getContainer('message')->all();
+
+        //Attach the response transport handlers
+        $transports = (array) ObjectConfig::unbox($config->transports);
+
+        foreach ($transports as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->attachTransport($value);
+            } else {
+                $this->attachTransport($key, $value);
+            }
+        }
     }
 
     /**
@@ -51,90 +77,265 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'transport' => 'default',
+            'content'     => '',
+            'transports'  => array('redirect', 'json', 'http'),
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Get the transport strategy
+     * Send the response
      *
-     * @throws	\UnexpectedValueException	If the transport object doesn't implement the
-     *                                      DispatcherResponseTransportInterface
-     * @return	DispatcherResponseTransportInterface
+     * Iterate through the response transport handlers. If a handler returns TRUE the chain will be stopped.
+     *
+     * @return boolean  Returns true if the response has been send, otherwise FALSE
      */
-    public function getTransport()
+    public function send()
     {
-        if(!$this->_transport instanceof DispatcherResponseTransportInterface)
+        foreach($this->_queue as $transport)
         {
-            if(!($this->_transport instanceof ObjectIdentifier)) {
-                $this->setTransport($this->_transport);
-            }
-
-            $this->_transport = $this->getObject($this->_transport, array('response' => $this));
-
-            if(!$this->_transport instanceof DispatcherResponseTransportInterface)
+            if($transport instanceof DispatcherResponseTransportInterface)
             {
-                throw new \UnexpectedValueException(
-                    'Transport: '.get_class($this->_transport).' does not implement DispatcherResponseTransportInterface'
-                );
+                if($transport->send($this) == true)
+                {
+                    //Cleanup and flush output to client
+                    if (!function_exists('fastcgi_finish_request'))
+                    {
+                        if (PHP_SAPI !== 'cli')
+                        {
+                            for ($i = 0; $i < ob_get_level(); $i++) {
+                                ob_end_flush();
+                            }
+
+                            flush();
+                        }
+                    }
+                    else fastcgi_finish_request();
+
+                    return true;
+                }
             }
         }
 
-        return $this->_transport;
+        return false;
     }
 
     /**
-     * Method to set a transport strategy
+     * Sets the response content
      *
-     * @param	mixed	$transport An object that implements ObjectInterface, ObjectIdentifier object
-     * 					           or valid identifier string
-     * @return	DispatcherResponse
+     * The buffer:// stream wrapper will be used when setting content as a string. This wrapper allows to pass a
+     * string directly to the response transport and send it to the client.
+     *
+     * @param mixed  $content   The content
+     * @param string $type      The content type
+     * @return HttpMessage
      */
-    public function setTransport($transport)
+    public function setContent($content, $type = null)
     {
-        if(!($transport instanceof DispatcherResponseTransportInterface))
-        {
-            if(is_string($transport) && strpos($transport, '.') === false ) {
-                $identifier = 'lib:dispatcher.response.transport.'.$transport;
-            } else {
-                $identifier = $this->getIdentifier($transport);
-            }
+        parent::setContent($content, $type);
 
-            $transport = $identifier;
+        $stream = $this->getStream();
+
+        if(!$stream->isRegistered('buffer')) {
+            $stream->registerWrapper('lib:filesystem.stream.wrapper.buffer');
         }
 
-        $this->_transport = $transport;
+        $stream->open('buffer://memory', 'w+b');
+        $stream->write($content);
 
         return $this;
     }
 
     /**
-     * Send the response
+     * Get the response content from the stream
      *
-     * @return DispatcherResponseTransportInterface
+     * @return string
      */
-    public function send()
+    public function getContent()
     {
-        $transport = null;
+        $content = $this->getStream()->getContent();
+        return $content;
+    }
 
-        //Force to use the json transport if format is json
-        if($this->getRequest()->getFormat() == 'json') {
-           $transport = 'json';
+    /**
+     * Sets the response path
+     *
+     * Path needs to be of the form "scheme://..." and a wrapper for that protocol need to be registered. See @link
+     * http://www.php.net/manual/en/wrappers.php for a list of default PHP stream protocols and wrappers.
+     *
+     * @param mixed  $content   The content
+     * @param string $type      The content type
+     * @throws \InvalidArgumentException If the path is not a valid stream or no stream wrapper is registered for the
+     *                                   stream protocol
+     * @return HttpMessage
+     */
+    public function setPath($path, $type = null)
+    {
+        if($this->getStream()->open($path) === false) {
+            throw new \InvalidArgumentException('Path: '.$path.' is not a valid stream or no stream wrapper is registered.');
         }
 
-        //Force to use the redirect transport if we are redirecting
-        if($this->isRedirect()) {
-            $transport = 'redirect';
+        $this->setContentType($type);
+
+        return $this;
+    }
+
+    /**
+     * Get the response path
+     *
+     * @return string The response stream path.
+     */
+    public function getPath()
+    {
+        $path = $this->getStream()->getPath();
+        return $path;
+    }
+
+    /**
+     * Sets the response content using a stream
+     *
+     * @param FilesystemStreamInterface $stream  The stream object
+     * @return HttpMessage
+     */
+    public function setStream(FilesystemStreamInterface $stream)
+    {
+        $this->_stream = $stream;
+        return $this;
+    }
+
+    /**
+     * Get the stream resource
+     *
+     * @return FilesystemStreamInterface
+     */
+    public function getStream()
+    {
+        if(!isset($this->_stream)) {
+            $this->_stream  = $this->getObject('lib:filesystem.stream');
         }
 
-        //If transport is being forced set it
-        if($transport) {
-            $this->setTransport($transport);
+        return $this->_stream;
+    }
+
+    /**
+     * Get a transport handler by identifier
+     *
+     * @param   mixed    $transport    An object that implements ObjectInterface, ObjectIdentifier object
+     *                                 or valid identifier string
+     * @param   array    $config    An optional associative array of configuration settings
+     * @return DispatcherResponseAbstract
+     */
+    public function getTransport($transport, $config = array())
+    {
+        //Create the complete identifier if a partial identifier was passed
+        if (is_string($transport) && strpos($transport, '.') === false)
+        {
+            $identifier = clone $this->getIdentifier();
+            $identifier->path = array('response', 'transport');
+            $identifier->name = $transport;
+        }
+        else $identifier = $this->getIdentifier($transport);
+
+        if (!isset($this->_transports[$identifier->name]))
+        {
+            $transport = $this->getObject($identifier, array_merge($config, array('response' => $this)));
+
+            if (!($transport instanceof DispatcherResponseTransportInterface))
+            {
+                throw new \UnexpectedValueException(
+                    "Transport handler $identifier does not implement DispatcherResponseTransportInterface"
+                );
+            }
+
+            $this->_transports[$transport->getIdentifier()->name] = $transport;
+        }
+        else $transport = $this->_transports[$identifier->name];
+
+        return $transport;
+    }
+
+    /**
+     * Attach a transport handler
+     *
+     * @param   mixed  $transport An object that implements ObjectInterface, ObjectIdentifier object
+     *                            or valid identifier string
+     * @param   array $config  An optional associative array of configuration settings
+     * @return DispatcherResponseAbstract
+     */
+    public function attachTransport($transport, $config = array())
+    {
+        if (!($transport instanceof DispatcherResponseTransportInterface)) {
+            $transport = $this->getTransport($transport, $config);
         }
 
-        $this->getTransport()->send();
+        //Enqueue the transport handler in the command chain
+        $this->_queue->enqueue($transport, $transport->getPriority());
+
+        return $this;
+    }
+
+    /**
+     * Returns true if the response is worth caching under any circumstance.
+     *
+     * Responses that are streamable are considered un cacheable.
+     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.9.1
+     * @return Boolean true if the response is worth caching, false otherwise
+     */
+    public function isCacheable()
+    {
+        if($this->isStreamable()) {
+            return false;
+        }
+
+        return parent::isCacheable();
+    }
+
+    /**
+     * Check if the response is streamable
+     *
+     * All response are considered streamable, only if the Accept-Ranges has a value 'none' the response should not
+     * be streamed.
+     *
+     * @link http://tools.ietf.org/html/rfc2616#section-14.5
+     * @return bool
+     */
+    public function isStreamable()
+    {
+        if($this->_headers->get('Accept-Ranges', null) !== 'none' && $this->getStream()->getType() == 'file') {
+            return true;
+        };
+
+        return false;
+    }
+
+    /**
+     * Check if the response is attachable
+     *
+     * @return bool
+     */
+    public function isAttachable()
+    {
+        if($this->getRequest()->isDownload() || $this->getContentType() == 'application/force-download') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the response is downloadable
+     *
+     * @return bool
+     */
+    public function isDownloadable()
+    {
+        if($this->getStream()->getType() == 'file') {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -146,6 +347,6 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     {
         parent::__clone();
 
-        $this->_transport  = clone $this->_transport;
+        $this->_queue  = clone $this->_queue;
     }
 }

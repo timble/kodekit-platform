@@ -126,7 +126,7 @@ if($numbers['users'])
 // Generate categories.
 if($numbers['categories'])
 {
-    $categories = array_fill_keys(array('articles'/*, 'contacts'*/), array());
+    $categories = array_fill_keys(array('articles'), array());
 
     foreach($categories as $table => $values)
     {

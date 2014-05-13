@@ -52,7 +52,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Library\Command::PRIORITY_HIGH,
+            'priority'   => self::PRIORITY_HIGH,
             'auto_mixin' => true,
             'table'      => null
         ));

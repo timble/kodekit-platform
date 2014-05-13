@@ -193,9 +193,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $content = $view->render();
 
         //Set the data in the response
-        $context->response
-                ->setContent($content)
-                ->setContentType($view->mimetype);
+        $context->response->setContent($content, $view->mimetype);
 
 	    return $content;
 	}

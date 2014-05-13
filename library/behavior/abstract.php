@@ -95,7 +95,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Command::PRIORITY_NORMAL,
+            'priority'   => self::PRIORITY_NORMAL,
             'auto_mixin' => false
         ));
 

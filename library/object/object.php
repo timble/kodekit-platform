@@ -146,13 +146,26 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
         }
 
-        $mixed_methods =  $mixin->getMixableMethods($this);
-
         //Set the mixed methods
-        $this->_mixed_methods = array_merge($this->_mixed_methods, $mixed_methods);
+        $mixed_methods = $mixin->getMixableMethods($this);
 
-        //Set the object methods
-        $this->__methods = array_unique(array_merge($this->getMethods(), array_keys($mixed_methods)));
+        if(!empty($mixed_methods))
+        {
+            foreach($mixed_methods as $name => $method)
+            {
+                if($method instanceof \Closure) {
+                    $this->_mixed_methods[$name] = $method;
+                } else {
+                    $this->_mixed_methods[$name] = $mixin;
+                }
+            }
+
+            //Set the object methods, native methods have precedence over mixed methods
+            $mixed_methods = array_keys($mixed_methods);
+            $mixed_methods = array_combine($mixed_methods, $mixed_methods);
+
+            $this->__methods = array_merge($mixed_methods, $this->getMethods());
+        }
 
         //Notify the mixin
         $mixin->onMixin($this);
@@ -206,9 +219,9 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     }
 
     /**
-     * Checks if the object or one of it's mixin's inherits from a class.
+     * Checks if the object or one of it's mixin's inherits from a class, interface or trait
      *
-     * @param   string|object   $class The class to check
+     * @param   string|object   $class The class, interface or trait to check
      * @return  bool Returns TRUE if the object inherits from the class
      */
     public function inherits($class)
@@ -257,7 +270,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
 
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods() as $method) {
-                $methods[] = $method->name;
+                $methods[$method->name] = $method->name;
             }
 
             $this->__methods = $methods;

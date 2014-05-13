@@ -24,7 +24,7 @@ class EventDispatcher extends EventDispatcherException implements ObjectInstanti
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
+     * @return  EventDispatcher
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {

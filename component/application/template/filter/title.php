@@ -22,6 +22,6 @@ class TemplateFilterTitle extends Library\TemplateFilterTitle
     public function render(&$text)
     {
         $title = $this->_parseTags($text);
-        $text = str_replace('<ktml:title>'.PHP_EOL, $title, $text);
+        $text = str_replace('<ktml:title>', $title, $text);
     }
 }

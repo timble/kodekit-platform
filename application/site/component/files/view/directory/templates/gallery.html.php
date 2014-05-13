@@ -8,7 +8,7 @@
  */
 ?>
 
-<script src="assets://files/js/jquery-1.8.0.min.js" />
+<script src="assets://application/js/jquery.js" />
 <script src="assets://files/js/bootstrap-modal.js" />
 <script src="assets://files/js/bootstrap-image-gallery.js" />
 <script src="assets://files/js/gallery.js" />

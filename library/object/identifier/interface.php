@@ -21,6 +21,15 @@ namespace Nooku\Library;
 interface ObjectIdentifierInterface extends \Serializable
 {
     /**
+     * Checks if the identifier extends a class, implements an interface or uses a trait
+     *
+     * @param string $identifier An identifier object or a class name
+     * @param boolean $autoload  Whether to allow this function to load the class automatically through the __autoload()
+     *                           magic method.
+     */
+    public function inherits($class);
+
+    /**
      * Get the identifier type
      *
      * @return string

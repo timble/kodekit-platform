@@ -20,6 +20,7 @@ class PagesModuleCustomHtml extends PagesModuleDefaultHtml
     public function render()
     {        
         $this->show_title = $this->module->params->get('show_title', false);
+        $this->class      = $this->module->params->get('class', false);
         
         return parent::render();
     }

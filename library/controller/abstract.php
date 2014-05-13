@@ -34,6 +34,13 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     protected $_action_map = array();
 
     /**
+     * Chain of command object
+     *
+     * @var CommandChain
+     */
+    protected $_command_chain;
+
+    /**
      * Response object or identifier
      *
      * @var	string|object
@@ -60,6 +67,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * @var boolean
      */
     protected $_dispatched;
+
 
     //Status codes
     const STATUS_SUCCESS   = HttpResponse::OK;
@@ -333,6 +341,32 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         }
 
         return $this->_response;
+    }
+
+    /**
+     * Get the chain of command object
+     *
+     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
+     * to the KCommandChain mixin.
+     *
+     * @return  CommandChainInterface
+     */
+    public function getCommandChain()
+    {
+        if(!$this->_command_chain instanceof CommandChainInterface)
+        {
+            //Ask the parent the relay the call to the mixin
+            $this->_command_chain = parent::getCommandChain();
+
+            if(!$this->_command_chain instanceof CommandChainInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
+                );
+            }
+        }
+
+        return $this->_command_chain;
     }
 
     /**
