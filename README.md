@@ -18,23 +18,27 @@ Nooku is only supported on PHP 5.3.3 and up running MySQL v5.x, or similar.
 Installation
 ------------
 
-* Clone the git repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
+* Clone this repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
+
+    $ git clone git://git.assembla.com/nooku-framework.git
+
 * Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
-* Run [Composer](http://getcomposer.org/) to install dependencies `composer install` (see Install Composer below)
-* Create a database, eg nooku-server
-* Execute the [schema.sql](develop/code/install/sql/schema.sql), [data.sql](develop/code/install/sql/data.sqll) and [sample.sql](develop/code/install/sql/sample.sql) scripts in your nooku-server database
-* Rename [config/config.php-dist](code/config/config.php-dist) to config/config.php and fill in your database details
 
-For more information about Git, please see the official website: [http://www.git-scm.org](http://www.git-scm.org)
+    $ git checkout develop
 
-### Install Composer
+* Install [VirtualBox](http://www.virtualbox.org/)
 
-Install [Composer](http://getcomposer.org/) and move it to a global location so you can use it in other projects to.
+* Install [Vagrant](http://downloads.vagrantup.com/)
 
-    $ curl -sS https://getcomposer.org/installer | php
-    $ mv composer.phar /usr/local/bin/composer
+* Run `vagrant up` in the repository directory
 
-Make sure to restart your Terminal before running `composer install` from within your cloned nooku-framework directory.
+    $ vagrant up
+
+* Add the following line into /etc/hosts
+
+    33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev
+
+* You can now reach Nooku at [nooku.dev](http://nooku.dev/)
 
 License
 -------
