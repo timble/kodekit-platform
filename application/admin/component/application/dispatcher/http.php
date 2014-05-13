@@ -209,7 +209,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $translator->import('application');
 
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**
