@@ -55,6 +55,7 @@ class ViewEditorHtml extends Library\ViewHtml
         }
 
 		$context->data->settings = $settings;
+        $context->data->class = isset($this->attribs['class']) ? $this->attribs['class'] : '';
 
 		parent::_fetchData($context);
 	}
