@@ -191,7 +191,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $languages->setActive($language);
 
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**
