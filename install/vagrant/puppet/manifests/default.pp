@@ -1,6 +1,6 @@
 group { 'puppet': ensure => present }
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
-File { owner => 0, group => 0, mode => 0644 }
+File { owner => 0, group => 0, mode => 0644, backup => true }
 
 class {'apt':
   always_apt_update => true,
@@ -97,6 +97,11 @@ class { 'php::devel':
   require => Class['php'],
 }
 
+file { '/etc/php5/fpm/pool.d/www.conf':
+  source  => 'puppet:///modules/php/www.conf',
+  require => Class['php'],
+  notify  => Service['php5-fpm']
+}
 
 class { 'xdebug':
   service => 'nginx',
