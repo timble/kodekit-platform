@@ -93,7 +93,7 @@ class ModelDatabase extends ModelAbstract
             'identity_column' => $context->getIdentityKey()
         );
 
-        if(!is_numeric(key($options))) {
+        if(!is_numeric(key($data))) {
             $entity = $this->getTable()->createRow($options);
         } else {
             $entity = $this->getTable()->createRowset($options);
