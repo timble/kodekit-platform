@@ -303,7 +303,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
         $languages->setActive($language);
 
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**
