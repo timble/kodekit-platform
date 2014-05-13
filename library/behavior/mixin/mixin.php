@@ -95,7 +95,8 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
         }
 
         //Attach the behavior if it doesn't exist yet
-        if (!$this->hasBehavior($identifier->name)) {
+        if (!$this->hasCommandHandler($identifier))
+        {
             //Create the behavior object
             if (!($behavior instanceof BehaviorInterface)) {
                 $config['mixer'] = $this->getMixer();
@@ -106,17 +107,20 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
                 throw new \UnexpectedValueException("Behavior $identifier does not implement BehaviorInterface");
             }
 
-            //Force set the mixer
-            $behavior->setMixer($this->getMixer());
+            if(!$this->hasBehavior($behavior->getName()))
+            {
+                //Force set the mixer
+                $behavior->setMixer($this->getMixer());
 
-            //Add the behavior
-            $this->addCommandHandler($behavior);
+                //Add the behavior
+                $this->addCommandHandler($behavior);
 
-            //Mixin the behavior
-            $this->mixin($behavior);
+                //Mixin the behavior
+                $this->mixin($behavior);
 
-            //Store the behavior to allow for named lookups
-            $this->__behaviors[$behavior->getName()] = $behavior;
+                //Store the behavior to allow for named lookups
+                $this->__behaviors[$behavior->getName()] = $behavior;
+            }
         }
 
         return $this->getMixer();
