@@ -211,8 +211,8 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
             $methods = parent::getMixableMethods($exclude);
         }
 
-        if(!isset($exclude['is' . ucfirst($this->getIdentifier()->name)])) {
-            $methods['is' . ucfirst($this->getIdentifier()->name)] = $this->isSupported();
+        if(!isset($exclude['is' . ucfirst($this->getName())])) {
+            $methods['is' . ucfirst($this->getName())] = $this->isSupported();
         }
 
         return $methods;

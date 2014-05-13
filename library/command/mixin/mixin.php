@@ -289,6 +289,24 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
     }
 
     /**
+     * Check if a command handler exists
+     *
+     * @param  mixed $handler An object that implements KCommandHandlerInterface, an KObjectIdentifier
+     *                        or valid identifier string
+     * @return  boolean TRUE if the behavior exists, FALSE otherwise
+     */
+    public function hasCommandHandler($handler)
+    {
+        if($handler instanceof CommandHandlerInterface) {
+            $identifier = $handler->getIdentifier();
+        } else {
+            $identifier = $this->getIdentifier($handler);
+        }
+
+        return isset($this->__command_handlers[(string) $identifier]);
+    }
+
+    /**
      * Gets the command handlers
      *
      * @return array An array of command handlers
