@@ -11,7 +11,7 @@
 <ul class="navigation">
 	<li>
         <a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= route('category=' ) ?>">
-            <?= 'All categories' ?>
+            <?= translate('All categories') ?>
         </a>
 	</li>
 	<? foreach ($categories as $category) : ?>
