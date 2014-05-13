@@ -118,7 +118,6 @@ class Installer
         };
 
         $replace('sendmail', '/usr/bin/env catchmail');
-        $replace('theme', 'splash');
         $replace('user', 'root');
         $replace('password', 'root');
         $replace('db', $this->database);
