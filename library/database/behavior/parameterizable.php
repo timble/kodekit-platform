@@ -132,8 +132,9 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->getParameters() instanceof ObjectConfigInterface) {
-            $context->data->setProperty($this->_column, $this->getParameters()->toString());
+        $method = 'get'.ucfirst($this->_column);
+        if($context->data->$method() instanceof KObjectConfigInterface) {
+            $context->data->setProperty($this->_column, $context->data->$method()->toString());
         }
     }
 
@@ -145,8 +146,9 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(DatabaseContext $context)
     {
-        if($this->getParameters() instanceof ObjectConfigInterface) {
-            $context->data->setProperty($this->_column, $this->getParameters()->toString());
+        $method = 'get'.ucfirst($this->_column);
+        if($context->data->$method() instanceof KObjectConfigInterface) {
+            $context->data->setProperty($this->_column, $context->data->$method()->toString());
         }
     }
 
