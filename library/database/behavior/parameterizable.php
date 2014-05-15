@@ -64,28 +64,37 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     /**
      * Get the parameters
      *
-     * Requires an 'parameters' table column
+     * By default requires a 'parameters' table column. Column can be configured using the 'column' config option.
      *
      * @return ObjectConfigInterface
      */
     public function getParameters()
     {
-        if($this->hasProperty($this->_column) && !isset($this->_parameters))
-        {
-            $type = (array) $this->getTable()->getColumn($this->_column)->filter;
-            $data = trim($this->getProperty($this->_column));
+        $result = false;
 
-            //Create the parameters object
-            if(empty($data)) {
-                $config = $this->getObject('object.config.factory')->createFormat($type[0]);
-            } else {
-                $config = $this->getObject('object.config.factory')->fromString($type[0], $data);
+        if($this->hasProperty($this->_column))
+        {
+            $handle = $this->getMixer()->getHandle();
+
+            if(!isset($this->_parameters[$handle]))
+            {
+                $type   = (array) $this->getTable()->getColumn($this->_column)->filter;
+                $data   = $this->getProperty($this->_column);
+
+                //Create the parameters object
+                if(empty($data)) {
+                    $config = $this->getObject('object.config.factory')->createFormat($type[0]);
+                } else {
+                    $config = $this->getObject('object.config.factory')->fromString($type[0], $data);
+                }
+
+                $this->_parameters[$handle] = $config;
             }
 
-            $this->_parameters = $config;
+            $result = $this->_parameters[$handle];
         }
 
-        return $this->_parameters;
+        return $result;
     }
 
     /**
