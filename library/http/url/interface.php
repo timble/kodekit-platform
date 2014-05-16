@@ -210,5 +210,5 @@ interface HttpUrlInterface
      * @param KHttpUrlInterface $url
      * @return Boolean
      */
-    public function equals(KHttpUrlInterface $url);
+    public function equals(HttpUrlInterface $url);
 }
