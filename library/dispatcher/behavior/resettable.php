@@ -52,8 +52,15 @@ class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
         $response = $context->response;
         $request  = $context->request;
 
-        if($response->isSuccess()) {
-            $response->setRedirect($request->getReferrer());
+        if($response->isSuccess())
+        {
+            if($this->getController()->isEditable()) {
+                $referrer = $this->getController()->getReferrer($context);
+            } else {
+                $referrer = $request->getReferrer();
+            }
+
+            $response->setRedirect($referrer);
         }
     }
 }
