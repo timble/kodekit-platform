@@ -25,12 +25,20 @@ class ModelEntityAttachment extends Library\ModelEntityRow
 
         if ($return && $this->row && $this->table)
         {
-            $relation                            = $this->getObject('com:attachments.model.entity.relation');
-            $relation->attachments_attachment_id = $this->id;
-            $relation->table                     = $this->table;
-            $relation->row                       = $this->row;
+            $properties = array(
+                'attachments_attachment_id' => $this->id,
+                'table' => $this->table,
+                'row' => $this->row,
+            );
 
-            if (!$relation->load()) {
+            $relation = $this->getObject('com:attachments.model.relations')
+                ->setState($properties)
+                ->fetch();
+
+            if($relation->isNew())
+            {
+                $relation = $this->getObject('com:attachments.model.relations')->create();
+                $relation->setProperties($properties);
                 $relation->save();
             }
         }
