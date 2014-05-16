@@ -126,6 +126,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Find the referrer based on the context
      *
+     * Method is being called when no referrer can be found in the request or when request url and referrer are
+     * identical. Function should return a url that is different from the request url to avoid redirect loops.
+     *
      * @param ControllerContextInterface $context
      * @return HttpUrl    A HttpUrl object
      */
