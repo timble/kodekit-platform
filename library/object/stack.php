@@ -28,7 +28,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      *
      * @var array
      */
-    protected $_object_stack = array();
+    private $__object_stack = array();
     
     /**
      * Peeks at the element from the end of the stack
@@ -37,7 +37,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function peek()
     {
-        return end($this->_object_stack);
+        return end($this->__object_stack);
     }
       
     /**
@@ -49,7 +49,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function push($object)
     {
-        $this->_object_stack[] = $object;
+        $this->__object_stack[] = $object;
         return $this;
     }
     
@@ -60,7 +60,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function pop()
     {
-        return array_pop($this->_object_stack);
+        return array_pop($this->__object_stack);
     }
 
     /**
@@ -72,7 +72,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function count()
     {
-        return count($this->_object_stack);
+        return count($this->__object_stack);
     }
 
     /**
@@ -84,7 +84,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function rewind()
     {
-        reset($this->_object_stack);
+        reset($this->__object_stack);
         return $this;
     }
 
@@ -97,7 +97,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function valid()
     {
-        return !is_null(key($this->_object_stack));
+        return !is_null(key($this->__object_stack));
     }
 
     /**
@@ -109,7 +109,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function key()
     {
-        return key($this->_object_stack);
+        return key($this->__object_stack);
     }
 
     /**
@@ -121,7 +121,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function current()
     {
-        return $this->_object_stack[$this->key()];
+        return $this->__object_stack[$this->key()];
     }
 
     /**
@@ -133,7 +133,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function next()
     {
-        return next($this->_object_stack);
+        return next($this->__object_stack);
     }
 
     /**
@@ -177,7 +177,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function toArray()
     {
-        return $this->_object_stack;
+        return $this->__object_stack;
     }
 
     /**
@@ -187,6 +187,6 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
      */
     public function isEmpty()
     {
-        return empty($this->_object_stack);
+        return empty($this->__object_stack);
     }  
 }
