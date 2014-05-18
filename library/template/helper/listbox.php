@@ -258,7 +258,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
         {
             $selected = array();
             foreach($config->selected as $entity) {
-                $selected[] = $entity->id;
+                $selected[] = $entity->{$config->value};
             }
 
             $config->selected = $selected;
