@@ -253,6 +253,17 @@ class TemplateHelperListbox extends TemplateHelperSelect
  		    $options[] =  $this->option(array('label' => $item->{$config->label}, 'value' => $item->{$config->value}));
 		}
 
+        //Compose the selected array
+        if($config->selected instanceof ModelEntityInterface)
+        {
+            $selected = array();
+            foreach($config->selected as $entity) {
+                $selected[] = $entity->id;
+            }
+
+            $config->selected = $selected;
+        }
+
 		//Add the options to the config object
 		$config->options = $options;
 
