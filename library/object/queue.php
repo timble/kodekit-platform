@@ -35,14 +35,21 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      *
      * @var array
      */
-    protected $_object_list = null;
+    protected $__object_list = null;
 
     /**
      * Priority list
      *
      * @var array
      */
-    protected $_priority_list = null;
+    protected $__priority_list = null;
+
+    /**
+     * Identifier list
+     *
+     * @var array
+     */
+    private $__identifier_list = array();
 
     /**
      * Constructor
@@ -54,8 +61,8 @@ class ObjectQueue extends Object implements \Iterator, \Countable
     {
         parent::__construct($config);
 
-        $this->_object_list   = new \ArrayObject();
-        $this->_priority_list = new \ArrayObject();
+        $this->__object_list   = new \ArrayObject();
+        $this->__priority_list = new \ArrayObject();
 
     }
 
@@ -72,10 +79,14 @@ class ObjectQueue extends Object implements \Iterator, \Countable
 
         if ($handle = $object->getHandle())
         {
-            $this->_object_list->offsetSet($handle, $object);
+            $this->__object_list->offsetSet($handle, $object);
 
-            $this->_priority_list->offsetSet($handle, $priority);
-            $this->_priority_list->asort();
+            $this->__priority_list->offsetSet($handle, $priority);
+            $this->__priority_list->asort();
+
+            if($object instanceof ObjectInterface) {
+                $this->__identifier_list[$handle] = $object->getIdentifier();
+            }
 
             $result = true;
         }
@@ -95,10 +106,14 @@ class ObjectQueue extends Object implements \Iterator, \Countable
 
         if ($handle = $object->getHandle())
         {
-            if ($this->_object_list->offsetExists($handle))
+            if ($this->__object_list->offsetExists($handle))
             {
-                $this->_object_list->offsetUnset($handle);
-                $this->_priority_list->offsetUnSet($handle);
+                $this->__object_list->offsetUnset($handle);
+                $this->__priority_list->offsetUnSet($handle);
+
+                if($object instanceof ObjectInterface) {
+                    unset($this->__identifier_list[$handle]);
+                }
 
                 $result = true;
             }
@@ -118,10 +133,10 @@ class ObjectQueue extends Object implements \Iterator, \Countable
     {
         if ($handle = $object->getHandle())
         {
-            if ($this->_priority_list->offsetExists($handle))
+            if ($this->__priority_list->offsetExists($handle))
             {
-                $this->_priority_list->offsetSet($handle, $priority);
-                $this->_priority_list->asort();
+                $this->__priority_list->offsetSet($handle, $priority);
+                $this->__priority_list->asort();
             }
         }
 
@@ -140,8 +155,8 @@ class ObjectQueue extends Object implements \Iterator, \Countable
 
         if ($handle = $object->getHandle())
         {
-            if ($this->_priority_list->offsetExists($handle)) {
-                $result = $this->_priority_list->offsetGet($handle);
+            if ($this->__priority_list->offsetExists($handle)) {
+                $result = $this->__priority_list->offsetGet($handle);
             }
         }
 
@@ -156,8 +171,23 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function hasPriority($priority)
     {
-        $result = array_search($priority, $this->_priority_list);
+        $result = array_search($priority, $this->__priority_list);
         return $result;
+    }
+
+    /**
+     * Check if the queue has an item with the given identifier
+     *
+     * @param  mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @return boolean
+     */
+    public function hasIdentifier($identifier)
+    {
+        if(!$identifier instanceof ObjectIdentifierInterface) {
+            $identifier = $this->getIdentifier($identifier);
+        }
+
+        return in_array((string) $identifier, $this->__identifier_list);
     }
 
     /**
@@ -171,7 +201,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
         $result = false;
 
         if ($handle = $object->getHandle()) {
-            $result = $this->_object_list->offsetExists($handle);
+            $result = $this->__object_list->offsetExists($handle);
         }
 
         return $result;
@@ -186,7 +216,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function count()
     {
-        return count($this->_object_list);
+        return count($this->__object_list);
     }
 
     /**
@@ -198,8 +228,8 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function rewind()
     {
-        reset($this->_object_list);
-        reset($this->_priority_list);
+        reset($this->__object_list);
+        reset($this->__priority_list);
 
         return $this;
     }
@@ -213,7 +243,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function valid()
     {
-        return !is_null(key($this->_priority_list));
+        return !is_null(key($this->__priority_list));
     }
 
     /**
@@ -225,7 +255,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function key()
     {
-        return key($this->_priority_list);
+        return key($this->__priority_list);
     }
 
     /**
@@ -237,7 +267,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function current()
     {
-        return $this->_object_list[$this->key()];
+        return $this->__object_list[$this->key()];
     }
 
     /**
@@ -249,7 +279,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function next()
     {
-        next($this->_priority_list);
+        next($this->__priority_list);
     }
 
     /**
@@ -259,11 +289,11 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function top()
     {
-        $handles = array_keys((array)$this->_priority_list);
+        $handles = array_keys((array)$this->__priority_list);
 
         $object = null;
         if (isset($handles[0])) {
-            $object = $this->_object_list[$handles[0]];
+            $object = $this->__object_list[$handles[0]];
         }
 
         return $object;
@@ -291,7 +321,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      */
     public function isEmpty()
     {
-        return !count($this->_object_list);
+        return !count($this->__object_list);
     }
 
     /**
@@ -303,7 +333,7 @@ class ObjectQueue extends Object implements \Iterator, \Countable
     {
         parent::__clone();
 
-        $this->_object_list   = clone $this->_object_list;
-        $this->_priority_list = clone $this->_priority_list;
+        $this->__object_list   = clone $this->__object_list;
+        $this->__priority_list = clone $this->__priority_list;
     }
 }

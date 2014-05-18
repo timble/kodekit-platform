@@ -27,16 +27,6 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
     private $__command_chain;
 
     /**
-     * List of command handlers
-     *
-     * Associative array of command handlers, where key holds the handlers identifier string
-     * and the value is an identifier object.
-     *
-     * @var array
-     */
-    private $__command_handlers = array();
-
-    /**
      * The command priority
      *
      * @var integer
@@ -253,7 +243,7 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
             }
         }
 
-        if (!isset($this->__command_handlers[(string)$identifier]))
+        if (!$this->getCommandChain()->getHandlers()->hasIdentifier($identifier))
         {
             if (!($handler instanceof CommandHandlerInterface)) {
                 $handler = $this->getObject($identifier, $config);
@@ -268,9 +258,6 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
 
             //Enqueue the handler
             $this->getCommandChain()->addHandler($handler);
-
-            //Store the command to allow for named lookups
-            $this->__command_handlers[(string)$identifier] = $handler;
         }
 
         return $this->getMixer();
@@ -303,7 +290,7 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
             $identifier = $this->getIdentifier($handler);
         }
 
-        return isset($this->__command_handlers[(string) $identifier]);
+        return $this->getCommandChain()->getHandlers()->hasIdentifier($identifier);
     }
 
     /**
