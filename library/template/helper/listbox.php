@@ -298,6 +298,17 @@ class TemplateHelperListbox extends TemplateHelperSelect
     	$config->element = $config->value;
     	$config->path    = $config->label;
 
+        //Compose the selected array
+        if($config->selected instanceof ModelEntityInterface)
+        {
+            $selected = array();
+            foreach($config->selected as $entity) {
+                $selected[] = $entity->{$config->value};
+            }
+
+            $config->selected = $selected;
+        }
+
 		$html = $this->getTemplate()->getHelper('behavior')->autocomplete($config);
 
 	    return $html;
