@@ -63,8 +63,9 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                         ->setState($properties)
                         ->fetch();
 
-                    if($relation->isNew)
+                    if($relation->isNew())
                     {
+                        $relation = $this->getObject('com:tags.model.relations')->create();
                         $relation->setProperties($properties);
                         $relation->save();
                     }
