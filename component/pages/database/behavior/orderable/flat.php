@@ -97,7 +97,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         $table->getAdapter()->execute('SET @index = 0');
 
         $query = $this->getObject('lib:database.query.update')
-            ->table($table->getBase())
+            ->table(array('tbl' => $table->getBase()))
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
         
