@@ -35,14 +35,14 @@ class ObjectQueue extends Object implements \Iterator, \Countable
      *
      * @var array
      */
-    protected $__object_list = null;
+    private $__object_list = null;
 
     /**
      * Priority list
      *
      * @var array
      */
-    protected $__priority_list = null;
+    private $__priority_list = null;
 
     /**
      * Identifier list
