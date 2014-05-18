@@ -54,9 +54,9 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 foreach ($entity->tags as $tag)
                 {
                     $properties = array(
-                        'id'    => $tag,
-                        'row'   => $entity->id,
-                        'table' => $table
+                        'tags_tag_id' => $tag,
+                        'row'         => $entity->id,
+                        'table'       => $table
                     );
 
                     $relation = $this->getObject('com:tags.model.relations')
@@ -66,6 +66,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                     if($relation->isNew())
                     {
                         $relation = $this->getObject('com:tags.model.relations')->create();
+
                         $relation->setProperties($properties);
                         $relation->save();
                     }

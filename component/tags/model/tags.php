@@ -25,6 +25,7 @@ class ModelTags extends Library\ModelDatabase
 		
 		// Set the state
 		$this->getState()
+            ->insert('row'  , 'int')
             ->insert('table', 'string', $this->getIdentifier()->package);
     }
 
@@ -42,7 +43,7 @@ class ModelTags extends Library\ModelDatabase
         parent::_buildQueryColumns($query);
         
         $query->columns(array(
-            'count'    => 'COUNT( relations.tags_tag_id )'
+            'count' => 'COUNT( relations.tags_tag_id )'
         ));
 	}
 	
@@ -61,6 +62,10 @@ class ModelTags extends Library\ModelDatabase
 	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{                
         $state = $this->getState();
+
+        if($this->getState()->row) {
+            $query->where('relations.row IN :row')->bind(array('row' => (array) $this->getState()->row));
+        }
 
         if($this->getState()->table) {
             $query->where('tbl.table = :table')->bind(array('table' => $this->getState()->table));

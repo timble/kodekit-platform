@@ -43,7 +43,7 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 	 */
 	public function getTags()
 	{
-        $model = $this->getObject('com:tags.model.relations');
+        $model = $this->getObject('com:tags.model.tags');
 
         if(!$this->isNew())
         {
