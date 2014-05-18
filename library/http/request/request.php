@@ -1,19 +1,20 @@
 <?php
 /**
- * @package     Koowa_Http
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * HTTP Request Class
+ * Http Request
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
+ * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
  */
 class HttpRequest extends HttpMessage implements HttpRequestInterface
 {
@@ -123,21 +124,12 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     /**
      * Set the url for this request
      *
-     * @param string|HttpUrl   $uri
-     * @throws \InvalidArgumentException If the url is not an instance of HttpUrl or a string
+     * @param string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
      * @return HttpRequest
      */
     public function setUrl($url)
     {
-        if (!$url instanceof HttpUrlInterface || !is_string($url)) {
-            throw new \InvalidArgumentException('Url must be an instance of HttpUrl or a string');
-        }
-
-        if (is_string($url)) {
-            $url = $this->getObject('lib:http.url', array('url' => $url));
-        }
-
-        $this->_url = $url;
+        $this->_url = $this->getObject('lib:http.url', array('url' => $url));
         return $this;
     }
 
@@ -266,7 +258,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     /**
      * Is this a safe request?
      *
-     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.1
+     * @link http://tools.ietf.org/html/rfc2616#section-9.1.1
      * @return boolean
      */
     public function isSafe()

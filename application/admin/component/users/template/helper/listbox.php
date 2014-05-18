@@ -1,22 +1,19 @@
 <?php
 /**
- * @category	Nooku
- * @package		Nooku_Server
- * @subpackage	Users
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Listbox Template Helper Class
+ * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category	Nooku
- * @package		Nooku_Server
- * @subpackage	Users
+ * @author   Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @@package Component\Users
  */
 class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 {
@@ -24,9 +21,9 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
     {
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(
-    		'model' 	=> 'groups',
-    		'value'		=> 'id',
-    		'text'		=> 'name'
+    		'model' => 'groups',
+    		'value'	=> 'id',
+    		'label'	=> 'name'
     	));
     
     	return parent::_listbox($config);
@@ -57,7 +54,7 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $config->append(array(
             'value'      => 'iso_code',
-            'text'       => 'name',
+            'label'      => 'name',
             'identifier' => 'com:languages.model.languages',
             'filter'     => array('application' => 'site', 'enabled' => 1)));
 

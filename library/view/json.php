@@ -1,21 +1,39 @@
 <?php
 /**
- * @package     Koowa_View
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * View JSON Class
+ * Json View
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 class ViewJson extends ViewAbstract
 {
+    /**
+     * JSON API version
+     */
+    protected $_version;
+
+    /**
+     * Constructor
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_version = $config->version;
+    }
+
     /**
      * Initializes the config for the object
      *
@@ -38,15 +56,17 @@ class ViewJson extends ViewAbstract
     /**
      * Render and return the views output
      *
-     * If the view 'output' variable is empty the output will be generated based on the model data, if it set it will
+     * If the view 'content'  is empty the output will be generated based on the model data, if it set it will
      * be returned instead.
      *
-     * @return string     The output of the view
+     * @return string A RFC4627-compliant JSON string, which may also be embedded into HTML.
      */
     public function render()
     {
-        if (empty($this->_content)) {
+        if (empty($this->_content))
+        {
             $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
+            $this->_content = array_merge(array('version' => $this->_version), $this->_content);
         }
 
         if (!is_string($this->_content))
@@ -91,7 +111,6 @@ class ViewJson extends ViewAbstract
         }
 
         $data = array(
-            'version' => '1.0',
             'href' => (string)$route->setQuery($state->getValues(), true),
             'url' => array(
                 'type' => 'application/json',
@@ -182,7 +201,6 @@ class ViewJson extends ViewAbstract
         }
 
         $data = array(
-            'version' => '1.0',
             'href' => (string)$route->setQuery($state->getValues(true)),
             'url' => array(
                 'type' => 'application/json',

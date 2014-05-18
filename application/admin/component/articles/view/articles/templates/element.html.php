@@ -1,16 +1,16 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
 <form action="" method="get" class="-koowa-grid">
@@ -18,15 +18,15 @@
 		<thead>
 			<tr>
 				<th class="title">
-				    <?= @helper('grid.sort', array('title' => 'Title', 'column' => 'title')) ?>
+				    <?= helper('grid.sort', array('title' => 'Title', 'column' => 'title')) ?>
 				</th>
 				<th align="center" width="10">
-					<?= @helper('grid.sort', array('title' => 'Date', 'column' => 'created_on')) ?>
+					<?= helper('grid.sort', array('title' => 'Date', 'column' => 'created_on')) ?>
 				</th>
 			</tr>
 			<tr>
 				<td>
-				    <?= @helper('grid.search') ?>
+				    <?= helper('grid.search') ?>
 				</td>
 				<td></td>
 			</tr>
@@ -34,7 +34,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -42,12 +42,12 @@
 		<? foreach($articles as $article) : ?>
 			<tr>
 				<td>
-					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?= $article->id ?>', '<?= str_replace(array("'", "\""), array("\\'", ""), $article->title); ?>', '<?= @object('request')->query->get('object', 'cmd'); ?>');">
-					    <?= @escape($article->title) ?>
+					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?= $article->id ?>', '<?= str_replace(array("'", "\""), array("\\'", ""), $article->title); ?>', '<?= object('request')->query->get('object', 'cmd'); ?>');">
+					    <?= escape($article->title) ?>
 					</a>
 				</td>
 				<td nowrap="nowrap">
-					<?= @helper('date.humanize', array('date' => $article->created_on)) ?>
+					<?= helper('date.humanize', array('date' => $article->created_on)) ?>
 				</td>
 			</tr>
 		<? endforeach ?>

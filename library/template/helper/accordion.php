@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Koowa_Template
- * @subpackage	Helper
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Template Accordion Behavior Helper
+ * Accordion Template Helper
  *
- * @author		Stian Didriksen <stian@timble.net>
- * @package		Koowa_Template
- * @subpackage	Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperAccordion extends TemplateHelperBehavior
 {
@@ -48,7 +47,7 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 		}
 
 		$id      = strtolower($config->id);
-		$attribs = $this->_buildAttributes($config->attribs);
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$events			= '';
 		$onActive 		= 'function(e){e.addClass(\'jpane-toggler-down\');e.removeClass(\'jpane-toggler\');}';
@@ -105,8 +104,8 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 			'translate'	=> true
 		));
 
-		$title   = $config->translate ? \JText::_($config->title) : $config->title;
-		$attribs = $this->_buildAttributes($config->attribs);
+		$title   = $config->translate ? $this->translate($config->title) : $config->title;
+		$attribs = $this->buildAttributes($config->attribs);
 
 		$html = '<div class="panel"><h3 class="jpane-toggler title" '.$attribs.'><span>'.$title.'</span></h3><div class="jpane-slider content">';
 		return $html;

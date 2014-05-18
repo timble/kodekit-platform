@@ -1,20 +1,21 @@
 <?php
 /**
-* @package      Koowa_Template
-* @subpackage	Filter
-* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
-* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
-* @link 		http://www.nooku.org
-*/
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ */
 
 namespace Nooku\Library;
 
 /**
- * Template filter to parse link tags
+ * Link Template Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * Filter to parse link tags.
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterLink extends TemplateFilterTag
 {
@@ -38,7 +39,7 @@ class TemplateFilterLink extends TemplateFilterTag
                     'href' => $match
                 );
 
-                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+                $attribs = array_merge($this->parseAttributes( $matches[2][$key]), $attribs);
 
 				$tags .= $this->_renderTag($attribs);
 			}
@@ -58,7 +59,7 @@ class TemplateFilterLink extends TemplateFilterTag
      */
     protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = $this->_buildAttributes($attribs);
+		$attribs = $this->buildAttributes($attribs);
 
 		$html = '<link '.$attribs.'/>'."\n";
 		return $html;

@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -12,9 +12,9 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Module Template Filter Class
+ * Module Template Filter
  *
- * Filter will parse elements of the form <html:modules position="[position]" /> and render the modules that are
+ * Filter will parse elements of the form <html:modules position="[position]"> and render the modules that are
  * available for this position.
  *
  * Filter will parse elements of the form <html:module position="[position]">[content]</module> and inject the
@@ -35,7 +35,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -49,14 +49,14 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'modules'  => null,
-            'priority' => Library\TemplateFilterChain::PRIORITY_LOW,
+            'priority' => self::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
@@ -65,7 +65,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      * @return void
      */
     public function render(&$text)
@@ -100,9 +100,9 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Parse <ktml:module></ktml:module> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      */
-    public function _parseModuleTags(&$text)
+    protected function _parseModuleTags(&$text)
     {
         $matches = array();
         if(preg_match_all('#<ktml:module\s+([^>]*)>(.*)</ktml:module>#siU', $text, $matches))
@@ -117,7 +117,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'position'  => ''
                 );
 
-                $attributes = array_merge($defaults, $this->_parseAttributes($matches[1][$key]));
+                $attributes = array_merge($defaults, $this->parseAttributes($matches[1][$key]));
 
                 //Create module object
                 $values = array(
@@ -140,31 +140,12 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     }
 
     /**
-     * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
+     * Parse <ktml:modules> and <ktml:modules></ktml:modules> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      */
-    public function _parseModulesTags(&$text)
+    protected function _parseModulesTags(&$text)
     {
-        $replace = array();
-        $matches = array();
-        // <ktml:modules position="[position]" />
-        if(preg_match_all('#<ktml:modules\s+position="([^"]+)"(.*)\/>#iU', $text, $matches))
-        {
-            $count = count($matches[1]);
-
-            for($i = 0; $i < $count; $i++)
-            {
-                $position    = $matches[1][$i];
-                $attribs     = $this->_parseAttributes( $matches[2][$i] );
-
-                $modules = $this->getModules()->find(array('position' => $position));
-                $replace[$i] = $this->_renderModules($modules, $attribs);
-            }
-
-            $text = str_replace($matches[0], $replace, $text);
-        }
-
         $replace = array();
         $matches = array();
         // <ktml:modules position="[position]"></khtml:modules>
@@ -175,14 +156,33 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
             for($i = 0; $i < $count; $i++)
             {
                 $position    = $matches[1][$i];
-                $attribs     = $this->_parseAttributes( $matches[2][$i] );
+                $attribs     = $this->parseAttributes( $matches[2][$i] );
 
                 $modules = $this->getModules()->find(array('position' => $position));
                 $replace[$i] = $this->_renderModules($modules, $attribs);
 
                 if(!empty($replace[$i])) {
-                    $replace[$i] = str_replace('<ktml:modules:content />', $replace[$i], $matches[3][$i]);
+                    $replace[$i] = str_replace('<ktml:modules:content>', $replace[$i], $matches[3][$i]);
                 }
+            }
+
+            $text = str_replace($matches[0], $replace, $text);
+        }
+
+        $replace = array();
+        $matches = array();
+        // <ktml:modules position="[position]">
+        if(preg_match_all('#<ktml:modules\s+position="([^"]+)"(.*)>#iU', $text, $matches))
+        {
+            $count = count($matches[1]);
+
+            for($i = 0; $i < $count; $i++)
+            {
+                $position    = $matches[1][$i];
+                $attribs     = $this->parseAttributes( $matches[2][$i] );
+
+                $modules = $this->getModules()->find(array('position' => $position));
+                $replace[$i] = $this->_renderModules($modules, $attribs);
             }
 
             $text = str_replace($matches[0], $replace, $text);

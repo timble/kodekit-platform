@@ -1,31 +1,37 @@
 <?php
 /**
- * @package     Nooku_Components
- * @subpackage  Default
- * @copyright  	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license   	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Application Tabbar
-.*
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * Tabbar Controller Toolbar
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstract
 {
-	/**
-	 * Push the tabbar into the view
-	 * .
-	 * @param	Library\Event	A event object
-	 */
-    public function onBeforeControllerRender(Library\Event $event)
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config Configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        $event->getTarget()->getView()->tabbar = $this;
+        $config->append(array(
+            'type'  => 'tabbar',
+        ));
+
+        parent::_initialize($config);
     }
  	
  	/**
@@ -33,8 +39,8 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
      * 
      * Disable the tabbar only for singular views that are editable.
      *
-     * @param   string	The command name
-     * @param	mixed	Parameters to be passed to the command
+     * @param   string	$name The command name
+     * @param	mixed	$config Parameters to be passed to the command
      * @return  Library\ControllerToolbarCommand
      */
     public function addCommand($name, $config = array())

@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Revisions;
@@ -17,36 +17,24 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Revisions
  */
-class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
+class ControllerToolbarRevisable extends Library\ControllerToolbarDecorator
 {
-    protected function _initialize(Library\ObjectConfig $config)
+    /**
+     * Add default toolbar commands
+     * .
+     * @param	Library\CommandContext	$context A command context object
+     */
+    protected function _afterControllerBrowse(Library\CommandContext $context)
     {
-        $config->append(array(
-    		'priority'  => Library\CommandChain::PRIORITY_LOW
-        ));
+        $controller = $this->getController();
 
-        parent::_initialize($config);
-    }
-    
-    public function onAfterControllerBrowse(Library\Event $event)
-    {     
-        $state = $this->getController()->getModel()->getState();
-        $name  = $this->getController()->getIdentifier()->name;
-        
-        if($state->trashed == true) 
-        {    
-            $toolbar = $this->getController()->getToolbar($name);
-            
-            $toolbar->reset();
-                 
-            if($this->getController()->canEdit()) {
-                $toolbar->addCommand($this->getCommand('restore'));
-            }
-            
-            if($this->getController()->canDelete()) {
-                $toolbar->addCommand($this->getCommand('delete'));
-            }
-        } 
+        if($controller->canEdit()) {
+            $this->addCommand('restore');
+        }
+
+        if($controller->canDelete()) {
+            $this->addCommand('delete');
+        }
     }
     
     protected function _commandRestore(Library\ControllerToolbarCommand $command)

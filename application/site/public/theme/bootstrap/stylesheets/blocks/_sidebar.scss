@@ -1,0 +1,29 @@
+/* Extend Bootstrap to optimise nested navigation */
+.nav-list ul {
+  margin-left: -15px;
+  margin-right: -15px;
+
+  a {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+.mod_login {
+  form {
+    margin-left: 15px;
+    margin-right: 15px;
+
+    input {
+      width: 90%;
+    }
+
+    .form-actions {
+      padding: 10px 0;
+
+      .btn {
+        width: auto;
+      }
+    }
+  }
+}

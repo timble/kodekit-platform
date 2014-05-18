@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Mixin
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,9 +14,8 @@ namespace Nooku\Library;
  * 
  * Class can be used as a mixin in classes that want to implement a chain of responsibility or chain of command pattern.
  *  
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class CommandMixin extends ObjectMixinAbstract
 {   
@@ -30,7 +29,7 @@ class CommandMixin extends ObjectMixinAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -40,30 +39,20 @@ class CommandMixin extends ObjectMixinAbstract
 			throw new \InvalidArgumentException('command_chain [CommandChainInterface] config option is required');
 		}
             
-        //Create a command chain object 
+        //Create a command chain object
         $this->_command_chain = $config->command_chain;
-        
-        //Mixin the callback mixer if callbacks have been enabled
+
+        //Enqueue the callback command
         if($config->enable_callbacks)
         {
-            $callback = new ObjectMixinCallback($config);
-
-            //Mixin the callback mixin
-            $mixin = $this->getMixer()->mixin('lib:object.mixin.callback', $config);
-
-            //Enqueue the command in the mixer's command chain
-            $this->getCommandChain()->enqueue($mixin, $config->callback_priority);
+            $command = $this->getMixer()->mixin('lib:command.callback', $config);
+            $this->getCommandChain()->enqueue($command, $config->callback_priority);
         }
         
-        //Enqueue the event command with a lowest priority to make sure it runs last
+        //Enqueue the event command
         if($config->dispatch_events) 
         {
-            $this->getMixer()->mixin('lib:event.mixin', $config);
-
-            $command = $this->getCommandChain()->getObject('lib:command.event', array(
-            	'event_dispatcher' => $this->getEventDispatcher()
-            ));
-
+            $command = $this->getMixer()->mixin('lib:command.event', $config);
             $this->getCommandChain()->enqueue($command, $config->event_priority);
         }
     }
@@ -73,7 +62,7 @@ class CommandMixin extends ObjectMixinAbstract
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -82,9 +71,9 @@ class CommandMixin extends ObjectMixinAbstract
             'command_chain'     => null,
             'event_dispatcher'  => null,
             'dispatch_events'   => true,
-            'event_priority'    => CommandChain::PRIORITY_LOWEST,
+            'event_priority'    => CommandInterface::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
-            'callback_priority' => CommandChain::PRIORITY_HIGH,
+            'callback_priority' => CommandInterface::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);
@@ -99,8 +88,8 @@ class CommandMixin extends ObjectMixinAbstract
      */
     public function getCommandContext()
     {
-        $context = $this->_command_chain->getContext();
-        $context->setSubject($this->_mixer);
+        $context = $this->getCommandChain()->getContext();
+        $context->setSubject($this->getMixer());
         
         return $context;
     }
@@ -130,13 +119,13 @@ class CommandMixin extends ObjectMixinAbstract
     /**
      * Set the chain of command object
      *
-     * @param   object 	A command chain object
+     * @param   CommandChainInterface 	$chain A command chain object
      * @return  Object The mixer object
      */
     public function setCommandChain(CommandChainInterface $chain)
     {
         $this->_command_chain = $chain;
-        return $this->_mixer;
+        return $this->getMixer();
     }
     
 	/**

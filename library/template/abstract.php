@@ -1,18 +1,19 @@
 <?php
 /**
- * @package        Koowa_Template
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Template class
+ * Abstract Template
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package    Koowa_Template
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 abstract class TemplateAbstract extends Object implements TemplateInterface
 {
@@ -31,7 +32,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_content;
 
     /**
-     * The set of template filters for templates
+     * List of template filters
      *
      * @var array
      */
@@ -55,11 +56,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_stack;
 
     /**
-     * The filter chain
+     * Filter queue
      *
-     * @var	TemplateFilterChain
+     * @var	ObjectQueue
      */
-    protected $_chain = null;
+    protected $_queue;
 
     /**
      * Constructor
@@ -78,8 +79,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         // Set the template data
         $this->_data = $config->data;
 
-        //Set the filter chain
-        $this->_chain = $config->filter_chain;
+        //Set the filter queue
+        $this->_queue = $this->getObject('lib:object.queue');
 
         //Attach the filters
         $filters = (array)ObjectConfig::unbox($config->filters);
@@ -93,7 +94,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             }
         }
 
-        //Reset the counter
+        //Reset the stack
         $this->_stack = array();
     }
 
@@ -110,11 +111,56 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $config->append(array(
             'data'          => array(),
             'view'          => null,
-            'filter_chain'  => $this->getObject('lib:template.filter.chain'),
             'filters'       => array(),
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Render the template
+     *
+     * @return string  The rendered data
+     */
+    public function render()
+    {
+        //Parse the template
+        $this->_compile($this->_content);
+
+        //Evaluate the template
+        $this->_evaluate($this->_content);
+
+        //Process the template only at the end of the render cycle.
+        if(!count($this->_stack)) {
+            $this->_render($this->_content);
+        }
+
+        return $this->_content;
+    }
+
+    /**
+     * Escape a string
+     *
+     * By default the function uses htmlspecialchars to escape the string
+     *
+     * @param string $string String to to be escape
+     * @return string Escaped string
+     */
+    public function escape($string)
+    {
+        return htmlspecialchars($string);
+    }
+
+    /**
+     * Translates a string and handles parameter replacements
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function translate($string, array $parameters = array())
+    {
+        return \JText::_($string);
     }
 
     /**
@@ -135,6 +181,16 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     public function getContent()
     {
         return $this->_content;
+    }
+
+    /**
+     * Get the format
+     *
+     * @return 	string 	The format of the view
+     */
+    public function getFormat()
+    {
+        return $this->getView()->getFormat();
     }
 
     /**
@@ -217,23 +273,42 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         {
             $info  = pathinfo( $file );
 
-            //Get the filepath based on the identifier
-            $path  = $this->getIdentifier($info['filename'])->classpath;
+            //Get the path based on the identifier
+            $identifier = $this->getIdentifier($info['filename']);
+
+            $path  = implode('/', $identifier->path).'/'.strtolower($identifier->name);
+            $path = 'component/'.strtolower($identifier->package).'/'.$path.'.php';
 
             //Add the templates folder
             $path = dirname($path).'/templates/'.basename($path);
 
             //Add the format
             $path  = str_replace('.php', '.'.$info['extension'].'.php', $path);
+
+            if(file_exists(JPATH_APPLICATION.'/'.$path)) {
+                $path = JPATH_APPLICATION.'/'.$path;
+            } else {
+                $path = JPATH_ROOT.'/'.$path;
+            }
         }
-        else
+        else $path = dirname($this->getPath()).'/'.$file.'.php';
+
+        //Theme override
+        $theme  = $this->getObject('application')->getTheme();
+        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
+        $theme .= str_replace(array(JPATH_APPLICATION.'/component', '/view', '/templates'), '', $path);
+
+        //Try to find the template
+        foreach(array($theme, $path) as $find)
         {
-            $path  = dirname($this->getPath());
-            $path .= '/'.$file.'.php';
+            $template = $this->findFile($find);
+            if($template !== false) {
+                break;
+            }
         }
 
         //Find the template
-        $template = $this->findFile($path);
+        //$template = $this->findFile($path);
 
         //Check of the file exists
         if (!file_exists($template)) {
@@ -276,27 +351,6 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Render the template
-     *
-     * @return string  The rendered data
-     */
-    public function render()
-    {
-        //Parse the template
-        $this->_parse($this->_content);
-
-        //Evaluate the template
-        $this->_evaluate($this->_content);
-
-        //Process the template only at the end of the render cycle.
-        if(!count($this->_stack)) {
-            $this->_process($this->_content);
-        }
-
-        return $this->_content;
-    }
-
-    /**
      * Check if the template is in a render cycle
      *
      * @return boolean Return TRUE if the template is being rendered
@@ -310,7 +364,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * Get a filter by identifier
      *
      * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
-                                    or valid identifier string
+     *                              or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return TemplateFilterInterface
      */
@@ -344,7 +398,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Attach one or more filters for template transformation
+     * Attach a filter for template transformation
      *
      * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
@@ -357,8 +411,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             $filter = $this->getFilter($filter, $config);
         }
 
-        //Enqueue the filter in the command chain
-        $this->_chain->enqueue($filter);
+        //Enqueue the filter
+        $this->_queue->enqueue($filter, $filter->getPriority());
 
         return $this;
     }
@@ -480,13 +534,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Parse and compile the template to PHP code
      *
-     * This function passes the template through read filter chain and returns the result.
+     * This function passes the template through compile filter queue and returns the result.
      *
      * @return string The parsed data
      */
-    protected function _parse(&$content)
+    protected function _compile(&$content)
     {
-        $this->_chain->compile($content);
+        foreach($this->_queue as $filter)
+        {
+            if($filter instanceof TemplateFilterCompiler) {
+                $filter->compile($content);
+            }
+        }
     }
 
     /**
@@ -521,13 +580,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Process the template
      *
-     * This function passes the template through write filter chain and returns the result.
+     * This function passes the template through the render filter queue and returns the result.
      *
      * @return string  The rendered data
      */
-    protected function _process(&$content)
+    protected function _render(&$content)
     {
-        $this->_chain->render($content);
+        foreach($this->_queue as $filter)
+        {
+            if($filter instanceof TemplateFilterRenderer) {
+                $filter->render($content);
+            }
+        }
     }
 
     /**

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Koowa_Object
- * @subpackage  Identifier
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,9 +15,8 @@ namespace Nooku\Library;
  * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors and methods for
  * derived formats.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Identifier
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 class ObjectIdentifier implements ObjectIdentifierInterface
 {
@@ -100,23 +100,21 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     /**
      * Constructor
      *
+     * If the identifier does not have a type set default type to 'lib'. Eg, event.dispatcher is the same as
+     * lib:event.dispatcher.
+     *
      * @param   string $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
      */
     public function __construct($identifier)
     {
-        //Check if the identifier is valid
-        if(strpos($identifier, ':') === FALSE) {
-            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
-        }
-
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
-            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Identifier cannot be parsed : '.$identifier);
         }
 
         // Set the type
-        $this->type = $parts['scheme'];
+        $this->type = isset($parts['scheme']) ? $parts['scheme'] : 'lib';
 
         // Set the path
         $this->_path = trim($parts['path'], '/');
@@ -130,6 +128,74 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             $this->_name = array_pop($this->_path);
         }
     }
+    /**
+     * Serialize the identifier
+     *
+     * @return string 	The serialised identifier
+     */
+    public function serialize()
+    {
+        $data = array(
+            'type'		 => $this->_type,
+            'package'	 => $this->_package,
+            'path'		 => $this->_path,
+            'name'		 => $this->_name,
+            'identifier' => $this->_identifier,
+            'classpath'  => $this->classpath,
+            'classname'  => $this->classname,
+        );
+
+        return serialize($data);
+    }
+
+    /**
+     * Unserialize the identifier
+     *
+     * @return string $data	The serialised identifier
+     */
+    public function unserialize($data)
+    {
+        $data = unserialize($data);
+
+        foreach($data as $property => $value) {
+            $this->{'_'.$property} = $value;
+        }
+    }
+
+    /**
+     * Checks if the identifier extends a class, implements an interface or uses a trait
+     *
+     * @param string $identifier An identifier object or a class name
+     * @param boolean $autoload  Whether to allow this function to load the class automatically through the __autoload()
+     *                           magic method.
+     */
+    public function inherits($class, $autoload = true)
+    {
+        if($class instanceof ObjectIdentifier) {
+            $class = $class->classname;
+        }
+
+        //Check parent classes
+        if(array_key_exists($class, class_parents($this->classname, $autoload))) {
+            return true;
+        }
+
+        //Check interfaces
+        if(array_key_exists($class, class_implements($this->classname, $autoload))) {
+            return true;
+        }
+
+        //Check traits
+        if(function_exists('class_uses'))
+        {
+            if(array_key_exists($class, class_uses($this->classname, $autoload))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Get the identifier type
@@ -258,13 +324,19 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     /**
      * Add a mixin
      *
-     * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
+     *  @param mixed $decorator An object implementing ObjectMixinInterface, an ObjectIdentifier or an identifier string
+     * @param array $config     An array of configuration options
      * @return ObjectIdentifierInterface
      * @see Object::mixin()
      */
-    public function addMixin($mixin)
+    public function addMixin($mixin, $config = array())
     {
-        $this->_mixins[] = $mixin;
+        if ($mixin instanceof ObjectMixinInterface || $mixin instanceof ObjectIdentifier) {
+            $this->_mixins[] = $mixin;
+        } else {
+            $this->_mixins[$mixin] = $config;
+        }
+
         return $this;
     }
 
@@ -281,13 +353,19 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     /**
      * Add a decorator
      *
-     * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
+     * @param mixed $decorator An object implementing ObjectDecoratorInterface, an ObjectIdentifier or an identifier string
+     * @param array $config    An array of configuration options
      * @return ObjectIdentifierInterface
      * @see Object::decorate()
      */
-    public function addDecorator($decorator)
+    public function addDecorator($decorator, $config = array())
     {
-        $this->_decorators[] = $decorator;
+        if ($decorator instanceof ObjectDecoratorInterface || $decorator instanceof ObjectIdentifier) {
+            $this->_decorators[] = $decorator;
+        } else {
+            $this->_decorators[$decorator] = $config;
+        }
+
         return $this;
     }
 
@@ -358,6 +436,16 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
+     * Check if the object is a multiton
+     *
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isMultiton()
+    {
+        return array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($this->classname));
+    }
+
+    /**
      * Check if the object is a singleton
      *
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
@@ -395,40 +483,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         return $this->_identifier;
     }
 
-	/**
-	 * Serialize the identifier
-	 *
-	 * @return string 	The serialised identifier
-	 */
-	public function serialize()
-	{
-        $data = array(
-            'type'		 => $this->_type,
-            'package'	 => $this->_package,
-            'path'		 => $this->_path,
-            'name'		 => $this->_name,
-            'identifier' => $this->_identifier,
-            'classpath'  => $this->classpath,
-            'classname'  => $this->classname,
-        );
-
-        return serialize($data);
-	}
-
-	/**
-	 * Unserialize the identifier
-	 *
-	 * @return string $data	The serialised identifier
-	 */
-	public function unserialize($data)
-	{
-	    $data = unserialize($data);
-
-	    foreach($data as $property => $value) {
-	        $this->{'_'.$property} = $value;
-	    }
-	}
-
     /**
      * Implements the virtual class properties
      *
@@ -436,7 +490,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @param   string  $property The virtual property to set.
      * @param   string  $value    Set the virtual property to this value.
-     * @throws \DomainException If the type is unknown
+     * @throws  ObjectExceptionInvalidIdentifier If the type is unknown
      */
     public function __set($property, $value)
     {
@@ -458,7 +512,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
 
                 //Make exception for 'lib' locator
                 if($value != 'lib' && !$this->getLocator()) {
-                    throw new \DomainException('Unknow type : '.$value);
+                    throw new ObjectExceptionInvalidIdentifier('Unknow type : '.$value);
                 }
             }
 
@@ -512,7 +566,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Allow PHP casting of this object
+     * Allow casting of the identfiier to a string
      *
      * @return string
      */

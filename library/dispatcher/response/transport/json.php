@@ -1,24 +1,23 @@
 <?php
 /**
- * @package		Koowa_Dispatcher
- * @subpackage  Response
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * JSON Dispatcher Response Transport Class
+ * JSON Dispatcher Response Transport
  *
  * Response represents an HTTP response in JSON format.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
-class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstract
+class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp
 {
     /**
      * The padding for JSONP
@@ -50,7 +49,8 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstrac
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'padding' => '',
+            'priority' => self::PRIORITY_NORMAL,
+            'padding'  => '',
         ));
 
         parent::_initialize($config);
@@ -80,43 +80,37 @@ class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstrac
     }
 
     /**
-     * Sends content for the current web response.
-     *
-     * @return DispatcherResponseTransportJson
-     */
-    public function sendContent()
-    {
-        if (!empty($this->_padding))
-        {
-            $response = $this->getResponse();
-            $response->setContent(sprintf('%s(%s);', $this->_padding, $response->getContent()));
-        }
-
-        return parent::sendContent();
-    }
-
-    /**
      * Send HTTP response
      *
-     * If not padding is set inspect the request query for a 'callback' parameter and use this.
+     * If the format is json, add the padding by inspect the request query for a 'callback' parameter or by using
+     * the default padding if set.
      *
-     * @see http://tools.ietf.org/html/rfc2616
-     * @return DispatcherResponseTransportJson
+     * Don't stop the transport handler chain to allow other transports handlers to continue processing the
+     * response.
+     *
+     * @link http://tools.ietf.org/html/rfc2616
+     *
+     * @param DispatcherResponseInterface $response
+     * @return boolean
      */
-    public function send()
+    public function send(DispatcherResponseInterface $response)
     {
-        //If not padding is set inspect the request query.
-        if(empty($this->_padding))
-        {
-            $request = $this->getResponse()->getRequest();
+        $request = $response->getRequest();
 
-            if($request->query->has('callback')) {
-                $this->setCallback($request->query->get('callback', 'cmd'));
+        //Force to use the json transport if format is json
+        if($request->getFormat() == 'json')
+        {
+            //If not padding is set inspect the request query.
+            if(empty($this->_padding))
+            {
+                if($request->query->has('callback')) {
+                    $this->setCallback($request->query->get('callback', 'cmd'));
+                }
+            }
+
+            if (!empty($this->_padding)) {
+                $response->setContent(sprintf('%s(%s);', $this->_padding, $response->getContent()));
             }
         }
-
-        return parent::send();
     }
-
-
 }

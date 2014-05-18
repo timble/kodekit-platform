@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     Koowa_Controller
- * @subpackage  Behavior
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Editable Controller Behavior Class
+ * Editable Controller Behavior
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Behavior
+ * Behavior defines 'save', 'apply' and cancel functions. Functions are only executable if the request format is
+ * 'html'. For other formats, eg json use 'edit' and 'read' actions directly.
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 {
@@ -27,11 +29,18 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->registerCallback('before.read' , array($this, 'setReferrer'));
-        $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
-        $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
-        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-        $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+        $this->registerCallback('after.read'  , array($this, 'lockResource'));
+        $this->registerCallback('after.save'  , array($this, 'unlockResource'));
+        $this->registerCallback('after.cancel', array($this, 'unlockResource'));
+
+        if($this->getRequest()->getFormat() == 'html')
+        {
+            $this->registerCallback('before.read' , array($this, 'setReferrer'));
+            $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
+            $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
+            $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
+            $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+        }
     }
 
     /**
@@ -61,6 +70,35 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         $path = $context->request->getBaseUrl()->getPath() ?: '/';
         $context->response->headers->clearCookie('referrer_locked', $path);
+    }
+
+    /**
+     * Lock the resource
+     *
+     * Only lock if the context contains a row object and if the user has an active session he can edit or delete the
+     * resource. Otherwise don't lock it.
+     *
+     * @param   CommandContext  $context The command context
+     * @return  void
+     */
+    public function lockResource(CommandContext $context)
+    {
+        if($this->isLockable() && $this->canEdit()) {
+            $context->result->lock();
+        }
+    }
+
+    /**
+     * Unlock the resource
+     *
+     * @param  CommandContext  $context The command context
+     * @return void
+     */
+    public function unlockResource(CommandContext $context)
+    {
+        if($this->isLockable() && $this->canEdit()) {
+            $context->result->unlock();
+        }
     }
 
     /**
@@ -124,6 +162,108 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         $path = $context->request->getBaseUrl()->getPath() ?: '/';
         $context->response->headers->clearCookie('referrer', $path);
+    }
+
+    /**
+     * Check if the resource is locked
+     *
+     * @return bool Returns TRUE if the resource is locked, FALSE otherwise.
+     */
+    public function isLocked()
+    {
+        if($this->getModel()->getState()->isUnique())
+        {
+            $entity = $this->getModel()->getRow();
+
+            if($entity->isLockable() && $entity->isLocked()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the resource is lockable
+     *
+     * @return bool Returns TRUE if the resource is can be locked, FALSE otherwise.
+     */
+    public function isLockable()
+    {
+        $controller = $this->getMixer();
+
+        if($controller instanceof ControllerModellable)
+        {
+            if($this->getModel()->getState()->isUnique())
+            {
+                $entity = $this->getModel()->getRow();
+
+                if($entity->isLockable()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Permission handler for save actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canSave()
+    {
+        if($this->getRequest()->getFormat() == 'html')
+        {
+            if($this->getModel()->getState()->isUnique())
+            {
+                if($this->canEdit())
+                {
+                    if($this->isLockable() && !$this->isLocked()) {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                if($this->canAdd()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Permission handler for apply actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canApply()
+    {
+       return $this->canSave();
+    }
+
+    /**
+     * Permission handler for cancel actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canCancel()
+    {
+        if($this->getRequest()->getFormat() == 'html') {
+            return $this->canRead();
+        }
+
+        return false;
     }
 
     /**
@@ -202,5 +342,71 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 
         $entity = $context->getSubject()->execute('read', $context);
         return $entity;
+    }
+
+    /**
+     * Add a lock flash message if the resource is locked
+     *
+     * @param   CommandContext	$context A command context object
+     * @return 	void
+     */
+    protected function _afterControllerRead(CommandContext $context)
+    {
+        $entity = $context->result;
+
+        //Add the notice if the resource is locked
+        if($this->canEdit() && $this->isLockable() && $this->isLocked())
+        {
+            //Prevent a re-render of the message
+            if($context->request->getUrl() != $context->request->getReferrer())
+            {
+                $user = $this->getObject('com:users.database.row.user')
+                    ->set('id', $entity->locked_by)
+                    ->load();
+
+                $date    = new Date(array('date' => $entity->locked_on));
+                $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date->humanize());
+
+                $context->response->addMessage($message, 'notice');
+            }
+        }
+    }
+
+    /**
+     * Prevent editing a locked resource
+     *
+     * If the resource is locked a Retry-After header indicating the time at which the conflicting edits are expected
+     * to complete will be added. Clients should wait until at least this time before retrying the request.
+     *
+     * @param   CommandContext	$context A command context object
+     * @throws  ControllerExceptionConflict If the resource is locked
+     * @return 	void
+     */
+    protected function _beforeControllerEdit(CommandContext $context)
+    {
+        if($this->isLocked())
+        {
+            $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
+            throw new ControllerExceptionConflict('Resource is locked.');
+        }
+    }
+
+    /**
+     * Prevent deleting a locked resource
+     *
+     * If the resource is locked a Retry-After header indicating the time at which the conflicting edits are expected
+     * to complete will be added. Clients should wait until at least this time before retrying the request.
+     *
+     * @param   CommandContext	$context A command context object
+     * @throws  ControllerExceptionConflict If the resource is locked
+     * @return 	void
+     */
+    protected function _beforeControllerDelete(CommandContext $context)
+    {
+        if($this->isLocked())
+        {
+            $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
+            throw new ControllerExceptionConflict('Resource is locked');
+        }
     }
 }

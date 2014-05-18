@@ -1,20 +1,19 @@
 <?php
 /**
- * @package        Nooku_Server
- * @subpackage     Articles
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Articles RSS View Class
+ * Articles RSS View
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @package Component\Articles
  */
 class ArticlesViewArticlesRss extends Library\ViewRss
 {
@@ -33,10 +32,14 @@ class ArticlesViewArticlesRss extends Library\ViewRss
                          ->id($this->getModel()->getState()->category)
                          ->getRow();
 
+        $container = $this->getObject('com:files.model.containers')
+            ->slug('attachments-attachments')
+            ->getRow();
+
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
         {
-            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $path = JPATH_FILES.'/'.$container->path.'/'.$category->image;
             $size = getimagesize($path);
 
             $category->image = (object) array(

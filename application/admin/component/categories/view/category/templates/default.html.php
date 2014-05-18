@@ -1,61 +1,42 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Categories
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
     <input type="hidden" name="access" value="0" />
     <input type="hidden" name="published" value="0" />
     <input type="hidden" name="table" value="<?= $state->table ?>" />
+    <input type="hidden" name="attachments_attachment_id" value="0" />
     
     <div class="main">
 		<div class="title">
-			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= translate( 'Title' ); ?>" />
 		    <div class="slug">
-		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <span class="add-on"><?= translate('Slug'); ?></span>
 		        <input type="text" name="slug" maxlength="255" value="<?= $category->slug ?>" />
 		    </div>
 		</div>
-
-		<div class="scrollable">
-			<fieldset>
-				<legend><?= @text( 'Details' ); ?></legend>
-				<div>
-				    <label for=""><?= @text( 'Description' ); ?></label>
-				    <div>
-				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
-				    </div>
-				</div>
-			</fieldset>
-			<fieldset>
-				<legend><?= @text( 'Image' ); ?></legend>
-				<div>
-				    <label for="image"><?= @text( 'Image' ); ?></label>
-				    <div>
-				        <?= @helper('image.listbox', array('name' => 'image')); ?>
-				    </div>
-				</div>
-			</fieldset>
-		</div>
+        <?= object('com:ckeditor.controller.editor')->render(array('name' => 'description', 'text' => $category->description, 'toolbar' => 'basic')) ?>
 	</div>
 
     <div class="sidebar">
-	    <?= @template('default_sidebar.html'); ?>
+	    <?= import('default_sidebar.html'); ?>
     </div>
 </form>

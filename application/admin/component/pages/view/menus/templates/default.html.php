@@ -1,27 +1,27 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Pages
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
 <!--
-<script src="media://js/koowa.js" />
-<style src="media://css/koowa.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar.html') ?>
+	<?= import('default_sidebar.html') ?>
 </ktml:module>
 
-<form id="menus-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form id="menus-form" action="<?= route() ?>" method="get" class="-koowa-grid">
     <table>
         <thead>
             <tr>
@@ -29,7 +29,7 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($menus); ?>);" />
                 </th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
                 </th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -46,15 +46,15 @@
         <? foreach($menus as $menu) : ?>
             <tr>
                 <td align="center">
-                    <?= @helper('grid.checkbox',array('row' => $menu)); ?>
+                    <?= helper('grid.checkbox',array('row' => $menu)); ?>
                 </td>
                 <td>
                     <? if(!$state->trash) : ?>
-                    <a href="<?= @route('view=menu&id='.$menu->id); ?>">
-                        <?= @escape($menu->title); ?>
+                    <a href="<?= route('view=menu&id='.$menu->id); ?>">
+                        <?= escape($menu->title); ?>
                     </a>
                     <? else : ?>
-                        <?= @escape($menu->title); ?>
+                        <?= escape($menu->title); ?>
                     <? endif ?>
                 </td>
             </tr>

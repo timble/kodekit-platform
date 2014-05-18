@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Event
- * @subpackage 	Subscriber
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Event Subscriber Class
+ * Abstract Event Subscriber
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
- * @subpackage 	Subscriber
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 abstract class EventSubscriberAbstract extends Object implements EventSubscriberInterface
 {
@@ -35,7 +34,7 @@ abstract class EventSubscriberAbstract extends Object implements EventSubscriber
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional ObjectConfig object with configuration options.
+	 * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
 	 */
 	public function __construct(ObjectConfig $config)
 	{
@@ -49,7 +48,7 @@ abstract class EventSubscriberAbstract extends Object implements EventSubscriber
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param 	ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(ObjectConfig $config)

@@ -1,24 +1,23 @@
 <?php
 /**
- * @package     Koowa_Session
- * @subpackage  Container
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Message User Session Container Class
+ * Message User Session Container
  *
  * Session container that stores flash messages and provides utility functions. Flash messages are self-expiring
  * messages that are meant to live for exactly one request (they're "gone in a flash"). They're designed to be used
  * across redirects.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Session
- * @subpackage  Container
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\User
  */
 class UserSessionContainerMessage extends UserSessionContainerAbstract
 {
@@ -84,11 +83,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function add($message, $type = 'success')
     {
-        if(!isset($this->_data[$type])) {
-            $this->_data[$type] = array();
-        }
-
-        $this->_data[$type][] = $message;
+        $this->set($type, $message);
         return $this;
     }
 
@@ -101,7 +96,10 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function set($type, $messages)
     {
-        parent::set($type, (array) $messages);
+        foreach((array) $messages as $message) {
+            parent::set($type, $message);
+        }
+
         return $this;
     }
 
@@ -184,6 +182,10 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function offsetSet($offset, $value)
     {
+        if(!isset($this->_data[$offset])) {
+            $this->_data[$offset] = array();
+        }
+
         $this->_data[$offset][] = $value;
     }
 

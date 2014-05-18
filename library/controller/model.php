@@ -1,18 +1,19 @@
 <?php
 /**
- * @package		Koowa_Controller
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Model Controller Class
+ * Abstract Model Controller
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerModel extends ControllerView implements ControllerModellable
 {
@@ -34,10 +35,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
         // Set the model identifier
         $this->_model = $config->model;
-
-        if($this->isDispatched()) {
-            $this->attachBehavior('editable');
-        }
     }
 
     /**
@@ -50,9 +47,13 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      */
     protected function _initialize(ObjectConfig $config)
     {
-    	$config->append(array(
-            'toolbars'   => array($this->getIdentifier()->name),
-    		'behaviors'  => array('lockable'),
+        $toolbars = array();
+        if($config->dispatched && $config->user->isAuthentic()) {
+            $toolbars[] = $this->getIdentifier()->name;
+        }
+
+        $config->append(array(
+            'toolbars'   => $toolbars,
             'model'	     => $this->getIdentifier()->name,
         ));
 
@@ -212,7 +213,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 * Generic edit action, saves over an existing item
 	 *
 	 * @param	CommandContext	$context A command context object
-     * @throws  ControllerExceptionNotFound   If the resource could not be found
+     * @throws  ControllerExceptionNotFound   If the entity could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
 	protected function _actionEdit(CommandContext $context)
@@ -240,7 +241,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	CommandContext	$context A command context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionBadRequest   If the resource already exists
+     * @throws  ControllerExceptionBadRequest   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
 	protected function _actionAdd(CommandContext $context)

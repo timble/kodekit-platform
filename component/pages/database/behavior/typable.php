@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -101,12 +101,12 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     public function getMethods()
     {
-        return array_fill_keys($this->_methods, $this);
+        return array_combine($this->_methods, $this->_methods);
     }
 
     public function getMixableMethods(Library\ObjectMixable $mixer = null)
     {
-        $methods = array_fill_keys($this->_mixable_methods, $this);
+        $methods = array_combine($this->_mixable_methods, $this->_mixable_methods);
         $methods['is'.ucfirst($this->getIdentifier()->name)] = function() { return true; };
 
         return $methods;

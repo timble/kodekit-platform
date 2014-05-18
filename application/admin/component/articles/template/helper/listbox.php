@@ -1,11 +1,10 @@
 <?php
 /**
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,21 +12,18 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Articles
  */
-
 class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function articles($config = array())
     {
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(
-    		'model' 	=> 'articles',
-    		'value'		=> 'id',
-    		'text'		=> 'title'
+    		'model' => 'articles',
+    		'value'	=> 'id',
+    		'label'	=> 'title'
     	));
     
     	return parent::_render($config);
@@ -37,10 +33,10 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'model'		=> 'articles',
-			'name' 		=> 'created_by',
-			'value'		=> 'created_by_id',
-			'text'		=> 'created_by_name',
+			'model'	=> 'articles',
+			'name' 	=> 'created_by',
+			'value'	=> 'created_by_id',
+			'label'	=> 'created_by_name',
 		));
 
 		return parent::_listbox($config);
@@ -71,7 +67,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
         foreach ($list as $item)
         {
             $options[] = $this->option(array(
-                'text'  => '( ' . $item->ordering . ' ) ' . $item->title,
+                'label' => '( ' . $item->ordering . ' ) ' . $item->title,
                 'value' => ($item->ordering - $article->ordering)));
         }
 
@@ -91,7 +87,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
         $options = array();
 
         foreach($pages as $page) {
-            $options[] =  $this->option(array('text' => $page->title, 'value' => $page->id));
+            $options[] =  $this->option(array('label' => $page->title, 'value' => $page->id));
         }
 
         //Add the options to the config object

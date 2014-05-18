@@ -1,10 +1,10 @@
 <?
 /**
- * @package     Nooku_Components
- * @subpackage  Files
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
@@ -37,9 +37,9 @@ window.addEvent('domready', function() {
                     <input type="checkbox" class="-check-all" />
 				</th>
 				<th width="32"></th>
-				<th><?= @text('Name'); ?></th>
-				<th><?= @text('Size'); ?></th>
-				<th><?= @text('Last Modified'); ?></th>
+				<th><?= translate('Name'); ?></th>
+				<th><?= translate('Size'); ?></th>
+				<th><?= translate('Last Modified'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,7 +54,7 @@ window.addEvent('domready', function() {
 			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td>
-		    <img src="media://files/images/folder-64.png" height="24px" alt="[%=name%]" border="0" />
+		    <img src="assets://files/images/folder-64.png" height="24px" alt="[%=name%]" border="0" />
 		</td>
 		<td colspan="3">
 			<a href="#" class="navigate">
@@ -70,7 +70,7 @@ window.addEvent('domready', function() {
 			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td>
-		    <img src="media://files/images/document-64.png" height="24px" alt="[%=name%]" border="0" />
+		    <img src="assets://files/images/document-64.png" height="24px" alt="[%=name%]" border="0" />
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -95,7 +95,7 @@ window.addEvent('domready', function() {
 			[% if (typeof thumbnail === 'string') { %]
     			<img src="[%= client_cache || Files.blank_image %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" height="24px" />
     		[% } else { %]
-		   		<img src="media://files/images/image-16.png" height="24px" alt="[%=name%]" border="0" />
+		   		<img src="assets://files/images/image-16.png" height="24px" alt="[%=name%]" border="0" />
 		    [% } %]
 		</td>
 		<td>

@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Koowa_Template
- * @subpackage	Helper
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Template Helper Class
+ * Abstract Template Helper
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Template
- * @subpackage	Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 abstract class TemplateHelperAbstract extends Object implements TemplateHelperInterface
 {
@@ -34,23 +33,62 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	{
 		parent::__construct($config);
 
-        /*if (is_null($config->template))
-        {
-            throw new \InvalidArgumentException(
-                'template [TemplateInterface] config option is required'
-            );
-        }
-
-        if(!$config->template instanceof TemplateInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Template: '.get_class($config->template).' does not implement TemplateInterface'
-            );
-        }*/
-
-		// Set the template object
-    	$this->_template = $config->template;
+        // Set the template object
+        $this->setTemplate($config->template);
 	}
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'template' => null,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Translates a string and handles parameter replacements
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function translate($string, array $parameters = array())
+    {
+        return $this->getTemplate()->translate($string, $parameters);
+    }
+
+    /**
+     * Escape a string
+     *
+     * By default the function uses htmlspecialchars to escape the string
+     *
+     * @param string $string String to to be escape
+     * @return string Escaped string
+     */
+    public function escape($string)
+    {
+        return $this->getTemplate()->escape($string);
+    }
+
+    /**
+     * Set the template object
+     *
+     * @return  TemplateInterface $template	The template object
+     */
+    public function setTemplate(TemplateInterface $template)
+    {
+        $this->_template = $template;
+        return $this;
+    }
 
     /**
      * Get the template object
@@ -68,7 +106,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
      * @param   mixed   $array The array of Key/Value pairs for the attributes
      * @return  string  String containing xml style attributes
      */
-    public static function _buildAttributes($array)
+    public function buildAttributes($array)
     {
         $output = array();
 

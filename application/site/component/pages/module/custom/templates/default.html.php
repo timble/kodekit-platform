@@ -1,15 +1,17 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Pages
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<? if($show_title) : ?>
-<h3><?= $module->title ?></h3>
-<? endif ?>
+<div<?= $class ? ' class="'.$class.'"' : '' ?>>
+    <? if($show_title) : ?>
+        <h3><?= $module->title ?></h3>
+    <? endif ?>
 
-<?= $module->content ?>
+    <?= $module->content ?>
+</div>

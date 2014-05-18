@@ -1,18 +1,19 @@
 <?php
 /**
- * @package     Koowa_Controller
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract View Controller Class
+ * Abstract View Controller
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 abstract class ControllerView extends ControllerAbstract implements ControllerViewable
 {
@@ -36,8 +37,12 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $this->_view = $config->view;
 
 		// Mixin the toolbar
-		if($config->dispatch_events) {
-            $this->mixin('lib:controller.toolbar.mixin', $config);
+		if($config->dispatch_events)
+        {
+            $this->mixin('lib:controller.toolbar.mixin');
+
+            //Attach the toolbars
+            $this->registerCallback('before.render' , array($this, 'attachToolbars'), array($config->toolbars));
 		}
 	}
 	
@@ -51,16 +56,36 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
      */
     protected function _initialize(ObjectConfig $config)
     {
-        //Create permission identifier
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array('controller', 'permission');
-
         $config->append(array(
             'view'      => $this->getIdentifier()->name,
-            'behaviors' => array($permission),
+            'behaviors' => array('permissible'),
+            'toolbars'  => array()
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Attach the toolbars to the controller
+     *
+     * @param array $toolbars A list of toolbars
+     * @return ControllerView
+     */
+    public function attachToolbars($toolbars)
+    {
+        if($this->getView() instanceof ViewHtml)
+        {
+            foreach($toolbars as $toolbar) {
+                $this->attachToolbar($toolbar);
+            }
+
+            if($toolbars = $this->getToolbars())
+            {
+                $this->getView()
+                    ->getTemplate()
+                    ->attachFilter('toolbar', array('toolbars' => $toolbars));
+            };
+        }
     }
 
 	/**
@@ -85,9 +110,8 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
 			//Create the view
 			$config = array(
-                'media_url' => $this->getObject('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getObject('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
-                'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
+			    'url'	  => $this->getObject('request')->getUrl(),
+                'layout'  => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
 			$this->_view = $this->getObject($this->_view, $config);
@@ -169,9 +193,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
         $content = $view->render();
 
         //Set the data in the response
-        $context->response
-                ->setContent($content)
-                ->setContentType($view->mimetype);
+        $context->response->setContent($content, $view->mimetype);
 
 	    return $content;
 	}
@@ -190,11 +212,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	 */
 	public function __call($method, $args)
 	{
-		//Check for layout, view or format property
-        if(in_array($method, array('layout', 'format')))
+        if(!isset($this->_mixed_methods[$method]))
         {
-            $this->getRequest()->query->set($method, $args[0]);
-            return $this;
+		    //Check for layout, view or format property
+            if(in_array($method, array('layout', 'format')))
+            {
+                $this->getRequest()->query->set($method, $args[0]);
+                return $this;
+            }
         }
 
 		return parent::__call($method, $args);

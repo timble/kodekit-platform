@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Application
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Application;
@@ -43,11 +43,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
                     $request->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
                     $application->forward('users');
                 }
-                else
-                {
-                    $application->getUser()->addFlashMessage($event->getMessage(), 'error');
-                    $response->setRedirect($request->getReferrer());
-                }
+                else $response->setRedirect($request->getReferrer(), $event->getMessage(), 'error');
 
                 $application->dispatch();
 

@@ -1,20 +1,21 @@
 <?php
 /**
-* @package      Koowa_Config
-* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
-* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
-* @link 		http://www.nooku.org
-*/
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ */
 
 namespace Nooku\Library;
 
 /**
- * ObjectConfig Factory
+ * Object Config Factory
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Config
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
-class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSingleton
+class ObjectConfigFactory extends Object implements ObjectMultiton
 {
     /**
      * Registered config file formats.
@@ -40,7 +41,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config	An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -66,7 +67,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
      * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
      * @return ObjectConfig
      */
-    public function getInstance($format, $config = array())
+    public function getFormat($format, $config = array())
     {
         $format = strtolower($format);
 
@@ -132,7 +133,7 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
             ));
         }
 
-        $config = $this->getIntance($pathinfo['extension'])->fromFile($filename);
+        $config = $this->getFormat($pathinfo['extension'])->fromFile($filename);
         return $config;
     }
 
@@ -155,6 +156,6 @@ class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSinglet
             ));
         }
 
-        return $this->getInstance($pathinfo['extension'])->toFile($filename, $config);
+        return $this->getFormat($pathinfo['extension'])->toFile($filename, $config);
     }
 }

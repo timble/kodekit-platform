@@ -2,20 +2,43 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
 
 use Nooku\Library;
 
+/**
+ * Node Database Row
+ *
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Nooku\Component\Files
+ */
 class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
-	protected $_adapter;
+    /**
+     * The file adapter
+     *
+     * @var FilesAdapterLocalInterface
+     */
+    protected $_adapter;
 
+    /**
+     * The file container
+     *
+     * @var string
+     */
     protected $_container;
+
+    /**
+     * Chain of command object
+     *
+     * @var Library\CommandChain
+     */
+    protected $_command_chain;
 
 	public function __construct(Library\ObjectConfig $config)
 	{
@@ -36,9 +59,9 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getObject('lib:command.chain'),
+			'command_chain'     => 'lib:command.chain',
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getObject('lib:event.dispatcher.default'),
+			'event_dispatcher'  => 'event.dispatcher',
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));

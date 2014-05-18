@@ -1,10 +1,9 @@
 /**
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Template
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
   
 /**
@@ -267,8 +266,8 @@ var ChromaTable = new Class({
 		this.inner.setStyles({
 		    backgroundSize: '100% '+backgroundHeight+'px',
 		    backgroundPosition: '0px '+(backgroundOffset-2)+'px',
-		    backgroundImage: '-webkit-gradient(linear, left top, left bottom, color-stop(0, '+backgrounds.even+'), color-stop(0.5, '+backgrounds.even+'), color-stop(0.5, '+backgrounds.odd+'), color-stop(1, '+backgrounds.odd+'))'
-		});
+            backgroundImage: 'linear-gradient(to bottom, '+backgrounds.even+' 0%, '+backgrounds.even+' 50%, '+backgrounds.odd+' 50%, '+backgrounds.odd+' 100%)'
+        });
 	},
 	
 	getComputedWidth: function(el, del){

@@ -2,18 +2,18 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
 <h4>
-<?= @text('Memory : ') ?>
+<?= translate('Memory : ') ?>
 <?= $memory; ?>
 </h4>
 
 <h4>
-<?= @text('Queries : ') ?>
+<?= translate('Queries : ') ?>
 <?= count($queries);?>
 </h4>

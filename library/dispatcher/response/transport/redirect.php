@@ -1,32 +1,62 @@
 <?php
 /**
- * @package		Koowa_Dispatcher
- * @subpackage  Response
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Redirect Dispatcher Response Transport Class
+ * Redirect Dispatcher Response Transport
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage  Response
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
-class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbstract
+class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHttp
 {
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => self::PRIORITY_HIGH,
+        ));
+
+        parent::_initialize($config);
+    }
+
     /**
      * Sends content for the current web response.
      *
+     * @param DispatcherResponseInterface $response
      * @return DispatcherResponseTransportRedirect
      */
-    public function sendContent()
+    public function sendContent(DispatcherResponseInterface $response)
     {
-        $response = $this->getResponse();
+        $session  = $response->getUser()->getSession();
 
+        //Set the messages into the session
+        $messages = $response->getMessages();
+        if(count($messages))
+        {
+            //Auto start the session if it's not active.
+            if(!$session->isActive()) {
+                $session->start();
+            }
+
+            $session->getContainer('message')->values($messages);
+        }
+
+        //Set the redirect into the response
         $response->setContent(sprintf(
             '<!DOCTYPE html>
                 <html>
@@ -42,6 +72,21 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbs
             , htmlspecialchars($response->headers->get('Location'), ENT_QUOTES, 'UTF-8')
         ));
 
-        return parent::sendContent();
+        return parent::sendContent($response);
+    }
+
+    /**
+     * Send HTTP response
+     *
+     * If this is a redirect response, send the response and stop the transport handler chain.
+     *
+     * @param DispatcherResponseInterface $response
+     * @return boolean
+     */
+    public function send(DispatcherResponseInterface $response)
+    {
+        if($response->isRedirect()) {
+            return parent::send($response);
+        }
     }
 }

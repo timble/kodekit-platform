@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Template
- * @subpackage  Helper
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Template Tabs Behavior Helper
+ * Tabs Template Helper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage  Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperTabs extends TemplateHelperBehavior
 {
@@ -38,12 +37,12 @@ class TemplateHelperTabs extends TemplateHelperBehavior
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['tabs']))
         {
-            $html .= '<script src="media://js/tabs.js" />';
+            $html .= '<script src="assets://js/tabs.js" />';
             self::$_loaded['tabs'] = true;
         }
 
         $id      = strtolower($config->id);
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
         //Don't pass an empty array as options
         $options = $config->options->toArray() ? ', '.$config->options : '';
 
@@ -83,8 +82,8 @@ class TemplateHelperTabs extends TemplateHelperBehavior
             'translate' => true
         ));
 
-        $title   = $config->translate ? \JText::_($config->title) : $config->title;
-        $attribs = $this->_buildAttributes($config->attribs);
+        $title   = $config->translate ? $this->translate($config->title) : $config->title;
+        $attribs = $this->buildAttributes($config->attribs);
 
         return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
     }

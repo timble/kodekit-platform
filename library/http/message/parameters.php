@@ -1,22 +1,21 @@
 <?php
 /**
- * @package     Koowa_Http
- * @subpackage  Messsage
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Http Message Parameters Class
+ * Http Message Parameters
  *
  * Container class that handles the aggregations of HTTP parameters as a collection
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Messsage
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 class HttpMessageParameters extends ObjectArray
 {
@@ -76,7 +75,7 @@ class HttpMessageParameters extends ObjectArray
 
             // Filter the data
             if(!($filter instanceof FilterInterface)) {
-                $filter = $this->getObject('lib:filter.factory')->getInstance($filter);
+                $filter = $this->getObject('lib:filter.factory')->getFilter($filter);
             }
 
             $result = $filter->sanitize($result);
@@ -124,7 +123,7 @@ class HttpMessageParameters extends ObjectArray
 
             // Filter the data
             if(!($filter instanceof FilterInterface)) {
-                $filter = $this->getObject('lib:filter.factory')->getInstance($filter);
+                $filter = $this->getObject('lib:filter.factory')->getFilter($filter);
             }
 
             $result = $filter->sanitize($result);
@@ -140,7 +139,7 @@ class HttpMessageParameters extends ObjectArray
      * @param   mixed   $identifier Parameter identifier, eg foo.bar
      * @param   mixed   $value     Parameter value
      * @param   boolean $replace    Whether to replace the actual value or not (true by default)
-     * @throws UnexpectedValueException If the content is not a string are cannot be casted to a string.
+     * @throws \UnexpectedValueException If the content is not a string are cannot be casted to a string.
      * @return HttpMessageParameters
      */
     public function set($identifier, $value, $replace = true)

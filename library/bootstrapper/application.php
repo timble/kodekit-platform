@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Koowa_Bootstrapper
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -11,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Application Bootstrapper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Bootstrapper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Bootstrapper
  */
 class BootstrapperApplication extends BootstrapperChain
 {
@@ -33,7 +34,7 @@ class BootstrapperApplication extends BootstrapperChain
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -60,7 +61,7 @@ class BootstrapperApplication extends BootstrapperChain
             }
 
             $bootstrapper = $this->getObject('com:'.$dir.'.bootstrapper');
-            $this->enqueue($bootstrapper);
+            $this->addBootstrapper($bootstrapper);
         }
 
         parent::bootstrap();

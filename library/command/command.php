@@ -1,21 +1,22 @@
 <?php
 /**
- * @package        Koowa_Command
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Command handler
+ * Command
  *
  * The command handler will translate the command name into a function format and call it for the object class to handle
  * it if the method exists.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Command
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Command
  */
 class Command extends Object implements CommandInterface
 {
@@ -27,14 +28,16 @@ class Command extends Object implements CommandInterface
     protected $_priority;
 
     /**
-     * Constructor.
+     * Object constructor
      *
-     * @param  ObjectConfig  $config An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config Configuration options
+     * @throws \InvalidArgumentException
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
+        //Set the command priority
         $this->_priority = $config->priority;
     }
 
@@ -49,7 +52,7 @@ class Command extends Object implements CommandInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => CommandChain::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -58,10 +61,10 @@ class Command extends Object implements CommandInterface
     /**
      * Command handler
      *
-     * @param   string           $name     The command name
+     * @param   string          $name     The command name
      * @param   CommandContext  $context  The command context
      *
-     * @return  mixed  Method result if the method exsist, NULL otherwise.
+     * @return  mixed  Method result if the method exists, NULL otherwise.
      */
     public function execute($name, CommandContext $context)
     {

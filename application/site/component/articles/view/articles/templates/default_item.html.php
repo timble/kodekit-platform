@@ -1,30 +1,31 @@
-<?php
+<?
 /**
- * @package        Nooku_Server
- * @subpackage     Articles
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
-<article class="clearfix">
-    <div class="page-header">
-        <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
-        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+
+<article>
+    <header>
+        <h1><a href="<?= helper('route.article', array('row' => $article)) ?>"><?= highlight($article->title) ?></a></h1>
+        <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
-        <span class="label label-info"><?= @text('Unpublished') ?></span>
+        <span class="label label-info"><?= translate('Unpublished') ?></span>
         <? endif ?>
         <? if ($article->access) : ?>
-        <span class="label label-important"><?= @text('Registered') ?></span>
+        <span class="label label-important"><?= translate('Registered') ?></span>
         <? endif ?>
-    </div>
-    
-    <? if($article->thumbnail): ?>
-        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
-    <? endif; ?>
-    
+    </header>
+
+    <?= helper('com:attachments.image.thumbnail', array(
+        'attachment' => $article->attachments_attachment_id,
+        'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
+
     <? if ($article->introtext) : ?>
-        <?= @highlight($article->introtext) ?>
-        <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
+        <?= highlight($article->introtext) ?>
+        <a class="article__readmore" href="<?= helper('route.article', array('row' => $article)) ?>"><?= translate('Read more') ?></a>
     <? endif; ?>
 </article>

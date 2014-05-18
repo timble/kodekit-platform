@@ -1,20 +1,18 @@
 <?php
 /**
- * @package     Nooku_Components
- * @subpackage  Default
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
-
 use Nooku\Library;
 
 /**
- * Template Tabbar Helper
+ * Tabbar Template Helper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Application
  */
 class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
 {
@@ -28,14 +26,14 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'tabbar'  => null,
+        	'toolbar' => null,
             'attribs' => array(),
         ));
 
         $html = '';
-        if(isset($config->tabbar))
+        if(isset($config->toolbar))
         {
-            $commands = $config->tabbar->getCommands();
+            $commands = $config->toolbar->getCommands();
 
             if(count($commands)) {
                 $html = '<div id="panel-tabbar">';
@@ -86,9 +84,9 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
         }
 
         if ($command->disabled) {
-			$html = '<span '.$this->_buildAttributes($command->attribs).'>'.JText::_($command->label).'</span>';
+			$html = '<span '.$this->buildAttributes($command->attribs).'>'.$this->translate($command->label).'</span>';
 		} else {
-			$html = '<a '.$this->_buildAttributes($command->attribs).'>'.JText::_($command->label).'</a>';
+			$html = '<a '.$this->buildAttributes($command->attribs).'>'.$this->translate($command->label).'</a>';
 		}
 
     	return $html;

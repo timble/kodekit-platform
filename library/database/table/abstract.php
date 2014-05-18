@@ -1,24 +1,23 @@
 <?php
 /**
- * @package     Koowa_Database
- * @subpackage  Table
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Table Class
+ * Abstract Database Table
  *
  * Parent class to all tables.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Table
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
-abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectSingleton
+abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectMultiton
 {
     /**
      * Real name of the table in the db schema
@@ -61,6 +60,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * @var array
      */
     protected $_defaults;
+
+    /**
+     * Chain of command object
+     *
+     * @var CommandChain
+     */
+    protected $_command_chain;
 
     /**
      * Object constructor
@@ -110,9 +116,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
         }
 
-        // Mixin the command interface
-        $this->mixin('lib:command.mixin', $config);
-
         // Mixin the behavior interface
         $this->mixin('lib:behavior.mixin', $config);
     }
@@ -137,7 +140,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             'filters'           => array(),
             'behaviors'         => array(),
             'identity_column'   => null,
-            'command_chain'     => $this->getObject('lib:command.chain'),
+            'command_chain'     => 'lib:command.chain',
             'dispatch_events'   => false,
             'event_dispatcher'  => null,
             'enable_callbacks'  => false,
@@ -464,6 +467,32 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         }
 
         return $this->getObject($identifier, $options);
+    }
+
+    /**
+     * Get the chain of command object
+     *
+     * To increase performance the a reference to the command chain is stored in object scope to prevent slower calls
+     * to the KCommandChain mixin.
+     *
+     * @return CommandChainInterface
+     */
+    public function getCommandChain()
+    {
+        if(!$this->_command_chain instanceof CommandChainInterface)
+        {
+            //Ask the parent the relay the call to the mixin
+            $this->_command_chain = parent::getCommandChain();
+
+            if(!$this->_command_chain instanceof CommandChainInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
+                );
+            }
+        }
+
+        return $this->_command_chain;
     }
 
     /**

@@ -1,18 +1,19 @@
 <?php
 /**
- * @package		Koowa_Template
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
  /**
   * Template Interface
-  * 
-  * @author		Johan Janssens <johan@nooku.org>
-  * @package	Koowa_Template
+  *
+  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+  * @package Nooku\Library\Template
   */
 interface TemplateInterface
 {
@@ -22,6 +23,25 @@ interface TemplateInterface
      * @return string    The rendered data
      */
     public function render();
+
+    /**
+     * Escape a string
+     *
+     * By default the function uses htmlspecialchars to escape the string
+     *
+     * @param string $string String to to be escape
+     * @return string Escaped string
+     */
+    public function escape($string);
+
+    /**
+     * Translates a string and handles parameter replacements
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function translate($string, array $parameters = array());
 
     /**
      * Check if the template is in a render cycle
@@ -50,6 +70,13 @@ interface TemplateInterface
      * @return  string
      */
     public function getContent();
+
+    /**
+     * Get the format
+     *
+     * @return 	string 	The format of the view
+     */
+    public function getFormat();
 
     /**
      * Get the view object attached to the template
@@ -97,7 +124,7 @@ interface TemplateInterface
     public function getFilter($filter, $config = array());
 
     /**
-     * Attach one or more filters for template transformation
+     * Attach a filter for template transformation
      *
      * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string

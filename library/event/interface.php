@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Koowa_Event
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -11,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Event Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Event
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 interface EventInterface
 {
@@ -26,7 +27,7 @@ interface EventInterface
     /**
      * Set the event name
      *
-     * @param string	The event name
+     * @param string $name The event name
      * @return Event
      */
     public function setName($name);
@@ -41,7 +42,7 @@ interface EventInterface
     /**
      * Set the event target
      *
-     * @param object	The event target
+     * @param ObjectInterface $target	The event target
      * @return Event
      */
     public function setTarget(ObjectInterface $target);
@@ -49,7 +50,7 @@ interface EventInterface
     /**
      * Stores the EventDispatcher that dispatches this Event
      *
-     * @param EventDispatcher $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      * @return Event
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher);
@@ -57,7 +58,7 @@ interface EventInterface
     /**
      * Returns the EventDispatcher that dispatches this Event
      *
-     * @return EventDispatcher
+     * @return EventDispatcherInterface
      */
     public function getDispatcher();
     
@@ -71,9 +72,8 @@ interface EventInterface
     /**
      * Stops the propagation of the event to further event listeners.
      *
-     * If multiple event listeners are connected to the same event, no
-     * further event listener will be triggered once any trigger calls
-     * stopPropagation().
+     * If multiple event listeners are connected to the same event, no further event listener will be triggered once
+     * any trigger calls stopPropagation().
      * 
      * @return Event
      */

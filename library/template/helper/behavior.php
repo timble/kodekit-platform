@@ -1,20 +1,19 @@
 <?php
 /**
- * @package        Koowa_Template
- * @subpackage    Helper
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Template Behavior Helper
+ * Behavior Template Helper
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package        Koowa_Template
- * @subpackage    Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperBehavior extends TemplateHelperAbstract
 {
@@ -42,7 +41,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $config = new ObjectConfig($config);
 
-            $html .= '<script src="media://js/mootools.js" />';
+            $html .= '<script src="assets://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
         }
 
@@ -67,8 +66,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['modal'])) {
-            $html .= '<script src="media://js/modal.js" />';
-            $html .= '<style src="media://css/modal.css" />';
+            $html .= '<script src="assets://js/modal.js" />';
+            $html .= '<style src="assets://css/modal.css" />';
 
             self::$_loaded['modal'] = true;
         }
@@ -145,8 +144,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['overlay']))
         {
-            $html .= '<script src="media://js/koowa.js" />';
-            $html .= '<style src="media://css/koowa.css" />';
+            $html .= '<script src="assets://js/koowa.js" />';
+            $html .= '<style src="assets://css/koowa.css" />';
 
             self::$_loaded['overlay'] = true;
         }
@@ -156,7 +155,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         //Force tmpl to overlay
         $url->query['tmpl'] = 'overlay';
 
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
 
         $id = 'overlay' . rand();
         if ($url->fragment) {
@@ -172,7 +171,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $options = $config->options->toArray() ? ', ' . $config->options : '';
         $html .= "<script>window.addEvent('domready', function(){new Koowa.Overlay('$id'" . $options . ");});</script>";
 
-        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . \JText::_('Loading...') . '</div></div>';
+        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . $this->translate('Loading...') . '</div></div>';
         return $html;
     }
 
@@ -254,8 +253,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['validator'])) {
-            $html .= '<script src="media://js/validator-1.2.js" />';
-            $html .= '<script src="media://js/patch.validator.js" />';
+            $html .= '<script src="assets://js/validator-1.2.js" />';
+            $html .= '<script src="assets://js/patch.validator.js" />';
 
             self::$_loaded['validator'] = true;
         }
@@ -338,9 +337,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['autocomplete'])) {
-            $html .= '<script src="media://js/autocomplete.js" />';
-            $html .= '<script src="media://js/patch.autocomplete.js" />';
-            $html .= '<style src="media://css/autocomplete.css" />';
+            $html .= '<script src="assets://js/autocomplete.js" />';
+            $html .= '<script src="assets://js/patch.autocomplete.js" />';
+            $html .= '<style src="assets://css/autocomplete.css" />';
         }
 
         $html .= "
@@ -350,8 +349,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 			});
 		</script>";
 
-        $html .= '<input ' . $this->_buildAttributes($config->attribs) . ' />';
-        $html .= '<input ' . $this->_buildAttributes(array(
+        $html .= '<input ' . $this->buildAttributes($config->attribs) . ' />';
+        $html .= '<input ' . $this->buildAttributes(array(
             'type' => 'hidden',
             'name' => $config->name,
             'id' => $config->element . '-value',
@@ -417,6 +416,66 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
             $this->_loaded[$signature] = true;
         }
+
+        return $html;
+    }
+
+    /**
+     * Loads the inline editor behavior and attaches it to a specified element
+     *
+     * @see http://mootools.net/forge/p/meio_autocomplete
+     *
+     * @param 	array 	$config An optional array with configuration options
+     * @return string    The html output
+     *
+     */
+    public function inline_editing($config = array())
+    {
+        $config = new ObjectConfigJson($config);
+        $config->append(array(
+            'url' => '',
+            'options' => array(),
+            'attribs' => array(),
+        ));
+
+        $html = '';
+        // Load the necessary files if they haven't yet been loaded
+        if (!isset(self::$_loaded['inline_editing']))
+        {
+            $html .= '<script src="assets://application/js/jquery.js" />';
+            $html .= '<script src="assets://ckeditor/ckeditor/ckeditor.js" />';
+
+            self::$_loaded['inline_editing'] = true;
+        }
+
+        $url = $this->getObject('lib:http.url', array('url' => $config->url));
+
+        $html .= "<script>window.addEvent('domready', function(){
+                    CKEDITOR.on( 'instanceCreated', function( event ) {
+                        var editor = event.editor,
+                            element = editor.element;
+
+                        if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
+                            editor.on( 'configLoaded', function() {
+                                editor.config.toolbar = 'title';
+                            });
+                        }else{
+                            editor.on( 'configLoaded', function() {
+                                editor.config.toolbar = 'standard';
+                            });
+                        }
+                        editor.on('blur', function (ev) {
+                            var data = {};
+
+                            // Need to do this because we don't know what field there is being edited....
+                            data[editor.element.getId()] = editor.getData();
+                            data['_token'] = '".$this->getObject('user')->getSession()->getToken()."';
+
+                            jQuery.post('".$url."', data);
+                        });
+                    });
+            });</script>";
+
 
         return $html;
     }

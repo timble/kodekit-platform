@@ -1,55 +1,59 @@
 <?php
 /**
- * @package		Koowa_Dispatcher
- * @subpackage	Permission
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Dispatcher Permission Class
+ * Abstract Dispatcher Permission
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Permission
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
-abstract class DispatcherPermissionAbstract extends ControllerPermissionAbstract
+abstract class DispatcherPermissionAbstract extends ObjectMixinAbstract implements DispatcherPermissionInterface
 {
-	/**
-     * Command handler
+    /**
+     * Permission handler for forward actions
      *
-     * Only handles before.action commands to check authorization rules.
-     *
-     * @param   string $name     The command name
-     * @param   object $context  The command context
-     * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
-     * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
-     * @return  boolean     Can return both true or false.
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function execute( $name, CommandContext $context)
+    public function canForward()
     {
-        $parts = explode('.', $name);
+        return true;
+    }
 
-        if($parts[0] == 'before')
-        {
-            $action = $parts[1];
+    /**
+     * Permission handler for dispatch actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canDispatch()
+    {
+        return true;
+    }
 
-            //Check if the action is allowed
-            $method = 'can'.ucfirst($action);
+    /**
+     * Permission handler for redirect actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canRedirect()
+    {
+        return true;
+    }
 
-            if(method_exists($this, $method))
-            {
-                if($this->$method() === false)
-		        {
-                    throw new DispatcherExceptionActionNotAllowed('Action: '.$method.' not allowed');
-		            return false;
-		        }
-            }
-        }
-
+    /**
+     * Permission handler for send actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canSend()
+    {
         return true;
     }
 }

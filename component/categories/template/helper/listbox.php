@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Categories;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
@@ -40,7 +40,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
         foreach($list as $item) {
-			$options[] =  $this->option(array('text' => $item->ordering, 'value' => $item->ordering - $config->ordering));
+			$options[] =  $this->option(array('label' => $item->ordering, 'value' => $item->ordering - $config->ordering));
 		}
 		
         $list = $this->optionlist(array(
@@ -66,24 +66,22 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => 0));
+            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => 0));
         }
 
-        $list = $this->getObject('com:categories.model.categories')
-                     ->table($config->table)
-                     ->parent($config->parent)
-                     ->sort('title')
-                     ->getRowset();
+        $categories = $this->getObject('com:categories.model.categories')
+                         ->table($config->table)
+                        ->parent($config->parent)
+                        ->sort('title')
+                        ->getRowset();
 
-        $iterator = new \RecursiveIteratorIterator($list, \RecursiveIteratorIterator::SELF_FIRST);
-        foreach($iterator as $item)
+        $iterator = new DatabaseIteratorNode($categories);
+        $iterator->setMaxDepth($config->max_depth);
+
+        foreach($iterator as $category)
         {
-            if($iterator->getDepth() > $config->max_depth) {
-                break;
-            }
-
-            $title =  substr('---------', 0, $iterator->getDepth()).$item->title;
-            $options[] = $this->option(array('text' => $title, 'value' => $item->id));
+            $title =  substr('---------', 0, $iterator->getDepth()).$category->title;
+            $options[] = $this->option(array('label' => $title, 'value' => $category->id));
         }
 
         $config->options = $options;

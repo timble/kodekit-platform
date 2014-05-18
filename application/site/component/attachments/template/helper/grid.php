@@ -1,20 +1,19 @@
 <?php
 /**
- * @package        Nooku_Server
- * @subpackage     Attachments
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Thumbnail Template Helper Class
+ * Grid Template Helper
  *
- * @author     Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package    Nooku_Server
- * @subpackage Attachments
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @package Component\Attachments
  */
 class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
 {
@@ -33,7 +32,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
             )
         ));
         
-        $attribs = $this->_buildAttributes($config->attribs);
+        $attribs = $this->buildAttributes($config->attribs);
 
         $list = $this->getObject('com:attachments.controller.attachment', array(
 			'request' => $this->getObject('lib:controller.request', array(
@@ -46,7 +45,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
         if(count($list)) {
             foreach($list as $item) {
                 if($item->file->isImage()) {
-                    $html[] = '<img '.$attribs.' src="'.$item->thumbnail->thumbnail.'" />';
+                    $html[] = '<img '.$attribs.' src="attachments://'.$item->thumbnail.'" />';
                 }
             }
     

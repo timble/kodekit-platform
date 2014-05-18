@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Koowa_Http
- * @subpackage  Message
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Message Interface
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Http
- * @subpackage  Message
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Http
  */
 interface HttpMessageInterface
 {
@@ -50,12 +49,16 @@ interface HttpMessageInterface
     public function getVersion();
 
     /**
-     * Set message content
+     * Sets the response content.
      *
-     * @param  mixed $value
-     * @return HttpMessageInterface
+     * Valid types are strings, numbers, and objects that implement a __toString() method.
+     *
+     * @param mixed  $content   The content
+     * @param string $type      The content type
+     * @throws \UnexpectedValueException If the content is not a string are cannot be casted to a string.
+     * @return HttpMessage
      */
-    public function setContent($value);
+    public function setContent($content, $type = null);
 
     /**
      * Get message content

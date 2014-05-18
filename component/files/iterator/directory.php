@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -12,7 +12,7 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Custom directory iterator with additional filters and callbacks.
+ * Directory Iterator
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
@@ -20,7 +20,6 @@ use Nooku\Library;
 class IteratorDirectory extends \DirectoryIterator
 {
 	/**
-	 *
 	 * Method to get files in a folder
 	 *
 	 * @param array $config
@@ -32,7 +31,6 @@ class IteratorDirectory extends \DirectoryIterator
 	}
 
 	/**
-	 *
 	 * Method to get child folders of a folder
 	 *
 	 * @param array $config
@@ -44,7 +42,6 @@ class IteratorDirectory extends \DirectoryIterator
 	}
 
 	/**
-	 *
 	 * Method to read child nodes of a folder
 	 *
 	 * @param array $config
@@ -123,7 +120,9 @@ class IteratorDirectory extends \DirectoryIterator
 		
 		if ($config->sort === 'modified_on') {
 			uasort($results, array('self', '_sortByDate'));
-		}
+		} elseif ($config->sort === 'name') {
+            uasort($results, array('self', '_sortByName'));
+        }
 		
 		if ($config->return_raw === true) {
 			return $results;
@@ -149,6 +148,11 @@ class IteratorDirectory extends \DirectoryIterator
 	{
 		return strcmp($file1['modified'], $file2['modified']);
 	}
+
+    public static function _sortByName($file1, $file2)
+    {
+        return strnatcasecmp($file1['path'], $file2['path']);
+    }
 }
 
 

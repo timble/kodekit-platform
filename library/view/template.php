@@ -1,18 +1,19 @@
 <?php
 /**
- * @package     Koowa_View
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Template View Class
+ * Abstract Template View
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 abstract class ViewTemplate extends ViewAbstract
 {
@@ -22,13 +23,6 @@ abstract class ViewTemplate extends ViewAbstract
      * @var string|object
      */
     protected $_template;
-
-    /**
-     * Callback for escaping.
-     *
-     * @var string
-     */
-    protected $_escape;
 
     /**
      * Auto assign
@@ -43,13 +37,6 @@ abstract class ViewTemplate extends ViewAbstract
      * @var boolean
      */
     protected $_data;
-
-    /**
-     * The uniform resource locator
-     *
-     * @var object
-     */
-    protected $_mediaurl;
 
     /**
      * Layout name
@@ -67,21 +54,11 @@ abstract class ViewTemplate extends ViewAbstract
     {
         parent::__construct($config);
 
-        //Set the media url
-        if (!$config->media_url instanceof HttpUrlInterface) {
-            $this->_mediaurl = $this->getObject('lib:http.url', array('url' => $config->media_url));
-        } else {
-            $this->_mediaurl = $config->media_url;
-        }
-
         //Set the auto assign state
         $this->_auto_assign = $config->auto_assign;
 
         //Set the data
         $this->_data = ObjectConfig::unbox($config->data);
-
-        //Set the user-defined escaping callback
-        $this->setEscape($config->escape);
 
         //Set the layout
         $this->setLayout($config->layout);
@@ -100,11 +77,6 @@ abstract class ViewTemplate extends ViewAbstract
                 $this->getTemplate()->attachFilter($key, $value);
             }
         }
-
-        //Add alias filter for media:// namespaced
-        $this->getTemplate()->getFilter('alias')->addAlias(
-            array('media://' => (string)$this->_mediaurl . '/'), TemplateFilter::MODE_COMPILE | TemplateFilter::MODE_RENDER
-        );
     }
 
     /**
@@ -112,7 +84,7 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -122,12 +94,10 @@ abstract class ViewTemplate extends ViewAbstract
 
         $config->append(array(
             'data'             => array(),
-            'escape'           => 'htmlspecialchars',
             'layout'           => '',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'alias', 'decorator'),
+            'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
             'auto_assign'      => true,
-            'media_url'        => '/media',
         ));
 
         parent::_initialize($config);
@@ -158,17 +128,6 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         return $result;
-    }
-
-    /**
-     * Escapes a value for output in a view script.
-     *
-     * @param  mixed $var The output to escape.
-     * @return mixed The escaped value.
-     */
-    public function escape($var)
-    {
-        return call_user_func($this->_escape, $var);
     }
 
     /**
@@ -236,18 +195,6 @@ abstract class ViewTemplate extends ViewAbstract
     }
 
     /**
-     * Sets the _escape() callback.
-     *
-     * @param   mixed $spec The callback for _escape() to use.
-     * @return  ViewAbstract
-     */
-    public function setEscape($spec)
-    {
-        $this->_escape = $spec;
-        return $this;
-    }
-
-    /**
      * Get the template object attached to the view
      *
      *  @throws	\UnexpectedValueException	If the template doesn't implement the TemplateInterface
@@ -305,16 +252,6 @@ abstract class ViewTemplate extends ViewAbstract
         $this->_template = $template;
 
         return $this;
-    }
-
-    /**
-     * Get the view media url
-     *
-     * @return     object    A HttpUrl object
-     */
-    public function getMediaUrl()
-    {
-        return $this->_mediaurl;
     }
 
     /**

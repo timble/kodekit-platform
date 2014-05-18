@@ -1,23 +1,22 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Mixin
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract mixing class
+ * Abstract Object Mixin
  *
  * This class does not extend from Object and acts as a special core class that is intended to offer semi-multiple
  * inheritance features to Object derived classes.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 abstract class ObjectMixinAbstract implements ObjectMixinInterface
 {
@@ -26,7 +25,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      *
      * @var Object
      */
-    protected $_mixer;
+    private $__mixer;
 
     /**
      * Class methods
@@ -80,7 +79,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function getMixer()
     {
-        return $this->_mixer;
+        return $this->__mixer;
     }
 
     /**
@@ -91,7 +90,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function setMixer(ObjectMixable $mixer)
     {
-        $this->_mixer = $mixer;
+        $this->__mixer = $mixer;
         return $this;
     }
 
@@ -123,7 +122,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
 
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods() as $method) {
-                $methods[] = $method->name;
+                $methods[$method->name] = $method->name;
             }
 
             $this->__methods = $methods;
@@ -149,7 +148,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                $methods[$method->name] = $this;
+                $methods[$method->name] = $method->name;
             }
 
             //Remove the base class methods
@@ -189,7 +188,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function __set($key, $value)
     {
-        $this->_mixer->$key = $value;
+        $this->getMixer()->$key = $value;
     }
 
     /**
@@ -200,7 +199,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function __get($key)
     {
-        return $this->_mixer->$key;
+        return $this->getMixer()->$key;
     }
 
     /**
@@ -213,7 +212,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function __isset($key)
     {
-        return isset($this->_mixer->$key);
+        return isset($this->getMixer()->$key);
     }
 
     /**
@@ -226,8 +225,8 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function __unset($key)
     {
-        if (isset($this->_mixer->$key)) {
-            unset($this->_mixer->$key);
+        if (isset($this->getMixer()->$key)) {
+            unset($this->getMixer()->$key);
         }
     }
 
@@ -241,19 +240,21 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      */
     public function __call($method, $arguments)
     {
+        $mixer = $this->getMixer();
+
         //Make sure we don't end up in a recursive loop
-        if (isset($this->_mixer) && !($this->_mixer instanceof $this))
+        if (isset($mixer) && !($mixer instanceof $this))
         {
             // Call_user_func_array is ~3 times slower than direct method calls.
             switch (count($arguments))
             {
-                case 0 : $result = $this->_mixer->$method(); break;
-                case 1 : $result = $this->_mixer->$method($arguments[0]); break;
-                case 2 : $result = $this->_mixer->$method($arguments[0], $arguments[1]); break;
-                case 3 : $result = $this->_mixer->$method($arguments[0], $arguments[1], $arguments[2]); break;
+                case 0 : $result = $mixer->$method(); break;
+                case 1 : $result = $mixer->$method($arguments[0]); break;
+                case 2 : $result = $mixer->$method($arguments[0], $arguments[1]); break;
+                case 3 : $result = $mixer->$method($arguments[0], $arguments[1], $arguments[2]); break;
                 default:
                     // Resort to using call_user_func_array for many segments
-                    $result = call_user_func_array(array($this->_mixer, $method), $arguments);
+                    $result = call_user_func_array(array($mixer, $method), $arguments);
             }
 
             return $result;

@@ -1,20 +1,20 @@
 <?
 /**
- * @package     Nooku_Components
- * @subpackage  Files
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
 <textarea style="display: none" id="file_preview">
     <div class="files-preview">
         <div class="preview extension-[%=metadata.extension%]">
-            <img src="media://files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
+            <img src="assets://files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
         </div>
         <div class="details">
-            <a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= @text('View'); ?></a>
+            <a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= translate('View'); ?></a>
             <h3 class="name" title="[%=name%]">[%=name%]</h3>
         </div>
         <!--<h4 class="preview-section">general</h4>-->

@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Koowa_Database
- * @subpackage  Schema
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Database Schema Column Class
+ * Column Database Schema
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage  Schema
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseSchemaColumn extends Object
 {
@@ -114,8 +113,7 @@ class DatabaseSchemaColumn extends Object
     }
 
     /**
-     * Implements access to $_filter by reference so that it appears to be
-     * a public $filter property.
+     * Implements access to $_filter by reference so that it appears to be a public $filter property.
      *
      * @param   string  $key The virtual property to return, only accepts 'filter'
      * @return  mixed   The value of the virtual property.
@@ -129,7 +127,7 @@ class DatabaseSchemaColumn extends Object
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getObject('lib:filter.factory')->getInstance($this->_filter);
+                $this->_filter = $this->getObject('lib:filter.factory')->getFilter($this->_filter);
             }
 
             return $this->_filter;

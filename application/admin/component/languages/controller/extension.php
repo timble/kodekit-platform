@@ -10,34 +10,22 @@
 use Nooku\Library;
 
 /**
- * Component Controller Class
+ * Extension Controller
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
-
-class LanguagesControllerComponent extends Library\ControllerModel
+class LanguagesControllerExtension extends Library\ControllerView
 {
     protected function _actionEdit(Library\CommandContext $context)
     {
-        $entity = $this->getObject('com:languages.model.tables')
-            ->component($context->request->data->get('id', 'int'))
-            ->getRowset();
-
-        if(count($entity))
+        if($context->request->data->has('id'))
         {
-            $entity->setData(array('enabled' => $context->request->data->get('enabled', 'int')));
-
-            //Only set the reset content status if the action explicitly succeeded
-            if($entity->save() === true) {
-                $context->response->setStatus(self::STATUS_RESET);
-            } else {
-                $context->response->setStatus(self::STATUS_UNCHANGED);
-            }
+            $this->getObject('com:languages.model.tables')
+                ->extension($context->request->data->get('id', 'int'))
+                ->getRowset()
+                ->setData(array('enabled' => $context->request->data->get('enabled', 'int')))
+                ->save();
         }
-        else throw new Library\ControllerExceptionNotFound('Resource could not be found');
-
-        return $entity;
     }
 }

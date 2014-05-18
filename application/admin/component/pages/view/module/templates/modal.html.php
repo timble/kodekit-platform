@@ -1,14 +1,14 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Pages
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<script src="media://pages/js/module.js" />
+<script src="assets://pages/js/module.js" />
 
 <script>
 window.addEvent('domready', (function() {
@@ -26,18 +26,18 @@ window.addEvent('domready', (function() {
     <fieldset>
         <label class="radio inline">
             <input type="radio" name="pages" value="all" <?= $module->pages == 'all' ? 'checked="checked"' : '' ?>/>
-            <?= @text('All') ?>
+            <?= translate('All') ?>
         </label>
         <label class="radio inline">
             <input type="radio" name="pages" value="selected" <?= is_array($module->pages) ? 'checked="checked"' : '' ?>/>
-            <?= @text('Selected') ?>
+            <?= translate('Selected') ?>
         </label>
         <label class="radio inline">
             <input type="radio" name="pages" value="none" <?= $module->pages == 'none' ? 'checked="checked"' : '' ?>/>
-            <?= @text('None') ?>
+            <?= translate('None') ?>
         </label>
 
-        <input type="button" name="save" class="btn" value="<?= @text('Save') ?>" />
+        <input type="button" name="save" class="btn" value="<?= translate('Save') ?>" />
     </fieldset>
     <? foreach($menus as $menu) : ?>
         <? $menu_pages = $pages->find(array('pages_menu_id' => $menu->id)) ?>

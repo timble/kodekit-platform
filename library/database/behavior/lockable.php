@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Koowa_Database
- * @subpackage 	Behavior
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -11,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Lockable Behavior
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage 	Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 {
@@ -29,13 +29,13 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options
      * @return void
      */
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => CommandChain::PRIORITY_HIGH,
+			'priority'   => self::PRIORITY_HIGH,
             'lifetime'   =>  $this->getObject('user')->getSession()->getLifetime()
 	  	));
 
@@ -47,8 +47,8 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 *
-	 * This function conditionaly mixies the behavior. Only if the mixer
-	 * has a 'locked_by' property the behavior will be mixed in.
+	 * This function conditionally mixes the behavior. Only if the mixer has a 'locked_by' property the behavior will
+     * be mixed in.
 	 *
 	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
@@ -69,19 +69,20 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an 'locked_on' and 'locked_by' column
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function lock()
 	{
 		//Prevent lock take over, only an saved and unlocked row and be locked
-		if(!$this->isNew() && !$this->locked())
+		if(!$this->isNew() && !$this->isLocked())
 		{
 			$this->locked_by = (int) $this->getObject('user')->getId();
 			$this->locked_on = gmdate('Y-m-d H:i:s');
-			$this->save();
+
+            return $this->save();
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -89,7 +90,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an locked_on and locked_by column to be present in the table
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function unlock()
 	{
@@ -101,10 +102,10 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 			$this->locked_by = 0;
 			$this->locked_on = 0;
 
-			$this->save();
+            return $this->save();
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -112,7 +113,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * @return boolean	If the row is locked TRUE, otherwise FALSE
 	 */
-	public function locked()
+	public function isLocked()
 	{
 		$result = false;
 		if(!$this->isNew())
@@ -139,28 +140,26 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Checks if a row can be updated
 	 *
-	 * This function determines if a row can be updated based on it's locked_by information.
-	 * If a row is locked, and not by the logged in user, the function will return false,
-	 * otherwise it will return true
+	 * This function determines if a row can be updated based on it's locked_by information. If a row is locked, and
+     * not by the logged in user, the function will return false, otherwise it will return true
 	 *
 	 * @return boolean True if row can be updated, false otherwise
 	 */
 	protected function _beforeTableUpdate(CommandContext $context)
 	{
-		return (bool) !$this->locked();
+		return (bool) !$this->isLocked();
 	}
 
 	/**
 	 * Checks if a row can be deleted
 	 *
-	 * This function determines if a row can be deleted based on it's locked_by information.
-	 * If a row is locked, and not by the logged in user, the function will return false,
-	 * otherwise it will return true
+	 * This function determines if a row can be deleted based on it's locked_by information. If a row is locked, and
+     * not by the logged in user, the function will return false, otherwise it will return true
 	 *
 	 * @return boolean True if row can be deleted, false otherwise
 	 */
 	protected function _beforeTableDelete(CommandContext $context)
 	{
-		return (bool) !$this->locked();
+		return (bool) !$this->isLocked();
 	}
 }

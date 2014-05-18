@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Application;
@@ -71,8 +71,8 @@ class ControllerException extends Library\ControllerView
                 if($trace['function'] != '__call')
                 {
                     $message = "Call to undefined method : ".$trace['class'].$trace['type'].$trace['function'];
-                    $file     = $trace['file'];
-                    $line     = $trace['line'];
+                    $file     = isset($trace['file']) ? $trace['file']  : '';
+                    $line     = isset($trace['line']) ? $trace['line']  : '';
                     $function = $trace['function'];
                     $class    = $trace['class'];
                     $args     = isset($trace['args'])  ? $trace['args']  : '';
@@ -91,6 +91,11 @@ class ControllerException extends Library\ControllerView
             $args     = isset($traces[0]['args'])  ? $traces[0]['args']  : '';
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
+
+        //Find and use file alias if it exists
+        if($alias = array_search($file, $aliases)) {
+            $file = str_replace(JPATH_ROOT, '', $alias);;
+        };
 
         //Create the exception message
         if(ini_get('display_errors')) {

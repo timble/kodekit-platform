@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Mixin
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,9 +15,8 @@ namespace Nooku\Library;
  * Class can be used as a mixin in classes that want to implement a an event dispatcher and allow adding and removing
  * listeners.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Event
  */
 class EventMixin extends ObjectMixinAbstract
 {
@@ -60,7 +59,7 @@ class EventMixin extends ObjectMixinAbstract
         }
 
         //Add the event handlers
-        $subscribers = (array)ObjectConfig::unbox($config->event_subscribers);
+        $subscribers = (array) ObjectConfig::unbox($config->event_subscribers);
 
         foreach ($subscribers as $key => $value)
         {
@@ -83,7 +82,7 @@ class EventMixin extends ObjectMixinAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'event_dispatcher'  => null,
+            'event_dispatcher'  => 'event.dispatcher',
             'event_subscribers' => array(),
             'event_listeners'   => array(),
         ));
@@ -117,7 +116,7 @@ class EventMixin extends ObjectMixinAbstract
     /**
      * Set the chain of command object
      *
-     * @param   object  $dispatcher An event dispatcher object
+     * @param   EventDispatcherInterface  $dispatcher An event dispatcher object
      * @return  Object  The mixer object
      */
     public function setEventDispatcher(EventDispatcherInterface $dispatcher)

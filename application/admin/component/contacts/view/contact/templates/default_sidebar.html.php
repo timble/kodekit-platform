@@ -1,56 +1,47 @@
 <?
 /**
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Banners
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
 <fieldset>
-    <legend><?= @text('Publish'); ?></legend>
+    <legend><?= translate('Publish'); ?></legend>
     <div>
-        <label for="published"><?= @text( 'Published' ); ?></label>
+        <label for="published"><?= translate( 'Published' ); ?></label>
         <div>
             <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div>
-        <label for="access"><?= @text('Registered') ?></label>
+        <label for="access"><?= translate('Registered') ?></label>
         <div>
             <input type="checkbox" name="access" value="1" <?= $contact->access ? 'checked="checked"' : '' ?> />
         </div>
     </div>
 </fieldset>
 
-<fieldset class="categories group">
-    <legend><?= @text('Category') ?></legend>
-    <div>
-        <?= @helper('listbox.radiolist', array(
-            'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
-            'selected' => $contact->categories_category_id,
-            'name'     => 'categories_category_id',
-            'text'     => 'title',
-        ));
-        ?>
-    </div>
+<fieldset>
+    <legend><?= translate('Category') ?></legend>
+    <?= helper('com:categories.radiolist.categories', array('row' => $contact, 'name' => 'categories_category_id')) ?>
 </fieldset>
 
 <? if($contact->isAttachable()) : ?>
     <fieldset>
-        <legend><?= @text('Attachments'); ?></legend>
+        <legend><?= translate('Attachments'); ?></legend>
         <? if (!$contact->isNew()) : ?>
-            <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
+            <?= import('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
         <? endif ?>
         <? if(!count($contact->getAttachments())) : ?>
-        <?= @template('com:attachments.view.attachments.upload.html') ?>
+        <?= import('com:attachments.view.attachments.upload.html') ?>
         <? endif ?>
     </fieldset>
 <? endif ?>
 
 <fieldset>
-    <legend><?= @text('Parameters'); ?></legend>
+    <legend><?= translate('Parameters'); ?></legend>
     <?= $contact->params->render(); ?>
 </fieldset>

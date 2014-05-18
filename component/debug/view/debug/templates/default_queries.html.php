@@ -2,15 +2,15 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<style src="media://debug/highlighter/prettify.css" />
-<script src="media://debug/highlighter/prettify.js" />
-<script src="media://debug/highlighter/lang-sql.js" />
+<style src="assets://debug/highlighter/prettify.css" />
+<script src="assets://debug/highlighter/prettify.js" />
+<script src="assets://debug/highlighter/lang-sql.js" />
 <script>
 window.addEvent('domready', prettyPrint);
 </script>
@@ -18,10 +18,10 @@ window.addEvent('domready', prettyPrint);
 <table class="adminlist">
 	<thead>
     	<tr>
-    		<th class="-koowa-sortable"><?= @text('#') ?></th>
-    		<th class="-koowa-sortable"><?= @text('Type') ?></th>
-    		<th class="-koowa-sortable"><?= @text('Time'); ?></th>
-    		<th><?= @text('Query'); ?></th>
+    		<th class="-koowa-sortable"><?= translate('#') ?></th>
+    		<th class="-koowa-sortable"><?= translate('Type') ?></th>
+    		<th class="-koowa-sortable"><?= translate('Time'); ?></th>
+    		<th><?= translate('Query'); ?></th>
     	</tr>
   	</thead>
   	<tbody>

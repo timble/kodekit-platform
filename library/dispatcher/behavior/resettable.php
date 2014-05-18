@@ -1,24 +1,23 @@
 <?php
 /**
- * @package		Koowa_Dispatcher
- * @subpackage	Behavior
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Resettable Dispatcher Behavior Class
+ * Resettable Dispatcher Behavior
  *
  * When a user sends a POST request (e.g. after submitting a form), their browser will try to protect them from sending
  * the POST again, breaking the back button, causing browser warnings and pop-ups, and sometimes reposting the form.
  * Instead, when receiving a POST we should redirect the user to a GET request.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
- * @subpackage	Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
 {

@@ -1,25 +1,43 @@
 <?php
 /**
-* @package      Koowa_Template
-* @subpackage	Filter
-* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
-* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
-* @link 		http://www.nooku.org
-*/
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ */
 
 namespace Nooku\Library;
 
 /**
- * Template read filter for short_open_tags support
+ * Shorttag Template Filter
  *
- * @author	Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * Filter for short_open_tags support. Also provides support for auto-escaping.
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateFilterCompiler
 {
-	/**
-	 * Convert <?= ?> to long-form <?php echo ?> when needed
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => self::PRIORITY_HIGH,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+	 * Convert <?= ?> and <? ?> to long-form <?php echo ?> when needed
 	 *
 	 * @param string $text  The text to parse
 	 * @return void

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Koowa_View
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -11,8 +12,8 @@ namespace Nooku\Library;
 /**
  * View Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_View
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\View
  */
 interface ViewInterface
 {
@@ -41,11 +42,26 @@ interface ViewInterface
     public function get($property);
 
     /**
+     * Check if a view property exists
+     *
+     * @param   string  $property   The property name.
+     * @return  boolean TRUE if the property exists, FALSE otherwise
+     */
+    public function has($property);
+
+    /**
 	 * Get the name
 	 *
 	 * @return 	string 	The name of the object
 	 */
 	public function getName();
+
+    /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle();
 	
 	/**
 	 * Get the format
@@ -86,6 +102,21 @@ interface ViewInterface
 	 */
     public function setModel($model);
 
+    /**
+     * Get the view url
+     *
+     * @return  HttpUrl  A HttpUrl object
+     */
+    public function getUrl();
+
+    /**
+     * Set the view url
+     *
+     * @param HttpUrl $url   A HttpUrl object or a string
+     * @return  ViewAbstract
+     */
+    public function setUrl(HttpUrl $url);
+
 	/**
 	 * Get a route based on a full or partial query string 
 	 * 
@@ -94,7 +125,7 @@ interface ViewInterface
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
 	 *
-	 * In templates, use @route()
+	 * In templates, use route()
 	 *
 	 * @param	string	$route  The query string used to create the route
 	 * @param 	boolean	$fqr    If TRUE create a fully qualified route. Default TRUE.

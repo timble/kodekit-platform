@@ -1,17 +1,19 @@
 <?php
 /**
- * @package        Koowa_Behavior
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract Behavior Class
+ * Abstract Behavior
  *
- * @author  Johan Janssens <johan@nooku.org>
- * @package Koowa_Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Behavior
  */
 abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorInterface
 {
@@ -93,7 +95,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => CommandChain::PRIORITY_NORMAL,
+            'priority'   => self::PRIORITY_NORMAL,
             'auto_mixin' => false
         ));
 
@@ -111,15 +113,25 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     }
 
     /**
+     * Get the behavior name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getIdentifier()->name;
+    }
+
+    /**
      * Command handler
      *
      * This function translated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param   string           $name     The command name
+     * @param   string          $name     The command name
      * @param   CommandContext  $context  The command context
      *
-     * @return  mixed  Method result if the method exsist, NULL otherwise.
+     * @return  mixed  Method result if the method exists, NULL otherwise.
      */
     public function execute($name, CommandContext $context)
     {

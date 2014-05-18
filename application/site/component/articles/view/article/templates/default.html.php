@@ -1,43 +1,46 @@
 <?php
 /**
- * @package        Nooku_Server
- * @subpackage     Articles
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
+
+<title content="replace"><?= $article->title ?></title>
+
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
-    <div class="page-header">
-	    <? if (@object('component')->getController()->canEdit()) : ?>
-	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
-	        <i class="icon-edit"></i>
-	    </a>
+    <header>
+	    <? if (object('component')->getController()->canEdit()) : ?>
+        <div class="btn-toolbar">
+            <ktml:toolbar type="actionbar">
+        </div>
 	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
-	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	    <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
-	    <span class="label label-info"><?= @text('Unpublished') ?></span>
+	    <span class="label label-info"><?= translate('Unpublished') ?></span>
 	    <? endif ?>
 	    <? if ($article->access) : ?>
-	    <span class="label label-important"><?= @text('Registered') ?></span>
+	    <span class="label label-important"><?= translate('Registered') ?></span>
 	    <? endif ?>
-	</div>
+	</header>
 
-    <? if($article->thumbnail): ?>
-        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
-    <? endif; ?>
+    <?= helper('com:attachments.image.thumbnail', array(
+        'attachment' => $article->attachments_attachment_id,
+        'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
 
     <? if($article->fulltext) : ?>
-    <div class="article__introtext">
-        <?= $article->introtext ?>
-    </div>
+        <div class="article__introtext">
+            <?= $article->introtext ?>
+        </div>
     <? else : ?>
-    <?= $article->introtext ?>
+        <?= $article->introtext ?>
     <? endif ?>
 
     <?= $article->fulltext ?>
-    
-    <?= @template('com:tags.view.tags.default.html') ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+
+    <?= import('com:tags.view.tags.default.html') ?>
+    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>

@@ -32,16 +32,16 @@ server {
        alias $application_root/admin/public/theme/;
     }
 
-    location ~ /media/(images|css|js)/(.*)$ {
-        alias $root/library/resources/media/$1/$2;
+    location ~ /assets/(images|css|js)/(.*)$ {
+        alias $root/library/resources/assets/$1/$2;
     }
 
-    location ~ /administrator/media/([_a-z-]+)/(.*)$ {
-        try_files /application/admin/component/$1/resources/media/$2 /component/$1/resources/media/$2 =404;
+    location ~ /administrator/assets/([_a-z-]+)/(.*)$ {
+        try_files /application/admin/component/$1/resources/assets/$2 /component/$1/resources/assets/$2 =404;
     }
 
-    location ~ /media/([_a-z-]+)/(.*)$ {
-        try_files /application/site/component/$1/resources/media/$2 /component/$1/resources/media/$2 =404;
+    location ~ /assets/([_a-z-]+)/(.*)$ {
+        try_files /application/site/component/$1/resources/assets/$2 /component/$1/resources/assets/$2 =404;
     }
 
     location ~ /files/([_0-9a-zA-Z-]+)/(.*)$ {

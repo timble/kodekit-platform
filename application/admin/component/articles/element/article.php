@@ -1,22 +1,20 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Article Element Class
+ * Article Element
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Articles
  */
-
 class JElementArticle extends JElement
 {
     var $_name = 'Article';
@@ -31,7 +29,7 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:articles.controller.article')->getView()->getTemplate();
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
         $html     = Library\ObjectManager::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;

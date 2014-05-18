@@ -1,17 +1,17 @@
 <?
 /**
- * @package     Nooku_Components
- * @subpackage  Files
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<script src="media://files/js/jquery-1.8.0.min.js" />
-<script src="media://files/js/bootstrap-modal.js" />
-<script src="media://files/js/bootstrap-image-gallery.js" />
-<script src="media://files/js/gallery.js" />
+<script src="assets://application/js/jquery.js" />
+<script src="assets://files/js/bootstrap-modal.js" />
+<script src="assets://files/js/bootstrap-image-gallery.js" />
+<script src="assets://files/js/gallery.js" />
 
 <script>
 jQuery(function($) {
@@ -29,23 +29,15 @@ jQuery(function($) {
     </div>
 
 	<div class="page-header">
-		<h1><?= @escape($params->get('page_title')); ?></h1>
+		<h1><?= escape($params->get('page_title')); ?></h1>
 	</div>
-
-    <? if ($parent !== null): ?>
-	<div class="btn-toolbar">
-	    <a class="btn btn-small" href="<?= @route('&view=folder&folder='.$parent) ?>">
-		    <i class="icon-chevron-left"></i> <?= @text('Parent folder') ?>
-	    </a>
-	</div>
-    <? endif ?>
     
     <? if (count($folders)): ?>
     <ul>
     <? foreach($folders as $folder): ?>
 	<li class="gallery-folder">
-	    <a href="<?= @route('&view=folder&folder='.$folder->path) ?>">
-	        <?= @escape($folder->display_name) ?>
+	    <a href="<?= route('&view=folder&folder='.$folder->path) ?>">
+	        <?= escape($folder->display_name) ?>
 	    </a>
 	</li>
 	<? endforeach ?>
@@ -57,12 +49,12 @@ jQuery(function($) {
         <? foreach($files as $file): ?>
     	<? if (!empty($file->thumbnail)): ?>
         <li class="span3">
-    		<a class="thumbnail text-center" data-path="<?= @escape($file->path); ?>"
-    			href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
-    		    title="<?= @escape($file->display_name) ?>"
+    		<a class="thumbnail text-center" data-path="<?= escape($file->path); ?>"
+    			href="<?= route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
+    		    title="<?= escape($file->display_name) ?>"
     		    style="min-height:<?= $thumbnail_size['y'] ?>px"
             >
-        		<img src="<?= $file->thumbnail ?>" alt="<?= @escape($file->display_name) ?>" />
+        		<img src="<?= $file->thumbnail ?>" alt="<?= escape($file->display_name) ?>" />
         	</a>
         </li>
     	<? endif ?>
@@ -70,7 +62,7 @@ jQuery(function($) {
     </ol>
 
     <? if(count($files) != $total): ?>
-	    <?= @helper('paginator.pagination', array(
+	    <?= helper('paginator.pagination', array(
 	    	'total' => $total,
 	    	'limit' => $state->limit,
 	    	'offset' => $state->offset,

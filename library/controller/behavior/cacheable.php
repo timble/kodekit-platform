@@ -1,25 +1,24 @@
 <?php
 /**
- * @package     Nooku_Components
- * @subpackage  Default
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Default Controller Cacheable Behavior
+ * Cacheable Controller Behavior
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerBehaviorCacheable extends ControllerBehaviorAbstract
 {
 	/**
-	 * The cached state of the resource
+	 * The cached state of the entity
 	 * 
 	 * @var boolean
 	 */
@@ -191,7 +190,7 @@ class ControllerBehaviorCacheable extends ControllerBehaviorAbstract
 	 */
 	protected function _getGroup()
 	{ 
-	    $group = $this->_mixer->getIdentifier();
+	    $group = $this->getMixer()->getIdentifier();
 	    return $group;
 	}
 }

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package        Koowa_Database
- * @subpackage     Behavior
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -11,9 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Database Behavior
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
- * @subpackage     Behavior
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Database
  */
 abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
 {
@@ -24,7 +24,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  object
+     * @return  DatabaseBehaviorAbstract
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
@@ -50,7 +50,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string            $name    The command name
+     * @param     string            $name  The command name
      * @param     CommandContext    $context The command context
      * @return    boolean   Can return both true or false.
      */
@@ -81,7 +81,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $mixer->save();
         $mixer->getTable()->getCommandChain()->enable();
 
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $mixer->delete();
         $mixer->getTable()->getCommandChain()->enable();
 
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
      * behavior is callable.
      *
-     * @param ObjectMixable $mixer  The mixer requesting the mixable methods.
+     * @param ObjectInterface The mixer requesting the mixable methods.
      * @return array An array of methods
      */
     public function getMixableMethods(ObjectMixable $mixer = null)

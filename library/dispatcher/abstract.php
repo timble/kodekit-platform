@@ -1,18 +1,19 @@
 <?php
 /**
- * @package		Koowa_Dispatcher
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract controller dispatcher
+ * Abstract Dispatcher
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Dispatcher
  */
 abstract class DispatcherAbstract extends ControllerAbstract implements DispatcherInterface
 {
@@ -46,16 +47,12 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      */
     protected function _initialize(ObjectConfig $config)
     {
-        //Create permission identifier
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array('dispatcher', 'permission');
-
         $config->append(array(
         	'controller' => $this->getIdentifier()->package,
-            'request'    => 'lib:dispatcher.request',
-            'response'   => 'lib:dispatcher.response',
-            'user'       => 'lib:dispatcher.user',
-            'behaviors'  => array($permission),
+            'request'    => 'dispatcher.request',
+            'response'   => 'dispatcher.response',
+            'user'       => 'dispatcher.user',
+            'behaviors'  => array('permissible'),
          ));
 
         parent::_initialize($config);
@@ -150,8 +147,8 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		    $config = array(
         		'request' 	 => $this->getRequest(),
-                'response'   => $this->getResponse(),
                 'user'       => $this->getUser(),
+                'response'   => $this->getResponse(),
 			    'dispatched' => true
         	);
 
@@ -243,36 +240,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
-     * Redirect
-     *
-     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
-     * redirect the dispatcher to another URL after a GET request.
-     *
-     * @param CommandContext $context   A command context object
-     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
-     */
-    protected function _actionRedirect(CommandContext $context)
-    {
-        $url = $context->param;
-
-        $context->response->setRedirect($url, DispatcherResponse::MOVED_PERMANENTLY);
-        $this->send();
-
-        return false;
-    }
-
-    /**
-     * Send the response
-     *
-     * @param CommandContext $context	A command context object
-     */
-    public function _actionSend(CommandContext $context)
-    {
-        $context->response->send();
-        exit(0);
-    }
-
-    /**
      * Dispatch the request
      *
      * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
@@ -285,5 +252,16 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         //Send the response
         $this->send($context);
+    }
+
+    /**
+     * Send the response
+     *
+     * @param CommandContext $context	A command context object
+     */
+    public function _actionSend(CommandContext $context)
+    {
+        $context->response->send();
+        exit(0);
     }
 }

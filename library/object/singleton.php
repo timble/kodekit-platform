@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Koowa_Object
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -11,13 +12,10 @@ namespace Nooku\Library;
 /**
  * Object Singleton Interface
  *
- * The interface signals the ObjectManager to register the object into the object registry upon instantiation.
+ * Ensures that only one object instance can exist.
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @see         ObjectManager::get()
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
+ * @see     ObjectManager::getObject()
  */
-interface ObjectSingleton extends ObjectInterface
-{
-
-}
+interface ObjectSingleton extends ObjectMultiton {}

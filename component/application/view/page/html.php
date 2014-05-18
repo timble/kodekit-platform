@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Application;
@@ -31,7 +31,7 @@ class ViewPageHtml extends ViewHtml
     public function render()
     {
         // Build the sorted message list
-        $this->messages = $this->getObject('session')->getContainer('message')->all();
+        $this->messages = $this->getObject('response')->getMessages();
 
         //Set the component and layout information
         $this->extension = $this->getObject('component')->getIdentifier()->package;

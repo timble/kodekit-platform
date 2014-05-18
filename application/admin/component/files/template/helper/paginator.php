@@ -1,14 +1,20 @@
 <?php
 /**
- * @package     Nooku_Components
- * @subpackage  Files
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
+/**
+ * Paginator Template Helper
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Component\Files
+ */
 class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 {
     /**
@@ -27,10 +33,10 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 
         $html = '';
         $html .= '<div class="pagination">';
-        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+        $html .= '<div class="limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
         $html .=  $this->pages($config);
-        $html .= '<div class="limit"> '.JText::_('Page').' <span class="page-current">1</span>';
-        $html .= ' '.JText::_('of').' <span class="page-total">1</span></div>';
+        $html .= '<div class="limit"> '.$this->translate('Page').' <span class="page-current">1</span>';
+        $html .= ' '.$this->translate('of').' <span class="page-total">1</span></div>';
         $html .= '</div>';
 
         return $html;
@@ -46,35 +52,17 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
 			'limit'	     => 0,
 			'attribs'	=> array(),
 		));
-		
+
 		$html   = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
 		$html  .= '<div class="btn-group">';
 		$html  .= $this->link($config->pages->prev);
 		$html  .= '</div>';
-		$html  .= '<div class="btn-group pagelist"></div>';
+		$html  .= '<div class="btn-group page-list"></div>';
 		$html  .= '<div class="btn-group">';
 		$html  .= $this->link($config->pages->next);
 		$html  .= '</div>';
 		$html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
-		
+
 		return $html;
     }
-    
-    public function link($config)
-    {
-        $config = new Library\ObjectConfig($config);
-        $config->append(array(
-            'title'   => '',
-            'current' => false,
-            'active'  => false,
-            'offset'  => 0,
-            'limit'	  => 0,
-            'rel'	  => '',
-            'attribs'  => array(),
-        ));
-    
-        $html = '<a class="btn '.$config->rel.'" href="#">'.JText::_($config->title).'</a>';
-    
-        return $html;
-    }    
 }

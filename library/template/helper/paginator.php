@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Koowa_Template
- * @subpackage	Helper
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Template Paginator Helper
+ * Paginator Template Helper
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Template
- * @subpackage	Helper
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateHelperPaginator extends TemplateHelperSelect
 {
@@ -43,15 +42,14 @@ class TemplateHelperPaginator extends TemplateHelperSelect
         if($config->total > $config->limit)
         {
             $html = '';
-            $html .= '<style src="media://css/koowa.css" />';
 
-            $html .= '<div class="-koowa-pagination pagination pagination-centered">';
+            $html .= '<div class="pagination">';
             if($config->show_limit) {
-                $html .= '<div class="limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
+                $html .= '<div class="pagination__limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
             }
             $html .=  $this->pages($config);
             if($config->show_count) {
-                $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
+                $html .= '<div class="pagination__count"> '.$this->translate('Page').' '.$config->current.' '.$this->translate('of').' '.$config->count.'</div>';
             }
             $html .= '</div>';
 
@@ -136,26 +134,20 @@ class TemplateHelperPaginator extends TemplateHelperSelect
     public function link($config)
     {
         $config = new ObjectConfig($config);
-		$config->append(array(
-			'title'   => '',
-			'current' => false,
-		    'active'  => false,
-			'offset'  => 0,
-			'limit'	  => 0,
-		    'rel'	  => '',
-			'attribs'  => array(),
-		));
-		
+        $config->append(array(
+            'title'   => '',
+            'current' => false,
+            'active'  => false,
+            'offset'  => 0,
+            'limit'	  => 0,
+            'rel'	  => '',
+            'attribs'  => array(),
+        ));
+
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
-        $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : ''; 
-        
-        if(!$config->active && $config->current) {
-            $html = '<li class="active"><a href="#">'.\JText::_($config->title).'</a></li>';
-        } elseif (!$config->active && !$config->current) {
-            $html = '<li class="disabled"><a class="disabled" href="#">'.\JText::_($config->title).'</a></li>';
-        } else {
-            $html = '<li><a href="'.$route.'" '.$rel.'>'.\JText::_($config->title).'</a></li>';
-        }
+        $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
+
+        $html = '<li '.$this->buildAttributes($config->attribs).'><a href="'.$route.'" '.$rel.'>'.$this->translate($config->title).'</a></li>';
 
         return $html;
     }

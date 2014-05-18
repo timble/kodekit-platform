@@ -1,20 +1,21 @@
 <?php
 /**
- * @package		Koowa_Config
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * ObjectConfig Interface
+ * Object Config Interface
  *
  * ObjectConfig provides a property based interface to an array
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Config
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Object
  */
 interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
 {
@@ -48,7 +49,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * Remove a configuration item
      *
      * @param   string $name The configuration item name.
-     * @return  ModelStateInterface
+     * @return  ObjectConfigInterface
      */
     public function remove( $name );
 
@@ -57,8 +58,8 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * This function only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  mixed    A value of an or array of values to be appended
-     * @return ObjectConfig
+     * @param  mixed $config A value of an or array of values to be appended
+     * @return ObjectConfigInterface
      */
     public function append($config);
 
@@ -67,7 +68,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
      *
-     * @param  ObjectConfig|mxied $data
+     * @param  ObjectConfig|mixed $data
      * @return array|mixed
      */
     public static function unbox($data);

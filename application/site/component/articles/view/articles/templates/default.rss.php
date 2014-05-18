@@ -1,11 +1,13 @@
 <?
 /**
- * @package        Nooku_Server
- * @subpackage     Articles
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
+
+use Nooku\Library;
 ?>
 
 <?='<?xml version="1.0" encoding="utf-8" ?>' ?>
@@ -17,27 +19,27 @@
 
     <channel>
 
-        <title><?= @escape($category->title) ?></title>
-        <description><![CDATA[<?= @escape($category->description) ?>]]></description>
-        <link><?= @route() ?></link>
-        <lastBuildDate><?= @helper('date.format', array('format' => Library\Date::RSS)) ?></lastBuildDate>
+        <title><?= escape($category->title) ?></title>
+        <description><![CDATA[<?= escape($category->description) ?>]]></description>
+        <link><?= route() ?></link>
+        <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
 
         <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
-        <dc:rights>Copyright <?= @helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= @helper('date.format', array('format' => Library\Date::RSS)) ?></dc:date>
+        <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
+        <dc:date><?= helper('date.format') ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
 
-        <atom:link href="<?= @route() ?>" rel="self" type="application/rss+xml"/>
+        <atom:link href="<?= route() ?>" rel="self" type="application/rss+xml"/>
 
         <? if($category->image) : ?>
         <image>
-            <url><?= @object('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
-            <title><?= @escape($category->title) ?></title>
-            <link><?= @route() ?></link>
+            <url><?= object('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
+            <title><?= escape($category->title) ?></title>
+            <link><?= route() ?></link>
             <width><?= $category->image->width ?></width>
             <height><?= $category->image->height ?></height>
         </image>
@@ -45,16 +47,16 @@
 
         <? foreach($articles as $article) : ?>
         <item>
-            <title><?= @escape($article->title) ?></title>
-            <link><?= @helper('route.article', array('row' => $article)) ?> ?></link>
+            <title><?= escape($article->title) ?></title>
+            <link><?= helper('route.article', array('row' => $article)) ?></link>
             <dc:creator><?= $article->created_by_name ?></dc:creator>
-            <guid isPermaLink="false"><?= @helper('route.article', array('row' => $article)) ?> ?></guid>
+            <guid isPermaLink="false"><?= helper('route.article', array('row' => $article)) ?> ?></guid>
             <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
-            <category domain="<?/*= @route('view=category&id='.$category->getSlug())*/ ?>">
+            <category domain="<?= helper('route.category', array('row' => $category)) ?>">
                 <![CDATA[<? $article->category_title ?>]]>
             </category>
-            <pubDate><?= @helper('date.format', array('date' => $article->published_on, 'format' => Library\Date::RSS)) ?></pubDate>
-            <dc:date><?= @helper('date.format', array('date' => $article->published_on, 'format' => Library\Date::RSS)) ?></dc:date>
+            <pubDate><?= helper('date.format', array('date' => $article->published_on)) ?></pubDate>
+            <dc:date><?= helper('date.format', array('date' => $article->published_on)) ?></dc:date>
         </item>
         <? endforeach; ?>
 

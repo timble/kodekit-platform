@@ -1,20 +1,21 @@
 <?php
 /**
-* @package      Koowa_Template
-* @subpackage	Filter
-* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
-* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
-* @link 		http://www.nooku.org
-*/
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ */
 
 namespace Nooku\Library;
 
 /**
- * Template filter to parse script tags
+ * Script Template Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Template
- * @subpackage	Filter
+ * Filter to parse script tags
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Template
  */
 class TemplateFilterScript extends TemplateFilterTag
 {
@@ -42,7 +43,7 @@ class TemplateFilterScript extends TemplateFilterTag
                     'src' => $match
                 );
 
-                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+                $attribs = array_merge($this->parseAttributes( $matches[2][$key]), $attribs);
 
                 if(!isset($attribs['type'])) {
                     $attribs['type'] = 'text/javascript';
@@ -62,7 +63,7 @@ class TemplateFilterScript extends TemplateFilterTag
 		{
             foreach($matches[2] as $key => $match)
 			{
-				$attribs = $this->_parseAttributes( $matches[1][$key]);
+				$attribs = $this->parseAttributes( $matches[1][$key]);
 
                 if(!isset($attribs['type'])) {
                     $attribs['type'] = 'text/javascript';
@@ -89,10 +90,11 @@ class TemplateFilterScript extends TemplateFilterTag
     protected function _renderTag($attribs = array(), $content = null)
 	{
         $link = isset($attribs['src']) ? $attribs['src'] : false;
+        $condition = isset($attribs['condition']) ? $attribs['condition'] : false;
 
 		if(!$link)
 		{
-            $attribs = $this->_buildAttributes($attribs);
+            $attribs = $this->buildAttributes($attribs);
 
             $html  = '<script '.$attribs.'>'."\n";
 			$html .= trim($content);
@@ -101,9 +103,16 @@ class TemplateFilterScript extends TemplateFilterTag
 		else
         {
             unset($attribs['src']);
-            $attribs = $this->_buildAttributes($attribs);
+            unset($attribs['condition']);
+            $attribs = $this->buildAttributes($attribs);
 
-            $html = '<script src="'.$link.'" '.$attribs.'></script>'."\n";
+            if($condition)
+            {
+                $html  = '<!--['.$condition.']>';
+                $html .= '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
+                $html .= '<![endif]-->';
+            }
+            else $html  = '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
         }
 
 		return $html;

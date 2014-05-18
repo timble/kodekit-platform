@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Koowa_Controller
- * @subpackage  Request
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Controller Request Class
+ * Controller Request
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
- * @subpackage  Request
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Controller
  */
 class ControllerRequest extends HttpRequest implements ControllerRequestInterface
 {
@@ -54,7 +53,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -142,23 +141,24 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      * Implement a virtual 'headers', 'query' and 'data class property to return their respective objects.
      *
      * @param   string $name  The property name.
-     * @return  string $value The property value.
+     * @return  mixed The property value.
      */
     public function __get($name)
     {
+        $result = null;
         if($name == 'headers') {
-            return $this->getHeaders();
+            $result = $this->getHeaders();
         }
 
         if($name == 'query') {
-            return $this->getQuery();
+            $result = $this->getQuery();
         }
 
         if($name == 'data') {
-            return $this->getData();
+            $result =  $this->getData();
         }
 
-        return parent::__get($name);
+        return $result;
     }
 
     /**

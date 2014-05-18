@@ -1,23 +1,20 @@
 <?php
 /**
- * @version     $Id$
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Folders Element Class
+ * Folders Element
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Server
- * @subpackage  Files
+ * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Files
  */
-
 class JElementFolders extends JElement
 {
 	public $_name = 'Folders';
@@ -36,15 +33,16 @@ class JElementFolders extends JElement
 		$options = array();
 		
 		if ($show_root) {
-		    $options[] = array('text' => JText::_('Root Folder'), 'value' => '');
+		    $options[] = array('label' => JText::_('Root Folder'), 'value' => '');
 		}
 		
 		foreach ($tree as $folder) {
 			$this->_addFolder($folder, $options);
 		}
 
-		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select')->optionlist(array(
-			'name' => $el_name,
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
+			'name'    => $el_name,
 			'options' => $options,
 			'showroot' => false,
 			'selected' => $value
@@ -54,7 +52,7 @@ class JElementFolders extends JElement
 	protected function _addFolder($folder, &$options)
 	{
 		$padded    = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
-		$options[] = array('text' => $padded, 'value' => $folder->path);
+		$options[] = array('label' => $padded, 'value' => $folder->path);
 
 		if ($folder->hasChildren())
         {

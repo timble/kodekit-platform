@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Languages
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Languages Template Helper Listbox Class
+ * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Component\Languages
  */
 class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
@@ -22,7 +21,7 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'name'      => 'language'
+			'name'  => 'language'
 		));
 		
 		$result = '';
@@ -44,7 +43,7 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 		foreach($languages as $language)
 		{
 		    $route = $this->getTemplate()->getView()->getRoute('language='.$language->slug);
-		    $options[] = $this->option(array('text' => $language->name, 'value' => $route));
+		    $options[] = $this->option(array('label' => $language->name, 'value' => $route));
 		    
 		    if($language->iso_code == $active->iso_code) {
 		        $config->selected = $route;

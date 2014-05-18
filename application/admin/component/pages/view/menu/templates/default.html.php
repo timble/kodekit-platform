@@ -1,39 +1,49 @@
 <?
 /**
- * @package     Nooku_Server
- * @subpackage  Pages
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
-<?= @helper('behavior.validator') ?>
+<?= helper('behavior.validator') ?>
 
 <!--
-<script src="media://js/koowa.js" />
+<script src="assets://js/koowa.js" />
 -->
 
-<ktml:module position="toolbar">
-    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
 </ktml:module>
 
-<form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">
+<form action="" method="post" class="-koowa-form">
     <input type="hidden" name="application" value="site" />
     
     <div class="main">
         <div class="title">
-            <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= @text('Title') ?>" />
+            <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= translate('Title') ?>" />
+            <div class="slug">
+                <span class="add-on"><?= translate('Slug') ?></span>
+                <input type="text" name="slug" maxlength="250" value="<?= $menu->slug ?>" />
+            </div>
         </div>
         <div class="scrollable">
-            <label for="name"><?= @text('Slug') ?>:</label>
-            <input type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
-
-            <label for="description"><?= @text('Application') ?>:</label>
-            <?= @helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
-            
-            <label for="description"><?= @text('Description') ?>:</label>
-            <textarea name="description" rows="3" placeholder="<?= @text('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>
+            <fieldset>
+                <div>
+                    <label for="application"><?= translate('Application') ?></label>
+                    <div>
+                        <?= helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application, 'deselect' => false)) ?>
+                    </div>
+                </div>
+                <div>
+                    <label for="description"><?= translate('Description') ?></label>
+                    <div>
+                        <textarea name="description" rows="3" placeholder="<?= translate('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </div>
 </form>

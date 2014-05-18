@@ -1,20 +1,21 @@
 <?php
 /**
-* @package      Koowa_Filter
-* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
-* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
-* @link 		http://www.nooku.org
-*/
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ */
 
 namespace Nooku\Library;
 
 /**
  * Filter Factory
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Filter
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Library\Filter
  */
-class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
+class FilterFactory extends Object implements ObjectMultiton
 {
 	/**
 	 * Factory method for FilterInterface classes.
@@ -26,7 +27,7 @@ class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
 	 * @param 	object|array $config     An optional ObjectConfig object with configuration options
 	 * @return  FilterInterface
 	 */
-	public function getInstance($identifier, $config = array())
+	public function getFilter($identifier, $config = array())
 	{
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;
@@ -38,11 +39,11 @@ class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
 
             foreach($filters as $name)
             {
-                $instance = $this->_instantiate($name, $config);
+                $instance = $this->_createFilter($name, $config);
                 $filter->addFilter($instance);
             }
         }
-        else $filter = $this->_instantiate($filters[0], $config);
+        else $filter = $this->_createFilter($filters[0], $config);
 
 		return $filter;
 	}
@@ -55,23 +56,16 @@ class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
 	 *
 	 * @param 	string	$filter Filter identifier
      * @param   array   $config An array of configuration options.
-	 * @throws	\InvalidArgumentException	When the filter could not be found
      * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
 	 * @return  FilterInterface
 	 */
-	protected function _instantiate($filter, $config)
+	protected function _createFilter($filter, $config)
 	{
-		try
-		{
-			if(is_string($filter) && strpos($filter, '.') === false ) {
-				$filter = 'lib:filter.'.trim($filter);
-			}
+        if(is_string($filter) && strpos($filter, '.') === false ) {
+            $filter = 'lib:filter.'.trim($filter);
+        }
 
-			$filter = $this->getObject($filter, $config);
-
-		} catch(ObjectException $e) {
-			throw new \InvalidArgumentException('Invalid filter: '.$filter);
-		}
+        $filter = $this->getObject($filter, $config);
 
 	    //Check the filter interface
 		if(!($filter instanceof FilterInterface)) {

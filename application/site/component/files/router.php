@@ -1,38 +1,35 @@
 <?php
 /**
- * @version        $Id$
- * @package        Nooku_Server
- * @subpackage     Articles
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
 
 /**
- * Files router class.
+ * Router
  *
- * @author     Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package    Nooku_Server
- * @subpackage Articles
+ * @author   Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @package Component\Files
  */
-
 class FilesRouter extends Library\DispatcherRouter
 {
 	public function build(Library\HttpUrl $url)
 	{
         $segments = array();
         $query    = &$url->query;
-		
+
 		if (isset($query['Itemid'])) {
 			$page = $this->getObject('application.pages')->getPage($query['Itemid']);
 		} else {
 			$page = $this->getObject('application.pages')->getActive();
 		}
-		
+
 		$menu_query = $page->getLink()->query;
-		
+
 		if (isset($query['view']) && $query['view'] === 'file') {
 			$segments[] = 'file';
 		}
