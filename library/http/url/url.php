@@ -84,7 +84,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Http
  */
-class HttpUrl extends Object
+class HttpUrl extends Object implements HttpUrlInterface
 {
     /**
      * The url parts
