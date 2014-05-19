@@ -26,7 +26,7 @@ class UserProvider extends Library\UserProvider
      *
      * @param string $identifier A unique user identifier, (i.e a user id or email address)
      * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
-     * @return Library\UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @return Library\UserInterface Returns a UserInterface object
      */
     public function load($identifier, $refresh = false)
     {
@@ -44,7 +44,7 @@ class UserProvider extends Library\UserProvider
         {
             $user = parent::load($identifier, $refresh);
 
-            if (empty($user))
+            if (!$user instanceof Library\UserInterface)
             {
                 $user = $this->create(array(
                     'id'   => $identifier,
