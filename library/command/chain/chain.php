@@ -125,6 +125,8 @@ class CommandChain extends Object implements CommandChainInterface
      */
     public function execute($command, $attributes = null, $subject = null)
     {
+        $result = null;
+
         if ($this->isEnabled())
         {
             $this->__stack->push(clone $this->__queue);
@@ -146,13 +148,15 @@ class CommandChain extends Object implements CommandChainInterface
             {
                 $result = $handler->execute($command, $this);
 
-                if($result !== null && $result === $this->getBreakCondition()) {
-                    return $result;
+                if($result === $this->getBreakCondition()) {
+                    break;
                 }
             }
 
             $this->__stack->pop();
         }
+
+        return $result;
     }
 
     /**
