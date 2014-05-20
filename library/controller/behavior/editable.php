@@ -21,6 +21,20 @@ namespace Nooku\Library;
 class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 {
     /**
+     * The cookie path
+     *
+     * @var string
+     */
+    protected $_cookie_path;
+
+    /**
+     * The cookie name
+     *
+     * @var string
+     */
+    protected $_cookie_name;
+
+    /**
      * Constructor
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
@@ -41,6 +55,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $this->addCommandCallback('after.cancel', '_unsetReferrer');
 
         $this->_cookie_path = $config->cookie_path;
+        $this->_cookie_name = $config->cookie_name;
     }
 
     /**
@@ -54,6 +69,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'cookie_name' => 'referrer',
             'cookie_path' => $this->getObject('request')->getBaseUrl()->toString(HttpUrl::PATH)
         ));
 
@@ -85,9 +101,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function getReferrer(ControllerContextInterface $context)
     {
-        if($context->request->cookies->has('referrer'))
+        if($context->request->cookies->has($this->_cookie_name))
         {
-            $referrer = $context->request->cookies->get('referrer', 'url');
+            $referrer = $context->request->cookies->get($this->_cookie_name, 'url');
             $referrer = $this->getObject('lib:http.url', array('url' => $referrer));
         }
         else $referrer = $this->findReferrer($context);
@@ -103,7 +119,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function setReferrer(ControllerContextInterface $context)
     {
-        if (!$context->request->cookies->has('referrer_locked'))
+        if (!$context->request->cookies->has($this->_cookie_name.'_locked'))
         {
             $request  = $context->request->getUrl();
             $referrer = $context->request->getReferrer();
@@ -113,7 +129,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             {
                 //Add the referrer cookie
                 $cookie = $this->getObject('lib:http.cookie', array(
-                    'name'   => 'referrer',
+                    'name'   => $this->_cookie_name,
                     'value'  => $referrer,
                     'path'   => $this->_cookie_path
                 ));
@@ -153,7 +169,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     protected function _lockReferrer(ControllerContextInterface $context)
     {
         $cookie = $this->getObject('lib:http.cookie', array(
-            'name'   => 'referrer_locked',
+            'name'   => $this->_cookie_name.'_locked',
             'value'  => true,
             'path'   => $this->_cookie_path
         ));
@@ -169,7 +185,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unlockReferrer(ControllerContextInterface $context)
     {
-        $context->response->headers->clearCookie('referrer_locked', $this->_cookie_path);
+        $context->response->headers->clearCookie($this->_cookie_name.'_locked', $this->_cookie_path);
     }
 
     /**
@@ -179,7 +195,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unsetReferrer(ControllerContextInterface $context)
     {
-        $context->response->headers->clearCookie('referrer', $this->_cookie_path);
+        $context->response->headers->clearCookie($this->_cookie_name, $this->_cookie_path);
     }
 
     /**
