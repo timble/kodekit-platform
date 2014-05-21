@@ -34,7 +34,7 @@ Installation
 
 * Install [Vagrant](http://downloads.vagrantup.com/)
 
-* Run `vagrant up` in the repository directory
+* Run `vagrant up` in the repository directory. This will download the [nooku/box](http://github.com/nooku/nooku-server) and setup your development environment.
 
 ```
     $ vagrant up
