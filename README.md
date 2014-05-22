@@ -26,6 +26,12 @@ Installation
 
     $ git checkout develop
 
+* Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
+
+```
+    $ git checkout develop
+```
+
 * Install [VirtualBox](http://www.virtualbox.org/)
 
 * Install [Vagrant](http://downloads.vagrantup.com/)
