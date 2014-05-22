@@ -24,17 +24,11 @@ Installation
     $ git clone git://git.assembla.com/nooku-framework.git
 ```
 
-* Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
-
-```
-    $ git checkout develop
-```
-
 * Install [VirtualBox](http://www.virtualbox.org/)
 
 * Install [Vagrant](http://downloads.vagrantup.com/)
 
-* Run `vagrant up` in the repository directory
+* Run `vagrant up` in the repository directory. This will download the [nooku/box](http://github.com/nooku/nooku-server) and setup your development environment.
 
 ```
     $ vagrant up
@@ -47,6 +41,7 @@ Installation
 ```
 
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
+* You can login into the admin application at [nooku.dev/administrator](http://nooku.dev/) using the username and password `admin@localhost.home`/`admin`.
 
 License
 -------
