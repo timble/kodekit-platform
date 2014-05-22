@@ -39,6 +39,7 @@ Installation
     33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev apc.nooku.dev
 
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
+* You can login into the admin application at [nooku.dev/administrator](http://nooku.dev/) using the username and password `admin@localhost.home`/`admin`.
 
 License
 -------
