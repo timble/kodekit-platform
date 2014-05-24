@@ -30,16 +30,14 @@ class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
         $mixer   = $this->getMixer();
         $request = $mixer->getRequest();
 
-        if ($mixer instanceof ControllerModellable && $mixer->isDispatched()
-            && $request->isGet() && $request->getFormat() === 'html'
-        ) {
-            return true;
-        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && !$request->isAjax()) {
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && $request->getFormat() === 'html') {
             return true;
         }
 
         return false;
-    }    /**
+    }
+
+    /**
 	 * Load the model state from the request and persist it.
 	 *
 	 * This functions merges the request information with any model state information that was saved in the session
