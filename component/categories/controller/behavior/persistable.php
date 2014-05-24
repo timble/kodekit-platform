@@ -31,7 +31,7 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	protected function _beforeBrowse(Library\ControllerContextInterface $context)
 	{
 		 // Built the session identifier based on the action
-        $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table.'.state';
+        $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
         $state       = $context->user->get($identifier);
 
         //Add the data to the request query object
@@ -53,7 +53,7 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
         $state = $model->getState();
 
         // Built the session identifier based on the action
-        $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table.'.state';
+        $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
         
         //Set the state in the user session
         $context->user->set($identifier, $state->getValues());
