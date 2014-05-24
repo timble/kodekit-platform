@@ -15,65 +15,58 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerBehaviorPersistable extends ControllerBehaviorPersistableAbstract
+class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
 {
     /**
      * Check if the behavior is supported
      *
-     * Disable controller state persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
+     * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
      * variable of the requested model, which is often undesirable under these circumstances.
      *
      * @return  boolean  True on success, false otherwise
      */
     public function isSupported()
     {
-        $result = false;
-
         $mixer   = $this->getMixer();
         $request = $mixer->getRequest();
 
-        if ($mixer instanceof KControllerModellable && $mixer->isDispatched()
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched()
             && $request->isGet() && $request->getFormat() === 'html'
         ) {
             return true;
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && !$request->isAjax()) {
+            return true;
         }
 
-        return $result;
-    }
-
-    protected function _setContainer(ControllerContextInterface $context)
-    {
-        $model            = $context->subject->getModel();
-        $this->_container = $model->getIdentifier() . '.' . $context->action . '.state';
-    }
-
-    /**
-     * Load the model state from the request and persist it.
-     *
-     * This functions merges the request information with any model state information that was saved in the session
+        return false;
+    }    /**
+	 * Load the model state from the request and persist it.
+	 *
+	 * This functions merges the request information with any model state information that was saved in the session
      * and returns the result.
-     *
-     * @param ControllerContextInterface $context	A controller context object
-     * @return 	void
-     */
-    protected function _beforeBrowse(ControllerContextInterface $context)
-    {
+	 *
+	 * @param ControllerContextInterface $context	A controller context object
+	 * @return 	void
+	 */
+	protected function _beforeBrowse(ControllerContextInterface $context)
+	{
         $model      = $this->getModel();
         $query      = $context->getRequest()->query;
+        $identifier = $model->getIdentifier().'.'.$context->action;
 
-        $query->add((array) $this->_getData($context));
+        $query->add((array) $context->user->get($identifier));
 
         $model->getState()->setValues($query->toArray());
-    }
+	}
 
-    /**
-     * Saves the model state in the session.
-     *
-     * @param ControllerContextInterface $context	A controller context object
-     * @return 	void
-     */
-    protected function _afterBrowse(ControllerContextInterface $context)
-    {
+	/**
+	 * Saves the model state in the session.
+	 *
+	 * @param ControllerContextInterface $context	A controller context object
+	 * @return 	void
+	 */
+	protected function _afterBrowse(ControllerContextInterface $context)
+	{
         $model  = $this->getModel();
         $state  = $model->getState();
 
@@ -85,6 +78,7 @@ class ControllerBehaviorPersistable extends ControllerBehaviorPersistableAbstrac
             }
         }
 
-        $this->_setData($vars, $context);
-    }
+        $identifier = $model->getIdentifier().'.'.$context->action;
+        $context->user->set($identifier, $vars);
+	}
 }
