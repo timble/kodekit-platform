@@ -20,11 +20,18 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
     public function users($config = array())
     {
     	$config = new Library\ObjectConfig($config);
-        $config->options = $this->options(array(
-            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+
+        $options_config = new Library\ObjectConfig(array(
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->fetch(),
             'label'  => 'name',
-            'value'  => 'id',
-        ));
+            'value'  => 'id'));
+
+        if ($name = $config->name)
+        {
+            $options_config->name = $name;
+        }
+
+        $config->options = $this->options($options_config);
     
     	return $this->checklist($config);
     }
@@ -37,7 +44,7 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
         ));
 
         $config->options = $this->options(array(
-            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->fetch(),
             'label'   => 'name'
         ));
 

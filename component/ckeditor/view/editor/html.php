@@ -30,28 +30,33 @@ class ViewEditorHtml extends Library\ViewHtml
 			'contentsLangDirectiony' => $language->isRTL() ? 'rtl' : 'ltr',
 			'height' 				 => '',
 			'width'					 => '',
+            'removeButtons'			 => '',
             'options'  => array(
                 'autoheight'  => true,
                 'toolbar'     => $this->toolbar ? $this->toolbar : 'standard',
             )
 		)));
 
-
 		parent::_initialize($config);
     }
-    
-	public function render()
+
+    protected function _fetchData(Library\ViewContext $context)
 	{
-		if(!$this->id) {
-		    $this->id = $this->name;
+		if(!$context->data->id) {
+		    $context->data->id = $context->data->name;
 		}
 
         $settings = clone $this->getConfig()->settings;
         $settings->editor_selector = 'editable-'.$this->id;
         $settings->options->toolbar = $this->toolbar ? $this->toolbar : 'standard';
 
-		$this->settings = $settings;
+        if($this->removeButtons) {
+            $settings->removeButtons = $this->removeButtons;
+        }
 
-		return parent::render();
+		$context->data->settings = $settings;
+        $context->data->class = isset($this->attribs['class']) ? $this->attribs['class'] : '';
+
+		parent::_fetchData($context);
 	}
 }

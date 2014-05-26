@@ -1,0 +1,48 @@
+.-koowa-form {
+    background-color: #F9F9F9;
+    margin: 0;
+
+    .main {
+        .title {
+            padding: 10px 10px 10px 10px;
+            background: linear-gradient(#F0F0F0, #EAEAEA);
+            border-bottom: 1px solid #CCC;
+
+            > input {
+                font-size: $baseFontSize * 1.5;
+                padding: 4px 8px;
+                margin-bottom: 0;
+                border-radius: 4px;
+                height: $baseLineHeight * 3;
+                line-height: $baseLineHeight * 3;
+            }
+
+            .slug {
+                @extend .input-prepend;
+                clear: left;
+                margin-top: 5px;
+                margin-bottom: 0 !important;
+            }
+        }
+
+        .scrollable {
+            background-color: $white;
+        }
+    }
+
+    .sidebar {
+        width: 350px;
+        border-left: 1px solid #E1E1E1;
+
+        textarea {
+            @include box-sizing(border-box);
+            margin: 0;
+            resize: vertical;
+            width: 100%
+        }
+        input[type=date],
+        input[type=datetime-local] {
+            width: 160px;
+        }
+    }
+}

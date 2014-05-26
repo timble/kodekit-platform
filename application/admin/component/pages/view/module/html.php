@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,48 +13,48 @@ use Nooku\Library;
  * Module Html View
  *
  * @author   Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package Component\Pages
+ * @package  Component\Pages
  */
 class PagesViewModuleHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         $model  = $this->getModel();
-        $module = $model->getRow();
+        $module = $model->fetch();
 
-        if($this->getLayout() == 'modal')
+        if ($this->getModel()->getState()->isUnique())
         {
-            $this->menus   = $this->getObject('com:pages.model.menus')
-                                  ->sort('title')->getRowset();
-
-            $this->pages   = $this->getObject('com:pages.model.pages')
-                                  ->application('site')->getRowset();
-
-            $this->modules = $this->getObject('com:pages.model.modules')
-                                  ->application('site')->getRowset();
-        }
-
-        if($this->getModel()->getState()->isUnique())
-        {
-            if($module->isNew())
+            if ($module->isNew())
             {
                 $module->application = $model->application;
                 $module->name        = $model->name;
             }
 
-            $path = Library\ClassLoader::getInstance()->getApplication($module->application);
-            JFactory::getLanguage()->load(substr($module->extension_name, 4), $module->name, $path);
+            $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
+            JFactory::getLanguage()->load($module->component, $module->name, $path);
         }
 
-        // Build path to module config file
-        $path  = Library\ClassLoader::getInstance()->getApplication('site');
-        $path .= '/component/'.substr($module->extension_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
+        return parent::_actionRender($context);
+    }
 
-        $params = new \JParameter( null, $path );
-        $params->loadArray($module->params->toArray());
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $module = $this->getModel()->fetch();
 
-        $this->params = $params;
+        if ($this->getLayout() == 'modal')
+        {
+            $context->data->menus = $this->getObject('com:pages.model.menus')
+                ->sort('title')->fetch();
 
-        return parent::render();
+            $context->data->pages = $this->getObject('com:pages.model.pages')
+                ->application('site')->fetch();
+
+            $context->data->modules = $this->getObject('com:pages.model.modules')
+                ->application('site')->fetch();
+        }
+
+        $context->data->params = $module->getParameters();
+
+        parent::_fetchData($context);
     }
 }

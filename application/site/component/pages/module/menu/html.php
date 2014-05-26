@@ -17,21 +17,23 @@ use Nooku\Library;
  */
 class PagesModuleMenuHtml extends PagesModuleDefaultHtml
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
-        $start    = $this->module->params->get('start_level');
-        $end      = $this->module->params->get('end_level');
-        $children = $this->module->params->get('show_children', 'active');
+        $params = $this->module->getParameters();
+
+        $start    = $params->get('start_level');
+        $end      = $params->get('end_level');
+        $children = $params->get('show_children', 'active');
         $pages    = $this->getObject('application.pages');
         $groups   = $this->getObject('user')->getGroups();
 
         // Make sure that pages without an assigned group are also included.
         $groups[] = 0;
 
-        $this->active = $pages->getActive();
-        $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
+        $context->data->active = $pages->getActive();
+        $context->data->pages  = $pages->find(array('pages_menu_id' => $params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
 
-        foreach(clone $this->pages as $page)
+        foreach(clone $context->data->pages as $page)
         {
             $extract = false;
             
@@ -48,19 +50,16 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
             // Extract if path is not in the active branch.
             if(!$extract && $children == 'active' && $page->level > 1)
             {
-                if(implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $this->active->path), 0, count($page->getParentIds())))) {
+                if(implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $context->data->active->path), 0, count($page->getParentIds())))) {
                     $extract = true;
                 }
             }
             
             if($extract) {
-                $this->pages->extract($page);
+                $context->data->pages->remove($page);
             }
         }
 
-        $this->show_title = $this->module->params->get('show_title', false);
-        $this->class      = $this->module->params->get('class', 'nav');
-        
-        return parent::render();
+        parent::_fetchData($context);
     }
 }

@@ -84,6 +84,86 @@ class TemplateHelperListbox extends TemplateHelperSelect
     }
 
     /**
+     * Generates an HTML limits listbox
+     *
+     * @param   array   $config An optional array with configuration options
+     * @return  string  Html
+     */
+    public function limits($config = array())
+    {
+        $config = new ObjectConfig($config);
+        $config->append(array(
+            'name'		=> 'list_limit',
+            'attribs'	=> array()
+        ));
+
+        $options[] 	= $this->option(array('value' => '5'));
+        $options[] 	= $this->option(array('value' => '10'));
+        $options[] 	= $this->option(array('value' => '15'));
+        $options[] 	= $this->option(array('value' => '20'));
+        $options[] 	= $this->option(array('value' => '25'));
+        $options[] 	= $this->option(array('value' => '30'));
+        $options[] 	= $this->option(array('value' => '50'));
+        $options[] 	= $this->option(array('value' => '100'));
+
+        $list = $this->optionlist(array(
+            'options'   => $options,
+            'name'      => $config->name,
+            'selected'  => $config->selected,
+            'attribs'   => $config->attribs
+        ));
+
+        return $list;
+    }
+
+    /**
+     * Generates an HTML timezones listbox
+     *
+     * @param   array   $config An optional array with configuration options
+     * @return  string  Html
+     */
+    public function timezones($config = array())
+    {
+        $config = new ObjectConfig($config);
+        $config->append(array(
+            'name'		=> 'timezone',
+            'attribs'	=> array(),
+            'deselect'  => true,
+            'prompt'    => '- '.$this->translate('Select Time Zone').' -',
+        ));
+
+        if ($config->deselect) {
+            $options[] = $this->option(array('label' => $config->prompt, 'value' => ''));
+        }
+
+        foreach (\DateTimeZone::listIdentifiers() as $identifier)
+        {
+            if (strpos($identifier, '/'))
+            {
+                list($group, $locale) = explode('/', $identifier, 2);
+                $groups[$group][] = str_replace('_', ' ', $locale);
+            }
+        }
+
+        $options[] = $this->option(array('label' => 'Coordinated Universal Time', 'value' => 'UTC'));
+        foreach ($groups as $group => $locales)
+        {
+            foreach ($locales as $locale) {
+                $options[$group][] = $this->option(array('label' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
+            }
+        }
+
+        $list = $this->optionlist(array(
+            'options'   => $options,
+            'name'      => $config->name,
+            'selected'  => $config->selected,
+            'attribs'   => $config->attribs
+        ));
+
+        return $list;
+    }
+
+    /**
 	 * Generates an HTML optionlist based on the distinct data from a model column.
 	 *
 	 * The column used will be defined by the name -> value => column options in cascading order.
@@ -149,10 +229,14 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		    'filter' 	=> array('sort' => $config->label),
 		));
 
-		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->getRowset();
+		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->fetch();
 
 		//Get the list of items
- 	    $items = $list->get($config->value);
+        $items = array();
+        foreach($list as $key => $item) {
+            $items[$key] = $item->getProperty($config->value);
+        }
+
 		if($config->unique) {
 		    $items = array_unique($items);
 		}
@@ -168,6 +252,17 @@ class TemplateHelperListbox extends TemplateHelperSelect
  		    $item      = $list->find($key);
  		    $options[] =  $this->option(array('label' => $item->{$config->label}, 'value' => $item->{$config->value}));
 		}
+
+        //Compose the selected array
+        if($config->selected instanceof ModelEntityInterface)
+        {
+            $selected = array();
+            foreach($config->selected as $entity) {
+                $selected[] = $entity->{$config->value};
+            }
+
+            $config->selected = $selected;
+        }
 
 		//Add the options to the config object
 		$config->options = $options;
@@ -202,6 +297,17 @@ class TemplateHelperListbox extends TemplateHelperSelect
         //For the autocomplete behavior
     	$config->element = $config->value;
     	$config->path    = $config->label;
+
+        //Compose the selected array
+        if($config->selected instanceof ModelEntityInterface)
+        {
+            $selected = array();
+            foreach($config->selected as $entity) {
+                $selected[] = $entity->{$config->value};
+            }
+
+            $config->selected = $selected;
+        }
 
 		$html = $this->getTemplate()->getHelper('behavior')->autocomplete($config);
 

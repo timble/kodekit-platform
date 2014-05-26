@@ -15,23 +15,68 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-interface DispatcherResponseInterface extends ControllerResponseInterface, DispatcherResponseTransportInterface
+interface DispatcherResponseInterface extends ControllerResponseInterface
 {
     /**
-     * Get the transport strategy
+     * Send the response
      *
-     * @throws	\UnexpectedValueException	If the transport object doesn't implement the
-     *                                      DispatcherResponseTransportInterface
-     * @return	DispatcherResponseTransportInterface
+     * @return boolean  Returns true if the response has been send, otherwise FALSE
      */
-    public function getTransport();
+    public function send();
 
     /**
-     * Method to set a transport strategy
+     * Sets the response path
      *
-     * @param	mixed	$transport An object that implements ObjectInterface, ObjectIdentifier object
-     * 					           or valid identifier string
-     * @return	DispatcherResponse
+     * Path needs to be of the form "scheme://..." and a wrapper for that protocol need to be registered. See @link
+     * http://www.php.net/manual/en/wrappers.php for a list of default PHP stream protocols and wrappers.
+     *
+     * @param mixed  $content   The content
+     * @param string $type      The content type
+     * @throws \InvalidArgumentException If the path is not a valid stream or no stream wrapper is registered for the
+     *                                   stream protocol
+     * @return HttpMessage
      */
-    public function setTransport($transport);
+    public function setPath($path);
+
+    /**
+     * Get the response path
+     *
+     * @return string The response stream path.
+     */
+    public function getPath();
+
+    /**
+     * Sets the response content using a stream
+     *
+     * @param FilesystemStreamInterface $stream  The stream object
+     * @return HttpMessage
+     */
+    public function setStream(FilesystemStreamInterface $stream);
+
+    /**
+     * Get the stream resource
+     *
+     * @return FilesystemStreamInterface
+     */
+    public function getStream();
+
+    /**
+     * Get a transport handler by identifier
+     *
+     * @param   mixed    $transport    An object that implements ObjectInterface, ObjectIdentifier object
+     *                                 or valid identifier string
+     * @param   array    $config    An optional associative array of configuration settings
+     * @return DispatcherResponseInterface
+     */
+    public function getTransport($transport, $config = array());
+
+    /**
+     * Attach a transport handler
+     *
+     * @param   mixed  $transport An object that implements ObjectInterface, ObjectIdentifier object
+     *                            or valid identifier string
+     * @param   array $config  An optional associative array of configuration settings
+     * @return DispatcherResponseInterface
+     */
+    public function attachTransport($transport, $config = array());
 }

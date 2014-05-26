@@ -12,16 +12,18 @@
 <div>
     <div class="page-header">
         <h1>
-            <a href="<?= helper('route.category', array('row' => $category)) ?>">
+            <a href="<?= helper('route.category', array('entity' => $category)) ?>">
                 <?= escape($category->title);?>
             </a>
         </h1>
     </div>
 
-    <? if($category->thumbnail) : ?>
-        <a href="<?= helper('route.category', array('row' => $category)) ?>">
+    <? if($category->attachments_attachment_id) : ?>
+        <a href="<?= helper('route.category', array('entity' => $category)) ?>">
             <figure>
-                <img src="<?= $category->thumbnail ?>" />
+                <?= helper('com:attachments.image.thumbnail', array(
+                    'attachment' => $category->attachments_attachment_id,
+                    'attribs' => array('width' => '200', 'align' => 'right', 'class' => 'thumbnail'))) ?>
             </figure>
         </a>
     <? endif ?>
@@ -30,6 +32,6 @@
     <p><?= $category->description; ?></p>
     <? endif; ?>
 
-    <a href="<?= helper('route.category', array('row' => $category)) ?>"><?= translate('Read more') ?></a>
+    <a href="<?= helper('route.category', array('entity' => $category)) ?>"><?= translate('Read more') ?></a>
 </div>
 <? endforeach; ?>

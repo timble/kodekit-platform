@@ -60,20 +60,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     protected $_referrer;
 
     /**
-     * The format
-     *
-     * @var string
-     */
-    protected $_format;
-
-    /**
-     * The token
-     *
-     * @var string
-     */
-    protected $_token;
-
-    /**
      * The supported languages
      *
      * @var array
@@ -93,6 +79,13 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * @var array
      */
     protected $_proxies;
+
+    /**
+     * The requested ranges
+     *
+     * @var array
+     */
+    protected $_ranges;
 
     /**
      * Mimetype to format mappings
@@ -237,18 +230,20 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         $config->append(array(
             'base_url'  => '/',
             'base_path' => null,
-            'method'   => null,
-            'formats'  => array(
-                'html'   => array('text/html', 'application/xhtml+xml'),
-                'txt'    => array('text/plain'),
-                'js'     => array('application/javascript', 'application/x-javascript', 'text/javascript'),
-                'css'    => array('text/css'),
-                'json'   => array('application/json', 'application/x-json'),
-                'xml'    => array('text/xml', 'application/xml', 'application/x-xml'),
-                'rdf'    => array('application/rdf+xml'),
-                'atom'   => array('application/atom+xml'),
-                'rss'    => array('application/rss+xml'),
-                'stream' => array('application/stream+json'),
+            'method'    => null,
+            'format'    => null,
+            'url'       => null,
+            'formats'   => array(
+                'html'     => array('text/html', 'application/xhtml+xml'),
+                'txt'      => array('text/plain'),
+                'js'       => array('application/javascript', 'application/x-javascript', 'text/javascript'),
+                'css'      => array('text/css'),
+                'json'     => array('application/json', 'application/x-json'),
+                'xml'      => array('text/xml', 'application/xml', 'application/x-xml'),
+                'rdf'      => array('application/rdf+xml'),
+                'atom'     => array('application/atom+xml'),
+                'rss'      => array('application/rss+xml'),
+                'stream'   => array('application/stream+json'),
             ),
             'query'   => $_GET,
             'data'    => $_POST,
@@ -433,7 +428,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * This method can read the client host from the "X-Forwarded-Host" header when the request is proxied and the proxy
      * is trusted. The "X-Forwarded-Host" header must contain the client host name.
      *
-     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.3
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.3
      *
      * @throws \UnexpectedValueException when the host name is invalid
      * @return string
@@ -478,7 +473,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * This method can read the client port from the "X-Forwarded-Port" header when the request is proxied and the proxy
      * is trusted. The "X-Forwarded-Port" header must contain the client port.
      *
-     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.5
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.5
      *
      * @return string
      */
@@ -563,25 +558,41 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Set the url for this request
+     *
+     * @param string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
+     * @return HttpRequest
+     */
+    public function setUrl($url)
+    {
+        if(!empty($url)) {
+            $this->_url = $this->getObject('lib:http.url', array('url' => $url));
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the HTTP referrer.
      *
      * 'referer' a commonly used misspelling word for 'referrer'
-     * @see     http://en.wikipedia.org/wiki/HTTP_referrer
+     * @link http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean  $isInternal Only allow internal url's
-     * @return  HttpUrl  A HttpUrl object
+     * @return  HttpUrl|null  A HttpUrl object or NULL if no referrer could be found
      */
     public function getReferrer($isInternal = true)
     {
-        if(!isset($this->_referrer))
+        if(!isset($this->_referrer) && $this->_headers->has('Referer'))
         {
             $referrer = $this->getObject('lib:filter.url')->sanitize($this->_headers->get('Referer'));
             $this->_referrer = $this->getObject('lib:http.url', array('url' => $referrer));
         }
 
-        if($isInternal)
+        if(isset($this->_referrer) && $isInternal)
         {
-            if(!$this->getObject('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
+            $url = $this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST);
+            if(!$this->getObject('lib:filter.internalurl')->validate($url)) {
                 return null;
             }
         }
@@ -607,7 +618,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * comma+space separated list of IP addresses, the left-most being the original client, and each successive proxy
      * that passed the request adding the IP address where it received the request from.
      *
-     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
      *
      * @return string Client IP address or an empty string if it's not supplied in the request
      */
@@ -701,67 +712,57 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
-     * Return the request token
-     *
-     * @return  string  The request token or NULL if no token could be found
-     */
-    public function getToken()
-    {
-        if(!isset($this->_token))
-        {
-            $token = null;
-
-            if($this->_headers->has('X-Token')) {
-                $token = $this->_headers->get('X-Token');
-            }
-
-            if($this->data->has('_token')) {
-                $token = $this->data->get('_token', 'md5');
-            }
-
-            $this->_token = $token;
-        }
-
-        return $this->_token;
-    }
-
-    /**
      * Return the request format
      *
-     * This function tries to find the format by inspecting the accept header and using the accept header with the
-     * highest quality. The accept mime-type will be mapped to a format. If the request query contains a 'format'
-     * parameter it will be used instead.
+     * Find the format by using following sequence :
      *
-     * @param string $format The default format
+     * 1. Use the the 'format' request parameter
+     * 2. Use the url format
+     * 3. Use the accept header with the highest quality apply the reverse format map to find the format.
+     *
      * @return  string  The request format or NULL if no format could be found
      */
-    public function getFormat($format = 'html')
+    public function getFormat()
     {
         if (!isset($this->_format))
         {
+            $format = 'html';
+
             if(!$this->query->has('format'))
             {
-                if($this->_headers->has('Accept'))
+                if(!$this->getUrl()->getFormat())
                 {
-                    $accept  = $this->_headers->get('Accept');
-                    $formats = $this->_parseAccept($accept);
-
-                    //Get the highest quality format
-                    $mime_type = key($formats);
-
-                    foreach (static::$_formats as $value => $mime_types)
+                    if($this->_headers->has('Accept'))
                     {
-                        if (in_array($mime_type, (array) $mime_types))
+                        $accept  = $this->_headers->get('Accept');
+                        $formats = $this->_parseAccept($accept);
+
+                        /**
+                         * If the browser is requested text/html serve it at all times
+                         *
+                         * @hotfix #409 : Android 2.3 requesting application/xml
+                         */
+                        if(!isset($formats['text/html']))
                         {
-                            $format = $value;
-                            break;
+                            //Get the highest quality format
+                            $mime_type = key($formats);
+
+                            foreach (static::$_formats as $value => $mime_types)
+                            {
+                                if (in_array($mime_type, (array) $mime_types))
+                                {
+                                    $format = $value;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
+                else $format = $this->getUrl()->getFormat();
             }
             else $format = $this->query->get('format', 'word');
 
-            $this->_format = $format;
+            $this->setFormat($format);
         }
 
         return $this->_format;
@@ -856,12 +857,51 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Gets the request ranges
+     *
+     * @link : http://tools.ietf.org/html/rfc2616#section-14.35
+     *
+     * @throws HttpExceptionRangeNotSatisfied If the range info is not valid or if the start offset is large then the end offset
+     * @return array List of request ranges
+     */
+    public function getRanges()
+    {
+        if(!isset($this->_ranges))
+        {
+            $this->_ranges = array();
+
+            if($this->_headers->has('Range'))
+            {
+                $range  = $this->_headers->get('Range');
+
+                if(!preg_match('/^bytes=((\d*-\d*,? ?)+)$/', $range)) {
+                    throw new HttpExceptionRangeNotSatisfied('Invalid range');
+                }
+
+                $ranges = explode(',', substr($range, 6));
+                foreach ($ranges as $key => $range)
+                {
+                    $parts = explode('-', $range);
+                    $first = $parts[0];
+                    $last  = $parts[1];
+
+                    $ranges[$key] = array('first' => $first, 'last' => $last);
+                }
+
+                $this->_ranges = $ranges;
+            }
+        }
+
+        return $this->_ranges;
+    }
+
+    /**
      * Checks whether the request is secure or not.
      *
      * This method can read the client scheme from the "X-Forwarded-Proto" header when the request is proxied and the
      * proxy is trusted. The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
      *
-     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.4
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.4
      *
      * @return  boolean
      */
@@ -883,9 +923,9 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * proxy IP address and, potentially, a port number). If no "X-Forwarded-By" header can be found, or the header
      * IP address doesn't match the list of trusted proxies the function will return false.
      *
-     * See : http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#page-7
+     * @link http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#page-7
      *
-     * @return  boolean Return TRUE if the request is proxied and the proxy is trusted. FALSE otherwise.
+     * @return  boolean Returns TRUE if the request is proxied and the proxy is trusted. FALSE otherwise.
      */
     public function isProxied()
     {
@@ -918,6 +958,49 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         }
 
         return false;
+    }
+
+    /**
+     * Check if the request is downloadable or not.
+     *
+     * A request is downloading if one of the following conditions are met :
+     *
+     * 1. The request query contains a 'force-download' parameter
+     * 2. The request accepts specifies either the application/force-download or application/octet-stream mime types
+     *
+     * @return bool Returns TRUE If the request is downloadable. FALSE otherwise.
+     */
+    public function isDownload()
+    {
+        $result = $this->query->has('force-download');
+
+        if($this->headers->has('Accept'))
+        {
+            $accept = $this->headers->get('Accept');
+            $types  = $this->_parseAccept($accept);
+
+            //Get the highest quality format
+            $type = key($types);
+
+            if(in_array($type, array('application/force-download', 'application/octet-stream'))) {
+                return $result = true;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if the request is streaming
+     *
+     * Responses that contain a Range header is considered to be streaming.
+     * @link  @link : http://tools.ietf.org/html/rfc2616#section-14.35
+     *
+     * @return bool
+     */
+    public function isStreaming()
+    {
+        return $this->_headers->has('Range');
     }
 
     /**

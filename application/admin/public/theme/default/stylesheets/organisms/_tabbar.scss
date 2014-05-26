@@ -1,0 +1,29 @@
+#panel-tabbar {
+    background: darken($tabbarBackground, 10%) linear-gradient($tabbarBackground, darken($tabbarBackground, 10%));
+    box-shadow: inset rgba(0, 0, 0, .10) 0px -2px 2px;
+}
+
+#panel-tabbar {
+    a {
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0 25px;
+        line-height: $baseLineHeight + 18px;
+        vertical-align: middle;
+        color: $tabbarLinkColor;
+        display: block;
+        border-radius: 0 0;
+        border-right: 1px solid $tabbarBackground;
+    }
+
+    a.active {
+        color: $tabbarLinkColorHighlight;
+        background-color: $tabbarBackgroundHighlight;
+        background: linear-gradient(#FFF, $tabbarBackgroundHighlight);
+        box-shadow: rgba(0, 0, 0, .3) 0px 0px 4px;
+    }
+
+    a.active:hover {
+        text-decoration: none !important;
+    }
+}

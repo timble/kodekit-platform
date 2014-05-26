@@ -18,11 +18,12 @@ namespace Nooku\Library;
 interface ViewInterface
 {
     /**
-     * Render the view
+     * Execute an action by triggering a method in the derived class.
      *
-     * @return string The output of the view
+     * @param   array $data The view data
+     * @return  string  The output of the view
      */
-    public function render();
+    public function render($data = array());
 
     /**
      * Set a view property
@@ -37,9 +38,10 @@ interface ViewInterface
      * Get a view property
      *
      * @param   string  $property   The property name.
+     * @param  mixed  $default  Default value to return.
      * @return  string  The property value.
      */
-    public function get($property);
+    public function get($property, $default = null);
 
     /**
      * Check if a view property exists
@@ -48,6 +50,21 @@ interface ViewInterface
      * @return  boolean TRUE if the property exists, FALSE otherwise
      */
     public function has($property);
+
+    /**
+     * Sets the view data
+     *
+     * @param   array $data The view data
+     * @return  ViewAbstract
+     */
+    public function setData($data);
+
+    /**
+     * Get the view data
+     *
+     * @return  array   The view data
+     */
+    public function getData();
 
     /**
 	 * Get the name
@@ -133,4 +150,18 @@ interface ViewInterface
 	 * @return 	string 	The route
 	 */
 	public function getRoute($route, $fqr = null, $escape = null);
+
+    /**
+     * Get the view context
+     *
+     * @return  ViewContext
+     */
+    public function getContext();
+
+    /**
+     * Check if we are rendering an entity collection
+     *
+     * @return bool
+     */
+    public function isCollection();
 }

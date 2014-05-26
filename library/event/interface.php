@@ -18,6 +18,15 @@ namespace Nooku\Library;
 interface EventInterface
 {
     /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
      * Get the event name
      *
      * @return string	The event name
@@ -42,25 +51,48 @@ interface EventInterface
     /**
      * Set the event target
      *
-     * @param ObjectInterface $target	The event target
+     * @param mixed $target	The event target
      * @return Event
      */
-    public function setTarget(ObjectInterface $target);
-    
+    public function setTarget($target);
+
     /**
-     * Stores the EventDispatcher that dispatches this Event
+     * Set attributes
      *
-     * @param EventDispatcherInterface $dispatcher
-     * @return Event
+     * Overwrites existing attributes
+     *
+     * @param  array|\Traversable $attributes
+     * @throws \InvalidArgumentException If the attributes are not an array or are not traversable.
+     * @return EventInterface
      */
-    public function setDispatcher(EventDispatcherInterface $dispatcher);
-    
+    public function setAttributes($attributes);
+
     /**
-     * Returns the EventDispatcher that dispatches this Event
+     * Get all arguments
      *
-     * @return EventDispatcherInterface
+     * @return array
      */
-    public function getDispatcher();
+    public function getAttributes();
+
+    /**
+     * Get an attribute
+     *
+     * If the attribute does not exist, the $default value will be returned.
+     *
+     * @param  string $name The attribute name
+     * @param  mixed $default
+     * @return mixed
+     */
+    public function getAttribute($name, $default = null);
+
+    /**
+     * Set an attribute
+     *
+     * @param  string $name The attribute
+     * @param  mixed $value
+     * @return EventInterface
+     */
+    public function setAttribute($name, $value);
     
     /**
      * Returns whether further event listeners should be triggered.

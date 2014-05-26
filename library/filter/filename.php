@@ -38,6 +38,7 @@ class FilterFilename extends FilterAbstract implements FilterTraversable
 	 */
     public function sanitize($value)
 	{
-    	return basename($value);
+        // basename does not work if the string starts with a UTF character
+        return ltrim(basename(' '.strtr($value, array('/' => '/ '))));
 	}
 }

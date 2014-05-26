@@ -53,9 +53,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     {
         parent::__construct($config);
 
-        if(!empty($config->url)) {
-            $this->setUrl($config->url);
-        }
+        $this->setUrl($config->url);
 
         if(!empty($config->method)) {
             $this->setMethod($config->method);
@@ -258,7 +256,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     /**
      * Is this a safe request?
      *
-     * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.1.1
+     * @link http://tools.ietf.org/html/rfc2616#section-9.1.1
      * @return boolean
      */
     public function isSafe()

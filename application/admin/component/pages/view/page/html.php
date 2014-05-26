@@ -17,32 +17,37 @@ use Nooku\Library;
  */
 class PagesViewPageHtml extends Library\ViewHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         // Load languages.
-        $language   = JFactory::getLanguage();
+        $language = JFactory::getLanguage();
 
-        foreach($this->getObject('com:extensions.model.extensions')->getRowset() as $extension) {
-            $language->load($extension->name);
+        foreach($context->data->components as $component) {
+            $language->load($component->name);
         }
-        
+
+        return parent::_actionRender($context);
+    }
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
         // Load components.
         $state = $this->getModel()->getState();
-        $page  = $this->getModel()->getRow();
+        $page  = $this->getModel()->fetch();
 
         $menu  = $this->getObject('com:pages.model.menus')
             ->id($state->menu)
-            ->getRow();
-        
-        $this->extensions = $this->getObject('com:pages.model.types')
+            ->fetch();
+
+        $context->data->components = $this->getObject('com:pages.model.types')
             ->application($menu->application)
-            ->getRowset();
+            ->fetch();
 
         // Get available and assigned modules.
         $available = $this->getObject('com:pages.model.modules')
             ->published(true)
             ->application('site')
-            ->getRowset();
+            ->fetch();
 
         $query = $this->getObject('lib:database.query.select')
             ->where('tbl.pages_page_id IN :id')
@@ -51,14 +56,15 @@ class PagesViewPageHtml extends Library\ViewHtml
         $assigned = $this->getObject('com:pages.database.table.modules_pages')
             ->select($query);
 
-        $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
+        //Assign the modules
+        $context->data->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
         // Assign menu.
-        $this->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->getRow();
+        $context->data->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->fetch();
 
         // Assign parent ID
-        $this->parent_id = $page->getParentId();
+        $context->data->parent_id = $page->getParentId();
 
-        return parent::render();
+        parent::_fetchData($context);
     }
 }

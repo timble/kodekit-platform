@@ -25,6 +25,18 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
     protected $_permission;
 
     /**
+     * Constructor.
+     *
+     * @param  ObjectConfig $config Configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_permission = $config->permission;
+    }
+
+    /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -35,8 +47,8 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Command::PRIORITY_HIGH,
-            'auto_mixin' => true
+            'priority'   => self::PRIORITY_HIGH,
+            'permission' => null
         ));
 
         parent::_initialize($config);
@@ -47,15 +59,15 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
      *
      * Only handles before.action commands to check authorization rules.
      *
-     * @param   string $name     The command name
-     * @param   object $context  The command context
-     * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
-     * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
+     * @throws  ControllerExceptionRequestForbidden       If the user is authentic and the actions is not allowed.
+     * @throws  ControllerExceptionRequestNotAuthorized   If the user is not authentic and the action is not allowed.
      * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function execute( $name, CommandContext $context)
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
-        $parts = explode('.', $name);
+        $parts = explode('.', $command->getName());
 
         if($parts[0] == 'before')
         {
@@ -63,11 +75,17 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
 
             if($this->canExecute($action) === false)
             {
-                if($context->user->isAuthentic()) {
-                    throw new ControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
-                } else {
-                    throw new ControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
+                $message = 'Action '.ucfirst($action).' Not Allowed';
+
+                if($this->getUser()->isAuthentic())
+                {
+                    if (!$this->getUser()->isEnabled()) {
+                        $message = 'User account is disabled';
+                    }
+
+                    throw new ControllerExceptionRequestForbidden($message);
                 }
+                else throw new ControllerExceptionRequestNotAuthorized($message);
 
                 return false;
             }
@@ -111,35 +129,29 @@ class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
     {
         parent::onMixin($mixer);
 
-        //Mixin the permission
-        $permission       = clone $mixer->getIdentifier();
-        $permission->path = array('dispatcher', 'permission');
+        //Create and mixin the permission if it's doesn't exist yet
+        if (!$this->_permission instanceof DispatcherPermissionInterface)
+        {
+            $permission = $this->_permission;
 
-        if($permission !== $this->getPermission()) {
-            $this->setPermission($mixer->mixin($permission));
+            if (!$permission || (is_string($permission) && strpos($permission, '.') === false))
+            {
+                $identifier = $mixer->getIdentifier()->toArray();
+                $identifier['path'] = array('dispatcher', 'permission');
+
+                if ($permission) {
+                    $identifier->name = $permission;
+                }
+
+                $permission = $identifier;
+            }
+
+            if (!$permission instanceof ObjectIdentifierInterface) {
+                $permission = $this->getIdentifier($permission);
+            }
+
+            $this->_permission = $mixer->mixin($permission);
         }
-    }
-
-    /**
-     * Get the permission
-     *
-     * @return DispatcherPermissionInterface
-     */
-    public function getPermission()
-    {
-        return $this->_permission;
-    }
-
-    /**
-     * Set the permission
-     *
-     * @param  ControllerPermissionInterface $permission The controller permission object
-     * @return ControllerBehaviorPermissible
-     */
-    public function setPermission(DispatcherPermissionInterface $permission)
-    {
-        $this->_permission = $permission;
-        return $this;
     }
 
     /**

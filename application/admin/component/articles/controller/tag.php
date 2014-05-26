@@ -17,15 +17,6 @@ use Nooku\Library;
  */
 class ArticlesControllerTag extends TagsControllerTag
 { 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'model'     => 'com:tags.model.tags',
-            'request'   => array(
-                'view' => 'tag'
-            )
-        ));
 
-        parent::_initialize($config);
-    }
+       
 }

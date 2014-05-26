@@ -126,14 +126,19 @@ class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
     /**
      * Register an alias for an identifier
      *
-     * @param mixed $alias      The alias
      * @param ObjectIdentifier  $identifier
+     * @param mixed             $alias      The alias
      * @return ObjectRegistry
      */
-    public function alias($alias, ObjectIdentifier $identifier)
+    public function alias(ObjectIdentifier $identifier, $alias)
     {
-        $alias = trim((string) $alias);
-        $this->_aliases[$alias] = (string) $identifier;
+        $alias      = trim((string) $alias);
+        $identifier = (string) $identifier;
+
+        //Don't register the alias if it's the same as the identifier
+        if($alias != $identifier) {
+            $this->_aliases[$alias] = (string) $identifier;
+        }
 
         return $this;
     }

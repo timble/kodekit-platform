@@ -25,14 +25,4 @@ class UsersModuleLoginHtml extends PagesModuleDefaultHtml
         
         parent::_initialize($config);
     }
-    
-    public function render()
-    { 
-        $this->name          = $this->module->params->get('name');
-        $this->usesecure     = $this->module->params->get('usesecure');
-        $this->show_title    = $this->module->params->get('show_title', false);
-        $this->allow_registration = $this->getObject('application.extensions')->users->params->get('allowUserRegistration');
-
-        return parent::render();
-    }
 } 

@@ -20,54 +20,43 @@ namespace Nooku\Library;
 class ObjectConfig implements ObjectConfigInterface
 {
     /**
-     * The data container
+     * The configuration options
      *
      * @var array
      */
-    protected $_data;
+    private $__options = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
-     * @return ObjectConfig
+     * @param   array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
      */
-    public function __construct( $config = array() )
+    public function __construct( $options = array() )
     {
-        if ($config instanceof ObjectConfig) {
-            $data = $config->toArray();
-        } else {
-            $data = $config;
-        }
-
-        $this->_data = array();
-        if (is_array($data))
-        {
-            foreach ($data as $key => $value) {
-                $this->set($key, $value);
-            }
-        }
+        $this->add($options);
     }
 
     /**
-     * Retrieve a configuration item and return $default if there is no element set.
+     * Retrieve a configuration option
      *
-     * @param  string $name
-     * @param  mixed  $default
+     * If the option does not exist return the default
+     *
+     * @param string
+     * @param mixed
      * @return mixed
      */
     public function get($name, $default = null)
     {
         $result = $default;
-        if(isset($this->_data[$name])) {
-            $result = $this->_data[$name];
+        if(isset($this->__options[$name])) {
+            $result = $this->__options[$name];
         }
 
         return $result;
     }
 
     /**
-     * Set a configuration item
+     * Set a configuration option
      *
      * @param  string $name
      * @param  mixed  $value
@@ -75,87 +64,92 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function set($name, $value)
     {
-        if (is_array($value)) {
-            $this->_data[$name] = new static($value);
-        } else {
-            $this->_data[$name] = $value;
+        if (is_array($value))
+        {
+            $class = get_class($this);
+            $this->__options[$name] = new $class($value);
         }
+        else $this->__options[$name] = $value;
     }
 
     /**
-     * Check if a configuration item exists
+     * Check if a configuration option exists
      *
-     * @param  	string 	$name The configuration item name.
+     * @param  	string 	$name The configuration option name.
      * @return  boolean
      */
     public function has($name)
     {
-        return isset($this->_data[$name]);
+        return isset($this->__options[$name]);
     }
 
     /**
-     * Remove a configuration item
+     * Remove a configuration option
      *
-     * @param   string $name The configuration item name.
+     * @param   string $name The configuration option name.
      * @return  ObjectConfig
      */
     public function remove( $name )
     {
-        unset($this->_data[$name]);
+        unset($this->__options[$name]);
         return $this;
     }
 
-	/**
-     * Unbox a ObjectConfig object
+    /**
+     * Add options
      *
-     * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
+     * This method will overwrite keys that already exist, keys that don't exist yet will be added.
      *
-     * @param  ObjectConfig|mxied $data
-     * @return array|mixed
+     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
+     * @return ObjectConfig
      */
-    public static function unbox($data)
+    public function add($options)
     {
-        return ($data instanceof ObjectConfig) ? $data->toArray() : $data;
+        $options = self::unbox($options);
+
+        if (is_array($options))
+        {
+            foreach ($options as $key => $value) {
+                $this->set($key, $value);
+            }
+        }
+
+        return $this;
     }
 
     /**
-     * Append an array or Object recursively
+     * Append values
      *
-     * Merges the elements of an array or ObjectConfig object recursively so that the values of one are appended.
+     * This method only adds keys that don't exist and it filters out any duplicate values
      *
-     * If the input arrays has string keys, then the value for that key will be not overwrite the previous one. Instead
-     * the values for these keys are transformed into Objects and merged together, and this is done recursively, so
-     * that if one of the values is an associative array itself, the function will merge it with a corresponding entry.
-     *
-     * If, the input arrays contain numeric keys, the later value will not overwrite the original value, but will be
-     * appended. Values in the input array with numeric keys will be renumbered with incrementing keys starting from
-     * zero in the result array.
-     *
-     * @param  ObjectConfig|array $config  A ObjectConfig object or an array of values to be appended
+     * @param  array|ObjectConfig    $config A ObjectConfig object an or array of options to be appended
      * @return ObjectConfig
      */
-    public function append($config)
+    public function append($options)
     {
-        $config = ObjectConfig::unbox($config);
+        $options = self::unbox($options);
 
-        if(is_array($config))
+        if(is_array($options))
         {
-            foreach($config as $key => $value)
+            if(!is_numeric(key($options)))
             {
-                if(!is_numeric($key))
+                foreach($options as $key => $value)
                 {
-                    if(array_key_exists($key, $this->_data))
+                    if(array_key_exists($key, $this->__options))
                     {
-                        if(!empty($value) && ($this->_data[$key] instanceof ObjectConfig)) {
-                            $this->_data[$key] = $this->_data[$key]->append($value);
+                        if(!empty($value) && ($this->__options[$key] instanceof ObjectConfig)) {
+                            $this->__options[$key] = $this->__options[$key]->append($value);
                         }
                     }
                     else $this->__set($key, $value);
                 }
-                else
+            }
+            else
+            {
+                foreach($options as $value)
                 {
-                    if(!in_array($value, $this->_data, true)) {
-                        $this->_data[] = $value;
+                    if (!in_array($value, $this->__options, true)) {
+                        $this->__options[] = $value;
                     }
                 }
             }
@@ -165,13 +159,26 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
+     * Return the data
+     *
+     * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
+     *
+     * @param mixed ObjectConfig $data
+     * @return mixed|array
+     */
+    public static function unbox($data)
+    {
+        return ($data instanceof ObjectConfig) ? $data->toArray() : $data;
+    }
+
+    /**
      * Get a new iterator
      *
-     * @return  \ArrayIterator
+     * @return  \RecursiveArrayIterator
      */
     public function getIterator()
     {
-        return new \RecursiveArrayIterator($this->_data);
+        return new \RecursiveArrayIterator($this->__options);
     }
 
     /**
@@ -183,7 +190,7 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function count()
     {
-        return count($this->_data);
+        return count($this->__options);
     }
 
     /**
@@ -191,12 +198,12 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int  $offset
+     * @param   int  $offset   The offset
      * @return  bool
      */
     public function offsetExists($offset)
     {
-        return isset($this->_data[$offset]);
+        return isset($this->__options[$offset]);
     }
 
     /**
@@ -204,15 +211,15 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int   $offset
-     * @return  mixed
+     * @param   int  $offset   The offset
+     * @return  mixed   The item from the array
      */
     public function offsetGet($offset)
     {
         $result = null;
-        if(isset($this->_data[$offset]))
+        if(isset($this->__options[$offset]))
         {
-            $result = $this->_data[$offset];
+            $result = $this->__options[$offset];
             if($result instanceof ObjectConfig) {
                 $result = $result->toArray();
             }
@@ -226,30 +233,30 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     $offset
-     * @param   mixed   $value
+     * @param   int    $offset   The offset
+     * @param   mixed  $value    The item's value
+     *
      * @return  ObjectConfig
      */
     public function offsetSet($offset, $value)
     {
-        $this->_data[$offset] = $value;
+        $this->__options[$offset] = $value;
         return $this;
     }
 
     /**
      * Unset an item in the array
      *
-     * All numerical array keys will be modified to start counting from zero while
-     * literal keys won't be touched.
+     * All numerical array keys will be modified to start counting from zero while literal keys won't be touched.
      *
      * Required by interface ArrayAccess
      *
-     * @param   int  $offset
+     * @param   int     $offset The offset of the item
      * @return  ObjectConfig
      */
     public function offsetUnset($offset)
     {
-        unset($this->_data[$offset]);
+        unset($this->__options[$offset]);
         return $this;
     }
 
@@ -261,7 +268,7 @@ class ObjectConfig implements ObjectConfigInterface
     public function toArray()
     {
         $array = array();
-        $data  = $this->_data;
+        $data  = $this->__options;
         foreach ($data as $key => $value)
         {
             if ($value instanceof ObjectConfig) {
@@ -330,15 +337,16 @@ class ObjectConfig implements ObjectConfigInterface
         $this->remove($name);
     }
 
- 	/**
-     * Deep clone of this instance to ensure that nested ObjectConfig objects are also cloned.
+    /**
+     * Deep clone of this instance to ensure that nested KObjectConfigs
+     * are also cloned.
      *
      * @return void
      */
     public function __clone()
     {
         $array = array();
-        foreach ($this->_data as $key => $value)
+        foreach ($this->__options as $key => $value)
         {
             if ($value instanceof ObjectConfig || $value instanceof \stdClass) {
                 $array[$key] = clone $value;
@@ -347,6 +355,6 @@ class ObjectConfig implements ObjectConfigInterface
             }
         }
 
-        $this->_data = $array;
+        $this->__options = $array;
     }
 }

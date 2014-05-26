@@ -47,7 +47,8 @@ class HttpResponseHeaders extends HttpMessageHeaders
      */
     public function removeCookie($name, $path = '/', $domain = null)
     {
-        if (null === $path) {
+        //Ensure we have a valid path
+        if (empty($path)) {
             $path = '/';
         }
 

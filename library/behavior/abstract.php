@@ -12,18 +12,14 @@ namespace Nooku\Library;
 /**
  * Abstract Behavior
  *
+ * The abstract behavior will translate the command name to a method name format (eg, _before[Command] or _after[Command])
+ * and add execute the method. Command handlers should be declared protected.
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Behavior
  */
-abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorInterface
+abstract class BehaviorAbstract extends CommandCallbackAbstract implements BehaviorInterface
 {
-    /**
-     * The behavior priority
-     *
-     * @var integer
-     */
-    protected $_priority;
-
     /**
      * The service identifier
      *
@@ -44,6 +40,13 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * @var ObjectConfig
      */
     private $__object_config;
+
+    /**
+     * The behavior priority
+     *
+     * @var integer
+     */
+    protected $_priority;
 
     /**
      * Constructor.
@@ -78,9 +81,13 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
         //Set the command priority
         $this->_priority = $config->priority;
 
-        //Automatically mixin the behavior
-        if ($config->auto_mixin) {
-            $this->mixin($this);
+        //Add the command callbacks
+        foreach($this->getMethods() as $method)
+        {
+            $matches = array();
+            if (preg_match('/_(after|before)([A-Z]\S*)/', $method, $matches)) {
+                $this->addCommandCallback($matches[1].'.'.strtolower($matches[2]), $method);
+            }
         }
     }
 
@@ -95,11 +102,22 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Command::PRIORITY_NORMAL,
-            'auto_mixin' => false
+            'priority'   => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Command handler
+     *
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
+     * @return mixed If a handler breaks, returns the break condition. Returns the result of the handler otherwise.
+     */
+    public function execute(CommandInterface $command, CommandChainInterface $chain)
+    {
+        return parent::invokeCallbacks($command);
     }
 
     /**
@@ -123,76 +141,79 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     }
 
     /**
-     * Command handler
-     *
-     * This function translated the command name to a command handler function of the format '_before[Command]' or
-     * '_after[Command]. Command handler functions should be declared protected.
-     *
-     * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
-     *
-     * @return  mixed  Method result if the method exists, NULL otherwise.
-     */
-    public function execute($name, CommandContext $context)
-    {
-        $result = null;
-
-        $identifier = clone $context->getSubject()->getIdentifier();
-        $type = array_pop($identifier->path);
-
-        $parts = explode('.', $name);
-        $method = '_' . $parts[0] . ucfirst($type) . ucfirst($parts[1]);
-
-        //If the method exists call the method and return the result
-        if (method_exists($this, $method)) {
-            $result = $this->$method($context);
-        }
-
-        return $result;
-    }
-
-    /**
      * Get an object handle
-     *
-     * This function only returns a valid handle if one or more command handler functions are defined. A commend handler
-     * function needs to follow the following format : '_afterX[Event]' or '_beforeX[Event]' to be recognised.
      *
      * @return string A string that is unique, or NULL
      * @see execute()
      */
     public function getHandle()
     {
-        $methods = $this->getMethods();
+        $handle = null;
 
-        foreach ($methods as $method)
+        if($this->isSupported())
         {
-            if (substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
-                return parent::getHandle();
+            $callbacks = $this->getCommandCallbacks();
+
+            if(!empty($callbacks)) {
+                $handle = parent::getHandle();
             }
         }
 
-        return null;
+        return $handle;
+    }
+
+    /**
+     * Add a command callback
+     *
+     * If the handler has already been added. It will not be re-added but parameters will be merged. This allows to
+     * change or add parameters for existing handlers.
+     *
+     * @param  	string          $command  The command name to register the handler for
+     * @param 	string|\Closure $method   The name of the method or a Closure object
+     * @param   array|object    $params   An associative array of config parameters or a KObjectConfig object
+     * @throws  \InvalidArgumentException If the method does not exist
+     * @return  CommandHandlerAbstract
+     */
+    public function addCommandCallback($command, $method, $params = array())
+    {
+        if (is_string($method) && !is_callable(array($this, $method)))
+        {
+            throw new \InvalidArgumentException(
+                'Method does not exist '.__CLASS__.'::'.$method
+            );
+        }
+
+        return parent::addCommandCallback($command, $method, $params);
     }
 
     /**
      * Get the methods that are available for mixin based
      *
-     * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
-     * behavior is callable.
+     * This function also dynamically adds a lamda function with function name 'is[Behavior]' to allow client code to
+     * check if the behavior is supported.
      *
-     * @param  ObjectInterface $mixer The mixer requesting the mixable methods.
+     * Function will check if the behavior is supported by calling {@link isSupported()}. Is the behavior is not
+     * supported on the mixer no mixable methods will be returned, only an 'is[Behavior]' method will be added which
+     * return FALSE when called.
+     *
+     * @param  array           $exclude     An array of public methods to be exclude
      * @return array An array of methods
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getMixableMethods($exclude = array())
     {
-        $methods = parent::getMixableMethods($mixer);
-        $methods['is' . ucfirst($this->getIdentifier()->name)] = function() { return true; };
+        $methods = array();
+        if($this->isSupported())
+        {
+            $exclude += array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
+                'getName', 'getObject', 'setBreakCondition', 'getBreakCondition', 'addCommandCallback',
+                'removeCommandCallback', 'getCommandCallbacks', 'invokeCommandCallback');
 
-        unset($methods['execute']);
-        unset($methods['getIdentifier']);
-        unset($methods['getPriority']);
-        unset($methods['getHandle']);
-        unset($methods['getObject']);
+            $methods = parent::getMixableMethods($exclude);
+        }
+
+        if(!isset($exclude['is' . ucfirst($this->getName())])) {
+            $methods['is' . ucfirst($this->getName())] = $this->isSupported();
+        }
 
         return $methods;
     }
@@ -248,5 +269,15 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
         }
 
         return $result;
+    }
+
+    /**
+     * Check if the behavior is supported
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        return true;
     }
 }

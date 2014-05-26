@@ -70,6 +70,16 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     }
 
     /**
+     * Get the priority of the filter
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority()
+    {
+        return $this->getDelegate()->getPriority();
+    }
+
+    /**
      * Get a list of error that occurred during sanitize or validate
      *
      * @return array
@@ -77,5 +87,31 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     public function getErrors()
     {
         return $this->getDelegate()->getErrors();
+    }
+
+    /**
+     * Set the decorated filter
+     *
+     * @param   FilterInterface $delegate The decorated filter
+     * @return  FilterIterator
+     * @throws  \InvalidArgumentException If the delegate is not a filter
+     */
+    public function setDelegate($delegate)
+    {
+        if (!$delegate instanceof FilterInterface) {
+            throw new \InvalidArgumentException('Filter: '.get_class($delegate).' does not implement FilterInterface');
+        }
+
+        return parent::setDelegate($delegate);
+    }
+
+    /**
+     * Set the decorated object
+     *
+     * @return FilterInterface
+     */
+    public function getDelegate()
+    {
+        return parent::getDelegate();
     }
 }

@@ -21,6 +21,20 @@ namespace Nooku\Library;
 class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 {
     /**
+     * The cookie path
+     *
+     * @var string
+     */
+    protected $_cookie_path;
+
+    /**
+     * The cookie name
+     *
+     * @var string
+     */
+    protected $_cookie_name;
+
+    /**
      * Constructor
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
@@ -29,32 +43,135 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.read'  , array($this, 'lockEntity'));
-        $this->registerCallback('after.save'  , array($this, 'unlockEntity'));
-        $this->registerCallback('after.cancel', array($this, 'unlockEntity'));
+        $this->addCommandCallback('after.read'  , '_lockResource');
+        $this->addCommandCallback('after.save'  , '_unlockResource');
+        $this->addCommandCallback('after.cancel', '_unlockResource');
 
-        if($this->getRequest()->getFormat() == 'html')
-        {
-            $this->registerCallback('before.read' , array($this, 'setReferrer'));
-            $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
-            $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
-            $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-            $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+
+        $this->addCommandCallback('before.read' , 'setReferrer');
+        $this->addCommandCallback('after.apply' , '_lockReferrer');
+        $this->addCommandCallback('after.read'  , '_unlockReferrer');
+        $this->addCommandCallback('after.save'  , '_unsetReferrer');
+        $this->addCommandCallback('after.cancel', '_unsetReferrer');
+
+        $this->_cookie_path = $config->cookie_path;
+        $this->_cookie_name = $config->cookie_name;
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'cookie_name' => 'referrer',
+            'cookie_path' => $this->getObject('request')->getBaseUrl()->toString(HttpUrl::PATH)
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Check if the behavior is supported
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer   = $this->getMixer();
+        $request = $mixer->getRequest();
+
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->getFormat() == 'html') {
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Get the referrer
+     *
+     * @param   ControllerContextInterface $context A controller context object
+     * @return  HttpUrl    A HttpUrl object
+     */
+    public function getReferrer(ControllerContextInterface $context)
+    {
+        if($context->request->cookies->has($this->_cookie_name))
+        {
+            $referrer = $context->request->cookies->get($this->_cookie_name, 'url');
+            $referrer = $this->getObject('lib:http.url', array('url' => $referrer));
+        }
+        else $referrer = $this->findReferrer($context);
+
+        return $referrer;
+    }
+
+    /**
+     * Set the referrer
+     *
+     * @param  ControllerContextInterface $context A controller context object
+     * @return void
+     */
+    public function setReferrer(ControllerContextInterface $context)
+    {
+        if (!$context->request->cookies->has($this->_cookie_name.'_locked'))
+        {
+            $request  = $context->request->getUrl();
+            $referrer = $context->request->getReferrer();
+
+            //Compare request url and referrer
+            if (isset($referrer) && !$request->equals($referrer))
+            {
+                //Add the referrer cookie
+                $cookie = $this->getObject('lib:http.cookie', array(
+                    'name'   => $this->_cookie_name,
+                    'value'  => $referrer,
+                    'path'   => $this->_cookie_path
+                ));
+
+                $context->response->headers->addCookie($cookie);
+            }
+        }
+    }
+
+    /**
+     * Find the referrer based on the context
+     *
+     * Method is being called when no referrer can be found in the request or when request url and referrer are
+     * identical. Function should return a url that is different from the request url to avoid redirect loops.
+     *
+     * @param ControllerContextInterface $context
+     * @return HttpUrl    A HttpUrl object
+     */
+    public function findReferrer(ControllerContextInterface $context)
+    {
+        $controller = $this->getMixer();
+        $identifier = $controller->getIdentifier();
+
+        $option   = 'com_' . $identifier->package;
+        $view     = StringInflector::pluralize($identifier->name);
+        $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
+
+        return $this->getObject('lib:http.url', array('url' => $referrer));
     }
 
     /**
      * Lock the referrer from updates
      *
-     * @param  CommandContext  $context A command context object
+     * @param  ControllerContextInterface  $context A controller context object
      * @return void
      */
-    public function lockReferrer(CommandContext $context)
+    protected function _lockReferrer(ControllerContextInterface $context)
     {
         $cookie = $this->getObject('lib:http.cookie', array(
-            'name'   => 'referrer_locked',
+            'name'   => $this->_cookie_name.'_locked',
             'value'  => true,
-            'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
+            'path'   => $this->_cookie_path
         ));
 
         $context->response->headers->addCookie($cookie);
@@ -63,94 +180,12 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Unlock the referrer for updates
      *
-     * @param   CommandContext  $context A command context object
+     * @param   ControllerContextInterface  $context A controller context object
      * @return void
      */
-    public function unlockReferrer(CommandContext $context)
+    protected function _unlockReferrer(ControllerContextInterface $context)
     {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
-        $context->response->headers->clearCookie('referrer_locked', $path);
-    }
-
-    /**
-     * Lock the entity
-     *
-     * Only lock if the context contains a row object and if the user has an active session he can edit or delete the
-     * entity. Otherwise don't lock it.
-     *
-     * @param   CommandContext  $context The command context
-     * @return  void
-     */
-    public function lockEntity(CommandContext $context)
-    {
-        if($this->isLockable() && $this->canEdit()) {
-            $context->result->lock();
-        }
-    }
-
-    /**
-     * Unlock the entity
-     *
-     * @param  CommandContext  $context The command context
-     * @return void
-     */
-    public function unlockEntity(CommandContext $context)
-    {
-        if($this->isLockable() && $this->canEdit()) {
-            $context->result->unlock();
-        }
-    }
-
-    /**
-     * Get the referrer
-     *
-     * @param    CommandContext $context A command context object
-     * @return HttpUrl    A HttpUrl object.
-     */
-    public function getReferrer(CommandContext $context)
-    {
-        $identifier = $this->getMixer()->getIdentifier();
-
-        $referrer = $this->getObject('lib:http.url',
-            array('url' => $context->request->cookies->get('referrer', 'url'))
-        );
-
-        return $referrer;
-    }
-
-    /**
-     * Set the referrer
-     *
-     * @param    CommandContext $context A command context object
-     * @return void
-     */
-    public function setReferrer(CommandContext $context)
-    {
-        if (!$context->request->cookies->has('referrer_locked'))
-        {
-            $request  = $context->request->getUrl();
-            $referrer = $context->request->getReferrer();
-
-            //Compare request url and referrer
-            if (!isset($referrer) || ((string)$referrer == (string)$request))
-            {
-                $controller = $this->getMixer();
-                $identifier = $controller->getIdentifier();
-
-                $option = 'com_' . $identifier->package;
-                $view = StringInflector::pluralize($identifier->name);
-                $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
-            }
-
-            //Add the referrer cookie
-            $cookie = $this->getObject('lib:http.cookie', array(
-                'name'   => 'referrer',
-                'value'  => $referrer,
-                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
-            ));
-
-            $context->response->headers->addCookie($cookie);
-        }
+        $context->response->headers->clearCookie($this->_cookie_name.'_locked', $this->_cookie_path);
     }
 
     /**
@@ -158,22 +193,50 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * @return void
      */
-    public function unsetReferrer(CommandContext $context)
+    protected function _unsetReferrer(ControllerContextInterface $context)
     {
-        $path = $context->request->getBaseUrl()->getPath() ?: '/';
-        $context->response->headers->clearCookie('referrer', $path);
+        $context->response->headers->clearCookie($this->_cookie_name, $this->_cookie_path);
     }
 
     /**
-     * Check if the entity is locked
+     * Lock the resource
      *
-     * @return bool Returns TRUE if the entity is locked, FALSE otherwise.
+     * Only lock if the context contains a row object and if the user has an active session he can edit or delete the
+     * resource. Otherwise don't lock it.
+     *
+     * @param   ControllerContextInterface  $context A controller context object
+     * @return  void
+     */
+    protected function _lockResource(ControllerContextInterface $context)
+    {
+        if($this->isLockable() && $this->canEdit()) {
+            $context->result->lock();
+        }
+    }
+
+    /**
+     * Unlock the resource
+     *
+     * @param  ControllerContextInterface  $context A controller context object
+     * @return void
+     */
+    protected function _unlockResource(ControllerContextInterface $context)
+    {
+        if($this->isLockable() && $this->canEdit()) {
+            $context->result->unlock();
+        }
+    }
+
+    /**
+     * Check if the resource is locked
+     *
+     * @return bool Returns TRUE if the resource is locked, FALSE otherwise.
      */
     public function isLocked()
     {
         if($this->getModel()->getState()->isUnique())
         {
-            $entity = $this->getModel()->getRow();
+            $entity = $this->getModel()->fetch();
 
             if($entity->isLockable() && $entity->isLocked()) {
                 return true;
@@ -184,9 +247,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Check if the entity is lockable
+     * Check if the resource is lockable
      *
-     * @return bool Returns TRUE if the entity is can be locked, FALSE otherwise.
+     * @return bool Returns TRUE if the resource is can be locked, FALSE otherwise.
      */
     public function isLockable()
     {
@@ -196,7 +259,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         {
             if($this->getModel()->getState()->isUnique())
             {
-                $entity = $this->getModel()->getRow();
+                $entity = $this->getModel()->fetch();
 
                 if($entity->isLockable()) {
                     return true;
@@ -220,11 +283,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         {
             if($this->getModel()->getState()->isUnique())
             {
-                if($this->canEdit())
-                {
-                    if($this->isLockable() && !$this->isLocked()) {
-                        return true;
-                    }
+                if($this->canEdit() && !$this->isLocked()) {
+                    return true;
                 }
             }
             else
@@ -274,10 +334,10 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function also sets the redirect to the referrer.
      *
-     * @param   CommandContext  $context A command context object
-     * @return  DatabaseRowInterface     A row object containing the saved data
+     * @param   ControllerContextInterface  $context A controller context object
+     * @return  ModelEntityInterface
      */
-    protected function _actionSave(CommandContext $context)
+    protected function _actionSave(ControllerContextInterface $context)
     {
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
@@ -296,33 +356,24 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function also sets the redirect to the current url
      *
-     * @param    CommandContext  $context A command context object
-     * @return   DatabaseRowInterface     A row object containing the saved data
+     * @param    ControllerContextInterface  $context A controller context object
+     * @return   ModelEntityInterface
      */
-    protected function _actionApply(CommandContext $context)
+    protected function _actionApply(ControllerContextInterface $context)
     {
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
 
-        //Create the redirect
-        $url = $this->getReferrer($context);
-
-        if ($entity instanceof DatabaseRowInterface)
+        if($action == 'add')
         {
-            $url = clone $context->request->getUrl();
-
-            if ($this->getModel()->getState()->isUnique())
-            {
-                $states = $this->getModel()->getState()->getValues(true);
-
-                foreach ($states as $key => $value) {
-                    $url->query[$key] = $entity->get($key);
-                }
+            $url = $this->getReferrer($context);
+            if ($entity instanceof ModelEntityInterface) {
+                $url = $context->response->headers->get('Location');
             }
-            else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
-        }
 
-        $context->response->setRedirect($url);
+            $context->response->setRedirect($url);
+        }
+        else $context->response->setStatus(HttpResponse::NO_CONTENT);
 
         return $entity;
     }
@@ -332,10 +383,10 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function will unlock the row(s) and set the redirect to the referrer
      *
-     * @param   CommandContext  $context A command context object
-     * @return  DatabaseRowInterface    A row object containing the data of the cancelled object
+     * @param   ControllerContextInterface  $context A command context object
+     * @return  ModelEntityInterface
      */
-    protected function _actionCancel(CommandContext $context)
+    protected function _actionCancel(ControllerContextInterface $context)
     {
         //Create the redirect
         $context->response->setRedirect($this->getReferrer($context));
@@ -345,27 +396,25 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Add a lock flash message if the entity is locked
+     * Add a lock flash message if the resource is locked
      *
-     * @param   CommandContext	$context A command context object
+     * @param   ControllerContextInterface	$context A command context object
      * @return 	void
      */
-    protected function _afterControllerRead(CommandContext $context)
+    protected function _afterRead(ControllerContextInterface $context)
     {
         $entity = $context->result;
 
-        //Add the notice if the entity is locked
+        //Add the notice if the resource is locked
         if($this->canEdit() && $this->isLockable() && $this->isLocked())
         {
             //Prevent a re-render of the message
             if($context->request->getUrl() != $context->request->getReferrer())
             {
-                $user = $this->getObject('com:users.database.row.user')
-                    ->set('id', $entity->locked_by)
-                    ->load();
+                $user = $this->getObject('user.provider')->load($entity->locked_by);
+                $date = $this->getObject('lib:date',array('date' => $entity->locked_on));
 
-                $date    = new Date(array('date' => $entity->locked_on));
-                $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date->humanize());
+                $message = \JText::sprintf('Locked by %s %s', $user->getName(), $date->humanize());
 
                 $context->response->addMessage($message, 'notice');
             }
@@ -373,40 +422,40 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Prevent editing a locked entity
+     * Prevent editing a locked resource
      *
-     * If the entity is locked a Retry-After header indicating the time at which the conflicting edits are expected
+     * If the resource is locked a Retry-After header indicating the time at which the conflicting edits are expected
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
-     * @param   CommandContext	$context A command context object
-     * @throws  ControllerExceptionConflict If the entity is locked
+     * @param   ControllerContextInterface	$context A controller context object
+     * @throws  ControllerExceptionResourceLocked If the resource is locked
      * @return 	void
      */
-    protected function _beforeControllerEdit(CommandContext $context)
+    protected function _beforeEdit(ControllerContextInterface $context)
     {
         if($this->isLocked())
         {
-            $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
-            throw new ControllerExceptionConflict('Entity is locked.');
+            $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
+            throw new ControllerExceptionResourceLocked('Resource is locked.');
         }
     }
 
     /**
-     * Prevent deleting a locked entity
+     * Prevent deleting a locked resource
      *
-     * If the entity is locked a Retry-After header indicating the time at which the conflicting edits are expected
+     * If the resource is locked a Retry-After header indicating the time at which the conflicting edits are expected
      * to complete will be added. Clients should wait until at least this time before retrying the request.
      *
-     * @param   CommandContext	$context A command context object
-     * @throws  ControllerExceptionConflict If the entity is locked
+     * @param   ControllerContextInterface	$context A controller context object
+     * @throws  ControllerExceptionResourceLocked If the resource is locked
      * @return 	void
      */
-    protected function _beforeControllerDelete(CommandContext $context)
+    protected function _beforeDelete(ControllerContextInterface $context)
     {
         if($this->isLocked())
         {
-            $context->response->headers->set('Retry-After', $context->user->session->getLifetime());
-            throw new ControllerExceptionConflict('Entity is locked');
+            $context->response->headers->set('Retry-After', $context->user->getSession()->getLifetime());
+            throw new ControllerExceptionResourceLocked('Resource is locked');
         }
     }
 }

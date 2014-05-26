@@ -19,21 +19,21 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\DatabaseContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\DatabaseContext $context)
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
@@ -43,7 +43,7 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _assign(Library\CommandContext $context)
+    protected function _assign(Library\DatabaseContext $context)
     {
         if($context->data->modules)
         {
@@ -95,7 +95,7 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                     else
                     {
                         // If relation is set to all, add all pages except current.
-                        if(count($rel_current) == 1 && $rel_current->top()->pages_page_id == 0)
+                        if(count($rel_current) == 1 && $rel_current->pages_page_id == 0)
                         {
                             $rel_current->delete();
                             foreach($pages as $page)
@@ -142,8 +142,13 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                     }
                     else
                     {
+                        $pages_page_id = array();
+                        foreach($rel_current as $page) {
+                            $pages_page_id[] = $page->pages_page_id;
+                        }
+
                         // If nothing is set or current page is not set and relations is not set to all, add current.
-                        if(!count($rel_current) || !in_array($context->data->id, $rel_current->pages_page_id) && $rel_current->top()->pages_page_id != 0) {
+                        if(!count($rel_current) || !in_array($context->data->id, $pages_page_id) && $rel_current->pages_page_id != 0) {
                             $data[] = array('pages_module_id' => $id, 'pages_page_id' => $context->data->id);
                         }
                     }
@@ -152,7 +157,8 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                 if($data)
                 {
                     $rel_current->reset();
-                    $rel_current->addRow($data)->save();
+                    $rel_current->create($data);
+                    $rel_current->save();
                 }
             }
         }

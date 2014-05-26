@@ -21,10 +21,10 @@ interface ObjectConfigSerializable
      * Read from a string and create a ObjectConfig object
      *
      * @param  string $string
-     * @return ObjectConfig|false   Returns a ObjectConfig object. False on failure.
+     * @return ObjectConfigSerializable
      * @throws \RuntimeException
      */
-    public static function fromString($string);
+    public function fromString($string);
 
     /**
      * Write a config object to a string.
@@ -40,7 +40,7 @@ interface ObjectConfigSerializable
      * @return ObjectConfigSerializable
      * @throws \RuntimeException
      */
-    public static function fromFile($filename);
+    public function fromFile($filename);
 
     /**
      * Write a config object to a file.

@@ -65,14 +65,14 @@
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
                 <? if($sortable) : ?>
                 <td class="handle">
-                    <span class="text-small data-order"><?= $article->ordering ?></span>
+                    <span class="text--small data-order"><?= $article->ordering ?></span>
                 </td>
                 <? endif ?>
                 <td align="center">
-                    <?= helper('grid.checkbox' , array('row' => $article)) ?>
+                    <?= helper('grid.checkbox' , array('entity' => $article)) ?>
                 </td>
                 <td align="center">
-                    <?= helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
+                    <?= helper('grid.enable', array('entity' => $article, 'field' => 'published')) ?>
                 </td>
                 <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>

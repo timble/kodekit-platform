@@ -84,7 +84,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Http
  */
-class HttpUrl extends Object
+class HttpUrl extends Object implements HttpUrlInterface
 {
     /**
      * The url parts
@@ -539,7 +539,7 @@ class HttpUrl extends Object
      */
     public static function fromArray(array $parts)
     {
-        $url = new static(array('components' => $parts));
+        $url = new static(new ObjectConfig(array('url' => $parts)));
         return $url;
     }
 
@@ -621,6 +621,26 @@ class HttpUrl extends Object
         }
 
         return $url;
+    }
+
+    /**
+     * Check if two url's are equal
+     *
+     * @param HttpUrlInterface $url
+     * @return Boolean
+     */
+    public function equals(HttpUrlInterface $url)
+    {
+        $parts = array('scheme', 'host', 'port', 'path', 'format', 'query', 'fragment');
+
+        foreach($parts as $part)
+        {
+            if($this->{$part} != $url->{$part}) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

@@ -12,6 +12,29 @@ namespace Nooku\Library;
 /**
  * Library Class Locator
  *
+ * Library class names are case sensitive and use an Upper Camel Case or Pascal Case naming convention. Libraries must
+ * be namespaced using a class name prefix or namespace. File and folder names must be lower case.
+ *
+ * Each folder in the file structure must be represented in the class name.
+ *
+ * Classname : [Namespace]\[Path][To][File]
+ * Location  : namespace/.../path/to/file.php
+ *
+ *  Exceptions
+ *
+ * 1. An exception is made for files where the last segment of the file path and the file name are the same. In this case
+ * class name can use a shorter syntax where the last segment of the path is omitted.
+ *
+ * Location  : nooku/library/foo/bar/bar.php
+ * Classname : Nooku\Library\FooBar instead of Nooku\Library\Foo\BarBar
+ *
+ * 2. An exception is made for exception class names. Exception class names are only party case sensitive. The part after
+ * the word 'Exception' is transformed to lower case.  Exceptions are loaded from the .../Exception folder relative to
+ * their path.
+ *
+ * Classname : [Namespace][Path]Exception[FileNameForException]
+ * Location  : namespace/.../path/to/exception/filenameforexception.php
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Class
  */
@@ -22,28 +45,29 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
      *
      * @var string
      */
-    protected $_type = 'lib';
+    protected $_type = 'library';
 
     /**
      *  Get a fully qualified path based on a class name
      *
-     * @param  string   $class The class name
+     * @param  string $class     The class name
+     * @param  string $basepath  The base path
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-	public function locate($class)
+    public function locate($class, $classpath = null)
 	{
-		$path = false;
-
-        foreach($this->_namespaces as $namespace => $paths)
+        foreach($this->getNamespaces() as $namespace => $basepath)
         {
-            if(strpos('\\'.$class, $namespace) !== 0) {
+            if(empty($namespace) && strpos($class, '\\')) {
                 continue;
             }
 
-            $pos       = strrpos($class, '\\');
-            $namespace = substr($class, 0, $pos);
-            $class     = substr($class, $pos + 1);
-            $paths     = $this->_namespaces['\\'.$namespace];
+            if(strpos('\\'.$class, '\\'.$namespace) !== 0) {
+                continue;
+            }
+
+            //Remove the namespace from the class name
+            $class = ltrim(substr($class, strlen($namespace)), '\\');
 
             /*
              * Exception rule for Exception classes
@@ -63,19 +87,12 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
                 $path = $path.'/'.$path;
             }
 
-            foreach ($paths as $basepath)
-            {
-                $file = $basepath.'/'.$path.'.php';
-                if(is_file($file)) {
-                    return $file;
-                }
-
+            $file = $basepath.'/'.$path.'.php';
+            if(!is_file($file)) {
                 $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
-                if (is_file($file)) {
-                    return $file;
-                }
             }
 
+            return $file;
         }
 
 		return false;

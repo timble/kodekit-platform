@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model State Class
  *
- * A state requires a model object. It will call back to the model upon a state change using the onStateChange notifier.
+ * A state requires a model object. It will call back to the model upon a state change by calling reset method.
  *
  * State values can only be of type scalar or array. Values are only filtered if not NULL. If the value is an empty
  * string it will be filtered to NULL. Values will only be set if the state exists. To insert new states use the
@@ -33,8 +33,10 @@ class ModelState extends ObjectArray implements ModelStateInterface
     /**
      * Constructor
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return ObjectArray
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     * @return \Nooku\Library\ModelState
      */
     public function __construct(ObjectConfig $config)
     {
@@ -62,7 +64,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -83,9 +85,11 @@ class ModelState extends ObjectArray implements ModelStateInterface
      * @param   boolean  $unique   TRUE if the state uniquely identifies an entity, FALSE otherwise. Default FALSE.
      * @param   array    $required Array of required states to determine if the state is unique. Only applicable if the
      *                             state is unqiue.
+     * @param   boolean  $internal If TRUE the state will be considered internal and should not be included in a routes.
+     *                             Default FALSE.
      * @return  ModelState
      */
-    public function insert($name, $filter, $default = null, $unique = false, $required = array())
+    public function insert($name, $filter, $default = null, $unique = false, $required = array(), $internal = false)
     {
         //Create the state
         $state = new \stdClass();
@@ -95,6 +99,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
         $state->unique   = $unique;
         $state->required = $required;
         $state->default  = $default;
+        $state->internal = $internal;
         $this->_data[$name] = $state;
 
         //Set the value to default
@@ -125,21 +130,22 @@ class ModelState extends ObjectArray implements ModelStateInterface
     /**
      * Set the a state value
      *
-     * This function only acts on existing states, if a state has changed it will call back to the model triggering the
-     * onStateChange notifier.
+     * This function only acts on existing states, if a state has changed it will call back to the model triggering a
+     * reset action.
      *
      * @param  	string 	$name  The state name.
      * @param  	mixed  	$value The state value.
+     *
      * @return  ModelAbstract
      */
     public function set($name, $value = null)
     {
-        if ($this->has($name) && $this->get($name) != $value)
+        if ($this->has($name) && $this->get($name) !== $value)
         {
             $this->offsetSet($name, $value);
 
-            //Notify the model
-            $this->_model->onStateChange($name);
+            //Reset the model
+            $this->_model->reset(array($name));
         }
 
         return $this;
@@ -176,12 +182,8 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function reset($default = true)
     {
-        foreach($this->_data as $state)
-        {
-            $state->value = $default ? $state->default : null;
-
-            //Notify the model
-            $this->_model->onStateChange($state->name);
+        foreach($this->_data as $state) {
+            $this->set($state->name, $default ? $state->default : null);
         }
 
         return $this;
@@ -255,6 +257,63 @@ class ModelState extends ObjectArray implements ModelStateInterface
     }
 
     /**
+     * Set a state property
+     *
+     * @param string $name      The name of the state
+     * @param string $property  The name of the property
+     * @param mixed  $value     The value of the property
+     * @return ModelState
+     */
+    public function setProperty($name, $property, $value)
+    {
+        if($this->has($name))
+        {
+            if($this->hasProperty($name, $property)) {
+                $this->_data[$name]->$property = $value;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get a state property
+     *
+     * @param string $name     The name of the state
+     * @param string $property The name of the property
+     * @return mixed|null   Return the property value or NULL if the property does not exist
+     */
+    public function getProperty($name, $property)
+    {
+        $result = null;
+        if($this->has($name))
+        {
+            if(isset($this->_data[$name]->$property)) {
+                $result = $this->_data[$name]->$property;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if a state property exists
+     *
+     * @param string $name     The name of the state
+     * @param string $property The name of the property
+     * @return boolean   Return TRUE if the the property exists, FALSE otherwise
+     */
+    public function hasProperty($name, $property)
+    {
+        $result = false;
+        if($this->has($name)) {
+            $result = property_exists($this->_data[$name], $property);
+        }
+
+        return $result;
+    }
+
+    /**
      * Check if the state information is unique
      *
      * @return  boolean TRUE if the state is unique, otherwise FALSE.
@@ -322,7 +381,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      * Set an state value
      *
      * This function only accepts scalar or array values. Values are only filtered if not NULL. If the value is an empty
-     * string it will be filtered to NULL. Values will obly be set if the state exists. Function will not create new
+     * string it will be filtered to NULL. Values will only be set if the state exists. Function will not create new
      * states. Use the insert() function instead.
      *
      * @param   string        $name
@@ -339,7 +398,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             {
                 if($value !== '')
                 {
-                    //Only accepts scalar values
+                    //Only accepts scalar values and array
                     if(!is_scalar($value) && !is_array($value))
                     {
                         throw new \UnexpectedValueException(
@@ -350,15 +409,15 @@ class ModelState extends ObjectArray implements ModelStateInterface
                     $filter = $this->_data[$name]->filter;
 
                     if(!($filter instanceof FilterInterface)) {
-                        $filter =  $this->getObject('lib:filter.factory')->getFilter($filter);
+                        $filter =  $this->getObject('filter.factory')->createChain($filter);
                     }
 
                     $value = $filter->sanitize($value);
                 }
                 else $value = null;
-
-                $this->_data[$name]->value = $value;
             }
+
+            $this->_data[$name]->value = $value;
         }
     }
 

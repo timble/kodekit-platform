@@ -28,28 +28,11 @@ interface ObjectIdentifierInterface extends \Serializable
     public function getType();
 
     /**
-     * Set the identifier type
-     *
-     * @param  string $type
-     * @return  ObjectIdentifierInterface
-     * @throws \DomainException If the type is unknown
-     */
-    public function setType($type);
-
-    /**
      * Get the identifier package
      *
      * @return string
      */
     public function getPackage();
-
-    /**
-     * Set the identifier package
-     *
-     * @param  string $package
-     * @return  ObjectIdentifierInterface
-     */
-    public function setPackage($package);
 
     /**
      * Get the identifier package
@@ -59,27 +42,11 @@ interface ObjectIdentifierInterface extends \Serializable
     public function getPath();
 
     /**
-     * Set the identifier path
-     *
-     * @param  string $path
-     * @return  ObjectIdentifierInterface
-     */
-    public function setPath(array $path);
-
-    /**
      * Get the identifier package
      *
      * @return string
      */
     public function getName();
-
-    /**
-     * Set the identifier name
-     *
-     * @param  string $name
-     * @return  ObjectIdentifierInterface
-     */
-    public function setName($name);
 
     /**
      * Get the config
@@ -89,13 +56,19 @@ interface ObjectIdentifierInterface extends \Serializable
     public function getConfig();
 
     /**
-     * Set the config
+     * Get the identifier class name
      *
-     * @param  ObjectConfig|array $data   A ObjectConfig object or a an array of configuration options
-     * @param   boolean           $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
-     * @return  ObjectIdentifierInterface
+     * @return string
      */
-    public function setConfig($data, $merge = true);
+    public function getClass();
+
+    /**
+     * Set the identifier class name
+     *
+     * @param  string $class
+     * @return ObjectIdentifierInterface
+     */
+    public function setClass($class);
 
     /**
      * Add a mixin
@@ -110,7 +83,7 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Get the mixins
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getMixins();
 
@@ -127,59 +100,9 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Get the decorators
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getDecorators();
-
-    /**
-     * Add a object locator
-     *
-     * @param ObjectLocatorInterface $locator
-     * @return ObjectIdentifierInterface
-     */
-    public static function addLocator(ObjectLocatorInterface $locator);
-
-    /**
-     * Get the object locator
-     *
-     * @return ObjectLocatorInterface|null  Returns the object locator or NULL if the locator can not be found.
-     */
-    public function getLocator();
-
-    /**
-     * Get the decorators
-     *
-     *  @return array
-     */
-    public static function getLocators();
-
-    /**
-     * Get the identifier class name
-     *
-     * @return string
-     */
-    public function getClassName();
-
-    /**
-     * Get the identifier file path
-     *
-     * @return string
-     */
-    public function getClassPath();
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a multiton, FALSE otherwise.
-     */
-    public function isMultiton();
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isSingleton();
 
     /**
      * Formats the identifier as a [application::]type.component.[.path].name string
@@ -187,4 +110,11 @@ interface ObjectIdentifierInterface extends \Serializable
      * @return string
      */
     public function toString();
+
+    /**
+     * Formats the identifier as an associative array
+     *
+     * @return array
+     */
+    public function toArray();
 }

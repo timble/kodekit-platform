@@ -12,7 +12,7 @@
 	<thead>
     	<tr>
     		<th class="-koowa-sortable"><?= translate('#') ?></th>
-    		<th class="-koowa-sortable"><?= translate('Extension') ?></th>
+    		<th class="-koowa-sortable"><?= translate('Component') ?></th>
     		<th class="-koowa-sortable"><?= translate('Size') ?></th>
     		<th class="-koowa-sortable"><?= translate('File'); ?></th>
     	</tr>

@@ -11,8 +11,8 @@
 <script src="assets://pages/js/pages-list.js" />
 
 <ul class="navigation">
-    <? foreach(object('com:pages.model.menus')->sort('title')->application('site')->getRowset() as $menu) : ?>
-        <? $menu_pages = object('com:pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
+    <? foreach(object('com:pages.model.menus')->sort('title')->application('site')->fetch() as $menu) : ?>
+        <? $menu_pages = object('com:pages.model.pages')->fetch()->find(array('pages_menu_id' => $menu->id)) ?>
         <? if(count($menu_pages)) : ?>
             <h3><?= $menu->title ?></h3>
             <? $first = true; $last_depth = 0; ?>

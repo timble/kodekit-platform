@@ -18,63 +18,73 @@ use Nooku\Library;
  * @package Nooku\Component\Tags
  */
 class ControllerBehaviorTaggable extends Library\BehaviorAbstract
-{			
-	protected function _saveRelations(Library\CommandContext $context)
+{
+    public function __construct(Library\ObjectConfig $config)
     {
-		if ($context->error) {
-			return;
-		}
-        
-        $row   = $context->result;
-        $table = $row->getTable()->getBase();
-        
-        // Remove all existing relations
-        if($row->id && $row->getTable()->getBase())
-        {
-            $rows = $this->getObject('com:tags.model.relations')
-                ->row($row->id)
-                ->table($table)
-                ->getRowset();
+        parent::__construct($config);
 
-            $rows->delete();
-        }
+        $this->_container = $config->container;
 
-        if($row->tags)
+        $this->addCommandCallback('after.add'   , '_saveTags');
+        $this->addCommandCallback('after.edit'  , '_saveTags');
+        $this->addCommandCallback('after.delete', '_deleteTags');
+    }
+
+    protected function _saveTags(Library\ControllerContextInterface $context)
+    {
+		if (!$context->response->isError())
         {
-            // Save tags as relations
-		    foreach ($row->tags as $tag)
+            $entity = $context->result;
+            $table  = $entity->getTable()->getBase();
+
+            // Remove all existing relations
+            if($entity->id && $entity->getTable()->getBase())
             {
-			    $relation = $this->getObject('com:tags.database.row.relation');
-                $relation->tags_tag_id = $tag;
-                $relation->row		  = $row->id;
-                $relation->table      = $table;
-    
-                if(!$relation->load()) {
-                    $relation->save();
-                }
-		    }
-        }
-		
-		return true;
-	}
-	
-	protected function _afterControllerAdd(Library\CommandContext $context)
-    {
-		$this->_saveRelations($context);
-	}
-	
-	protected function _afterControllerEdit(Library\CommandContext $context)
-    {
-		$this->_saveRelations($context);
-	}
-	
-	protected function _afterControllerDelete(Library\CommandContext $context)
-    {
-        $status = $context->result->getStatus();
+                $relations = $this->getObject('com:tags.model.relations')
+                    ->row($entity->id)
+                    ->table($table)
+                    ->fetch();
 
-        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
+                $relations->delete();
+            }
+
+            if($entity->tags)
+            {
+                // Save tags as relations
+                foreach ($entity->tags as $tag)
+                {
+                    $properties = array(
+                        'tags_tag_id' => $tag,
+                        'row'         => $entity->id,
+                        'table'       => $table
+                    );
+
+                    $relation = $this->getObject('com:tags.model.relations')
+                        ->setState($properties)
+                        ->fetch();
+
+                    if($relation->isNew())
+                    {
+                        $relation = $this->getObject('com:tags.model.relations')->create();
+
+                        $relation->setProperties($properties);
+                        $relation->save();
+                    }
+                }
+            }
+
+            return true;
+		}
+	}
+	
+	protected function _deleteTags(Library\ControllerContextInterface $context)
+    {
+        $entity = $context->result;
+        $status = $entity->getStatus();
+
+        if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
-            $id = $context->result->get('id');
+            $id    = $context->result->get('id');
             $table = $context->result->getTable()->getBase();
 
             if(!empty($id) && $id != 0)
@@ -82,7 +92,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $rows = $this->getObject('com:tags.model.relations')
                     ->row($id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
                 $rows->delete();
             }

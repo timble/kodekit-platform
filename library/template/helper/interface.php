@@ -45,6 +45,13 @@ interface TemplateHelperInterface
     public function getTemplate();
 
     /**
+     * Set the template object
+     *
+     * @return  TemplateInterface $template	The template object
+     */
+    public function setTemplate(TemplateInterface $template);
+
+    /**
      * Method to build a string with xml style attributes from  an array of key/value pairs
      *
      * @param   mixed   $array The array of Key/Value pairs for the attributes

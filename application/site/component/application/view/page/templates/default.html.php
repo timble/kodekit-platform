@@ -14,37 +14,29 @@
 
 <body>
 <header class="container">
-    <div class="navbar">
-        <nav class="navbar-inner">           
-            <a class="brand" href="/"><?= escape(object('application')->getCfg('sitename' )) ?></a>
-            <div>
-                <ktml:modules position="user3">
-            </div>
-            <ktml:modules position="user4">
-        </nav>
-    </div>
+    <nav class="navbar navbar-default">
+        <a class="navbar-brand" href="/"><?= escape(object('application')->getCfg('sitename' )) ?></a>
+        <div>
+            <ktml:modules position="user3">
+        </div>
+        <ktml:modules position="user4">
+    </nav>
 </header>
 
 <div class="container">
     <div class="row">
-        <aside class="sidebar span3">
-            <div class="well" style="padding: 8px 0;">
-            	<ktml:modules position="left" chrome="wrapped">
-            </div>
+        <aside class="sidebar col-md-3">
+            <ktml:modules position="left" chrome="wrapped">
         </aside>
-        <div class="span9">
+        <div class="col-md-9">
             <ktml:modules position="breadcrumb">
-            <?= import('page_message.html') ?>
+            <ktml:messages>
             <section>
                 <ktml:content>
             </section>
         </div>
     </div>
 </div>
-
-<? if(object('application')->getCfg('debug')) : ?>
-    <?= object('com:debug.controller.debug')->render(); ?>
-<? endif; ?>
 
 </body>
 </html>

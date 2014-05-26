@@ -19,17 +19,17 @@ use Nooku\Library;
  */
 class DatabaseBehaviorCascadable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeTableDelete(Library\CommandContext $context)
+    protected function _beforeDelete(Library\DatabaseContextInterface $context)
     {
         $result = true;
 
         $table      = $this->table;
         $identifier = 'com:'.$table.'.database.table.'.$table;
 
-        $rowset = $this->getObject($identifier)->select(array('categories_category_id' => $this->id));
+        $entity = $this->getObject($identifier)->select(array('categories_category_id' => $this->id));
 
-        if($rowset->count()) {
-            $result = $rowset->delete();
+        if($entity->count()) {
+            $result = $entity->delete();
         }
 
         return $result;

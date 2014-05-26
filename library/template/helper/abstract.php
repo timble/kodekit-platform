@@ -20,7 +20,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	/**
 	 * Template object
 	 *
-	 * @var	object
+	 * @var	TemplateInterface
 	 */
     protected $_template;
 
@@ -120,6 +120,12 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
             {
                 if(is_array($item)) {
                     $item = implode(' ', $item);
+                }
+
+                if (is_bool($item))
+                {
+                    if ($item === false) continue;
+                    $item = $key;
                 }
 
                 $output[] = $key.'="'.str_replace('"', '&quot;', $item).'"';

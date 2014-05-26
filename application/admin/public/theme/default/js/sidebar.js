@@ -109,14 +109,6 @@ window.addEvent('domready', function(){
             setObserveHeight: true
         });
     }
-    if(document.id('panel-inspector') && document.id('panel-content')) {
-        new Koowa.Sidebar({
-            sidebar: '#panel-inspector',
-            observe: '#panel-content',
-            target: '.scrollable',
-            minHeight: 40
-        });
-    }
     if(document.getElement('#panel-content .sidebar') && document.getElement('#panel-content .form-body')) {
         new Koowa.Sidebar({
             sidebar: '#panel-content .sidebar',

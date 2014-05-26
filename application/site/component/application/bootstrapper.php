@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
  * Bootstrapper
@@ -15,28 +16,22 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationBootstrapper extends Library\BootstrapperAbstract
+class ApplicationBootstrapper extends Application\Bootstrapper
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => Library\BootstrapperChain::PRIORITY_LOW,
+            'priority' => self::PRIORITY_LOW,
+            'aliases'  => array(
+                'application'                    => 'com:application.dispatcher.http',
+                'application.languages'          => 'com:application.model.entity.languages',
+                'application.pages'              => 'com:application.model.entity.pages',
+                'application.modules'            => 'com:application.model.entity.modules',
+                'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
+                'lib:template.locator.component' => 'com:application.template.locator.component',
+            )
         ));
 
         parent::_initialize($config);
-    }
-
-    public function bootstrap()
-    {
-        $manager = $this->getObjectManager();
-
-        $manager->registerAlias('application'           , 'com:application.dispatcher.http');
-        $manager->registerAlias('application.extensions', 'com:application.database.rowset.extensions');
-        $manager->registerAlias('application.languages' , 'com:application.database.rowset.languages');
-        $manager->registerAlias('application.pages'     , 'com:application.database.rowset.pages');
-        $manager->registerAlias('application.modules'   , 'com:application.database.rowset.modules');
-
-        $manager->registerAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');
-        $manager->registerAlias('event.dispatcher'          , 'com:debug.event.dispatcher.debug');
     }
 }

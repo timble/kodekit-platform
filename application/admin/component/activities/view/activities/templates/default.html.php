@@ -49,7 +49,7 @@
 	        <? endif; ?>
 			<tr>
 				<td>
-			        <?= helper('grid.checkbox',array('row' => $activity)); ?>
+			        <?= helper('grid.checkbox',array('entity' => $activity)); ?>
 				</td>
 
 				<td align="left">
@@ -57,7 +57,7 @@
 				</td>
 
 				<td>
-					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.message', array('row' => $activity))?>
+					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.message', array('entity' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>

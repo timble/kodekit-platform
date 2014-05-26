@@ -8,14 +8,14 @@
  */
 ?>
 
-<? if($show_title) : ?>
+<? if($module->getParameters()->get('show_title', false)) : ?>
 <h3><?= $module->title ?></h3>
 <? endif ?>
 
 <?php foreach ($articles as $article): ?>
 <?php echo helper('com:articles.article.render',
     array(
-        'row'              => $article,
+        'entity'              => $article,
         'show_create_date' => false,
         'show_modify_date' => false,
         'show_images'      => false,

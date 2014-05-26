@@ -15,7 +15,7 @@
 
 <body class="login">
     <div class="container">
-        <?= import('page_message.html') ?>
+        <ktml:messages>
         <ktml:content>
     </div>
 </body>

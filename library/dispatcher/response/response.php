@@ -17,29 +17,19 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherResponse extends DispatcherResponseAbstract implements ObjectInstantiable, ObjectSingleton
+class DispatcherResponse extends DispatcherResponseAbstract implements ObjectSingleton
 {
     /**
-     * Force creation of a singleton
+     * Constructor
      *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
+     * @return Object
      */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
+    public function __construct(ObjectConfig $config)
     {
-        if (!$manager->isRegistered('dispatcher.response'))
-        {
-            //Create the singleton
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->setObject($config->object_identifier, $instance);
+        parent::__construct($config);
 
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias('dispatcher.response', $config->object_identifier);
-            $manager->registerAlias('response', 'dispatcher.response');
-        }
-
-        return $manager->getObject('dispatcher.response');
+        //Add a global object alias
+        $this->getObject('manager')->registerAlias($this->getIdentifier(), 'response');
     }
 }

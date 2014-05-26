@@ -9,4 +9,4 @@
 ?>
 
 <h3><?= translate('Categories') ?></h3>
-<?= import('com:categories.view.categories.list.html', array('categories' => object('com:articles.model.categories')->sort(array('ordering', 'title'))->table($state->table)->getRowset())); ?>
+<?= import('com:categories.view.categories.list.html', array('categories' => object('com:articles.model.categories')->sort(array('ordering', 'title'))->table($state->table)->fetch())); ?>

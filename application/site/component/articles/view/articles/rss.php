@@ -17,11 +17,11 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesRss extends Library\ViewRss
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
-        //Get the category
-        $this->category = $this->getCategory();
-        return parent::render();
+        $context->data->category = $this->getCategory();
+
+        parent::_fetchData($context);
     }
 
     public function getCategory()
@@ -30,11 +30,11 @@ class ArticlesViewArticlesRss extends Library\ViewRss
         $category = $this->getObject('com:articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
-                         ->getRow();
+                         ->fetch();
 
         $container = $this->getObject('com:files.model.containers')
             ->slug('attachments-attachments')
-            ->getRow();
+            ->fetch();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))

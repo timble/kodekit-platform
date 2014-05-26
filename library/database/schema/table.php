@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseSchemaTable extends Object
+class DatabaseSchemaTable
 {
 	/**
 	 * Table name

@@ -19,69 +19,53 @@ namespace Nooku\Library;
  */
 class Event extends ObjectConfig implements EventInterface
 {
- 	/**
-     * Priority levels
-     */
-    const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
- 	
- 	/**
+    /**
      * The propagation state of the event
-     * 
-     * @var boolean 
+     *
+     * @var boolean
      */
     protected $_propagate = true;
- 	
- 	/**
+
+    /**
      * The event name
      *
      * @var array
      */
     protected $_name;
-    
+
     /**
      * Target of the event
      *
      * @var ObjectInterface
      */
     protected $_target;
-    
-    /**
-     * Dispatcher of the event
-     * 
-     * @var EventDispatcherInterface
-     */
-    protected $_dispatcher;
 
     /**
-     * Set an event property
+     * Constructor.
      *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return void
+     * @param  string             $name       The event name
+     * @param  array|\Traversable $attributes An associative array or a Traversable object instance
+     * @param  ObjectInterface    $target     The event target
      */
-    public function set($name, $value)
+    public function __construct($name = '', $attributes = array(), $target = null)
     {
-        if (is_array($value)) {
-            $this->_data[$name] = new ObjectConfig($value);
-        } else {
-            $this->_data[$name] = $value;
-        }
+        parent::__construct($attributes);
+
+        $this->setName($name);
+        $this->setTarget($target);
+        $this->setAttributes($attributes);
     }
-         
+
     /**
      * Get the event name
-     * 
+     *
      * @return string	The event name
      */
     public function getName()
     {
         return $this->_name;
     }
-    
+
     /**
      * Set the event name
      *
@@ -93,7 +77,7 @@ class Event extends ObjectConfig implements EventInterface
         $this->_name = $name;
         return $this;
     }
-    
+
     /**
      * Get the event target
      *
@@ -103,41 +87,82 @@ class Event extends ObjectConfig implements EventInterface
     {
         return $this->_target;
     }
-    
+
     /**
      * Set the event target
      *
-     * @param object $target The event target
+     * @param mixed $target The event target
      * @return Event
      */
-    public function setTarget(ObjectInterface $target)
+    public function setTarget($target)
     {
         $this->_target = $target;
         return $this;
     }
-    
+
     /**
-     * Stores the EventDispatcher that dispatches this Event
+     * Set attributes
      *
-     * @param EventDispatcherInterface $dispatcher
+     * Overwrites existing attributes
+     *
+     * @param  array|\Traversable $attributes
+     * @throws \InvalidArgumentException If the attributes are not an array or are not traversable.
      * @return Event
      */
-    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    public function setAttributes($attributes)
     {
-        $this->_dispatcher = $dispatcher;
+        if (!is_array($attributes) || $attributes instanceof \Traversable)
+        {
+            throw new \InvalidArgumentException(sprintf(
+                'Event attributes must be an array or an object implementing the Traversable interface; received "%s"', gettype($attributes)
+            ));
+        }
+
+        //Set the arguments.
+        foreach ($attributes as $key => $value) {
+            $this->set($key, $value);
+        }
+
         return $this;
     }
-    
+
     /**
-     * Returns the EventDispatcher that dispatches this Event
+     * Get all arguments
      *
-     * @return EventDispatcherInterface
+     * @return array
      */
-    public function getDispatcher()
+    public function getAttributes()
     {
-        return $this->_dispatcher;
+        return $this->toArray();
     }
-    
+
+    /**
+     * Get an attribute
+     *
+     * If the attribute does not exist, the $default value will be returned.
+     *
+     * @param  string $name The attribute name
+     * @param  mixed $default
+     * @return mixed
+     */
+    public function getAttribute($name, $default = null)
+    {
+        return $this->get($name, $default);
+    }
+
+    /**
+     * Set an attribute
+     *
+     * @param  string $name The attribute
+     * @param  mixed $value
+     * @return Event
+     */
+    public function setAttribute($name, $value)
+    {
+        $this->set($name, $value);
+        return $this;
+    }
+
     /**
      * Returns whether further event listeners should be triggered.
      *
@@ -160,5 +185,61 @@ class Event extends ObjectConfig implements EventInterface
     {
         $this->_propagate = false;
         return $this;
+    }
+
+    /**
+     * Set an event attribute
+     *
+     * @param  string $name The attribute name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($name, $value)
+    {
+        if (is_array($value)) {
+            $value = new ObjectConfig($value);
+        }
+
+        parent::set($name, $value);
+    }
+
+    /**
+     * Get an event property or attribute
+     *
+     * If an event property exists the property will be returned, otherwise the attribute will be returned. If no
+     * property or attribute can be found the method will return NULL.
+     *
+     * @param  string $name
+     * @return mixed|null  The property value
+     */
+    public function __get($name)
+    {
+        $getter = 'get'.ucfirst($name);
+        if(method_exists($this, $getter)) {
+            $value = $this->$getter();
+        } else {
+            $value = parent::__get($name);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Set an event property or attribute
+     *
+     * If an event property exists the property will be set, otherwise an attribute will be added.
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $setter = 'set'.ucfirst($name);
+        if(method_exists($this, $setter)) {
+            $this->$setter($value);
+        } else {
+            parent::__set($name, $value);
+        }
     }
 }

@@ -66,14 +66,19 @@ abstract class ControllerPermissionAbstract extends ObjectMixinAbstract implemen
     /**
      * Permission handler for add actions
      *
-     * Method returns TRUE iff the controller implements the ControllerModellable interface and the user is authentic.
+     * Method returns TRUE iff the controller implements the ControllerModellable interface and the user is authentic
+     * and the account is enabled.
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canAdd()
     {
-        if($this->getMixer() instanceof ControllerModellable && $this->getUser()->isAuthentic()) {
-            return true;
+        if($this->getMixer() instanceof ControllerModellable)
+        {
+            $user = $this->getUser();
+            if ($user->isAuthentic() && $user->isEnabled()) {
+                return true;
+            }
         }
 
         return false;
@@ -82,14 +87,19 @@ abstract class ControllerPermissionAbstract extends ObjectMixinAbstract implemen
     /**
      * Permission handler for edit actions
      *
-     * Method returns TRUE iff the controller implements the ControllerModellable interface and the user is authentic.
+     * Method returns TRUE iff the controller implements the ControllerModellable interface and the user is authentic
+     * and the account is enabled.
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canEdit()
     {
-        if($this->getMixer() instanceof ControllerModellable && $this->getUser()->isAuthentic()) {
-            return true;
+        if($this->getMixer() instanceof ControllerModellable)
+        {
+            $user = $this->getUser();
+            if ($user->isAuthentic() && $user->isEnabled()) {
+                return true;
+            }
         }
 
         return false;
@@ -104,8 +114,12 @@ abstract class ControllerPermissionAbstract extends ObjectMixinAbstract implemen
      */
     public function canDelete()
     {
-        if($this->getMixer() instanceof ControllerModellable && $this->getUser()->isAuthentic()) {
-            return true;
+        if($this->getMixer() instanceof ControllerModellable)
+        {
+            $user = $this->getUser();
+            if ($user->isAuthentic() && $user->isEnabled()) {
+                return true;
+            }
         }
 
         return false;

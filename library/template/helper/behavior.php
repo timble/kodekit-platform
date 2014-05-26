@@ -157,8 +157,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         $attribs = $this->buildAttributes($config->attribs);
 
-        $id = 'overlay' . rand();
-        if ($url->fragment) {
+        $id = 'overlay' . mt_rand();
+        if ($url->fragment)
+        {
             //Allows multiple identical ids, legacy should be considered replaced with #$url->fragment instead
             $config->append(array(
                 'options' => array(
@@ -385,7 +386,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
                         'options'	=> array(
                             'url'		=> $config->url,
                             'data'	=> array(
-                                '_token'	=> $this->getObject('user')->getSession()->getToken(),
+                                'csrf_token'	=> $this->getObject('user')->getSession()->getToken(),
                                 '_action'	=> 'edit'
                             ),
                             'key'		=> 'order',
@@ -469,7 +470,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
                             // Need to do this because we don't know what field there is being edited....
                             data[editor.element.getId()] = editor.getData();
-                            data['_token'] = '".$this->getObject('user')->getSession()->getToken()."';
+                            data['csrf_token'] = '".$this->getObject('user')->getSession()->getToken()."';
 
                             jQuery.post('".$url."', data);
                         });

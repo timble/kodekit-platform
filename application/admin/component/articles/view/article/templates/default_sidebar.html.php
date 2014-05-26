@@ -24,13 +24,13 @@
     <div>
         <label for="publish_on"><?= translate('Publish on') ?></label>
         <div>
-            <?= helper('date.datetime', array('row' => $article, 'name' => 'publish_on')) ?>
+            <?= helper('date.datetime', array('entity' => $article, 'name' => 'publish_on')) ?>
         </div>
     </div>
     <div>
         <label for="unpublish_on"><?= translate('Unpublish on') ?></label>
         <div>
-            <?= helper('date.datetime', array('row' => $article, 'name' => 'unpublish_on')) ?>
+            <?= helper('date.datetime', array('entity' => $article, 'name' => 'unpublish_on')) ?>
         </div>
     </div>
 </fieldset>
@@ -42,12 +42,12 @@
         <div class="content">
             <fieldset>
                 <legend><?= translate('Category') ?></legend>
-                <?= helper('com:categories.radiolist.categories', array('row' => $article, 'uncategorised' => true)) ?>
+                <?= helper('com:categories.radiolist.categories', array('entity' => $article, 'uncategorised' => true)) ?>
             </fieldset>
             <? if($article->isTaggable()) : ?>
                 <fieldset>
                     <legend><?= translate('Tags') ?></legend>
-                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags()->tags_tag_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
+                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags(), 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
                 </fieldset>
             <? endif ?>
         </div>

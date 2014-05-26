@@ -19,10 +19,10 @@ use Nooku\Library;
  */
 class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract implements DatabaseBehaviorOrderableInterface
 {
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $query = $this->getObject('lib:database.query.select')
-            ->columns('MAX(ordering)');
+            ->columns('MAX(tbl.ordering)');
         
         $this->_buildQuery($query);
         
@@ -30,7 +30,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         $context->data->ordering = $max + 1;
     }
     
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
         if($row->order)
@@ -65,14 +65,14 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         }
     }
     
-    protected function _afterTableUpdate(Library\CommandContext $context)
+    protected function _afterUpdate(Library\DatabaseContext $context)
     {
         if($context->affected === false) {
             $this->_reorder($context);
         }
     }
     
-    protected function _afterTableDelete(Library\CommandContext $context)
+    protected function _afterDelete(Library\DatabaseContext $context)
     {
         if($context->affected) {
             $this->_reorder($context);
@@ -91,13 +91,13 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         }
     }
     
-    protected function _reorder(Library\CommandContext $context)
+    protected function _reorder(Library\DatabaseContext $context)
     {
         $table = $context->getSubject();
         $table->getAdapter()->execute('SET @index = 0');
 
         $query = $this->getObject('lib:database.query.update')
-            ->table($table->getBase())
+            ->table(array('tbl' => $table->getBase()))
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
         

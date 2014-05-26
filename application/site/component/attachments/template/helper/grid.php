@@ -34,18 +34,19 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
         
         $attribs = $this->buildAttributes($config->attribs);
 
-        $list = $this->getObject('com:attachments.controller.attachment', array(
-			'request' => $this->getObject('lib:controller.request', array(
-				'query' => $config->filter
-			))
-		))->browse();
+        $controller = $this->getObject('com:attachments.controller.attachment');
+        $controller->getRequest()->setQuery($config->filter);
+
+        $list = $controller->browse();
         
         $html = array();
         
-        if(count($list)) {
-            foreach($list as $item) {
+        if(count($list))
+        {
+            foreach($list as $item)
+            {
                 if($item->file->isImage()) {
-                    $html[] = '<img '.$attribs.' src="'.$item->thumbnail->thumbnail.'" />';
+                    $html[] = '<img '.$attribs.' src="attachments://'.$item->thumbnail.'" />';
                 }
             }
     
@@ -66,19 +67,20 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
             )
         ));
 
-        $list = $this->getObject('com:attachments.controller.attachment', array(
-			'request' => $this->getObject('lib:controller.request', array(
-				'query' => $config->filter
-			))
-		))->browse();
+        $controller = $this->getObject('com:attachments.controller.attachment');
+        $controller->getRequest()->setQuery($config->filter);
+
+        $list = $controller->browse();
         
         $html = array();
 
         if(count($list))
         {
             $html[] = '<ul>';
-            foreach($list as $item) {
-                if(!$item->file->isImage()) {
+            foreach($list as $item)
+            {
+                if(!$item->file->isImage())
+                {
                     $html[] = '<li>';
                     $html[] = '<a href="#">';
                     $html[] = $item->name;
@@ -86,6 +88,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
                     $html[] = '</li>';
                 }
             }
+
             $html[] = '</ul>';
     
             return implode(' ', $html);

@@ -8,7 +8,9 @@ CREATE TABLE `files_containers` (
   `title` varchar(255) NOT NULL,
   `path` varchar(255) NOT NULL,
   `parameters` text NOT NULL,
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`files_container_id`),
+  UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -23,8 +25,10 @@ CREATE TABLE `files_thumbnails` (
   `files_container_id` varchar(255) NOT NULL,
   `folder` varchar(255) NOT NULL,
   `filename` varchar(255) NOT NULL,
-  `thumbnail` text NOT NULL,
-  PRIMARY KEY (`files_thumbnail_id`)
+  `thumbnail` MEDIUMTEXT NOT NULL,
+  `uuid` char(36) NOT NULL,
+  PRIMARY KEY (`files_thumbnail_id`),
+  UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT IGNORE INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES

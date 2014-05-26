@@ -1,10 +1,12 @@
 @import "variables";
 
 // Load bootstrap
-@import "bootstrap.scss";
+@import "bootstrap";
+
 @import "validation.css";
 
 @import "blocks/article";
+@import "blocks/comments";
 @import "blocks/sidebar";
 
 /*
@@ -18,7 +20,7 @@ html {
 }
 
 body {
-	margin-top: $gridGutterWidth;
+	margin-top: $grid-gutter-width;
 }
 
 // HEADINGS
@@ -32,7 +34,7 @@ h3 { font-size: 16px; }
 }
 .backtrace {
   text-align: center;
-  margin: $gridGutterWidth 0;
+  margin: $grid-gutter-width 0;
 }
 
 article {

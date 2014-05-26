@@ -24,16 +24,16 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
      * @return ObjectConfigFormat
      * @throws \RuntimeException
      */
-    public static function fromFile($filename)
+    public function fromFile($filename)
     {
         if (!is_file($filename) || !is_readable($filename)) {
             throw new \RuntimeException(sprintf("File '%s' doesn't exist or not readable", $filename));
         }
 
         $string = file_get_contents($filename);
-        $config = static::fromString($string);
+        $this->fromString($string);
 
-        return $config;
+        return $this;
     }
 
     /**

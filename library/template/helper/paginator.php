@@ -42,9 +42,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
         if($config->total > $config->limit)
         {
             $html = '';
-            $html .= '<style src="assets://css/koowa.css" />';
 
-            $html .= '<div class="pagination">';
             if($config->show_limit) {
                 $html .= '<div class="pagination__limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
             }
@@ -52,7 +50,6 @@ class TemplateHelperPaginator extends TemplateHelperSelect
             if($config->show_count) {
                 $html .= '<div class="pagination__count"> '.$this->translate('Page').' '.$config->current.' '.$this->translate('of').' '.$config->count.'</div>';
             }
-            $html .= '</div>';
 
             return $html;
         }
@@ -108,7 +105,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 			'attribs'	=> array(),
 		));
 
-        $html = '<ul>';
+        $html = '<ul class="pagination">';
 
 		if($config->offset) {
             $html .= $this->link($config->pages->prev);

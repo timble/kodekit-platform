@@ -32,6 +32,13 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
     protected $_data;
 
     /**
+     * The request format
+     *
+     * @var string
+     */
+    protected $_format;
+
+    /**
      * Constructor
      *
      * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
@@ -46,6 +53,9 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
 
         //Set data parameters
         $this->setData($config->data);
+
+        //Set the format
+        $this->setFormat($config->format);
     }
 
     /**
@@ -53,7 +63,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -61,9 +71,25 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
         $config->append(array(
             'query' => array(),
             'data'  => array(),
+            'format' => 'html',
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Return the Url of the request regardless of the server
+     *
+     * @return HttpUrl A HttpUrl object
+     */
+    public function getUrl()
+    {
+        $url = parent::getUrl();
+
+        //Add the query to the URL
+        $url->setQuery($this->getQuery()->toArray());
+
+        return $url;
     }
 
     /**
@@ -113,16 +139,11 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
     /**
      * Return the request format
      *
-     * @param   string  $format The default format
      * @return  string  The request format
      */
-    public function getFormat($format = 'html')
+    public function getFormat()
     {
-        if($this->_query->has('format')) {
-            $format = $this->_query->get('format', 'alpha');
-        }
-
-        return $format;
+        return $this->_format;
     }
 
     /**
@@ -133,7 +154,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      */
     public function setFormat($format)
     {
-        $this->_query->set('format', $format);
+        $this->_format = $format;
         return $this;
     }
 
@@ -141,23 +162,24 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      * Implement a virtual 'headers', 'query' and 'data class property to return their respective objects.
      *
      * @param   string $name  The property name.
-     * @return  string $value The property value.
+     * @return  mixed The property value.
      */
     public function __get($name)
     {
+        $result = null;
         if($name == 'headers') {
-            return $this->getHeaders();
+            $result = $this->getHeaders();
         }
 
         if($name == 'query') {
-            return $this->getQuery();
+            $result = $this->getQuery();
         }
 
         if($name == 'data') {
-            return $this->getData();
+            $result =  $this->getData();
         }
 
-        return parent::__get($name);
+        return $result;
     }
 
     /**

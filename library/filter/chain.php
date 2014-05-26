@@ -15,16 +15,67 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterChain extends ObjectQueue implements FilterInterface
+/**
+ * Filter Chain
+ *
+ * @author  Johan Janssens <https://github.com/johanjanssens>
+ * @package Koowa\Library\Filter
+ */
+class FilterChain extends Object implements FilterInterface
 {
     /**
-     * Priority levels
+     * The filter queue
+     *
+     * @var	ObjectQueue
      */
-    const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
+    protected $_queue;
+
+    /**
+     * The last filter
+     *
+     * @var FilterInterface
+     */
+    protected $_last;
+
+    /**
+     * The filter priority
+     *
+     * @var integer
+     */
+    protected $_priority;
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => self::PRIORITY_NORMAL,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        //Create the queue
+        $this->_queue = $this->getObject('lib:object.queue');
+
+        //The filter priority
+        $this->_priority = $config->priority;
+    }
 
     /**
      * Validate a scalar or traversable value
@@ -38,7 +89,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     {
         $result = true;
 
-        foreach($this as $filter)
+        foreach($this->_queue as $filter)
         {
             if($filter->validate($value) === false) {
                 $result = false;
@@ -56,7 +107,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
      */
     public function sanitize($value)
     {
-        foreach($this as $filter) {
+        foreach($this->_queue as $filter) {
             $value = $filter->sanitize($value);
         }
 
@@ -75,7 +126,11 @@ class FilterChain extends ObjectQueue implements FilterInterface
      */
     public function addFilter(FilterInterface $filter, $priority = null)
     {
-        $this->enqueue($filter, $priority);
+        //Store reference to be used for filter chaining
+        $this->_last = $filter;
+
+        //Enqueue the filter
+        $this->_queue->enqueue($filter, $priority);
         return $this;
     }
 
@@ -87,7 +142,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     public function getErrors()
     {
         $errors = array();
-        foreach($this as $filter) {
+        foreach($this->_queue as $filter) {
             $errors = array_merge($errors, $filter->getErrors());
         }
 
@@ -95,56 +150,40 @@ class FilterChain extends ObjectQueue implements FilterInterface
     }
 
     /**
-     * Attach a filter to the queue
+     * Get the priority of the filter
      *
-     * The priority parameter can be used to override the filter priority while enqueueing the filter.
-     *
-     * @param   FilterInterface  $filter
-     * @param   integer          $priority The filter priority, usually between 1 (high priority) and 5 (lowest),
-     *                                     default is 3. If no priority is set, the filter priority will be used
-     *                                     instead.
-     * @return FilterChain
-     * @throws \InvalidArgumentException if the object doesn't implement FilterInterface
+     * @return  integer The priority level
      */
-    public function enqueue(ObjectHandlable $filter, $priority = null)
+    public function getPriority()
     {
-        if (!$filter instanceof FilterInterface) {
-            throw new \InvalidArgumentException('Filter needs to implement FilterInterface');
-        }
-
-        $priority = is_int($priority) ? $priority : FilterChain::PRIORITY_NORMAL;
-        return parent::enqueue($filter, $priority);
+        return $this->_priority;
     }
 
     /**
-     * Removes a filter from the queue
+     * Allow for filter chaining
      *
-     * @param   FilterInterface   $filter
-     * @return  boolean    TRUE on success FALSE on failure
-     * @throws \InvalidArgumentException if the object doesn't implement FilterInterface
+     * @param  string   $method    The function name
+     * @param  array    $arguments The function arguments
+     * @return mixed The result of the function
      */
-    public function dequeue(ObjectHandlable $filter)
+    public function __call($method, $arguments)
     {
-        if (!$filter instanceof FilterInterface) {
-            throw new \InvalidArgumentException('Filter needs to implement FilterInterface');
+        //Call the method on the filter if it exists
+        if($this->_last instanceof FilterInterface)
+        {
+            $methods = $this->_last->getMethods();
+
+            if(isset($methods[$method]))
+            {
+                call_user_func_array(array($this->_last, $method), $arguments);
+                return $this;
+            }
         }
 
-        return parent::dequeue($filter);
-    }
+        //Create a new filter based on the method name
+        $filter = $this->getObject('filter.factory')->createFilter($method, $arguments);
+        $this->addFilter($filter);
 
-    /**
-     * Check if the queue does contain a given filter
-     *
-     * @param   FilterInterface   $filter
-     * @return bool
-     * @throws \InvalidArgumentException if the object doesn't implement FilterInterface
-     */
-    public function contains(ObjectHandlable $filter)
-    {
-        if (!$filter instanceof FilterInterface) {
-            throw new \InvalidArgumentException('Filter needs to implement FilterInterface');
-        }
-
-        return parent::contains($filter);
+        return $this;
     }
 }

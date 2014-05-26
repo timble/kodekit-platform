@@ -42,11 +42,11 @@ class JElementRadio extends JElement
 		{
 			$val	= $option->attributes('value');
 			$text	= $option->data();
-			$options[] = (object) array('id' => $val, 'title' => JText::_($text));
+			$options[] = (object) array('id' => $val, 'value' => $val, 'label' => JText::_($text));
 		}
 
         $config = array(
-            'list'     => (object) $options,
+            'options'     => (object) $options,
             'name'     => $control_name.'['.$name.']',
             'selected' => $value,
         );

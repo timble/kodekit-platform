@@ -26,7 +26,6 @@
 
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<input type="hidden" name="enabled" value="<?= $this->getObject('user')->getId() == $user->id ? 1 : 0 ?>" />
-	<input type="hidden" name="send_email" value="0" />
 	
 	<div class="main">
 		<div class="title">
@@ -42,21 +41,14 @@
 				        <input class="required validate-email" type="email" id="email" name="email" value="<?= $user->email ?>" />
 				    </div>
 				</div>
-				<div>
-				    <label for="params[timezone]"><?= translate('Time Zone') ?></label>
-				    <div>
-				        <?= helper('com:extensions.listbox.timezones',
-				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'select-timezone', 'style' => 'width:220px'))) ?>
-				    </div>
-				</div>
 			</fieldset>
 			<fieldset>
 				<legend><?= translate('Password') ?></legend>
 				<div>
 				    <label for="password"><?= translate('Password') ?></label>
 				    <div>
-				        <input class="passwordLength:<?=$params->get('password_length', 6);?>" id="password" type="password" name="password" maxlength="100" />
-				        <?=helper('com:users.form.password');?>
+                        <input class="passwordLength:6" id="password" type="password" name="password" maxlength="100" />
+				        <?= helper('com:users.form.password');?>
 				    </div>
 				</div>
 				<div>
@@ -68,17 +60,38 @@
 			    <? if (!$user->isNew()): ?>
 				<div>
 				    <div>
-				        <label class="checkbox" for="password_change">
-				            <input type="checkbox" id="password_change" name="password_change" />
-				            <?= translate('Require a change of password in the next sign in') ?>
+				        <label class="checkbox" for="password_reset">
+				            <input type="checkbox" id="password_reset" name="password_reset" />
+				            <?= translate('Require a password reset for the next sign in') ?>
 				        </label>
 				    </div>
 				</div>
 			    <? endif; ?>
 			</fieldset>
 			<fieldset>
-				<legend><?= translate('Language') ?></legend>
-				<?= $user->params->render('params') ?>
+				<legend><?= translate('Locale') ?></legend>
+                <div>
+                    <label for="parameters[timezone]"><?= translate('Time Zone') ?></label>
+                    <div>
+                        <?= helper('listbox.timezones', array(
+                            'name'     => 'parameters[timezone]',
+                            'selected' => $user->getParameters()->timezone,
+                            'deselect' => true,
+                            'attribs'  => array('class' => 'select-timezone', 'style' => 'width:220px')
+                        )) ?>
+                    </div>
+                </div>
+                <div>
+                    <label for="parameters[language]"><?= translate('Language') ?></label>
+                    <div>
+                        <?= helper('listbox.languages', array(
+                            'name'     => 'parameters[language]',
+                            'selected' => $user->getParameters()->language,
+                            'deselect' => true,
+                            'attribs'  => array('class' => 'select-language', 'style' => 'width:220px')
+                        )) ?>
+                    </div>
+                </div>
 			</fieldset>
 		</div>
 	</div>

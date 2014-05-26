@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectMultiton
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome))
@@ -30,9 +30,9 @@ class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectMulti
             ));
         }
 
-        $this->_content = $this->getTemplate()
-            ->loadString($this->_content, $this->_data)
-            ->render();
+        $this->_content = (string) $this->getTemplate()
+            ->setContent($this->_content)
+            ->setData($this->_data);
 
         return $this->_content;
     }

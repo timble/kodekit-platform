@@ -19,15 +19,19 @@ use Nooku\Library;
  */
 class ModuleWidgetHtml extends ModuleDefaultHtml
 {
-    public function render()
+    protected function _actionRender(Library\ViewContext $context)
     {
-    	$function = '_'.$this->module->params->get('layout', 'overlay');
+        $params = $this->module->getParameters();
+
+        $function = '_'.$params->get('layout', 'overlay');
     	return $this->$function();
     }
 
     public function _inline()
     {
-        $url = $this->getObject('lib:http.url', array('url' => $this->module->params->get('url')));
+        $params = $this->module->getParameters();
+
+        $url = $this->getObject('lib:http.url', array('url' => $params->get('url')));
 
         $parts   = $url->getQuery(true);
         $package = substr($parts['option'], 4);
@@ -43,10 +47,11 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
 
     public function _overlay()
     {
+        $params = $this->module->getParameters();
         $helper = $this->getTemplate()->getHelper('behavior');
 
-        $route   = $this->getRoute($this->module->params->get('url'));
-        $options = array('options' => array('selector' => $this->module->params->get('selector', 'body')));
+        $route   = $this->getRoute($params->get('url'));
+        $options = array('options' => array('selector' => $params->get('selector', 'body')));
 
         //Create the overlay
         $html = $helper->overlay(array('url' => $route, $options));

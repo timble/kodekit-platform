@@ -45,8 +45,8 @@ define('DS', DIRECTORY_SEPARATOR);
 require_once JPATH_APPLICATION.'/bootstrap.php';
 
 $application =  Library\ObjectManager::getInstance()->getObject('com:application.dispatcher');
-$application->loadConfig(new Library\CommandContext());
-$application->loadSession(new Library\CommandContext());
+$application->loadConfig(new Library\Command());
+$application->loadSession(new Library\Command());
 
 // Load Lorem Ipsum generator class.
 require_once __DIR__.'/libraries/loremipsum.php';
@@ -126,7 +126,7 @@ if($numbers['users'])
 // Generate categories.
 if($numbers['categories'])
 {
-    $categories = array_fill_keys(array('articles'/*, 'contacts'*/), array());
+    $categories = array_fill_keys(array('articles'), array());
 
     foreach($categories as $table => $values)
     {

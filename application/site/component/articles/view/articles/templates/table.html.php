@@ -42,7 +42,7 @@
     <? foreach ($articles as $article): ?>
     <tr>
         <td>
-            <a href="<?= helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a>
+            <a href="<?= helper('route.article', array('entity' => $article)) ?>"><?= $article->title ?></a>
         </td>
         <? if ($params->get('show_create_date')) : ?>
         <td nowrap="nowrap">

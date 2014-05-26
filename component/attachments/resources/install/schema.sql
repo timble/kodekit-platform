@@ -17,8 +17,11 @@ CREATE TABLE `attachments` (
   `modified_on` datetime DEFAULT NULL,
   `locked_by` int(11) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`attachments_attachment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `uuid` char(36) NOT NULL,
+  PRIMARY KEY (`attachments_attachment_id`),
+  UNIQUE KEY `uuid` (`uuid`),
+  KEY `path` (`path`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 --

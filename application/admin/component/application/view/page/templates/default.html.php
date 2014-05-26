@@ -13,17 +13,9 @@
 
 <?= import('page_head.html') ?>
 
-<body class="com_<?= $extension ?>">
-<?
-/*
-?>
-<div id="panel-pages">
-    <?= import('com:pages.view.pages.list.html', array('state' => $state)); ?>
-</div>
-*/
-?>
+<body class="com_<?= $component ?>">
 <div id="panel-wrapper">
-    <div id="panel-header">
+    <div id="panel-navbar">
         <div id="menu">
             <ktml:toolbar type="menubar">
         </div>
@@ -35,7 +27,7 @@
     <ktml:modules position="actionbar">
     <div id="panel-toolbar">
         <ktml:modules:content>
-        <?= import('page_message.html') ?>
+        <ktml:messages>
     </div>
     </ktml:modules>
 
@@ -49,12 +41,6 @@
         <div id="panel-content">
             <ktml:content>
 	    </div>
-
-        <ktml:modules position="inspector">
-            <div id="panel-inspector">
-                <ktml:modules:content>
-            </div>
-        </ktml:modules>
     </div>
 </div>
 

@@ -22,26 +22,25 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_mixin' => true
+            'row_mixin' => true
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _beforeTableInsert(Library\CommandContext $context)
+    protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
         if(!$data->password)
         {
             // Generate a random password
-            $params         = $this->getObject('application.extensions')->users->params;
-            $password       = $this->getObject('com:users.database.row.password');
-            $data->password = $password->getRandom($params->get('password_length', 6));
+            $password       = $this->getObject('com:users.model.entity.password');
+            $data->password = $password->createPassword();
         }
     }
 
-    protected function _beforeTableUpdate(Library\CommandContext $context)
+    protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
@@ -50,7 +49,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
             // Update password record.
             $password = $data->getPassword();
 
-            if (!$password->setData(array('password' => $data->password))->save())
+            if (!$password->setProperties(array('password' => $data->password))->save())
             {
                 $data->setStatus(Library\Database::STATUS_FAILED);
                 $data->setStatusMessage($password->getStatusMessage());
@@ -59,7 +58,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterTableInsert(Library\CommandContext $context)
+    protected function _afterInsert(Library\DatabaseContext $context)
     {
         $data = $context->data;
 
@@ -67,7 +66,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         {
             // Create a password row for the user.
             $data->getPassword()
-                  ->setData(array('id' => $data->email, 'password' => $data->password))
+                  ->setProperties(array('id' => $data->email, 'password' => $data->password))
                   ->save();
         }
     }
@@ -78,9 +77,9 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
         if (!$this->isNew())
         {
-            $password = $this->getObject('com:users.database.row.password')
-                ->set('id', $this->email);
-            $password->load();
+            $password = $this->getObject('com:users.model.passwords')
+                ->id($this->email)
+                ->fetch();
         }
 
         return $password;

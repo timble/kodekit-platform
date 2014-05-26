@@ -20,7 +20,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canAdd()
     {
         $user    = $this->getUser();
-        $context = $this->getMixer()->getCommandContext();
+        $context = $this->getMixer()->getContext();
         $role_id = $context->request->data->get('role_id', 'int');
 
         // New user role must be less or equal than logged user role
@@ -34,10 +34,10 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canEdit()
     {
         $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
-        // Don't allow users below super administrator to edit a super administrator
-        if(($entity->group_id == 25) && ($user->getRole() < 25)) {
+        // Don't allow a user to edit another user that has a higher role
+        if($user->getRole() < $entity->role_id) {
             return false;
         }
 
@@ -47,16 +47,15 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
     public function canDelete()
     {
         $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
         // Users cannot delete themselves
         if($user->getId() == $entity->id) {
             return false;
         }
 
-        // Administrators and below are only allowed to delete user accounts with
-        // lower role levels than their own.
-        if ($user->getRole() < 25 && ($entity->role_id >= $user->getRole())) {
+        // Don't allow a user to delete another user that has a higher role
+        if($user->getRole() < $entity->role_id) {
             return false;
         }
 

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\User
  */
-interface UserInterface
+interface UserInterface extends ObjectEquatable
 {
     /**
      * Returns the id of the user
@@ -72,13 +72,6 @@ interface UserInterface
     public function getSalt();
 
     /**
-     * Get the user session
-     *
-     * @return UserSessionInterface
-     */
-    public function getSession();
-
-    /**
      * The user has been successfully authenticated
      *
      * @return Boolean
@@ -93,7 +86,7 @@ interface UserInterface
     public function isEnabled();
 
     /**
-     * Checks whether the user account has expired.
+     * Checks whether the user credentials have expired.
      *
      * @return Boolean
      */
@@ -132,14 +125,6 @@ interface UserInterface
      * @return User
      */
     public function remove($identifier);
-
-    /**
-     * Set the user data from an array
-     *
-     * @param  array $data An associative array of data
-     * @return User
-     */
-    public function values(array $data);
 
     /**
      * Get the user data as an array

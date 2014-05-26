@@ -41,11 +41,6 @@ class UsersControllerPermissionSession extends ApplicationControllerPermissionAb
         return false;
     }
 
-    public function canAdd()
-    {
-        return true;
-    }
-
     public function canDelete()
     {
         // Allow logging out ourselves
@@ -59,5 +54,10 @@ class UsersControllerPermissionSession extends ApplicationControllerPermissionAb
         }
 
         return false;
+    }
+
+    public function canAdd()
+    {
+        return $this->getUser()->getRole() >= 18;
     }
 }

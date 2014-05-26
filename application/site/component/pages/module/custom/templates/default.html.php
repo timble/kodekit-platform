@@ -8,8 +8,10 @@
  */
 ?>
 
-<? if($show_title) : ?>
-<h3><?= $module->title ?></h3>
-<? endif ?>
+<div<?= $class = $module->getParameters()->get('class', false) ? ' class="'.$class.'"' : '' ?>>
+    <? if($module->getParameters()->get('show_title', false)) : ?>
+        <h3><?= $module->title ?></h3>
+    <? endif ?>
 
-<?= $module->content ?>
+    <?= $module->content ?>
+</div>

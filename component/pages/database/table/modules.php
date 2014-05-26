@@ -23,12 +23,15 @@ class DatabaseTableModules extends Library\DatabaseTableAbstract
     {
         $config->append(array(
             'behaviors'  => array(
-                'creatable', 'modifiable', 'lockable',
+                'creatable', 'modifiable', 'lockable', 'parameterizable', 'identifiable',
                 'com:pages.database.behavior.orderable' => array('strategy' => 'flat')
             ),
             'filters' => array(
                 'content' => array('html', 'tidy'),
-                'params'  => 'ini' 
+                'parameters'  => 'ini'
+            ),
+            'column_map' => array(
+                'parameters' => 'params',
             )
         ));
      
@@ -49,8 +52,7 @@ class DatabaseTableModules extends Library\DatabaseTableAbstract
 		
 		$defaults['position']    = 'left';
 		$defaults['published']	 = 1;
-		$defaults['description'] = '';
-	     
+
 		return $defaults;
 	}
 }

@@ -37,9 +37,9 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
-	 * @param	CommandContext	$context A command context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 */
-    protected function _afterControllerRead(CommandContext $context)
+    protected function _afterRead(ControllerContextInterface $context)
     {
         $controller = $this->getController();
 
@@ -59,28 +59,47 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     /**
 	 * Add default toolbar commands
 	 * .
-	 * @param	CommandContext	$context A command context object
+	 * @param	ControllerContextInterface	$context A controller context object
 	 */
-    protected function _afterControllerBrowse(CommandContext $context)
+    protected function _afterBrowse(Command $context)
     {
         $controller = $this->getController();
 
-        if($this->getController()->canAdd())
-        {
-            $identifier = $controller->getIdentifier();
-            $config     = array('href' => 'option=com_'.$identifier->package.'&view='.$identifier->name);
-
-            $this->addCommand('new', $config);
+        if($controller->canAdd()) {
+            $this->addCommand('new');
         }
 
-        if($controller->canDelete())
-        {
-            if($controller->isLockable() && !$controller->isLocked()) {
-                $this->addCommand('delete');
-            } else {
-                $this->addCommand('delete');
-            }
+        if($controller->canDelete()) {
+            $this->addCommand('delete');
         }
+    }
+
+    /**
+     * New toolbar command
+     *
+     * @param   ControllerToolbarCommand $command  A ControllerToolbarCommand object
+     * @return  void
+     */
+    protected function _commandNew(ControllerToolbarCommand $command)
+    {
+        $identifier = $this->getController()->getIdentifier();
+        $command->href = 'option=com_'.$identifier->package.'&view='.$identifier->name;
+    }
+
+    /**
+     * Delete toolbar command
+     *
+     * @param   ControllerToolbarCommand $command  A ControllerToolbarCommand object
+     * @return  void
+     */
+    protected function _commandDelete(ControllerToolbarCommand $command)
+    {
+        $command->append(array(
+            'attribs' => array(
+                'data-action' => 'delete',
+                'data-prompt' => \JText::_('Deleted items will be lost forever. Would you like to continue?')
+            )
+        ));
     }
 
     /**

@@ -30,15 +30,15 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_user = $this->getObject('com:users.model.users')->id($config->user)->getRow();
+        $this->_user = $this->getObject('user.provider')->load($config->user);
     }
 
-    protected function _beforeTableSelect(Library\CommandContext $context)
+    protected function _beforeSelect(Library\DatabaseContext $context)
     {
         $this->_filterByPages($context);
     }
 
-    protected function _filterByPages(Library\CommandContext $context)
+    protected function _filterByPages(Library\DatabaseContext $context)
     {
         $base_where = '';
 
@@ -125,14 +125,15 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
                 'users_group_id' => array_merge(array(0), $user->getGroups()),
                 'component_name' => 'com_'.$this->getMixer()->getIdentifier()->package);
 
-            if ($user->guest) {
+            if (!$user->isAuthentic()) {
                 $needles['access'] = 0;
             }
 
             $pages = $this->getObject('com:pages.model.pages')
                            ->application('site')
                            ->published(true)
-                           ->getRowset()->find($needles);
+                           ->fetch()
+                           ->find($needles);
 
             $this->_pages = $pages;
         }
@@ -157,7 +158,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             if (is_null($page))
             {
                 // Look for a category page.
-                $category = $this->getObject('com:categories.model.categories')->category($this->category)->getRow();
+                $category = $this->getObject('com:categories.model.categories')->category($this->category)->fetch();
                 $page     = $pages->find(array('link' => array(
                         array(
                             'view'     => 'categories',

@@ -1,0 +1,180 @@
+//
+// Buttons
+// --------------------------------------------------
+
+// Base styles
+// --------------------------------------------------
+
+// Core
+.button {
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0; // For input.button
+    font-size: $baseFontSize;
+    line-height: $baseLineHeight;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    @include buttonBackground($buttonBackground, $buttonBackgroundHighlight, $grayDark, 0 1px 1px rgba(255, 255, 255, .75));
+    border: 1px solid $buttonBorder;
+    border-bottom-color: darken($buttonBorder, 10%);
+    border-radius: $baseBorderRadius;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+
+    // Hover/focus state
+    &:hover,
+    &:focus {
+        color: $grayDark;
+        text-decoration: none;
+    }
+
+    // Focus state for keyboard and accessibility
+    &:focus {
+        @include tab-focus();
+    }
+
+    // Active state
+    &.active,
+    &:active {
+        background-image: none;
+        outline: 0;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+    }
+
+    // Disabled state
+    &.disabled,
+    &[disabled] {
+        cursor: default;
+        background-image: none;
+        @include opacity(65);
+        box-shadow: none;
+    }
+
+}
+
+// Button Sizes
+// --------------------------------------------------
+
+// Large
+.button--large {
+    padding: $paddingLarge;
+    font-size: $fontSizeLarge;
+    border-radius: $borderRadiusLarge;
+}
+
+.button--large [class^="icon-"],
+.button--large [class*=" icon-"] {
+    margin-top: 4px;
+}
+
+// Small
+.button--small {
+    padding: $paddingSmall;
+    font-size: $fontSizeSmall;
+    border-radius: $borderRadiusSmall;
+}
+
+.button--small [class^="icon-"],
+.button--small [class*=" icon-"] {
+    margin-top: 0;
+}
+
+.button--mini [class^="icon-"],
+.button--mini [class*=" icon-"] {
+    margin-top: -1px;
+}
+
+// Mini
+.button--mini {
+    padding: $paddingMini;
+    font-size: $fontSizeMini;
+    border-radius: $borderRadiusSmall;
+}
+
+// Block button
+// -------------------------
+
+.button--block {
+    display: block;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    @include box-sizing(border-box);
+}
+
+// Vertically space out multiple block buttons
+.button--block + .button--block {
+    margin-top: 5px;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    &.button--block {
+        width: 100%;
+    }
+}
+
+// Alternate buttons
+// --------------------------------------------------
+
+// Provide *some* extra contrast for those who can get it
+.button--primary.active,
+.button--warning.active,
+.button--danger.active,
+.button--success.active,
+.button--info.active,
+.button--inverse.active {
+    color: rgba(255, 255, 255, .75);
+}
+
+// Set the backgrounds
+// -------------------------
+.button--primary {
+    @include buttonBackground($buttonPrimaryBackground, $buttonPrimaryBackgroundHighlight);
+}
+
+// Warning appears are orange
+.button--warning {
+    @include buttonBackground($buttonWarningBackground, $buttonWarningBackgroundHighlight);
+}
+
+// Danger and error appear as red
+.button--danger {
+    @include buttonBackground($buttonDangerBackground, $buttonDangerBackgroundHighlight);
+}
+
+// Success appears as green
+.button--success {
+    @include buttonBackground($buttonSuccessBackground, $buttonSuccessBackgroundHighlight);
+}
+
+// Info appears as a neutral blue
+.button--info {
+    @include buttonBackground($buttonInfoBackground, $buttonInfoBackgroundHighlight);
+}
+
+// Inverse appears as dark gray
+.button--inverse {
+    @include buttonBackground($buttonInverseBackground, $buttonInverseBackgroundHighlight);
+}
+
+// Cross-browser Jank
+// --------------------------------------------------
+
+button.button,
+input[type="submit"].button {
+    &.button--large {
+        *padding-top: 7px;
+        *padding-bottom: 7px;
+    }
+    &.button--small {
+        *padding-top: 3px;
+        *padding-bottom: 3px;
+    }
+    &.button--mini {
+        *padding-top: 1px;
+        *padding-bottom: 1px;
+    }
+}

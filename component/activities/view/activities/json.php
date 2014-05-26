@@ -14,112 +14,46 @@ use Nooku\Library;
 /**
  * Activities JSON View Class
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */
 class ViewActivitiesJson extends Library\ViewJson
 {
-	/**
-	 * Get the list data
-	 *
-	 * @return array 	The array with data to be encoded to json
-	 */
-	protected function _getRowset()
-	{
-		//Get the model
-	    $model = $this->getModel();
+    protected function _getEntity(Library\ModelEntityInterface $entity)
+    {
+        $data = parent::_getEntity($entity);
+        unset($data['links']); // Cleanup.
 
-	    //Get the route
-		$route = $this->getRoute();
+        return $data;
+    }
 
-		//Get the model state
-		$state = $model->getState();
+    protected function _getActivity(Library\ModelEntityInterface $entity)
+    {
+        $id = array(
+            'tag:'.$this->getUrl()->toString(Library\HttpUrl::BASE),
+            'id:'.$entity->id
+        );
 
-        //Get the model paginator
-        $paginator = $model->getPaginator();
+        $template = $this->getObject('template.default', array('view' => $this));
+        $item = array(
+            'id' => implode(',', $id),
+            'published' => $this->getObject('com:activities.template.helper.date', array('template' => $template))->format(array(
+                    'date'   => $entity->created_on,
+                    'format' => 'Y-m-dTZ'
+                )),
+            'verb' => $entity->action,
+            'object' => array(
+                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row),
+            ),
+            'target' => array(
+                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name),
+            ),
+            'actor' => array(
+                'url' => (string)$this->getRoute('option=com_users&view=user&id='.$entity->created_by),
+            )
+        );
 
-	    $vars = array();
-	    foreach($state->toArray() as $var)
-	    {
-	        if(!$var->unique) {
-	            $vars[] = $var->name;
-	        }
-	    }
-
-		$data = array(
-			'version'  => '1.0',
-			'href'     => (string) $route->setQuery($state->getValues()),
-			'url'      => array(
-				'type'     => 'application/json',
-				'template' => (string) $route->get(Library\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
-			),
-			'offset'   => (int) $paginator->offset,
-			'limit'    => (int) $paginator->limit,
-			'total'	   => 0,
-			'items'    => array(),
-			'queries'  => array()
-		);
-
-		if($list = $model->getRowset())
-		{
-		    $vars = array();
-	        foreach($state->toArray() as $var)
-	        {
-	            if($var->unique)
-	            {
-	                $vars[] = $var->name;
-	                $vars   = array_merge($vars, $var->required);
-	            }
-	        }
-
-		    $items = array();
-			foreach($list as $item)
-			{
-			    $id = array(
-			    	'tag:'.$this->getObject('request')->getUrl()->toString(Library\HttpUrl::BASE),
-			    	'id:'.$item->id
-				);
-
-			    $items[] = array(
-			    	'id' => implode(',', $id),
-			    	'published' => $this->getObject('com:activities.template.helper.date')->format(array(
-			    		'date'   => $item->created_on,
-			    		'format' => '%Y-%m-%dT%TZ'
-				    )),
-		    		'verb' => $item->action,
-	        		'object' => array(
-	        			'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name.'&id='.$item->row),
-	                ),
-			    	'target' => array(
-			    		'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name),
-				    ),
-				    'actor' => array(
-				    	'url' => $this->getRoute('option=com_users&view=user&id='.$item->created_by),
-					)
-			    );
-			}
-
-			$queries = array();
-            foreach(array('first', 'prev', 'next', 'last') as $offset)
-            {
-                $page = $paginator->pages->{$offset};
-                if($page->active)
-                {
-                    $queries[] = array(
-		   				'rel' => $page->rel,
-		   				'href' => (string) $this->getRoute('limit='.$page->limit.'&offset='.$page->offset)
-                    );
-                }
-            }
-
-            $data = array_merge($data, array(
-				'total'    => $paginator->total,
-				'items'    => $items,
-		        'queries'  => $queries
-			 ));
-		}
-
-		return $data;
-	}
+        return $item;
+    }
 }

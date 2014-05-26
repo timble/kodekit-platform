@@ -10,105 +10,202 @@
 namespace Nooku\Library;
 
 /**
- * Command
- *
- * The command handler will translate the command name into a function format and call it for the object class to handle
- * it if the method exists.
+ * Command Context
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Command
  */
-class Command extends Object implements CommandInterface
+class Command extends ObjectConfig implements CommandInterface
 {
     /**
-     * Priority levels
+     * The event name
+     *
+     * @var array
      */
-    const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
+    protected $_name;
 
     /**
-     * The command priority
+     * Subject of the command
      *
-     * @var integer
+     * @var mixed
      */
-    protected $_priority;
+    protected $_subject;
 
     /**
-     * Object constructor
+     * Constructor.
      *
-     * @param ObjectConfig $config Configuration options
-     * @throws \InvalidArgumentException
+     * @param  string              $name       The command name
+     * @param  array|\Traversable  $attributes An associative array or a Traversable object instance
+     * @param  mixed               $subject    The command subject
      */
-    public function __construct(ObjectConfig $config)
+    public function __construct($name = '', $attributes = array(), $subject = null)
     {
-        parent::__construct($config);
+        parent::__construct($attributes);
 
-        //Set the command priority
-        $this->_priority = $config->priority;
+        $this->setName($name);
+        $this->setSubject($subject);
     }
 
     /**
-     * Initializes the options for the object
+     * Get the event name
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
+     * @return string	The event name
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    /**
+     * Set the event name
      *
-     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @param string $name  The event name
+     * @return Command
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+        return $this;
+    }
+
+    /**
+     * Get the command subject
+     *
+     * @return mixed The command subject
+     */
+    public function getSubject()
+    {
+        return $this->_subject;
+    }
+
+    /**
+     * Set the command subject
+     *
+     * @param mixed $subject The command subject
+     * @return Command
+     */
+    public function setSubject($subject)
+    {
+        $this->_subject = $subject;
+        return $this;
+    }
+
+    /**
+     * Set attributes
+     *
+     * Overwrites existing attributes
+     *
+     * @param  array|\Traversable $attributes
+     * @throws \InvalidArgumentException If the attributes are not an array or are not traversable.
+     * @return Command
+     */
+    public function setAttributes($attributes)
+    {
+        if (!is_array($attributes) || $attributes instanceof \Traversable)
+        {
+            throw new \InvalidArgumentException(sprintf(
+                'Command attributes must be an array or an object implementing the Traversable interface; received "%s"', gettype($attributes)
+            ));
+        }
+
+        //Set the arguments.
+        foreach ($attributes as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all arguments
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->toArray();
+    }
+
+    /**
+     * Get an attribute
+     *
+     * If the attribute does not exist, the $default value will be returned.
+     *
+     * @param  string $name The attribute name
+     * @param  mixed $default
+     * @return mixed
+     */
+    public function getAttribute($name, $default = null)
+    {
+        return $this->get($name, $default);
+    }
+
+    /**
+     * Set an attribute
+     *
+     * @param  string $name The attribute
+     * @param  mixed $value
+     * @return Command
+     */
+    public function setAttribute($name, $value)
+    {
+        $this->set($name, $value);
+        return $this;
+    }
+
+    /**
+     * Set a command property
+     *
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
-    protected function _initialize(ObjectConfig $config)
+    public function set($name, $value)
     {
-        $config->append(array(
-            'priority' => Command::PRIORITY_NORMAL,
-        ));
+        if (is_array($value)) {
+            $value = new ObjectConfig($value);
+        }
 
-        parent::_initialize($config);
+        parent::set($name, $value);
     }
 
     /**
-     * Command handler
+     * Get a command property or attribute
      *
-     * @param   string          $name     The command name
-     * @param   CommandContext  $context  The command context
+     * If a command property exists the property will be returned, otherwise the attribute will be returned. If no
+     * property or attribute can be found the method will return NULL.
      *
-     * @return  mixed  Method result if the method exists, NULL otherwise.
+     * @param  string $name
+     * @return mixed|null  The property value
      */
-    public function execute($name, CommandContext $context)
+    public function __get($name)
     {
-        $type   = '';
-        $result = null;
-
-        if ($context->getSubject())
-        {
-            $identifier = clone $context->getSubject()->getIdentifier();
-
-            if ($identifier->path) {
-                $type = array_shift($identifier->path);
-            } else {
-                $type = $identifier->name;
-            }
+        $getter = 'get'.ucfirst($name);
+        if(method_exists($this, $getter)) {
+            $value = $this->$getter();
+        } else {
+            $value = parent::__get($name);
         }
 
-        $parts = explode('.', $name);
-        $method = !empty($type) ? '_' . $type . ucfirst(StringInflector::implode($parts)) : '_' . lcfirst(StringInflector::implode($parts));
-
-        //If the method exists call the method and return the result
-        if (in_array($method, $this->getMethods())) {
-            $result = $this->$method($context);
-        }
-
-        return $result;
+        return $value;
     }
 
     /**
-     * Get the priority of the command
+     * Set a command property or attribute
      *
-     * @return  integer The command priority
+     * If a command property exists the property will be set, otherwise an attribute will be added.
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
      */
-    public function getPriority()
+    public function __set($name, $value)
     {
-        return $this->_priority;
+        $setter = 'set'.ucfirst($name);
+        if(method_exists($this, $setter)) {
+            $this->$setter($value);
+        } else {
+            parent::__set($name, $value);
+        }
     }
 }

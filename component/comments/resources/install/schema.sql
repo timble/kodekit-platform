@@ -15,6 +15,8 @@ CREATE TABLE `comments` (
     `modified_by` INT UNSIGNED,
     `locked_on` DATETIME,
     `locked_by` INT UNSIGNED,
+    `uuid` char(36) NOT NULL,
     PRIMARY KEY (`comments_comment_id`),
+    UNIQUE KEY `uuid` (`uuid`),
     INDEX `idx_table_row` (`table`, `row`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

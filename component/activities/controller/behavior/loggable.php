@@ -44,7 +44,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'     => Library\Command::PRIORITY_LOWEST,
+            'priority'     => self::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));
@@ -52,62 +52,56 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public function execute($name, Library\CommandContext $context)
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
+        $name = $command->getName();
+
         if(in_array($name, $this->_actions))
         {
-            $entity = $context->result;
+            $entities = $command->result;
 
-            if($entity instanceof Library\DatabaseRowInterface || $entity instanceof Library\DatabaseRowsetInterface )
+            if($entities instanceof Library\ModelEntityInterface)
             {
-                $rowset = array();
-
-                if ($entity instanceof Library\DatabaseRowInterface) {
-                    $rowset[] = $entity;
-                } else {
-                    $rowset = $entity;
-                }
-
-                foreach ($rowset as $row)
+                foreach ($entities as $entity)
                 {
                     //Only log if the row status is valid.
-                    $status = $row->getStatus();
+                    $status = $entity->getStatus();
 
                     if(!empty($status))
                     {
-                         $identifier = $context->getSubject()->getIdentifier();
+                         $identifier = $command->getSubject()->getIdentifier();
 
                          $log = array(
-                            'action'	  => $context->action,
+                            'action'	  => $command->action,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,
                     		'status'      => $status,
-                            'created_by'  => $context->user->getId()
+                            'created_by'  => $command->user->getId()
                         );
 
                         if (is_array($this->_title_column))
                         {
                             foreach($this->_title_column as $title)
                             {
-                                if($row->{$title}){
-                                    $log['title'] = $row->{$title};
+                                if($entity->{$title})
+                                {
+                                    $log['title'] = $entity->{$title};
                                     break;
                                 }
                             }
                         }
-                        elseif($row->{$this->_title_column}) {
-                            $log['title'] = $row->{$this->_title_column};
+                        elseif($entity->{$this->_title_column}) {
+                            $log['title'] = $entity->{$this->_title_column};
                         }
 
                         if (!isset($log['title'])) {
-                            $log['title'] = '#'.$row->id;
+                            $log['title'] = '#'.$entity->id;
                         }
 
-                        $log['row'] = $row->id;
-                        $log['ip']  = $context->request->getAddress();
+                        $log['row'] = $entity->id;
+                        $log['ip']  = $command->request->getAddress();
 
-
-                        $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
+                        $this->getObject('com:activities.model.entity.activity', array('data' => $log))->save();
                     }
                 }
             }

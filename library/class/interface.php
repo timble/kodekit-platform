@@ -33,12 +33,51 @@ interface ClassLoaderInterface
     public function unregister();
 
     /**
-     * Register a class locator
+     * Load a class based on a class name
      *
-     * @param ClassLocatorInterface $locator
+     * @param string  $class    The class name
+     * @throws \RuntimeException If debug is enabled and the class could not be found in the file.
+     * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
+     */
+    public function load($class);
+
+    /**
+     * Enable or disable class loading
+     *
+     * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool|null $debug True or false. If NULL the method will return the current debug value.
+     * @return bool Returns the current debug value.
+     */
+    public function debug($debug);
+
+    /**
+     * Get the path based on a class name
+     *
+     * @param string $class    The class name
+     * @param string $basepath The basepath name
+     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     */
+    public function getPath($class, $basepath = null);
+
+    /**
+     * Set the path based for a class
+     *
+     * @param string $class    The class name
+     * @param string $path     The class path
+     * @param string $basepath The basepath name
      * @return void
      */
-    public function registerLocator(ClassLocatorInterface $locator);
+    public function setPath($class, $path, $basepath = null);
+
+    /**
+     * Register a class locator
+     *
+     * @param  ClassLocatorInterface $locator
+     * @param  bool $prepend If true, the locator will be prepended instead of appended.
+     * @return void
+     */
+    public function registerLocator(ClassLocatorInterface $locator, $prepend = false );
 
     /**
      * Get a registered class locator based on his type
@@ -49,59 +88,58 @@ interface ClassLoaderInterface
     public function getLocator($type);
 
     /**
-     * Set an file path alias
+     * Register an alias for a class
      *
-     * @param string  $alias    The alias
-     * @param string  $path     The path
+     * @param string  $class The original
+     * @param string  $alias The alias name for the class.
      */
-    public function setAlias($alias, $path);
+    public function registerAlias($class, $alias);
 
     /**
-     * Get the path from an alias
+     * Get the registered alias for a class
      *
-     * @param  string $path The path
-     * @return string|false Return the file alias if one exists. Otherwise returns FALSE.
+     * @param  string $class The class
+     * @return array   An array of aliases
      */
-    public function getAlias($alias);
+    public function getAliases($class);
 
     /**
-     * Get a list of path aliases
+     * Register a basepath by name
+     *
+     * @param string $name The name of the basepath
+     * @param string $path The path
+     * @return void
+     */
+    public function registerBasepath($name, $path);
+
+    /**
+     * Get a basepath by name
+     *
+     * @param string $name The name of the application
+     * @return string The path of the application
+     */
+    public function getBasepath($name);
+
+    /**
+     * Set the active basepath by name
+     *
+     * @param string $name The name base path
+     * @return ClassLoaderInterface
+     */
+    public function setBasepath($name);
+
+    /**
+     * Get a list of basepaths
      *
      * @return array
      */
-    public function getAliases();
+    public function getBasepaths();
 
     /**
-     * Load a class based on a class name
+     * Tells if a class, interface or trait exists.
      *
-     * @param  string   $class  The class name
-     * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
+     * @params string $class
+     * @return boolean
      */
-    public function loadClass($class);
-
-    /**
-     * Load a class based on a path
-     *
-     * @param string	$path The file path
-     * @return boolean  Returns TRUE if the file could be loaded, otherwise returns FALSE.
-     */
-    public function loadFile($path);
-
-    /**
-     * Get the path based on a class name
-     *
-     * @param string $class   The class name
-     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
-     */
-    public function findPath($class);
-
-    /**
-     * Get the real path
-     *
-     * Function will check if the path is an alias and return the real file path
-     *
-     * @param  string $path The path
-     * @return string The file path
-     */
-    public function realPath($path);
+    public function isDeclared($class);
 }

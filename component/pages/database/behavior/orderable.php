@@ -28,9 +28,9 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
         // Need to set strategy before parent::__construct, otherwise strategy won't be available in getMixableMethods().
         if($config->strategy)
         {
-            $identifier = clone $config->object_identifier;
-            $identifier->path = array('database', 'behavior', 'orderable');
-            $identifier->name = $config->strategy;
+            $identifier = $config->object_identifier->toArray();
+            $identifier['path'] = array('database', 'behavior', 'orderable');
+            $identifier['name'] = $config->strategy;
             
             $this->setStrategy($config->object_manager->getObject($identifier, Library\ObjectConfig::unbox($config)));
         }
@@ -41,8 +41,8 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Library\Command::PRIORITY_LOWEST,
-            'auto_mixin' => true,
+            'priority'   => self::PRIORITY_LOWEST,
+            'row_mixin'  => true,
             'strategy'   => 'flat',
             'table'      => null,
             'columns'    => array()
@@ -64,18 +64,18 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
         
         return $methods;
     }
-    
-    public function getMixableMethods(Library\ObjectMixable $mixer = null)
+
+    public function getMixableMethods($exclude = array())
     {
-        $methods = array_merge(parent::getMixableMethods($mixer), $this->getStrategy()->getMixableMethods($mixer));
+        $methods = array_merge(parent::getMixableMethods($exclude), $this->getStrategy()->getMixableMethods());
         unset($methods['getStrategy']);
         
         return $methods;
     }
-    
-    public function execute($name, Library\CommandContext $context)
+
+    public function execute(Library\CommandInterface $command, Library\CommandChainInterface $chain)
     {
-        return $this->getStrategy()->execute($name, $context);
+        return $this->getStrategy()->execute($command, $chain);
     }
     
     public function setStrategy(DatabaseBehaviorOrderableInterface $strategy)

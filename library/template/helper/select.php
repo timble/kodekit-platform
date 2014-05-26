@@ -119,39 +119,52 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 		$html = array();
 		$html[] = '<select name="'. $config->name .'" '. $attribs .'>';
 
-		foreach($config->options as $option)
-		{
-            $value = $option->value;
-			$label  = $config->translate ? $this->translate( $option->label ) : $option->label;
+        foreach($config->options as $group => $options)
+        {
+            if (is_numeric($group)) {
+                $options = array($options);
+            } else {
+                $html[] = '<optgroup label="' . $this->escape($group) . '">';
+            }
 
-			$extra = '';
-			if(isset($option->disabled) && $option->disabled) {
-				$extra .= 'disabled="disabled"';
-			}
+            foreach ($options as $option)
+            {
+                $value = $option->value;
+                $label = $config->translate ? $this->translate( $option->label ) : $option->label;
 
-			if(isset($option->attribs)) {
-				$attribs = $this->buildAttributes($option->attribs);;
-			}
+                $extra = '';
+                if(isset($option->disable) && $option->disable) {
+                    $extra .= 'disabled="disabled"';
+                }
 
-			if(!is_null($config->selected))
-			{
-				if ($config->selected instanceof ObjectConfig)
-				{
-					foreach ($config->selected as $selected)
-					{
-						$sel = is_object( $selected ) ? $selected->value : $selected;
-						if ((string) $value == (string) $sel)
-						{
-							$extra .= 'selected="selected"';
-							break;
-						}
-					}
-				}
-				else $extra .= ((string) $value == (string) $config->selected ? ' selected="selected"' : '');
-			}
+                if(isset($option->attribs)) {
+                    $extra .= ' '.$this->buildAttributes($option->attribs);
+                }
 
-			$html[] = '<option value="'. $value .'" '.$extra.' '.$attribs.'>' . $label . '</option>';
-		}
+                if(!is_null($config->selected))
+                {
+                    if ($config->selected instanceof ObjectConfig)
+                    {
+                        foreach ($config->selected as $selected)
+                        {
+                            $sel = is_object($selected) ? $selected->value : $selected;
+                            if ((string) $value == (string) $sel)
+                            {
+                                $extra .= 'selected="selected"';
+                                break;
+                            }
+                        }
+                    }
+                    else $extra .= ((string) $value == (string) $config->selected ? ' selected="selected"' : '');
+                }
+
+                $html[] = '<option value="'. $value .'" '.$extra.'>' . $label . '</option>';
+            }
+
+            if (!is_numeric($group)) {
+                $html[] = '</optgroup>';
+            }
+        }
 
 		$html[] = '</select>';
 
@@ -190,7 +203,6 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             $value = $option->value;
             $label = $config->translate ? $this->translate( $option->label ) : $option->label;
 
-            $extra = '';
             $extra = ($value == $config->selected ? 'checked="checked"' : '');
 
             if(isset($option->disabled) && $option->disabled) {
@@ -249,10 +261,10 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 
 			if ($config->selected instanceof ObjectConfig)
 			{
-				foreach ($config->selected as $value)
+				foreach ($config->selected as $selected)
 				{
-					$sel = is_object( $value ) ? $value->{$config->value} : $value;
-					if ($value == $sel)
+                    $selected = is_object( $selected ) ? $selected->{$config->value} : $selected;
+					if ($value == $selected)
 					{
 						$extra .= 'checked="checked"';
 						break;

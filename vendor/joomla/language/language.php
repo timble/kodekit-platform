@@ -97,13 +97,6 @@ class JLanguage extends JObject
 	 * @since	1.5
 	 */
 	var $_used		= array();
-	
-	/**
-	 * The cache object
-	 *
-	 * @var	JCache
-	 */
-    var $_cache;
 
 	/**
 	* Constructor activating the default information of the language
@@ -303,37 +296,24 @@ class JLanguage extends JObject
 		if (!isset( $this->_paths[$extension][$filename] ) || $reload )
 		{
 		    $identifier = md5($extension.$basePath.$lang);
-		    
-		    if(!isset($this->_cache)) {
-		        $this->_cache = JFactory::getCache('language', 'output');
-		    }
-		
-		    if (!$data = $this->_cache->get($identifier)) 
-		    {
-			    // Load the language file
-			    $strings = $this->_load( $filename, $extension, true );
-			    
-			    // Check if there was a problem with loading the file
-			    if($strings === false )
-			    {
-				    // No strings, which probably means that the language file does not exist
-                    $path      = JLanguage::getLanguagePath( $basePath, $lang);
-                    $filename  = $file ? $path.'/'.$this->_default.'.'.$file.'.ini' : $path.'/'.$this->_default.'.ini';
 
-				    $strings = $this->_load( $filename, $extension, false );
-				    
-			        if($strings !== false) {
-                       $this->_strings = array_merge( $strings, $this->_strings);
-		            }
-			    } 
-			    else $this->_strings = array_merge( $this->_strings, (array) $strings);
+            // Load the language file
+            $strings = $this->_load( $filename, $extension, true );
 
-			    //Store the strings in the cache
-			    if($strings !== false) {
-			       $this->_cache->store(serialize($strings), $identifier);
-			    }
-		    }
-			else $this->_strings = array_merge( $this->_strings, array_reverse(unserialize($data)));
+            // Check if there was a problem with loading the file
+            if($strings === false )
+            {
+                // No strings, which probably means that the language file does not exist
+                $path      = JLanguage::getLanguagePath( $basePath, $lang);
+                $filename  = $file ? $path.'/'.$this->_default.'.'.$file.'.ini' : $path.'/'.$this->_default.'.ini';
+
+                $strings = $this->_load( $filename, $extension, false );
+
+                if($strings !== false) {
+                    $this->_strings = array_merge( $strings, $this->_strings);
+                }
+            }
+            else $this->_strings = array_merge( $this->_strings, (array) $strings);
 		} 
 		
 		return $result;
@@ -354,25 +334,28 @@ class JLanguage extends JObject
 	function _load( $filename, $extension = 'unknown')
 	{
 	    $result = false;
-	    
-	    if ($content = @file_get_contents( $filename ))
-		{
-			//Take off BOM if present in the ini file
-			if ( $content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF" ) {
-				$content = substr( $content, 3 );
-		  	}
 
-			$registry = new JRegistry();
-			$registry->loadINI($content);
-			$result = $registry->toArray();
-			
-			// Record the result of loading the extension's file.
-		    if ( ! isset($this->_paths[$extension])) {
-			    $this->_paths[$extension] = array();
-		    }
+        if(file_exists($filename))
+        {
+            if ($content = @file_get_contents( $filename ))
+            {
+                //Take off BOM if present in the ini file
+                if ( $content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF" ) {
+                    $content = substr( $content, 3 );
+                }
 
-		    $this->_paths[$extension][$filename] = true;
-		}
+                $registry = new JRegistry();
+                $registry->loadINI($content);
+                $result = $registry->toArray();
+
+                // Record the result of loading the extension's file.
+                if ( ! isset($this->_paths[$extension])) {
+                    $this->_paths[$extension] = array();
+                }
+
+                $this->_paths[$extension][$filename] = true;
+            }
+        }
 
 		return $result;
 	}

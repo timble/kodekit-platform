@@ -8,13 +8,18 @@
  */
 ?>
 
-<div id="comments-comment-form">
-	<form action="<?= route('row='.@$state->row.'&table='.$state->table) ?>" method="post">
-        <input type="hidden" name="row" value="<?= $state->row ?>" />
-        <input type="hidden" name="table" value="<?= $state->table ?>" />
+<?= helper('behavior.keepalive') ?>
+<?= helper('behavior.validator') ?>
 
-        <textarea type="text" name="text" placeholder="<?= translate('Add new comment here ...') ?>" id="new-comment-text"></textarea>
-        <br />
-        <input class="button" type="submit" value="<?= translate('Submit') ?>"/>
-    </form>
-</div>
+<!--
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
+-->
+
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
+</ktml:module>
+
+<form action="" method="post" id="comment-form" class="-koowa-form">
+    <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'toolbar' => 'basic', 'text' => $comment->text)) ?>
+</form>

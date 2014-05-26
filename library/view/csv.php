@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\View
  */
-class ViewCsv extends ViewFile
+class ViewCsv extends ViewAbstract
 {
 	/**
 	 * Character used for quoting
@@ -50,7 +50,6 @@ class ViewCsv extends ViewFile
 	{
 		$config->append(array(
 			'version'     => '1.0',
-			'disposition' => 'inline',
 			'quote'		  => '"',
 			'separator'	  => ',',
 			'eol'		  => "\n"
@@ -64,13 +63,14 @@ class ViewCsv extends ViewFile
 	/**
 	 * Return the views output
  	 *
-	 *  @return string 	The output of the view
+     * @param ViewContext	$context A view context object
+	 * @return string 	The output of the view
 	 */
-	public function render()
+	protected function _actionRender(ViewContext $context)
 	{
 		$rows    = '';
 	    $columns = array();
-		$rowset  = $this->getModel()->getRowset();
+		$rowset  = $this->getModel()->fetch();
 
 		// Get the columns
 		foreach($rowset as $row)
@@ -98,7 +98,8 @@ class ViewCsv extends ViewFile
 
 		// Set the content
 		$this->setContent($header.$rows);
-		return parent::render();
+
+		return parent::_actionRender($context);
 	}
 
 	/**

@@ -18,24 +18,38 @@ namespace Nooku\Library;
 class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
 {
     /**
-     * Get the methods that are available for mixin based
+     * Get the user that created the resource
      *
-     * This function conditionaly mixes the behavior. Only if the mixer
-     * has a 'created_by' or 'created_on' property the behavior will be
-     * mixed in.
-     *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of methods
+     * @return UserInterface|null Returns a User object or NULL if no user could be found
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function getAuthor()
     {
-        $methods = array();
+        $user = null;
 
-        if($mixer instanceof DatabaseRowInterface && ($mixer->has('created_by') || $mixer->has('created_on')))  {
-            $methods = parent::getMixableMethods($mixer);
+        if($this->hasProperty('created_by') && !empty($this->created_by)) {
+            $user = $this->getObject('user.provider')->fetch($this->created_by);
         }
 
-        return $methods;
+        return $user;
+    }
+
+    /**
+     * Check if the behavior is supported
+     *
+     * Behavior requires a 'created_by' or 'created_on' row property
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+
+        if($table->hasColumn('created_by') || $table->hasColumn('created_on'))  {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -43,15 +57,16 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      *
      * Requires an 'created_on' and 'created_by' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->has('created_by') && empty($this->created_by)) {
+        if($this->hasProperty('created_by') && empty($this->created_by)) {
             $this->created_by  = (int) $this->getObject('user')->getId();
         }
 
-        if($this->has('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {
+        if($this->hasProperty('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {
             $this->created_on  = gmdate('Y-m-d H:i:s');
         }
     }

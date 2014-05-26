@@ -64,14 +64,19 @@ interface UserSessionContainerInterface
      * @param array $attributes An array of attributes
      * @return  UserSessionContainerInterface
      */
-    public function values(array $attributes);
+    public function add(array $attributes);
 
     /**
-     * Get all attributes
+     * Load the attributes by reference
      *
-     * @return  array  An array of attributes
+     * After starting a session, PHP retrieves the session data through the session handler and populates $_SESSION
+     * with the result automatically. This function can load the attributes from the $_SESSION global by reference
+     * by passing the $_SESSION to this function.
+     *
+     * @param array|null $session   The session attributes to load
+     * @return  UserSessionContainerInterface
      */
-    public function toArray();
+    public function load(array &$session);
 
     /**
      * Set the session attributes namespace
@@ -96,13 +101,9 @@ interface UserSessionContainerInterface
     public function getSeparator();
 
     /**
-     * Load the attributes from the $_SESSION global
+     * Get all attributes
      *
-     * After starting a session, PHP retrieves the session data through the session handler and populates $_SESSION
-     * with the result automatically. This function will load the attributes from the $_SESSION global by reference.
-     *
-     * @param array|null $session   The session attributes to load
-     * @return  UserSessionContainerInterface
+     * @return  array  An array of attributes
      */
-    public function loadSession(array &$session = null);
+    public function toArray();
 }

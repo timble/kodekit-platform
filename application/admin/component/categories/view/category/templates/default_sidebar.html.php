@@ -27,7 +27,7 @@
     <fieldset class="categories group">
         <legend><?= translate('Parent') ?></legend>
         <div>
-            <?= helper('com:categories.radiolist.categories', array('row' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => $state->table))) ?>
+            <?= helper('com:categories.radiolist.categories', array('entity' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => $state->table))) ?>
         </div>
     </fieldset>
 <? endif ?>

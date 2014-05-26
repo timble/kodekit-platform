@@ -28,19 +28,19 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'    => null,
+			'entity'    => null,
 	    ))->append(array( 
-        	'column' => $config->row->getIdentityColumn() 
+        	'column' => $config->entity->getIdentityKey()
         )); 
 		
-		if($config->row->isLockable() && $config->row->isLocked())
+		if($config->entity->isLockable() && $config->entity->isLocked())
 		{
 		    $html = '<i class="icon-lock"></i>';
 		}
 		else
 		{
 		    $column = $config->column;
-		    $value  = $config->row->{$column};
+		    $value  = $config->entity->{$column};
 
 		    $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="'.$column.'[]" value="'.$value.'" />';
 		}
@@ -64,8 +64,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		));
 
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->escape($config->search).'" />';
-        $html .= '<button class="btn">'.$this->translate('Go').'</button>';
-		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
+        $html .= '<button class="button">'.$this->translate('Go').'</button>';
+		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
 
 	    return $html;
 	}
@@ -140,17 +140,17 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'  	=> null,
+			'entity'  	=> null,
 		    'field'	=> 'enabled'
 		))->append(array(
-		    'data'	=> array($config->field => $config->row->{$config->field})
+		    'data'	=> array($config->field => $config->entity->{$config->field})
 		));
 
-		$img    = $config->row->{$config->field} ? 'icon-ok' : 'icon-remove';
-		$alt 	= $config->row->{$config->field} ? $this->translate( 'Enabled' ) : $this->translate( 'Disabled' );
-		$text 	= $config->row->{$config->field} ? $this->translate( 'Disable Item' ) : $this->translate( 'Enable Item' );
+		$img    = $config->entity->{$config->field} ? 'icon-ok' : 'icon-remove';
+		$alt 	= $config->entity->{$config->field} ? $this->translate( 'Enabled' ) : $this->translate( 'Disabled' );
+		$text 	= $config->entity->{$config->field} ? $this->translate( 'Disable Item' ) : $this->translate( 'Enable Item' );
 
-	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
+	    $config->data->{$config->field} = $config->entity->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
 
 		$html = '<i class="'. $img .'" data-action="edit" data-data="'.$data.'"></i>';
@@ -168,7 +168,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'   => null,
+			'entity'   => null,
 		    'total'	=> null,
 		    'field'	=> 'ordering',
 		    'data'	=> array('order' => 0)
@@ -182,13 +182,13 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 
 		$html = '';
 
-		if ($config->row->{$config->field} > 1) {
+		if ($config->entity->{$config->field} > 1) {
             $html .= '<i class="icon-chevron-up" data-action="edit" data-data="'.$updata.'"></i>';
         }
 
-        $html .= '<span class="data-order">'.$config->row->{$config->field}.'</span>';
+        $html .= '<span class="data-order">'.$config->entity->{$config->field}.'</span>';
 
-        if($config->row->{$config->field} != $config->total) {
+        if($config->entity->{$config->field} != $config->total) {
             $html .= '<i class="icon-chevron-down" data-action="edit" data-data="'.$downdata.'"></i>';
 	    }
 
@@ -205,13 +205,13 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'  		=> null,
+			'entity'  		=> null,
 		    'field'		=> 'access'
 		))->append(array(
-		    'data'		=> array($config->field => $config->row->{$config->field})
+		    'data'		=> array($config->field => $config->entity->{$config->field})
 		));
 
-		switch($config->row->{$config->field})
+		switch($config->entity->{$config->field})
 		{
 			case 0 :
 			{

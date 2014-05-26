@@ -144,6 +144,16 @@ interface UserSessionInterface
     public function start();
 
     /**
+     * Load the session data in the memory containers
+     *
+     * This function will load the data from $_SESSION in the various registered containers, based on the container
+     * namespace.
+     *
+     * @return UserSession
+     */
+    public function refresh();
+
+    /**
      * Force the session to be saved and closed.
      *
      * Session data is usually stored after your script terminated without the need to call DispatcherSession::save(),

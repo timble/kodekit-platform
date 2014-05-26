@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -17,42 +17,42 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesHtml extends ArticlesViewHtml
 {
-    public function render()
+    protected function _fetchData(Library\ViewContext $context)
     {
         //Get the parameters
-        $params = $this->getObject('application')->getParams();
+        $params = $this->getObject('application.pages')->getActive()->getParams('page');
 
         //Get the category
         $category = $this->getCategory();
 
         //Set the pathway
         $page = $this->getObject('application.pages')->getActive();
-        if($page->getLink()->query['view'] == 'categories' ) {
+        if ($page->getLink()->query['view'] == 'categories') {
             $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
 
-        $this->params   = $params;
-        $this->category = $category;
+        $context->data->params   = $params;
+        $context->data->category = $category;
 
-        return parent::render();
+        parent::_fetchData($context);
     }
 
     public function getCategory()
     {
-        //Get the category
         $category = $this->getObject('com:articles.model.categories')
-                         ->table('articles')
-                         ->id($this->getModel()->getState()->category)
-                         ->getRow();
+            ->table('articles')
+            ->id($this->getModel()->getState()->category)
+            ->fetch();
 
         return $category;
     }
 
     public function highlight($text)
     {
-        if ($searchword = $this->getModel()->getState()->searchword) {
-            $text = preg_replace('/'.$searchword.'(?![^<]*?>)/i', '<span class="highlight">' . $searchword . '</span>', $text);
+        if ($search = $this->getModel()->getState()->search) {
+            $text = preg_replace('/' . $search . '(?![^<]*?>)/i', '<span class="highlight">' . $search . '</span>', $text);
         }
+
         return $text;
     }
 }

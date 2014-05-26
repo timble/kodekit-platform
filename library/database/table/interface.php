@@ -71,17 +71,34 @@ interface DatabaseTableInterface
     public function getSchema();
 
     /**
+     * Get the table context
+     *
+     * @return  Command
+     */
+    public function getContext();
+
+    /**
+     * Check if the table column exists
+     *
+     * @param  string  $name The name of the column
+     * @param  boolean $base If TRUE, get the column information from the base table. Default is FALSE.
+     * @return bool  Returns TRUE if the column exists, FALSE otherwise.
+     */
+    public function hasColumn($name, $base = false);
+
+    /**
      * Get a column by name
      *
-     * @param  boolean  If TRUE, get the column information from the base table.
-     * @return DatabaseColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
+     * @param  string  $name The name of the column
+     * @param  boolean $base If TRUE, get the column information from the base table. Default is FALSE.
+     * @return DatabaseSchemaColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
      */
-    public function getColumn($columnname, $base = false);
+    public function getColumn($name, $base = false);
 
     /**
      * Gets the columns for the table
      *
-     * @param   boolean  If TRUE, get the column information from the base table.
+     * @param   boolean  $base If TRUE, get the column information from the base table.
      * @return  array    Associative array of DatabaseSchemaColumn objects
      */
     public function getColumns($base = false);
@@ -91,14 +108,14 @@ interface DatabaseTableInterface
      *
      * This functions maps the column names to those in the table schema
      *
-     * @param  array|string An associative array of data to be mapped, or a column name
-     * @param  boolean      If TRUE, perform a reverse mapping
+     * @param  array|string $data    An associative array of data to be mapped, or a column name
+     * @param  boolean      $reverse If TRUE, perform a reverse mapping
      * @return array|string The mapped data or column name
      */
     public function mapColumns($data, $reverse = false);
 
     /**
-     * Gets the identitiy column of the table.
+     * Gets the identity column of the table.
      *
      * @return string
      */
@@ -116,7 +133,7 @@ interface DatabaseTableInterface
     /**
      * Gets the unqiue columns of the table
      *
-     * @return array    An asscociate array of unique table columns by column name
+     * @return array An asscociate array of unique table columns by column name
      */
     public function getUniqueColumns();
 
@@ -132,23 +149,23 @@ interface DatabaseTableInterface
      *
      * @return mixed    Returns the column default value or NULL if the column does not exist
      */
-    public function getDefault($columnname);
+    public function getDefault($name);
 
     /**
      * Get an instance of a row object for this table
      *
-     * @param    array An optional associative array of configuration settings.
+     * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRow(array $options = array());
+    public function createRow(array $options = array());
 
     /**
      * Get an instance of a rowset object for this table
      *
-     * @param    array An optional associative array of configuration settings.
+     * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRowset(array $options = array());
+    public function createRowset(array $options = array());
 
     /**
      * Table select method
@@ -158,14 +175,14 @@ interface DatabaseTableInterface
      * @param mixed    $query DatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode  The database fetch style.
      * @param array    $state An optional associative array of configuration options.
-     * @return  DatabaseRow(set) depending on the mode.
+     * @return  DatabaseRowInterface or DatabaseRowsetInterface depending on the mode.
      */
     public function select($query = null, $mode = Database::FETCH_ROWSET, array $options = array());
 
     /**
      * Count table rows
      *
-     * @param   mixed   DatabaseQuery object or query string or null to count all rows
+     * @param   mixed   $query DatabaseQuery object or query string or null to count all rows
      * @return  int     Number of rows
      */
     public function count($query = null);
@@ -173,7 +190,7 @@ interface DatabaseTableInterface
     /**
      * Table insert method
      *
-     * @param  object       A DatabaseRow object
+     * @param  DatabaseRowInterface $row A DatabaseRow object
      * @return bool|integer Returns the number of rows inserted, or FALSE if insert query was not executed.
      */
     public function insert(DatabaseRowInterface $row);
@@ -181,15 +198,15 @@ interface DatabaseTableInterface
     /**
      * Table update method
      *
-     * @param  object           A DatabaseRow object
+     * @param  DatabaseRowInterface $row  A DatabaseRowInterface object
      * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
-    public function update(DatabaseRowTable $row);
+    public function update(DatabaseRowInterface $row);
 
     /**
      * Table delete method
      *
-     * @param  object       A DatabaseRow object
+     * @param  DatabaseRowInterface $row A DatabaseRow object
      * @return bool|integer Returns the number of rows deleted, or FALSE if delete query was not executed.
      */
     public function delete(DatabaseRowInterface $row);
@@ -214,8 +231,8 @@ interface DatabaseTableInterface
      * This function removes extra columns based on the table columns taking any table mappings into account and
      * filters the data based on each column type.
      *
-     * @param  array    An associative array of data to be filtered
-     * @param  boolean  If TRUE, get the column information from the base table.
+     * @param  array    $data An associative array of data to be filtered
+     * @param  boolean  $base If TRUE, get the column information from the base table.
      * @return array    The filtered data
      */
     public function filter(array $data, $base = true);

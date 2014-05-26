@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -19,17 +19,25 @@ class AttachmentsTemplateHelperImage extends Library\TemplateHelperDefault
 {
     public function thumbnail($config = array())
     {
-        $config   = new Library\ObjectConfig($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'align' => 'right',
-            'class' => ''
+            'attachment' => false,
+            'attribs'    => array()
         ));
 
-        $image = $config->row;
+        //Make sure the attachment is set
+        if ($config->attachment)
+        {
+            $thumbnail = $this->getObject('com:attachments.model.attachments')
+                ->id($config->attachment)
+                ->fetch();
 
-        if($image->thumbnail) {
-            return '<figure><img class="'.$config->class.'" align="'.$config->align.'" src="'.$image->thumbnail.'" /></figure>
-';
+            //Make sure the thumbnail exist
+            if ($thumbnail)
+            {
+                $filename = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', pathinfo($thumbnail->name, PATHINFO_FILENAME)));
+                return '<img alt="' . $filename . '" ' . $this->buildAttributes($config->attribs) . ' src="attachments://' . $thumbnail->thumbnail . '" />';
+            }
         }
 
         return false;

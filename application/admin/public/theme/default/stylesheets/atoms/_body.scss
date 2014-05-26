@@ -1,0 +1,28 @@
+@import "compass/css3/user-interface";
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: $baseFontSize;
+    font-family: $baseFontFamily;
+    background-color: #FFF;
+
+    // Disable content select (more app, less website)
+    @include user-select(none);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    padding: 4px;
+}
+
+::-webkit-scrollbar-track {
+    border-left: 1px solid $grayLighter;
+    padding: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #C3C3C3;
+    margin: 4px;
+    border: 1px solid darken(#C3C3C3, 10%);
+}

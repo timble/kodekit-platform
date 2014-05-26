@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Database Sluggable Behavior
  *
  * Generates a slug, a short label for the row, containing only letters, numbers, underscores or hyphens. A slug is
- * generaly using a URL.
+ * generally used in an URL.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Database
@@ -22,41 +22,46 @@ namespace Nooku\Library;
 class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
 {
     /**
-     * The column name from where to generate the slug, or a set of column
-     * names to concatenate for generating the slug. Default is 'title'.
+     * The column name from where to generate the slug, or a set of column names to concatenate for generating the slug.
+     *
+     * Default is 'title'.
      *
      * @var array
      */
     protected $_columns;
 
     /**
-     * Separator character / string to use for replacing non alphabetic
-     * characters in generated slug. Default is '-'.
+     * Separator character / string to use for replacing non alphabetic characters in generated slug.
+     *
+     * Default is '-'.
      *
      * @var string
      */
     protected $_separator;
 
     /**
-     * Maximum length the generated slug can have. If this is null the length of
-     * the slug column will be used. Default is NULL.
+     * Maximum length the generated slug can have. If this is null the length of the slug column will be used.
+     *
+     * Default is NULL.
      *
      * @var integer
      */
     protected $_length;
 
     /**
-     * Set to true if slugs should be re-generated when updating an existing
-     * row. Default is true.
+     * Set to true if slugs should be re-generated when updating an existing row.
+     *
+     * Default is true.
      *
      * @var boolean
      */
     protected $_updatable;
 
     /**
-     * Set to true if slugs should be unique. If false and the slug column has
-     * a unique index set this will result in an error being throw that needs
-     * to be recovered. Default is NULL.
+     * Set to true if slugs should be unique. If false and the slug column has a unique index set this will result in
+     * an error being throw that needs to be recovered.
+     *
+     * Default is NULL.
      *
      * @var boolean
      */
@@ -65,18 +70,18 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        foreach ($config as $key => $value)
-        {
-            if (property_exists($this, '_' . $key)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
+        $this->_columns   = (array) ObjectConfig::unbox($config->columns);
+        $this->_separator = $config->separator;
+        $this->_updatable = $config->updatable;
+        $this->_length    = $config->length;
+        $this->_unique    = $config->unique;
+        $this->_row_mixin = $config->row_mixin;
     }
 
     /**
@@ -84,48 +89,47 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'columns'    => array('title'),
+            'columns'    => 'title',
             'separator'  => '-',
             'updatable'  => true,
             'length'     => null,
             'unique'     => null,
-            'auto_mixin' => true,
+            'row_mixin'  => true,
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Get the methods that are available for mixin based
+     * Check if the behavior is supported
      *
-     * This function conditionally mixes the behavior. Only if the mixer
-     * has a 'slug' property the behavior will be mixed in.
+     * Behavior requires a 'slug' row property
      *
-     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-     * @return array An array of methods
+     * @return  boolean  True on success, false otherwise
      */
-    public function getMixableMethods(ObjectMixable $mixer = null)
+    public function isSupported()
     {
-        $methods = array();
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-        if($mixer instanceof DatabaseRowInterface && $mixer->has('slug')) {
-            $methods = parent::getMixableMethods($mixer);
+        if($table->hasColumn('slug'))  {
+            return true;
         }
 
-        return $methods;
+        return false;
     }
 
     /**
      * Get the slug
      *
-     * This function will always return a unique slug. If the slug is not unique
-     * it will prepend the identity column value.
+     * This function will always return a unique slug. If the slug is not unique it will prepend the identity column
+     * value.
      *
      * @return string
      */
@@ -144,32 +148,31 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Insert a slug
      *
-     * If multiple columns are set they will be concatenated and separated by the
-     * separator in the order they are defined.
+     * If multiple columns are set they will be concatenated and separated by the separator in the order they are
+     * defined.
      *
      * Requires a 'slug' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _afterTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
-        if ($this->_createSlug()) {
-            $this->save();
-        }
+        $this->_createSlug();
     }
 
     /**
      * Update the slug
      *
-     * Only works if {@link $updatable} property is TRUE. If the slug is empty
-     * the slug will be regenerated. If the slug has been modified it will be
-     * sanitized.
+     * Only works if {@link $updatable} property is TRUE. If the slug is empty the slug will be regenerated. If the
+     * slug has been modified it will be sanitized.
      *
      * Requires a 'slug' column
      *
+     * @param DatabaseContext	$context A database context object
      * @return void
      */
-    protected function _beforeTableUpdate(CommandContext $context)
+    protected function _beforeUpdate(DatabaseContext $context)
     {
         if ($this->_updatable) {
             $this->_createSlug();
@@ -179,7 +182,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Create a sluggable filter
      *
-     * @return void
+     * @return FilterSlug
      */
     protected function _createFilter()
     {
@@ -200,43 +203,35 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Create the slug
      *
-     * @return boolean  Return TRUE if the slug was created or updated successfully, otherwise FALSE.
+     * @return void
      */
     protected function _createSlug()
     {
         //Create the slug filter
         $filter = $this->_createFilter();
 
-        if (empty($this->slug))
+        if(empty($this->slug))
         {
             $slugs = array();
-            foreach ($this->_columns as $column) {
+            foreach($this->_columns as $column) {
                 $slugs[] = $filter->sanitize($this->$column);
             }
 
             $this->slug = implode($this->_separator, array_filter($slugs));
-            $this->_canonicalizeSlug();
-            return true;
         }
-        else
-        {
-            if (in_array('slug', $this->getModified()))
-            {
-                $this->slug = $filter->sanitize($this->slug);
-                $this->_canonicalizeSlug();
-                return true;
-            }
+        elseif($this->isModified('slug')) {
+            $this->slug = $filter->sanitize($this->slug);
         }
 
-        return false;
+        // Canonicalize the slug
+        $this->_canonicalizeSlug();
     }
 
     /**
      * Make sure the slug is unique
      *
-     * This function checks if the slug already exists and if so appends
-     * a number to the slug to make it unique. The slug will get the form
-     * of slug-x.
+     * This function checks if the slug already exists and if so appends a number to the slug to make it unique. The
+     * slug will get the form of slug-x.
      *
      * @return void
      */
@@ -245,14 +240,29 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         $table = $this->getTable();
 
         //If unique is not set, use the column metadata
-        if (is_null($this->_unique)) {
+        if(is_null($this->_unique)) {
             $this->_unique = $table->getColumn('slug', true)->unique;
         }
 
-        //If the slug needs to be unique and it already exist make it unqiue
-        if ($this->_unique && $table->count(array('slug' => $this->slug)))
+        //If the slug needs to be unique and it already exists, make it unique
+        $query = $this->getObject('lib:database.query.select');
+        $query->where('slug = :slug')->bind(array('slug' => $this->slug));
+
+        if (!$this->isNew()) 
         {
-            $db = $table->getAdapter();
+            $query->where($table->getIdentityColumn().' <> :id')
+                ->bind(array('id' => $this->id));
+        }
+
+        if($this->_unique && $table->count($query))
+        {
+            $length = $this->_length ? $this->_length : $table->getColumn('slug')->length;
+
+            // Cut 4 characters to make space for slug-1 slug-23 etc
+            if ($length && strlen($this->slug) > $length-4) {
+                $this->slug = substr($this->slug, 0, $length-4);
+            }
+
             $query = $this->getObject('lib:database.query.select')
                 ->columns('slug')
                 ->where('slug LIKE :slug')
@@ -261,11 +271,11 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             $slugs = $table->select($query, Database::FETCH_FIELD_LIST);
 
             $i = 1;
-            while (in_array($this->slug . '-' . $i, $slugs)) {
+            while(in_array($this->slug.'-'.$i, $slugs)) {
                 $i++;
             }
 
-            $this->slug = $this->slug . '-' . $i;
+            $this->slug = $this->slug.'-'.$i;
         }
     }
 }

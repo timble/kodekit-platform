@@ -15,29 +15,18 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectMultiton
+class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql
 {
-    /**
-	 * The cache object
-	 *
-	 * @var	JCache
-	 */
-    protected $_cache;
-
 	/**
 	 * Constructor
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param 	object 	An optional Library\ObjectConfig object with configuration options
+	 * @param 	Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options
 	 */
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
-
-		if(JFactory::getConfig()->getValue('config.caching')) {
-	        $this->_cache = JFactory::getCache('database', 'output');
-		}
 
         //Auto connect to the database
         $this->connect();
@@ -48,7 +37,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+     * @param 	Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -66,36 +55,4 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 
         parent::_initialize($config);
     }
-
-	/**
-	 * Retrieves the table schema information about the given table
-	 *
-	 * This function try to get the table schema from the cache. If it cannot be found
-	 * the table schema will be retrieved from the database and stored in the cache.
-	 *
-	 * @param 	string 	A table name or a list of table names
-	 * @return	Library\DatabaseSchemaTable
-	 */
-	public function getTableSchema($table)
-	{
-	    if(!isset($this->_table_schema[$table]) && isset($this->_cache))
-		{
-		    $database = $this->getDatabase();
-
-		    $identifier = md5($database.$table);
-
-	        if (!$schema = $this->_cache->get($identifier))
-	        {
-	            $schema = parent::getTableSchema($table);
-
-	            //Store the object in the cache
-		   	    $this->_cache->store(serialize($schema), $identifier);
-	        }
-	        else $schema = unserialize($schema);
-
-		    $this->_table_schema[$table] = $schema;
-	    }
-
-	    return parent::getTableSchema($table);
-	}
 }

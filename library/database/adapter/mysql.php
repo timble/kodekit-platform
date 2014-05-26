@@ -118,7 +118,6 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     /**
      * Connects to the database
      *
-     * @throws DatabaseAdapterException  If connection failed.
      * @return DatabaseAdapterMysql
      */
     public function connect()
@@ -173,12 +172,12 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function begin()
     {
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.begin', $context) !== false)
+        if($this->invokeCommand('before.begin', $context) !== false)
         {
             $context->result = $this->getConnection()->beginTransaction();
-            $this->getCommandChain()->run('after.begin', $context);
+            $this->invokeCommand('after.begin', $context);
         }
 
         return $context->result;
@@ -192,12 +191,12 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function commit()
     {
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.commit', $context) !== false)
+        if($this->invokeCommand('before.commit', $context) !== false)
         {
             $context->result = $this->getConnection()->commit();
-            $this->getCommandChain()->run('after.commit', $context);
+            $this->invokeCommand('after.commit', $context);
         }
 
         return $context->result;
@@ -211,12 +210,12 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function rollback()
     {
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
 
-        if($this->getCommandChain()->run('before.rollback', $context) !== false)
+        if($this->invokeCommand('before.rollback', $context) !== false)
         {
             $context->result = $this->getConnection()->rollBack();
-            $this->getCommandChain()->run('after.rollback', $context);
+            $this->invokeCommand('after.rollback', $context);
         }
 
         return $context->result;
@@ -233,14 +232,14 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $query = 'LOCK TABLES '.$this->quoteIdentifier($table).' WRITE';
 
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = $table;
         $context->query = $query;
 
-        if($this->getCommandChain()->run('before.lock', $context) !== false)
+        if($this->invokeCommand('before.lock', $context) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
-            $this->getCommandChain()->run('after.lock', $context);
+            $this->invokeCommand('after.lock', $context);
         }
 
         return $context->result;
@@ -256,14 +255,14 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
         $query = 'UNLOCK TABLES';
 
         // Create command chain context.
-        $context = $this->getCommandContext();
+        $context = $this->getContext();
         $context->table = null;
         $context->query = $query;
 
-        if($this->getCommandChain()->run('before.unlock', $context) !== false)
+        if($this->invokeCommand('before.unlock', $context) !== false)
         {
             $context->result = $this->execute($context->query, Database::RESULT_USE);
-            $this->getCommandChain()->run('after.unlock', $context);
+            $this->invokeCommand('after.unlock', $context);
         }
 
         return $context->result;
@@ -482,7 +481,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      */
     protected function _parseTableInfo($info)
     {
-        $table              = $this->getObject('lib:database.schema.table');
+        $table              = new DatabaseSchemaTable();
         $table->name        = $info->Name;
         $table->engine      = $info->Engine;
         $table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
@@ -505,7 +504,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     {
         list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 
-        $column = $this->getObject('lib:database.schema.column');
+        $column           = new DatabaseSchemaColumn();
         $column->name     = $info->Field;
         $column->type     = $type;
         $column->length   = $length ? $length : null;

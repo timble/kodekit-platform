@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -19,88 +19,102 @@ use Nooku\Library;
  */
 class ModelTypes extends Library\ModelAbstract
 {
-    protected $_rowset;
-    
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
-        
+
         $this->getState()->insert('application', 'word');
     }
 
-    public function getRowset()
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        if(!isset($this->_rowset))
+        $config->append(array(
+            'identity_key' => 'name',
+        ));
+
+        parent::_initialize($config);
+    }
+
+    protected function _actionFetch(Library\ModelContext $context)
+    {
+        $components = array();
+
+        $app_path = $this->getObject('manager')->getClassLoader()->getBasepath($this->getState()->application);
+        $com_path = $app_path;
+
+        foreach (new \DirectoryIterator($com_path) as $component)
         {
-            $table = $this->getObject('com:extensions.database.table.extensions');
-            $query = $this->getObject('lib:database.query.select')
-                ->order('name');
+            $views = array();
 
-            $extensions = $table->select($query);
-
-            // Iterate through the extensions.
-            foreach($extensions as $extension)
+            $view_path = $com_path . '/' . $component . '/view';
+            if ($component->isDir() && substr($component, 0, 1) !== '.' && is_dir($view_path))
             {
-                $path  = Library\ClassLoader::getInstance()->getApplication($this->getState()->application);
-                $path .= '/component/'.substr($extension->name, 4).'/view';
-
-                if(!is_dir($path)) {
-                    continue;
-                }
-
-                // Iterator through the views.
-                $views = array();
-                foreach(new \DirectoryIterator($path) as $view)
+                foreach (new \DirectoryIterator($view_path) as $view)
                 {
-                    $xml_path = $path.'/'.$view.'/metadata.xml';
-                    if(!$view->isDir() || substr($view, 0, 1) == '.' || !file_exists($xml_path)) {
-                        continue;
-                    }
-
-                    $xml_view = simplexml_load_file($xml_path);
-                    if(strtolower($xml_view->view->attributes()->hidden) !== 'true')
+                    $xml_path = $view_path . '/' . $view . '/metadata.xml';
+                    if ($view->isDir() && substr($view, 0, 1) !== '.' && is_file($xml_path))
                     {
-                        // Iterate through the layouts.
-                        $layouts = array();
-
-                        if(is_dir($path.'/'.$view.'/templates'))
+                        $xml_view = simplexml_load_file($xml_path);
+                        if (strtolower($xml_view->view->attributes()->hidden) !== 'true')
                         {
-                            foreach(new \DirectoryIterator($path.'/'.$view.'/templates') as $layout)
+                            $layouts = array();
+
+                            $tmpl_path = $view_path . '/' . $view . '/templates';
+                            if (is_dir($tmpl_path))
                             {
-                                if(!$layout->isFile() || substr($layout, 0, 1) == '.' || $layout->getExtension() != 'xml') {
-                                    continue;
-                                }
-
-                                $xml_layout = simplexml_load_file($path.'/'.$view.'/templates/'.$layout);
-                                if(!$xml_layout->layout) {
-                                    continue;
-                                }
-
-                                if(strtolower($xml_layout->layout->attributes()->hidden) !== 'true')
+                                foreach (new \DirectoryIterator($tmpl_path) as $layout)
                                 {
-                                    $layouts[$layout->getBasename('.xml')] = (object) array(
-                                        'name'        => $layout->getBasename('.xml'),
-                                        'title'       => trim($xml_layout->layout->attributes()->title),
-                                        'description' => trim($xml_layout->layout->message)
-                                    );
+                                    if ($layout->isFile() && substr($layout, 0, 1) !== '.' && $layout->getExtension() == 'xml')
+                                    {
+                                        $xml_layout = simplexml_load_file($tmpl_path . '/' . $layout);
+                                        if (!$xml_layout->layout) {
+                                            continue;
+                                        }
+
+                                        if (strtolower($xml_layout->layout->attributes()->hidden) !== 'true')
+                                        {
+                                            $layouts[$layout->getBasename('.xml')] = (object)array(
+                                                'name'        => $layout->getBasename('.xml'),
+                                                'title'       => trim($xml_layout->layout->attributes()->title),
+                                                'description' => trim($xml_layout->layout->message)
+                                            );
+                                        }
+                                    }
                                 }
                             }
-                        }
 
-                        $views[$view->getFilename()] = (object) array(
-                            'name'    => $view->getFilename(),
-                            'title'   => trim($xml_view->view->attributes()->title),
-                            'layouts' => $layouts
-                        );
+                            $views[$view->getFilename()] = (object)array(
+                                'name'    => $view->getFilename(),
+                                'title'   => trim($xml_view->view->attributes()->title),
+                                'layouts' => $layouts
+                            );
+                        }
                     }
                 }
 
-                $extension->views = $views;
+                $components[] = array(
+                    'name'  => 'com_' . $component->getFilename(),
+                    'title' => ucfirst($component->getFilename()),
+                    'views' => $views
+                );
             }
-
-            $this->_rowset = $extensions;
         }
 
-        return $this->_rowset;
+        $entity = parent::_actionFetch($context);
+
+        foreach($components as $component) {
+            $entity->create($component);
+        }
+
+        return $entity;
+    }
+
+    protected function _actionCount(Library\ModelContext $context)
+    {
+        if (!isset($this->_count)) {
+            $this->fetch();
+        }
+
+        return $this->_count;
     }
 }

@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Tags;
 
 /**
  * Tag Controller
@@ -15,49 +16,20 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Tags
  */
-abstract class TagsControllerTag extends Library\ControllerModel
+abstract class TagsControllerTag extends Tags\ControllerTag
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
         	'behaviors' => array(
-                'editable',
-                //'com:activities.controller.behavior.loggable'
+                'editable', 'persistable',
+                'com:activities.controller.behavior.loggable'
             ),
-            'model'     => 'com:tags.model.tags'
         ));
-        
-        parent::_initialize($config);
-        
+
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:tags.controller.toolbar.tag');
-    }
-    
-    protected function _actionRender(Library\CommandContext $context)
-    {
-        $view = $this->getView();
         
-	    //Set the layout
-        if($view instanceof Library\ViewTemplate)
-	    {
-	        $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
-
-            $alias = clone $layout;
-            $alias->package = 'tags';
-
-	        $this->getObject('manager')->registerAlias($layout, $alias);
-	    }
-	        
-        return parent::_actionRender($context);
+        parent::_initialize($config);
     }
-    
-    public function getRequest()
-	{
-		$request = parent::getRequest();
-
-        $request->query->table  = $this->getIdentifier()->package;
-
-	    return $request;
-	}
 }

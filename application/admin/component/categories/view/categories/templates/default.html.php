@@ -60,14 +60,14 @@
                 <tr>
                     <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
                     <td class="handle">
-                        <span class="text-small data-order"><?= $category->ordering ?></span>
+                        <span class="text--small data-order"><?= $category->ordering ?></span>
                     </td>
                     <? endif ?>
                     <td align="center">
-                        <?= helper( 'grid.checkbox' , array('row' => $category)); ?>
+                        <?= helper( 'grid.checkbox' , array('entity' => $category)); ?>
                     </td>
                     <td align="center">
-                        <?= helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
+                        <?= helper('grid.enable', array('entity' => $category, 'field' => 'published')) ?>
                     </td>
                     <td>
                         <a href="<?= route( 'view=category&id='.$category->id ); ?>">

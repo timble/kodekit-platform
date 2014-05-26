@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @see         http://www.imc.org/pdi/
  * @see         http://en.wikipedia.org/wiki/VCard
  */
-class ViewVcard extends ViewFile
+class ViewVcard extends ViewAbstract
 {
     /**
      * The Vcard properties
@@ -48,14 +48,11 @@ class ViewVcard extends ViewFile
     /**
      * Return the views output
      *
-     *  @return string  The output of the view
+     * @param ViewContext	$context A view context object
+     * @return string  The output of the view
      */
-    public function render()
+    protected function _actionRender(ViewContext $context)
     {
-        //Set the filename
-        $filename = $this->getObject('lib:filter.filename')->sanitize($this->_properties['FN']);
-        $this->filename = !empty($filename) ? $filename.'.vcf' : 'vcard.vcf';
-
         //Render the vcard
         $data   = 'BEGIN:VCARD';
         $data   .= "\r\n";
@@ -74,7 +71,18 @@ class ViewVcard extends ViewFile
         $data   .= "\r\n";
 
         $this->setContent($data);
-        parent::render();
+
+        parent::_actionRender($context);
+    }
+
+    /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle()
+    {
+        return !empty($this->_properties['FN']) ? $this->_properties['FN'] : 'vcard';
     }
 
     /**

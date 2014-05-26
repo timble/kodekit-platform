@@ -17,18 +17,27 @@ use Nooku\Library;
  */
 class PagesViewModulesHtml extends Library\ViewHtml
 {
-	public function render()
+    protected function _actionRender(Library\ViewContext $context)
 	{
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
 		{
-		    foreach($this->getModel()->getRowset() as $module)
+		    foreach($this->getModel()->fetch() as $module)
 		    {
-                $path = Library\ClassLoader::getInstance()->getApplication($module->application);
+                $path =  $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
-		} 
+		}
 
-        return parent::render();
+        //Load a unique list of module positions
+        $positions = array();
+        $modules = $this->getObject('com:pages.model.modules')->application('site')->fetch();
+        foreach($modules as $module) {
+            $positions[] = $module->position;
+        }
+
+        $this->positions = array_unique($positions);
+
+        return parent::_actionRender($context);
 	}
 }

@@ -29,9 +29,8 @@ class TemplateHelperDate extends TemplateHelperAbstract
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
-            'format'   => $this->getTemplate()->getFormat() == 'rss' ? Date::RSS : $this->translate('DATE_FORMAT_LC1'),
-            'default'  => '',
-            'attribs'  => array()
+            'format'   => $this->getTemplate()->getFormat() == 'rss' ? \DateTime::RSS : $this->translate('DATE_FORMAT_LC1'),
+            'default'  => ''
         ));
 
         $return = $config->default;
@@ -40,15 +39,11 @@ class TemplateHelperDate extends TemplateHelperAbstract
         {
             try 
             {
-                $attribs = $this->buildAttributes($config->attribs);
-
-                $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = $this->getObject('lib:date', array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
-                $return = '<time datetime="'.$date->format('Y-m-d').'" '.$attribs.'>';
-                $return .= $date->format($config->format);
-                $return .= '</time>';
-            }
+                $return = $date->format($config->format);
+            } 
             catch(\Exception $e) {}
         }
 
@@ -65,23 +60,19 @@ class TemplateHelperDate extends TemplateHelperAbstract
     {
         $config = new ObjectConfig($config);
         $config->append(array(
-            'date'            => 'now',
-            'timezone'        => date_default_timezone_get(),
-            'default'         => $this->translate('Never'),
-            'smallest_period' => 'second'
+            'date'      => 'now',
+            'timezone'  => date_default_timezone_get(),
+            'default'   => $this->translate('Never'),
+            'period'    => 'second'
         ));
 
         $result = $config->default;
 
         if(!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00')))
         {
-            $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-            $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
-            $now     = new \DateTime();
-
             try
             {
-                $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = $this->getObject('lib:date', array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $result = $date->humanize($config->period);

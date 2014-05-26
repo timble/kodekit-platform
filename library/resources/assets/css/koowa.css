@@ -12,31 +12,6 @@
     padding: 5px;
 }
 
-.-koowa-pagination .limit {
-    float: left;
-}
-
-.-koowa-pagination .count {
-    padding:3px 0 0 10px;
-    float: left;
-}
-
-.-koowa-pagination .pages {
-    margin:0px;
-    padding:3px 0 0 0;
-    float: left;
-}
-
-.-koowa-pagination .active {
-    font-weight: bold;
-}
-
-.-koowa-pagination li {
-    display:inline;
-    margin:0;
-    padding:4px;
-}
-
 .-koowa-asc .-koowa-grid-arrow  { background-image: url(../images/sort_asc.png); }
 .-koowa-desc .-koowa-grid-arrow { background-image: url(../images/sort_desc.png); }
 a.-koowa-asc  { background: url(../images/sort_asc.png) no-repeat right; padding-right: 10px;}

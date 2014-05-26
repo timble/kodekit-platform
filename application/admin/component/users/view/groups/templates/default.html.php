@@ -43,7 +43,7 @@
             <? foreach($groups as $group) : ?>
                 <tr>
                     <td align="center">
-                        <?= helper('grid.checkbox', array('row' => $group)) ?>
+                        <?= helper('grid.checkbox', array('entity' => $group)) ?>
                     </td>
                     <td>
                         <a href="<?= route('view=group&id='.$group->id) ?>">

@@ -15,33 +15,28 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Controller
  */
-abstract class ControllerToolbarDecorator extends ObjectDecorator implements ControllerToolbarInterface, CommandInterface
+abstract class ControllerToolbarDecorator extends ObjectDecorator implements ControllerToolbarInterface, CommandHandlerInterface
 {
     /**
-     * Command handler
+     * Execute the command handler
      *
-     * This function translates the command name to a command handler function of the format '_beforeController[Command]'
-     * or '_afterController[Command]. Command handler functions should be declared protected.
+     * This function translates the command name to a command handler function of the format '_before[Command]'
+     * or '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param 	string           $name	    The command name
-     * @param 	CommandContext  $context 	The command context
+     * @param CommandInterface         $command    The command
+     * @param CommandChainInterface    $chain      The chain executing the command
      * @return 	boolean Always returns TRUE
      */
-    final public function execute($name, CommandContext $context)
+    final public function execute(CommandInterface $command, CommandChainInterface $chain)
     {
-        $identifier = clone $context->getSubject()->getIdentifier();
-        $type = array_shift($identifier->path);
-
-        $parts  = explode('.', $name);
-        $method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
+        $parts  = explode('.', $command->getName());
+        $method = '_'.$parts[0].ucfirst($parts[1]);
 
         if(method_exists($this, $method)) {
-            $this->$method($context);
+            $this->$method($command);
         } else {
-            $this->getDelegate()->execute($name, $context);
+            $this->getDelegate()->execute($command, $chain);
         }
-
-        return true;
     }
 
     /**
@@ -63,8 +58,8 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
         {
             if($controller->hasToolbar($delegate->getType()))
             {
-                $controller->detachToolbar($delegate);
-                $controller->attachToolbar($this);
+                $controller->removeToolbar($delegate);
+                $controller->addToolbar($this);
             }
         }
 

@@ -27,7 +27,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Template object
      *
-     * @var object
+     * @var TemplateInterface
      */
     protected $_template;
 
@@ -59,7 +59,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         $config->append(array(
             'template' => null,
-            'priority' => TemplateFilter::PRIORITY_NORMAL,
+            'priority' => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -158,8 +158,8 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         $output = array();
 
-        if ($array instanceof KConfig) {
-            $array = KConfig::unbox($array);
+        if ($array instanceof ObjectConfig) {
+            $array = ObjectConfig::unbox($array);
         }
 
         if (is_array($array))

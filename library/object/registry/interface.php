@@ -29,7 +29,7 @@ interface ObjectRegistryInterface
      * Set an object in the registry
      *
      * @param  ObjectIdentifier $identifier
-     * @param  mxixed           $data
+     * @param  mixed           $data
      * @return ObjectRegistryInterface
      */
     public function set(ObjectIdentifier $identifier, $data = null);
@@ -58,13 +58,21 @@ interface ObjectRegistryInterface
     public function clear();
 
     /**
+     * Try to find an object based on an identifier string
+     *
+     * @param   mixed  $identifier
+     * @return  ObjectIdentifier  An ObjectIdentifier or NULL if the identifier does not exist.
+     */
+    public function find($identifier);
+
+    /**
      * Register an alias for an identifier
      *
-     * @param mixed $alias      The alias
      * @param ObjectIdentifier  $identifier
+     * @param mixed $alias      The alias
      * @return ObjectRegistry
      */
-    public function alias($alias, ObjectIdentifier $identifier);
+    public function alias(ObjectIdentifier $identifier, $alias);
 
     /**
      * Get a list of all the identifier aliases

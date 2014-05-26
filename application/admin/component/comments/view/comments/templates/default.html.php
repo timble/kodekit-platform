@@ -8,48 +8,68 @@
  */
 ?>
 
-<style src="assets://comments/css/comments-default.css" />
+<script src="assets://js/koowa.js" />
+<style src="assets://css/koowa.css" />
 
-<div id="list" class="-koowa-box-flex">
-	<form action="<?= route()?>" method="post" name="adminForm">
-		<table class="adminlist" style="clear: both;">
-			<thead>
-				<tr>
-					<th width="20">
-						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($comments); ?>);" />
-					</th>
-					<th>
-						<?= helper('grid.sort', array('column' => 'table')); ?>
-					</th>
-					<th>
-						<?= helper('grid.sort', array('column' => 'row', 'title' => 'Ticket ID')); ?>
-					</th>
-					<th>
-						<?= helper('grid.sort', array('column' => 'created_by')); ?>
-					</th>
-					<th>
-						<?= helper('grid.sort', array('column' => 'text')); ?>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-			<? if (count($comments)) : ?>
-				<?= import('default_comments.html'); ?>
-			<? else : ?>
-				<tr>
-					<td colspan="5" align="center">
-						<?= translate('No items found'); ?>
-					</td>
-				</tr>
-			<? endif; ?>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="20">
-						<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
-					</td>
-				</tr>
-			</tfoot>
-		</table>
-	</form>
-</div>
+<ktml:module position="actionbar">
+    <ktml:toolbar type="actionbar">
+</ktml:module>
+
+<form action="" method="get" class="-koowa-grid">
+    <?= import('default_scopebar.html'); ?>
+    <table>
+        <thead>
+            <tr>
+                <th width="1">
+                    <?= helper('grid.checkall') ?>
+                </th>
+                <th>
+                    <?= helper('grid.sort', array('column' => 'created_on', 'title' => 'Date')); ?>
+                </th>
+                <th>
+                    <?= translate('From') ?>
+                </th>
+                <th>
+                    <?= translate('On') ?>
+                </th>
+                <th>
+                    <?= translate('Comment') ?>
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="20">
+                <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <? foreach ($comments as $comment) : ?>
+            <tr>
+                <td align="center">
+                    <?= helper('grid.checkbox', array('entity' => $comment)); ?>
+                </td>
+                <td>
+                    <?= helper('date.humanize', array('date' => $comment->created_on)) ?>
+                </td>
+                <td>
+                    <a href="<?= route('option=com_users&view=user&id='.$comment->created_by) ?>">
+                        <?= escape($comment->created_by_name); ?>
+                    </a>
+                </td>
+                <td>
+                    <a href="<?= route('option=com_'.$comment->table.'&view='.$comment->table.'&id='.$comment->row); ?>">
+                        <?= escape($comment->title); ?>
+                    </a>
+                </td>
+                <td style="width: 100%" class="ellipsis">
+                    <a href="<?= route('view=comment&id='.$comment->id); ?>">
+                        <?= escape(strip_tags($comment->text)); ?>
+                    </a>
+                </td>
+            </tr>
+        <? endforeach; ?>
+        </tbody>
+    </table>
+</form>

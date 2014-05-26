@@ -17,25 +17,24 @@ namespace Nooku\Library;
  */
 class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 {
-	/**
-	 * Get the methods that are available for mixin based
-	 *
-	 * This functions conditionaly mixes the behavior. Only if the mixer
-	 * has a 'ordering' property the behavior will be mixed in.
-	 *
-	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
-	 * @return array An array of methods
-	 */
-	public function getMixableMethods(ObjectMixable $mixer = null)
-	{
-		$methods = array();
+    /**
+     * Check if the behavior is supported
+     *
+     * Behavior requires a 'ordering' row property
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $mixer = $this->getMixer();
+        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
 
-		if($mixer instanceof DatabaseRowInterface && $mixer->has('ordering')) {
-			$methods = parent::getMixableMethods($mixer);
-		}
+        if($table->hasColumn('ordering'))  {
+            return true;
+        }
 
-		return $methods;
-	}
+        return false;
+    }
 
 	/**
 	 * Override to add a custom WHERE clause
@@ -62,7 +61,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an 'ordering' column
 	 *
-	 * @param	integer	Amount to move up or down
+	 * @param	integer	$change Amount to move up or down
 	 * @return 	DatabaseRowAbstract
 	 */
 	public function order($change)
@@ -107,13 +106,12 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 		return $this->getMixer();
 	}
 
-	 /**
+	/**
      * Resets the order of all rows
      * 
-     * Resetting starts at $base to allow creating space in sequence for later 
-     * record insertion.
+     * Resetting starts at $base to allow creating space in sequence for later  record insertion.
      *
-     * @param	integer 	Order at which to start resetting.
+     * @param	integer $base Order at which to start resetting.
      * @return	DatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
@@ -163,14 +161,13 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
  	/**
      * Saves the row to the database.
      *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
      *
-     * @return DatabaseRowAbstract
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _beforeTableInsert(CommandContext $context)
+    protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->has('ordering'))
+        if($this->hasProperty('ordering'))
         {
             if($this->ordering <= 0) {
                 $this->ordering = $this->getMaxOrdering() + 1;
@@ -184,11 +181,11 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position.
      *
-     * @param   CommandContext Context
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _beforeTableUpdate(CommandContext $context)
+    protected function _beforeUpdate(DatabaseContext $context)
     {
-        if(isset($this->order) && $this->has('ordering')) {
+        if(isset($this->order) && $this->hasProperty('ordering')) {
             $this->order($this->order);
         }
     }
@@ -196,9 +193,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     /**
      * Clean up the ordering after an item was deleted
      *
-     * @param   CommandContext Context
+     * @param DatabaseContext	$context A database context object
      */
-    protected function _afterTableDelete(CommandContext $context)
+    protected function _afterDelete(DatabaseContext $context)
     {
         $this->reorder();
     }
