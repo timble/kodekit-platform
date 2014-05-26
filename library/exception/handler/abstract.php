@@ -108,7 +108,7 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
         $config->append(array(
             'exception_handlers' => array(),
             'exception_type'     => self::TYPE_ALL,
-            'exception_level'    => self::ERROR_REPORTING,
+            'error_level'        => self::ERROR_REPORTING,
             'error_operator'     => true
         ));
 
