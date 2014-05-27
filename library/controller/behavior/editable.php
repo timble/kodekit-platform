@@ -195,7 +195,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     protected function _unsetReferrer(ControllerContextInterface $context)
     {
-        $context->response->headers->clearCookie($this->_cookie_name, $this->_cookie_path);
+        if($context->result->getStatus() !== ModelEntityInterface::STATUS_FAILED) {
+            $context->response->headers->clearCookie($this->_cookie_name, $this->_cookie_path);
+        }
     }
 
     /**
@@ -332,7 +334,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function wraps around the edit or add action. If the model state is unique a edit action will be
      * executed, if not unique an add action will be executed.
      *
-     * This function also sets the redirect to the referrer.
+     * This function also sets the redirect to the referrer if the action succeeds and will redirect to the
+     * current url if the edit/add action fails while setting the status message.
      *
      * @param   ControllerContextInterface  $context A controller context object
      * @return  ModelEntityInterface
@@ -343,7 +346,14 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $entity = $context->getSubject()->execute($action, $context);
 
         //Create the redirect
-        $context->response->setRedirect($this->getReferrer($context));
+        if($entity->getStatus() === ModelEntityInterface::STATUS_FAILED)
+        {
+            $url     = $context->request->getReferrer();
+            $message = $entity->getStatusMessage() ? $entity->getStatusMessage() : ucfirst($action).' Action Failed';
+
+            $context->response->setRedirect($url, $message, ControllerResponseInterface::FLASH_ERROR);
+        }
+        else  $context->response->setRedirect($this->getReferrer($context));
 
         return $entity;
     }
@@ -354,7 +364,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function wraps around the edit or add action. If the model state is unique a edit action will be
      * executed, if not unique an add action will be executed.
      *
-     * This function also sets the redirect to the current url
+     * This function also sets the redirect to the current url for 'add' actions and will redirect to current
+     * url if the edit/add action fails while setting the status message.
      *
      * @param    ControllerContextInterface  $context A controller context object
      * @return   ModelEntityInterface
@@ -364,16 +375,26 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
 
-        if($action == 'add')
+        if($entity->getStatus() !== ModelEntityInterface::STATUS_FAILED)
         {
-            $url = $this->getReferrer($context);
-            if ($entity instanceof ModelEntityInterface) {
-                $url = $context->response->headers->get('Location');
-            }
+            if($action == 'add')
+            {
+                $url = $this->getReferrer($context);
+                if ($entity instanceof ModelEntityInterface) {
+                    $url = $context->response->headers->get('Location');
+                }
 
-            $context->response->setRedirect($url);
+                $context->response->setRedirect($url);
+            }
+            else $context->response->setStatus(HttpResponse::NO_CONTENT);
         }
-        else $context->response->setStatus(HttpResponse::NO_CONTENT);
+        else
+        {
+            $url     = $context->request->getReferrer();
+            $message = $entity->getStatusMessage() ? $entity->getStatusMessage() : ucfirst($action).' Action Failed';
+
+            $context->response->setRedirect($url, $message, ControllerResponseInterface::FLASH_ERROR);
+        }
 
         return $entity;
     }
