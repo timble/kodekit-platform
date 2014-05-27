@@ -22,7 +22,7 @@ class ModelEntityCategories extends ModelEntityNodes
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'status'          => self::STATUS_LOADED,
+            'status'          => self::STATUS_FETCHED,
             'identity_column' => 'id'
         ));
 

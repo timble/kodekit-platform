@@ -395,7 +395,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
             $this->__new = true;
         }
 
-        if($status === Database::STATUS_LOADED) {
+        if($status === Database::STATUS_FETCHED) {
             $this->__new = false;
         }
 

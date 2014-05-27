@@ -20,7 +20,7 @@ interface ModelEntityInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     /**
      * Entity States
      */
-    const STATUS_LOADED   = 'loaded';
+    const STATUS_FETCHED  = 'fetched';
     const STATUS_DELETED  = 'deleted';
     const STATUS_CREATED  = 'created';
     const STATUS_UPDATED  = 'updated';
