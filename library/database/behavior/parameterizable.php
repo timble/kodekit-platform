@@ -82,10 +82,15 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
                 $data   = $this->getProperty($this->_column);
 
                 //Create the parameters object
-                if(empty($data)) {
-                    $config = $this->getObject('object.config.factory')->createFormat($type[0]);
-                } else {
-                    $config = $this->getObject('object.config.factory')->fromString($type[0], $data);
+                $config = $this->getObject('object.config.factory')->createFormat($type[0]);
+
+                if(!empty($data))
+                {
+                    if (is_string($data)) {
+                        $config->fromString(trim($data));
+                    } else {
+                        $config->append($data);
+                    }
                 }
 
                 $this->_parameters[$handle] = $config;
@@ -142,7 +147,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     protected function _beforeInsert(DatabaseContext $context)
     {
         $method = 'get'.ucfirst($this->_column);
-        if($context->data->$method() instanceof KObjectConfigInterface) {
+        if($context->data->$method() instanceof ObjectConfigInterface) {
             $context->data->setProperty($this->_column, $context->data->$method()->toString());
         }
     }
@@ -156,7 +161,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     protected function _beforeUpdate(DatabaseContext $context)
     {
         $method = 'get'.ucfirst($this->_column);
-        if($context->data->$method() instanceof KObjectConfigInterface) {
+        if($context->data->$method() instanceof ObjectConfigInterface) {
             $context->data->setProperty($this->_column, $context->data->$method()->toString());
         }
     }
