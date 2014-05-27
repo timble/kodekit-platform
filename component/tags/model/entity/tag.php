@@ -40,7 +40,7 @@ class ModelEntityTag extends Library\ModelEntityRow
 		//Delete the relation
 		if($this->row && $this->table)
  		{
-			$relation = $this->getObject('com:tags.model.entity.relation', array('status' => Database::STATUS_LOADED));
+			$relation = $this->getObject('com:tags.model.entity.relation', array('status' => Database::STATUS_FETCHED));
 			$relation->tags_tag_id = $this->id;
 	   		$relation->row		   = $this->row;
 			$relation->table	   = $this->table;
