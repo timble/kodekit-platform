@@ -409,7 +409,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Allow casting of the identifiier to a string
+     * Allow casting of the identifier to a string
      *
      * @return string
      */
