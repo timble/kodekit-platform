@@ -84,12 +84,6 @@ class ClassLoader implements ClassLoaderInterface
 
         //Register the loader with the PHP autoloader
         $this->register();
-
-        //Register the component locator
-        $this->registerLocator(new ClassLocatorComponent($config));
-
-        //Register the composer locator
-        $this->registerLocator(new ClassLocatorComposer($config));
     }
 
     /**
@@ -112,8 +106,15 @@ class ClassLoader implements ClassLoaderInterface
     {
         static $instance;
 
-        if ($instance === NULL) {
+        if ($instance === NULL)
+        {
             $instance = new self($config);
+
+            //Register the component locator
+            $instance->registerLocator(new ClassLocatorComponent($config));
+
+            //Register the composer locator
+            $instance->registerLocator(new ClassLocatorComposer($config));
         }
 
         return $instance;
