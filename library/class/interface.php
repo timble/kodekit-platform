@@ -106,11 +106,12 @@ interface ClassLoaderInterface
     /**
      * Register a basepath by name
      *
-     * @param string $name The name of the basepath
-     * @param string $path The path
+     * @param string  $name The name of the basepath
+     * @param string  $path The path
+     * @param boolean $default TRUE if this is the default basepath to be used, false otherwise.
      * @return void
      */
-    public function registerBasepath($name, $path);
+    public function registerBasepath($name, $path, $default = false);
 
     /**
      * Get a basepath by name
@@ -121,7 +122,7 @@ interface ClassLoaderInterface
     public function getBasepath($name);
 
     /**
-     * Set the active basepath by name
+     * Set the default basepath by name
      *
      * @param string $name The name base path
      * @return ClassLoaderInterface

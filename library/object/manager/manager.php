@@ -676,9 +676,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     protected function _locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        //Set the basepath based on the identifiers domain
-        $this->getClassLoader()->setBasepath($identifier->domain);
-
         return $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
     }
 

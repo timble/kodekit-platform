@@ -20,11 +20,10 @@ interface ClassLocatorInterface
     /**
      * Get the path based on a class name
      *
-     * @param  string $classname    The class name
-     * @param  string $basepath     The base path
-     * @return string|false         Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param  string $class    The class name
+     * @return string|false      Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($classname, $basepath = null);
+    public function locate($class);
 
     /**
      * Register a namespace

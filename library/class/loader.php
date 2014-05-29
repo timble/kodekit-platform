@@ -51,7 +51,7 @@ class ClassLoader implements ClassLoaderInterface
      *
      * @var  string
      */
-    protected $_basepath = null;
+    protected $_basepath = 'nooku';
 
     /**
      * Debug
@@ -222,7 +222,7 @@ class ClassLoader implements ClassLoaderInterface
             foreach($this->_locators as $locator)
             {
                 $path = $this->getBasepath($basepath);
-                if(false !== $result = $locator->locate($class, $path)) {
+                if(false !== $result = $locator->locate($class)) {
                     break;
                 };
             }
@@ -322,13 +322,18 @@ class ClassLoader implements ClassLoaderInterface
     /**
      * Register a basepath by name
      *
-     * @param string $name The name of the basepath
-     * @param string $path The path
+     * @param string  $name The name of the basepath
+     * @param string  $path The path
+     * @param boolean $default TRUE if this is the default basepath to be used, false otherwise.
      * @return void
      */
-    public function registerBasepath($name, $path)
+    public function registerBasepath($name, $path, $default = false)
     {
         $this->_basepaths[$name] = $path;
+
+        if($default) {
+            $this->setBasepath($name);
+        }
     }
 
     /**
@@ -343,7 +348,7 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Set the active basepath by name
+     * Set the default basepath by name
      *
      * @param string $name The name base path
      * @return ClassLoader
