@@ -69,14 +69,18 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
+        $domain  = $identifier->domain ? ucfirst($identifier->domain) : 'Nooku';
         $package = ucfirst($identifier->package);
+
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $file    = ucfirst($identifier->name);
+
         $class   = $path.$file;
 
         $info = array(
             'class'   => $class,
             'package' => $package,
+            'domain'  => $domain,
             'path'    => $path,
             'file'    => $file
         );
@@ -98,9 +102,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         //Find the class
         foreach($this->_sequence as $template)
         {
-            $class= str_replace(
-                array('<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
-                array($info['package'], $info['path'], $info['file'], $info['class']),
+            $class = str_replace(
+                array('<Domain>',      '<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
+                array($info['domain'], $info['package'], $info['path'], $info['file'], $info['class']),
                 $template
             );
 

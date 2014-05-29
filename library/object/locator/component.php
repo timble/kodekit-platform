@@ -37,8 +37,8 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         $config->append(array(
             'sequence' => array(
                 '<Package><Class>',
-                'Nooku\Component\<Package>\<Class>',
-                'Nooku\Component\<Package>\<Path><File>',
+                '<Domain>\Component\<Package>\<Class>',
+                '<Domain>\Component\<Package>\<Path><File>',
                 'Nooku\Library\<Path><File>',
                 'Nooku\Library\<Path>Default',
             )
@@ -54,14 +54,16 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
+        $domain  = $identifier->domain ? ucfirst($identifier->domain) : 'Nooku';
+        $package = ucfirst($identifier->package);
+
+        $file    = ucfirst($identifier->name);
+        $path  = $identifier->path;
+
         $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
-        $package = ucfirst($identifier->package);
-        $file    = ucfirst($identifier->name);
-
         //Make an exception for 'view' and 'module' types
-        $path  = $identifier->path;
-        $type  = !empty($path) ? array_shift($path) : '';
+        $type = !empty($path) ? array_shift($path) : '';
 
         if(!in_array($type, array('view','module'))) {
             $path = ucfirst($type).StringInflector::camelize(implode('_', $path));
@@ -79,6 +81,7 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         $info = array(
             'class'   => $class,
             'package' => $package,
+            'domain'  => $domain,
             'path'    => $path,
             'file'    => $file
         );

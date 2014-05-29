@@ -36,8 +36,8 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     {
         $config->append(array(
             'sequence' => array(
-                'Nooku\Library\<Package><Class>',
-                'Nooku\Library\<Package><Path>Default',
+                '<Domain>\Library\<Package><Class>',
+                '<Domain>\Library\<Package><Path>Default',
             )
         ));
     }
