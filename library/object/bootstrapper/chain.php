@@ -50,7 +50,7 @@ class ObjectBootstrapperChain extends ObjectBootstrapperAbstract
     }
 
     /**
-     * Add a bootsstrapper to the queue based on priority
+     * Add a bootstrapper to the queue based on priority
      *
      * @param ObjectBootstrapperInterface $bootstrapper A bootstrapper object
      * @param integer	            $priority   The bootstrapper priority, usually between 1 (high priority) and 5 (lowest),
