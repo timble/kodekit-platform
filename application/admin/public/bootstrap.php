@@ -53,9 +53,8 @@ Library\ClassLoader::getInstance()->registerBasepath('admin', JPATH_ROOT.'/appli
 //Setup the component locator
 Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
     array(
-        '\\'              => JPATH_APPLICATION.'/component',
-        'Nooku\Component' => JPATH_ROOT.'/component',
-        'Acme\Component'  => JPATH_VENDOR.'/acme/component'
+        '\\'               => JPATH_APPLICATION.'/component',
+        'Nooku\Component'  => JPATH_ROOT.'/component',
     )
 );
 
