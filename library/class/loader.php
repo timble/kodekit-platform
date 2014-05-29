@@ -84,7 +84,7 @@ class ClassLoader implements ClassLoaderInterface
         }
 
         //Register the library locator
-        $this->registerLocator(new ClassLocatorLibrary());
+        $this->registerLocator(new ClassLocatorLibrary($config));
 
         //Register the Nooku\Library namesoace
         $this->getLocator('library')->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
@@ -93,10 +93,10 @@ class ClassLoader implements ClassLoaderInterface
         $this->register();
 
         //Register the component locator
-        $this->registerLocator(new ClassLocatorComponent());
+        $this->registerLocator(new ClassLocatorComponent($config));
 
-        //Register the standard locator
-        $this->registerLocator(new ClassLocatorStandard());
+        //Register the composer locator
+        $this->registerLocator(new ClassLocatorComposer($config));
     }
 
     /**

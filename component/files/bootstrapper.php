@@ -27,9 +27,6 @@ use Nooku\Library;
                  'com:files.model.entity.directories'  => 'com:files.model.entity.folders',
                  'com:files.model.entity.directory'    => 'com:files.model.entity.folder',
              ),
-             'namespaces' => array(
-                 'standard' => array('Imagine' =>  JPATH_VENDOR.'/imagine/imagine/lib')
-             )
          ));
 
          parent::_initialize($config);

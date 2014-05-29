@@ -40,7 +40,8 @@ require_once(JPATH_ROOT . '/library/nooku.php');
 \Nooku::getInstance(array(
     'debug'           => $config->debug,
     'cache_namespace' => 'admin',
-    'cache_enabled'   =>  $config->caching
+    'cache_enabled'   =>  $config->caching,
+    'vendor_path'     => JPATH_VENDOR
 ));
 
 unset($config);
@@ -54,6 +55,7 @@ Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
     array(
         '\\'              => JPATH_APPLICATION.'/component',
         'Nooku\Component' => JPATH_ROOT.'/component',
+        'Acme\Component'  => JPATH_VENDOR.'/acme/component'
     )
 );
 

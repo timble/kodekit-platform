@@ -40,7 +40,8 @@ require_once(JPATH_ROOT . '/library/nooku.php');
 \Nooku::getInstance(array(
     'debug'           => $config->debug,
     'cache_namespace' => 'site',
-    'cache_enabled'   => $config->caching
+    'cache_enabled'   => $config->caching,
+    'vendor_path'     => JPATH_VENDOR
 ));
 
 unset($config);
