@@ -47,13 +47,6 @@ class ClassLoader implements ClassLoaderInterface
     protected $_basepaths = array();
 
     /**
-     * The active basepath name
-     *
-     * @var  string
-     */
-    protected $_basepath = 'nooku';
-
-    /**
      * Debug
      *
      * @var boolean
@@ -159,7 +152,7 @@ class ClassLoader implements ClassLoaderInterface
         $result = false;
 
         //Get the path
-        $path = $this->getPath( $class, $this->_basepath);
+        $path = $this->getPath( $class );
 
         if ($path !== false)
         {
@@ -206,31 +199,26 @@ class ClassLoader implements ClassLoaderInterface
      * Get the path based on a class name
      *
      * @param string $class    The class name
-     * @param string $basepath The basepath name
      * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $basepath = null)
+    public function getPath($class)
     {
         $result = false;
 
-        //Switch the basepath
-        $prefix = $basepath ? $basepath : $this->_basepath;
-
-        if(!$this->_registry->has($prefix.'-'.$class))
+        if(!$this->_registry->has($class))
         {
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                $path = $this->getBasepath($basepath);
                 if(false !== $result = $locator->locate($class)) {
                     break;
                 };
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
-            $this->_registry->set($prefix.'-'.$class, $result);
+            $this->_registry->set($class, $result);
 
-        } else $result = $this->_registry->get($prefix.'-'.$class);
+        } else $result = $this->_registry->get($class);
 
         return $result;
     }
@@ -240,13 +228,11 @@ class ClassLoader implements ClassLoaderInterface
      *
      * @param string $class    The class name
      * @param string $path     The class path
-     * @param string $basepath The basepath name
      * @return void
      */
-    public function setPath($class, $path, $basepath = null)
+    public function setPath($class, $path)
     {
-        $prefix = $basepath ? $basepath : $this->_basepath;
-        $this->_registry->set($prefix.'-'.$class, $path);
+        $this->_registry->set($class, $path);
     }
 
     /**
@@ -330,10 +316,6 @@ class ClassLoader implements ClassLoaderInterface
     public function registerBasepath($name, $path, $default = false)
     {
         $this->_basepaths[$name] = $path;
-
-        if($default) {
-            $this->setBasepath($name);
-        }
     }
 
     /**
@@ -345,18 +327,6 @@ class ClassLoader implements ClassLoaderInterface
     public function getBasepath($name)
     {
         return isset($this->_basepaths[$name]) ? $this->_basepaths[$name] : null;
-    }
-
-    /**
-     * Set the default basepath by name
-     *
-     * @param string $name The name base path
-     * @return ClassLoader
-     */
-    public function setBasepath($name)
-    {
-        $this->_basepath = $name;
-        return $this;
     }
 
     /**

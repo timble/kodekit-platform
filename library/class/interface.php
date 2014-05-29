@@ -55,20 +55,18 @@ interface ClassLoaderInterface
      * Get the path based on a class name
      *
      * @param string $class    The class name
-     * @param string $basepath The basepath name
-     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @return string|boolean  Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $basepath = null);
+    public function getPath($class);
 
     /**
      * Set the path based for a class
      *
      * @param string $class    The class name
      * @param string $path     The class path
-     * @param string $basepath The basepath name
      * @return void
      */
-    public function setPath($class, $path, $basepath = null);
+    public function setPath($class, $path);
 
     /**
      * Register a class locator
@@ -108,10 +106,9 @@ interface ClassLoaderInterface
      *
      * @param string  $name The name of the basepath
      * @param string  $path The path
-     * @param boolean $default TRUE if this is the default basepath to be used, false otherwise.
      * @return void
      */
-    public function registerBasepath($name, $path, $default = false);
+    public function registerBasepath($name, $path);
 
     /**
      * Get a basepath by name
@@ -120,14 +117,6 @@ interface ClassLoaderInterface
      * @return string The path of the application
      */
     public function getBasepath($name);
-
-    /**
-     * Set the default basepath by name
-     *
-     * @param string $name The name base path
-     * @return ClassLoaderInterface
-     */
-    public function setBasepath($name);
 
     /**
      * Get a list of basepaths
