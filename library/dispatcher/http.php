@@ -151,7 +151,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * @param DispatcherContextInterface $context	A dispatcher context object
      * @return ModelEntityInterface
      */
-    protected function _actionHead(KDispatcherContextInterface $context)
+    protected function _actionHead(DispatcherContextInterface $context)
     {
         return $this->execute('get', $context);
     }

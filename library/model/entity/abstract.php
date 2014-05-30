@@ -352,7 +352,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
             $this->__new = true;
         }
 
-        if($status === Database::STATUS_LOADED) {
+        if($status === Database::STATUS_FETCHED) {
             $this->__new = false;
         }
 

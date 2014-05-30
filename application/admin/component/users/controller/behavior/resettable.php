@@ -58,21 +58,17 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
                 $site_name = \JFactory::getConfig()->getValue('sitename');
+                $subject   = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
 
-                $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
                 // TODO Fix when language package is re-factored.
                 //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
                 $message = $url;
 
-                if (!$entity->notify(array('subject' => $subject, 'message' => $message)))
-                {
+                if (!$entity->notify(array('subject' => $subject, 'message' => $message))) {
                     $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
                 }
             }
-            else
-            {
-                $context->response->addMessage('Unable to get a password reset URL', 'error');
-            }
+            else $context->response->addMessage('Unable to get a password reset URL', 'error');
         }
     }
 }

@@ -332,7 +332,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 
         //Get the row status
         $status = $this->getStatus();
-        if ($status == Library\Database::STATUS_LOADED) {
+        if ($status == Library\Database::STATUS_FETCHED) {
             $status = Library\Database::STATUS_CREATED;
         }
 
