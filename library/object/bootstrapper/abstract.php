@@ -18,18 +18,18 @@ namespace Nooku\Library;
 abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootstrapperInterface
 {
     /**
+     * The object manager
+     *
+     * @var ObjectManagerInterface
+     */
+    private $__object_manager;
+
+    /**
      * The bootstrapper priority
      *
      * @var integer
      */
     protected $_priority;
-
-    /**
-     * The object manager
-     *
-     * @var ObjectManagerInterface
-     */
-    protected $_object_manager;
 
     /**
      * Constructor.
@@ -40,8 +40,8 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     {
         parent::__construct($config);
 
-        $this->_priority       = $config->priority;
-        $this->_object_manager = $config->object_manager;
+        $this->_priority        = $config->priority;
+        $this->__object_manager = $config->object_manager;
     }
 
     /**
@@ -55,7 +55,7 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => self::PRIORITY_NORMAL,
+            'priority'    => self::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -68,17 +68,7 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
      */
     public function getObjectManager()
     {
-        return $this->_object_manager;
-    }
-
-    /**
-     * Get the class loader
-     *
-     * @return ClassLoaderInterface
-     */
-    public function getClassLoader()
-    {
-        return $this->getObjectManager()->getClassLoader();
+        return $this->__object_manager;
     }
 
     /**
