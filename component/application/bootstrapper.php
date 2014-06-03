@@ -19,87 +19,16 @@ use Nooku\Library;
  */
 class Bootstrapper extends Library\ObjectBootstrapperComponent
 {
-    /**
-     * Constructor.
-     *
-     * @param Library\ObjectConfig $config An optional ObjectConfig object with configuration options
-     */
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_directory = $config->directory;
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  Library\ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
-     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'directory' => '',
+            'priority' => self::PRIORITY_LOW,
+            'aliases'  => array(
+                'application'                    => 'com:application.dispatcher.http',
+                'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
+            ),
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Bootstrap the application
-     *
-     * @return void
-     */
-    public function bootstrap()
-    {
-        $chain = $this->getObject('lib:object.bootstrapper.chain');
-
-        foreach ($this->getComponents($this->_directory) as $component)
-        {
-            if($bootstrapper = $this->getBootstrapper($component)) {
-                $chain->addBootstrapper($bootstrapper);
-            }
-        }
-
-        $chain->bootstrap();
-
-        parent::bootstrap();
-    }
-
-    public function getComponents($directory)
-    {
-        $components = array();
-        foreach (new \DirectoryIterator($directory) as $dir)
-        {
-            //Only get the component directory names
-            if ($dir->isDot() || !$dir->isDir() || !preg_match('/^[a-zA-Z]+/', $dir->getBasename())) {
-                continue;
-            }
-
-            $components[] = (string) $dir;
-        }
-
-        return $components;
-    }
-
-    public function getBootstrapper($name, $fallback = true)
-    {
-        $bootstrapper = null;
-
-        $identifier = 'com:'.$name.'.bootstrapper';
-        if($this->getObjectManager()->getClass($identifier, $fallback)) {
-            $bootstrapper = $this->getObject($identifier);
-        }
-
-        return $bootstrapper;
-    }
-
-    public function getHandle()
-    {
-        //Prevent recursive bootstrapping
-        return null;
     }
 }

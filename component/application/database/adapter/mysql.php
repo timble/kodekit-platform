@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Component\Application;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql
+class DatabaseAdapterMysql extends Library\DatabaseAdapterMysql
 {
 	/**
 	 * Constructor

@@ -23,11 +23,9 @@ class ApplicationBootstrapper extends Application\Bootstrapper
          $config->append(array(
              'priority' => self::PRIORITY_LOW,
              'aliases'  => array(
-                 'application'                    => 'com:application.dispatcher.http',
                  'application.languages'          => 'com:application.model.entity.languages',
                  'application.pages'              => 'com:application.model.entity.pages',
                  'application.modules'            => 'com:application.model.entity.modules',
-                 'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
                  'lib:template.locator.component' => 'com:application.template.locator.component',
              ),
          ));
