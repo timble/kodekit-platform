@@ -81,17 +81,13 @@ class ClassLocatorComponent extends ClassLocatorAbstract
             }
 
             $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class)));
-
-            $component = strtolower(array_shift($parts));
-            $file 	   = array_pop($parts);
+            $path  = array_pop($parts);
 
             if(count($parts)){
-                $path = implode('/', $parts).'/'.$file;
-            } else {
-                $path = $file;
+                $path = implode('/', $parts).'/'.$path;
             }
 
-            return $basepath.'/'.$component.'/'.$path.'.php';
+            return $basepath.'/'.$path.'.php';
         }
 
 		return false;
