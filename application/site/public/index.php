@@ -7,12 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-define('JPATH_ROOT'         , realpath($_SERVER['DOCUMENT_ROOT']));
-define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/site');
-define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
-define('JPATH_SITES'        , JPATH_ROOT.'/sites');
-
-define('JPATH_BASE'         , JPATH_APPLICATION );
+define('JPATH_ROOT' , realpath($_SERVER['DOCUMENT_ROOT']));
+define('JPATH_SITES', JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 

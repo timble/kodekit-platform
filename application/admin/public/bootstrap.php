@@ -24,43 +24,45 @@ if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/
 //Don't run in STRICT mode (Joomla is not E_STRICT compat)
 error_reporting(error_reporting() | ~ E_STRICT);
 
-// Joomla : setup
-require_once(JPATH_VENDOR . '/joomla/import.php');
-jimport('joomla.environment.uri');
-jimport('joomla.html.html');
-jimport('joomla.html.parameter');
-jimport('joomla.utilities.utility');
-jimport('joomla.language.language');
-
 // Koowa : setup
 require_once JPATH_ROOT . '/config/config.php';
 $config = new JConfig();
 
 require_once(JPATH_ROOT . '/library/nooku.php');
-\Nooku::getInstance(array(
+$nooku = Nooku::getInstance(array(
     'debug'           => $config->debug,
     'cache_namespace' => 'admin',
     'cache_enabled'   =>  $config->caching,
-    'vendor_path'     => JPATH_VENDOR
+    'base_path'       =>  JPATH_ROOT.'/application/admin'
 ));
 
 unset($config);
 
 //Add application basepaths
-Library\ClassLoader::getInstance()->registerBasepath('site' , JPATH_ROOT.'/application/site/component');
-Library\ClassLoader::getInstance()->registerBasepath('admin', JPATH_ROOT.'/application/admin/component', true);
+Library\ClassLoader::getInstance()->registerBasepath('site' , $nooku->getRootPath().'/application/site/component');
+Library\ClassLoader::getInstance()->registerBasepath('admin', $nooku->getRootPath().'/application/admin/component', true);
 
 //Setup the component locator
 Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
     array(
-        '\\'               => JPATH_APPLICATION.'/component',
-        'Nooku\Component'  => JPATH_ROOT.'/component',
+        '\\'               => $nooku->getBasePath().'/component',
+        'Nooku\Component'  => $nooku->getRootPath().'/component',
     )
 );
 
-Library\ObjectManager::getInstance()->registerLocator('lib:object.locator.component');
+//Bootstrap the application
+Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
+    ->registerBootstrapper('object.bootstrapper.directory',
+        array('directory' => array(
+            $nooku->getRootPath().'/component',
+            $nooku->getBasePath().'/component'
+        ))
+    )->bootstrap();
 
-//Bootstrap the components
-Library\ObjectManager::getInstance()->getObject('com:application.bootstrapper', array(
-    'directory' => JPATH_APPLICATION.'/component'
-))->bootstrap();
+// Joomla : setup
+require_once($nooku->getVendorPath() . '/joomla/import.php');
+jimport('joomla.environment.uri');
+jimport('joomla.html.html');
+jimport('joomla.html.parameter');
+jimport('joomla.utilities.utility');
+jimport('joomla.language.language');
