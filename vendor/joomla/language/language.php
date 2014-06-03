@@ -12,9 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 /**
  * Languages/translation handler class
  *
@@ -242,9 +239,13 @@ class JLanguage extends JObject
 	 * @return	boolean True if the language exists
 	 * @since	1.5
 	 */
-	function exists($lang, $basePath = JPATH_BASE)
+	function exists($lang, $basePath = null)
 	{
 		static	$paths	= array();
+
+        if(!isset($basePath)) {
+            $basePath = \Nooku::getInstance()->getBasePath();
+        }
 
 		// Return false if no language was specified
 		if ( ! $lang ) {
@@ -254,8 +255,7 @@ class JLanguage extends JObject
 		$path	= $basePath.DS.'language'.DS.$lang;
 
 		// Return previous check results if it exists
-		if ( isset($paths[$path]) )
-		{
+		if ( isset($paths[$path]) ){
 			return $paths[$path];
 		}
 
@@ -278,7 +278,7 @@ class JLanguage extends JObject
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function load( $extension = 'application', $file = '', $basePath = JPATH_BASE, $lang = null, $reload = false )
+	function load( $extension = 'application', $file = '', $basePath = null, $lang = null, $reload = false )
 	{
 		if ( ! $lang ) {
 			$lang = $this->_lang;
@@ -287,6 +287,10 @@ class JLanguage extends JObject
 	    if ( !strlen( $extension ) ) {
 			$extension = 'application';
 		}
+
+        if(!isset($basePath)) {
+            $basePath = \Nooku::getInstance()->getBasePath();
+        }
 
         $basePath .= '/component/'.$extension;
 		$path      = JLanguage::getLanguagePath( $basePath, $lang);
@@ -613,7 +617,8 @@ class JLanguage extends JObject
 
 	function getMetadata($lang)
 	{
-		$path = JLanguage::getLanguagePath(JPATH_BASE, $lang);
+		$base = \Nooku::getInstance()->getBasePath();
+        $path = JLanguage::getLanguagePath($base, $lang);
 		$file = $lang.'.xml';
 
 		$result = null;
@@ -632,9 +637,13 @@ class JLanguage extends JObject
 	 * @return	array	key/value pair with the language file and real name
 	 * @since	1.5
 	 */
-	function getKnownLanguages($basePath = JPATH_BASE)
+	function getKnownLanguages($basePath = null)
 	{
-		$dir = JLanguage::getLanguagePath($basePath);
+        if(!isset($basePath)) {
+            $basePath = \Nooku::getInstance()->getBasePath();
+        }
+
+        $dir = JLanguage::getLanguagePath($basePath);
 		$knownLanguages = JLanguage::_parseLanguageFiles($dir);
 
 		return $knownLanguages;
@@ -649,9 +658,13 @@ class JLanguage extends JObject
 	 * @return	string	language related path or null
 	 * @since	1.5
 	 */
-	function getLanguagePath($basePath = JPATH_BASE, $language = null )
+	function getLanguagePath($basePath = null, $language = null )
 	{
-		$dir = $basePath.'/resources/language';
+        if(!isset($basePath)) {
+            $basePath = \Nooku::getInstance()->getBasePath();
+        }
+
+        $dir = $basePath.'/resources/language';
 		/*if (!empty($language)) {
 			$dir .= DS.$language;
 		}*/
