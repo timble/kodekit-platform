@@ -32,13 +32,6 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     protected $_identifiers;
 
     /**
-     * The class namespaces
-     *
-     * @var array
-     */
-    protected $_namespaces;
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options
@@ -49,7 +42,6 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
 
         $this->_aliases     = $config->aliases;
         $this->_identifiers = $config->identifiers;
-        $this->_namespaces  = $config->namespaces;
      }
 
     /**
@@ -65,7 +57,6 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
         $config->append(array(
             'aliases'     => array(),
             'identifiers' => array(),
-            'namespaces' => array(),
         ));
 
         parent::_initialize($config);
@@ -74,12 +65,11 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
     /**
      * Bootstrap the object manager
      *
-     * @return void
+     * @return boolean
      */
     public function bootstrap()
     {
         $manager = $this->getObjectManager();
-        $loader  = $this->getClassLoader();
 
         //Identifiers
         foreach ($this->_identifiers as $identifier => $config) {
@@ -89,14 +79,6 @@ class ObjectBootstrapperComponent extends ObjectBootstrapperAbstract
         //Aliases
         foreach ($this->_aliases as $alias => $identifier) {
             $manager->registerAlias($identifier, $alias);
-        }
-
-        //Namespaces
-        foreach ($this->_namespaces as $type => $namespaces)
-        {
-           if($locator = $loader->getLocator($type)) {
-               $locator->registerNamespaces($namespaces);
-           }
         }
     }
 }
