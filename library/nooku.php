@@ -8,7 +8,7 @@
  */
 
 /**
- * Nooku
+ * Nooku Framework Loader
  *
  * Loads classes and files, and provides metadata for Nooku such as version info
  *
@@ -25,11 +25,25 @@ class Nooku
     const VERSION = '13.1';
 
     /**
-     * Path to Nooku libraries
+     * The root path
      *
      * @var string
      */
-    protected $_path;
+    protected $_root_path;
+
+    /**
+     * The base path
+     *
+     * @var string
+     */
+    protected $_base_path;
+
+    /**
+     * The vendor path
+     *
+     * @var string
+     */
+    protected $_vendor_path;
 
  	/**
      * Constructor
@@ -40,21 +54,53 @@ class Nooku
      */
     final private function __construct($config = array())
     {
-        //Initialize the path
-        $this->_path = dirname(__FILE__);
+        //Initialize the root path
+        if(isset($config['root_path'])) {
+            $this->_root_path = $config['root_path'];
+        } else {
+            $this->_root_path = realpath($_SERVER['DOCUMENT_ROOT']);
+        }
+
+        //Initialize the base path
+        if(isset($config['base_path'])) {
+            $this->_base_path = $config['base_path'];
+        } else {
+            $this->_base_path = $this->_root_path;
+        }
+
+        //Initialize the vendor path
+        if(isset($config['vendor_path'])) {
+            $this->_vendor_path = $config['vendor_path'];
+        } else {
+            $this->_vendor_path = $this->_root_path.'/vendor';
+        }
 
         //Load the legacy functions
-        require_once $this->_path.'/legacy.php';
+        require_once dirname(__FILE__).'/legacy.php';
 
         //Create the loader
-        require_once $this->_path.'/class/loader.php';
+        require_once dirname(__FILE__).'/class/loader.php';
 
         if (!isset($config['class_loader'])) {
             $config['class_loader'] = Nooku\Library\ClassLoader::getInstance($config);
         }
 
         //Create the object manager
-        Nooku\Library\ObjectManager::getInstance($config);
+        $manager = Nooku\Library\ObjectManager::getInstance($config);
+
+        //Register the component locator
+        $manager->getClassLoader()->registerLocator(new Nooku\Library\ClassLocatorComponent());
+        $manager->registerLocator('lib:object.locator.component');
+
+        //Register the composer locator
+        if(file_exists($this->getVendorPath()))
+        {
+            $manager->getClassLoader()->registerLocator(new Nooku\Library\ClassLocatorComposer(
+                array(
+                    'vendor_path' => $this->getVendorPath()
+                )
+            ));
+        }
     }
 
 	/**
@@ -82,7 +128,7 @@ class Nooku
     }
 
     /**
-     * Get the version of the Koowa library
+     * Get the framework version
      *
      * @return string
      */
@@ -92,12 +138,32 @@ class Nooku
     }
 
     /**
-     * Get path to Nooku libraries
+     * Get vendor path
      *
      * @return string
      */
-    public function getPath()
+    public function getVendorPath()
     {
-        return $this->_path;
+        return $this->_vendor_path;
+    }
+
+    /**
+     * Get root path
+     *
+     * @return string
+     */
+    public function getRootPath()
+    {
+        return $this->_root_path;
+    }
+
+    /**
+     * Get base path
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->_base_path;
     }
 }
