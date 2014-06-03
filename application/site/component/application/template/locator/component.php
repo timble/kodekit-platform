@@ -27,10 +27,13 @@ class ApplicationTemplateLocatorComponent extends Library\TemplateLocatorCompone
      */
     public function realPath($file)
     {
+        $root_path = \Nooku::getInstance()->getRootPath();
+        $base_path = \Nooku::getInstance()->getBasePath();
+
         //Theme override
         $theme  = $this->getObject('application')->getTheme();
-        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
-        $theme .= str_replace(array(JPATH_APPLICATION.'/component', '/view', '/templates'), '', $file);
+        $theme  = $base_path.'/public/theme/'.$theme.'/templates';
+        $theme .= str_replace(array($root_path.'/component', '/view', '/templates'), '', $file);
 
         if($result = parent::realPath($theme)) {
             return $result;
