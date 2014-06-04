@@ -139,7 +139,8 @@ class ModelModules extends Library\ModelDatabase
 
             foreach (new \DirectoryIterator($com_path) as $component)
             {
-                if ($component->isDir() && substr($component, 0, 1) !== '.') {
+                if ($component->isDir() && substr($component, 0, 1) !== '.')
+                {
                     $mod_path = $com_path . '/' . $component . '/module';
 
                     if (is_dir($mod_path))
