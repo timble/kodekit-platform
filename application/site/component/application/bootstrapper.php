@@ -20,13 +20,22 @@ class ApplicationBootstrapper extends Application\Bootstrapper
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
+        $base_path = Nooku::getInstance()->getBasePath();
+
         $config->append(array(
             'priority' => self::PRIORITY_LOW,
             'aliases'  => array(
-                'application.languages'          => 'com:application.model.entity.languages',
-                'application.pages'              => 'com:application.model.entity.pages',
-                'application.modules'            => 'com:application.model.entity.modules',
-                'lib:template.locator.component' => 'com:application.template.locator.component',
+                'application.languages' => 'com:application.model.entity.languages',
+                'application.pages'     => 'com:application.model.entity.pages',
+                'application.modules'   => 'com:application.model.entity.modules',
+            ),
+            'identifiers' => array(
+                'com:application.template.locator.component'  => array(
+                    'theme_path' => $base_path.'/public/theme/bootstrap'
+                ),
+                'com:application.template.filter.url'  => array(
+                    'aliases' => array('/assets/application/' => '/theme/bootstrap/')
+                )
             )
         ));
 

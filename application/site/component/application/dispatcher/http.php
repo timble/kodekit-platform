@@ -68,7 +68,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             'options'   => array(
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
-                'theme'        => 'bootstrap'
             ),
         ));
 
@@ -309,16 +308,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     public function getCfg( $name, $default = null )
     {
         return JFactory::getConfig()->getValue('config.' . $name, $default);
-    }
-
-    /**
-     * Get the theme
-     *
-     * @return string The theme name
-     */
-    public function getTheme()
-    {
-        return $this->getCfg('theme');
     }
 
     /**
