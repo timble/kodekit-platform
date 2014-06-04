@@ -25,6 +25,8 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
      */
     public function locate($path)
     {
+        $paths = array();
+
         //Qualify partial templates.
         if(strpos($path, ':') === false)
         {
@@ -47,54 +49,40 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
 
             $format    = $identifier['name'];
             $template  = array_pop($identifier['path']);
+
             $parts     = $identifier['path'];
         }
 
-        $filepath  = strtolower($identifier['package']).'/'.implode('/', $parts).'/templates';
-        $fullpath  = $filepath.'/'.$template.'.'.$format.'.php';
+        $package   = $identifier['package'];
+        $domain    = $identifier['domain'] ? $identifier['domain'] : 'nooku';
 
-        //Find the file
-        $paths    = $this->getObject('manager')->getClassLoader()->getLocator('component')->getNamespaces();
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($paths));
+        //Find the template paths
+        $namespaces = $this->getObject('manager')->getClassLoader()->getLocator('component')->getNamespaces();
 
-        foreach($iterator as $basepath)
+        //Userland template path
+        $paths[] = $namespaces[''].'/'.$package;
+
+        //Namespace template path
+        $namespace = ucfirst($domain).'\Component\\'.ucfirst($package);
+        if(!isset($namespaces[$namespace]))
         {
-            $file = $basepath.'/'.$fullpath;
-            if($result = $this->realPath($file)) {
-                break;
+            $namespace = ucfirst($domain).'\Component';
+            if(isset($namespaces[$namespace])) {
+                $paths[] = $namespaces[$namespace].'/'.$package;
+            }
+        }
+        else $paths[] = $namespaces[$namespace];
+
+        //Find the template file
+        $filepath = implode('/', $parts).'/templates/'.$template.'.'.$format.'.php';
+
+        foreach($paths as $basepath)
+        {
+            if($result = $this->realPath($basepath.'/'.$filepath)) {
+                return $result;
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * Get a path from an file
-     *
-     * Function will check if the path is an alias and return the real file path
-     *
-     * @param  string $file The file path
-     * @return string The real file path
-     */
-    public function realPath($file)
-    {
-        $result = false;
-        $path   = dirname($file);
-
-        // Is the path based on a stream?
-        if (strpos($path, '://') === false)
-        {
-            // Not a stream, so do a realpath() to avoid directory traversal attempts on the local file system.
-            $path = realpath($path); // needed for substr() later
-            $file = realpath($file);
-        }
-
-        // The substr() check added to make sure that the realpath() results in a directory registered so that
-        // non-registered directories are not accessible via directory traversal attempts.
-        if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
-            $result = $file;
-        }
-
-        return $result;
+        return false;
     }
 }
