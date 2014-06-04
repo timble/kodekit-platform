@@ -31,4 +31,14 @@ interface TemplateLocatorInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * Get a path from an file
+     *
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $file The file path
+     * @return string The real file path
+     */
+    public function realPath($file);
 }
