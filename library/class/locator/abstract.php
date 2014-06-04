@@ -80,7 +80,7 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
     }
 
     /**
-     * Get a the namespace paths
+     * Get a the namespace path
      *
      * @param string $namespace The namespace
      * @return string The namespace path
