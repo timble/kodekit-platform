@@ -37,14 +37,16 @@ class TemplateLocatorComponent extends Library\TemplateLocatorComponent
     }
 
     /**
-     * Handles template overrides
+     * Locate the template based on a virtual path
      *
-     * @param  string $path
-     * @return string File path
+     * @param  string $path  Stream path or resource
+     * @param  string $base  The base path or resource (used to resolved partials).
+     * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
+     * @return string   The physical stream path for the template
      */
-    public function locate($path)
+    public function locate($path, $base = null)
     {
-        $result = parent::locate($path);
+        $result = parent::locate($path, $base);
 
         $theme_path = $this->getConfig()->theme_path;
         if(!empty($theme_path))

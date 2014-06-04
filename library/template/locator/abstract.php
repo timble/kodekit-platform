@@ -25,26 +25,6 @@ abstract class TemplateLocatorAbstract extends Object implements TemplateLocator
     protected $_type = '';
 
     /**
-     * Template object
-     *
-     * @var	TemplateInterface
-     */
-    protected $_template;
-
-    /**
-     * Constructor
-     *
-     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        // Set the template object
-        $this->setTemplate($config->template);
-    }
-
-    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -69,27 +49,6 @@ abstract class TemplateLocatorAbstract extends Object implements TemplateLocator
     public function getType()
     {
         return $this->_type;
-    }
-
-    /**
-     * Set the template object
-     *
-     * @return  TemplateInterface $template	The template object
-     */
-    public function setTemplate(TemplateInterface $template)
-    {
-        $this->_template = $template;
-        return $this;
-    }
-
-    /**
-     * Get the template object
-     *
-     * @return  object	The template object
-     */
-    public function getTemplate()
-    {
-        return $this->_template;
     }
 
     /**

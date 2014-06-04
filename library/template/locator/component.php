@@ -18,19 +18,28 @@ namespace Nooku\Library;
 class TemplateLocatorComponent extends TemplateLocatorAbstract
 {
     /**
+     * The type
+     *
+     * @var string
+     */
+    protected $_type = 'com';
+
+    /**
      * Locate the template based on a virtual path
      *
      * @param  string $path  Stream path or resource
+     * @param  string $base  The base path or resource (used to resolved partials).
+     * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
      * @return string   The physical stream path for the template
      */
-    public function locate($path)
+    public function locate($path, $base = null)
     {
         $paths = array();
 
         //Qualify partial templates.
         if(strpos($path, ':') === false)
         {
-            if(!$base = $this->getTemplate()->getPath()) {
+            if(empty($base)) {
                 throw new \RuntimeException('Cannot qualify partial template path');
             }
 
