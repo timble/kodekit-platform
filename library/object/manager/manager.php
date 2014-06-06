@@ -676,6 +676,9 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     protected function _locate(ObjectIdentifier $identifier, $fallback = true)
     {
+        //Set the active global namespace. If the namespace is not registered it will not be set.
+        $this->getClassLoader()->setNamespace($identifier->domain);
+
         return $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
     }
 

@@ -54,19 +54,21 @@ interface ClassLoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param string $class    The class name
-     * @return string|boolean  Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param string $class     The class name
+     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
+     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class);
+    public function getPath($class, $namespace = null);
 
     /**
-     * Set the path based for a class
+     * Get the path based on a class name
      *
-     * @param string $class    The class name
-     * @param string $path     The class path
+     * @param string $class     The class name
+     * @param string $path      The class path
+     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
      * @return void
      */
-    public function setPath($class, $path);
+    public function setPath($class, $path, $namespace = null);
 
     /**
      * Register a class locator
@@ -102,28 +104,38 @@ interface ClassLoaderInterface
     public function getAliases($class);
 
     /**
-     * Register a basepath by name
+     * Register a global namespace
      *
-     * @param string  $name The name of the basepath
-     * @param string  $path The path
-     * @return void
+     * @param  string $namespace
+     * @param  string $path The location of the namespace
+     * @return  ClassLoaderInterface
      */
-    public function registerBasepath($name, $path);
+    public function registerNamespace($namespace, $path);
 
     /**
-     * Get a basepath by name
+     * Set the active global namespace
      *
-     * @param string $name The name of the application
-     * @return string The path of the application
+     * @param string $namespace The namespace
+     * @return ClassLoaderInterface
      */
-    public function getBasepath($name);
+    public function setNamespace($namespace);
 
     /**
-     * Get a list of basepaths
+     * Get a global namespace path by name
      *
-     * @return array
+     * If no namespace is passed in this method will return the active global namespace.
+     *
+     * @param string|null $namespace The namespace.
+     * @return string|false The namespace path or FALSE if the namespace does not exist.
      */
-    public function getBasepaths();
+    public function getNamespace($namespace = null);
+
+    /**
+     * Get the global namespaces
+     *
+     * @return array An array with namespaces as keys and path as value
+     */
+    public function getNamespaces();
 
     /**
      * Tells if a class, interface or trait exists.
