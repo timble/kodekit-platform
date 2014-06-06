@@ -25,65 +25,38 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
     protected $_type = 'com';
 
     /**
-     * Locate the template based on a virtual path
+     * Find a template path
      *
-     * @param  string $path  Stream path or resource
-     * @param  string $base  The base path or resource (used to resolved partials).
-     * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
-     * @return string   The physical stream path for the template
+     * @param array  $info      The path information
+     * @return bool|mixed
      */
-    public function locate($path, $base = null)
+    public function find(array $info)
     {
-        $paths = array();
+        $paths  = array();
+        $loader = $this->getObject('manager')->getClassLoader();
 
-        //Qualify partial templates.
-        if(strpos($path, ':') === false)
-        {
-            if(empty($base)) {
-                throw new \RuntimeException('Cannot qualify partial template path');
-            }
+        //Get the package
+        $package = $info['package'];
 
-            $identifier = $this->getIdentifier($base)->toArray();
-
-            $format    = pathinfo($path, PATHINFO_EXTENSION);
-            $template  = pathinfo($path, PATHINFO_FILENAME);
-
-            $parts     = $identifier['path'];
-            array_pop($parts);
-        }
-        else
-        {
-            // Need to clone here since we use array_pop and it modifies the cached identifier
-            $identifier = $this->getIdentifier($path)->toArray();
-
-            $format    = $identifier['name'];
-            $template  = array_pop($identifier['path']);
-
-            $parts     = $identifier['path'];
+        //Get the domain
+        if(empty($identifier['domain'])) {
+            $domain = $this->getObject('manager')->getLocator('com')->getPackage($info['package']);
+        } else {
+            $domain = $info['domain'];
         }
 
-        $package   = $identifier['package'];
-        $domain    = $identifier['domain'] ? $identifier['domain'] : 'nooku';
+        //Base paths
+        if($path = $loader->getLocator('component')->getNamespace('\\')) {
+            $paths[] = $path.'/'.$package;
+        }
 
-        //Find the template paths
-        $namespaces = $this->getObject('manager')->getClassLoader()->getLocator('component')->getNamespaces();
-
-        //Userland template path
-        $paths[] = $namespaces[''].'/'.$package;
-
-        //Namespace template path
         $namespace = ucfirst($domain).'\Component\\'.ucfirst($package);
-        if(!isset($namespaces[$namespace]))
-        {
-            $namespace = ucfirst($domain).'\Component';
-            if(isset($namespaces[$namespace])) {
-                $paths[] = $namespaces[$namespace].'/'.$package;
-            }
+        if($path = $loader->getLocator('component')->getNamespace($namespace)) {
+            $paths[] = $path;
         }
-        else $paths[] = $namespaces[$namespace];
 
-        //Find the template file
-        $filepath = implode('/', $parts).'/templates/'.$template.'.'.$format.'.php';
+        //File path
+        $filepath = implode('/', $info['path']).'/templates/'.$info['file'].'.'.$info['format'].'.php';
 
         foreach($paths as $basepath)
         {

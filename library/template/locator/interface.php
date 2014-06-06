@@ -28,6 +28,14 @@ interface TemplateLocatorInterface
     public function locate($path, $base = null);
 
     /**
+     * Find a template path
+     *
+     * @param array  $info The path information
+     * @return bool|mixed
+     */
+    public function find(array $info);
+
+    /**
      * Get the loader type
      *
      * @return string

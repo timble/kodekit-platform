@@ -20,12 +20,31 @@ use Nooku\Library;
 class TemplateLocatorComponent extends Library\TemplateLocatorComponent
 {
     /**
-     * Initializes the default configuration for the object
+     * The theme path
+     *
+     * @var string
+     */
+    protected $_theme_path;
+
+    /**
+     * Constructor.
+     *
+     * @param Library\bjectConfig $config  An optional KObjectConfig object with configuration options
+     */
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_theme_path = $config->theme_path;
+    }
+
+    /**
+     * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Library\ObjectConfig $config  An optional ObjectConfig object with configuration options.
-     * @return void
+     * @param  Library\ObjectConfig $config An optional KObjectConfig object with configuration options.
+     * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -37,31 +56,29 @@ class TemplateLocatorComponent extends Library\TemplateLocatorComponent
     }
 
     /**
-     * Locate the template based on a virtual path
+     * Find a template path
      *
-     * @param  string $path  Stream path or resource
-     * @param  string $base  The base path or resource (used to resolved partials).
-     * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
-     * @return string   The physical stream path for the template
+     * @param array  $info      The path information
+     * @return bool|mixed
      */
-    public function locate($path, $base = null)
+    public function find(array $info)
     {
-        $result = parent::locate($path, $base);
-
-        $theme_path = $this->getConfig()->theme_path;
-        if(!empty($theme_path))
+        if(!empty($this->_theme_path))
         {
-            $root_path = \Nooku::getInstance()->getRootPath();
-            $base_path = \Nooku::getInstance()->getBasePath();
+            //Remove the 'view' element from the path.
+            $path = $info['path'];
+            if(isset($path[0]) && $path[0] == 'view') {
+                array_shift($path);
+            }
 
-            //Theme override
-            $file_path = str_replace(array($base_path.'/component', $root_path.'/component', '/view', '/templates'), '', $result);
+            //Find the template file
+            $filepath = $info['package'].'/'.implode('/', $path).'/'.$info['file'].'.'.$info['format'].'.php';
 
-            if ($override = $this->realPath($theme_path.'/templates/'.$file_path)) {
-                $result = $override;
+            if ($override = $this->realPath($this->_theme_path.'/templates/'.$filepath)) {
+                return $override;
             }
         }
 
-        return $result;
+        return parent::find($info);
     }
 }
