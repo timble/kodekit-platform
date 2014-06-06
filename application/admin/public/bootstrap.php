@@ -39,25 +39,14 @@ $nooku = Nooku::getInstance(array(
 unset($config);
 
 //Add application basepaths
-Library\ClassLoader::getInstance()->registerBasepath('site' , $nooku->getRootPath().'/application/site/component');
-Library\ClassLoader::getInstance()->registerBasepath('admin', $nooku->getRootPath().'/application/admin/component', true);
-
-//Setup the component locator
-Library\ClassLoader::getInstance()->getLocator('component')->registerNamespaces(
-    array(
-        '\\'               => $nooku->getBasePath().'/component',
-        'Nooku\Component'  => $nooku->getRootPath().'/component',
-    )
-);
+Library\ClassLoader::getInstance()->registerNamespace('site' , $nooku->getRootPath().'/application/site/component');
+Library\ClassLoader::getInstance()->registerNamespace('admin', $nooku->getRootPath().'/application/admin/component', true);
 
 //Bootstrap the application
 Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
-    ->registerBootstrapper('object.bootstrapper.directory',
-        array('directory' => array(
-            $nooku->getRootPath().'/component',
-            $nooku->getBasePath().'/component'
-        ))
-    )->bootstrap();
+    ->registerDirectory($nooku->getRootPath().'/component', 'nooku')
+    ->registerDirectory($nooku->getBasePath().'/component')
+    ->bootstrap();
 
 // Joomla : setup
 require_once($nooku->getVendorPath() . '/joomla/import.php');

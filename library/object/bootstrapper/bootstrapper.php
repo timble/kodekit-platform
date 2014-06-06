@@ -18,9 +18,9 @@ namespace Nooku\Library;
 class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSingleton
 {
     /**
-     * Bootstrapped status
+     * List of bootstrapped components
      *
-     * @var boolean
+     * @var array
      */
     private $__bootstrapped;
 
@@ -29,44 +29,100 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
      *
      * @var array
      */
-    protected $_bootstrappers;
+    protected $_bootstrappers = array();
 
     /**
      * Bootstrap
      *
-     * The bootstrap cycle can only be run once. Subsequent bootstrap calls will not re-run the cycle.
+     * The bootstrap cycle can be run multiple times. A component can only be bootstrapped once.
      *
      * @return void
      */
     final public function bootstrap()
     {
-        if(!$this->__bootstrapped)
+        $chain = $this->getObject('lib:object.bootstrapper.chain');
+
+        foreach($this->_bootstrappers as $bootstrapper)
         {
-            $chain = $this->getObject('lib:object.bootstrapper.chain');
-
-            foreach($this->_bootstrappers as $bootstrapper)
+            if(!isset($this->__bootstrapped[$bootstrapper]))
             {
-                list($identifier, $config) = $bootstrapper;
-
-                $instance = $this->getObject($identifier, $config);
+                $instance = $this->getObject($bootstrapper);
                 $chain->addBootstrapper($instance);
+
+                $this->__bootstrapped[$bootstrapper] = true;
             }
-
-            $chain->bootstrap();
-
-            $this->__bootstrapped == true;
         }
+
+        $chain->bootstrap();
+
+        //Clear bootstrappers list
+        $this->_bootstrappers = array();
     }
 
     /**
-     * Register a bootstrapper
+     * Register a component
      *
-     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * This method will setup the class and object locators for the component and register the bootstrapper if one can
+     * be found.
+     *
+     * @param string $name      The component name
+     * @param string $domain    The vendor name
+     * @param string $path      The component path
      * @return ObjectBootstrapper
      */
-    public function registerBootstrapper($bootstrapper, $config = array())
+    public function registerComponent($name, $vendor = null, $path = null)
     {
-        $this->_bootstrappers[] = array($bootstrapper, $config);
+        //Setup the class and object locators
+        if(isset($vendor))
+        {
+            $namespace = ucfirst($vendor).'\Component\\'.ucfirst($name);
+            $this->getClassLoader()
+                 ->getLocator('component')
+                 ->registerNamespace($namespace, $path);
+
+            $this->getObjectManager()
+                 ->getLocator('com')
+                 ->registerPackage($name, $vendor);
+        }
+
+        //Register the component bootstrapper
+        if(!isset($this->_bootstrappers[$name]))
+        {
+            if(!empty($vendor)) {
+                $identifier = 'com://'.$vendor.'/'.$name.'.bootstrapper';
+            } else {
+                $identifier = 'com:'.$name.'.bootstrapper';
+            }
+
+            if($this->getObjectManager()->getClass($identifier)) {
+                $this->_bootstrappers[$name] = $identifier;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register components from a directory
+     *
+     * @param string  $directory
+     * @param string  $domain
+     * @return ObjectBootstrapper
+     */
+    public function registerDirectory($directory, $domain = null)
+    {
+        $components = array();
+
+        foreach (new \DirectoryIterator($directory) as $dir)
+        {
+            //Only get the component directory names
+            if ($dir->isDot() || !$dir->isDir() || !preg_match('/^[a-zA-Z]+/', $dir->getBasename())) {
+                continue;
+            }
+
+            $this->registerComponent((string) $dir, $domain, $dir->getPathname());
+        }
+
         return $this;
     }
 

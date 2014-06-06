@@ -72,6 +72,16 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     }
 
     /**
+     * Get the class loader
+     *
+     * @return ClassLoaderInterface
+     */
+    public function getClassLoader()
+    {
+        return $this->getObjectManager()->getClassLoader();
+    }
+
+    /**
      * Get the priority of the bootstrapper
      *
      * @return  integer The priority level

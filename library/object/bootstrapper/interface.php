@@ -39,4 +39,18 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      * @return  integer The priority level
      */
     public function getPriority();
+
+    /**
+     * Get the object manager
+     *
+     * @return ObjectManagerInterface
+     */
+    public function getObjectManager();
+
+    /**
+     * Get the class loader
+     *
+     * @return ClassLoaderInterface
+     */
+    public function getClassLoader();
 }
