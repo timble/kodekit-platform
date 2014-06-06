@@ -30,7 +30,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
+            $path = $this->getObject('manager')->getClassLoader()->getNamespace($module->application);
             JFactory::getLanguage()->load($module->component, $module->name, $path);
         }
 

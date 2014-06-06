@@ -33,9 +33,9 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('label' => $this->translate($config->prompt)));
         }
 
-        $basepaths = $this->getObject('manager')->getClassLoader()->getBasepaths();
-        foreach($basepaths as $application => $path) {
-            $options[] = $this->option(array('label' => $application, 'value' => $application));
+        $namespaces = $this->getObject('manager')->getClassLoader()->getNamespaces();
+        foreach($namespaces as $name => $path) {
+            $options[] = $this->option(array('label' => $name, 'value' => $name));
         }
         
         $config->options = $options;

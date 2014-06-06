@@ -134,7 +134,7 @@ class ModelModules extends Library\ModelDatabase
         if ($state->installed)
         {
             $modules  = array();
-            $app_path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
+            $app_path = $this->getObject('manager')->getClassLoader()->getNamespace('site');
             $com_path = $app_path;
 
             foreach (new \DirectoryIterator($com_path) as $component)
