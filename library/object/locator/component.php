@@ -49,16 +49,20 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @param bool  $fallback   Use the fallback sequence to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure if searching for a fallback
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        $domain  = $identifier->domain ? ucfirst($identifier->domain) : 'Nooku';
-        $package = ucfirst($identifier->package);
+        if(empty($identifier->domain)) {
+            $domain  = ucfirst($this->getPackage($identifier->package));
+        } else {
+            $domain = ucfirst($identifier->domain);
+        }
 
+        $package = ucfirst($identifier->package);
         $file    = ucfirst($identifier->name);
-        $path  = $identifier->path;
+        $path    = $identifier->path;
 
         $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
