@@ -85,16 +85,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     {
         if($this->getView() instanceof ViewHtml)
         {
-            foreach($context->toolbars as $toolbar) {
-                $this->addToolbar($toolbar);
+            // Add toolbars on authenticated requests only.
+            if ($this->getObject('user')->isAuthentic()) {
+                foreach($context->toolbars as $toolbar) {
+                    $this->addToolbar($toolbar);
+                }
             }
 
-            if($toolbars = $this->getToolbars())
-            {
-                $this->getView()
-                    ->getTemplate()
-                    ->attachFilter('toolbar', array('toolbars' => $toolbars));
-            };
+            $this->getView()->getTemplate()->attachFilter('toolbar', array('toolbars' => $this->getToolbars()));
         }
     }
 
