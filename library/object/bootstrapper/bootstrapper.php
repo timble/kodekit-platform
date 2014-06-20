@@ -22,7 +22,7 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
      *
      * @var array
      */
-    private $__bootstrapped;
+    private $__bootstrapped = array();
 
     /**
      * List of bootstrappers
