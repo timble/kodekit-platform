@@ -40,19 +40,18 @@ class ModelDatabase extends ModelAbstract
         $identifier = $alias = $this->getIdentifier()->toArray();
 
         //Create database.rowset alias
-        $identifier['path'] = array('database', 'rowset');
-        $alias['path']      = array('model', 'entity');
+        $alias['path']      = array('database', 'rowset');
+        $identifier['path'] = array('model', 'entity');
 
-        $this->getObject('manager')->registerAlias($alias, $identifier);
+        $this->getObject('manager')->registerAlias($identifier, $alias);
 
         //Create database.row alias
-        $identifier['path'] = array('database', 'row');
+        $alias['path'] = array('database', 'row');
+        $alias['name'] = StringInflector::singularize($alias['name']);
+
         $identifier['name'] = StringInflector::singularize($identifier['name']);
 
-        $alias['path'] = array('model', 'entity');
-        $alias['name'] = StringInflector::singularize($identifier['name']);
-
-        $this->getObject('manager')->registerAlias($alias, $identifier);
+        $this->getObject('manager')->registerAlias($identifier, $alias);
 
         //Behavior depends on the database. Need to add if after database has been set.
         $this->addBehavior('indexable');
