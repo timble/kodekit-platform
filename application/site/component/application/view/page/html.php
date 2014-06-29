@@ -46,4 +46,21 @@ class ApplicationViewPageHtml extends Application\ViewPageHtml
         $page = $this->getObject('application.pages')->getActive();
         return $page->title;
     }
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        //Set the component and layout information
+        if($this->getObject('manager')->isRegistered('dispatcher'))
+        {
+            $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
+            $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
+        }
+        else
+        {
+            $context->data->component = '';
+            $context->data->layout    = '';
+        }
+
+        parent::_fetchData($context);
+    }
 }
