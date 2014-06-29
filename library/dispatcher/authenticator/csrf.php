@@ -22,16 +22,29 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      *
      * @var string
      */
-    protected $_token;
+    private $__token;
+
+    /**
+     * Constructor
+     *
+     * @param ObjectConfig $config Configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->addCommandCallback('before.post', 'authenticateRequest');
+        $this->addCommandCallback('after.get'  , 'signResponse');
+    }
 
     /**
      * Return the CSRF request token
      *
      * @return  string  The CSRF token or NULL if no token could be found
      */
-    public function getToken()
+    public function getCsrfToken()
     {
-        if(!isset($this->token))
+        if(!isset($this->__token))
         {
             $token   = false;
             $request = $this->getObject('request');
@@ -48,10 +61,10 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
                 $token = $request->data->get('csrf_token', 'sha1');
             }
 
-            $this->_token = $token;
+            $this->__token = $token;
         }
 
-        return $this->_token;
+        return $this->__token;
     }
 
     /**
@@ -66,7 +79,7 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      * @throws ControllerExceptionRequestNotAuthenticated If the session token is not valid
      * @return boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    protected function _beforePost(DispatcherContextInterface $context)
+    public function authenticateRequest(DispatcherContextInterface $context)
     {
         $request = $context->request;
         $user    = $context->user;
@@ -77,19 +90,19 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
         }
 
         //Check csrf token
-        if(!$this->getToken()) {
+        if(!$this->getCsrfToken()) {
             throw new ControllerExceptionRequestNotAuthenticated('Token Not Found');
         }
 
         //Check cookie token
-        if($this->getToken() !== $request->cookies->get('csrf_token', 'sha1')) {
+        if($this->getCsrfToken() !== $request->cookies->get('csrf_token', 'sha1')) {
             throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
         }
 
         if($user->isAuthentic())
         {
             //Check session token
-            if( $this->getToken() !== $user->getSession()->getToken()) {
+            if( $this->getCsrfToken() !== $user->getSession()->getToken()) {
                 throw new ControllerExceptionRequestForbidden('Invalid Session Token');
             }
         }
@@ -102,7 +115,7 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _afterGet(DispatcherContextInterface $context)
+    public function signResponse(DispatcherContextInterface $context)
     {
         if(!$context->response->isError())
         {
