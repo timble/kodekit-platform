@@ -32,7 +32,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $instance  = new $class($config);
 
         //Lazy mix it into related row objects.
-        if ($config->row_mixin)
+        if ($config->row_mixin && $instance->isSupported())
         {
             $identifier = $instance->getMixer()->getIdentifier()->toArray();
             $identifier['path'] = array('database', 'row');

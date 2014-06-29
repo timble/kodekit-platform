@@ -128,14 +128,17 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
-
-        if($table->hasColumn($this->_column))  {
-            return true;
+        $table = $this->getMixer();
+        
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn($this->_column))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

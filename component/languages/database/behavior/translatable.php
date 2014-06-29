@@ -32,14 +32,20 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     public function isSupported()
     {
-        // If table is not enabled, return null to prevent enqueueing.
-        $table  = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
-        $needle = array(
-            'name'           => $table->getBase(),
-            'component_name' => 'com_' . $table->getIdentifier()->package
-        );
+        $table  = $this->getMixer();
 
-        return count($this->_tables->find($needle)) ? true : false;
+        if($table instanceof Library\DatabaseTableInterface)
+        {
+            // If table is not enabled, return null to prevent enqueueing.
+            $needle = array(
+                'name'           => $table->getBase(),
+                'component_name' => 'com_' . $table->getIdentifier()->package
+            );
+
+            return count($this->_tables->find($needle)) ? true : false;
+        }
+
+        return true;
     }
 
     public function getMixableMethods($exclude = array())
@@ -47,7 +53,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         $methods = parent::getMixableMethods($exclude);
         $mixer   = $this->getMixer();
 
-        if (!is_null($mixer)) {
+        if (!is_null($mixer))
+        {
             // If table is not enabled, don't mix the methods.
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
@@ -55,7 +62,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 'component_name' => 'com_' . $table->getIdentifier()->package
             );
 
-            if (!count($this->_tables->find($needle))) {
+            if (!count($this->_tables->find($needle)))
+            {
                 $methods['isTranslatable'] = false;
 
                 unset($methods['getLanguages']);
