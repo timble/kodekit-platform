@@ -36,7 +36,8 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     {
     	$config->append(array(
 			'priority'   => self::PRIORITY_HIGH,
-            'lifetime'   =>  $this->getObject('user')->getSession()->getLifetime()
+            'lifetime'   => $this->getObject('user')->getSession()->getLifetime(),
+            'row_mixin'  => true
 	  	));
 
 	  	$this->_lifetime = $config->lifetime;

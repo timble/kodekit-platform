@@ -28,7 +28,8 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => self::PRIORITY_LOW,
+			'priority'  => self::PRIORITY_LOW,
+            'row_mixin' => true,
 	  	));
 
     	parent::_initialize($config);
