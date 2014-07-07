@@ -81,7 +81,6 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         $this->_updatable = $config->updatable;
         $this->_length    = $config->length;
         $this->_unique    = $config->unique;
-        $this->_row_mixin = $config->row_mixin;
     }
 
     /**
