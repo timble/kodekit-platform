@@ -67,7 +67,7 @@
         <div class="comment" id="comment-<?=$comment->id;?>">
             <div class="comment__header">
                <span class="comment__header--left">
-                    <?= $comment->created_by == object('user')->id ? translate('You') : $comment->created_by_name ?>&nbsp;<?= translate('wrote') ?>
+                    <?= $comment->created_by == object('user')->id ? translate('You') : $comment->getAuthor()->getName() ?>&nbsp;<?= translate('wrote') ?>
                </span>
                <span class="comment__header--right">
                     <time datetime="<?= $comment->created_on ?>" pubdate><?= helper('date.humanize', array('date' => $comment->created_on)) ?></time>

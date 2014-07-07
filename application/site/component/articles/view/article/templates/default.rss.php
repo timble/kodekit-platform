@@ -32,9 +32,9 @@
 
         <? foreach($comments as $comment) : ?>
             <item>
-                <title><?= translate('Comment on').' '.escape($article->title).' '.translate('by').' '.$comment->created_by_name ?></title>
+                <title><?= translate('Comment on').' '.escape($article->title).' '.translate('by').' '.$comment->getAuthor()->getName() ?></title>
                 <link><?= helper('route.article', array('entity' => $article)) ?></link>
-                <dc:creator><?= $comment->created_by_name ?></dc:creator>
+                <dc:creator><?= $comment->getAuthor()->getName() ?></dc:creator>
                 <guid isPermaLink="false"><?= helper('route.article', array('entity' => $article)) ?></guid>
                 <description><![CDATA[<?= $comment->text ?>]]></description>
 

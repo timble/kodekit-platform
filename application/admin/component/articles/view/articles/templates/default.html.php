@@ -44,7 +44,7 @@
                     <?= helper('grid.sort', array('column' => 'title')) ?>
                 </th>
                 <th width="1">
-                    <?= helper('grid.sort', array('title' => 'Last modified', 'column' => 'last_activity_on')) ?>
+                    <?= helper('grid.sort', array('title' => 'Last modified', 'column' => 'modified_on')) ?>
                 </th>
                 <? if($articles->isTranslatable()) : ?>
                     <th width="70">
@@ -87,8 +87,8 @@
                      <? endif; ?>
                 </td>
                 <td>
-                    <?= helper('date.humanize', array('date' => $article->last_activity_on)) ?> by <a href="<?= route('option=com_users&view=user&id='.$article->created_by) ?>">
-                        <?= $article->last_activity_by_name ?>
+                    <?= helper('date.humanize', array('date' => $article->modified_on)) ?> by <a href="<?= route('option=com_users&view=user&id='.$article->created_by) ?>">
+                        <?= $article->getEditor()->getName() ?>
                     </a>
                 </td>
                 <? if($article->isTranslatable()) : ?>
