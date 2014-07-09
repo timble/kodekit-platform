@@ -592,8 +592,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
                 $referrer = $this->_headers->get('Referer');
             }
 
-            $referrer = $this->getObject('lib:filter.url')->sanitize($referrer);
-            $this->_referrer = $this->getObject('lib:http.url', array('url' => $referrer));
+            $this->setReferrer($this->getObject('lib:filter.url')->sanitize($referrer));
         }
 
         if(isset($this->_referrer) && $isInternal)
@@ -605,6 +604,23 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         }
 
         return $this->_referrer;
+    }
+
+    /**
+     * Sets the referrer for the request
+     *
+     * @param  string|HttpUrlInterface $referrer
+     * @return $this
+     */
+    public function setReferrer($referrer)
+    {
+        if(!($referrer instanceof HttpUrlInterface)) {
+            $referrer = $this->getObject('lib:http.url', array('url' => $referrer));
+        }
+
+        $this->_referrer = $referrer;
+
+        return $this;
     }
 
     /**
