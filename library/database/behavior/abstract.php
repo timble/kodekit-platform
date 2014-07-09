@@ -18,23 +18,6 @@ namespace Nooku\Library;
 abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
 {
     /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'row_mixin' => false,
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
      * Instantiate the object
      *
      * If the behavior is auto mixed also lazy mix it into related row objects.
@@ -48,8 +31,8 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $class     = $manager->getClass($config->object_identifier);
         $instance  = new $class($config);
 
-        //Lazy mix it into related row objects.
-        if ($config->row_mixin && $instance->isSupported())
+        //Lazy mix behavior into related row objects. A supported behavior always has one is[Behaviorable] method.
+        if ($instance->isSupported() && $instance->getMixer() && count($instance->getMixableMethods()) > 1)
         {
             $identifier = $instance->getMixer()->getIdentifier()->toArray();
             $identifier['path'] = array('database', 'row');
@@ -129,7 +112,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public function getMixableMethods($exclude = array())
     {
-        $exclude +=  array('save', 'delete', 'getInstance');
+        $exclude = array_merge($exclude, array('getInstance', 'save', 'delete'));
         return parent::getMixableMethods($exclude);
     }
 }

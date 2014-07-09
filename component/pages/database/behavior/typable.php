@@ -46,15 +46,6 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         $this->_populateStrategies();
     }
 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'row_mixin' => true
-        ));
-
-        parent::_initialize($config);
-    }
-
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
@@ -106,7 +97,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     public function getMixableMethods($exclude = array())
     {
-        $methods                                               = array_fill_keys($this->_mixable_methods, $this);
+        $methods = array_fill_keys($this->_mixable_methods, $this);
         $methods['is' . ucfirst($this->getIdentifier()->name)] = true;
 
         return $methods;

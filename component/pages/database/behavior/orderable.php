@@ -42,7 +42,6 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     {
         $config->append(array(
             'priority'   => self::PRIORITY_LOWEST,
-            'row_mixin'  => true,
             'strategy'   => 'flat',
             'table'      => null,
             'columns'    => array()

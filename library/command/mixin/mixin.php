@@ -311,8 +311,8 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
      */
     public function getMixableMethods($exclude = array())
     {
-        $exclude += array('execute', 'getPriority', 'setBreakCondition', 'getBreakCondition',
-            'invokeCommandCallbacks', 'invokeCommandCallback');
+        $exclude = array_merge($exclude, array('execute', 'getPriority', 'setBreakCondition', 'getBreakCondition',
+            'invokeCommandCallbacks', 'invokeCommandCallback'));
 
         return parent::getMixableMethods($exclude);
     }

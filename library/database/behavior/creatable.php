@@ -18,23 +18,6 @@ namespace Nooku\Library;
 class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
 {
     /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'row_mixin' => true,
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
      * Get the user that created the resource
      *
      * @return UserInterface|null Returns a User object or NULL if no user could be found

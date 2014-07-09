@@ -19,15 +19,6 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'row_mixin' => true
-        ));
-
-        parent::_initialize($config);
-    }
-
     protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $data = $context->data;

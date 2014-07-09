@@ -46,7 +46,6 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $config->append(array(
             'expirable'  => 1,
             'expiration' => 6,
-            'row_mixin'  => true
         ));
 
         parent::_initialize($config);

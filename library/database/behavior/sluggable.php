@@ -99,7 +99,6 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             'updatable'  => true,
             'length'     => null,
             'unique'     => null,
-            'row_mixin'  => true,
         ));
 
         parent::_initialize($config);
