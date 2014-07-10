@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Component\Languages
  */
-class LanguagesControllerPermissionExtension extends ApplicationControllerPermissionAbstract
+class LanguagesControllerPermissionTable extends ApplicationControllerPermissionAbstract
 {
     public function canEdit()
     {

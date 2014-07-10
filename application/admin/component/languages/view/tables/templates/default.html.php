@@ -33,22 +33,22 @@
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="2">
+				<td colspan="3">
 					 <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
 		<tbody>
-			<? foreach($extensions as $extension) : ?>
+			<? foreach($tables as $table) : ?>
 			<tr>
 			    <td align="center">
-					<?= helper('grid.checkbox', array('row' => $extension)) ?>
+					<?= helper('grid.checkbox', array('row' => $table)) ?>
 				</td>
 				<td>
-					<?= escape($extension->title) ?>
+					<?= escape($table->name) ?>
 				</td>
 				<td align="center">
-					<?= helper('grid.enable', array('row' => $extension)) ?>
+					<?= helper('grid.enable', array('row' => $table)) ?>
 				</td>
 			</tr>
 			<? endforeach ?>
