@@ -157,10 +157,13 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         if($context->affected)
         {
-            $languages = $this->getObject('application.languages');
-            $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
-            
+            $languages  = $this->getObject('application.languages');
+            $active     = $languages->getActive();
+            $primary    = $languages->getPrimary();
+            $table      = $this->_tables->find(array('name' => $context->table))->top();
+            $database   = $this->getTable()->getAdapter();
+            $prefix     = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
+
             $translation = array(
                 'iso_code'   => $active->iso_code,
                 'table'      => $context->table,
@@ -174,6 +177,12 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 ->setData($translation)
                 ->save();
 
+            // Get the item data.
+            $select = $this->getObject('lib:database.query.select')
+                ->table($prefix.$table->name)
+                ->where($table->unique_column.' = :unique')
+                ->bind(array('unique' => $context->data->id));
+
             foreach($languages as $language)
             {
                 if($language->iso_code != $active->iso_code)
@@ -186,6 +195,11 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                     $this->getObject('com:languages.database.row.translation')
                         ->setData($translation)
                         ->save();
+
+                    // Copy the item's data to all missing translations.
+                    $prefix = $language->iso_code != $primary->iso_code ? strtolower($language->iso_code.'_') : '';
+                    $query = 'REPLACE INTO '.$database->quoteIdentifier($prefix.$table->name).' '.$select;
+                    $database->execute($query);
                 }
             }
         }
