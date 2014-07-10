@@ -54,7 +54,7 @@ class ModelTables extends Library\ModelTable
             }
 
             if($state->extension) {
-                $query->where('tbl.extensions_extension_id IN :component')->bind(array('extension' => (array) $state->extension));
+                $query->where('tbl.extensions_extension_id IN :extension')->bind(array('extension' => (array) $state->extension));
             }
         }
     }

@@ -59,7 +59,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name' => $table->getBase(),
-                'component_name' => 'com_'.$table->getIdentifier()->package
+                'extension_name' => 'com_'.$table->getIdentifier()->package
             );
 
             if(count($this->_tables->find($needle))) {
@@ -81,7 +81,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name' => $table->getBase(),
-                'component_name' => 'com_'.$table->getIdentifier()->package
+                'extension_name' => 'com_'.$table->getIdentifier()->package
             );
             
             if(!count($this->_tables->find($needle)))
