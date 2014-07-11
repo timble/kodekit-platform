@@ -36,4 +36,7 @@
 		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
 	</div>
 	</fieldset>
+
+<!--	--><?//= object('com:articles.controller.article')->id(1)->render(); ?>
+	<?= object('com:articles.controller.article')->limit(1)->render(); ?>
 </form>

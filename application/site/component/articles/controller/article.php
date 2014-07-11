@@ -22,7 +22,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
         $config->append(array(
             'formats'   => array('rss'),
             'toolbars'  => array('article'),
-            'behaviors' => array('editable', 'searchable'))
+            'behaviors' => array('editable', 'searchable', 'com:varnish.controller.behavior.varnishable'))
         );
 
         parent::_initialize($config);
@@ -32,9 +32,9 @@ class ArticlesControllerArticle extends Library\ControllerModel
     {
         $request = parent::getRequest();
 
-        if (!$this->getUser()->isAuthentic()) {
-            $request->query->access = 0;
-        }
+//        if (!$this->getUser()->isAuthentic()) {
+//            $request->query->access = 0;
+//        }
 
         $view = $request->query->get('view', 'cmd', null);
 
