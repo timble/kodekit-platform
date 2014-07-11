@@ -20,7 +20,10 @@ class PagesControllerPage extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
     	$config->append(array(
-    		'behaviors' => array('editable', 'closurable')
+    		'behaviors' => array(
+                'editable', 'closurable',
+                'com:languages.controller.behavior.translatable'
+            )
     	));
     
     	parent::_initialize($config);
