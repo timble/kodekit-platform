@@ -233,9 +233,12 @@ class JFactory
     {
         jimport('joomla.language.language');
 
+        //Get the active language
+        $languages  = $this->getObject('application.languages');
+        $active     = $languages->getActive()->iso_code;
+
         $conf =& JFactory::getConfig();
-        $locale = $conf->getValue('config.language');
-        $lang =& JLanguage::getInstance($locale);
+        $lang =& JLanguage::getInstance($active);
         $lang->setDebug($conf->getValue('config.debug_lang'));
 
         return $lang;
