@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Dave Li <http://nooku.assembla.com/profile/daveli>
  * @package Nooku\Component\Varnish
  */
-class DatabaseBehaviorVarnishable extends Library\DatabaseBehaviorCreatable
+class DatabaseBehaviorVarnishable extends Library\DatabaseBehaviorAbstract
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{
@@ -49,7 +49,7 @@ class DatabaseBehaviorVarnishable extends Library\DatabaseBehaviorCreatable
 			$varnish = $this->getObject('com:varnish.database.row.socket');
 			$varnish->connect();
 
-			$varnish->ban('obj.http.x-'. $identifier->name .'-ids ~ '. $this->id);
+			$varnish->ban('obj.http.x-'. $identifier->name .'-IDs ~ '. $this->id);
 		}
 	}
 }

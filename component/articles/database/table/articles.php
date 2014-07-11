@@ -24,7 +24,7 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'       => 'articles',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable', 'identifiable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable', 'identifiable', 'com:varnish.database.behavior.varnishable',
                 'orderable' => array(
                     'strategy' => 'flat'
                 ),
