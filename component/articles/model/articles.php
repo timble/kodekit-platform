@@ -44,8 +44,8 @@ class ModelArticles extends Library\ModelDatabase
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-            'thumbnail'             => 'thumbnails.thumbnail',
-            'ordering_date'         => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
+            'thumbnail'     => 'thumbnails.thumbnail',
+            'ordering_date' => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
         ));
     }
 
