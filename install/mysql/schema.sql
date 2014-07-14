@@ -227,6 +227,7 @@ CREATE TABLE `languages_translations` (
     `iso_code` VARCHAR(8) NOT NULL,
     `table` VARCHAR(64) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
+    `slug` VARCHAR(250) NOT NULL,
     `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `original` BOOLEAN NOT NULL DEFAULT 0,
     `deleted` BOOLEAN NOT NULL DEFAULT 0,

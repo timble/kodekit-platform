@@ -26,6 +26,7 @@ class ModelTranslations extends Library\ModelTable
         $this->getState()
             ->insert('table', 'cmd')
             ->insert('row', 'int')
+            ->insert('slug', 'string')
             ->insert('iso_code', 'com:languages.filter.iso')
             ->insert('status', 'int')
             ->insert('deleted', 'boolean', false);
@@ -49,6 +50,10 @@ class ModelTranslations extends Library\ModelTable
             
             if($state->row) {
                 $query->where('tbl.row = :row')->bind(array('row' => $state->row));
+            }
+
+            if($state->slug) {
+                $query->where('tbl.slug = :slug')->bind(array('slug' => $state->slug));
             }
             
             if($state->iso_code) {

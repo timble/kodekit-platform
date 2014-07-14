@@ -62,6 +62,7 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                         'iso_code'  => ':iso_code',
                         'table'     => ':table',
                         'row'       => $this->unique_column,
+                        'slug'      => 'slug',
                         'status'    => ':status',
                         'original'  => ':original'
                     ))
@@ -75,7 +76,7 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                 
                 $query = $this->getObject('lib:database.query.insert')
                     ->table('languages_translations')
-                    ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
+                    ->columns(array('iso_code', 'table', 'row', 'slug', 'status', 'original'))
                     ->values($select);
                 
                 $database->execute($query);

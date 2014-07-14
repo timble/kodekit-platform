@@ -168,6 +168,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 'iso_code'   => $active->iso_code,
                 'table'      => $context->table,
                 'row'        => $context->data->id,
+                'slug'       => $context->data->slug,
                 'status'     => DatabaseRowTranslation::STATUS_COMPLETED,
                 'original'   => 1
             );
@@ -221,7 +222,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ), Library\Database::FETCH_ROW);
         
         $translation->setData(array(
-            'status' => DatabaseRowTranslation::STATUS_COMPLETED
+            'status' => DatabaseRowTranslation::STATUS_COMPLETED,
+            'slug'   => $context->data->slug
         ))->save();
         
         // Set the other items to outdated if they were completed before.
