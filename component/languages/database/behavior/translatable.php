@@ -389,47 +389,59 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
         }
     }
-    
+
     protected function _beforeAdapterDelete(Library\CommandContext $context)
     {
         $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
         $primary   = $languages->getPrimary();
-        
-        if($active->iso_code != $primary->iso_code) {
-            $context->query->table(strtolower($active->iso_code).'_'.$context->table);
+
+        if($active->iso_code != $primary->iso_code)
+        {
+            $table = $this->_tables->find(array('name' => $context->query->table))->top();
+            if($table instanceof Library\DatabaseRowInterface && $table->enabled) {
+                $context->query->table(strtolower($active->iso_code).'_'.$table->name);
+            }
         }
     }
-    
+
     protected function _afterAdapterDelete(Library\CommandContext $context)
     {
-        if($context->data->getStatus() == Library\Database::STATUS_DELETED)
+        if($context->affected)
         {
             $languages = $this->getObject('application.languages');
             $primary   = $languages->getPrimary();
             $active    = $languages->getActive();
-            
+
             // Remove item from other tables too.
-            $database = $this->getTable()->getAdapter();
-            $query    = clone $context->query;
-            
-            foreach($languages as $language)
-            {
-                if($language->iso_code != $active->iso_code)
-                {
-                    $prefix = $language->iso_code != $primary->iso_code ? strtolower($language->iso_code.'_') : ''; 
-                    $query->table($prefix.$context->table);
-                    $database->delete($query);
-                }
+            if($active->iso_code == $primary->iso_code) {
+                $table = $context->query->table;
+            } else {
+                $table = substr($context->query->table['0'], 6);
             }
-            
-            // Mark item as deleted in translations table.
-            $this->getObject('com:languages.database.table.translations')
-                ->select(array('table' => $context->table, 'row' => $context->data->id))
-                ->setData(array('deleted' => 1))
-                ->save(); 
+
+            $table = $this->_tables->find(array('name' => $table))->top();
+            if($table instanceof Library\DatabaseRowInterface && $table->enabled)
+            {
+                foreach($languages as $language)
+                {
+                    if($language->iso_code != $active->iso_code)
+                    {
+                        $query = clone $context->query;
+
+                        $prefix = $language->iso_code != $primary->iso_code ? strtolower($language->iso_code.'_') : '';
+                        $query->table($prefix.$table->name);
+
+                        $context->getSubject()->execute($query);
+                    }
+                }
+
+                // Mark item as deleted in translations table.
+                $this->getObject('com:languages.database.table.translations')
+                    ->select(array('table' => $table->name, 'row' => $query->data[$table->unique_column]))
+                    ->setData(array('deleted' => 1))
+                    ->save();
+            }
         }
     }
-
-
 }
