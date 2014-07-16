@@ -86,11 +86,15 @@ class ClassLocatorComponent extends ClassLocatorAbstract
             $component = strtolower(array_shift($parts));
             $file 	   = array_pop($parts);
 
-            if(count($parts)){
-                $path = implode('/', $parts).'/'.$file;
-            } else {
-                $path = $file;
+            if(!count($parts))
+            {
+                if(!in_array($file, array('bootstrapper','router'))) {
+                    $path = $file.'/'.$file;
+                } else {
+                    $path = $file;
+                }
             }
+            else $path = implode('/', $parts).'/'.$file;
 
             if(!empty($classpath) && empty($namespace)) {
                 $basepath = $classpath;
