@@ -124,7 +124,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
         	'command' => NULL
         ));
 
-        $html  = $this->getTemplate()->renderHelper('behavior.modal');
+        $html  = $this->getTemplate()->invokeHelper('behavior.modal');
         $html .= $this->command($config);
 
     	return $html;

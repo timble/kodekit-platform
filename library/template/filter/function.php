@@ -25,10 +25,10 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
      * @var array
      */
     protected $_functions = array(
-        'helper('    => '$this->renderHelper(',
+        'helper('    => '$this->invokeHelper(',
     	'object('    => '$this->getObject(',
-        'date('      => '$this->renderHelper(\'date.format\',',
-        'overlay('   => '$this->renderHelper(\'behavior.overlay\', ',
+        'date('      => '$this->invokeHelper(\'date.format\',',
+        'overlay('   => '$this->invokeHelper(\'behavior.overlay\', ',
         'translate(' => '$this->translate(',
         'import('    => '$this->load(',
         'route('     => '$this->getView()->getRoute(',

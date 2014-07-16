@@ -162,17 +162,19 @@ interface TemplateInterface
     public function getHelper($helper, $config = array());
 
     /**
-     * Load a template helper
+     * Invoke a template helper method
      *
-     * This functions accepts a partial identifier, in the form of helper.function. If a partial identifier is passed a
-     * full identifier will be created using the template identifier.
+     * This function accepts a partial identifier, in the form of helper.method or schema:package.helper.method. If
+     * a partial identifier is passed a full identifier will be created using the template identifier.
+     *
+     * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
      *
      * @param    string   $identifier Name of the helper, dot separated including the helper function to call
      * @param    array    $params     An optional associative array of functions parameters to be passed to the helper
      * @return   string   Helper output
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
-	public function renderHelper($identifier, $config = array());
+	public function invokeHelper($identifier, $config = array());
 
     /**
      * Register a template locator
