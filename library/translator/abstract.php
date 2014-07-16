@@ -26,6 +26,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     protected $_locale;
 
     /**
+     * Fallback locale.
+     *
+     * @var string
+     */
+    protected $_fallback_locale;
+
+    /**
      * The translator catalogue.
      *
      * @var TranslatorCatalogueInterface
@@ -50,8 +57,9 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         $this->setLocale($config->locale);
 
-        $this->_parser    = $config->parser;
-        $this->_catalogue = $config->catalogue;
+        $this->_parser          = $config->parser;
+        $this->_catalogue       = $config->catalogue;
+        $this->_fallback_locale = $config->fallback_locale;
     }
 
     /**
@@ -65,12 +73,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'caching' => false,
-            'parser'  => 'lib:translator.parser.yaml',
-            'locale'  => 'en-GB'
+            'caching'         => false,
+            'parser'          => 'lib:translator.parser.yaml',
+            'fallback_locale' => 'en-GB',
+            'locale'          => 'en-GB',
         ))->append(array(
-                'catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')
-            ));
+            'catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')
+        ));
 
         parent::_initialize($config);
     }
@@ -91,25 +100,10 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         $translation = $catalogue->hasString($string) ? $catalogue->{$string} : $string;
 
         if (count($parameters)) {
-            $translation = $this->replaceParameters($translation, $parameters);
+            $translation = $this->_replaceParameters($translation, $parameters);
         }
 
         return $translation;
-    }
-
-    /**
-     * Handles parameter replacements
-     *
-     * @param string $string String
-     * @param array  $parameters An array of parameters
-     * @return string String after replacing the parameters
-     */
-    public function replaceParameters($string, array $parameters = array())
-    {
-        $keys       = array_map(array($this, '_replaceKeys'), array_keys($parameters));
-        $parameters = array_combine($keys, $parameters);
-
-        return strtr($string, $parameters);
     }
 
     /**
@@ -150,14 +144,76 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     }
 
     /**
-     * Checks if the translator can translate a string
+     * Loads translations from a file.
      *
-     * @param $string String to check
-     * @return bool
+     * @param string $file     The path to the file containing translations.
+     * @param bool   $override Tells if previous loaded translations should be overridden
+     *
+     * @return bool True if translations were loaded, false otherwise
      */
-    public function isTranslatable($string)
+    public function load($file, $override = false)
     {
-        return $this->getCatalogue()->hasString($string);
+        $result = false;
+
+        if (file_exists($file) && ($string = file_get_contents($file)))
+        {
+            $translations = $this->getParser()->parse($string);
+            $result       = $this->getCatalogue()->load($translations, $override);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Imports translations from a file.
+     *
+     * @param string $file The translations file path
+     * @return TranslatorInterface
+     */
+    public function import($file)
+    {
+        $catalogue = $this->getCatalogue();
+
+        if (!$catalogue->isLoaded($file) && $this->load($file, true)) {
+            $catalogue->setLoaded($file);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Translations finder.
+     *
+     * Looks for translation files on the provided path.
+     *
+     * @param string $path The path to look for translations.
+     * @return string|false The translation file, false in no translations file is found.
+     */
+    public function find($path)
+    {
+        $locale          = $this->getLocale();
+        $fallback_locale = $this->getFallbackLocale();
+
+        $locales = array($locale);
+
+        if ($fallback_locale && ($locale !== $fallback_locale)) {
+            $locales[] = $fallback_locale;
+        }
+
+        $file = null;
+
+        foreach ($locales as $locale)
+        {
+            $candidate = $path . $locale . '.' . $this->getParser()->getFileExtension();
+
+            if (file_exists($candidate))
+            {
+                $file = $candidate;
+                break;
+            }
+        }
+
+        return $file;
     }
 
     /**
@@ -190,45 +246,39 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     }
 
     /**
-     * Adds curly braces around keys to make strtr work in replaceParameters method
-     *
-     * @param string $key
-     * @return string
+     * @see TranslatorInterface::setFallbackLocale()
      */
-    protected function _replaceKeys($key)
+    public function setFallbackLocale($locale)
     {
-        return '{'.$key.'}';
+        $this->_fallback_locale = $locale;
+        return $this;
     }
-
-    abstract public function import($source);
 
     /**
-     * Loads translations from a file.
-     *
-     * @param string $file     The path to the file containing translations.
-     * @param bool   $override Tells if previous loaded translations should be overridden
-     *
-     * @return bool True if translations were loaded, false otherwise
+     * @see TranslatorInterface::getFallbackLocale()
      */
-    public function load($file, $override = false)
+    public function getFallbackLocale()
     {
-        $result = false;
-
-        if (file_exists($file) && ($string = file_get_contents($file)))
-        {
-            $translations = $this->getParser()->parse($string);
-            $result       = $this->getCatalogue()->load($translations, $override);
-        }
-
-        return $result;
+        return $this->_fallback_locale;
     }
 
+    /**
+     * Parser setter.
+     *
+     * @param TranslatorParserInterface $parser
+     * @return TranslatorInterface
+     */
     public function setParser(TranslatorParserInterface $parser)
     {
         $this->_parser = $parser;
         return $this;
     }
 
+    /**
+     * Parser getter.
+     *
+     * @return TranslatorParserInterface
+     */
     public function getParser()
     {
         if (!$this->_parser instanceof TranslatorParserInterface) {
@@ -238,6 +288,11 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         return $this->_parser;
     }
 
+    /**
+     * Translator catalogue getter.
+     *
+     * @return TranslatorCatalogueInterface The translator catalogue.
+     */
     public function getCatalogue()
     {
         if (!$this->_catalogue instanceof TranslatorCatalogueInterface) {
@@ -247,9 +302,52 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         return $this->_catalogue;
     }
 
+    /**
+     * Translator catalogue setter.
+     *
+     * @param TranslatorCatalogueInterface $catalogue
+     * @return TranslatorInterface
+     */
     public function setCatalogue(TranslatorCatalogueInterface $catalogue)
     {
         $this->_catalogue = $catalogue;
         return $this;
+    }
+
+    /**
+     * Checks if the translator can translate a string
+     *
+     * @param $string String to check
+     * @return bool
+     */
+    public function isTranslatable($string)
+    {
+        return $this->getCatalogue()->hasString($string);
+    }
+
+    /**
+     * Handles parameter replacements
+     *
+     * @param string $string String
+     * @param array  $parameters An array of parameters
+     * @return string String after replacing the parameters
+     */
+    protected function _replaceParameters($string, array $parameters = array())
+    {
+        $keys       = array_map(array($this, '_replaceKeys'), array_keys($parameters));
+        $parameters = array_combine($keys, $parameters);
+
+        return strtr($string, $parameters);
+    }
+
+    /**
+     * Adds curly braces around keys to make strtr work in replaceParameters method
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function _replaceKeys($key)
+    {
+        return '{'.$key.'}';
     }
 }

@@ -15,44 +15,7 @@ namespace Nooku\Library;
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
  * @package Nooku\Library\Translator
  */
-class Translator extends TranslatorAbstract implements ObjectInstantiable, ObjectSingleton
+class Translator extends TranslatorAbstract implements ObjectSingleton
 {
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered('translator'))
-        {
-            $class     = $manager->getClass($config->object_identifier);
-            $instance  = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
 
-            $manager->registerAlias($config->object_identifier, 'translator');
-        }
-
-        return $manager->getObject('translator');
-    }
-
-    /**
-     * Imports translations from a file.
-     *
-     * @param string $file The translations file path.
-     *
-     * @return TranslatorInterface
-     */
-    public function import($file)
-    {
-        $catalogue = $this->getCatalogue();
-
-        if (!$catalogue->isLoaded($file) && $this->load($file, true)) {
-            $catalogue->setLoaded($file);
-        }
-
-        return $this;
-    }
 }
