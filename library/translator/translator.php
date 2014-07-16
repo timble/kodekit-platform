@@ -49,8 +49,7 @@ class Translator extends TranslatorAbstract implements ObjectInstantiable, Objec
     {
         $catalogue = $this->getCatalogue();
 
-        if (!$catalogue->isLoaded($file) && $this->load($file, true))
-        {
+        if (!$catalogue->isLoaded($file) && $this->load($file, true)) {
             $catalogue->setLoaded($file);
         }
 

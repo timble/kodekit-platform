@@ -43,31 +43,6 @@ class JFactory
     }
 
     /**
-     * Get a language object
-     *
-     * Returns a reference to the global {@link JLanguage} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @return object JLanguage
-     */
-    function &getLanguage()
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            //get the debug configuration setting
-            $conf =& JFactory::getConfig();
-            $debug = $conf->getValue('config.debug_lang');
-
-            $instance = JFactory::_createLanguage();
-            $instance->setDebug($debug);
-        }
-
-        return $instance;
-    }
-
-    /**
      * Get a mailer object
      *
      * Returns a reference to the global {@link JMail} object, only creating it
@@ -183,24 +158,5 @@ class JFactory
         }
 
         return $mail;
-    }
-
-    /**
-     * Create a language object
-     *
-     * @access private
-     * @return object JLanguage
-     * @since 1.5
-     */
-    function &_createLanguage()
-    {
-        jimport('joomla.language.language');
-
-        $conf =& JFactory::getConfig();
-        $locale = $conf->getValue('config.language');
-        $lang =& JLanguage::getInstance($locale);
-        $lang->setDebug($conf->getValue('config.debug_lang'));
-
-        return $lang;
     }
 }

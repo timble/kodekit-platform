@@ -49,6 +49,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         parent::__construct($config);
 
         $this->setLocale($config->locale);
+
         $this->_parser    = $config->parser;
         $this->_catalogue = $config->catalogue;
     }
@@ -67,7 +68,9 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
             'caching' => false,
             'parser'  => 'lib:translator.parser.yaml',
             'locale'  => 'en-GB'
-        ))->append(array('catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')));
+        ))->append(array(
+                'catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')
+            ));
 
         parent::_initialize($config);
     }
@@ -126,11 +129,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         $choice = TranslatorInflector::getPluralPosition($number, $this->getLocale());
 
-        if ($choice === 0)
-        {
-            $string = $strings[0];
-        }
-        else
+        if ($choice !== 0)
         {
             while ($choice > 0)
             {
@@ -145,6 +144,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
                 $choice--;
             }
         }
+        else  $string = $strings[0];
 
         return $this->translate(isset($string) ? $string : $strings[1], $parameters);
     }
@@ -169,6 +169,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     public function setLocale($locale)
     {
         $this->_locale = $locale;
+
+        //Set locale information for date and time formatting
+        setlocale(LC_TIME, $locale);
+
+        //Sets the default runtime locale
+        locale_set_default($locale);
+
         return $this;
     }
 
@@ -224,8 +231,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
     public function getParser()
     {
-        if (!$this->_parser instanceof TranslatorParserInterface)
-        {
+        if (!$this->_parser instanceof TranslatorParserInterface) {
             $this->setParser($this->getObject($this->_parser));
         }
 
@@ -234,8 +240,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
     public function getCatalogue()
     {
-        if (!$this->_catalogue instanceof TranslatorCatalogueInterface)
-        {
+        if (!$this->_catalogue instanceof TranslatorCatalogueInterface) {
             $this->setCatalogue($this->getObject($this->_catalogue));
         }
 

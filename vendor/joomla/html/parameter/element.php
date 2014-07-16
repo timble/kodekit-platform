@@ -84,7 +84,7 @@ class JElement extends JObject
 
 	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
-		$output = '<label for="'.$control_name.$name.'" class="control-label">'.JText::_( $label ).'</label>';
+		$output = '<label for="'.$control_name.$name.'" class="control-label">'. $label .'</label>';
 
 		return $output;
 	}

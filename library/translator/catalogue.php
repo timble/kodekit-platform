@@ -45,12 +45,9 @@ class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInte
 
     public function load($translations, $override = false)
     {
-        if ($override)
-        {
+        if ($override) {
             $this->_data = array_merge($this->_data, $translations);
-        }
-        else
-        {
+        } else {
             $this->_data = array_merge($translations, $this->_data);
         }
 

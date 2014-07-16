@@ -19,9 +19,9 @@
         <link><?= helper('route.article', array('entity' => $article)) ?></link>
         <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
-        <language><?= JFactory::getLanguage()->getTag() ?></language>
+        <language><?= @object('translator')->getLocale(); ?></language>
 
-        <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
+        <dc:language><?= @object('translator')->getLocale(); ?></dc:language>
         <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
         <dc:date><?= helper('date.format') ?></dc:date>
 

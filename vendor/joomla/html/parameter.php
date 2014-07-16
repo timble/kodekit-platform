@@ -196,7 +196,7 @@ class JParameter extends JRegistry
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
-			$desc	= JText::_($description);
+			$desc	= $description;
 			$html[]	= $desc;
 		}
 
@@ -317,7 +317,7 @@ class JParameter extends JRegistry
 		{
 			$result = array();
 			$result[0] = $node->attributes('name');
-			$result[1] = JText::_('Element not defined for type').' = '.$type;
+			$result[1] = 'Element not defined for type = '.$type;
 			$result[5] = $result[0];
 			return $result;
 		}

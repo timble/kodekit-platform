@@ -23,7 +23,7 @@ class ViewDebugHtml extends Library\ViewHtml
     {
         $database = $this->getObject('com:debug.event.subscriber.database');
         $profiler = $this->getObject('com:debug.event.profiler');
-        $language = \JFactory::getLanguage();
+        //$language = \JFactory::getLanguage();
 
         //Remove the template includes
         $includes = get_included_files();
@@ -39,9 +39,9 @@ class ViewDebugHtml extends Library\ViewHtml
 	    $context->data->memory    = $profiler->getMemory();
 	    $context->data->events    = (array) $profiler->getEvents();
 	    $context->data->queries   = (array) $database->getQueries();
-	    $context->data->languages = (array) $language->getPaths();
+	    $context->data->languages = array(); // $language->getPaths();
 	    $context->data->includes  = (array) $includes;
-	    $context->data->strings   = (array) $language->getOrphans();
+	    $context->data->strings   = array(); //$language->getOrphans();
 
         parent::_fetchData($context);
     }

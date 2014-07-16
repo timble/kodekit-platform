@@ -241,8 +241,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         if (!$translator->getCatalogue()->isLoaded($source))
         {
-            if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true))
-            {
+            if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true)) {
                 throw new \RuntimeException('Unable to load framework translations');
             }
 
@@ -251,9 +250,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         // Load application translations.
         $translator->import('application');
-
-        // TODO: Remove this.
-        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**

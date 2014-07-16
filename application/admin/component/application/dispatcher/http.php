@@ -146,7 +146,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $session = $user->getSession();
 
             //Re-create the session if we changed sites
-            if ($user->isAuthentic() && ($session->site != $this->getSite())) {
+            if ($user->isAuthentic() && ($session->site != $this->getSite()))
+            {
                 //@TODO : Fix this
                 //if(!$this->getObject('com:users.controller.session')->add()) {
                 //    $session->destroy();
@@ -168,7 +169,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $language  = null;
 
         // If a language was specified it has priority.
-        if ($iso_code = $this->getConfig()->options->language) {
+        if ($iso_code = $this->getConfig()->options->language)
+        {
             $result = $languages->find(array('iso_code' => $iso_code));
             if (count($result) == 1) {
                 $language = $result->top();
@@ -176,7 +178,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         // Otherwise use user language setting.
-        if (!$language && $iso_code = $context->user->get('language')) {
+        if (!$language && $iso_code = $context->user->get('language'))
+        {
             $result = $languages->find(array('iso_code' => $iso_code));
             if (count($result) == 1) {
                 $language = $result->top();
@@ -197,8 +200,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         if (!$translator->getCatalogue()->isLoaded($source))
         {
-            if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true))
-            {
+            if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true)) {
                 throw new \RuntimeException('Unable to load framework translations');
             }
 
@@ -207,9 +209,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
 
         // Load application translations.
         $translator->import('application');
-
-        // TODO: Remove this.
-        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**
@@ -261,12 +260,14 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     public function getSite($reparse = false)
     {
-        if (!$this->_site || $reparse) {
+        if (!$this->_site || $reparse)
+        {
             // Check URL host
             $uri = clone($this->getRequest()->getUrl());
 
             $host = $uri->getHost();
-            if (!$this->getObject('com:sites.model.sites')->fetch()->find($host)) {
+            if (!$this->getObject('com:sites.model.sites')->fetch()->find($host))
+            {
                 // Check folder
                 $base = $this->getRequest()->getBaseUrl()->getPath();
                 $path = trim(str_replace($base, '', $uri->getPath()), '/');
