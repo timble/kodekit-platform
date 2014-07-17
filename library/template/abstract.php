@@ -306,7 +306,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function escape($string)
     {
-        return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
+        return htmlspecialchars($string, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8');
     }
 
     /**
