@@ -108,9 +108,10 @@ interface ClassLoaderInterface
      *
      * @param  string $namespace
      * @param  string $path The location of the namespace
+     * @param  boolean $active Make the namespace active. Default is FALSE.
      * @return  ClassLoaderInterface
      */
-    public function registerNamespace($namespace, $path);
+    public function registerNamespace($namespace, $path, $active = false);
 
     /**
      * Set the active global namespace

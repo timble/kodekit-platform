@@ -318,11 +318,19 @@ class ClassLoader implements ClassLoaderInterface
      *
      * @param  string $namespace
      * @param  string $path The location of the namespace
+     * @param  boolean $active Make the namespace active. Default is FALSE.
      * @return  ClassLoaderInterface
      */
-    public function registerNamespace($namespace, $path)
+    public function registerNamespace($namespace, $path, $active = false)
     {
         $this->_namespaces[$namespace] = $path;
+
+        //Set the active namespace
+        if($active) {
+            $this->_namespace = $namespace;
+        }
+
+        return $this;
     }
 
     /**
@@ -335,15 +343,11 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function getNamespace($namespace = null)
     {
-        $result = false;
-
         if(!isset($namespace)) {
-            $result = $this->_namespace;
-        } else {
-            $result = isset($this->_namespaces[$namespace]) ? $this->_namespaces[$namespace] : false;
+            $namespace = $this->_namespace;
         }
 
-        return $result;
+        return isset($this->_namespaces[$namespace]) ? $this->_namespaces[$namespace] : false;
     }
 
     /**
