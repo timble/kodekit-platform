@@ -38,7 +38,7 @@ $nooku = Nooku::getInstance(array(
 
 unset($config);
 
-//Add application basepaths
+//Register application namespaces
 Library\ClassLoader::getInstance()->registerNamespace('site' , $nooku->getRootPath().'/application/site/component');
 Library\ClassLoader::getInstance()->registerNamespace('admin', $nooku->getRootPath().'/application/admin/component', true);
 

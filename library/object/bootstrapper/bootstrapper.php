@@ -42,11 +42,11 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
     {
         $chain = $this->getObject('lib:object.bootstrapper.chain');
 
-        foreach($this->_bootstrappers as $bootstrapper)
+        foreach($this->_bootstrappers as $bootstrapper => $config)
         {
             if(!isset($this->__bootstrapped[$bootstrapper]))
             {
-                $instance = $this->getObject($bootstrapper);
+                $instance = $this->getObject($bootstrapper, $config);
                 $chain->addBootstrapper($instance);
 
                 $this->__bootstrapped[$bootstrapper] = true;
@@ -72,30 +72,30 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
      */
     public function registerComponent($name, $vendor = null, $path = null)
     {
-        //Setup the class and object locators
-        if(isset($vendor))
+        //Setup the component class and object locators
+        if($vendor)
         {
+            //Register class namespace
             $namespace = ucfirst($vendor).'\Component\\'.ucfirst($name);
-            $this->getClassLoader()
-                 ->getLocator('component')
-                 ->registerNamespace($namespace, $path);
+            $this->getClassLoader()->getLocator('component')->registerNamespace($namespace, $path);
 
-            $this->getObjectManager()
-                 ->getLocator('com')
-                 ->registerPackage($name, $vendor);
+            //Register object manager package
+            $this->getObjectManager()->getLocator('com')->registerPackage($name, $vendor);
+        }
+
+        //Get the bootstrapper identifier
+        if($vendor) {
+            $identifier = 'com://'.$vendor.'/'.$name.'.object.bootstrapper.component';
+        } else {
+            $identifier = 'com:'.$name.'.object.bootstrapper.component';
         }
 
         //Register the component bootstrapper
-        if(!isset($this->_bootstrappers[$name]))
+        if(!isset($this->_bootstrappers[$identifier]) && $path)
         {
-            if(!empty($vendor)) {
-                $identifier = 'com://'.$vendor.'/'.$name.'.bootstrapper';
-            } else {
-                $identifier = 'com:'.$name.'.bootstrapper';
-            }
-
-            if($this->getObjectManager()->getClass($identifier)) {
-                $this->_bootstrappers[$name] = $identifier;
+            $config_path = $path .'/resources/config/bootstrapper.php';
+            if(file_exists($config_path)) {
+                $this->_bootstrappers[$identifier] = include $config_path;
             }
         }
 
