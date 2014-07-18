@@ -123,23 +123,23 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         if($controller instanceof ControllerModellable)
         {
-            if(!$controller->getModel()->getState()->isUnique())
-            {
-                $limit = $this->getRequest()->query->get('limit', 'int');
+            $controller->getModel()->getState()->setProperty('limit', 'default', $this->getConfig()->limit->default);
 
-                //If limit is empty use default
-                if(empty($limit)) {
-                    $limit = $this->getConfig()->limit->default;
-                }
+            $limit = $this->getRequest()->query->get('limit', 'int');
 
-                //Force the maximum limit
-                if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
-                    $limit = $this->getConfig()->limit->max;
-                }
-
-                $this->getRequest()->query->limit = $limit;
-                $controller->getModel()->getState()->limit = $limit;
+            // Set to default if there is no limit. This is done for both unique and non-unique states
+            // so that limit can be transparently used on unique state requests rendering lists.
+            if(empty($limit)) {
+                $limit = $this->getConfig()->limit->default;
             }
+
+            //Force the maximum limit
+            if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
+                $limit = $this->getConfig()->limit->max;
+            }
+
+            $this->getRequest()->query->limit = $limit;
+            $controller->getModel()->getState()->limit = $limit;
         }
 
         return $controller->execute('render', $context);

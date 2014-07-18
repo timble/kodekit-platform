@@ -46,7 +46,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->entity instanceof ArticlesModelEntityArticle) {
+        if (!$config->entity instanceof \ArticlesModelEntityArticle) {
             throw new \InvalidArgumentException('The entity is missing.');
         }
 

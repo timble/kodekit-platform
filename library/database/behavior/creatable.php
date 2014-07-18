@@ -18,6 +18,23 @@ namespace Nooku\Library;
 class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
 {
     /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'row_mixin' => true,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
      * Get the user that created the resource
      *
      * @return UserInterface|null Returns a User object or NULL if no user could be found
@@ -42,14 +59,17 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('created_by') || $table->hasColumn('created_on'))  {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('created_by') && !$table->hasColumn('created_on'))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

@@ -45,8 +45,6 @@ class ModelArticles extends Library\ModelDatabase
 
         $query->columns(array(
             'thumbnail'             => 'thumbnails.thumbnail',
-            'last_activity_on'      => 'IF(tbl.modified_on, tbl.modified_on, tbl.created_on)',
-            'last_activity_by_name' => 'IF(tbl.modified_on, modifier.name, creator.name)',
             'ordering_date'         => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
         ));
     }
@@ -55,10 +53,8 @@ class ModelArticles extends Library\ModelDatabase
     {
         parent::_buildQueryJoins($query);
 
-        $query->join(array('creator' => 'users'), 'creator.users_user_id = tbl.created_by')
-            ->join(array('modifier' => 'users'), 'modifier.users_user_id = tbl.modified_by')
-            ->join(array('attachments' => 'attachments'), 'attachments.attachments_attachment_id = tbl.attachments_attachment_id')
-            ->join(array('thumbnails' => 'files_thumbnails'), 'thumbnails.filename = attachments.path');
+        $query->join(array('attachments' => 'attachments'), 'attachments.attachments_attachment_id = tbl.attachments_attachment_id')
+              ->join(array('thumbnails' => 'files_thumbnails'), 'thumbnails.filename = attachments.path');
     }
 
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)

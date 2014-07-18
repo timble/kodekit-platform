@@ -37,7 +37,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      *
      * @var HttpToken
      */
-    protected $_token;
+    private $__token;
 
     /**
      * The secret
@@ -78,6 +78,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
         $this->_secret     = $config->secret;
         $this->_max_age    = $config->max_age;
         $this->_check_user = $config->check_user;
+
+        $this->addCommandCallback('before.dispatch', 'authenticateRequest');
+
     }
 
     /**
@@ -104,9 +107,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      *
      * @return HttpToken  The authorisation token or NULL if no token could be found
      */
-    public function getToken()
+    public function getAuthToken()
     {
-        if(!isset($this->_token))
+        if(!isset($this->__token))
         {
             $token   = false;
             $request = $this->getObject('request');
@@ -137,10 +140,10 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
                 $token = $this->getObject('lib:http.token')->fromString($token);
             }
 
-            $this->_token = $token;
+            $this->__token = $token;
         }
 
-        return $this->_token;
+        return $this->__token;
     }
 
     /**
@@ -150,9 +153,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      * @throws ControllerExceptionRequestNotAuthenticated
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    protected function _beforeDispatch(DispatcherContextInterface $context)
+    public function authenticateRequest(DispatcherContextInterface $context)
     {
-        if(!$context->user->isAuthentic() && $token = $this->getToken())
+        if(!$context->user->isAuthentic() && $token = $this->getAuthToken())
         {
             if($token->verify($this->_secret))
             {

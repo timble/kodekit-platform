@@ -20,6 +20,19 @@ use Nooku\Library;
 class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstract
 {
     /**
+     * Constructor.
+     *
+     * @param Library\ObjectConfig $config Configuration options
+     */
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->addCommandCallback('before.dispatch', 'authenticateRequest');
+
+    }
+
+    /**
      * Authenticate using the cookie session id
      *
      * If a session cookie is found and the session session is not active it will be auto-started.
@@ -27,7 +40,7 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    protected function _beforeDispatch(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(Library\DispatcherContextInterface $context)
     {
         $session = $context->getUser()->getSession();
         $request = $context->getRequest();

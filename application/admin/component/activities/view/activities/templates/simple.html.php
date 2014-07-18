@@ -34,7 +34,7 @@
     					</div>
     					 <div class="ellipsis">
     					 	<small class="datetime">
-    					 		<?= date("H:i", strtotime($activity->created_on)) ?> - <?= $activity->created_by_name ?>
+    					 		<?= date("H:i", strtotime($activity->created_on)) ?> - <?= $activity->getAuthor()->getName() ?>
     					 	</small>
     					 </div>
     				</div>

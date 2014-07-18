@@ -46,8 +46,14 @@ class UserProvider extends Library\UserProvider
 
             if (!$user instanceof Library\UserInterface)
             {
+                if (!is_numeric($identifier)) {
+                    $field = 'email';
+                } else {
+                    $field = 'id';
+                }
+
                 $user = $this->create(array(
-                    'id'   => $identifier,
+                    $field => $identifier,
                     'name' => $this->getObject('translator')->translate('Anonymous')
                 ));
             }
@@ -84,6 +90,7 @@ class UserProvider extends Library\UserProvider
                 'salt'       => $user->getPassword()->salt,
                 'enabled'    => $user->enabled,
                 'attributes' => $user->getParameters()->toArray(),
+                'expired'    => (bool) $user->activation,
                 'authentic'  => false
             );
 
@@ -92,5 +99,32 @@ class UserProvider extends Library\UserProvider
         else $user = null;
 
         return $user;
+    }
+
+    /**
+     * Check if a user has already been loaded for a given user identifier
+     *
+     * @param $identifier
+     * @return boolean TRUE if a user has already been loaded. FALSE otherwise
+     */
+    public function isLoaded($identifier)
+    {
+        $user = $this->getObject('user');
+
+        // Find session user identifier
+        if (!is_numeric($identifier)) {
+            $current = $user->getEmail();
+        } else {
+            $current = $user->getId();
+        }
+
+        // Fetch the user if not exists
+        if ($current != $identifier) {
+            $result = isset($this->_users[$identifier]);
+        } else {
+            $result = true;
+        }
+
+        return $result;
     }
 }

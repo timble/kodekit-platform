@@ -48,6 +48,7 @@ Installation
 
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
 * You can login into the admin application at [nooku.dev/administrator](http://nooku.dev/) using the username and password `admin@localhost.home`/`admin`.
+* You can access the APC dashboard at [nooku.dev/apc](http://nooku.dev/apc) and phpinfo() at [nooku.dev/phpinfo](http://nooku.dev/phpinfo).
 
 License
 -------

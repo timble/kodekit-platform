@@ -110,8 +110,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     {
         $result = true;
 
-        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration))))
-        {
+        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)))) {
             $result = false;
         }
 

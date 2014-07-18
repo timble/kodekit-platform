@@ -7,22 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Application;
+namespace Nooku\Component\Activities;
 
 use Nooku\Library;
 
 /**
- * Html Page View
+ * Bootstrapper
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Activities
  */
-class ViewPageHtml extends ViewHtml
+class Bootstrapper extends Library\ObjectBootstrapperComponent
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters'	=> array('module', 'style', 'link', 'meta', 'script', 'title', 'message'),
+            'aliases'  => array(
+                'com:activities.database.behavior.creatable' => 'com:users.database.behavior.creatable',
+            ),
         ));
 
         parent::_initialize($config);

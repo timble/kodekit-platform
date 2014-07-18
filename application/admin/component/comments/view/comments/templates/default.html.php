@@ -55,7 +55,7 @@
                 </td>
                 <td>
                     <a href="<?= route('option=com_users&view=user&id='.$comment->created_by) ?>">
-                        <?= escape($comment->created_by_name); ?>
+                        <?= escape($comment->getAuthor()->getName()); ?>
                     </a>
                 </td>
                 <td>
