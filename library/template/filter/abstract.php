@@ -64,18 +64,6 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     }
 
     /**
-     * Translates a string and handles parameter replacements
-     *
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array())
-    {
-        return $this->getTemplate()->translate($string, $parameters);
-    }
-
-    /**
      * Escape a string
      *
      * By default the function uses htmlspecialchars to escape the string
@@ -111,7 +99,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Set the template object
      *
-     * @param KTemplateInterface $template The template object
+     * @param  TemplateInterface $template The template object
      * @return TemplateFilterInterface $template The template object
      */
     public function setTemplate(TemplateInterface $template)

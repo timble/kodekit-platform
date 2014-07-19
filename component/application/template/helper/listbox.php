@@ -30,7 +30,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt)));
+            $options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
         }
 
         $basepaths = $this->getObject('manager')->getClassLoader()->getBasepaths();

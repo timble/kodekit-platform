@@ -19,12 +19,11 @@ class TranslationsNodeVisitor extends \PHPParser_NodeVisitorAbstract
 
     public function enterNode(\PHPParser_Node $node)
     {
-        if (($node instanceof \PHPParser_Node_Expr_MethodCall || $node instanceof \PHPParser_Node_Expr_FuncCall)
-            && $node->name == 'translate')
+        if (($node instanceof \PHPParser_Node_Expr_MethodCall || $node instanceof \PHPParser_Node_Expr_FuncCall) && $node->name == 'translate')
         {
             $this->logNode($node->args[0]->value);
 
-            // Check for $this->translate('string')
+            // Check for $this->getObject('translator')->translate('string')
             // (for template helpers)
             /*if ((string)$node->var->name === 'this') {
                 $this->logNode($node->args[0]->value);
@@ -45,10 +44,7 @@ class TranslationsNodeVisitor extends \PHPParser_NodeVisitorAbstract
             }*/
         }
 
-        if ($node instanceof \PHPParser_Node_Expr_MethodCall
-            && is_string($node->name)
-            && $node->name === 'choose')
-        {
+        if ($node instanceof \PHPParser_Node_Expr_MethodCall && is_string($node->name) && $node->name === 'choose') {
             $this->logNode($node->args[0]->value);
         }
     }

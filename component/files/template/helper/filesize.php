@@ -43,6 +43,6 @@ class TemplateHelperFilesize extends Library\TemplateHelperAbstract
 			$size = Library\StringInflector::singularize($size);
 		}
 
-		return sprintf($format, $result, $this->translate($size));
+		return sprintf($format, $result, $this->getObject('translator')->translate($size));
 	}
 }

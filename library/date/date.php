@@ -18,13 +18,6 @@ namespace Nooku\Library;
 class Date extends Object implements DateInterface
 {
     /**
-     * Translator object
-     *
-     * @var TranslatorInterface
-     */
-    private $__translator;
-
-    /**
      * The date object
      *
      * @var \DateTime
@@ -65,7 +58,6 @@ class Date extends Object implements DateInterface
         $config->append(array(
             'date'       => 'now',
             'timezone'   => date_default_timezone_get(),
-            'translator' => 'translator'
         ));
     }
 
@@ -89,7 +81,7 @@ class Date extends Object implements DateInterface
      */
     public function humanize($period = 'second')
     {
-        $translator = $this->getTranslator();
+        $translator = $this->getObject('translator');
 
         $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
         $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
@@ -256,41 +248,6 @@ class Date extends Object implements DateInterface
     }
 
     /**
-     * Gets the translator object
-     *
-     * @throws UnexpectedValueException
-     * @return TranslatorInterface
-     */
-    public function getTranslator()
-    {
-        if(!$this->__translator instanceof TranslatorInterface)
-        {
-            $this->__translator = $this->getObject($this->__translator);
-
-            if(!$this->__translator instanceof TranslatorInterface)
-            {
-                throw new UnexpectedValueException(
-                    'Translator: '.get_class($this->__translator).' does not implement TranslatorInterface'
-                );
-            }
-        }
-
-        return $this->__translator;
-    }
-
-    /**
-     * Sets the translator object
-     *
-     * @param  TranslatorInterface $translator A translator object
-     * @return Date
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->__translator = $translator;
-        return $this;
-    }
-
-    /**
      * Translates day and month names.
      *
      * @param array $matches Matched elements of preg_replace_callback.
@@ -299,7 +256,7 @@ class Date extends Object implements DateInterface
     protected function _translate($matches)
     {
         $replacement = '';
-        $translator = $this->getTranslator();
+        $translator = $this->getObject('translator');
 
         switch ($matches[0])
         {

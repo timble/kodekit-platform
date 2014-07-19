@@ -71,10 +71,13 @@ class ModelEntityPassword extends Library\ModelEntityRow
             // Check the password length.
             if (strlen($password) < $this->getLength())
             {
+                $message = $this->getObject('translator')->translate(
+                    'You need to provide a password with at least {number} characters.',
+                    array('number' => $this->getLength())
+                );
+
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage($this->getObject('translator')
-                                             ->translate('You need to provide a password with at least {number} characters.',
-                    array('number' => $this->getLength())));
+                $this->setStatusMessage($message);
                 return false;
             }
 

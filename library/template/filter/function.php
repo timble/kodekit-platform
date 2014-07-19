@@ -30,7 +30,7 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
         'date('      => '$this->renderHelper(\'date.format\',',
         'overlay('   => '$this->renderHelper(\'behavior.overlay\', ',
         'choose'     => '$this->getTemplate()->choose(',
-        'translate(' => '$this->translate(',
+        'translate(' => '$this->getObject(\'translator\')->translate(',
         'import('    => '$this->load(',
         'route('     => '$this->getView()->getRoute(',
         'escape('    => '$this->escape(',

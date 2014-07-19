@@ -22,27 +22,30 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         $result = true;
 
         // Push the token to the view.
-        if ($token = $context->request->query->get('token', $this->_filter)) {
+        if ($token = $context->request->query->get('token', $this->_filter))
+        {
             $user = $this->getModel()->fetch();
 
             // Only passwords from enabled users can be reset.
-            if (!$user->enabled) {
+            if (!$user->enabled)
+            {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
 
                 $translator = $this->getObject('translator');
 
-                $context->response->setRedirect($url,
-                    $translator->translate('The user account you are trying to reset the password for is not enabled'),
-                    'error');
+                $message = $translator->translate('The user account you are trying to reset the password for is not enabled');
+                $context->response->setRedirect($url, $message, 'error');
 
-                if ($user->activation) {
-                    $context->response->addMessage($translator->translate('Please activate your account before resetting your password'),
-                        'notice');
+                if ($user->activation)
+                {
+                    $message = $translator->translate('Please activate your account before resetting your password');
+                    $context->response->addMessage($message, 'notice');
                 }
 
                 $result = false;
-            } else $this->getView()->token = $token;
+            }
+            else $this->getView()->token = $token;
         }
 
         return $result;
@@ -52,7 +55,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         $result = true;
 
-        if (!parent::_beforeReset($context)) {
+        if (!parent::_beforeReset($context))
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
@@ -67,7 +71,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         $result = true;
 
-        if (!parent::_beforeToken($context)) {
+        if (!parent::_beforeToken($context))
+        {
             $url = $context->request->getReferrer();
             $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
@@ -78,7 +83,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
     protected function _afterToken(Library\ControllerContextInterface $context)
     {
-        if ($context->result) {
+        if ($context->result)
+        {
             $page = $this->getObject('application.pages')->find(array(
                 'component' => 'users',
                 'published' => 1,
@@ -120,20 +126,22 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $this->getObject('application')->getRouter()->build($url);
 
                 $context->response->setRedirect($url, $message['text'], $message['type']);
-            } else {
-                $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
             }
+            else $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
         }
     }
 
     protected function _afterReset(Library\ControllerContextInterface $context)
     {
-        if ($context->result) {
+        if ($context->result)
+        {
             $message = array('text' => $this->getObject('translator')->translate('Your password has been reset'), 'type' => 'success');
             $url     = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-        } else {
+        }
+        else
+        {
             $message = array('text' => $context->error, 'type' => 'error');
             $url     = $context->request->getReferrer();
         }

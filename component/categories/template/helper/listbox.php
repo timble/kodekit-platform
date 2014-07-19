@@ -66,7 +66,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => 0));
+            $options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt), 'value' => 0));
         }
 
         $categories = $this->getObject('com:categories.model.categories')

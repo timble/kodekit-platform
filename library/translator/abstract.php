@@ -140,7 +140,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         }
         else  $string = $strings[0];
 
-        return $this->translate(isset($string) ? $string : $strings[1], $parameters);
+        return $this->getObject('translator')->translate(isset($string) ? $string : $strings[1], $parameters);
     }
 
     /**

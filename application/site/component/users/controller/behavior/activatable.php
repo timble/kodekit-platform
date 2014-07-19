@@ -76,11 +76,13 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 $message = $translator->translate('User account activation E-mail',
                     array('name' => $user->name, 'site' => $site, 'url' => $url));
 
-                if ($user->notify(array('subject' => $subject, 'message' => $message))) {
-                    $context->response->addMessage($translator->translate('An E-mail for activating your account has been sent to the address you have provided'));
-                } else {
-                    $context->reponse->addMessage($translator->translate('Failed to send activation E-mail'), 'error');
+                if ($user->notify(array('subject' => $subject, 'message' => $message)))
+                {
+                    $context->response->addMessage($translator->translate(
+                        'An E-mail for activating your account has been sent to the address you have provided'
+                    ));
                 }
+                else $context->reponse->addMessage($translator->translate('Failed to send activation E-mail'), 'error');
             }
             else $context->reponse->addMessage($translator->translate('Unable to get an activation URL'), 'error');
         }

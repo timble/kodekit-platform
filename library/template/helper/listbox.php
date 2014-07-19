@@ -35,14 +35,16 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'selected'  => $config->{$config->name}
         ));
 
+        $translator = $this->getObject('translator');
+
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $translator->translate($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => $this->translate( 'Enabled' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => $this->translate( 'Disabled' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $translator->translate( 'Enabled' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $translator->translate( 'Disabled' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -66,16 +68,18 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'prompt'    => '- Select -',
         ))->append(array(
                 'selected'  => $config->{$config->name}
-            ));
+        ));
+
+        $translator = $this->getObject('translator');
 
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $translator->translate($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => $this->translate( 'Published' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => $this->translate( 'Draft' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $translator->translate( 'Published' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $translator->translate( 'Draft' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -129,7 +133,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'name'		=> 'timezone',
             'attribs'	=> array(),
             'deselect'  => true,
-            'prompt'    => '- '.$this->translate('Select Time Zone').' -',
+            'prompt'    => '- '.$this->getObject('translator')->translate('Select Time Zone').' -',
         ));
 
         if ($config->deselect) {
@@ -244,7 +248,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		//Compose the options array
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('label' => $this->translate($config->prompt)));
+         	$options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
         }
 
  		foreach($items as $key => $value)

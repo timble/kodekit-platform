@@ -68,7 +68,8 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
         	'command' => null
         ));
 
-        $command = $config->command;
+        $command    = $config->command;
+        $translator = $this->getObject('translator');
 
         //Add a nolink class if the command is disabled
         if($command->disabled) {
@@ -85,9 +86,9 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
         }
 
         if ($command->disabled) {
-			$html = '<span '.$this->buildAttributes($command->attribs).'>'.$this->translate($command->label).'</span>';
+			$html = '<span '.$this->buildAttributes($command->attribs).'>'.$translator->translate($command->label).'</span>';
 		} else {
-			$html = '<a '.$this->buildAttributes($command->attribs).'>'.$this->translate($command->label).'</a>';
+			$html = '<a '.$this->buildAttributes($command->attribs).'>'.$translator->translate($command->label).'</a>';
 		}
 
     	return $html;

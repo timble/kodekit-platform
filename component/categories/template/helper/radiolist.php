@@ -51,8 +51,10 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
             'label'  => 'title',
         ));
 
-        if($config->uncategorised) {
-            array_unshift($options, $this->option(array('label' => $this->translate('Uncategorized'), 'value' => '0', 'id' => '0')));
+        if($config->uncategorised)
+        {
+            $label = $this->getObject('translator')->translate('Uncategorized');
+            array_unshift($options, $this->option(array('label' => $label, 'value' => '0', 'id' => '0')));
         }
 
         //Add the options to the config object
