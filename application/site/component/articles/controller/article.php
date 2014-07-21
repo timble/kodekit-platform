@@ -32,9 +32,9 @@ class ArticlesControllerArticle extends Library\ControllerModel
     {
         $request = parent::getRequest();
 
-//        if (!$this->getUser()->isAuthentic()) {
-//            $request->query->access = 0;
-//        }
+		if ($this->isDispatched() && !$this->getUser()->isAuthentic()) {
+            $request->query->access = 0;
+        }
 
         $view = $request->query->get('view', 'cmd', null);
 

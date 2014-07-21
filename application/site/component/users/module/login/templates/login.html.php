@@ -37,6 +37,5 @@
 	</div>
 	</fieldset>
 
-<!--	--><?//= object('com:articles.controller.article')->id(1)->render(); ?>
 	<?= object('com:articles.controller.article')->limit(1)->render(); ?>
 </form>

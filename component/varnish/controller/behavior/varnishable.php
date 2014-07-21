@@ -34,18 +34,18 @@ class ControllerBehaviorVarnishable extends Library\ControllerBehaviorAbstract
 		$model	= $this->getModel();
 		$entity	= $model->fetch();
 
-		$identifier = $model->getIdentifier().'.ids';
-
 		$name = Library\StringInflector::singularize($entity->getIdentifier()->name);
 
-		$previous = $context->user->get($identifier);
+		$headers = $this->getObject('response')->getHeaders();
 
-		$context->user->set($identifier, array_keys($entity->toArray()));
+		if($headers->has('x-'. $name .'-ids')) {
+			$previous = explode(';', $headers->get('x-'. $name .'-ids'));
 
-		if(is_array($previous)) {
-			$context->user->set($identifier, array_unique(array_merge($previous, array_keys($entity->toArray()))));
+			$ids = array_unique(array_merge($previous, array_keys($entity->toArray())));
+		} else {
+			$ids = array_keys($entity->toArray());
 		}
 
-		header('x-'.$name.'-ids: '.implode('; ', $context->user->get($identifier)));
+		$headers->set('x-'. $name .'-ids', implode(';', $ids));
 	}
 }
