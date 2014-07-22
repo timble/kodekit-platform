@@ -25,19 +25,19 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
      * @var array
      */
     protected $_functions = array(
-        'helper('    => '$this->renderHelper(',
-    	'object('    => '$this->getObject(',
-        'date('      => '$this->renderHelper(\'date.format\',',
-        'overlay('   => '$this->renderHelper(\'behavior.overlay\', ',
-        'translate(' => '$this->getObject(\'translator\')->translate(',
-        'import('    => '$this->load(',
-        'route('     => '$this->getView()->getRoute(',
-        'escape('    => '$this->escape(',
-        'url('       => '$this->getView()->getUrl()->toString(',
-        'title('     => '$this->getView()->getTitle(',
-        'json('      => 'json_encode(',
-        'format('    => 'sprintf(',
-        'replace('   => 'strtr(',
+        ' helper('    => ' $this->renderHelper(',
+    	' object('    => ' $this->getObject(',
+        ' date('      => ' $this->renderHelper(\'date.format\',',
+        ' overlay('   => ' $this->renderHelper(\'behavior.overlay\', ',
+        ' translate(' => ' $this->getObject(\'translator\')->translate(',
+        ' import('    => ' $this->load(',
+        ' route('     => ' $this->getView()->getRoute(',
+        ' escape('    => ' $this->escape(',
+        ' url('       => ' $this->getView()->getUrl()->toString(',
+        ' title('     => ' $this->getView()->getTitle(',
+        ' json('      => ' json_encode(',
+        ' format('    => ' sprintf(',
+        ' replace('   => ' strtr(',
     );
 
     /**
@@ -49,7 +49,7 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
      */
     public function addFunction($name, $rewrite)
     {
-        $this->_functions[$name.'('] = $rewrite;
+        $this->_functions[' '.$name.'('] = ' '.$rewrite;
         return $this;
     }
 
