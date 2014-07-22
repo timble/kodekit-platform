@@ -52,7 +52,6 @@ interface TranslatorInterface
      * Imports a source translations.
      *
      * @param mixed $source The source for which translations will be imported.
-     *
      * @return TranslatorInterface
      */
     public function import($source);
@@ -62,10 +61,11 @@ interface TranslatorInterface
      *
      * Looks for translation files on the provided path.
      *
-     * @param string $path The path to look for translations.
-     * @return string|false The translation file, false in no translations file is found.
+     * @param string $path      The path to look for translations.
+     * @param string $extension The file extension to look for.
+     * @return string|false The translation filename. False in no translations file is found.
      */
-    public function find($path);
+    public function find($path, $extension = 'yaml');
 
     /**
      * Sets the locale

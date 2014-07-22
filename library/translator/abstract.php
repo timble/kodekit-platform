@@ -42,7 +42,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     /**
      * Constructor.
      *
-     * @param   ObjectConfig $config Configuration options
+     * @param ObjectConfig $config Configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -101,7 +101,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      * Translates a string based on the number parameter passed
      *
      * @param array   $strings Strings to choose from
-     * @param integer $number The umber of items
+     * @param integer $number The number of items
      * @param array   $parameters An array of parameters
      * @throws \InvalidArgumentException
      * @return string Translated string
@@ -139,7 +139,6 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      *
      * @param string $file     The path to the file containing translations.
      * @param bool   $override Tells if previous loaded translations should be overridden
-     *
      * @return bool True if translations were loaded, false otherwise
      */
     public function load($file, $override = false)
@@ -178,10 +177,11 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      *
      * Looks for translation files on the provided path.
      *
-     * @param string $path The path to look for translations.
+     * @param string $path      The path to look for translations.
+     * @param string $extension The file extension to look for.
      * @return string|false The translation filename. False in no translations file is found.
      */
-    public function find($path)
+    public function find($path, $extension = 'yaml')
     {
         $locale          = $this->getLocale();
         $locale_fallback = $this->getLocaleFallback();
@@ -196,7 +196,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         foreach ($locales as $locale)
         {
-            $candidate = $path . $locale . '.yaml';
+            $candidate = $path . $locale . '.'.$extension;
 
             if (file_exists($candidate))
             {
