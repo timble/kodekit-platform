@@ -40,13 +40,6 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     protected $_catalogue;
 
     /**
-     * The translator parser.
-     *
-     * @var TranslatorParserInterface
-     */
-    protected $_parser;
-
-    /**
      * Constructor.
      *
      * @param   ObjectConfig $config Configuration options
@@ -57,7 +50,6 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         $this->setLocale($config->locale);
 
-        $this->_parser          = $config->parser;
         $this->_catalogue       = $config->catalogue;
         $this->_locale_fallback = $config->locale_fallback;
     }
@@ -76,7 +68,6 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
             'locale'          => 'en-GB',
             'locale_fallback' => 'en-GB',
             'caching'         => false,
-            'parser'          => 'lib:translator.parser.yaml',
         ))->append(array(
             'catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')
         ));
@@ -153,12 +144,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function load($file, $override = false)
     {
-        $result = false;
-
-        if (file_exists($file) && ($string = file_get_contents($file)))
+        try
         {
-            $translations = $this->getParser()->parse($string);
+            $translations = $this->getObject('object.config.factory')->fromFile($file)->toArray();
             $result       = $this->getCatalogue()->load($translations, $override);
+        }
+        catch (\RuntimeException $e) {
+            $result = false;
         }
 
         return $result;
@@ -187,7 +179,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      * Looks for translation files on the provided path.
      *
      * @param string $path The path to look for translations.
-     * @return string|false The translation file, false in no translations file is found.
+     * @return string|false The translation filename. False in no translations file is found.
      */
     public function find($path)
     {
@@ -204,7 +196,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         foreach ($locales as $locale)
         {
-            $candidate = $path . $locale . '.' . $this->getParser()->getFileExtension();
+            $candidate = $path . $locale . '.yaml';
 
             if (file_exists($candidate))
             {
@@ -265,32 +257,6 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     public function getLocaleFallback()
     {
         return $this->_locale_fallback;
-    }
-
-    /**
-     * Parser setter.
-     *
-     * @param TranslatorParserInterface $parser
-     * @return TranslatorInterface
-     */
-    public function setParser(TranslatorParserInterface $parser)
-    {
-        $this->_parser = $parser;
-        return $this;
-    }
-
-    /**
-     * Parser getter.
-     *
-     * @return TranslatorParserInterface
-     */
-    public function getParser()
-    {
-        if (!$this->_parser instanceof TranslatorParserInterface) {
-            $this->setParser($this->getObject($this->_parser));
-        }
-
-        return $this->_parser;
     }
 
     /**

@@ -113,21 +113,6 @@ interface TranslatorInterface
     public function setCatalogue(TranslatorCatalogueInterface $catalogue);
 
     /**
-     * Parser setter.
-     *
-     * @param TranslatorParserInterface $parser
-     * @return TranslatorInterface
-     */
-    public function setParser(TranslatorParserInterface $parser);
-
-    /**
-     * Parser getter.
-     *
-     * @return TranslatorParserInterface
-     */
-    public function getParser();
-
-    /**
      * Checks if the translator can translate a string
      *
      * @param $string String to check
