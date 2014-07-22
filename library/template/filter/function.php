@@ -35,6 +35,9 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
         'escape('    => '$this->escape(',
         'url('       => '$this->getView()->getUrl()->toString(',
         'title('     => '$this->getView()->getTitle(',
+        'json('      => 'json_encode(',
+        'format('    => 'sprintf(',
+        'replace('   => 'strtr(',
     );
 
     /**
