@@ -93,9 +93,9 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
         //Register the component bootstrapper
         if(!isset($this->_bootstrappers[$identifier]) && $path)
         {
-            $config_path = $path .'/resources/config/bootstrapper.php';
-            if(file_exists($config_path)) {
-                $this->_bootstrappers[$identifier] = include $config_path;
+            $config = $path .'/resources/config/bootstrapper.php';
+            if(file_exists($config)) {
+                $this->_bootstrappers[$identifier] = include $config;
             }
         }
 
