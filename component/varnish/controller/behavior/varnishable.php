@@ -19,33 +19,34 @@ use Nooku\Library;
  */
 class ControllerBehaviorVarnishable extends Library\ControllerBehaviorAbstract
 {
-	protected function _afterBrowse(Library\ControllerContextInterface $context)
-	{
-		$this->_setHeaders($context);
-	}
+    protected function _afterBrowse(Library\ControllerContextInterface $context)
+    {
+        $this->_setHeaders($context);
+    }
 
-	protected function _afterRead(Library\ControllerContextInterface $context)
-	{
-		$this->_setHeaders($context);
-	}
+    protected function _afterRead(Library\ControllerContextInterface $context)
+    {
+        $this->_setHeaders($context);
+    }
 
-	protected function _setHeaders($context)
-	{
-		$model	= $this->getModel();
-		$entity	= $model->fetch();
+    protected function _setHeaders($context)
+    {
+        if(!$context->result instanceof Library\ModelEntityInterface)
+        {
+            $entity	 = $context->result;
+            $headers = $context->response->headers;
 
-		$name = Library\StringInflector::singularize($entity->getIdentifier()->name);
+            $name = Library\StringInflector::singularize($entity->getIdentifier()->name);
+            $header = 'X-'. unfirst($name) .'-Ids';
 
-		$headers = $this->getObject('response')->getHeaders();
+            if($headers->has($header))
+            {
+                $previous = explode(';', $headers->get($header));
+                $ids      = array_unique(array_merge($previous, array_keys($entity->toArray())));
+            }
+            else $ids = array_keys($entity->toArray());
 
-		if($headers->has('x-'. $name .'-ids')) {
-			$previous = explode(';', $headers->get('x-'. $name .'-ids'));
-
-			$ids = array_unique(array_merge($previous, array_keys($entity->toArray())));
-		} else {
-			$ids = array_keys($entity->toArray());
-		}
-
-		$headers->set('x-'. $name .'-ids', implode(';', $ids));
-	}
+            $headers->set($header, implode(';', $ids));
+        }
+    }
 }
