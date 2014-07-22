@@ -83,19 +83,19 @@ interface TranslatorInterface
     public function getLocale();
 
     /**
-     * Fallback locale setter.
+     * Set the fallback locale
      *
      * @param string $locale The fallback locale.
      * @return TranslatorInterface
      */
-    public function setFallbackLocale($locale);
+    public function setLocaleFallback($locale);
 
     /**
-     * Fallback locale getter.
+     * Get the fallback locale
      *
      * @return string The fallback locale.
      */
-    public function getFallbackLocale();
+    public function getLocaleFallback();
 
     /**
      * Translator catalogue getter.

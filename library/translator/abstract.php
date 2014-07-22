@@ -26,11 +26,11 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     protected $_locale;
 
     /**
-     * Fallback locale.
+     * Locale Fallback
      *
      * @var string
      */
-    protected $_fallback_locale;
+    protected $_locale_fallback;
 
     /**
      * The translator catalogue.
@@ -59,7 +59,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         $this->_parser          = $config->parser;
         $this->_catalogue       = $config->catalogue;
-        $this->_fallback_locale = $config->fallback_locale;
+        $this->_locale_fallback = $config->locale_fallback;
     }
 
     /**
@@ -73,10 +73,10 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'locale'          => 'en-GB',
+            'locale_fallback' => 'en-GB',
             'caching'         => false,
             'parser'          => 'lib:translator.parser.yaml',
-            'fallback_locale' => 'en-GB',
-            'locale'          => 'en-GB',
         ))->append(array(
             'catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')
         ));
@@ -140,7 +140,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         }
         else  $string = $strings[0];
 
-        return $this->getObject('translator')->translate(isset($string) ? $string : $strings[1], $parameters);
+        return $this->translate(isset($string) ? $string : $strings[1], $parameters);
     }
 
     /**
@@ -192,12 +192,12 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     public function find($path)
     {
         $locale          = $this->getLocale();
-        $fallback_locale = $this->getFallbackLocale();
+        $locale_fallback = $this->getLocaleFallback();
 
         $locales = array($locale);
 
-        if ($fallback_locale && ($locale !== $fallback_locale)) {
-            $locales[] = $fallback_locale;
+        if ($locale_fallback && ($locale !== $locale_fallback)) {
+            $locales[] = $locale_fallback;
         }
 
         $file = null;
@@ -246,20 +246,25 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     }
 
     /**
-     * @see TranslatorInterface::setFallbackLocale()
+     * Set the fallback locale
+     *
+     * @param string $locale The fallback locale
+     * @return TranslatorAbstract
      */
-    public function setFallbackLocale($locale)
+    public function setLocaleFallback($locale)
     {
         $this->_fallback_locale = $locale;
         return $this;
     }
 
     /**
-     * @see TranslatorInterface::getFallbackLocale()
+     * Set the fallback locale
+     *
+     * @return string
      */
-    public function getFallbackLocale()
+    public function getLocaleFallback()
     {
-        return $this->_fallback_locale;
+        return $this->_locale_fallback;
     }
 
     /**
