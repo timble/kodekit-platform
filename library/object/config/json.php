@@ -32,8 +32,8 @@ class ObjectConfigJson extends ObjectConfigFormat
         {
             $data = json_decode($string, true);
 
-            if($data === null) {
-                throw new \DomainException('Cannot decode data from JSON string');
+            if (json_last_error() > 0) {
+                throw new \DomainException(sprintf('Cannot decode from JSON string - %s', json_last_error_msg()));
             }
         }
 
@@ -53,8 +53,8 @@ class ObjectConfigJson extends ObjectConfigFormat
         $data = $this->toArray();
         $data = json_encode($data);
 
-        if($data === false) {
-            throw new \DomainException('Cannot encode data to JSON string');
+        if (json_last_error() > 0) {
+            throw new \DomainException(sprintf('Cannot encode data to JSON string - %s', json_last_error_msg()));
         }
 
         return $data;
