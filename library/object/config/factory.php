@@ -48,6 +48,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
     {
         $config->append(array(
             'formats' => array(
+                'php'  => 'Nooku\Library\ObjectConfigPhp',
                 'ini'  => 'Nooku\Library\ObjectConfigIni',
                 'json' => 'Nooku\Library\ObjectConfigJson',
                 'xml'  => 'Nooku\Library\ObjectConfigXml',
@@ -101,8 +102,8 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      * @param string $format    The name of the format
      * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
      * 					        or valid identifier string
+     * @throws \InvalidArgumentException If the class does not exist.
      * @return	ObjectConfigFactory
-     * throws \InvalidArgumentException If the class does not exist.
      */
     public function registerFormat($format, $class)
     {
@@ -119,9 +120,9 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      *
      * @param  string  $format
      * @param  string  $config
-     * @return ObjectConfigInterface
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @return ObjectConfigInterface
      */
     public function fromString($format, $config)
     {
@@ -133,9 +134,9 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      * Read a config from a file.
      *
      * @param  string  $filename
-     * @return ObjectConfigInterface
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @return ObjectConfigInterface
      */
     public function fromFile($filename)
     {
@@ -157,8 +158,8 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      *
      * @param string $filename
      * @param ObjectConfigInterface $config
-     * @return boolean TRUE on success. FALSE on failure
      * @throws \RuntimeException
+     * @return boolean TRUE on success. FALSE on failure
      */
     public function toFile($filename, ObjectConfigInterface $config)
     {

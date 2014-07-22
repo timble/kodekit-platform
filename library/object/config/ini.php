@@ -21,8 +21,8 @@ class ObjectConfigIni extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
+     * @throws \DomainException
      * @return ObjectConfigIni
-     * @throws \RuntimeException
      */
     public function fromString($string)
     {
@@ -33,7 +33,7 @@ class ObjectConfigIni extends ObjectConfigFormat
             $data = parse_ini_string($string, true);
 
             if($data === false) {
-                throw new \RuntimeException('Cannot parse INI string');
+                throw new \DomainException('Cannot parse INI string');
             }
         }
 

@@ -84,18 +84,6 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
-     * Remove a configuration option
-     *
-     * @param   string $name The configuration option name.
-     * @return  ObjectConfig
-     */
-    public function remove( $name )
-    {
-        unset($this->__options[$name]);
-        return $this;
-    }
-
-    /**
      * Add options
      *
      * This method will overwrite keys that already exist, keys that don't exist yet will be added.
@@ -114,6 +102,18 @@ class ObjectConfig implements ObjectConfigInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Remove a configuration option
+     *
+     * @param   string $name The configuration option name.
+     * @return  ObjectConfig
+     */
+    public function remove( $name )
+    {
+        unset($this->__options[$name]);
         return $this;
     }
 

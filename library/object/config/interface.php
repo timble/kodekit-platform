@@ -48,14 +48,6 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
     public function has($name);
 
     /**
-     * Remove a configuration option
-     *
-     * @param   string $name The configuration option name.
-     * @return  ObjectConfigInterface
-     */
-    public function remove( $name );
-
-    /**
      * Add options
      *
      * This method will overwrite keys that already exist, keys that don't exist yet will be added.
@@ -64,6 +56,14 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * @return ObjectConfigInterface
      */
     public function add($options);
+
+    /**
+     * Remove a configuration option
+     *
+     * @param   string $name The configuration option name.
+     * @return  ObjectConfigInterface
+     */
+    public function remove( $name );
 
     /**
      * Append values

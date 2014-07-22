@@ -21,8 +21,8 @@ class ObjectConfigXml extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
+     * @throws \DomainException
      * @return ObjectConfigXml
-     * @throws \RuntimeException
      */
     public function fromString($string)
     {
@@ -31,6 +31,11 @@ class ObjectConfigXml extends ObjectConfigFormat
         if(!empty($string))
         {
             $xml  = simplexml_load_string($string);
+
+            if($xml === false) {
+                throw new \DomainException('Cannot parse XML string');
+            }
+
             foreach ($xml->children() as $node) {
                 $data[(string) $node['name']] = self::_decodeValue($node);
             }

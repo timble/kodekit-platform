@@ -21,8 +21,8 @@ interface ObjectConfigSerializable
      * Read from a string and create a ObjectConfig object
      *
      * @param  string $string
+     * @throws \DomainException
      * @return ObjectConfigSerializable
-     * @throws \RuntimeException
      */
     public function fromString($string);
 
@@ -37,8 +37,8 @@ interface ObjectConfigSerializable
      * Read from a file and create an array
      *
      * @param  string $filename
-     * @return ObjectConfigSerializable
      * @throws \RuntimeException
+     * @return ObjectConfigSerializable
      */
     public function fromFile($filename);
 

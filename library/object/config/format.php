@@ -21,8 +21,8 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
      * Read from a file and create a config object
      *
      * @param  string $filename
-     * @return ObjectConfigFormat
      * @throws \RuntimeException
+     * @return ObjectConfigFormat
      */
     public function fromFile($filename)
     {
@@ -40,9 +40,9 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
      * Write a config object to a file.
      *
      * @param  string  $filename
-     * @return void
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @return void
      */
     public function toFile($filename)
     {
@@ -60,7 +60,6 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
             throw new \RuntimeException(sprintf("Cannot write in directory : %s", $directory));
         }
 
-        //Try to write the file
         $result = file_put_contents($filename, $this->toString(), LOCK_EX);
 
         if($result === false) {

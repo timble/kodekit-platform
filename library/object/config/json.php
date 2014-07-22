@@ -21,8 +21,8 @@ class ObjectConfigJson extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return $this
      * @throws \DomainException  If the JSON cannot be decoded or if the encoded data is deeper than the recursion limit.
+     * @return ObjectConfigJson
      */
     public function fromString($string)
     {
@@ -45,8 +45,8 @@ class ObjectConfigJson extends ObjectConfigFormat
     /**
      * Write a config object to a string.
      *
-     * @return string|false    Returns a JSON encoded string on success. False on failure.
      * @throws \DomainException Object could not be encoded to valid JSON.
+     * @return string|false    Returns a JSON encoded string on success. False on failure.
      */
     public function toString()
     {
