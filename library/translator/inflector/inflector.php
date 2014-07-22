@@ -18,9 +18,9 @@ namespace Nooku\Library;
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
  * @package Nooku\Library\Translator
  */
-class TranslatorInflector extends StringInflector
+class TranslatorInflector extends StringInflector implements TranslatorInflectorInterface
 {
-    private static $position_rules = array();
+    protected static $_position_rules = array();
 
     /**
      * Returns the plural position to use for the given locale and number.
@@ -40,9 +40,9 @@ class TranslatorInflector extends StringInflector
             $locale = substr($locale, 0, -strlen(strrchr($locale, '-')));
         }
 
-        if (isset(self::$position_rules[$locale]))
+        if (isset(self::$_position_rules[$locale]))
         {
-            $return = call_user_func(self::$position_rules[$locale], $number);
+            $return = call_user_func(self::$_position_rules[$locale], $number);
 
             if (!is_int($return) || $return < 0) {
                 return 0;
@@ -191,12 +191,12 @@ class TranslatorInflector extends StringInflector
     /**
      * Overrides the default plural rule for a given locale.
      *
-     * @param string $rule   A PHP callable
-     * @param string $locale The locale
+     * @param callable $rule    A PHP callable
+     * @param string $locale    The locale
      * @throws \LogicException
      * @return void
      */
-    public static function setPluralRule($rule, $locale)
+    public static function setPluralRule(callable $rule, $locale)
     {
         // temporary set a locale for brazilian
         if ("pt_BR" == $locale) {
@@ -207,10 +207,6 @@ class TranslatorInflector extends StringInflector
             $locale = substr($locale, 0, -strlen(strrchr($locale, '_')));
         }
 
-        if (!is_callable($rule)) {
-            throw new \LogicException('The given rule can not be called');
-        }
-
-        self::$position_rules[$locale] = $rule;
+        self::$_position_rules[$locale] = $rule;
     }
 }
