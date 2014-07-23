@@ -119,6 +119,7 @@ class ControllerError extends Library\ControllerView
         $this->getView()->args     = $args;
         $this->getView()->info     = $info;
         $this->getView()->trace    = $traces;
+        $this->getView()->level    = $exception instanceof Library\ExceptionError ? $exception->getSeverityMessage() : false;
 
         //Make sure the buffers are cleared
         while(@ob_get_clean());
