@@ -306,7 +306,8 @@ class ViewJson extends ViewAbstract
 
         preg_match_all("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", $text, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match) {
+        foreach ($matches as $match)
+        {
             $route = $this->getObject('lib:dispatcher.router.route', array(
                 'url'    => $match[2],
                 'escape' => false
