@@ -184,7 +184,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         $result = false;
 
         //Check if we are reading or browsing
-        $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
+        $action = $this->getView()->isCollection() ? 'browse' : 'read';
 
         //Execute the action
         if($this->execute($action, $context) !== false) {
