@@ -24,9 +24,8 @@ interface StringInflectorInterface
 	 *
 	 * @param	string	$singular Singular word
 	 * @param 	string	$plural   Plural word
-	 * @param 	string	$verbal   Verbal word
 	 */
-	public static function addWord($singular, $plural, $verbal = null);
+	public static function addWord($singular, $plural);
 
    	/**
 	 * Singular English word to plural.
@@ -43,14 +42,6 @@ interface StringInflectorInterface
 	 * @return 	string Singular noun
 	 */
 	public static function singularize($word);
-	
-	/**
-	 * Present English verb conjugated to preterite participle.
-	 *
-	 * @param 	string $word Word to verbalize.
-	 * @return 	string Present verb
-	 */
-	public static function verbalize($word);
 
    	/**
 	 * Returns given word as CamelCased
@@ -91,39 +82,6 @@ interface StringInflectorInterface
 	 * @return string  UpperCamelCasedWord
 	 */
 	public static function implode($words);
-
-   	/**
-	 * Returns a human-readable string from $word
-	 *
-	 * Returns a human-readable string from $word, by replacing underscores with a space, and by upper-casing the
-     * initial character by default.
-	 *
-	 * @param   string    $word    String to "humanize"
-	 * @return string Human-readable word
-     */
-	public static function humanize($word);
-
-   	/**
-	 * Converts a class name to its table name according to Nooku naming conventions.
-	 *
-	 * Converts "Person" to "people"
-	 *
-	 * @param  string $className    Class name for getting related table_name.
-	 * @return string plural_table_name
-	 * @see classify
-	 */
-	public static function tableize($className);
-
-   	/**
-	 * Converts a table name to its class name according to Nooku naming conventions.
-	 *
-	 * Converts "people" to "Person"
-	 *
-	 * @see tableize
-	 * @param  string $table_name  Table name for getting related ClassName.
-	 * @return string SingularClassName
-	 */
-	public static function classify($tableName);
 
 	/**
 	 * Check to see if an English word is singular

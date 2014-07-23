@@ -530,7 +530,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             {
                 $identifier = $this->getIdentifier()->toArray();
                 $identifier['path'] = array('database', 'table');
-                $identifier['name'] = StringInflector::tableize($table);
+                $identifier['name'] = StringInflector::pluralize(StringInflector::underscore($table));
 
                 $identifier = $this->getIdentifier($identifier);
             }
