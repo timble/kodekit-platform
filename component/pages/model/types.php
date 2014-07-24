@@ -93,7 +93,7 @@ class ModelTypes extends Library\ModelAbstract
                 }
 
                 $components[] = array(
-                    'name'  => 'com_' . $component->getFilename(),
+                    'name'  => $component->getFilename(),
                     'title' => ucfirst($component->getFilename()),
                     'views' => $views
                 );

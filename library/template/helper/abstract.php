@@ -55,19 +55,6 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
     }
 
     /**
-     * Escape a string
-     *
-     * By default the function uses htmlspecialchars to escape the string
-     *
-     * @param string $string String to to be escape
-     * @return string Escaped string
-     */
-    public function escape($string)
-    {
-        return $this->getTemplate()->escape($string);
-    }
-
-    /**
      * Set the template object
      *
      * @return  TemplateInterface $template	The template object
@@ -112,7 +99,10 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 
                 if (is_bool($item))
                 {
-                    if ($item === false) continue;
+                    if ($item === false) {
+                        continue;
+                    }
+                    
                     $item = $key;
                 }
 

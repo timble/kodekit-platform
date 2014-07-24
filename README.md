@@ -20,11 +20,9 @@ Installation
 
 * Clone this repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
 
+```
     $ git clone git://git.assembla.com/nooku-framework.git
-
-* Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
-
-    $ git checkout develop
+```
 
 * Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
 
@@ -38,14 +36,19 @@ Installation
 
 * Run `vagrant up` in the repository directory. This will download the [nooku/box](http://github.com/nooku/nooku-server) and setup your development environment.
 
+```
     $ vagrant up
+```
 
 * Add the following line into /etc/hosts
 
-    33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev apc.nooku.dev
+```
+    33.33.33.63 nooku.dev webgrind.nooku.dev phpmyadmin.nooku.dev
+```
 
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
 * You can login into the admin application at [nooku.dev/administrator](http://nooku.dev/) using the username and password `admin@localhost.home`/`admin`.
+* You can access the APC dashboard at [nooku.dev/apc](http://nooku.dev/apc) and phpinfo() at [nooku.dev/phpinfo](http://nooku.dev/phpinfo).
 
 License
 -------

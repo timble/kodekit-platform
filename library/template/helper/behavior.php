@@ -330,7 +330,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $identifier = $this->getIdentifier($config->identifier);
             $config->url = $this->getTemplate()->getView()->getRoute(
-                'option=com_' . $identifier->package . '&view=' . $identifier->name . '&format=json', false, false
+                'component=' . $identifier->package . '&view=' . $identifier->name . '&format=json', false, false
             );
         }
 
@@ -371,7 +371,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     {
         $config = new ObjectConfigJson($config);
         $config->append(array(
-            'option'	=> 'com_'.$this->getIdentifier()->getPackage(),
+            'component'	=> $this->getIdentifier()->getPackage(),
             'view'		=> StringInflector::singularize($this->getTemplate()->getView()->getName()),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc',

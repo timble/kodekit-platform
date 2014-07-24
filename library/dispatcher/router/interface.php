@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Dispatcher Router
+ * Dispatcher Router
  *
  * Provides route buidling and parsing functionality
  *
@@ -22,16 +22,16 @@ interface DispatcherRouterInterface
     /**
      * Function to convert a route to an internal URI
      *
-     * @param   HttpUrl  $url  The url.
+     * @param   HttpUrlInterface  $url  The url.
      * @return  boolean
      */
-	public function parse(HttpUrl $uri);
+	public function parse(HttpUrlInterface $uri);
 
     /**
      * Function to convert an internal URI to a route
      *
-     * @param	HttpUrl   $url	The internal URL
+     * @param	HttpUrlInterface   $url	The internal URL
      * @return	boolean
      */
-	public function build(HttpUrl $url);
+	public function build(HttpUrlInterface $url);
 }

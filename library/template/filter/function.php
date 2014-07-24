@@ -27,8 +27,8 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
     protected $_functions = array(
         'helper('    => ' $this->renderHelper(',
     	'object('    => ' $this->getObject(',
-        'date('      => ' $this->renderHelper(\'date.format\',',
-        'overlay('   => ' $this->renderHelper(\'behavior.overlay\', ',
+        'date('      => '$this->invokeHelper(\'date.format\',',
+        'overlay('   => '$this->invokeHelper(\'behavior.overlay\', ',
         'translate(' => ' $this->getObject(\'translator\')->translate(',
         'import('    => ' $this->load(',
         'route('     => ' $this->getView()->getRoute(',

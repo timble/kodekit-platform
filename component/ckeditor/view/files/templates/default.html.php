@@ -16,7 +16,7 @@ use Nooku\Library;
 
 <script>
     Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';
-    Files.base     = '<?= route('option=com_files', true, false); ?>';
+    Files.base     = '<?= route('component=files', true, false); ?>';
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {

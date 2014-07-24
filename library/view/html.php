@@ -42,16 +42,11 @@ class ViewHtml extends ViewTemplate
      *
      * @param string    $route  The query string used to create the route
      * @param boolean   $fqr    If TRUE create a fully qualified route. Default FALSE.
-     * @param boolean   $escape If TRUE escapes the route for xml compliance. Default FALSE.
-     * @return string The route
+     * @param boolean   $escape If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return 	DispatcherRouterRoute 	The route
      */
-    public function getRoute($route = '', $fqr = null, $escape = null)
+    public function getRoute($route = '', $fqr = false, $escape = true)
     {
-        //If not set force to false
-        if ($fqr === null) {
-            $fqr = false;
-        }
-
         return parent::getRoute($route, $fqr, $escape);
     }
 }

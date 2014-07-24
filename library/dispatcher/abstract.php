@@ -252,7 +252,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
                 );
             }
 
-            $this->getCommandChain()->addHandler($authenticator);
+            $this->addBehavior($authenticator);
 
             //Store the authenticator to allow for named lookups
             $this->__authenticators[(string)$identifier] = $authenticator;

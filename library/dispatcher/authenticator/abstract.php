@@ -15,7 +15,39 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-abstract class DispatcherAuthenticatorAbstract extends CommandHandlerAbstract implements DispatcherAuthenticatorInterface
+abstract class DispatcherAuthenticatorAbstract extends BehaviorAbstract implements DispatcherAuthenticatorInterface
 {
+    /**
+     * Authenticate the request
+     *
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     * @return bool Returns TRUE if the request could be authenticated, FALSE otherwise.
+     */
+    public function authenticateRequest(DispatcherContextInterface $context)
+    {
+        return false;
+    }
 
+    /**
+     * Sign the response
+     *
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     * @return bool Returns TRUE if the response could be signed, FALSE otherwise.
+     */
+    public function signResponse(DispatcherContextInterface $context)
+    {
+        return false;
+    }
+
+    /**
+     * Get the methods that are available for mixin based
+     *
+     * @param  array           $exclude     An array of public methods to be exclude
+     * @return array An array of methods
+     */
+    public function getMixableMethods($exclude = array())
+    {
+        $exclude = array_merge($exclude, array('authenticateRequest', 'signResponse'));
+        return parent::getMixableMethods($exclude);
+    }
 }

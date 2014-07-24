@@ -44,7 +44,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     public function getDescription()
     {
         $query       = $this->getLink()->query;
-        $description = $this->component ? ucfirst($this->component) : ucfirst(substr($query['option'], 4));
+        $description = $this->component ? ucfirst($this->component) : substr($query['component']);
 
         $translator = $this->getObject('translator');
 
@@ -122,7 +122,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $type  = $this->getLink();
         $query = $type->getQuery(true);
 
-        $component = substr($query['option'], 4);
+        $component = $query['component'];
         $view      = $query['view'];
         $layout    = isset($query['layout']) ? $query['layout'] : 'default';
 
@@ -148,7 +148,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
             }
 
             $this->link_url  = http_build_query($query);
-            $this->component = substr($query['option'], 4);
+            $this->component = $query['component'];
         }
     }
 

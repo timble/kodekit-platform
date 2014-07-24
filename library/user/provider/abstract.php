@@ -71,7 +71,7 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     public function load($identifier, $refresh = false)
     {
         //Fetch a user from the backend
-        if($refresh || !isset($this->_users[$identifier]))
+        if($refresh || !$this->isLoaded($identifier))
         {
             $user = $this->fetch($identifier);
             $this->_users[$identifier] = $user;
@@ -97,6 +97,24 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     }
 
     /**
+     * Store a user object in the provider
+     *
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @param array $data An associative array of user data
+     * @return UserInterface     Returns a UserInterface object
+     */
+    public function store($identifier, $data)
+    {
+        if(!$data instanceof UserInterface) {
+            $data = $this->create($data);
+        }
+
+        $this->_users[$identifier] = $data;
+
+        return $data;
+    }
+
+    /**
      * Create a user object
      *
      * @param array $data An associative array of user data
@@ -106,5 +124,16 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     {
         $user = $this->getObject('user.default', array('data' => $data));
         return $user;
+    }
+
+    /**
+     * Check if a user has already been loaded for a given user identifier
+     *
+     * @param $identifier
+     * @return boolean TRUE if a user has already been loaded. FALSE otherwise
+     */
+    public function isLoaded($identifier)
+    {
+        return isset($this->_users[$identifier]);
     }
 }

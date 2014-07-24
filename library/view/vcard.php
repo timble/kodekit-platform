@@ -314,23 +314,15 @@ class ViewVcard extends ViewAbstract
     /**
      * Encode
      *
-     * @param   string $string  String to encode
+     * @param   string  String to encode
      * @return  string  Encoded string
      */
     protected function _encode($string)
     {
-        return $this->_escape($this->_quoted_printable_encode($string));
-    }
+        $result = $this->_quoted_printable_encode($string);
+        $result = str_replace(';',"\;",$string);
 
-    /**
-     * Escape
-     *
-     * @param   string $string  String to escape
-     * @return  string  Escaped string
-     */
-    protected function _escape($string)
-    {
-        return str_replace(';',"\;",$string);
+        return $result;
     }
 
     /**

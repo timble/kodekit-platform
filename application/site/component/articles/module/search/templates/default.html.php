@@ -9,7 +9,7 @@
 ?>
 
 <? if ($module->getParameters()->get('item_id', null)): ?>
-    <form action="<?= route('option=com_articles&view=articles&Itemid=' . $module->getParameters()->get('item_id')) ?>" method="get" class="navbar-form pull-right">
+    <form action="<?= route('component=articles&view=articles&Itemid=' . $module->getParameters()->get('item_id')) ?>" method="get" class="navbar-form pull-right">
         <div class="form-group">
             <input id="search" name="search" class="form-control" type="text" value="" placeholder="<?= translate('Search articles') ?>"/>
         </div>

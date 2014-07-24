@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# This script will update a Joomla 1.5 database to Nooku 13.1
+# This script will update a Nooku 0.8 database to Nooku 0.9
 
 -- Remove all the admin modules
 DELETE FROM `modules` WHERE `client_id` = 1;

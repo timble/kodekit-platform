@@ -40,19 +40,18 @@ class ModelDatabase extends ModelAbstract
         $identifier = $alias = $this->getIdentifier()->toArray();
 
         //Create database.rowset alias
-        $identifier['path'] = array('database', 'rowset');
-        $alias['path']      = array('model', 'entity');
+        $alias['path']      = array('database', 'rowset');
+        $identifier['path'] = array('model', 'entity');
 
-        $this->getObject('manager')->registerAlias($alias, $identifier);
+        $this->getObject('manager')->registerAlias($identifier, $alias);
 
         //Create database.row alias
-        $identifier['path'] = array('database', 'row');
+        $alias['path'] = array('database', 'row');
+        $alias['name'] = StringInflector::singularize($alias['name']);
+
         $identifier['name'] = StringInflector::singularize($identifier['name']);
 
-        $alias['path'] = array('model', 'entity');
-        $alias['name'] = StringInflector::singularize($identifier['name']);
-
-        $this->getObject('manager')->registerAlias($alias, $identifier);
+        $this->getObject('manager')->registerAlias($identifier, $alias);
 
         //Behavior depends on the database. Need to add if after database has been set.
         $this->addBehavior('indexable');
@@ -70,7 +69,7 @@ class ModelDatabase extends ModelAbstract
     {
         $config->append(array(
             'table'      => $this->getIdentifier()->name,
-            'behaviors'  => array('paginatable', 'orderable'),
+            'behaviors'  => array('paginatable', 'sortable'),
         ));
 
         parent::_initialize($config);
@@ -190,7 +189,7 @@ class ModelDatabase extends ModelAbstract
 		    {
 		        $identifier         = $this->getIdentifier()->toArray();
 		        $identifier['path'] = array('database', 'table');
-		        $identifier['name'] = StringInflector::tableize($table);
+		        $identifier['name'] = StringInflector::pluralize(StringInflector::underscore($table));
 
                 $identifier = $this->getIdentifier($identifier);
 		    }

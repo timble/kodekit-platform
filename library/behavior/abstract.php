@@ -204,9 +204,10 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
         $methods = array();
         if($this->isSupported())
         {
-            $exclude += array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
-                'getName', 'getObject', 'setBreakCondition', 'getBreakCondition', 'addCommandCallback',
-                'removeCommandCallback', 'getCommandCallbacks', 'invokeCommandCallback');
+            $exclude = array_merge($exclude, array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority',
+                'getHandle', 'getName', 'getObject', 'getConfig', 'setBreakCondition', 'getBreakCondition',
+                'addCommandCallback', 'removeCommandCallback', 'getCommandCallbacks', 'invokeCommandCallback',
+                'isSupported'));
 
             $methods = parent::getMixableMethods($exclude);
         }

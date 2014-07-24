@@ -198,7 +198,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * This function passes the template through compile filter queue and returns the result.
      *
-     * @return TemplateInterface
+     * @return TemplateAbstract
      */
     public function compile()
     {
@@ -524,18 +524,20 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $helper = $this->getObject($identifier, array_merge($config, array('template' => $this)));
 
         //Check the helper interface
-        if (!($helper instanceof TemplateHelperInterface))
+        if (!($helper instanceof TemplateHelperInterface)) 
         {
-            throw new \UnexpectedValueException("Template helper $identifier does not implement TemplateHelperInterface");
+            throw new \UnexpectedValueException(
+                "Template helper $identifier does not implement TemplateHelperInterface"
+            );
         }
 
         return $helper;
     }
 
     /**
-     * Load a template helper
+     * Invoke a template helper method
      *
-     * This function accepts a partial identifier, in the form of helper.function or schema:package.helper.function. If
+     * This function accepts a partial identifier, in the form of helper.method or schema:package.helper.method. If
      * a partial identifier is passed a full identifier will be created using the template identifier.
      *
      * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
@@ -545,7 +547,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * @return   string   Helper output
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
-    public function renderHelper($identifier, $params = array())
+    public function invokeHelper($identifier, $params = array())
     {
         //Get the function and helper based on the identifier
         $parts      = explode('.', $identifier);

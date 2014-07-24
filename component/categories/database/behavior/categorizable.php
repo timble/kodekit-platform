@@ -46,12 +46,14 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
     {
         $model = $this->getObject('com:categories.model.categories');
 
-        if (!$this->isNew()) {
+        if (!$this->isNew())
+        {
             //Get the category
             $category = $model->table($this->getTable()->getName())
                 ->id($this->categories_category_id)
                 ->fetch();
-        } else $category = $model->fetch();
+        }
+        else $category = $model->fetch();
 
         return $category;
     }

@@ -51,10 +51,10 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 		));
 	
 		$entity  = $config->entity;
-		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
-		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$entity->created_by);
+		$item = $this->getTemplate()->getView()->getRoute('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
+		$user = $this->getTemplate()->getView()->getRoute('component=users&view=user&id='.$entity->created_by);
 		
-		$message   = '<a href="'.$user.'">'.$entity->created_by_name.'</a> ';
+		$message   = '<a href="'.$user.'">'.$entity->getAuthor()->getName().'</a> ';
 		$message  .= $entity->status;
        
 		if ($entity->status != 'trashed') {

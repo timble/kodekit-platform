@@ -65,7 +65,7 @@
 					<?= helper('grid.checkbox' , array('entity' => $user)) ?>
 				</td>
                 <td align="center">
-                    <?= helper('grid.enable', array('entity' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
+                    <?= helper('grid.enable', array('entity' => $user, 'component' => 'users', 'view' => 'users')) ?>
                 </td>
 				<td>
 					<a href="<?= route('view=user&id='.$user->id) ?>">

@@ -81,6 +81,18 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         //Initialise the object
         $this->_initialize($config);
 
+        //Add the mixins
+        $mixins = (array) ObjectConfig::unbox($config->mixins);
+
+        foreach ($mixins as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->mixin($value);
+            } else {
+                $this->mixin($key, $value);
+            }
+        }
+
         //Set the object config
         $this->__object_config = $config;
     }

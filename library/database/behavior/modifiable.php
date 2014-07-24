@@ -28,7 +28,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => self::PRIORITY_LOW,
+			'priority'  => self::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);
@@ -59,14 +59,17 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('modified_by') || $table->hasColumn('modified_on')) {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('modified_by') && !$table->hasColumn('modified_on')) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 	/**

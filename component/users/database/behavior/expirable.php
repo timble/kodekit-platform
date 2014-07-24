@@ -46,7 +46,6 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $config->append(array(
             'expirable'  => 1,
             'expiration' => 6,
-            'row_mixin'  => true
         ));
 
         parent::_initialize($config);
@@ -110,8 +109,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     {
         $result = true;
 
-        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration))))
-        {
+        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)))) {
             $result = false;
         }
 

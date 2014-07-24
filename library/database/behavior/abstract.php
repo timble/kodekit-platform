@@ -31,8 +31,8 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $class     = $manager->getClass($config->object_identifier);
         $instance  = new $class($config);
 
-        //Lazy mix it into related row objects.
-        if ($config->row_mixin)
+        //Lazy mix behavior into related row objects. A supported behavior always has one is[Behaviorable] method.
+        if ($instance->isSupported() && $instance->getMixer() && count($instance->getMixableMethods()) > 1)
         {
             $identifier = $instance->getMixer()->getIdentifier()->toArray();
             $identifier['path'] = array('database', 'row');
@@ -112,7 +112,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public function getMixableMethods($exclude = array())
     {
-        $exclude +=  array('save', 'delete', 'getInstance');
+        $exclude = array_merge($exclude, array('getInstance', 'save', 'delete'));
         return parent::getMixableMethods($exclude);
     }
 }

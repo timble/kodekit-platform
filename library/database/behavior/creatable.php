@@ -42,14 +42,17 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('created_by') || $table->hasColumn('created_on'))  {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('created_by') && !$table->hasColumn('created_on'))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

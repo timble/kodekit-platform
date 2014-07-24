@@ -17,5 +17,19 @@ namespace Nooku\Library;
  */
 interface DispatcherAuthenticatorInterface
 {
+    /**
+     * Authenticate the request
+     *
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     * @return bool Returns TRUE if the request could be authenticated, FALSE otherwise.
+     */
+    public function authenticateRequest(DispatcherContextInterface $context);
 
+    /**
+     * Sign the response
+     *
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     * @return bool Returns TRUE if the response could be signed, FALSE otherwise.
+     */
+    public function signResponse(DispatcherContextInterface $context);
 }

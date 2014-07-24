@@ -21,7 +21,7 @@ class DatabaseBehaviorOrderableAbstract extends Library\DatabaseBehaviorAbstract
 {
     public function getMixableMethods($exclude = array())
     {
-        $exclude += array('is'.ucfirst($this->getIdentifier()->name));
+        $exclude = array_merge($exclude, array('is'.ucfirst($this->getIdentifier()->name)));
         return parent::getMixableMethods($exclude);
     }
 }

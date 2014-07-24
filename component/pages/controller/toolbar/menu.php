@@ -22,6 +22,6 @@ class ControllerToolbarMenu extends Library\ControllerToolbarActionbar
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $application = $this->getController()->getModel()->getState()->application;
-        $command->href = 'option=com_pages&view=menu&application='.$application;
+        $command->href = 'component=pages&view=menu&application='.$application;
     }
 }

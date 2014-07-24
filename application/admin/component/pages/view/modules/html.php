@@ -22,8 +22,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
 		{
-		    foreach($this->getModel()->fetch() as $module)
-		    {
+		    foreach($this->getModel()->fetch() as $module) {
                 $this->getObject('translator')->import($module->getIdentifier()->package);
 		    }
 		}

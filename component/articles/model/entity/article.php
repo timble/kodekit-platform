@@ -55,4 +55,17 @@ class ModelEntityArticle extends Library\ModelEntityRow
         $text = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
         return $text;
     }
+
+    public function setProperty($name, $value, $modified = true)
+    {
+        if($name == 'modified_on' && empty($value)) {
+            $value = $this->created_on;
+        }
+
+        if($name == 'modified_by' && empty($value)) {
+            $value = $this->created_by;
+        }
+
+        return parent::setProperty($name, $value, $modified);
+    }
 }

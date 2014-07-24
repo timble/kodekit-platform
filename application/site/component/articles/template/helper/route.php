@@ -38,7 +38,8 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             'format' => $config->format
         );
 
-        if ($article->isCategorizable()) {
+        if ($article->isCategorizable())
+        {
             $needles[]         = array('view' => 'category', 'id' => $article->getCategory()->id);
             $route['category'] = $article->getCategory()->getSlug();
         }

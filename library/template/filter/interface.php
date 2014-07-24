@@ -33,16 +33,6 @@ interface TemplateFilterInterface extends ObjectHandlable
     const PRIORITY_LOWEST  = 5;
 
     /**
-     * Escape a string
-     *
-     * By default the function uses htmlspecialchars to escape the string
-     *
-     * @param string $string String to to be escape
-     * @return string Escaped string
-     */
-    public function escape($string);
-
-    /**
      * Get the template object
      *
      * @return  TemplateInterface	The template object

@@ -64,19 +64,6 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     }
 
     /**
-     * Escape a string
-     *
-     * By default the function uses htmlspecialchars to escape the string
-     *
-     * @param string $string String to to be escape
-     * @return string Escaped string
-     */
-    public function escape($string)
-    {
-        return $this->getTemplate()->escape($string);
-    }
-
-    /**
      * Get the priority of a behavior
      *
      * @return  integer The command priority
@@ -161,7 +148,10 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
 
                 if (is_bool($item))
                 {
-                    if ($item === false) continue;
+                    if ($item === false) {
+                        continue;
+                    }
+                    
                     $item = $key;
                 }
 

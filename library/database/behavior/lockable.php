@@ -36,7 +36,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     {
     	$config->append(array(
 			'priority'   => self::PRIORITY_HIGH,
-            'lifetime'   =>  $this->getObject('user')->getSession()->getLifetime()
+            'lifetime'   => $this->getObject('user')->getSession()->getLifetime(),
 	  	));
 
 	  	$this->_lifetime = $config->lifetime;
@@ -69,14 +69,17 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('locked_by') || $table->hasColumn('locked_on')) {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('locked_by') && !$table->hasColumn('locked_on')) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 	/**

@@ -54,12 +54,12 @@
                     <?= helper('date.humanize', array('date' => $comment->created_on)) ?>
                 </td>
                 <td>
-                    <a href="<?= route('option=com_users&view=user&id='.$comment->created_by) ?>">
-                        <?= escape($comment->created_by_name); ?>
+                    <a href="<?= route('component=users&view=user&id='.$comment->created_by) ?>">
+                        <?= escape($comment->getAuthor()->getName()); ?>
                     </a>
                 </td>
                 <td>
-                    <a href="<?= route('option=com_'.$comment->table.'&view='.$comment->table.'&id='.$comment->row); ?>">
+                    <a href="<?= route('component='.$comment->table.'&view='.$comment->table.'&id='.$comment->row); ?>">
                         <?= escape($comment->title); ?>
                     </a>
                 </td>

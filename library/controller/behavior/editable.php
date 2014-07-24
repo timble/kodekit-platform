@@ -153,9 +153,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $controller = $this->getMixer();
         $identifier = $controller->getIdentifier();
 
-        $option   = 'com_' . $identifier->package;
-        $view     = StringInflector::pluralize($identifier->name);
-        $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
+        $component = $identifier->package;
+        $view      = StringInflector::pluralize($identifier->name);
+        $referrer  = $controller->getView()->getRoute('component=' . $component . '&view=' . $view, true, false);
 
         return $this->getObject('lib:http.url', array('url' => $referrer));
     }

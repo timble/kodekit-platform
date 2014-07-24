@@ -34,7 +34,7 @@
     					</div>
     					 <div class="ellipsis">
     					 	<small class="datetime">
-    					 		<?= date("H:i", strtotime($activity->created_on)) ?> - <?= $activity->created_by_name ?>
+    					 		<?= date("H:i", strtotime($activity->created_on)) ?> - <?= $activity->getAuthor()->getName() ?>
     					 	</small>
     					 </div>
     				</div>
@@ -43,7 +43,7 @@
     		</div>
     	<? endforeach ?>
     	<div class="button__group">
-	    	<a class="button btn-block" href="<?= route('option=com_activities&view=activities&package='.$package) ?>">
+	    	<a class="button btn-block" href="<?= route('component=activities&view=activities&package='.$package) ?>">
 	    	   <?= translate('More activities') ?>
 	    	</a>
     	</div>

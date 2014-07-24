@@ -125,13 +125,13 @@ class TemplateHelperSelect extends TemplateHelperAbstract
             if (is_numeric($group)) {
                 $options = array($options);
             } else {
-                $html[] = '<optgroup label="' . $this->escape($group) . '">';
+                $html[] = '<optgroup label="' . $this->getTemplate()->escape($group) . '">';
             }
 
             foreach ($options as $option)
             {
                 $value = $option->value;
-                $label = $config->translate ? $translator->translate( $option->label ) : $option->label;
+                $label = $config->translate ? $this->translate( $option->label ) : $option->label;
 
                 $extra = '';
                 if(isset($option->disable) && $option->disable) {

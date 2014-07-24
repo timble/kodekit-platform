@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Default Dispatcher Router
+ * Dispatcher Router
  *
  * Provides route building and parsing functionality
  *
@@ -22,10 +22,10 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Obje
     /**
      * Function to convert a route to an internal URI
      *
-     * @param   HttpUrl  $url  The url.
+     * @param   HttpUrlInterface  $url  The url.
      * @return  boolean
      */
-    public function parse(HttpUrl $url)
+    public function parse(HttpUrlInterface $url)
     {
         return true;
     }
@@ -33,12 +33,11 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Obje
     /**
      * Function to convert an internal URI to a route
      *
-     * @param	HttpUrl   $url	The internal URL
+     * @param	HttpUrlInterface   $url	The internal URL
      * @return	boolean
      */
-    public function build(HttpUrl $url)
+    public function build(HttpUrlInterface $url)
     {
-        // Build the url : mysite/route/index.php?var=x
         return true;
     }
 }

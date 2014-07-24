@@ -81,7 +81,6 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         $this->_updatable = $config->updatable;
         $this->_length    = $config->length;
         $this->_unique    = $config->unique;
-        $this->_row_mixin = $config->row_mixin;
     }
 
     /**
@@ -100,7 +99,6 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             'updatable'  => true,
             'length'     => null,
             'unique'     => null,
-            'row_mixin'  => true,
         ));
 
         parent::_initialize($config);
@@ -115,14 +113,17 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('slug'))  {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('slug'))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

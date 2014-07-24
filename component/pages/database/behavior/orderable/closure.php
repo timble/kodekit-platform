@@ -42,7 +42,6 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     {
         $config->append(array(
             'priority'  => self::PRIORITY_LOWEST,
-            'row_mixin' => true,
             'columns'   => array(),
             'table'     => null
         ));

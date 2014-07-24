@@ -33,6 +33,7 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
         $last_level = 0;
 
         $pages = clone $config->pages;
+
         // We use a CachingIterator to peek ahead to the next item so that we can properly close elements
         $collection = new \CachingIterator($pages->getIterator(), \CachingIterator::TOSTRING_USE_KEY);
 

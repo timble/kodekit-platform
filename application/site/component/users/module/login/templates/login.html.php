@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright   Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 ?>
 
@@ -16,24 +16,24 @@
         <h3><?= $module->title ?></h3>
     <? endif ?>
 
-    <fieldset class="input">
-        <div class="form-group">
-            <label for="modlgn_email"><?= translate('Email') ?>:</label>
-            <input id="modlgn_email" class="required validate-email form-control" type="email" name="email" />
-        </div>
-        <div class="form-group">
-            <label for="modlgn_passwd"><?= translate('Password') ?>:</label>
-            <input id="modlgn_passwd" class="required form-control" type="password" name="password" />
-            <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
-                <span class="help-block">
-                <a href="<?= $user_route ?>"><?= translate('Forgot your password?'); ?></a>
+	<fieldset class="input">
+	<div class="form-group">
+		<label for="modlgn_email"><?= translate('Email') ?>:</label>
+        <input id="modlgn_email" class="required validate-email form-control" type="email" name="email" />
+	</div>
+	<div class="form-group">
+		<label for="modlgn_passwd"><?= translate('Password') ?>:</label>
+        <input id="modlgn_passwd" class="required form-control" type="password" name="password" />
+        <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
+            <span class="help-block">
+                <a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a>
             </span>
-            <? endif; ?>
-        </div>
-        <div class="form-actions">
-            <input type="submit" name="Submit" class="btn btn-primary" value="<?= translate('Sign in') ?>" />
-            <?= translate('or') ?>
-            <a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
-        </div>
-    </fieldset>
+        <? endif; ?>
+	</div>
+	<div class="form-actions">
+		<input type="submit" name="Submit" class="btn btn-primary" value="<?= translate('Sign in') ?>" />
+        <?= translate('or') ?>
+		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
+	</div>
+	</fieldset>
 </form>

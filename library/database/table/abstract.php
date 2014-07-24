@@ -520,7 +520,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($query instanceof DatabaseQuerySelect)
         {
             if (!$query->columns) {
-                $query->columns('*');
+                $query->columns('tbl.*');
             }
 
             if (!$query->table) {

@@ -137,19 +137,19 @@ interface ViewInterface
 	/**
 	 * Get a route based on a full or partial query string 
 	 * 
-	 * option, view and layout can be ommitted. The following variations will all result in the same route
+	 * option, view and layout can be omitted. The following variations will all result in the same route
 	 *
 	 * - foo=bar
-	 * - option=com_mycomp&view=myview&foo=bar
+	 * - component=mycomp&view=myview&foo=bar
 	 *
 	 * In templates, use route()
 	 *
 	 * @param	string	$route  The query string used to create the route
 	 * @param 	boolean	$fqr    If TRUE create a fully qualified route. Default TRUE.
      * @param 	boolean	$escape If TRUE escapes the route for xml compliance. Default TRUE.
-	 * @return 	string 	The route
+	 * @return 	DispatcherRouterRoute 	The route
 	 */
-	public function getRoute($route, $fqr = null, $escape = null);
+	public function getRoute($route, $fqr = true, $escape = true);
 
     /**
      * Get the view context

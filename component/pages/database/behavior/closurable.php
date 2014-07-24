@@ -55,7 +55,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     {
         $config->append(array(
             'priority'  => self::PRIORITY_HIGH,
-            'row_mixin' => true,
             'table'     => null
         ));
 

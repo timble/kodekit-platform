@@ -36,6 +36,6 @@ class ControllerToolbarModule extends Library\ControllerToolbarActionbar
     protected function _commandNew(Library\ControllerToolbarCommand &$command)
     {
         $command = $this->getCommand('dialog', array('label' => 'new'));
-        $command->href = 'option=com_pages&view=modules&layout=list&installed=1&tmpl=dialog';
+        $command->href = 'component=pages&view=modules&layout=list&installed=1&tmpl=dialog';
     }
 }

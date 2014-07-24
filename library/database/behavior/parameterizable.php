@@ -54,8 +54,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'row_mixin' => true,
-            'column'    => 'parameters'
+            'column' => 'parameters'
         ));
 
         parent::_initialize($config);
@@ -128,14 +127,17 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
-
-        if($table->hasColumn($this->_column))  {
-            return true;
+        $table = $this->getMixer();
+        
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn($this->_column))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -176,7 +178,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     {
         if($this->_column !== 'parameters')
         {
-            $exclude += array('getParameters');
+            $exclude = array_merge($exclude, array('getParameters'));
             $methods = parent::getMixableMethods($exclude);
 
             //Add dynamic methods based on the column name

@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Orderable Model Behavior
+ * Sortable Model Behavior
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Orderable
+ * @package Nooku\Library\Model
  */
-class ModelBehaviorOrderable extends ModelBehaviorAbstract
+class ModelBehaviorSortable extends ModelBehaviorAbstract
 {
     /**
      * Insert the model states
@@ -42,14 +42,16 @@ class ModelBehaviorOrderable extends ModelBehaviorAbstract
     {
         $model = $context->getSubject();
 
-        if ($model instanceof ModelDatabase && !$context->state->isUnique()) {
+        if ($model instanceof ModelDatabase && !$context->state->isUnique())
+        {
             $state = $context->state;
 
             $sort      = $state->sort;
             $direction = strtoupper($state->direction);
             $columns   = array_keys($this->getTable()->getColumns());
 
-            if ($sort) {
+            if ($sort)
+            {
                 $column = $this->getTable()->mapColumns($sort);
 
                 //if(in_array($column, $columns)) {

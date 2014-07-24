@@ -46,7 +46,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->entity instanceof ArticlesModelEntityArticle) {
+        if (!$config->entity instanceof \ArticlesModelEntityArticle) {
             throw new \InvalidArgumentException('The entity is missing.');
         }
 
@@ -82,7 +82,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->fetch();
         $pages = $pages->find(array(
-            'link_url' => 'option=com_articles&view=articles&layout=search'));
+            'link_url' => 'component=articles&view=articles&layout=search'));
 
         $options = array();
 
