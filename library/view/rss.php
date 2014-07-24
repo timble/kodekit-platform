@@ -49,4 +49,17 @@ class ViewRss extends ViewTemplate
     {
         return 'default';
     }
+
+    /**
+     * Force the route to fully qualified and escaped by default
+     *
+     * @param   string  $route   The query string used to create the route
+     * @param   boolean $fqr     If TRUE create a fully qualified route. Default TRUE.
+     * @param   boolean $escape  If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return 	DispatcherRouterRoute 	The route
+     */
+    public function getRoute($route = '', $fqr = true, $escape = true)
+    {
+        return parent::getRoute($route, $fqr, $escape);
+    }
 }

@@ -29,6 +29,7 @@ class ApplicationBootstrapper extends Application\Bootstrapper
                 'application.modules'            => 'com:application.model.entity.modules',
                 'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
                 'lib:template.locator.component' => 'com:application.template.locator.component',
+                'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
             )
         ));
 

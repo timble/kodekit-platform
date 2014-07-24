@@ -124,7 +124,7 @@ class ViewJson extends ViewAbstract
      * @param   string|array    $route   The query string used to create the route
      * @param   boolean         $fqr     If TRUE create a fully qualified route. Default TRUE.
      * @param   boolean         $escape  If TRUE escapes the route for xml compliance. Default FALSE.
-     * @return  HttpUrl        The route
+     * @return 	DispatcherRouterRoute 	The route
      */
     public function getRoute($route = '', $fqr = true, $escape = false)
     {
@@ -248,7 +248,7 @@ class ViewJson extends ViewAbstract
         $package = $this->getIdentifier()->package;
         $view    = $entity->getIdentifier()->name;
 
-        return $this->getRoute(sprintf('option=com_%s&view=%s&slug=%s&format=json', $package, $view, $entity->slug));
+        return $this->getRoute(sprintf('component=%s&view=%s&slug=%s&format=json', $package, $view, $entity->slug));
     }
 
     /**

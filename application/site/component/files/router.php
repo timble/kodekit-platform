@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class FilesRouter extends Library\DispatcherRouter
 {
-	public function build(Library\HttpUrl $url)
+	public function build(Library\HttpUrlInterface $url)
 	{
         $segments = array();
         $query    = &$url->query;
@@ -63,7 +63,7 @@ class FilesRouter extends Library\DispatcherRouter
 		return $segments;
 	}
 
-    public function parse(Library\HttpUrl $url)
+    public function parse(Library\HttpUrlInterface $url)
     {
         $vars = array();
         $path = &$url->path;

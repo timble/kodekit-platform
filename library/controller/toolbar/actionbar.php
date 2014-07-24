@@ -83,7 +83,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     protected function _commandNew(ControllerToolbarCommand $command)
     {
         $identifier = $this->getController()->getIdentifier();
-        $command->href = 'option=com_'.$identifier->package.'&view='.$identifier->name;
+        $command->href = 'component='.$identifier->package.'&view='.$identifier->name;
     }
 
     /**
@@ -159,7 +159,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
         $option = $this->getIdentifier()->package;
         $view   = $this->getIdentifier()->name;
 
-        $command->href = 'option=com_'.$option.'&view='.$view.'&'.$query;
+        $command->href = 'component='.$option.'&view='.$view.'&'.$query;
     }
 
     /**

@@ -327,24 +327,23 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     /**
      * Get a route based on a full or partial query string
      *
-     * 'option', 'view' and 'layout' can be omitted. The following variations will all result in the same route :
+     * 'component', 'view' and 'layout' can be omitted. The following variations will all result in the same route :
      *
      * - foo=bar
-     * - option=com_mycomp&view=myview&foo=bar
+     * - component=mycomp&view=myview&foo=bar
      *
      * In templates, use route()
      *
      * @param   string|array $route  The query string used to create the route
      * @param   boolean      $fqr    If TRUE create a fully qualified route. Default TRUE.
      * @param   boolean      $escape If TRUE escapes the route for xml compliance. Default TRUE.
-     * @return  string The route
+     * @return  DispatcherRouterRoute The route
      */
-    public function getRoute($route, $fqr = null, $escape = null)
+    public function getRoute($route, $fqr = true, $escape = true)
     {
         //Parse route
         $parts = array();
 
-        //@TODO : Check if $route if valid. Throw exception if not.
         if(is_string($route)) {
             parse_str(trim($route), $parts);
         } else {
@@ -352,8 +351,8 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         }
 
         //Check to see if there is component information in the route if not add it
-        if (!isset($parts['option'])) {
-            $parts['option'] = 'com_' . $this->getIdentifier()->package;
+        if (!isset($parts['component'])) {
+            $parts['component'] = $this->getIdentifier()->package;
         }
 
         //Add the view information to the route if it's not set
@@ -367,7 +366,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         }
 
         //Add the model state only for routes to the same view
-        if ($parts['option'] == 'com_'.$this->getIdentifier()->package && $parts['view'] == $this->getName())
+        if ($parts['component'] == $this->getIdentifier()->package && $parts['view'] == $this->getName())
         {
             $states = array();
             foreach($this->getModel()->getState() as $name => $state)
@@ -381,13 +380,11 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         }
 
         //Create the route
-        $route = $this->getObject('lib:dispatcher.router.route', array(
-            'url'    => '?'.http_build_query($parts),
-            'escape' => $escape === null || $escape === true ? true : false
-        ));
+        $route = $this->getObject('lib:dispatcher.router.route', array('escape' =>  $escape))
+                      ->setQuery($parts);
 
         //Add the host and the schema
-        if ($fqr === null || $fqr === true)
+        if ($fqr === true)
         {
             $route->scheme = $this->getUrl()->scheme;
             $route->host   = $this->getUrl()->host;

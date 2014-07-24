@@ -17,20 +17,5 @@ namespace Nooku\Library;
  */
 class DispatcherRouterRoute extends HttpUrl
 {
-    /**
-     * Convert the url or part of it to a string
-     *
-     * Using scheme://user:pass@host/path?query#fragment';
-     *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
-     * @return  string
-     */
-    public function toString($parts = self::FULL)
-    {
-        if(isset($this->query['option'])) {
-            $this->getObject('application')->getRouter()->build($this);
-        }
 
-        return parent::toString($parts);
-    }
 }
