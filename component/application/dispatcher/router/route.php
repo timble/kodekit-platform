@@ -21,17 +21,7 @@ class DispatcherRouterRoute extends Library\DispatcherRouterRoute
 {
     public function toString($parts = self::FULL)
     {
-        //Add the option to the query for compatibility with the Joomla router
-        if(isset($this->query['component']))
-        {
-            if(!isset($this->query['option'])) {
-                $this->query['option'] = 'com_'.$this->query['component'];
-            }
-
-            unset($this->query['component']);
-        }
-
-        if(isset($this->query['option'])) {
+        if(isset($this->query['component'])) {
             $this->getObject('application')->getRouter()->build($this);
         }
 

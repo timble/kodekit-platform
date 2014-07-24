@@ -46,7 +46,7 @@ Files.App = new Class({
 		},
 		router: {
 			defaults: {
-                option: 'com_files',
+                component: 'files',
 				format: 'json'
 			}
 		},
@@ -137,7 +137,7 @@ Files.App = new Class({
 
 				if (that.container && (state_changed || that.active !== state.data.folder)) {
 					var set_state = $extend({}, state.data);
-					['option', 'view', 'layout', 'folder', 'container'].each(function(key) {
+					['component', 'view', 'layout', 'folder', 'container'].each(function(key) {
 						delete set_state[key];
 					});
 					that.state.set(set_state);
@@ -527,7 +527,7 @@ Files.App = new Class({
 			delete query.format;
 		}
 
-        if (query.option == 'com_files') {
+        if (query.component == 'files') {
             base = Files.base;
             delete query.option;
         }

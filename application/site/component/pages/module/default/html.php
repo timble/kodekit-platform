@@ -20,7 +20,7 @@ class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {
-        JFactory::getLanguage()->load($this->getIdentifier()->package, $this->module->name);
+        JFactory::getLanguage()->load($this->getIdentifier()->package, 'mod_'.$this->module->name);
         return parent::_actionRender($context);
     }
 }

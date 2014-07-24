@@ -152,7 +152,7 @@ class ModelModules extends Library\ModelDatabase
                                 {
                                     $modules[] = array(
                                         'id'          => $folder->getFilename(),
-                                        'name'        => 'mod_' . $folder->getFilename(),
+                                        'name'        => $folder->getFilename(),
                                         'application' => 'site',
                                         'component'   => (string)$component,
                                         'title'       => null,

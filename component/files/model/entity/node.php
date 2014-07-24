@@ -231,7 +231,7 @@ class ModelEntityNode extends Library\ModelEntityAbstract
 
         unset($data['csrf_token']);
         unset($data['action']);
-        unset($data['option']);
+        unset($data['component']);
         unset($data['format']);
         unset($data['view']);
 

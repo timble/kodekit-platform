@@ -24,7 +24,7 @@ class FilesViewFilesHtml extends Files\ViewFilesHtml
 
         $context->data->sitebase = (string) $base;
 
-        $base->setQuery(array('option' => 'com_files'));
+        $base->setQuery(array('component' => 'files'));
         $this->getObject('application')->getRouter()->build($base);
 
         $context->data->base = (string) $base;

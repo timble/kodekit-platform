@@ -39,6 +39,6 @@ class ControllerToolbarCategory extends Library\ControllerToolbarActionbar
 		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->getState()->table;
 		
-        $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;
+        $command->href = 'component='.$option.'&view='.$view.'&table='.$table;
     }
 }

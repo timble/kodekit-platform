@@ -13,7 +13,7 @@
     <h1><?= translate('Search results') ?></h1>
 
     <div class="well">
-        <form action="<?= route('option=com_articles&view=articles') ?>" method="get" class="form-search"
+        <form action="<?= route('component=articles&view=articles') ?>" method="get" class="form-search"
               style="margin-bottom: 0;">
             <div class="form-group">
                 <input id="search" name="search" class="form-control" type="text"

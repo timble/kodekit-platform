@@ -37,7 +37,7 @@ class ModelEntityModule extends Library\ModelEntityRow
 
     public function getPropertyIdentifier()
     {
-        $module  = substr( $this->name, 4);
+        $module  = $this->name;
         $package = $this->component;
 
         return $this->getIdentifier('com://site/'.$package.'.module.'.$module.'.html');

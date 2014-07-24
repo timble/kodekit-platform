@@ -31,7 +31,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
             }
 
             $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
-            JFactory::getLanguage()->load($module->component, $module->name, $path);
+            JFactory::getLanguage()->load($module->component, 'mod_'.$module->name, $path);
         }
 
         return parent::_actionRender($context);

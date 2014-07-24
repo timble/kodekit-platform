@@ -34,7 +34,7 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
         $url = $this->getObject('lib:http.url', array('url' => $params->get('url')));
 
         $parts   = $url->getQuery(true);
-        $package = substr($parts['option'], 4);
+        $package = $parts['component'];
         $view    = Library\StringInflector::singularize($parts['view']);
 
         $identifier = 'com:'.$package.'.controller.'.$view;

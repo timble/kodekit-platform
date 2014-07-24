@@ -126,7 +126,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'position'   => $attributes['position'],
                     'params'     => $attributes['params'],
                     'title'      => $attributes['title'],
-                    'name'       => 'mod_dynamic',
+                    'name'       => 'dynamic',
                     'identifier' => $this->getIdentifier('com:pages.module.dynamic.html'),
                     'attribs'    => (array) array_diff_key($attributes, $defaults)
                 );

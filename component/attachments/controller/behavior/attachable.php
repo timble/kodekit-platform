@@ -25,7 +25,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     protected $_attachments = array();
 
     /**
-     * Container to use in com_files
+     * Container to use in files
      */
     protected $_container = null;
 

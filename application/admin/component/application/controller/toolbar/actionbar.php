@@ -27,7 +27,7 @@ class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarAct
 
     protected function _commandProfile(Library\ControllerToolbarCommand $command)
     {
-        $command->href = 'option=com_users&view=user&id='.$this->getController()->getUser()->getId();
+        $command->href = 'component=users&view=user&id='.$this->getController()->getUser()->getId();
     }
 
     protected function _commandLogout(Library\ControllerToolbarCommand $command)
@@ -35,7 +35,7 @@ class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarAct
         $controller = $this->getController();
         $session    = $controller->getUser()->getSession();
 
-        $url = 'option=com_users&view=session&id='.$session->getId();
+        $url = 'component=users&view=session&id='.$session->getId();
         $url = $controller->getView()->getRoute($url);
 
         //Form configuration

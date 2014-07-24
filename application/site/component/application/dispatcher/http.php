@@ -146,9 +146,9 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $context->request->query->add($url->query);
 
         //Set the controller to dispatch
-        if($context->request->query->has('option'))
+        if($context->request->query->has('component'))
         {
-            $component = substr( $context->request->query->get('option', 'cmd'), 4);
+            $component = $context->request->query->get('component', 'cmd');
             $this->forward($component);
         }
     }

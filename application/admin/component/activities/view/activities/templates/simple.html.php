@@ -43,7 +43,7 @@
     		</div>
     	<? endforeach ?>
     	<div class="button__group">
-	    	<a class="button btn-block" href="<?= route('option=com_activities&view=activities&package='.$package) ?>">
+	    	<a class="button btn-block" href="<?= route('component=activities&view=activities&package='.$package) ?>">
 	    	   <?= translate('More activities') ?>
 	    	</a>
     	</div>

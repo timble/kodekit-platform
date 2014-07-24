@@ -39,7 +39,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             // If table is not enabled, return null to prevent enqueueing.
             $needle = array(
                 'name'           => $table->getBase(),
-                'component_name' => 'com_' . $table->getIdentifier()->package
+                'component_name' => $table->getIdentifier()->package
             );
 
             return count($this->_tables->find($needle)) ? true : false;
@@ -59,7 +59,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name'           => $table->getBase(),
-                'component_name' => 'com_' . $table->getIdentifier()->package
+                'component_name' => $table->getIdentifier()->package
             );
 
             if (!count($this->_tables->find($needle)))

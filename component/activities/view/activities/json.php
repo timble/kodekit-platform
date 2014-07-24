@@ -44,13 +44,13 @@ class ViewActivitiesJson extends Library\ViewJson
                 )),
             'verb' => $entity->action,
             'object' => array(
-                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row),
+                'url' => (string)$this->getRoute('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row),
             ),
             'target' => array(
-                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name),
+                'url' => (string)$this->getRoute('component='.$entity->package.'&view='.$entity->name),
             ),
             'actor' => array(
-                'url' => (string)$this->getRoute('option=com_users&view=user&id='.$entity->created_by),
+                'url' => (string)$this->getRoute('component=users&view=user&id='.$entity->created_by),
             )
         );
 

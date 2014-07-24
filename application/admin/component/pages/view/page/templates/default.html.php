@@ -21,7 +21,7 @@
     window.addEvent('domready', function(){
         $$('.widget').widget({cookie: 'widgets-page'});
 
-        new Pages.Page(<?= json_encode(array('active' => $state->type['name'] == 'component' ? $state->type['option'] : '', 'type' => $state->type['name'])) ?>);
+        new Pages.Page(<?= json_encode(array('active' => $state->type['name'] == 'component' ? $state->type['component'] : '', 'type' => $state->type['name'])) ?>);
     });
 </script>
 
@@ -31,8 +31,8 @@
 
 <? if($state->type['name'] == 'component') {
     $query = array(
-        'option' => $state->type['option'],
-        'view'   => $state->type['view']
+        'component' => $state->type['component'],
+        'view'      => $state->type['view']
     );
 
     if(!empty($state->type['layout']) && $state->layout != 'default') {
@@ -56,7 +56,7 @@
             <div id="components-inner">
                 <? foreach($components as $component) : ?>
                 <? if(!empty($component->views)) : ?>
-                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= ($state->type['name'] == 'component' && $state->type['option'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
+                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= ($state->type['name'] == 'component' && $state->type['component'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
                 <? endif ?>
                 <? endforeach ?>
             </div>

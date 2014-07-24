@@ -25,7 +25,7 @@ class FilesViewFilesHtml extends Files\ViewFilesHtml
         $context->data->sitebase = (string) $base;
 
         // FIXME: take out the hardcoded Itemid
-        $base->setQuery(array('option' => 'com_files', 'Itemid' => 56));
+        $base->setQuery(array('component' => 'files', 'Itemid' => 56));
         $this->getObject('application')->getRouter()->build($base);
 
         $context->data->base = (string) $base;
