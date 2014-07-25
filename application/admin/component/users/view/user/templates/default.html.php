@@ -8,13 +8,13 @@
  */
 ?>
 
-<script src="assets://js/koowa.js" />
-<script src="assets://users/js/users.js" />
-<style src="assets://css/koowa.css" />
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://users/js/users.js" />
+<ktml:style src="assets://css/koowa.css" />
 
 <?= helper('behavior.validator') ?>
 
-<script type="text/javascript">
+<script>
     window.addEvent('domready', function() {
         ComUsers.Form.addValidators(['passwordLength','passwordVerify']);
     });

@@ -41,7 +41,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $config = new ObjectConfig($config);
 
-            $html .= '<script src="assets://js/mootools.js" />';
+            $html .= '<ktml:script src="assets://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
         }
 
@@ -66,8 +66,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['modal'])) {
-            $html .= '<script src="assets://js/modal.js" />';
-            $html .= '<style src="assets://css/modal.css" />';
+            $html .= '<ktml:script src="assets://js/modal.js" />';
+            $html .= '<ktml:style src="assets://css/modal.css" />';
 
             self::$_loaded['modal'] = true;
         }
@@ -144,8 +144,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['overlay']))
         {
-            $html .= '<script src="assets://js/koowa.js" />';
-            $html .= '<style src="assets://css/koowa.css" />';
+            $html .= '<ktml:script src="assets://js/koowa.js" />';
+            $html .= '<ktml:style src="assets://css/koowa.css" />';
 
             self::$_loaded['overlay'] = true;
         }
@@ -254,8 +254,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['validator'])) {
-            $html .= '<script src="assets://js/validator-1.2.js" />';
-            $html .= '<script src="assets://js/patch.validator.js" />';
+            $html .= '<ktml:script src="assets://js/validator-1.2.js" />';
+            $html .= '<ktml:script src="assets://js/patch.validator.js" />';
 
             self::$_loaded['validator'] = true;
         }
@@ -338,9 +338,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['autocomplete'])) {
-            $html .= '<script src="assets://js/autocomplete.js" />';
-            $html .= '<script src="assets://js/patch.autocomplete.js" />';
-            $html .= '<style src="assets://css/autocomplete.css" />';
+            $html .= '<ktml:script src="assets://js/autocomplete.js" />';
+            $html .= '<ktml:script src="assets://js/patch.autocomplete.js" />';
+            $html .= '<ktml:style src="assets://css/autocomplete.css" />';
         }
 
         $html .= "
@@ -403,8 +403,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
-                <script src=\"/administrator/theme/default/js/sortables.js\" />
-                <style src=\"/administrator/theme/default/stylesheets/sortables.css\" />
+                <ktml:script src=\"/administrator/theme/default/js/sortables.js\" />
+                <ktml:style src=\"/administrator/theme/default/stylesheets/sortables.css\" />
 				<script>
 				(function(){
 					var sortable = function() {
@@ -443,8 +443,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['inline_editing']))
         {
-            $html .= '<script src="assets://application/js/jquery.js" />';
-            $html .= '<script src="assets://ckeditor/ckeditor/ckeditor.js" />';
+            $html .= '<ktml:script src="assets://application/js/jquery.js" />';
+            $html .= '<ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />';
 
             self::$_loaded['inline_editing'] = true;
         }

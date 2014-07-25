@@ -12,20 +12,20 @@ namespace Nooku\Library;
 /**
  * Url Template Filter
  *
- * Filter allows to create url aliases that are replaced on compile and render. A default assets:// alias is
- * added that is rewritten to '/media/'.
+ * Filter allows to define asset url schemes that are replaced on compile and render. A default assets:// scheme is
+ * added that is rewritten to '/assets/'.
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateFilterUrl extends TemplateFilterAbstract implements TemplateFilterCompiler, TemplateFilterRenderer
+class TemplateFilterAsset extends TemplateFilterAbstract implements TemplateFilterCompiler, TemplateFilterRenderer
 {
     /**
-     * The alias map
+     * The schemes
      *
      * @var array
      */
-    protected $_aliases;
+    protected $_schemes;
 
     /**
      * Constructor.
@@ -36,8 +36,8 @@ class TemplateFilterUrl extends TemplateFilterAbstract implements TemplateFilter
     {
         parent::__construct($config);
 
-        foreach($config->aliases as $alias => $path) {
-            $this->addAlias($alias, $path);
+        foreach($config->schemes as $scheme => $path) {
+            $this->addScheme($scheme, $path);
         }
     }
 
@@ -52,27 +52,27 @@ class TemplateFilterUrl extends TemplateFilterAbstract implements TemplateFilter
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'aliases' => array('assets://' => '/assets/'),
+            'schemes' => array('assets://' => '/assets/'),
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Add a path alias
+     * Add an asset url scheme
      *
-     * @param array $alias An array of aliases to be appended
-     * @param int  $mode   The template mode
-     * @return TemplateFilterUrl
+     * @param string $scheme Scheme to be replaced
+     * @param mixed  $path   The path to replace the scheme with
+     * @return TemplateFilterAsset
      */
-    public function addAlias($alias, $path)
+    public function addScheme($scheme, $path)
     {
-        $this->_aliases[$alias] = $path;
+        $this->_schemes[$scheme] = $path;
         return $this;
     }
 
     /**
-     * Convert the schemas to their real paths
+     * Convert the schemes to their real paths
      *
      * @param string $text  The text to parse
      * @return void
@@ -80,13 +80,13 @@ class TemplateFilterUrl extends TemplateFilterAbstract implements TemplateFilter
     public function compile(&$text)
     {
         $text = str_replace(
-            array_keys($this->_aliases),
-            array_values($this->_aliases),
+            array_keys($this->_schemes),
+            array_values($this->_schemes),
             $text);
     }
 
     /**
-     * Convert the schemas to their real paths
+     * Convert the schemes to their real paths
      *
      * @param string $text  The text to parse
      * @return void
@@ -94,8 +94,8 @@ class TemplateFilterUrl extends TemplateFilterAbstract implements TemplateFilter
     public function render(&$text)
     {
         $text = str_replace(
-            array_keys($this->_aliases),
-            array_values($this->_aliases),
+            array_keys($this->_schemes),
+            array_values($this->_schemes),
             $text);
     }
 }

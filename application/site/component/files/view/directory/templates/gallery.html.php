@@ -8,10 +8,10 @@
  */
 ?>
 
-<script src="assets://application/js/jquery.js" />
-<script src="assets://files/js/bootstrap-modal.js" />
-<script src="assets://files/js/bootstrap-image-gallery.js" />
-<script src="assets://files/js/gallery.js" />
+<ktml:script src="assets://application/js/jquery.js" />
+<ktml:script src="assets://files/js/bootstrap-modal.js" />
+<ktml:script src="assets://files/js/bootstrap-image-gallery.js" />
+<ktml:script src="assets://files/js/gallery.js" />
 
 <script>
 jQuery(function($) {

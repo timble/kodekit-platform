@@ -57,7 +57,7 @@ class TemplateHelperForm extends Library\TemplateHelperDefault
 
 
         // Add required assets
-        $html = '<script src="assets://users/js/users.js" />';
+        $html = '<ktml:script src="assets://users/js/users.js" />';
 
         $html .= '<span id="' . $config->container_id . '" class="' . $config->class . '">' . $config->score_map[0] . '</span>';
 

@@ -30,7 +30,7 @@ class TemplateFilterStyle extends TemplateFilterTag
 		$tags = '';
 
 		$matches = array();
-		if(preg_match_all('#<style\s+src="([^"]+)"(.*)\/>#iU', $text, $matches))
+		if(preg_match_all('#<ktml:style\s+src="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
 			foreach(array_unique($matches[1]) as $key => $match)
 			{

@@ -17,9 +17,7 @@
     <?= helper('behavior.inline_editing'); ?>
 <? endif;?>
 
-<!--
-<script src="assets://js/koowa.js"/>
--->
+<ktml:script src="assets://js/koowa.js"/>
 
 <div class="btn-toolbar">
     <ktml:toolbar type="actionbar">

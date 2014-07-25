@@ -8,10 +8,9 @@
  */
 ?>
 
-<!--
-<script src="assets://js/koowa.js" />
-<style src="assets://css/koowa.css" />
--->
+<ktml:script src="assets://js/koowa.js" />
+<ktml:style src="assets://css/koowa.css" />
+
 <?= helper('behavior.sortable', array('options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
 <ktml:module position="actionbar">

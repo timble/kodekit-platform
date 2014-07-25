@@ -12,7 +12,7 @@ use Nooku\Library;
 
 <?= import('com:files.view.files.initialize.html'); ?>
 
-<script src="assets://ckeditor/js/ckeditor.files.js" />
+<ktml:script src="assets://ckeditor/js/ckeditor.files.js" />
 
 <script>
     Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';

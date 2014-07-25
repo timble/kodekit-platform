@@ -8,7 +8,7 @@
  */
 ?>
 
-<style src="assets://tags/css/tags-cloud.css" />
+<ktml:style src="assets://tags/css/tags-cloud.css" />
 
 <ul id="tags-tags-cloud">
 	<? foreach ($tags as $tag) : ?>
