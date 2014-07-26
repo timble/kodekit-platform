@@ -118,11 +118,6 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         parent::setContent($content, $type);
 
         $stream = $this->getStream();
-
-        if(!$stream->isRegistered('buffer')) {
-            $stream->registerWrapper('lib:filesystem.stream.wrapper.buffer');
-        }
-
         $stream->open('buffer://memory', 'w+b');
         $stream->write($content);
 
@@ -193,8 +188,11 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
      */
     public function getStream()
     {
-        if(!isset($this->_stream)) {
-            $this->_stream  = $this->getObject('lib:filesystem.stream');
+        if(!isset($this->_stream))
+        {
+            $this->_stream = $this->getObject('lib:filesystem.stream', array(
+                'wrappers' => array('lib:filesystem.stream.wrapper.buffer')
+            ));
         }
 
         return $this->_stream;
