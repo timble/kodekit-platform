@@ -434,6 +434,16 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     }
 
     /**
+     * Returns the views output
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->render();
+    }
+
+    /**
      * Check if we are rendering an entity collection
      *
      * @return bool
@@ -470,9 +480,9 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      *
      * @return string
      */
-    public function __toString()
+    final public function __toString()
     {
-        return $this->render();
+        return $this->toString();
     }
 
     /**

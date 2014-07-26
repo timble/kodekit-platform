@@ -102,8 +102,18 @@ class EventException extends Event implements Exception
      *
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         return (string) $this->exception;
+    }
+
+    /**
+     * Cast the object to a string
+     *
+     * @return string
+     */
+    final public function __toString()
+    {
+        return $this->__toString();
     }
 }

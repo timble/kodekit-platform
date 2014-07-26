@@ -216,7 +216,7 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      *
      * @return string
      */
-    public function __toString()
+    final public function __toString()
     {
         return $this->toString();
     }

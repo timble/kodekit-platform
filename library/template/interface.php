@@ -192,6 +192,15 @@ interface TemplateInterface
     public function getLocator($type, $config = array());
 
     /**
+     * Returns the template contents
+     *
+     * When casting to a string the template content will be compiled, evaluated and rendered.
+     *
+     * @return  string
+     */
+    public function toString();
+
+    /**
      * Check if the template is loaded
      *
      * @return boolean  Returns TRUE if the template is loaded. FALSE otherwise
