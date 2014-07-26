@@ -76,7 +76,7 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
         //Open the file or create a temp file
         if($this->_type == 'temp')
         {
-            $this->_path = $this->_getTemporaryFile();
+            $this->_path = $this->getTemporaryFile();
             $this->_data = fopen($this->_path, $this->getMode());
 
             if ($options & STREAM_USE_PATH) {
@@ -334,13 +334,13 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
     /**
      * Creates a file with a unique file name
      *
-     * @param string|null $directory Uses the result of _getTemporaryDirectory() by default
+     * @param string|null $directory Uses the result of getTemporaryDirectory() by default
      * @return string File path
      */
-    protected function _getTemporaryFile($directory = null)
+    public function getTemporaryFile($directory = null)
     {
         if ($directory === null) {
-            $directory = $this->_getTemporaryDirectory();
+            $directory = $this->getTemporaryDirectory();
         }
 
         $name = str_replace('.', '', uniqid('buffer', true));
@@ -356,7 +356,7 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
      *
      * @return string Folder path
      */
-    protected function _getTemporaryDirectory()
+    public function getTemporaryDirectory()
     {
         return sys_get_temp_dir();
     }
