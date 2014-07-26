@@ -18,18 +18,34 @@ namespace Nooku\Library;
 class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
 {
     /**
-     * Initializes the options for the object
+     * The wrapper name
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
+     * @var string
      */
-    protected function _initialize(ObjectConfig $config)
+    const NAME = 'buffer';
+
+    /**
+     * The stream length
+     *
+     * @var int
+     */
+    protected $_length;
+
+    /**
+     * Content of stream
+     *
+     * @var string
+     */
+    protected $_data;
+
+    /**
+     * Get the stream wrapper name used to register the stream with
+     *
+     * @return string The stream wrapper name
+     */
+    public static function getName()
     {
-        $config->append(array(
-            'protocol' => 'buffer',
-        ));
+        return self::NAME;
     }
 
     /**
@@ -47,7 +63,6 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
         $parts = parse_url($path); //parse the path
 
         $this->_path     = $path;
-        $this->_protocol = $parts['scheme'];
         $this->_type     = $parts['host'];
         $this->_mode     = 'w+b'; //force to writeable
         $this->_data     = '';
@@ -61,7 +76,7 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
         //Open the file or create a temp file
         if($this->_type == 'temp')
         {
-            $this->_path = tempnam(sys_get_temp_dir(), 'temp');
+            $this->_path = $this->_getTemporaryFile();
             $this->_data = fopen($this->_path, $this->getMode());
 
             if ($options & STREAM_USE_PATH) {
@@ -314,5 +329,35 @@ class FilesystemStreamWrapperBuffer extends FilesystemStreamWrapperAbstract
     public function url_stat($path, $options)
     {
         return $this->stream_stat();
+    }
+
+    /**
+     * Creates a file with a unique file name
+     *
+     * @param string|null $directory Uses the result of _getTemporaryDirectory() by default
+     * @return string File path
+     */
+    protected function _getTemporaryFile($directory = null)
+    {
+        if ($directory === null) {
+            $directory = $this->_getTemporaryDirectory();
+        }
+
+        $name = str_replace('.', '', uniqid('buffer', true));
+        $path = $directory.'/'.$name;
+
+        touch($path);
+
+        return $path;
+    }
+
+    /**
+     * Returns a directory path for temporary files
+     *
+     * @return string Folder path
+     */
+    protected function _getTemporaryDirectory()
+    {
+        return sys_get_temp_dir();
     }
 }

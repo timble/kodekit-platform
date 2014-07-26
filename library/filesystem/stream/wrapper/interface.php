@@ -18,25 +18,11 @@ namespace Nooku\Library;
 interface FilesystemStreamWrapperInterface extends ObjectInterface, ObjectMultiton
 {
     /**
-     * Register the stream wrapper
+     * Get the stream wrapper name used to register the stream with
      *
-     * @return bool
+     * @return string The stream protocol
      */
-    public function register();
-
-    /**
-     * Un Register the stream wrapper
-     *
-     * @return bool
-     */
-    public function unregister();
-
-    /**
-     * Check if the stream wrapper is registered
-     *
-     * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
-     */
-    public function isRegistered();
+    public static function getName();
 
     /**
      * Get the stream type
@@ -44,13 +30,6 @@ interface FilesystemStreamWrapperInterface extends ObjectInterface, ObjectMultit
      * @return string The stream type
      */
     public function getType();
-
-    /**
-     * Get the stream protocol used to register the stream with
-     *
-     * @return string The stream protocol
-     */
-    public function getProtocol();
 
     /**
      * Get the stream path

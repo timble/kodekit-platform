@@ -284,19 +284,41 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     /**
      * Close the underlying stream
      *
-     * @return FilesystemStreamInterface
+     * @return bool Returns TRUE on success, FALSE on failure
      */
     public function close()
     {
+        $result = false;
+
         if (is_resource($this->_resource))
         {
-            fclose($this->_resource);
+            $result = fclose($this->_resource);
 
             $this->_size = null;
             $this->_data = null;
         }
 
-        return $this;
+        return $result;
+    }
+
+    /**
+     * Delete the resource and close the underlying stream
+     *
+     * @return bool Returns TRUE on success, FALSE on failure
+     */
+    public function delete()
+    {
+        $result = false;
+
+        if (is_resource($this->_resource))
+        {
+            $path = $this->getPath();
+            if($this->close()) {
+                $result = unlink($path);
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -352,27 +374,6 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         }
 
         return $result;
-    }
-
-    /**
-     * Get the stream wrapper type
-     *
-     * @return string
-     */
-    public function getProtocol()
-    {
-        if(! $this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
-        {
-            $protocol = $this->getData('wrapper_type');
-
-            //PHP reports a wrapper_type of 'plainfile' for the 'file' protocol.
-            if($protocol == 'plainfile') {
-                $protocol = 'file';
-            }
-        }
-        else $protocol = $this->getData('wrapper_data')->getProtocol();
-
-        return $protocol;
     }
 
     /**
@@ -665,62 +666,6 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Register the stream wrapper
-     *
-     * Function prevents from registering the wrapper twice
-     *
-     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
-     * @return bool Returns TRUE on success, FALSE on failure.
-     */
-    public function registerWrapper($wrapper, $config = array() )
-    {
-        $result  = false;
-        $wrapper = $this->getObject($wrapper, $config);
-
-        if(!$wrapper instanceof FilesystemStreamWrapperInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Wrapper: '.get_class($wrapper).' does not implement FilesystemStreamWrapperInterface'
-            );
-        }
-
-        $result = $wrapper->register();
-        return $result;
-    }
-
-    /**
-     * Un Register a stream wrapper
-     *
-     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
-     * @return bool Returns TRUE on success, FALSE on failure.
-     */
-    public function unregisterWrapper($wrapper)
-    {
-        $result  = false;
-        $wrapper = $this->getObject($wrapper);
-
-        if(!$wrapper instanceof FilesystemStreamWrapperInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Wrapper: '.get_class($wrapper).' does not implement FilesystemStreamWrapperInterface'
-            );
-        }
-
-        $result = $wrapper->unregister();
-        return $result;
-    }
-
-    /**
-     * Get a list of all the registered stream wrappers
-     *
-     * @return array
-     */
-    public function getWrappers()
-    {
-        return stream_get_wrappers();
-    }
-
-    /**
      * Check if a filter is attached to the stream
      *
      * @param string $name  The name of the filter
@@ -755,6 +700,45 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function getFilters()
     {
         return $this->_filters;
+    }
+
+    /**
+     * Get the stream wrapper name
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        if(! $this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
+        {
+            $protocol = $this->getData('wrapper_type');
+
+            //PHP reports a wrapper_type of 'plainfile' for the 'file' protocol.
+            if($protocol == 'plainfile') {
+                $protocol = 'file';
+            }
+        }
+        else $protocol = $this->getData('wrapper_data')->getName();
+
+        return $protocol;
+    }
+
+    /**
+     * Register a stream wrapper
+     *
+     * @param string $identifier A wrapper object identifier string
+     * @return bool Returns TRUE on success, FALSE on failure.
+     */
+    public function registerWrapper($identifier)
+    {
+        $result   = false;
+        $registry = $this->getObject('filesystem.stream.wrapper.registry');
+
+        if(!$registry->isRegistered($identifier)) {
+            $result = $registry->register($identifier);
+        }
+
+        return $result;
     }
 
     /**
@@ -829,38 +813,6 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function isConsumed()
     {
         return $this->eof();
-    }
-
-    /**
-     * Check if the stream wrapper is registered for a specific protocol
-     *
-     * @param string $protocol
-     * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
-     */
-    public function isRegistered($protocol)
-    {
-        $result = in_array($protocol, stream_get_wrappers());
-        return $result;
-    }
-
-    /**
-     * Check if the stream wrapper for a registered protocol is supported
-     *
-     * @param string $protocol
-     * @return bool TRUE if the protocol is a registered stream wrapper and is supported, FALSE otherwise.
-     */
-    public function isSupported($protocol)
-    {
-        $result = $this->isRegistered($protocol);
-
-        if(!ini_get('allow_url_fopen'))
-        {
-            if(in_array(array('ftp', 'sftp', 'http', 'https'), $protocol)) {
-                $result = false;
-            }
-        }
-
-        return $result;
     }
 
     /**
