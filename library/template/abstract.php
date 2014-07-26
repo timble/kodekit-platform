@@ -86,6 +86,13 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_queue;
 
     /**
+     * Stream resource
+     *
+     * @var FilesystemStreamInterface
+     */
+    protected $_stream;
+
+    /**
      * Constructor
      *
      * Prevent creating instances of this class by making the constructor private
@@ -233,22 +240,19 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             //Merge the data
             $this->_data = array_merge((array) $this->_data, $data);
 
-            //Create temporary file
-            $tempfile = tempnam(sys_get_temp_dir(), 'template::');
-
-            //Write the template to the file
-            $handle = fopen($tempfile, "w+");
-            fwrite($handle, $this->_content);
-            fclose($handle);
+            //Write the template to a temp file
+            $stream = $this->getStream();
+            $stream->open('buffer://temp', 'w+');
+            $stream->write($this->_content);
 
             //Include the file
             extract($this->_data, EXTR_SKIP);
 
             ob_start();
-            include $tempfile;
+            include $stream->getPath();
             $this->_content = ob_get_clean();
 
-            unlink($tempfile);
+            $stream->close();
 
             //Remove the path from the stack
             array_pop($this->_stack);
@@ -626,6 +630,35 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         return $locator;
+    }
+
+    /**
+     * Sets the response content using a stream
+     *
+     * @param FilesystemStreamInterface $stream  The stream object
+     * @return TemplateAbstract
+     */
+    public function setStream(FilesystemStreamInterface $stream)
+    {
+        $this->_stream = $stream;
+        return $this;
+    }
+
+    /**
+     * Get the stream resource
+     *
+     * @return FilesystemStreamInterface
+     */
+    public function getStream()
+    {
+        if(!isset($this->_stream))
+        {
+            $this->_stream  = $this->getObject('lib:filesystem.stream', array(
+                'wrappers' => array('lib:filesystem.stream.wrapper.buffer')
+            ));
+        }
+
+        return $this->_stream;
     }
 
     /**
