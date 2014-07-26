@@ -164,7 +164,6 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         }
         else $this->_resource = $stream;
 
-
         return $this;
     }
 
@@ -383,10 +382,10 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getPath()
     {
-        if($this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface) {
-            $path = $this->getData('wrapper_data')->getPath();
+        if($this->getMetaData('wrapper_data') instanceof FilesystemStreamWrapperInterface) {
+            $path = $this->getMetaData('wrapper_data')->getPath();
         } else {
-            $path = $this->getData('uri');
+            $path = $this->getMetaData('uri');
         }
 
         return $path;
@@ -476,14 +475,14 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function getType()
     {
         $type = self::TYPE_UNKNOWN;
-        if(!$this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
+        if(!$this->getMetaData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
             if($path = $this->getPath()) {
                 $type = filetype($path);
             }
 
         }
-        else $type = $this->getData('wrapper_data')->getType();
+        else $type = $this->getMetaData('wrapper_data')->getType();
 
         return $type;
     }
@@ -505,10 +504,10 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      *
      * @link http://php.net/manual/en/function.stream-get-meta-data.php
      *
-     * @param string $key Specific metadata to retrieve
+     * @param string $key Specific metadata option to retrieve
      * @return array|mixed|null
      */
-    public function getData($key = null)
+    public function getMetaData($key = null)
     {
         $result = null;
 
@@ -525,13 +524,13 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     }
 
     /**
-     * Set custom options on the stream
+     * Set a custom metadata option on the stream
      *
      * @param string $name   Name of the option to set
      * @param mixed  $value  Value to set
      * @return FilesystemStreamInterface
      */
-    public function setData($name, $value)
+    public function setMetaData($name, $value)
     {
         if(is_resource($this->_resource))
         {
@@ -709,16 +708,16 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getWrapper()
     {
-        if(! $this->getData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
+        if(! $this->getMetaData('wrapper_data') instanceof FilesystemStreamWrapperInterface)
         {
-            $protocol = $this->getData('wrapper_type');
+            $protocol = $this->getMetaData('wrapper_type');
 
             //PHP reports a wrapper_type of 'plainfile' for the 'file' protocol.
             if($protocol == 'plainfile') {
                 $protocol = 'file';
             }
         }
-        else $protocol = $this->getData('wrapper_data')->getName();
+        else $protocol = $this->getMetaData('wrapper_data')->getName();
 
         return $protocol;
     }
@@ -759,7 +758,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function isReadable()
     {
         $result = false;
-        if($mode = $this->getData('mode')) {
+        if($mode = $this->getMetaData('mode')) {
             $result =  isset(self::$modes['read'][$mode]);
         }
 
@@ -774,7 +773,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     public function isWritable()
     {
         $result = false;
-        if($mode = $this->getData('mode')) {
+        if($mode = $this->getMetaData('mode')) {
             $result =  isset(self::$modes['write'][$mode]);
         }
 
@@ -802,7 +801,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function isSeekable()
     {
-        return (boolean) $this->getData('seekable');
+        return (boolean) $this->getMetaData('seekable');
     }
 
     /**
