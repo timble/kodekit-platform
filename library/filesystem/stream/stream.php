@@ -95,7 +95,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
         }
 
         //Create or set the context
-        $this->setContext($config->params);
+        $this->setContext(ObjectConfig::unbox($config->context));
 
         //Attach stream filters
         foreach($config->filters as $key => $filter)
@@ -130,8 +130,9 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
     {
         $config->append(array(
             'mode'    => 'rb',
-            'params'  => array(
-                'options' => array()
+            'context' => array(
+                'notification' => null,
+                'options'      => array()
             ),
             'filters'    => array(),
             'wrappers'   => array(),
@@ -551,7 +552,7 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function getContext()
     {
-        return stream_context_create($this->_context);
+        return stream_context_create($this->_context['options']);
     }
 
     /**
@@ -562,25 +563,24 @@ class FilesystemStream extends Object implements FilesystemStreamInterface
      */
     public function setContext($context)
     {
-        $result = false;
+        $result = true;
 
-        if(is_resource($this->_resource))
+        //Get the context params from the resource
+        if(is_resource($context)) {
+            $context = (array) stream_context_get_params($context);
+        }
+
+        if(is_array($context))
         {
-            //Get the context params from the resource
-            if(is_resource($context)) {
-                $context = (array) stream_context_get_params($context);
+            if(!isset($this->_context)) {
+                $this->_context = $context;
+            } else {
+                $this->_context = array_merge($this->_context, $context);
             }
+        }
 
-            if(is_array($context))
-            {
-                if(!isset($this->_context)) {
-                    $this->_context = $context;
-                } else {
-                    $this->_context = array_merge($this->_context, $context);
-                }
-
-                $result = stream_context_set_params($this->_resource, $this->_context);
-            }
+        if(is_resource($this->_resource)) {
+            $result = stream_context_set_params($this->_resource, $this->_context);
         }
 
         return $result;
