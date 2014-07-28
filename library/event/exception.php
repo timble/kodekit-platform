@@ -114,6 +114,6 @@ class EventException extends Event implements Exception
      */
     final public function __toString()
     {
-        return $this->__toString();
+        return $this->toString();
     }
 }
