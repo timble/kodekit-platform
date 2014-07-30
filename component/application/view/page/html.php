@@ -33,9 +33,10 @@ class ViewPageHtml extends ViewHtml
         // Build the sorted message list
         $this->messages = $this->getObject('response')->getMessages();
 
-        //Set the component and layout information
+        //Set the component, layout and view information
         $this->extension = $this->getObject('component')->getIdentifier()->package;
         $this->layout    = $this->getObject('component')->getController()->getView()->getLayout();
+        $this->view      = $this->getObject('component')->getController()->getView()->getName();
 
         return parent::render();
     }
