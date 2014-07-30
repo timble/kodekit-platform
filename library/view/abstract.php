@@ -482,7 +482,16 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      */
     final public function __toString()
     {
-        return $this->toString();
+        $result = '';
+
+        //Not allowed to throw exceptions in __toString() See : https://bugs.php.net/bug.php?id=53648
+        try {
+            $result = $this->toString();
+        } catch (Exception $e) {
+            trigger_error(__NAMESPACE__.'\ViewAbstract::__toString exception: '. (string) $e, E_USER_ERROR);
+        }
+
+        return $result;
     }
 
     /**
