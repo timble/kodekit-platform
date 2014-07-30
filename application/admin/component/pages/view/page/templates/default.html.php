@@ -11,11 +11,9 @@
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>
 
-<!--
-<script src="assets://js/koowa.js" />
-<script src="assets://pages/js/widget.js" />
-<script src="assets://pages/js/page.js" />
--->
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://pages/js/widget.js" />
+<ktml:script src="assets://pages/js/page.js" />
 
 <script>
     window.addEvent('domready', function(){

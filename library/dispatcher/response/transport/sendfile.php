@@ -75,7 +75,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
             $path = $response->headers->get('X-Sendfile');
 
             if($path === true || $path === 1) {
-                $path = $response->getContent()->getPathname();
+                $path = $response->getStream()->getPath();
             }
 
             if(is_file($path))

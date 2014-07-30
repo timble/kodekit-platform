@@ -258,7 +258,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
      *
      * @return  string  The completed query
      */
-    public function __toString()
+    public function toString()
     {
         $adapter = $this->getAdapter();
         $query   = 'SELECT';

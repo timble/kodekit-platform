@@ -18,18 +18,18 @@ namespace Nooku\Library;
 class DispatcherResponseAbstract extends ControllerResponse implements DispatcherResponseInterface
 {
     /**
+     * Stream resource
+     *
+     * @var FilesystemStreamInterface
+     */
+    private $__stream;
+
+    /**
      * The transport queue
      *
      * @var	ObjectQueue
      */
     protected $_queue;
-
-    /**
-     * Stream resource
-     *
-     * @var FilesystemStreamInterface
-     */
-    protected $_stream;
 
     /**
      * List of transport handlers
@@ -104,100 +104,68 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     }
 
     /**
-     * Sets the response content
+     * Sets the response content.
      *
-     * The buffer:// stream wrapper will be used when setting content as a string. This wrapper allows to pass a
-     * string directly to the response transport and send it to the client.
+     * If new content is set and a stream exists also reset the content in the stream.
      *
      * @param mixed  $content   The content
      * @param string $type      The content type
+     * @throws \UnexpectedValueException If the content is not a string are cannot be casted to a string.
      * @return HttpMessage
      */
     public function setContent($content, $type = null)
     {
-        parent::setContent($content, $type);
-
-        $stream = $this->getStream();
-
-        if(!$stream->isRegistered('buffer')) {
-            $stream->registerWrapper('lib:filesystem.stream.wrapper.buffer');
+        //Refresh the buffer
+        if($this->__stream instanceof FilesystemStreamInterface)
+        {
+            $this->__stream->truncate(0);
+            $this->__stream->write($content);
         }
 
-        $stream->open('buffer://memory', 'w+b');
-        $stream->write($content);
-
-        return $this;
+        return parent::setContent($content, $type);
     }
 
     /**
-     * Get the response content from the stream
+     * Get the response stream
      *
-     * @return string
-     */
-    public function getContent()
-    {
-        $content = $this->getStream()->getContent();
-        return $content;
-    }
-
-    /**
-     * Sets the response path
+     * The buffer://memory stream wrapper will be used when the response content is a string. If the response content
+     * is of the form "scheme://..." a stream based on the scheme will be created.
      *
-     * Path needs to be of the form "scheme://..." and a wrapper for that protocol need to be registered. See @link
-     * http://www.php.net/manual/en/wrappers.php for a list of default PHP stream protocols and wrappers.
-     *
-     * @param mixed  $content   The content
-     * @param string $type      The content type
-     * @throws \InvalidArgumentException If the path is not a valid stream or no stream wrapper is registered for the
-     *                                   stream protocol
-     * @return HttpMessage
-     */
-    public function setPath($path, $type = null)
-    {
-        if($this->getStream()->open($path) === false) {
-            throw new \InvalidArgumentException('Path: '.$path.' is not a valid stream or no stream wrapper is registered.');
-        }
-
-        $this->setContentType($type);
-
-        return $this;
-    }
-
-    /**
-     * Get the response path
-     *
-     * @return string The response stream path.
-     */
-    public function getPath()
-    {
-        $path = $this->getStream()->getPath();
-        return $path;
-    }
-
-    /**
-     * Sets the response content using a stream
-     *
-     * @param FilesystemStreamInterface $stream  The stream object
-     * @return HttpMessage
-     */
-    public function setStream(FilesystemStreamInterface $stream)
-    {
-        $this->_stream = $stream;
-        return $this;
-    }
-
-    /**
-     * Get the stream resource
+     * See @link http://www.php.net/manual/en/wrappers.php for a list of default PHP stream protocols and wrappers.
      *
      * @return FilesystemStreamInterface
      */
     public function getStream()
     {
-        if(!isset($this->_stream)) {
-            $this->_stream  = $this->getObject('lib:filesystem.stream');
+        if(!isset($this->__stream))
+        {
+            $content = $this->getContent();
+            $factory = $this->getObject('filesystem.stream.factory');
+
+            if(!$this->getObject('filter.path')->validate($content))
+            {
+                $stream = $factory->createStream('buffer://memory', 'w+b');
+                $stream->write($content);
+            }
+            else $stream = $factory->createStream($content, 'rb');
+
+            $this->__stream = $stream;
         }
 
-        return $this->_stream;
+        return $this->__stream;
+    }
+
+
+    /**
+     * Sets the response content using a stream
+     *
+     * @param FilesystemStreamInterface $stream  The stream object
+     * @return DispatcherResponseAbstract
+     */
+    public function setStream(FilesystemStreamInterface $stream)
+    {
+        $this->__stream = $stream;
+        return $this;
     }
 
     /**

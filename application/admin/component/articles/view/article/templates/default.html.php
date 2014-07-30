@@ -11,9 +11,8 @@
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>
 
-<!--
-<script src="assets://js/koowa.js" />
--->
+<ktml:script src="assets://js/koowa.js" />
+
 <script>
     if(Form && Form.Validator) {
         Form.Validator.add('validate-unsigned', {

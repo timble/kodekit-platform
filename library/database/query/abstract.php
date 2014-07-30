@@ -181,4 +181,14 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
 
         return parent::__get($name);
     }
+
+    /**
+     * Render the query to a string.
+     *
+     * @return  string  The query string.
+     */
+    final public function __toString()
+    {
+        return $this->toString();
+    }
 }

@@ -54,7 +54,10 @@ class Nooku
         }
 
         //Create the object manager
-        Nooku\Library\ObjectManager::getInstance($config);
+        $manager = Nooku\Library\ObjectManager::getInstance($config);
+
+        //Warm-up the stream factory
+        $manager->getObject('lib:filesystem.stream.factory');
     }
 
 	/**

@@ -18,6 +18,13 @@ namespace Nooku\Library;
 interface FilesystemStreamFilterInterface
 {
     /**
+     * Get the stream filter name
+     *
+     * @return string The stream filter name
+     */
+    public static function getName();
+
+    /**
      * Called when applying the filter
      *
      * @param resource $in  Resource pointing to a bucket brigade which contains one or more bucket objects containing
@@ -41,20 +48,6 @@ interface FilesystemStreamFilterInterface
     public static function register();
 
     /**
-     * Check if the stream filter is registered
-     *
-     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
-     */
-    public static function isRegistered();
-
-    /**
-     * Get the stream filter name
-     *
-     * @return string The stream filter name
-     */
-    public static function getName();
-
-    /**
      * Called the filter is created
      *
      * @return bool Return FALSE on failure, or TRUE on success.
@@ -72,5 +65,10 @@ interface FilesystemStreamFilterInterface
      */
     public function onClose();
 
-
+    /**
+     * Check if the stream filter is registered
+     *
+     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
+     */
+    public static function isRegistered();
 }

@@ -8,10 +8,8 @@
  */
 ?>
 
-<!--
-<script src="assets://js/koowa.js" />
-<style src="assets://css/koowa.css" />
--->
+<ktml:script src="assets://js/koowa.js" />
+<ktml:style src="assets://css/koowa.css" />
 
 <form action="" method="get" class="-koowa-grid">
 	<table>

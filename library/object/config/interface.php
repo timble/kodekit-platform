@@ -56,14 +56,14 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
     public function remove( $name );
 
     /**
-     * Add options
+     * Merge options
      *
      * This method will overwrite keys that already exist, keys that don't exist yet will be added.
      *
      * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be added
      * @return ObjectConfigInterface
      */
-    public function add($options);
+    public function merge($options);
 
     /**
      * Append values

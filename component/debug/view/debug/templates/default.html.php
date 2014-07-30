@@ -8,8 +8,8 @@
  */
 ?>
 
-<style src="assets://debug/css/debug-default.css" />
-<script src="assets://debug/js/debug.js" />
+<ktml:style src="assets://debug/css/debug-default.css" />
+<ktml:script src="assets://debug/js/debug.js" />
 
 <div id="debug" class="profiler">
 <a class="close" title="<?= translate("press 'd' to bring the debug bar back up") ?>"></a>

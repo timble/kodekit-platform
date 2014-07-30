@@ -8,7 +8,7 @@
  */
 ?>
 
-<script src="assets://pages/js/module.js" />
+<ktml:script src="assets://pages/js/module.js" />
 
 <script>
 window.addEvent('domready', (function() {

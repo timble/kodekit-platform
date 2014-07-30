@@ -10,7 +10,7 @@
 
 <?= helper('behavior.validator') ?>
 
-<script inline>
+<script data-inline>
     window.addEvent('domready', function () {
         /* Reset the filter values to blank */
         document.id('activities-filter').addEvent('reset', function (e) {

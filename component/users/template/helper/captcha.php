@@ -47,7 +47,7 @@ class TemplateHelperCaptcha extends Library\TemplateHelperDefault
 
             // Use options if any.
             $options = Library\ObjectConfig::unbox($config->options);
-            $html .= '<script type="text/javascript">';
+            $html .= '<script>';
             $html .= 'var RecaptchaOptions = ' . json_encode($options);
             $html .= '</script> ';
 

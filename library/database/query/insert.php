@@ -90,7 +90,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
      *
      * @return  string  The query string.
      */
-    public function __toString()
+    public function toString()
     {
         $adapter = $this->getAdapter();
         $query   = 'INSERT';

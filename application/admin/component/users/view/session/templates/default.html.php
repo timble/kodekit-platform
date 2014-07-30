@@ -10,10 +10,8 @@
 
 <h1><?= translate('Administrator Login') ?></h1>
 
-<!--
-<script src="assets://js/koowa.js" />
-<style src="assets://css/koowa.css" />
--->
+<ktml:script src="assets://js/koowa.js" />
+<ktml:style src="assets://css/koowa.css" />
 
 <form action="" method="post" name="login" id="form-login">
     <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= translate('Email') ?>" />

@@ -22,7 +22,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      *
      * @var string
      */
-    public static $name = '';
+    protected static $_name = '';
 
     /**
      * The filter name
@@ -33,7 +33,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      * @var string
      * @see \php_user_filter
      */
-    //public $filtername;
+    public $filtername;
 
     /**
      * The stream being filtered
@@ -44,7 +44,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      * @var resource
      * @see \php_user_filter
      */
-    //public $stream;
+    public $stream;
 
     /**
      * The filter params
@@ -54,7 +54,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      * @var array
      * @see \php_user_filter
      */
-    //public $params;
+    public $params;
 
     /**
      * Register the stream filter
@@ -68,21 +68,6 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
 
         if (!empty($name) && !in_array($name, stream_get_filters())) {
             $result = stream_filter_register(self::getName(), get_called_class());
-        }
-
-        return $result;
-    }
-
-    /**
-     * Check if the stream filter is registered
-     *
-     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
-     */
-    public static function isRegistered()
-    {
-        $result = false;
-        if($name = self::getName()) {
-            $result = in_array($name, stream_get_wrappers());
         }
 
         return $result;
@@ -121,5 +106,20 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
     public function onClose()
     {
         //do nothing
+    }
+
+    /**
+     * Check if the stream filter is registered
+     *
+     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
+     */
+    public static function isRegistered()
+    {
+        $result = false;
+        if($name = self::getName()) {
+            $result = in_array($name, stream_get_wrappers());
+        }
+
+        return $result;
     }
 }

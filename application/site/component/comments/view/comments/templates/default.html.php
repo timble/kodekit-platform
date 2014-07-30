@@ -10,8 +10,8 @@
 
 <? if(object('com:comments.controller.comment')->canDelete()) : ?>
     <?= helper('behavior.mootools') ?>
-    <script src="assets://application/js/jquery.js" />
-    <script src="assets://comments/js/comments.js" />
+    <ktml:script src="assets://application/js/jquery.js" />
+    <ktml:script src="assets://comments/js/comments.js" />
 
     <script>
         window.addEvent('domready', (function() {
@@ -28,8 +28,8 @@
 <? endif ?>
 
 <? if(object('com:comments.controller.comment')->canAdd()) : ?>
-    <script src="assets://application/js/jquery.js" />
-    <script src="assets://ckeditor/ckeditor/ckeditor.js" />
+    <ktml:script src="assets://application/js/jquery.js" />
+    <ktml:cript src="assets://ckeditor/ckeditor/ckeditor.js" />
 
     <script>
         CKEDITOR.on( 'instanceCreated', function( event ) {

@@ -8,9 +8,9 @@
  */
 ?>
 
-<style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+<ktml:style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
-<script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
+<ktml:script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
 
 <script>
 jQuery.noConflict();

@@ -1,9 +1,9 @@
-<script src="assets://attachments/js/jquery.Jcrop.min.js" />
-<style src="assets://attachments/css/jquery.Jcrop.min.css" />
+<ktml:script src="assets://attachments/js/jquery.Jcrop.min.js" />
+<ktml:style src="assets://attachments/css/jquery.Jcrop.min.css" />
 
-<script src="assets://js/koowa.js" />
-<script src="assets://attachments/js/attachments.list.js" />
-<script src="assets://files/js/uri.js" />
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://attachments/js/attachments.list.js" />
+<ktml:script src="assets://files/js/uri.js" />
 
 <script>
     window.addEvent('domready', function() {

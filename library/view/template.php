@@ -85,7 +85,7 @@ abstract class ViewTemplate extends ViewAbstract
         $config->append(array(
             'layout'           => '',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
+            'template_filters' => array('shorttag', 'function', 'asset', 'decorator'),
             'auto_fetch'       => true,
         ));
 

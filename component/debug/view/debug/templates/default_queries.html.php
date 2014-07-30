@@ -8,9 +8,9 @@
  */
 ?>
 
-<style src="assets://debug/highlighter/prettify.css" />
-<script src="assets://debug/highlighter/prettify.js" />
-<script src="assets://debug/highlighter/lang-sql.js" />
+<ktml:style src="assets://debug/highlighter/prettify.css" />
+<ktml:script src="assets://debug/highlighter/prettify.js" />
+<ktml:script src="assets://debug/highlighter/lang-sql.js" />
 <script>
 window.addEvent('domready', prettyPrint);
 </script>

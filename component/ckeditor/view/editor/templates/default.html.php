@@ -8,8 +8,8 @@
  */
 ?>
 
-<script src="assets://ckeditor/ckeditor/ckeditor.js" />
-<script src="assets://ckeditor/js/ckeditor.koowa.js" />
+<ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />
+<ktml:script src="assets://ckeditor/js/ckeditor.koowa.js" />
 
 <script>
     jQuery(document).ready(function() {

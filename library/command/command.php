@@ -101,7 +101,7 @@ class Command extends ObjectConfig implements CommandInterface
      */
     public function setAttributes($attributes)
     {
-        if (!is_array($attributes) || $attributes instanceof \Traversable)
+        if (!is_array($attributes) && !$attributes instanceof \Traversable)
         {
             throw new \InvalidArgumentException(sprintf(
                 'Command attributes must be an array or an object implementing the Traversable interface; received "%s"', gettype($attributes)

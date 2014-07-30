@@ -13,22 +13,22 @@
 
 <?= helper('behavior.modal'); ?>
 
-<script src="assets://files/js/delegation.js" />
-<script src="assets://files/js/uri.js" />
-<script src="assets://files/js/history/history.js" />
-<script src="assets://files/js/history/history.html4.js" />
+<ktml:script src="assets://files/js/delegation.js" />
+<ktml:script src="assets://files/js/uri.js" />
+<ktml:script src="assets://files/js/history/history.js" />
+<ktml:script src="assets://files/js/history/history.html4.js" />
 
-<script src="assets://files/js/ejs/ejs.js" />
+<ktml:script src="assets://files/js/ejs/ejs.js" />
 
-<script src="assets://js/koowa.js" />
-<script src="assets://js/mootree.js" />
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://js/mootree.js" />
 
-<script src="assets://files/js/files.utilities.js" />
-<script src="assets://files/js/files.state.js" />
-<script src="assets://files/js/files.template.js" />
-<script src="assets://files/js/files.grid.js" />
-<script src="assets://files/js/files.tree.js" />
-<script src="assets://files/js/files.row.js" />
-<script src="assets://files/js/files.paginator.js" />
+<ktml:script src="assets://files/js/files.utilities.js" />
+<ktml:script src="assets://files/js/files.state.js" />
+<ktml:script src="assets://files/js/files.template.js" />
+<ktml:script src="assets://files/js/files.grid.js" />
+<ktml:script src="assets://files/js/files.tree.js" />
+<ktml:script src="assets://files/js/files.row.js" />
+<ktml:script src="assets://files/js/files.paginator.js" />
 
-<script src="assets://files/js/files.app.js" />
+<ktml:script src="assets://files/js/files.app.js" />

@@ -11,10 +11,10 @@
 <?=helper('behavior.mootools');?>
 <?=helper('behavior.validator');?>
 
-<script src="assets://js/koowa.js"/>
-<script src="assets://users/js/users.js" />
+<ktml:script src="assets://js/koowa.js"/>
+<ktml:script src="assets://users/js/users.js" />
 
-<script type="text/javascript">
+<script>
     window.addEvent('domready', function () {
         ComUsers.Form.addValidators(['passwordLength','passwordVerify']);
     });

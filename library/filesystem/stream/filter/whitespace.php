@@ -24,7 +24,7 @@ class FilesystemStreamFilterWhitespace extends FilesystemStreamFilterAbstract
      *
      * @var string
      */
-    public static $name = 'whitespace';
+    protected static $_name = 'whitespace';
 
     /**
      * Called when applying the filter

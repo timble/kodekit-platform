@@ -54,4 +54,11 @@ interface DatabaseQueryInterface
      * @return DatabaseQueryInterface
      */
     public function setAdapter(DatabaseAdapterInterface $adapter);
+
+    /**
+     * Render the query to a string.
+     *
+     * @return  string  The query string.
+     */
+    public function toString();
 }

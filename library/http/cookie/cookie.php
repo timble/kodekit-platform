@@ -305,7 +305,7 @@ class HttpCookie extends Object implements HttpCookieInterface
      *
      * @return string
      */
-    public function __toString()
+    final public function __toString()
     {
         return $this->toString();
     }

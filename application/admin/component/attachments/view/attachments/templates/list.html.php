@@ -12,8 +12,8 @@
 
 <?= helper('behavior.modal') ?>
 
-<script src="assets://attachments/js/attachments.list.js" />
-<script src="assets://files/js/uri.js" />
+<ktml:script src="assets://attachments/js/attachments.list.js" />
+<ktml:script src="assets://files/js/uri.js" />
 
 <script>
 window.addEvent('domready', function() {
