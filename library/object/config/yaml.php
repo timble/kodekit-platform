@@ -40,7 +40,7 @@ class ObjectConfigYaml extends ObjectConfigFormat
                 }
             }
 
-            $this->add($data);
+            $this->merge($data);
         }
 
         return $this;

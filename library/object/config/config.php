@@ -33,7 +33,7 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function __construct( $options = array() )
     {
-        $this->add($options);
+        $this->merge($options);
     }
 
     /**
@@ -103,7 +103,7 @@ class ObjectConfig implements ObjectConfigInterface
      * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
      * @return ObjectConfig
      */
-    public function add($options)
+    public function merge($options)
     {
         $options = self::unbox($options);
 
