@@ -142,7 +142,7 @@ interface FilesystemStreamInterface extends ObjectInterface
     /**
      * Read data from the stream to another stream
      *
-     * @param resource $stream The stream resource to copy the data too
+     * @param resource|FilesystemStreamInterface $stream The stream resource to copy the data too
      * @return bool Returns TRUE on success, FALSE on failure
      */
     public function copy($stream);
@@ -178,9 +178,9 @@ interface FilesystemStreamInterface extends ObjectInterface
      * If no target stream is being passed and you have cached data that is not yet stored into the underlying storage,
      * you should do so now
      *
-     * @param resource|null $stream The stream resource to flush the data too
-     * @param int           $length  The total bytes to flush, if -1 the stream will be flushed until eof. The limit should
-     *                         lie within the total size of the stream.
+     * @param resource|FilesystemStreamInterface|null $stream The stream resource to flush the data too
+     * @param int $length  The total bytes to flush, if -1 the stream will be flushed until eof. The limit should
+     *                     lie within the total size of the stream.
      * @return boolean Should return TRUE if the cached data was successfully stored (or if there was no data to store),
      *                 or FALSE if the data could not be stored.
      */
