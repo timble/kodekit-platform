@@ -25,27 +25,6 @@ interface DispatcherResponseInterface extends ControllerResponseInterface
     public function send();
 
     /**
-     * Sets the response path
-     *
-     * Path needs to be of the form "scheme://..." and a wrapper for that protocol need to be registered. See @link
-     * http://www.php.net/manual/en/wrappers.php for a list of default PHP stream protocols and wrappers.
-     *
-     * @param mixed  $content   The content
-     * @param string $type      The content type
-     * @throws \InvalidArgumentException If the path is not a valid stream or no stream wrapper is registered for the
-     *                                   stream protocol
-     * @return HttpMessage
-     */
-    public function setPath($path);
-
-    /**
-     * Get the response path
-     *
-     * @return string The response stream path.
-     */
-    public function getPath();
-
-    /**
      * Sets the response content using a stream
      *
      * @param FilesystemStreamInterface $stream  The stream object

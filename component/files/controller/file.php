@@ -63,7 +63,7 @@ class ControllerFile extends ControllerAbstract
             {
                 $this->getResponse()
                     ->attachTransport('stream')
-                    ->setPath($file->fullpath, $file->mimetype);
+                    ->setContent($file->fullpath, $file->mimetype);
             }
             catch (\InvalidArgumentException $e) {
                 throw new Library\ControllerExceptionResourceNotFound('File not found');

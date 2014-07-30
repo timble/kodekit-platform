@@ -66,7 +66,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      */
     public function sendContent(DispatcherResponseInterface $response)
     {
-        echo $response->getStream()->getContent();
+        echo $response->getStream()->toString();
         return $this;
     }
 
@@ -104,7 +104,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         if($response->isDownloadable())
         {
             //Last-Modified header
-            if($time = $response->getStream()->getTime(FilesystemStream::TIME_MODIFIED)) {
+            if($time = $response->getStream()->getTime(FilesystemStreamInterface::TIME_MODIFIED)) {
                 $response->setLastModified($time);
             };
 
