@@ -212,7 +212,7 @@ class HttpUrl extends Object implements HttpUrlInterface
         parent::__construct($config);
 
         //Set the escaping behavior
-        $this->_escape = $config->escape;
+        $this->setEscape($config->escape);
 
         //Set the url
         $this->setUrl($config->url);
@@ -442,7 +442,7 @@ class HttpUrl extends Object implements HttpUrlInterface
     public function getQuery($toArray = false, $escape = null)
     {
         $result = $this->_query;
-        $escape = isset($escape) ? (bool) $escape : $this->_escape;
+        $escape = isset($escape) ? (bool) $escape : $this->getEscape();
 
         if(!$toArray)
         {
@@ -532,6 +532,28 @@ class HttpUrl extends Object implements HttpUrlInterface
     }
 
     /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * @return HttpUrl
+     */
+    public function setEscape($escape)
+    {
+        $this->_escape = (bool) $escape;
+        return $this;
+    }
+
+    /**
+     * Get the escape setting
+     *
+     * @return bool
+     */
+    public function getEscape()
+    {
+        return $this->_escape;
+    }
+
+    /**
      * Build the url from an array
      *
      * @param   string  $array Associative array like parse_url() returns.
@@ -577,7 +599,7 @@ class HttpUrl extends Object implements HttpUrlInterface
     public function toString($parts = self::FULL, $escape = null)
     {
         $url = '';
-        $escape = isset($escape) ? (bool) $escape : $this->_escape;
+        $escape = isset($escape) ? (bool) $escape : $this->getEscape();
 
         //Add the scheme
         if (($parts & self::SCHEME) && !empty($this->scheme)) {
@@ -627,18 +649,6 @@ class HttpUrl extends Object implements HttpUrlInterface
         }
 
         return $url;
-    }
-
-    /**
-     * Enable/disable URL escaping
-     *
-     * @param bool $escape
-     * return HttpUrl
-     */
-    public function escape($escape)
-    {
-        $this->_escape = (bool) $escape;
-        return $this;
     }
 
     /**

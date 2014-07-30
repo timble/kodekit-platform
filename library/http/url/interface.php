@@ -174,6 +174,21 @@ interface HttpUrlInterface
     public function setFragment($fragment);
 
     /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * @return HttpUrlInterface
+     */
+    public function setEscape($escape);
+
+    /**
+     * Get the escape setting
+     *
+     * @return bool
+     */
+    public function getEscape();
+
+    /**
      * Build the url from a string
      *
      * Partial URLs are also accepted. fromString tries its best to parse them correctly.
@@ -202,14 +217,6 @@ interface HttpUrlInterface
      * @return  string
      */
     public function toString($parts = self::FULL, $escape = null);
-
-    /**
-     * Enable/disable URL escaping
-     *
-     * @param bool $escape
-     * return HttpUrlInterface
-     */
-    public function escape($escape);
 
     /**
      * Check if two url's are equal
