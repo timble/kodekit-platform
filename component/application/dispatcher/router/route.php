@@ -19,12 +19,12 @@ use Nooku\Library;
  */
 class DispatcherRouterRoute extends Library\DispatcherRouterRoute
 {
-    public function toString($parts = self::FULL)
+    public function toString($parts = self::FULL, $escape = null)
     {
         if(isset($this->query['component'])) {
             $this->getObject('application')->getRouter()->build($this);
         }
 
-        return parent::toString($parts);
+        return parent::toString($parts, $escape);
     }
 }

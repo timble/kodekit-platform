@@ -435,13 +435,14 @@ class HttpUrl extends Object implements HttpUrlInterface
     /**
      * Returns the query portion as a string or array
      *
-     * @param   boolean $toArray If TRUE return an array. Default FALSE
-     * @param   boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @param   boolean      $toArray If TRUE return an array. Default FALSE
+     * @param   boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getQuery($toArray = false, $escape = false)
+    public function getQuery($toArray = false, $escape = null)
     {
         $result = $this->_query;
+        $escape = isset($escape) ? (bool) $escape : $this->_escape;
 
         if(!$toArray)
         {
@@ -569,12 +570,14 @@ class HttpUrl extends Object implements HttpUrlInterface
     /**
      * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param integer      $parts   A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string
      */
-    public function toString($parts = self::FULL)
+    public function toString($parts = self::FULL, $escape = null)
     {
         $url = '';
+        $escape = isset($escape) ? (bool) $escape : $this->_escape;
 
         //Add the scheme
         if (($parts & self::SCHEME) && !empty($this->scheme)) {
@@ -614,7 +617,7 @@ class HttpUrl extends Object implements HttpUrlInterface
 
         if (($parts & self::QUERY) && !empty($this->_query))
         {
-            if($query = $this->getQuery(false, $this->_escape)) {
+            if($query = $this->getQuery(false, $escape)) {
                 $url .= '?' . $query;
             }
         }
@@ -624,6 +627,18 @@ class HttpUrl extends Object implements HttpUrlInterface
         }
 
         return $url;
+    }
+
+    /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * return HttpUrl
+     */
+    public function escape($escape)
+    {
+        $this->_escape = (bool) $escape;
+        return $this;
     }
 
     /**

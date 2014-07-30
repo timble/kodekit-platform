@@ -128,11 +128,11 @@ interface HttpUrlInterface
     /**
      * Returns the query portion as a string or array
      *
-     * @param     boolean $toArray If TRUE return an array. Default FALSE
-     * @param     boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @param   boolean      $toArray If TRUE return an array. Default FALSE
+     * @param   boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getQuery($toArray = false, $escape = false);
+    public function getQuery($toArray = false, $escape = null);
 
     /**
      * Sets the query string in the url
@@ -195,19 +195,26 @@ interface HttpUrlInterface
     public static function fromArray(array $parts);
 
     /**
-     * Convert the url or part of it to a string
+     * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * Using scheme://user:pass@host/path?query#fragment';
-     *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
-     * @return string
+     * @param integer      $parts   A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
+     * @return  string
      */
-    public function toString($parts = self::FULL);
+    public function toString($parts = self::FULL, $escape = null);
+
+    /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * return HttpUrlInterface
+     */
+    public function escape($escape);
 
     /**
      * Check if two url's are equal
      *
-     * @param KHttpUrlInterface $url
+     * @param HttpUrlInterface $url
      * @return Boolean
      */
     public function equals(HttpUrlInterface $url);
