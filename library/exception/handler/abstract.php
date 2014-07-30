@@ -367,7 +367,10 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             {
                 if ($this->getErrorLevel() & $level)
                 {
-                    $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
+                    $exception = new ExceptionError(
+                        $message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line
+                    );
+
                     $result = $this->handleException($exception);
                 }
             }
@@ -399,7 +402,10 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
 
                 if ($this->getErrorLevel() & $level)
                 {
-                    $exception = new ExceptionFailure($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
+                    $exception = new ExceptionFailure(
+                        $error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']
+                    );
+
                     $this->handleException($exception);
                 }
             }
