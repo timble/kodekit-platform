@@ -10,10 +10,12 @@ Nooku Platform uses a [component based architecture](http://en.wikipedia.org/wik
 
 By doing most of the repetitive work for you, Nooku Platform greatly reduces the time to develop all kinds of websites and web applications, allowing you to focus on the things that matter : business logic and the user experience.
 
-Development
------------
+Experimental
+------------
 
-The platform uses a rapid agile development cycle with almost daily changes. Until the platform hits a 1.0 stable release upgrades between versions are not provided. If you want to use the platform it's best to choose one of the 0.x releases and stick with it. 
+The platform includes the newest of the new Nooku features. Be forewarned: it's designed for developers and early adopters, and can sometimes break down completely. Not for the faint of heart!
+
+The platform uses a rapid agile development cycle with almost daily changes. Upgrades between versions are not provided. If you want to use the platform it's best to choose one of the 0.x releases and stick with it. 
 
 Requirements
 ------------
