@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -172,7 +172,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $options = $config->options->toArray() ? ', ' . $config->options : '';
         $html .= "<script>window.addEvent('domready', function(){new Koowa.Overlay('$id'" . $options . ");});</script>";
 
-        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . $this->translate('Loading...') . '</div></div>';
+        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . $this->getObject('translator')->translate('Loading...') . '</div></div>';
         return $html;
     }
 

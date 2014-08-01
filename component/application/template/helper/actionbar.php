@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -80,7 +80,7 @@ class TemplateHelperActionbar extends Library\TemplateHelperAbstract
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';
-       	$html .= $this->translate($command->label);
+       	$html .= $this->getObject('translator')->translate($command->label);
        	$html .= '</a>';
 
     	return $html;
