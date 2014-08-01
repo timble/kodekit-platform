@@ -154,37 +154,33 @@ class Command extends ObjectConfig implements CommandInterface
     }
 
     /**
-     * Set a command property
+     * Get a new instance
      *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return void
+     * @return ObjectConfig
      */
-    public function set($name, $value)
+    final public function getInstance()
     {
-        if (is_array($value)) {
-            $value = new ObjectConfig($value);
-        }
-
-        parent::set($name, $value);
+        $instance = new ObjectConfig(array(), $this->_readonly);
+        return $instance;
     }
 
     /**
-     * Get a command property or attribute
+     * Get an command property or attribute
      *
-     * If a command property exists the property will be returned, otherwise the attribute will be returned. If no
+     * If an event property exists the property will be returned, otherwise the attribute will be returned. If no
      * property or attribute can be found the method will return NULL.
      *
-     * @param  string $name
+     * @param  string $name    The property name
+     * @param  mixed  $default The default value
      * @return mixed|null  The property value
      */
-    public function __get($name)
+    final public function get($name, $default = null)
     {
-        $getter = 'get'.ucfirst($name);
-        if(method_exists($this, $getter)) {
-            $value = $this->$getter();
+        $method = 'get'.ucfirst($name);
+        if(!method_exists($this, $method) ) {
+            $value = parent::get($name);
         } else {
-            $value = parent::__get($name);
+            $value = $this->$method();
         }
 
         return $value;
@@ -193,19 +189,21 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Set a command property or attribute
      *
-     * If a command property exists the property will be set, otherwise an attribute will be added.
+     * If an event property exists the property will be set, otherwise an attribute will be added.
      *
      * @param  string $name
      * @param  mixed  $value
-     * @return void
+     * @return Command
      */
-    public function __set($name, $value)
+    final public function set($name, $value)
     {
-        $setter = 'set'.ucfirst($name);
-        if(method_exists($this, $setter)) {
-            $this->$setter($value);
+        $method = 'set'.ucfirst($name);
+        if(!method_exists($this, $method) ) {
+            parent::set($name, $value);
         } else {
-            parent::__set($name, $value);
+            $this->$method($value);
         }
+
+        return $this;
     }
 }

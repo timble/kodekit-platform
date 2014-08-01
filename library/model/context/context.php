@@ -26,8 +26,7 @@ class ModelContext extends Command implements ModelContextInterface
      */
     public function setState($state)
     {
-        $this->set('state', $state);
-        return $this;
+        return ObjectConfig::set('state', $state);
     }
 
     /**
@@ -37,7 +36,7 @@ class ModelContext extends Command implements ModelContextInterface
      */
     public function getState()
     {
-        return $this->get('state');
+        return ObjectConfig::get('state');
     }
 
     /**
@@ -48,8 +47,7 @@ class ModelContext extends Command implements ModelContextInterface
      */
     public function setEntity($entity)
     {
-        $this->set('entity', $entity);
-        return $this;
+        return ObjectConfig::set('entity', $entity);
     }
 
     /**
@@ -59,7 +57,7 @@ class ModelContext extends Command implements ModelContextInterface
      */
     public function getEntity()
     {
-        return $this->get('entity');
+        return ObjectConfig::get('entity');
     }
 
     /**
@@ -69,7 +67,7 @@ class ModelContext extends Command implements ModelContextInterface
      */
     public function getIdentityKey()
     {
-        return $this->get('identity_key');
+        return ObjectConfig::get('identity_key');
     }
 
     /**
@@ -80,7 +78,6 @@ class ModelContext extends Command implements ModelContextInterface
      */
     public function setIdentityKey($value)
     {
-        $this->set('identity_key', $value);
-        return $this;
+        return ObjectConfig::set('identity_key', $value);
     }
 }

@@ -25,8 +25,7 @@ class ViewContext extends Command implements ViewContextInterface
      */
     public function setData($data)
     {
-        $this->set('data', $data);
-        return $this;
+        return ObjectConfig::set('data', $data);
     }
 
     /**
@@ -36,6 +35,6 @@ class ViewContext extends Command implements ViewContextInterface
      */
     public function getData()
     {
-        return $this->get('data');
+        return ObjectConfig::get('data');
     }
 }
