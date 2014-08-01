@@ -1,18 +1,21 @@
-README
-======
+What is Nooku Platform ?
+-----------------------
 
-What is Nooku?
---------------
+Nooku Platform is an open-source web application platform. Developed and maintained by [Timble](http://timble.net) with the help of passionate developers from all over the world. 
 
-Nooku is an open-source web application framework. It uses a component based architecture. Written in PHP 5.3, HTML5, CSS3 and Javascript, and made by passionate developers from all over the world. 
+Nooku Platform uses a [component based architecture](http://en.wikipedia.org/wiki/Component-based_software_engineering) and includes everything needed to create components according to the [Hierarchical Model-View-Contoller](http://en.wikipedia.org/wiki/Hierarchical_model%E2%80%93view%E2%80%93controller) (HMVC) pattern.
 
-By doing most of the repetitive work for you, Nooku greatly reduces the time to develop all kinds of websites and web applications, allowing you to focus on the things that matter : features.
+By doing most of the repetitive work for you, Nooku Platform greatly reduces the time to develop all kinds of websites and web applications, allowing you to focus on the things that matter : business logic and the user experience.
 
+Development
+-----------
+
+The platform uses a rapid agile development cycle with almost daily changes. Until the platform hits a 1.0 stable release upgrades between versions are not provided. If you want to use the platform it's best to choose one of the 0.x releases and stick with it. 
 
 Requirements
 ------------
 
-Nooku is only supported on PHP 5.3.3 and up running MySQL v5.x, or similar. 
+Nooku Platform is only supported on PHP 5.3.3 and up running MySQL v5.x, or similar and requires Nginx web server to run.
 
 
 Installation
