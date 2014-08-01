@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * being filtered in case of an array of a Traversable object. If a filter does not implement FilterTraversable the data
  * will be passed directly to the filter.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable

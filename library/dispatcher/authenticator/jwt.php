@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -27,7 +27,7 @@ namespace Nooku\Library;
  * A token MAY contain and additional 'user' claim which contains a JSON hash of user field key and values to set on
  * the user.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract

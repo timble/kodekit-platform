@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * This class provides structured storage of session attributes using a name spacing character in the key. Be default
  * the namespace character is a dot ('.')
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 abstract class UserSessionContainerAbstract extends ObjectArray implements UserSessionContainerInterface

@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Generates a slug, a short label for the row, containing only letters, numbers, underscores or hyphens. A slug is
  * generally used in an URL.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  * @see     http://en.wikipedia.org/wiki/Slug_(web_publishing)
  */

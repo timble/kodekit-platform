@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The ObjectArray class provides provides the main functionality of an array and at the same time implement the
  * features of Object
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \Serializable, \Countable

@@ -12,9 +12,8 @@ use Nooku\Library;
 /**
  * Attachment Controller Class
  *
- * @author    	Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Tom Janssens <http://github.com/tomjanssens>
+ * @package Component\Articles
  */
 class ArticlesControllerAttachment extends AttachmentsControllerAttachment
 {

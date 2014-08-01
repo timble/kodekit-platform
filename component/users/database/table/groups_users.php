@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Groups Users Database Table
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class DatabaseTableGroups_users extends Library\DatabaseTableAbstract
