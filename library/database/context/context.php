@@ -24,7 +24,7 @@ class DatabaseContext extends Command implements DatabaseContextInterface
      */
     public function getQuery()
     {
-        return $this->get('query');
+        return ObjectConfig::get('query');
     }
 
     /**
@@ -35,8 +35,7 @@ class DatabaseContext extends Command implements DatabaseContextInterface
      */
     public function setQuery($query)
     {
-        $this->set('query', $query);
-        return $this;
+        return ObjectConfig::set('query', $query);
     }
 
     /**
@@ -46,7 +45,7 @@ class DatabaseContext extends Command implements DatabaseContextInterface
      */
     public function getAffected()
     {
-        return $this->get('affected');
+        return ObjectConfig::get('affected');
     }
 
     /**
@@ -57,7 +56,6 @@ class DatabaseContext extends Command implements DatabaseContextInterface
      */
     public function setAffected($affected)
     {
-        $this->set('affected', $affected);
-        return $this;
+        return ObjectConfig::set('affected', $affected);
     }
 }
