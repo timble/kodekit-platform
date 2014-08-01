@@ -18,13 +18,13 @@ Nooku is only supported on PHP 5.3.3 and up running MySQL v5.x, or similar.
 Installation
 ------------
 
-* Clone this repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
+* Clone this repository at [https://github.com/nooku/nooku-platform](https://github.com/nooku/nooku-platform)
 
 ```
-    $ git clone git://git.assembla.com/nooku-framework.git
+    $ git clone https://github.com/nooku/nooku-platform
 ```
 
-* Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
+* Switch to the [develop](https://github.com/nooku/nooku-platform/tree/develop) branch
 
 ```
     $ git checkout develop
