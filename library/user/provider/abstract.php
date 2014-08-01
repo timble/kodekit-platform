@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract User Provider
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 class UserProviderAbstract extends Object implements UserProviderInterface

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Database Event Subscriber
  * 
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Debug
  */
 class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements Library\ObjectMultiton

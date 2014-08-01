@@ -12,7 +12,7 @@ use Nooku\Library, Nooku\Component\Files;
 /**
  * Directories Model
  *   
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Files
  */
 class FilesModelDirectories extends Files\ModelFolders

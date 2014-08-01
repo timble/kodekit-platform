@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Group Model Entity
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Nooku\Component\Users
  */
 class ModelEntityGroup extends Library\ModelEntityRow

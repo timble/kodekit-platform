@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Html Page View
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author      Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class ViewPageHtml extends ViewHtml

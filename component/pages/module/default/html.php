@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Default Module Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class ModuleDefaultHtml extends Library\ViewHtml

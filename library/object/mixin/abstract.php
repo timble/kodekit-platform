@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * This class does not extend from Object and acts as a special core class that is intended to offer semi-multiple
  * inheritance features to Object derived classes.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectMixinAbstract implements ObjectMixinInterface

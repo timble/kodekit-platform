@@ -15,7 +15,7 @@ use Nooku\Component\Files;
 /**
  * File Controller
  *
- * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Ckeditor
  */
 class ControllerFile extends Files\ControllerFile

@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Ensures that only one object instance can exist.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  * @see     ObjectManager::getObject()
  */

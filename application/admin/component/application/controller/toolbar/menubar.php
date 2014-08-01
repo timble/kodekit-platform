@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Menubar Controller Toolbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class ApplicationControllerToolbarMenubar extends Library\ControllerToolbarAbstract

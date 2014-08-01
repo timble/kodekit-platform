@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Article Element
  *
- * @author Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author Gergo Erdosi <https://github.com/gergoerdosi>
  * @package Component\Articles
  */
 class JElementArticle extends JElement

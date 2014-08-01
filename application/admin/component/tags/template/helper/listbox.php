@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Tags
  */
 class TagsTemplateHelperListbox extends Library\TemplateHelperListbox

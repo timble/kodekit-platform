@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Filter will parse <ktml:toolbar type="[type]'> tags and replace them with the actual toolbar html by rendering
  * the toolbar helper for the specific toolbar type.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterToolbar extends TemplateFilterAbstract implements TemplateFilterRenderer

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Application Event Subscriber
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Debug
  */
 class EventSubscriberApplication extends Library\EventSubscriberAbstract

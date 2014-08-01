@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Session Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Users
  */
 class ModelEntitySession extends Library\ModelEntityRow

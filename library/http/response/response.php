@@ -13,7 +13,7 @@ namespace Nooku\Library;
  *
  *
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
  * @link    http://tools.ietf.org/html/rfc2616

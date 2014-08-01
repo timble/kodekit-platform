@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Filter which removes all spaces from the template output
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterWhitespace extends TemplateFilterAbstract implements TemplateFilterRenderer

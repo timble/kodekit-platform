@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * FileSystem Stream Filter Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 interface FilesystemStreamFilterInterface

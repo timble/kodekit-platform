@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Indexable Model Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ModelBehaviorIndexable extends ModelBehaviorAbstract

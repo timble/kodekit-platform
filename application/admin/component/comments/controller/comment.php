@@ -13,7 +13,7 @@ use Nooku\Component\Comments;
 /**
  * Comment Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
 class CommentsControllerComment extends Comments\ControllerComment

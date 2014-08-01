@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Filters ISO codes like en-GB (lang-COUNTRY). Only checks the format, it doesn't care whether the language or country
  * actually exist
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterLang extends FilterAbstract implements FilterTraversable

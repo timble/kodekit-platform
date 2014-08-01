@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Tag Controller Toolbar
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Nooku\Component\Tags
  */
 class ControllerToolbarTag extends Library\ControllerToolbarActionbar

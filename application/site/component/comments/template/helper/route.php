@@ -12,8 +12,8 @@ use Nooku\Library;
 /**
  * Route Template Helper Class
  *
- * @author     Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package    Component\Comments
+ * @author  Terry Visser <http://github.com/terryvisser>
+ * @package Component\Comments
  */
 class CommentsTemplateHelperRoute extends PagesTemplateHelperRoute
 {

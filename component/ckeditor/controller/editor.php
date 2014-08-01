@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Editor Controller
  *
- * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Ckeditor
  */
 class ControllerEditor extends Library\ControllerView

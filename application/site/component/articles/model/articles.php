@@ -13,7 +13,7 @@ use Nooku\Component\Articles;
 /**
  * Article Model
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesModelArticles extends Articles\ModelArticles

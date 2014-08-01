@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Dashboard Controller
  *   
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Dashboard
  */
 class DashboardControllerDashboard extends Library\ControllerView

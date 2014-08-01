@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Http Request Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 interface HttpRequestInterface extends HttpMessageInterface

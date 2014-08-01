@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Filter which removes all spaces from the stream.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 class FilesystemStreamFilterWhitespace extends FilesystemStreamFilterAbstract

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The abstract behavior will translate the command name to a method name format (eg, _before[Command] or _after[Command])
  * and add execute the method. Command handlers should be declared protected.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Behavior
  */
 abstract class BehaviorAbstract extends CommandCallbackAbstract implements BehaviorInterface

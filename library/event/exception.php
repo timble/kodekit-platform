@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Exception Event
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 class EventException extends Event implements Exception

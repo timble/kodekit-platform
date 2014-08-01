@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Form Dispatcher Authenticator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstract

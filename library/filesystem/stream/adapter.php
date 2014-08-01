@@ -16,7 +16,7 @@ namespace Nooku\Library;
  *
  * Instances of this class are created by PHP itself and therefore are unknown to Koowa object manager.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 final class FilesystemStreamAdapter

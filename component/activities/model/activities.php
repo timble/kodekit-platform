@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Activities Model
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
 class ModelActivities extends Library\ModelDatabase

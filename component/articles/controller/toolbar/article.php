@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Article Controller Actionbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Articles
  */
 class ControllerToolbarArticle extends Library\ControllerToolbarActionbar

@@ -11,7 +11,7 @@ namespace Nooku\Library;
 /**
  * Object Config Yaml
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectConfigYaml extends ObjectConfigFormat

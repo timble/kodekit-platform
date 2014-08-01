@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Used to test if two objects are equal
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 interface ObjectEquatable

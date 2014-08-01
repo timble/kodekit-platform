@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Users Router
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author      Gergo Erdosi <http://github.com/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Users
  */

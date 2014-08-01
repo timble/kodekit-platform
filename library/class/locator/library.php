@@ -35,7 +35,7 @@ namespace Nooku\Library;
  * Classname : [Namespace][Path]Exception[FileNameForException]
  * Location  : namespace/.../path/to/exception/filenameforexception.php
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Class
  */
 class ClassLocatorLibrary extends ClassLocatorAbstract

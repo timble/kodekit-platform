@@ -13,7 +13,7 @@ use Nooku\Component\Activities;
 /**
  * Activity Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
 class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity

@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Provides interaction with a database
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelDatabase extends ModelAbstract

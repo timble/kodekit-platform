@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Folders Element
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Component\Files
  */
 class JElementFolders extends JElement

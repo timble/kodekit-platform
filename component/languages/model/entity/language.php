@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Language Model Entity
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Languages
  */
 class ModelEntityLanguage extends Library\ModelEntityRow

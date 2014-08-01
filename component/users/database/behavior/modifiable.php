@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Modifiable Database Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Users
  */
 class DatabaseBehaviorModifiable extends Library\DatabaseBehaviorModifiable

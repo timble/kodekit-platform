@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Provides route buidling and parsing functionality
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 interface DispatcherRouterInterface

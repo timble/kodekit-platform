@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Dynamic Module Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectMultiton

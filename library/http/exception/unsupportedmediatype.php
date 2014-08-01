@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The server is refusing to service the request because the entity of the request is in a format not supported by the
  * requested resource for the requested method.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionUnsupportedMediaType extends HttpExceptionAbstract

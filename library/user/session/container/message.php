@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * messages that are meant to live for exactly one request (they're "gone in a flash"). They're designed to be used
  * across redirects.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 class UserSessionContainerMessage extends UserSessionContainerAbstract

@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Article Controller Toolbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionbar

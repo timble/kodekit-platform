@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The request itself or the data supplied along with the request is invalid and could not be processed by the server.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionBadRequest extends HttpExceptionAbstract

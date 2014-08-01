@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Loggable Controller Behavior
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
 class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract

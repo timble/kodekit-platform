@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Creatable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract

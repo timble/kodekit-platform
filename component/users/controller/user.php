@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * User Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
 class ControllerUser extends Library\ControllerModel

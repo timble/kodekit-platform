@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Default View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 final class ViewDefault extends ViewHtml { }

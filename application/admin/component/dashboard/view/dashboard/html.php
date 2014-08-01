@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Dashboard Html View
  *   
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Dashboard
  */
 class DashboardViewDashboardHtml extends Library\ViewHtml

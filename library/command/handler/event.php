@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * it passed by reference instead. By default the context is cloned and changes to the event will not impact the
  * command context.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectSingleton

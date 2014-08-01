@@ -22,7 +22,7 @@ namespace Nooku\Library;
  * format and the capabilities of the user agent, selection of the most appropriate choice MAY be performed
  * automatically. However, this specification does not define any standard for such automatic selection.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionNotAcceptable extends HttpExceptionAbstract

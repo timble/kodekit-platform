@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Revisable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Revisions
  */
 class ControllerBehaviorRevisable extends Library\ControllerBehaviorAbstract

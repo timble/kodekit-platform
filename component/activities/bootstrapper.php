@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Bootstrapper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Activities
  */
 class Bootstrapper extends Library\ObjectBootstrapperComponent

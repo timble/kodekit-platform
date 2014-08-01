@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Row Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serializable, \Countable

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Articles Model
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Articles
  */
 class ModelArticles extends Library\ModelDatabase

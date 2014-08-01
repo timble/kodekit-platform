@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Title Template Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class TemplateFilterTitle extends Library\TemplateFilterTitle

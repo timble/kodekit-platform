@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Radiolist Template Helper
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Nooku\Component\Categories
  */
 class TemplateHelperRadiolist extends Library\TemplateHelperSelect

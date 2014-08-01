@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Boolean Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterBoolean extends FilterAbstract implements FilterTraversable

@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Provides route building and parsing functionality
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectMultiton

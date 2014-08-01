@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Command Handler Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 class CommandExceptionHandler extends \RuntimeException implements CommandException {}

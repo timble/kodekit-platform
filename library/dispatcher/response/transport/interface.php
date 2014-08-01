@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Dispatcher Response Transport Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 interface DispatcherResponseTransportInterface

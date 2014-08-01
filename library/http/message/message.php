@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 abstract class HttpMessage extends Object implements HttpMessageInterface

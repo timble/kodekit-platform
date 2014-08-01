@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * View Context Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 interface ViewContextInterface extends CommandInterface

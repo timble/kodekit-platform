@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 abstract class ViewAbstract extends Object implements ViewInterface, CommandCallbackDelegate

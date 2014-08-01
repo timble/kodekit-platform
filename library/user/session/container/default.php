@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Default User Session Container
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 final class UserSessionContainerDefault extends UserSessionContainerAbstract { }

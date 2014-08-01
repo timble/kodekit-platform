@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Validates or sanitizes an md5 hash (32 chars [a-f0-9])
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterMd5 extends FilterAbstract implements FilterTraversable

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Select Database Query
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseQuerySelect extends DatabaseQueryAbstract

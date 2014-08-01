@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The server does not support the functionality required to fulfill the request.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionNotImplemented extends HttpExceptionAbstract

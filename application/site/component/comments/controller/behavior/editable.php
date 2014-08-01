@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Editable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
 class CommentsControllerBehaviorEditable extends Library\ControllerBehaviorEditable

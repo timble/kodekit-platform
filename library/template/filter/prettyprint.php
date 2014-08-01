@@ -13,7 +13,7 @@ namespace Nooku\Library;
  *
  * Filter which runs the output through Tidy
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterPrettyprint extends TemplateFilterAbstract implements TemplateFilterRenderer

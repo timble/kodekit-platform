@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Menus Database Table
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Nooku\Component\Pages
  */
 class DatabaseTableMenus extends Library\DatabaseTableAbstract

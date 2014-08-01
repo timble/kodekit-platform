@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Modifiable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract

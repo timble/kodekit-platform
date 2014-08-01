@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Float Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterFloat extends FilterAbstract implements FilterTraversable

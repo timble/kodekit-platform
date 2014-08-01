@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Folders Model
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class ModelFolders extends ModelNodes

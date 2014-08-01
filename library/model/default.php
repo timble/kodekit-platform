@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Default Model
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 final class ModelDefault extends ModelDatabase { }

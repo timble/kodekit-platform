@@ -13,7 +13,7 @@ use Nooku\Component\Articles;
 /**
  * Bootstrapper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
  class ArticlesBootstrapper extends Articles\Bootstrapper

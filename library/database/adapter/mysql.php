@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * MySQL Database Adapter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Library\Database
  */
 class DatabaseAdapterMysql extends DatabaseAdapterAbstract

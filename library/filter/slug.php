@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Slug Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterSlug extends FilterAbstract implements FilterTraversable

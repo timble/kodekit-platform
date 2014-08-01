@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Behaviors are attached in FIFO order during construction. Behaviors are added by name and, at runtime behaviors
  * cannot be overridden by attaching a behaviors with the same.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Behavior
  */
 interface BehaviorMixinInterface

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Abstract Controller
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 abstract class ControllerAbstract extends Library\ControllerModel

@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Category Controller Permission
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Categories
  */
 class CategoriesControllerPermissionCategory extends ApplicationControllerPermissionAbstract

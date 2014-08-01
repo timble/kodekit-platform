@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Folder Name Filter
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class FilterFolderName extends Library\FilterAbstract

@@ -16,7 +16,7 @@ use Nooku\Library;
  *
  * Filter will render the response flash messages.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class TemplateFilterMessage extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer

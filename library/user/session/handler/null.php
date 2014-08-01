@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Can be used in unit testing or in a situation where persisted sessions are not desired.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  * @see     http://www.php.net/manual/en/function.session-set-save-handler.php
  */

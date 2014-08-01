@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachments Controller Toolbar
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class ControllerToolbarAttachments extends Library\ControllerToolbarActionbar

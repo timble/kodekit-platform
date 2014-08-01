@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Http Cookie Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 interface HttpCookieInterface

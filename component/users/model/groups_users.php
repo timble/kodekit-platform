@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Group Users Model
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Nooku\Component\Users
  */
 class ModelGroups_users extends Library\ModelDatabase

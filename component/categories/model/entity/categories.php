@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Categories Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class ModelEntityCategories extends ModelEntityNodes

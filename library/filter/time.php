@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Validates or sanitizes a value to an ISO-8601 time
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterTime extends FilterTimestamp

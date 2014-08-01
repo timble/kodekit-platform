@@ -12,7 +12,7 @@ use Nooku\Component\Pages;
 /**
  * Flat Orderable Database Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesDatabaseBehaviorOrderableFlat extends Pages\DatabaseBehaviorOrderableFlat

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Error Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Exception
  */
 class ExceptionError extends \ErrorException implements Exception

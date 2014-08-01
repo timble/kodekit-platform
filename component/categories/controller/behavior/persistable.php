@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Persistable Controller Behavior
  *
- * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistable

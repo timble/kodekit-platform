@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Debug Controller
  *
- * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @author  Stian Didriksen <http://github.com/stipsan>
  * @package Nooku\Component\Debug
  */
 class ControllerDebug extends Library\ControllerView

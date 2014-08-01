@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Bootstrapper Chain
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
 class ObjectBootstrapperChain extends ObjectBootstrapperAbstract

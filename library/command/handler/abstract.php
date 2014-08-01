@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The abstract command handler will translate the command name to a method name format (eg, _before[Command] or
  * _after[Command]) and invoke the method. Command handler methods should be declared protected.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 abstract class CommandHandlerAbstract extends Object implements CommandHandlerInterface

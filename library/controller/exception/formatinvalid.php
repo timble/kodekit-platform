@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Format Not Valid Controller Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerExceptionFormatInvalid extends HttpExceptionUnsupportedMediaType implements ControllerException {}

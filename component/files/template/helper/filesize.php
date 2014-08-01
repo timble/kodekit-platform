@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Filesize Helper
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class TemplateHelperFilesize extends Library\TemplateHelperAbstract

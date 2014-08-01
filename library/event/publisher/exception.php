@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Exception publisher will publish an 'onException' event wrapping the Exception as a EventException and passing it to all
  * the listeners.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 class EventPublisherException extends EventPublisherAbstract

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Not Found Object Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectExceptionNotFound extends \RuntimeException implements ObjectException {}

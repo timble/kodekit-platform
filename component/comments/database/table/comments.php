@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Comments Database Table
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Comments
  */
 class DatabaseTableComments extends Library\DatabaseTableAbstract

@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * being filtered in case of an array of a Traversable object. If a filter does not implement FilterTraversable the data
  * will be passed directly to the filter.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable

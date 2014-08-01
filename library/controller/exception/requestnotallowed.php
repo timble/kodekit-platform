@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Request Not Allowed Controller Exception Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 interface ControllerExceptionRequestNotAllowed extends ControllerException {}

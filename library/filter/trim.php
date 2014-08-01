@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Trim Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterTrim extends FilterAbstract implements FilterTraversable

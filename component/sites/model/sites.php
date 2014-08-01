@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Sites Model
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Sites
  */
 class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton

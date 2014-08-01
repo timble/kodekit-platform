@@ -16,7 +16,7 @@ use Nooku\Library;
  *
  * The user provider will load users by their email address.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Users
  */
 class UserProvider extends Library\UserProvider

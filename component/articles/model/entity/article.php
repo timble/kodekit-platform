@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Article Database Row
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Articles
  */
 class ModelEntityArticle extends Library\ModelEntityRow

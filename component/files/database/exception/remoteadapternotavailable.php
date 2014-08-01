@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Remote Adapter Not Available Database Exception
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class DatabaseExceptionRemoteAdapterNotAvailable extends \Exception {}

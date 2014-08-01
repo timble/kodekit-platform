@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Template
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 abstract class TemplateAbstract extends Object implements TemplateInterface

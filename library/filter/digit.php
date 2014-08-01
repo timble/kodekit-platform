@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Checks if all of the characters in the provided string are numerical
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterDigit extends FilterAbstract implements FilterTraversable

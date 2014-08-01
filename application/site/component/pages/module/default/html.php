@@ -13,7 +13,7 @@ use Nooku\Component\Pages;
 /**
  * Default Module Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
 class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml

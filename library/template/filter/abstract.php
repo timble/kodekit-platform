@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Template Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 abstract class TemplateFilterAbstract extends Object implements TemplateFilterInterface

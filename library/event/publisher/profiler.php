@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Event Publisher Profiler
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 class EventPublisherProfiler extends ObjectDecorator implements EventPublisherInterface

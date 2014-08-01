@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachable Database Behavior
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract

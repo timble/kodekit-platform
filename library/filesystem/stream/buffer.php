@@ -26,7 +26,7 @@ namespace Nooku\Library;
  * specified and the buffer is opened in writing mode, the data in memory will be flushed back into the file when the
  * stream is closed.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 class FilesystemStreamBuffer extends FilesystemStreamAbstract

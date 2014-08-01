@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Force the user object to a singleton with identifier with alias 'request'.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherRequest extends DispatcherRequestAbstract implements ObjectSingleton

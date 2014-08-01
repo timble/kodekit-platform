@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Object Locator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface

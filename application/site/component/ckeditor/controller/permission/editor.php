@@ -12,9 +12,8 @@ use Nooku\Library;
 /**
  * Editor Controller Permission Class
  *
- * @author     Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package    Nooku_Server
- * @subpackage Ckeditor
+ * @author  Terry Visser <http://github.com/terryvisser>
+ * @package Component\Ckeditor
  */
 class CkeditorControllerPermissionEditor extends ApplicationControllerPermissionAbstract
 {

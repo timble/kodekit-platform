@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Strips path info
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterFilename extends FilterAbstract implements FilterTraversable

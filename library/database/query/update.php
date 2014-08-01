@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Update Database Query
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Library\Database
  */
 class DatabaseQueryUpdate extends DatabaseQueryAbstract

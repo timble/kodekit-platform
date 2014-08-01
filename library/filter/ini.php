@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Ini Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterIni extends FilterAbstract

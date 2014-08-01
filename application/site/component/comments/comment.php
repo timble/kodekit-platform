@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Comment Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
 abstract class CommentsControllerComment extends Library\ControllerModel

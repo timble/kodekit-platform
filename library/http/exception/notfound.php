@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The requested resource could not be found.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionNotFound extends HttpExceptionAbstract

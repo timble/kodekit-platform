@@ -34,7 +34,7 @@ namespace Nooku\Library;
  * that content. The size of each chunk is sent right before the chunk itself so that a client can tell when it has
  * finished receiving data for that chunk. The data transfer is terminated by a final chunk of length zero.
  *
- * @author  Johan Janssens <https://github.com/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Koowa\Library\Dispatcher
  * @see http://en.wikipedia.org/wiki/Byte_serving
  * @see http://en.wikipedia.org/wiki/Chunked_transfer_encoding

@@ -13,7 +13,7 @@ use Nooku\Component\Tags;
 /**
  * Tag Controller
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Tags
  */
 abstract class TagsControllerTag extends Tags\ControllerTag

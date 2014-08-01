@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Style Template Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class TemplateFilterStyle extends Library\TemplateFilterStyle

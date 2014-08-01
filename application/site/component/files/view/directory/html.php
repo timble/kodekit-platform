@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Files Html View
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Files
  */
 class FilesViewDirectoryHtml extends Library\ViewHtml

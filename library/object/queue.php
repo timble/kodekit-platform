@@ -24,7 +24,7 @@ namespace Nooku\Library;
  * @link http://en.wikipedia.org/wiki/Queue_(abstract_data_type)
  * @link http://en.wikipedia.org/wiki/Priority_queue
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  * @see     http://www.php.net/manual/en/class.splpriorityqueue.php
  */

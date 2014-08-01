@@ -13,7 +13,7 @@ use Nooku\Component\Categories;
 /**
  * Category Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Categories
  */
 abstract class CategoriesControllerCategory extends Categories\ControllerCategory

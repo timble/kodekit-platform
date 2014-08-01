@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model Context Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 interface ModelContextInterface extends CommandInterface

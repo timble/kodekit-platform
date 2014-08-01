@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Exception Handler Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Exception
  */
 interface ExceptionHandlerInterface

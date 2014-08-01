@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Dispatcher Context
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherContext extends ControllerContext implements DispatcherContextInterface

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Command Handler Delegate
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 interface CommandCallbackDelegate

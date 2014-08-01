@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Date Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateHelperDate extends TemplateHelperAbstract

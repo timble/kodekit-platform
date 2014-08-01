@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Tables Database Table
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Languages
  */
 class DatabaseTableTables extends Library\DatabaseTableAbstract

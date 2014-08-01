@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Revisions Database Table
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Revisions
  */
 class DatabaseTableRevisions extends Library\DatabaseTableAbstract

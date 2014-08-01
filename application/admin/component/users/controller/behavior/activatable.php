@@ -7,14 +7,13 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-
 use Nooku\Library;
 use Nooku\Component\Users;
 
 /**
  * Resettable Controller Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable

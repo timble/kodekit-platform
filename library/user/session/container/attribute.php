@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Attribute User Session Container
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 class UserSessionContainerAttribute extends UserSessionContainerAbstract

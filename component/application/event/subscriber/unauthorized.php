@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Unauthorized Event Subscriber
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract

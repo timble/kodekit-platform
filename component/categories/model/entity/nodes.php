@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Nodes Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class ModelEntityNodes extends Library\ModelEntityRowset

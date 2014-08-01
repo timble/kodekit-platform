@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Tag Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Tag
  */
 class ModelEntityTag extends Library\ModelEntityRow

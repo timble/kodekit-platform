@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * List Template Helper
  *
- * @author   Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author   Tom Janssens <http://github.com/tomjanssens>
  * @package  Nooku\Component\Pages
  */
 class TemplateHelperList extends Library\TemplateHelperAbstract

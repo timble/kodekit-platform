@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachment Template Helper
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class TemplateHelperAttachment extends Library\TemplateHelperAbstract

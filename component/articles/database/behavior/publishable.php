@@ -16,7 +16,7 @@ use Nooku\Library;
  *
  * Auto publishes/un-publishes items.
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Articles
  */
 class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract

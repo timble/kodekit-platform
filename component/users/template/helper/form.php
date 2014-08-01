@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Form Template Helper
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class TemplateHelperForm extends Library\TemplateHelperDefault

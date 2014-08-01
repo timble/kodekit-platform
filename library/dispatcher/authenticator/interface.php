@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Dispatcher Authenticator Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 interface DispatcherAuthenticatorInterface

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Debug Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Debug
  */
 class ViewDebugHtml extends Library\ViewHtml

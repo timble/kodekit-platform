@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The request requires user authentication
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionUnauthorized extends HttpExceptionAbstract

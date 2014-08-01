@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachments Database Table
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class DatabaseTableAttachments extends Library\DatabaseTableAbstract

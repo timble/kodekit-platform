@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Filter will parse and render to the template to an HTML string
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 interface TemplateFilterRenderer

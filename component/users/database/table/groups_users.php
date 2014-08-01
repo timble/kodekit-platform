@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Groups Users Database Table
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class DatabaseTableGroups_users extends Library\DatabaseTableAbstract

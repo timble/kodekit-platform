@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Default Dispatcher Permission
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
 class LanguagesDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract

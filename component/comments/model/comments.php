@@ -15,7 +15,7 @@ use Nooku\Library\DatabaseQuerySelect;
 /**
  * Comments Model
  *
- * @author  Terry Visser <https://nooku.assembla.com/profile/terryvisser>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Comments
  */
 class ModelComments extends Library\ModelDatabase

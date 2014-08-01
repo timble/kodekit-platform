@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The interface signals the ObjectManager to delegate object instantiation.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  * @see     ObjectManager::getObject()
  */

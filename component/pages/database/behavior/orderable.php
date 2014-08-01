@@ -16,7 +16,7 @@ use Nooku\Library;
  *
  * Provides ordering support for closure tables by using a special ordering help of another table
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract

@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * Listeners must be public class methods following a camel Case naming convention starting with 'on', eg onFooBar. The
  * listener priority is usually between 1 (high priority) and 5 (lowest), default is 3 (normal)
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 abstract class EventSubscriberAbstract extends Object implements EventSubscriberInterface

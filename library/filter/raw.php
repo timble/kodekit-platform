@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Always validates and returns the raw variable
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterRaw extends FilterAbstract

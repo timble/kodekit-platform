@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Exception Controller Permission
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class ControllerPermissionError extends Library\ControllerPermissionAbstract

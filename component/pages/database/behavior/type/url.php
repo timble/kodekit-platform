@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Url Database Behavior Interface
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorTypeUrl extends DatabaseBehaviorTypeAbstract

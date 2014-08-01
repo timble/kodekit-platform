@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * User Controller Toolbar
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Users
  */
 class ControllerToolbarUser extends Library\ControllerToolbarActionbar

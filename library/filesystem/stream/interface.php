@@ -21,7 +21,7 @@ namespace Nooku\Library;
  *  * methods that should not be implemented in the PHP prototype when not being
  *    supported (like rename) must throw a \BadMethodCallException instead.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 interface FilesystemStreamInterface extends ObjectInterface

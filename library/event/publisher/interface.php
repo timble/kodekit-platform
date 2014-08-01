@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Interface provides a topic based event publishing mechanism. Higher priority event listeners are called first.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 interface EventPublisherInterface

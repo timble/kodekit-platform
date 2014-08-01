@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The server refused to fulfill the request, for reasons other than invalid user credentials.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionForbidden extends HttpExceptionAbstract

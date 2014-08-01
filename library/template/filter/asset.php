@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Filter allows to define asset url schemes that are replaced on compile and render. A default assets:// scheme is
  * added that is rewritten to '/assets/'.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterAsset extends TemplateFilterAbstract implements TemplateFilterCompiler, TemplateFilterRenderer

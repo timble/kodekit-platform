@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Module Login Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
 class UsersModuleLoginHtml extends PagesModuleDefaultHtml

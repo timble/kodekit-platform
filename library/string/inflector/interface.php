@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Class used to pluralize and singularize English nouns.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\String
  */
 interface StringInflectorInterface

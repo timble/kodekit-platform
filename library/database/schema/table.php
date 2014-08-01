@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Table Database Schema
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseSchemaTable

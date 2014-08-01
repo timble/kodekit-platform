@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Page Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
 class PagesViewPageHtml extends Library\ViewHtml

@@ -13,7 +13,7 @@ use Nooku\Component\Users;
 /**
  * User Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
 class UsersControllerUser extends Users\ControllerUser

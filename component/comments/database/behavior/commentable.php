@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Commentable Controller Behavior
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Comments
  */
 class DatabaseBehaviorCommentable extends Library\DatabaseBehaviorAbstract

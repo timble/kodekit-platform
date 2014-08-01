@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Registry
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface

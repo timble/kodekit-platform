@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Dispatcher Route
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class DispatcherRouterRoute extends Library\DispatcherRouterRoute

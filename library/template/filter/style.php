@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Filter to parse style tags
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterStyle extends TemplateFilterTag

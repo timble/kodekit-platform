@@ -14,7 +14,7 @@ use Nooku\Library;
  *
  * Obfuscates email address using JavaScript for preventing bot email address harvesting.
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
 class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer

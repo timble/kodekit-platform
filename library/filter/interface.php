@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Validate or sanitize data
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 interface FilterInterface extends ObjectHandlable

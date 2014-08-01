@@ -22,7 +22,7 @@ namespace Nooku\Library;
  * totally independent of how the authentication information is submitted or what the UserInterface object looks
  * like.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 interface UserProviderInterface

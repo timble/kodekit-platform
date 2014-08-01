@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Rss View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 class ViewRss extends ViewTemplate

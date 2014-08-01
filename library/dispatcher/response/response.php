@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Force the user object to a singleton with identifier alias 'response'.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponse extends DispatcherResponseAbstract implements ObjectSingleton

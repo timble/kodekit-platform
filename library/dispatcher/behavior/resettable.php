@@ -17,7 +17,7 @@ namespace Nooku\Library;
  *
  * Instead, when receiving a none AJAX POST request reset the browser by redirecting it through a GET request.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherBehaviorResettable extends ControllerBehaviorAbstract

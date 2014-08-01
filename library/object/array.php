@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The ObjectArray class provides provides the main functionality of an array and at the same time implement the
  * features of Object
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \Serializable, \Countable

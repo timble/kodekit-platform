@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Type Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class ModelEntityType extends Library\ModelEntityAbstract

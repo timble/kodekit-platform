@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Method Not Allowed Dispatcher Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherExceptionMethodNotAllowed extends HttpExceptionMethodNotAllowed implements DispatcherException, ControllerExceptionRequestNotAllowed {}

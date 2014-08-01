@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Behavior defines 'save', 'apply' and cancel functions. Functions are only executable if the request format is
  * 'html'. For other formats, eg json use 'edit' and 'read' actions directly.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerBehaviorEditable extends ControllerBehaviorAbstract

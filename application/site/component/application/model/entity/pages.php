@@ -13,7 +13,7 @@ use Nooku\Component\Pages;
 /**
  * Pages Database Rowset
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class ApplicationModelEntityPages  extends Pages\ModelEntityPages implements Library\ObjectMultiton

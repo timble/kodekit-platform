@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Date Template Helper
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Articles
  */
 class ArticlesTemplateHelperDate extends Library\TemplateHelperDate

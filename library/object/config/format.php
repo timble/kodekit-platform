@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Object Config Format
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSerializable

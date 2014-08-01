@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model Controller Toolbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerToolbarActionbar extends ControllerToolbarAbstract

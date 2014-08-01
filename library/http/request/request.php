@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Http Request
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
  */

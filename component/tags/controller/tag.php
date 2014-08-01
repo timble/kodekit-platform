@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Tag Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Tags
  */
 abstract class ControllerTag extends Library\ControllerModel

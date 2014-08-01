@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Filter Factory
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterFactory extends Object implements ObjectSingleton

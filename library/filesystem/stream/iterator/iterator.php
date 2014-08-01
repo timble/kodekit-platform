@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * FileSystem Stream Iterator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 class FilesystemStreamIterator implements \SeekableIterator

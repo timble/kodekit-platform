@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Http Dispatcher Response Transport
  *
- * @author  Johan Janssens <https://github.com/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Koowa\Library\Dispatcher
  */
 class DispatcherResponseTransportHttp extends Library\DispatcherResponseTransportHttp

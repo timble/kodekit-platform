@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Compile filter for template functions such as template(), text(), helper(), route() etc
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateFilterCompiler

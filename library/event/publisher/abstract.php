@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Implementation provides a topic based event publishing mechanism. Higher priority event listeners are called first.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 abstract class EventPublisherAbstract extends Object implements EventPublisherInterface

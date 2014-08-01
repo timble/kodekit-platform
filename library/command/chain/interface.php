@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The command chain implements a queue. The command handle is used as the key. Each command can have a priority, default
  * priority is 3 The queue is ordered by priority, commands with a higher priority are called first.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 interface CommandChainInterface

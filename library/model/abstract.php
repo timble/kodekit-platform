@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Model
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 abstract class ModelAbstract extends Object implements ModelInterface, CommandCallbackDelegate

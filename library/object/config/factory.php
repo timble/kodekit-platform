@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Config Factory
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectConfigFactory extends Object implements ObjectSingleton

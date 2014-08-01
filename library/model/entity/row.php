@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model Row Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelEntityRow extends DatabaseRowAbstract implements ModelEntityInterface

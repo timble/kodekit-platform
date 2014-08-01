@@ -13,7 +13,7 @@ use Nooku\Library;
 /**
  * Sample data generator
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author      Gergo Erdosi <http://github.com/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Sample_Data
  */

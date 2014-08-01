@@ -17,7 +17,7 @@ use Nooku\Component\Files;
  *
  * Filter rewrites relative attachments/... paths as inserted by the editor to absolute paths /files/[site]/attachments/...
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Attachments
  */
 class TemplateFilterAttachments extends Files\TemplateFilterFiles

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * PSR-0 compliant autoloader. Allows autoloading of namespaced and prefixed classes. Standard class names are not case
  * sensitive and follow the PSR-0 naming convention. Classes must be namespaced using a class name prefix or namespace.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Class
  */
 class ClassLocatorStandard extends ClassLocatorAbstract

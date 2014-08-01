@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Activities JSON View Class
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */

@@ -12,8 +12,8 @@ use Nooku\Library;
 /**
  * Comment Controller Permission
  *
- * @author     Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package    Component\Comments
+ * @author  Terry Visser <http://github.com/terryvisser>
+ * @package Component\Comments
  */
 class CommentsControllerPermissionComment extends ApplicationControllerPermissionAbstract
 {

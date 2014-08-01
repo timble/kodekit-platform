@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * string it will be filtered to NULL. Values will only be set if the state exists. To insert new states use the
  * the insert() function.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelState extends ObjectArray implements ModelStateInterface

@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Activities Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Activities
  */
 class ActivitiesViewActivitiesHtml extends Library\ViewHtml

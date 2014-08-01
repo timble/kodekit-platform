@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Searchable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbstract

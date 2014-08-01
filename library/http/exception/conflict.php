@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * This response may include a Retry-After header indicating the time at which the conflicting edits are expected to
  * complete. Clients should wait until at least this time before retrying the request.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpExceptionConflict extends HttpExceptionAbstract

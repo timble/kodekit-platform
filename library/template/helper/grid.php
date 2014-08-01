@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Grid Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  * @see     http://ajaxpatterns.org/Data_Grid
  */

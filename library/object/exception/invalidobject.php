@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Invalid Object Object Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectExceptionInvalidObject extends \UnexpectedValueException implements ObjectException {}

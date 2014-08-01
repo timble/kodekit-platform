@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Expirable Database Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract

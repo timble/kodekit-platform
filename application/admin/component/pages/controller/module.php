@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Page Module Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
 class PagesControllerModule extends Library\ControllerModel

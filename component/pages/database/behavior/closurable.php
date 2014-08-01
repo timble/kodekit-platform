@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Closurable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract

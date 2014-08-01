@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Controller Toolbar Command Iterator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerToolbarCommandIterator extends \RecursiveIteratorIterator

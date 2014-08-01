@@ -14,7 +14,7 @@ use Nooku\Component\Comments;
 /**
  * Comments Database Table
  *
- * @author  Terry Visser <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Comments
  */
 class DatabaseTableComments extends Comments\DatabaseTableComments

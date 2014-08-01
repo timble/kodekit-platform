@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/registry/cache.php';
 /**
  * Class Loader
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Class
  */
 class ClassLoader implements ClassLoaderInterface

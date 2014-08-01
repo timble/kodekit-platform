@@ -20,7 +20,7 @@ use Nooku\Library;
  * Filter will parse elements of the form <html:module position="[position]">[content]</module> and inject the
  * content into the module position.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class TemplateFilterModule extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer

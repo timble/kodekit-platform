@@ -27,7 +27,7 @@ namespace Nooku\Library;
  * A token MAY contain and additional 'user' claim which contains a JSON hash of user field key and values to set on
  * the user.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract

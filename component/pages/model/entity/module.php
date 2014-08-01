@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Module Model Entity
  *
- * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @author  Stian Didriksen <http://github.com/stipsan>
  * @package Nooku\Component\Pages
  */
 class ModelEntityModule extends Library\ModelEntityRow

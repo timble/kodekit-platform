@@ -9,7 +9,7 @@
 /**
  * Javascript loader
  *   
- * @author    	Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author    	Tom Janssens <http://github.com/tomjanssens>
  * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Template

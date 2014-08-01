@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Date
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Date
  */
 class Date extends Object implements DateInterface

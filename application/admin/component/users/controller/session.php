@@ -13,7 +13,7 @@ use Nooku\Component\Users;
 /**
  * Session Controller
  *
- * @author   Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author   Johan Janssens <http://github.com/johanjanssens>
  * @package  Component\Users
  */
 class UsersControllerSession extends Users\ControllerSession

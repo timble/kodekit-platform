@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * File Controller Toolbar
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class ControllerToolbarFile extends Library\ControllerToolbarActionbar

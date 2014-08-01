@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Language Controller Toolbar
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Languages
  */
 class ControllerToolbarLanguage extends Library\ControllerToolbarActionbar

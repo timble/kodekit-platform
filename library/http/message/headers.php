@@ -16,7 +16,7 @@ namespace Nooku\Library;
  *
  * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpMessageHeaders extends ObjectArray

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * File Mimetype Filter
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class FilterFileMimetype extends Library\FilterAbstract

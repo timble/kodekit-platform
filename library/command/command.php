@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Command Context
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 class Command extends ObjectConfig implements CommandInterface

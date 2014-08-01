@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Replace <ktml:content> with the view contents allowing to the template to act as a view decorator.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterDecorator extends TemplateFilterAbstract implements TemplateFilterRenderer

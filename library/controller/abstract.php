@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Note: Concrete controllers must have a singular name
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 abstract class ControllerAbstract extends Object implements ControllerInterface, CommandCallbackDelegate

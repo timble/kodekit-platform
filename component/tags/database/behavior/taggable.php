@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Taggable Database Behavior
  *   
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Tags
  */
 class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract

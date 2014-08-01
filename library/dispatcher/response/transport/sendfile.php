@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * to handle authentication, logging or whatever else you please in your backend and then have the server serve the
  * contents from redirected location to the client, thus freeing up the backend to handle other requests.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  * @see Apache   : https://tn123.org/mod_xsendfile/
  * @see Nginx    : http://wiki.nginx.org/XSendfile

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachments Model
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class ModelAttachments extends Library\ModelDatabase

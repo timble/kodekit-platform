@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachment Database Row
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class ModelEntityAttachment extends Library\ModelEntityRow

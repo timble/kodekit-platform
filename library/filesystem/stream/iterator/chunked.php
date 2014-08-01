@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Pulls out chunks from an inner stream iterator and yields the chunks as arrays.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\FileSystem
  */
 class FilesystemStreamIteratorChunked implements \OuterIterator, \Countable

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachment Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Attachments
  */
 class ControllerAttachment extends Library\ControllerModel

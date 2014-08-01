@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Immutable Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 final class ModelEntityImmutable extends ModelEntityAbstract

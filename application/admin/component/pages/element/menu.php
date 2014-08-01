@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Menu Element Class
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Pages
  */
 class JElementMenu extends JElement

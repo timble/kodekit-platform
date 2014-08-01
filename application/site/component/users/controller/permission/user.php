@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * User Controller Permission
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Users
  */
 class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract

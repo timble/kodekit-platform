@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Nestable Database Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract

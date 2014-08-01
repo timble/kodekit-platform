@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Session Handler
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  * @see  http://www.php.net/manual/en/function.session-set-save-handler.php
  */

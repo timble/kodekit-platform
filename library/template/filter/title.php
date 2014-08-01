@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * the initial tag. The separator, default '-' can either be passed though the filters configuration options or can be
  * defined as an extra attribute.  Eg, <title content="prepend" separator="|">[title]</title>
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterTitle extends TemplateFilterTag

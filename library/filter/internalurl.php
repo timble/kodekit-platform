@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Check if an refers to a legal URL inside the system. Use when redirecting to an URL that was passed in a request.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterInternalurl extends FilterAbstract implements FilterTraversable

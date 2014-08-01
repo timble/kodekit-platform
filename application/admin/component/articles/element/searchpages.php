@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Search Pages Element
  *
- * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Component\Articles
  */
 class JElementSearchpages extends JElement

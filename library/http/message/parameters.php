@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Container class that handles the aggregations of HTTP parameters as a collection
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpMessageParameters extends ObjectArray

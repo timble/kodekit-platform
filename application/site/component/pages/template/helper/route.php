@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Route Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
 class PagesTemplateHelperRoute extends Library\TemplateHelperDefault

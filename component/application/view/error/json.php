@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Error Json View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class ViewErrorJson extends Library\ViewJson

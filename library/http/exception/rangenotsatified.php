@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * The request is out of bounds—that, none of the range values overlap the extent of the resource.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  * @see http://tools.ietf.org/html/rfc2616#section-10.4.17
  */

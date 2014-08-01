@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Response represents an HTTP response in JSON format.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponseTransportJson extends DispatcherResponseTransportHttp

@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Iso Code Filter
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Languages
  */
 class LanguagesFilterIso extends Library\FilterCmd

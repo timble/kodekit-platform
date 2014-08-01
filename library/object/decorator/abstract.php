@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The abstract object decorator allows to decorate any object. To decorate an object that extends from
  * KObject use KObjectDecorator instead.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface

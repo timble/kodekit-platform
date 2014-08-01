@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachable Controller Behavior
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Default Dispatcher Response Transport
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstract

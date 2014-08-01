@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Types Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Types
  */
 class ModelEntityTypes extends Library\ModelEntityComposite

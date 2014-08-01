@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Editor Html View Class
  *
- * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Ckeditor
  */
 class ViewEditorHtml extends Library\ViewHtml

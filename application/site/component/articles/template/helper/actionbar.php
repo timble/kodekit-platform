@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Actionbar Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class ArticlesTemplateHelperActionbar extends Library\TemplateHelperActionbar

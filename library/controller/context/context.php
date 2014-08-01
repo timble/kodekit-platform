@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Controller Context
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerContext extends Command implements ControllerContextInterface

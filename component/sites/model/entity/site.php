@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Site Model Entity
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Sites
  */
 class ModelEntitySite extends Library\ModelEntityAbstract

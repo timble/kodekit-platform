@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Users Html View
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Users
  */
 class UsersViewUsersHtml extends Library\ViewHtml

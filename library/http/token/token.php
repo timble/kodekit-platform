@@ -23,7 +23,7 @@ namespace Nooku\Library;
  *
  * @see http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-06
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpToken extends Object implements HttpTokenInterface

@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Menu Controller
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author      Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
 class PagesControllerMenu extends Library\ControllerModel

@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Behavior Handler Exception
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Behavior
  */
 class BehaviorExceptionHandler extends CommandExceptionHandler {}

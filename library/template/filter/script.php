@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Filter to parse script tags
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterScript extends TemplateFilterTag

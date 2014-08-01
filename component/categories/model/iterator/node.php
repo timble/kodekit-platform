@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Recursive Node Entity Iterator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Files
  */
 class ModelIteratorNode extends \RecursiveIteratorIterator

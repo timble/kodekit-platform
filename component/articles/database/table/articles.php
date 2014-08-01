@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Articles Database Table
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Articles
  */
 class DatabaseTableArticles extends Library\DatabaseTableAbstract

@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The object decorator implements the same interface as Object and can only be used to decorate objects extending from
  * Object. To decorate an object that does not extend from Object use ObjectDecoratorAbstract instead.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectDecorator extends ObjectDecoratorAbstract implements ObjectInterface, ObjectMixable, ObjectDecoratable

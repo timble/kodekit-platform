@@ -18,7 +18,7 @@ namespace Nooku\Library;
   *
   * @link http://en.wikipedia.org/wiki/Stack_(abstract_data_type)
   *
-  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+  * @author  Johan Janssens <http://github.com/johanjanssens>
   * @package Nooku\Library\Object
   */
 class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
