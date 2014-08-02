@@ -165,7 +165,7 @@ abstract class ObjectDecoratorAbstract implements ObjectDecoratorInterface
      * @param  mixed  $value The variable value.
      * @return mixed
      */
-    public function __set($key, $value)
+    final public function __set($key, $value)
     {
         $this->getDelegate()->$key = $value;
     }

@@ -459,7 +459,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      * @param   string  $property The property name.
      * @param   mixed   $value    The property value.
      */
-    public function __set($property, $value)
+    final public function __set($property, $value)
     {
         $this->set($property, $value);
     }
@@ -470,9 +470,20 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      * @param   string  $property The property name.
      * @return  string  The property value.
      */
-    public function __get($property)
+    final public function __get($property)
     {
         return $this->get($property);
+    }
+
+    /**
+     * Test existence of a view data property
+     *
+     * @param  string $name The property name.
+     * @return boolean
+     */
+    final public function __isset($name)
+    {
+        return $this->has($name);
     }
 
     /**

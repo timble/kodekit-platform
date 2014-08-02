@@ -195,7 +195,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param   string  $key The key name.
      * @return  string  The corresponding value.
      */
-    public function __get($key)
+    final public function __get($key)
     {
         return $this->offsetGet($key);
     }
@@ -207,7 +207,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param   mixed   $value The value for the key
      * @return  void
      */
-    public function __set($key, $value)
+    final public function __set($key, $value)
     {
         $this->offsetSet($key, $value);
     }
@@ -218,7 +218,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param  string  $key The key name
      * @return boolean
      */
-    public function __isset($key)
+    final public function __isset($key)
     {
         return $this->offsetExists($key);
     }
@@ -229,7 +229,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param   string  $key The key name
      * @return  void
      */
-    public function __unset($key)
+    final public function __unset($key)
     {
         $this->offsetUnset($key);
     }
