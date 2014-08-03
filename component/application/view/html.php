@@ -19,16 +19,6 @@ use Nooku\Library;
  */
 class ViewHtml extends Library\ViewHtml
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $path  = $this->getObject('request')->getBaseUrl()->getPath();
-        $path .= '/theme/'.$this->getObject('application')->getTheme().'/';
-
-        $this->getTemplate()->getFilter('asset')->addScheme('/assets/application/', $path);
-    }
-
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(

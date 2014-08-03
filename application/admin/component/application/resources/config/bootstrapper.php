@@ -21,8 +21,8 @@ return array(
             'theme_path' => Nooku::getInstance()->getBasePath().'/public/theme/default'
         ),
 
-        'com:application.template.filter.url'         => array(
-            'aliases' => array('/assets/application/' => '/administrator/theme/default/')
+        'com:application.template.filter.asset'         => array(
+            'schemes' => array('/assets/application/' => '/administrator/theme/default/')
         )
     )
 );

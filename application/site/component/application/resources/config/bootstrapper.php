@@ -21,8 +21,8 @@ return array(
             'theme_path' => Nooku::getInstance()->getBasePath().'/public/theme/bootstrap'
         ),
 
-        'com:application.template.filter.url'  => array(
-            'aliases' => array('/assets/application/' => '/theme/bootstrap/')
+        'com:application.template.filter.asset'  => array(
+            'schemes' => array('/assets/application/' => '/theme/bootstrap/')
         )
     )
 
