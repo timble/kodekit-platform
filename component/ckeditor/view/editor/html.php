@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Editor Html View Class
  *
- * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Ckeditor
  */
 class ViewEditorHtml extends Library\ViewHtml

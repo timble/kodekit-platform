@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Categorizable Database Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
@@ -46,12 +46,14 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
     {
         $model = $this->getObject('com:categories.model.categories');
 
-        if (!$this->isNew()) {
+        if (!$this->isNew())
+        {
             //Get the category
             $category = $model->table($this->getTable()->getName())
                 ->id($this->categories_category_id)
                 ->fetch();
-        } else $category = $model->fetch();
+        }
+        else $category = $model->fetch();
 
         return $category;
     }

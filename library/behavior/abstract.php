@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The abstract behavior will translate the command name to a method name format (eg, _before[Command] or _after[Command])
  * and add execute the method. Command handlers should be declared protected.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Behavior
  */
 abstract class BehaviorAbstract extends CommandCallbackAbstract implements BehaviorInterface
@@ -204,9 +204,10 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
         $methods = array();
         if($this->isSupported())
         {
-            $exclude += array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority', 'getHandle',
-                'getName', 'getObject', 'setBreakCondition', 'getBreakCondition', 'addCommandCallback',
-                'removeCommandCallback', 'getCommandCallbacks', 'invokeCommandCallback');
+            $exclude = array_merge($exclude, array('execute', 'invokeCallbacks', 'getIdentifier', 'getPriority',
+                'getHandle', 'getName', 'getObject', 'getConfig', 'setBreakCondition', 'getBreakCondition',
+                'addCommandCallback', 'removeCommandCallback', 'getCommandCallbacks', 'invokeCommandCallback',
+                'isSupported'));
 
             $methods = parent::getMixableMethods($exclude);
         }

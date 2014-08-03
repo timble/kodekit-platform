@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Parameterizable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
@@ -54,8 +54,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'row_mixin' => true,
-            'column'    => 'parameters'
+            'column' => 'parameters'
         ));
 
         parent::_initialize($config);
@@ -112,7 +111,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
         if(!empty($value))
         {
             if(!is_string($value)) {
-                $value = $this->getParameters()->add($value)->toString();
+                $value = $this->getParameters()->merge($value)->toString();
             }
         }
 
@@ -128,14 +127,17 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
-
-        if($table->hasColumn($this->_column))  {
-            return true;
+        $table = $this->getMixer();
+        
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn($this->_column))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -176,7 +178,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     {
         if($this->_column !== 'parameters')
         {
-            $exclude += array('getParameters');
+            $exclude = array_merge($exclude, array('getParameters'));
             $methods = parent::getMixableMethods($exclude);
 
             //Add dynamic methods based on the column name

@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,11 +14,24 @@ use Nooku\Library;
 /**
  * Token Dispatcher Authenticator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstract
 {
+    /**
+     * Constructor.
+     *
+     * @param Library\ObjectConfig $config Configuration options
+     */
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->addCommandCallback('before.dispatch', 'authenticateRequest');
+
+    }
+
     /**
      * Authenticate using the cookie session id
      *
@@ -27,7 +40,7 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    protected function _beforeDispatch(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(Library\DispatcherContextInterface $context)
     {
         $session = $context->getUser()->getSession();
         $request = $context->getRequest();

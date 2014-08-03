@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Manager
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSingleton
@@ -273,8 +273,8 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             //Instantiate the identifier
             $instance = $this->_instantiate($identifier, $config);
 
-            //Perform the mixin
-            $instance = $this->_mixin($identifier, $instance);
+            //Mixins's are early mixed in KObject::_construct()
+            //$instance = $this->_mixin($identifier, $instance);
 
             //Decorate the object
             $instance = $this->_decorate($identifier, $instance);

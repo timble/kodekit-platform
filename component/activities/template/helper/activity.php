@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Activity Template Helper
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
 class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiable
@@ -51,10 +51,10 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 		));
 	
 		$entity  = $config->entity;
-		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
-		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$entity->created_by);
+		$item = $this->getTemplate()->getView()->getRoute('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
+		$user = $this->getTemplate()->getView()->getRoute('component=users&view=user&id='.$entity->created_by);
 		
-		$message   = '<a href="'.$user.'">'.$entity->created_by_name.'</a> ';
+		$message   = '<a href="'.$user.'">'.$entity->getAuthor()->getName().'</a> ';
 		$message  .= $entity->status;
        
 		if ($entity->status != 'trashed') {

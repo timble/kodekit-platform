@@ -1,9 +1,19 @@
-<script src="assets://attachments/js/jquery.Jcrop.min.js" />
-<style src="assets://attachments/css/jquery.Jcrop.min.css" />
+<?php
+/**
+ * Nooku Platform - http://www.nooku.org/platform
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ */
+?>
 
-<script src="assets://js/koowa.js" />
-<script src="assets://attachments/js/attachments.list.js" />
-<script src="assets://files/js/uri.js" />
+<ktml:script src="assets://attachments/js/jquery.Jcrop.min.js" />
+<ktml:style src="assets://attachments/css/jquery.Jcrop.min.css" />
+
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://attachments/js/attachments.list.js" />
+<ktml:script src="assets://files/js/uri.js" />
 
 <script>
     window.addEvent('domready', function() {

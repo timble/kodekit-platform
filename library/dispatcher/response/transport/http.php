@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Default Dispatcher Response Transport
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstract
@@ -66,7 +66,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      */
     public function sendContent(DispatcherResponseInterface $response)
     {
-        echo $response->getStream()->getContent();
+        echo $response->getStream()->toString();
         return $this;
     }
 
@@ -104,7 +104,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         if($response->isDownloadable())
         {
             //Last-Modified header
-            if($time = $response->getStream()->getTime(FilesystemStream::TIME_MODIFIED)) {
+            if($time = $response->getStream()->getTime(FilesystemStreamInterface::TIME_MODIFIED)) {
                 $response->setLastModified($time);
             };
 

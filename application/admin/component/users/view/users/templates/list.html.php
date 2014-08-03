@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -26,7 +26,7 @@
     <?php foreach ($users as $user) : ?>
     <tr>
         <td>
-            <a href="<?=  route('option=com_users&view=user&id='. $user->id); ?>" title="<?= translate( 'Edit User' ) ?>">
+            <a href="<?=  route('component=users&view=user&id='. $user->id); ?>" title="<?= translate( 'Edit User' ) ?>">
                 <?= $user->name; ?>
             </a>
         </td>

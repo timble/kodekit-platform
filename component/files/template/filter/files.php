@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,14 +12,14 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * Url Template Filter
+ * Files Template Filter
  *
  * Filter rewrites relative files/... paths as inserted by the editor to absolute paths /files/[site]/files/...
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Ckeditor
  */
-class TemplateFilterFiles extends Library\TemplateFilterUrl
+class TemplateFilterFiles extends Library\TemplateFilterAsset
 {
     /**
      * Initializes the options for the object

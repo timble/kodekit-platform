@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -48,7 +48,7 @@ use Nooku\Library;
         <item>
             <title><?= escape($article->title) ?></title>
             <link><?= helper('route.article', array('entity' => $article)) ?></link>
-            <dc:creator><?= $article->created_by_name ?></dc:creator>
+            <dc:creator><?= $article->getAuthor()->getName() ?></dc:creator>
             <guid isPermaLink="false"><?= helper('route.article', array('entity' => $article)) ?> ?></guid>
             <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
             <category domain="<?= helper('route.category', array('entity' => $category)) ?>">

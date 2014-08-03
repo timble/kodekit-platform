@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachment Template Helper
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class TemplateHelperAttachment extends Library\TemplateHelperAbstract
@@ -54,7 +54,7 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
         $extensions = json_encode($config->allowed_extensions->toArray());
 
 		$html = <<<END
-		<script src="assets://attachments/js/attachments.upload.js" />
+		<ktml:script src="assets://attachments/js/attachments.upload.js" />
 		<script>
 		window.addEvent('domready', function() {
 			new Attachments.Upload({

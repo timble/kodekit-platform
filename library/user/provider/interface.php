@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -22,7 +22,7 @@ namespace Nooku\Library;
  * totally independent of how the authentication information is submitted or what the UserInterface object looks
  * like.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 interface UserProviderInterface
@@ -37,6 +37,23 @@ interface UserProviderInterface
     public function load($identifier, $refresh = false);
 
     /**
+     * Fetch the user for the given user identifier from the backend
+     *
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     */
+    public function fetch($identifier);
+
+    /**
+     * Store a user object in the provider
+     *
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @param array $data An associative array of user data
+     * @return UserInterface     Returns a UserInterface object
+     */
+    public function store($identifier, $data);
+
+    /**
      * Create a user object
      *
      * @param array $data An associative array of user data
@@ -45,10 +62,10 @@ interface UserProviderInterface
     public function create($data);
 
     /**
-     * Fetch the user for the given user identifier from the backend
+     * Check if a user has already been loaded for a given user identifier
      *
-     * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @param $identifier
+     * @return boolean TRUE if a user has already been loaded. FALSE otherwise
      */
-    public function fetch($identifier);
+    public function isLoaded($identifier);
 }

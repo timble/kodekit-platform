@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,13 +8,13 @@
  */
 ?>
 
-<script src="assets://js/koowa.js" />
-<script src="assets://users/js/users.js" />
-<style src="assets://css/koowa.css" />
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://users/js/users.js" />
+<ktml:style src="assets://css/koowa.css" />
 
 <?= helper('behavior.validator') ?>
 
-<script type="text/javascript">
+<script>
     window.addEvent('domready', function() {
         ComUsers.Form.addValidators(['passwordLength','passwordVerify']);
     });

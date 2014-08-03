@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,7 +13,7 @@ use Nooku\Component\Application;
 /**
  * Http Dispatcher
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class ApplicationDispatcherHttp extends Application\DispatcherHttp
@@ -106,7 +106,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $context->request->query->add($url->query);
 
         //Forward the request
-        $component = substr($context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
+        $component = $context->request->query->get('component', 'cmd', 'dashboard');
         $this->forward($component);
     }
 

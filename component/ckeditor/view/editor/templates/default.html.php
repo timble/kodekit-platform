@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,8 +8,8 @@
  */
 ?>
 
-<script src="assets://ckeditor/ckeditor/ckeditor.js" />
-<script src="assets://ckeditor/js/ckeditor.koowa.js" />
+<ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />
+<ktml:script src="assets://ckeditor/js/ckeditor.koowa.js" />
 
 <script>
     jQuery(document).ready(function() {

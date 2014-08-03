@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,11 +12,11 @@ use Nooku\Library;
 
 <?= import('com:files.view.files.initialize.html'); ?>
 
-<script src="assets://ckeditor/js/ckeditor.files.js" />
+<ktml:script src="assets://ckeditor/js/ckeditor.files.js" />
 
 <script>
     Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';
-    Files.base     = '<?= route('option=com_files', true, false); ?>';
+    Files.base     = '<?= route('component=files', true, false); ?>';
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {

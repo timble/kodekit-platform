@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * MySQL Database Adapter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Library\Database
  */
 class DatabaseAdapterMysql extends DatabaseAdapterAbstract

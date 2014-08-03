@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Captcha Template Helper
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class TemplateHelperCaptcha extends Library\TemplateHelperDefault
@@ -47,7 +47,7 @@ class TemplateHelperCaptcha extends Library\TemplateHelperDefault
 
             // Use options if any.
             $options = Library\ObjectConfig::unbox($config->options);
-            $html .= '<script type="text/javascript">';
+            $html .= '<script>';
             $html .= 'var RecaptchaOptions = ' . json_encode($options);
             $html .= '</script> ';
 

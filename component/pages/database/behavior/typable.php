@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Typable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
@@ -44,15 +44,6 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         parent::__construct($config);
 
         $this->_populateStrategies();
-    }
-
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'row_mixin' => true
-        ));
-
-        parent::_initialize($config);
     }
 
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
@@ -106,7 +97,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 
     public function getMixableMethods($exclude = array())
     {
-        $methods                                               = array_fill_keys($this->_mixable_methods, $this);
+        $methods = array_fill_keys($this->_mixable_methods, $this);
         $methods['is' . ucfirst($this->getIdentifier()->name)] = true;
 
         return $methods;

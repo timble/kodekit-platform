@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,8 +8,8 @@
  */
 ?>
 
-<style src="assets://debug/css/debug-default.css" />
-<script src="assets://debug/js/debug.js" />
+<ktml:style src="assets://debug/css/debug-default.css" />
+<ktml:script src="assets://debug/js/debug.js" />
 
 <div id="debug" class="profiler">
 <a class="close" title="<?= translate("press 'd' to bring the debug bar back up") ?>"></a>

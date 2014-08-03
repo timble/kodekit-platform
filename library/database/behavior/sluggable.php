@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Generates a slug, a short label for the row, containing only letters, numbers, underscores or hyphens. A slug is
  * generally used in an URL.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  * @see     http://en.wikipedia.org/wiki/Slug_(web_publishing)
  */
@@ -81,7 +81,6 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         $this->_updatable = $config->updatable;
         $this->_length    = $config->length;
         $this->_unique    = $config->unique;
-        $this->_row_mixin = $config->row_mixin;
     }
 
     /**
@@ -100,7 +99,6 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
             'updatable'  => true,
             'length'     => null,
             'unique'     => null,
-            'row_mixin'  => true,
         ));
 
         parent::_initialize($config);
@@ -115,14 +113,17 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('slug'))  {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('slug'))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

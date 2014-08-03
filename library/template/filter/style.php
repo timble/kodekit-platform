@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Filter to parse style tags
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterStyle extends TemplateFilterTag
@@ -30,7 +30,7 @@ class TemplateFilterStyle extends TemplateFilterTag
 		$tags = '';
 
 		$matches = array();
-		if(preg_match_all('#<style\s+src="([^"]+)"(.*)\/>#iU', $text, $matches))
+		if(preg_match_all('#<ktml:style\s+src="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
 			foreach(array_unique($matches[1]) as $key => $match)
 			{

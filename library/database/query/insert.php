@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Insert Database Query
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Library\Database
  */
 class DatabaseQueryInsert extends DatabaseQueryAbstract
@@ -90,7 +90,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
      *
      * @return  string  The query string.
      */
-    public function __toString()
+    public function toString()
     {
         $adapter = $this->getAdapter();
         $query   = 'INSERT';

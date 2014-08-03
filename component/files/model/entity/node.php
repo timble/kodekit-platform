@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Node Model Entity
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class ModelEntityNode extends Library\ModelEntityAbstract
@@ -231,7 +231,7 @@ class ModelEntityNode extends Library\ModelEntityAbstract
 
         unset($data['csrf_token']);
         unset($data['action']);
-        unset($data['option']);
+        unset($data['component']);
         unset($data['format']);
         unset($data['view']);
 

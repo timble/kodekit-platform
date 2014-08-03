@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Component Typable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
@@ -44,7 +44,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     public function getDescription()
     {
         $query       = $this->getLink()->query;
-        $description = $this->component ? ucfirst($this->component) : ucfirst(substr($query['option'], 4));
+        $description = $this->component ? ucfirst($this->component) : substr($query['component']);
 
         if (isset($query['view'])) {
             $description .= ' &raquo; ' . \JText::_(ucfirst($query['view']));
@@ -120,7 +120,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $type  = $this->getLink();
         $query = $type->getQuery(true);
 
-        $component = substr($query['option'], 4);
+        $component = $query['component'];
         $view      = $query['view'];
         $layout    = isset($query['layout']) ? $query['layout'] : 'default';
 
@@ -146,7 +146,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
             }
 
             $this->link_url  = http_build_query($query);
-            $this->component = substr($query['option'], 4);
+            $this->component = $query['component'];
         }
     }
 

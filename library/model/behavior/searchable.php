@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Searchable Model Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Searchable
  */
 class ModelBehaviorSearchable extends ModelBehaviorAbstract
@@ -88,12 +88,18 @@ class ModelBehaviorSearchable extends ModelBehaviorAbstract
             $search = $state->search;
 
             if ($search) {
-                $columns = array_keys($this->getTable()->getColumns());
+                $columns    = array_keys($this->getTable()->getColumns());
+                $conditions = array();
 
                 foreach ($this->_columns as $column) {
                     if (in_array($column, $columns)) {
-                        $context->query->where('(tbl.' . $column . ' LIKE :search)', 'OR')->bind(array('search' => '%' . $search . '%'));
+                        $conditions[] = 'tbl.' . $column . ' LIKE :search';
                     }
+                }
+
+                if ($conditions) {
+                    $context->query->where('(' . implode(' OR ', $conditions) . ')')
+                                   ->bind(array('search' => '%' . $search . '%'));
                 }
             }
         }

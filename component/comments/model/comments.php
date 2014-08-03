@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ use Nooku\Library\DatabaseQuerySelect;
 /**
  * Comments Model
  *
- * @author  Terry Visser <https://nooku.assembla.com/profile/terryvisser>
+ * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Comments
  */
 class ModelComments extends Library\ModelDatabase
@@ -37,20 +37,6 @@ class ModelComments extends Library\ModelDatabase
         ));
 
         parent::_initialize($config);
-    }
-
-    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
-    {
-        parent::_buildQueryColumns($query);
-
-        $query->columns(array(
-            'created_by_name' => 'creator.name'
-        ));
-    }
-
-    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
-    {
-        $query->join(array('creator' => 'users'), 'creator.users_user_id = tbl.created_by');
     }
 
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)

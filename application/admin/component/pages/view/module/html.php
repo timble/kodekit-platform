@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Module Html View
  *
- * @author   Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author   Gergo Erdosi <http://github.com/gergoerdosi>
  * @package  Component\Pages
  */
 class PagesViewModuleHtml extends Library\ViewHtml
@@ -30,8 +30,8 @@ class PagesViewModuleHtml extends Library\ViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getObject('manager')->getClassLoader()->getNamespace($module->application);
-            JFactory::getLanguage()->load($module->component, $module->name, $path);
+            $path = $this->getObject('manager')->getClassLoader()->getBasepath($module->application);
+            JFactory::getLanguage()->load($module->component, 'mod_'.$module->name, $path);
         }
 
         return parent::_actionRender($context);

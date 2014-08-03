@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Modifiable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
@@ -28,7 +28,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => self::PRIORITY_LOW,
+			'priority'  => self::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);
@@ -59,14 +59,17 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('modified_by') || $table->hasColumn('modified_on')) {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('modified_by') && !$table->hasColumn('modified_on')) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 	/**

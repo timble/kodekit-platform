@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Object Config Format
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSerializable
@@ -72,8 +72,17 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
      *
      * @return string
      */
-    public function __toString()
+    final public function __toString()
     {
-        return $this->toString();
+        $result = '';
+
+        //Not allowed to throw exceptions in __toString() See : https://bugs.php.net/bug.php?id=53648
+        try {
+            $result = $this->toString();
+        } catch (\Exception $e) {
+            trigger_error(__NAMESPACE__.'\ObjectConfigFormat::__toString exception: '. (string) $e, E_USER_ERROR);
+        }
+
+        return $result;
     }
 }

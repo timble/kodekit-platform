@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ use Nooku\Library, Nooku\Component\Users;
 /**
  * Activatable Controller Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
@@ -30,13 +30,16 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $entity = $this->getModel()->fetch();
 
-        if (($activation = $context->request->query->get('activation', $this->_filter))) {
-            if (!$entity->activation) {
+        if (($activation = $context->request->query->get('activation', $this->_filter)))
+        {
+            if (!$entity->activation)
+            {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
 
                 $context->response->setRedirect($url, 'Invalid request', 'error');
-            } else $this->activate(array('activation' => $activation));
+            }
+            else $this->activate(array('activation' => $activation));
 
             return false;
         }
@@ -46,7 +49,8 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $result = true;
 
-        if (!parent::_beforeActivate($context)) {
+        if (!parent::_beforeActivate($context))
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 

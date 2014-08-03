@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract View Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 abstract class ControllerView extends ControllerAbstract implements ControllerViewable
@@ -82,16 +82,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
     {
         if($this->getView() instanceof ViewHtml)
         {
-            foreach($context->toolbars as $toolbar) {
-                $this->addToolbar($toolbar);
+            // Add toolbars on authenticated requests only.
+            if ($this->getObject('user')->isAuthentic()) {
+                foreach($context->toolbars as $toolbar) {
+                    $this->addToolbar($toolbar);
+                }
             }
 
-            if($toolbars = $this->getToolbars())
-            {
-                $this->getView()
-                    ->getTemplate()
-                    ->attachFilter('toolbar', array('toolbars' => $toolbars));
-            };
+            $this->getView()->getTemplate()->attachFilter('toolbar', array('toolbars' => $this->getToolbars()));
         }
     }
 

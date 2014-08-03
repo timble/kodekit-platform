@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Widget Module Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class ModuleWidgetHtml extends ModuleDefaultHtml
@@ -34,7 +34,7 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
         $url = $this->getObject('lib:http.url', array('url' => $params->get('url')));
 
         $parts   = $url->getQuery(true);
-        $package = substr($parts['option'], 4);
+        $package = $parts['component'];
         $view    = Library\StringInflector::singularize($parts['view']);
 
         $identifier = 'com:'.$package.'.controller.'.$view;

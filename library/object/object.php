@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
@@ -80,6 +80,18 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
 
         //Initialise the object
         $this->_initialize($config);
+
+        //Add the mixins
+        $mixins = (array) ObjectConfig::unbox($config->mixins);
+
+        foreach ($mixins as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->mixin($value);
+            } else {
+                $this->mixin($key, $value);
+            }
+        }
 
         //Set the object config
         $this->__object_config = $config;

@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,10 +8,9 @@
  */
 ?>
 
-<!--
-<script src="assets://js/koowa.js" />
-<style src="assets://css/koowa.css" />
--->
+<ktml:script src="assets://js/koowa.js" />
+<ktml:style src="assets://css/koowa.css" />
+
 <?= helper('behavior.sortable', array('options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
 <ktml:module position="actionbar">
@@ -73,7 +72,7 @@
                     <?
                     $link = 'type[name]=' . $page->type;
                     if ($page->type == 'component') {
-                        $link .= '&type[option]=' . $page->getLink()->query['option'] . '&type[view]=' . $page->getLink()->query['view'];
+                        $link .= '&type[option]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
                         $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
                     }
 

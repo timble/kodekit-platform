@@ -14,11 +14,21 @@ use Nooku\Library;
 /**
  * Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class ViewHtml extends Library\ViewHtml
 {
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $path  = $this->getObject('request')->getBaseUrl()->getPath();
+        $path .= '/theme/'.$this->getObject('application')->getTheme().'/';
+
+        $this->getTemplate()->getFilter('asset')->addScheme('/assets/application/', $path);
+    }
+
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(

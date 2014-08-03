@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Exception Handler
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Exception
  */
 class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterface
@@ -367,7 +367,10 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             {
                 if ($this->getErrorLevel() & $level)
                 {
-                    $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
+                    $exception = new ExceptionError(
+                        $message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line
+                    );
+
                     $result = $this->handleException($exception);
                 }
             }
@@ -399,7 +402,10 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
 
                 if ($this->getErrorLevel() & $level)
                 {
-                    $exception = new ExceptionFailure($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
+                    $exception = new ExceptionFailure(
+                        $error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']
+                    );
+
                     $this->handleException($exception);
                 }
             }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Article Database Row
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Articles
  */
 class ModelEntityArticle extends Library\ModelEntityRow
@@ -54,5 +54,18 @@ class ModelEntityArticle extends Library\ModelEntityRow
     {
         $text = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
         return $text;
+    }
+
+    public function setProperty($name, $value, $modified = true)
+    {
+        if($name == 'modified_on' && empty($value)) {
+            $value = $this->created_on;
+        }
+
+        if($name == 'modified_by' && empty($value)) {
+            $value = $this->created_by;
+        }
+
+        return parent::setProperty($name, $value, $modified);
     }
 }

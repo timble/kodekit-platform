@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,7 +13,7 @@ use Nooku\Component\Application;
 /**
  * Html Page View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class ApplicationViewPageHtml extends Application\ViewPageHtml
@@ -27,5 +27,22 @@ class ApplicationViewPageHtml extends Application\ViewPageHtml
     {
         $title = $this->getObject('application')->getCfg('sitename' );
         return $title;
+    }
+
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        //Set the component and layout information
+        if($this->getObject('manager')->isRegistered('dispatcher'))
+        {
+            $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
+            $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
+        }
+        else
+        {
+            $context->data->component = '';
+            $context->data->layout    = '';
+        }
+
+        parent::_fetchData($context);
     }
 }

@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -11,17 +11,15 @@
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>
 
-<!--
-<script src="assets://js/koowa.js" />
-<script src="assets://pages/js/widget.js" />
-<script src="assets://pages/js/page.js" />
--->
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://pages/js/widget.js" />
+<ktml:script src="assets://pages/js/page.js" />
 
 <script>
     window.addEvent('domready', function(){
         $$('.widget').widget({cookie: 'widgets-page'});
 
-        new Pages.Page(<?= json_encode(array('active' => $state->type['name'] == 'component' ? $state->type['option'] : '', 'type' => $state->type['name'])) ?>);
+        new Pages.Page(<?= json_encode(array('active' => $state->type['name'] == 'component' ? $state->type['component'] : '', 'type' => $state->type['name'])) ?>);
     });
 </script>
 
@@ -31,8 +29,8 @@
 
 <? if($state->type['name'] == 'component') {
     $query = array(
-        'option' => $state->type['option'],
-        'view'   => $state->type['view']
+        'component' => $state->type['component'],
+        'view'      => $state->type['view']
     );
 
     if(!empty($state->type['layout']) && $state->layout != 'default') {
@@ -56,7 +54,7 @@
             <div id="components-inner">
                 <? foreach($components as $component) : ?>
                 <? if(!empty($component->views)) : ?>
-                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= ($state->type['name'] == 'component' && $state->type['option'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
+                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= ($state->type['name'] == 'component' && $state->type['component'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
                 <? endif ?>
                 <? endforeach ?>
             </div>

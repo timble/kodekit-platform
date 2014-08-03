@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# This script will update a Joomla 1.5 database to Nooku 12.1
+# This script will update a Joomla 1.5 database to Nooku 0.8
 
 CREATE TABLE `versions_revisions` (
   `table` varchar(64) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `files_thumbnails` (
 
 
 # --------------------------------------------------------
-# com_activities schema changes
+# activities schema changes
 
 CREATE TABLE IF NOT EXISTS `activities_activities` (
 	`activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,

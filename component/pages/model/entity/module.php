@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Module Model Entity
  *
- * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @author  Stian Didriksen <http://github.com/stipsan>
  * @package Nooku\Component\Pages
  */
 class ModelEntityModule extends Library\ModelEntityRow
@@ -37,7 +37,7 @@ class ModelEntityModule extends Library\ModelEntityRow
 
     public function getPropertyIdentifier()
     {
-        $module  = substr( $this->name, 4);
+        $module  = $this->name;
         $package = $this->component;
 
         return $this->getIdentifier('com:'.$package.'.module.'.$module.'.html');

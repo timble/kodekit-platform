@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Expirable Database Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
@@ -46,7 +46,6 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $config->append(array(
             'expirable'  => 1,
             'expiration' => 6,
-            'row_mixin'  => true
         ));
 
         parent::_initialize($config);
@@ -110,8 +109,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
     {
         $result = true;
 
-        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration))))
-        {
+        if (!$this->expirable() || (!empty($this->expiration) && (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)))) {
             $result = false;
         }
 

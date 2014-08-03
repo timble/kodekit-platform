@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,8 +8,8 @@
  */
 ?>
 
-<script src="assets://js/koowa.js" />
-<style src="assets://css/koowa.css" />
+<ktml:script src="assets://js/koowa.js" />
+<ktml:style src="assets://css/koowa.css" />
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
@@ -54,12 +54,12 @@
                     <?= helper('date.humanize', array('date' => $comment->created_on)) ?>
                 </td>
                 <td>
-                    <a href="<?= route('option=com_users&view=user&id='.$comment->created_by) ?>">
-                        <?= escape($comment->created_by_name); ?>
+                    <a href="<?= route('component=users&view=user&id='.$comment->created_by) ?>">
+                        <?= escape($comment->getAuthor()->getName()); ?>
                     </a>
                 </td>
                 <td>
-                    <a href="<?= route('option=com_'.$comment->table.'&view='.$comment->table.'&id='.$comment->row); ?>">
+                    <a href="<?= route('component='.$comment->table.'&view='.$comment->table.'&id='.$comment->row); ?>">
                         <?= escape($comment->title); ?>
                     </a>
                 </td>

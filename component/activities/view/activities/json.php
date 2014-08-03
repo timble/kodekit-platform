@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Activities JSON View Class
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */
@@ -44,13 +44,13 @@ class ViewActivitiesJson extends Library\ViewJson
                 )),
             'verb' => $entity->action,
             'object' => array(
-                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name.'&id='.$entity->row),
+                'url' => (string)$this->getRoute('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row),
             ),
             'target' => array(
-                'url' => (string)$this->getRoute('option=com_'.$entity->package.'&view='.$entity->name),
+                'url' => (string)$this->getRoute('component='.$entity->package.'&view='.$entity->name),
             ),
             'actor' => array(
-                'url' => (string)$this->getRoute('option=com_users&view=user&id='.$entity->created_by),
+                'url' => (string)$this->getRoute('component=users&view=user&id='.$entity->created_by),
             )
         );
 

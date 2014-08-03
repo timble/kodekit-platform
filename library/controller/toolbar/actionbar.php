@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model Controller Toolbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerToolbarActionbar extends ControllerToolbarAbstract
@@ -83,7 +83,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     protected function _commandNew(ControllerToolbarCommand $command)
     {
         $identifier = $this->getController()->getIdentifier();
-        $command->href = 'option=com_'.$identifier->package.'&view='.$identifier->name;
+        $command->href = 'component='.$identifier->package.'&view='.$identifier->name;
     }
 
     /**
@@ -159,7 +159,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
         $option = $this->getIdentifier()->package;
         $view   = $this->getIdentifier()->name;
 
-        $command->href = 'option=com_'.$option.'&view='.$view.'&'.$query;
+        $command->href = 'component='.$option.'&view='.$view.'&'.$query;
     }
 
     /**

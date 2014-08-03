@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Template
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 abstract class TemplateAbstract extends Object implements TemplateInterface
@@ -179,8 +179,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         //Set the status
         $this->_status = $status;
 
-        //Load the file
-        $this->_content = $this->getObject('lib:filesystem.stream')->open($template)->getContent();
+        //Load the file content
+        $this->_content = file_get_contents($template);
 
         //Compile and evaluate partial templates
         if(count($this->_stack) > 1)
@@ -238,22 +238,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             //Merge the data
             $this->_data = array_merge((array) $this->_data, $data);
 
-            //Create temporary file
-            $tempfile = tempnam(sys_get_temp_dir(), 'template::');
-
-            //Write the template to the file
-            $handle = fopen($tempfile, "w+");
-            fwrite($handle, $this->_content);
-            fclose($handle);
+            //Write the template to a temp file
+            $stream = $this->getObject('filesystem.stream.factory')->createStream('buffer://temp', 'w+b');
+            $stream->write($this->_content);
 
             //Include the file
             extract($this->_data, EXTR_SKIP);
 
             ob_start();
-            include $tempfile;
+            include $stream->getPath();
             $this->_content = ob_get_clean();
 
-            unlink($tempfile);
+            $stream->close();
 
             //Remove the path from the stack
             array_pop($this->_stack);
@@ -532,9 +528,9 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
-     * Load a template helper
+     * Invoke a template helper method
      *
-     * This function accepts a partial identifier, in the form of helper.function or schema:package.helper.function. If
+     * This function accepts a partial identifier, in the form of helper.method or schema:package.helper.method. If
      * a partial identifier is passed a full identifier will be created using the template identifier.
      *
      * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
@@ -544,7 +540,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * @return   string   Helper output
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
-    public function renderHelper($identifier, $params = array())
+    public function invokeHelper($identifier, $params = array())
     {
         //Get the function and helper based on the identifier
         $parts      = explode('.', $identifier);
@@ -680,8 +676,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @return  string
      */
-    public function __toString()
+    public function toString()
     {
         return $this->getContent();
+    }
+
+    /**
+     * Cast the object to a string
+     *
+     * @return  string
+     */
+    final public function __toString()
+    {
+        return $this->toString();
     }
 }

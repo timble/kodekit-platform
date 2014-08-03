@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Rss View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 class ViewRss extends ViewTemplate
@@ -48,5 +48,18 @@ class ViewRss extends ViewTemplate
     public function getLayout()
     {
         return 'default';
+    }
+
+    /**
+     * Force the route to fully qualified and escaped by default
+     *
+     * @param   string  $route   The query string used to create the route
+     * @param   boolean $fqr     If TRUE create a fully qualified route. Default TRUE.
+     * @param   boolean $escape  If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return 	DispatcherRouterRoute 	The route
+     */
+    public function getRoute($route = '', $fqr = true, $escape = true)
+    {
+        return parent::getRoute($route, $fqr, $escape);
     }
 }

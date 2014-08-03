@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id: CREDITS.php 2126 2011-07-01 00:06:43Z johanjanssens $
- * @package     Nooku_Server
- * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
+ *
+ * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  *
  * -------------------------------------------------------------------------
  * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS

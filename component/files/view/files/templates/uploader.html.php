@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,9 +8,9 @@
  */
 ?>
 
-<style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+<ktml:style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
-<script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
+<ktml:script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
 
 <script>
 jQuery.noConflict();

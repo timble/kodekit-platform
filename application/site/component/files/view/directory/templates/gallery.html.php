@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -8,10 +8,10 @@
  */
 ?>
 
-<script src="assets://application/js/jquery.js" />
-<script src="assets://files/js/bootstrap-modal.js" />
-<script src="assets://files/js/bootstrap-image-gallery.js" />
-<script src="assets://files/js/gallery.js" />
+<ktml:script src="assets://application/js/jquery.js" />
+<ktml:script src="assets://files/js/bootstrap-modal.js" />
+<ktml:script src="assets://files/js/bootstrap-image-gallery.js" />
+<ktml:script src="assets://files/js/gallery.js" />
 
 <script>
 jQuery(function($) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Tabs Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateHelperTabs extends TemplateHelperBehavior
@@ -37,7 +37,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['tabs']))
         {
-            $html .= '<script src="assets://js/tabs.js" />';
+            $html .= '<ktml:script src="assets://js/tabs.js" />';
             self::$_loaded['tabs'] = true;
         }
 

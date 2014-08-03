@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +15,7 @@ use Nooku\Component\Pages;
  *
  * Provides ordering support for closure tables by using a special ordering help of another table
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesDatabaseBehaviorOrderable extends Pages\DatabaseBehaviorOrderable

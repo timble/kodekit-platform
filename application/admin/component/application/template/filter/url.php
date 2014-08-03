@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,13 +12,13 @@ use Nooku\Library;
 /**
  * Url Template Filter
  *
- * Filter allows to create url aliases that are replaced on compile and render. A default assets:// alias is
+ * Filter allows to define asset url schemes that are replaced on compile and render. A default assets:// alias is
  * added that is rewritten to '<baseurl>/assets/'.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-class ApplicationTemplateFilterUrl extends Library\TemplateFilterUrl
+class ApplicationTemplateFilterAsset extends Library\TemplateFilterAsset
 {
     /**
      * Initializes the options for the object
@@ -36,7 +36,7 @@ class ApplicationTemplateFilterUrl extends Library\TemplateFilterUrl
 
         $config->append(array(
             'priority' => self::PRIORITY_LOW,
-            'aliases'  => array('"/assets/' => '"'.$path),
+            'schemes'  => array('"/assets/' => '"'.$path),
         ));
 
         parent::_initialize($config);

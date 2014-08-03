@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Template View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 abstract class ViewTemplate extends ViewAbstract
@@ -85,7 +85,7 @@ abstract class ViewTemplate extends ViewAbstract
         $config->append(array(
             'layout'           => '',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
+            'template_filters' => array('shorttag', 'function', 'asset', 'decorator'),
             'auto_fetch'       => true,
         ));
 
@@ -243,11 +243,10 @@ abstract class ViewTemplate extends ViewAbstract
      * @param string $route   The query string used to create the route
      * @param boolean $fqr    If TRUE create a fully qualified route. Default TRUE.
      * @param boolean $escape If TRUE escapes the route for xml compliance. Default TRUE.
-     * @return  string The route
+     * @return 	DispatcherRouterRoute 	The route
      */
-    public function getRoute($route = '', $fqr = null, $escape = null)
+    public function getRoute($route = '', $fqr = true, $escape = true)
     {
-        //@TODO : Check if $route if valid. Throw exception if not.
         if(is_string($route)) {
             parse_str(trim($route), $parts);
         } else {
@@ -255,8 +254,8 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         // Check to see if there is component information in the route if not add it
-        if (!isset($parts['option'])) {
-            $parts['option'] = 'com_' . $this->getIdentifier()->package;
+        if (!isset($parts['component'])) {
+            $parts['component'] = $this->getIdentifier()->package;
         }
 
         // Add the view information to the route if it's not set
@@ -266,7 +265,7 @@ abstract class ViewTemplate extends ViewAbstract
 
         if (!isset($parts['layout']) && !empty($this->_layout))
         {
-            if ((substr($parts['option'], 4) == $this->getIdentifier()->package) && ($parts['view'] == $this->getName())) {
+            if (($parts['component'] == $this->getIdentifier()->package) && ($parts['view'] == $this->getName())) {
                 $parts['layout'] = $this->getLayout();
             }
         }

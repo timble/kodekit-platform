@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -32,9 +32,9 @@
 
         <? foreach($comments as $comment) : ?>
             <item>
-                <title><?= translate('Comment on').' '.escape($article->title).' '.translate('by').' '.$comment->created_by_name ?></title>
+                <title><?= translate('Comment on').' '.escape($article->title).' '.translate('by').' '.$comment->getAuthor()->getName() ?></title>
                 <link><?= helper('route.article', array('entity' => $article)) ?></link>
-                <dc:creator><?= $comment->created_by_name ?></dc:creator>
+                <dc:creator><?= $comment->getAuthor()->getName() ?></dc:creator>
                 <guid isPermaLink="false"><?= helper('route.article', array('entity' => $article)) ?></guid>
                 <description><![CDATA[<?= $comment->text ?>]]></description>
 

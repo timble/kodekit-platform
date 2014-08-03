@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,14 +13,14 @@ use Nooku\Component\Pages;
 /**
  * Default Module Html View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
 class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {
-        JFactory::getLanguage()->load($this->getIdentifier()->package, $this->module->name);
+        JFactory::getLanguage()->load($this->getIdentifier()->package, 'mod_'.$this->module->name);
         return parent::_actionRender($context);
     }
 }

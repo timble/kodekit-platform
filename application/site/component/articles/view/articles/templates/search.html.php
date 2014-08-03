@@ -1,6 +1,6 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,7 +13,7 @@
     <h1><?= translate('Search results') ?></h1>
 
     <div class="well">
-        <form action="<?= route('option=com_articles&view=articles') ?>" method="get" class="form-search"
+        <form action="<?= route('component=articles&view=articles') ?>" method="get" class="form-search"
               style="margin-bottom: 0;">
             <div class="form-group">
                 <input id="search" name="search" class="form-control" type="text"
