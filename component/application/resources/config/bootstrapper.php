@@ -17,5 +17,6 @@ return array(
         'application'                    => 'com:application.dispatcher.http',
         'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
         'lib:template.locator.component' => 'com:application.template.locator.component',
+        'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
     )
 );
