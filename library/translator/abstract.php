@@ -67,9 +67,9 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
         $config->append(array(
             'locale'          => 'en-GB',
             'locale_fallback' => 'en-GB',
-            'caching'         => false,
+            'cache_enabled'   => false,
         ))->append(array(
-            'catalogue' => 'lib:translator.catalogue' . ($config->caching ? '.cache' : '')
+            'catalogue' => 'lib:translator.catalogue' . ($config->cache_enabled ? '.cache' : '')
         ));
 
         parent::_initialize($config);
@@ -86,9 +86,8 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function translate($string, array $parameters = array())
     {
-        $catalogue = $this->getCatalogue();
-
-        $translation = $catalogue->hasString($string) ? $catalogue->{$string} : $string;
+        $catalogue   = $this->getCatalogue();
+        $translation = $catalogue->has($string) ? $catalogue->{$string} : $string;
 
         if (count($parameters)) {
             $translation = $this->_replaceParameters($translation, $parameters);
@@ -120,7 +119,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
             {
                 $candidate = $strings[1] . ($choice === 1 ? '' : ' ' . $choice);
 
-                if ($this->getCatalogue()->hasString($candidate))
+                if ($this->getCatalogue()->has($candidate))
                 {
                     $string = $candidate;
                     break;
@@ -262,12 +261,20 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     /**
      * Translator catalogue getter.
      *
+     * @throws	\UnexpectedValueException	If the catalogue doesn't implement the TranslatorCatalogueInterface
      * @return TranslatorCatalogueInterface The translator catalogue.
      */
     public function getCatalogue()
     {
         if (!$this->_catalogue instanceof TranslatorCatalogueInterface) {
-            $this->setCatalogue($this->getObject($this->_catalogue));
+            $this->_catalogue = $this->getObject($this->_catalogue);
+        }
+
+        if(!$this->_catalogue instanceof TranslatorCatalogueInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Catalogue: '.get_class($this->_catalogue).' does not implement TranslatorCatalogueInterface'
+            );
         }
 
         return $this->_catalogue;
@@ -293,7 +300,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function isTranslatable($string)
     {
-        return $this->getCatalogue()->hasString($string);
+        return $this->getCatalogue()->has($string);
     }
 
     /**
@@ -305,20 +312,14 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      */
     protected function _replaceParameters($string, array $parameters = array())
     {
-        $keys       = array_map(array($this, '_replaceKeys'), array_keys($parameters));
+        //Adds curly braces around keys to make strtr work in replaceParameters method
+        $replace_keys = function ($key) {
+            return  '{'.$key.'}';
+        };
+
+        $keys       = array_map($replace_keys, array_keys($parameters));
         $parameters = array_combine($keys, $parameters);
 
         return strtr($string, $parameters);
-    }
-
-    /**
-     * Adds curly braces around keys to make strtr work in replaceParameters method
-     *
-     * @param string $key
-     * @return string
-     */
-    protected function _replaceKeys($key)
-    {
-        return '{'.$key.'}';
     }
 }

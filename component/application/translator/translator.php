@@ -23,10 +23,8 @@ class Translator extends Library\Translator
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'caching'  => $this->getObject('application')->getCfg('caching'),
-            'options'  => array('paths' => array())
-        ))->append(array(
-            'catalogue' => 'com:application.translator.catalogue' . ($config->caching ? '.cache' : '')
+            'cache_enabled' => $this->getObject('application')->getCfg('caching'),
+            'paths'         => array()
         ));
 
         parent::_initialize($config);
@@ -41,7 +39,7 @@ class Translator extends Library\Translator
 
         if (!$catalogue->isLoaded($source))
         {
-            $paths = $this->getConfig()->options->paths;
+            $paths = $this->getConfig()->paths;
 
             foreach ($paths as $path)
             {

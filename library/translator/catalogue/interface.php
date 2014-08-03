@@ -18,23 +18,67 @@ namespace Nooku\Library;
 interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess, \Serializable
 {
     /**
+     * Get a string from the registry
+     *
+     * @param  string $string
+     * @return  string  The translation of the string
+     */
+    public function get($string);
+
+    /**
+     * Set a string in the registry
+     *
+     * @param  string $string
+     * @param  string $translation
+     * @return TranslatorCatalogueInterface
+     */
+    public function set($string, $translation);
+
+    /**
+     * Check if a string exists in the registry
+     *
+     * @param  string $string
+     * @return boolean
+     */
+    public function has($string);
+
+    /**
+     * Remove a string from the registry
+     *
+     * @param  string $string
+     * @return TranslatorCatalogueInterface
+     */
+    public function remove($string);
+
+    /**
+     * Clears out all strings from the registry
+     *
+     * @return  TranslatorCatalogueInterface
+     */
+    public function clear();
+
+    /**
      * Load translations into the catalogue.
      *
      * @param array  $translations Associative array containing translations.
      * @param bool   $override     Whether or not existing translations can be overridden during import.
-     *
      * @return bool True on success, false otherwise.
      */
     public function load($translations, $override = false);
 
     /**
-     * Tells if the catalogue contains a given string.
+     * Get a list of all strings in the catalogue
      *
-     * @param string $string The string.
-     *
-     * @return bool True if found, false otherwise.
+     * @return  array
      */
-    public function hasString($string);
+    public function getStrings();
+
+    /**
+     * Get a list of all sources that are loaded
+     *
+     * @return  array
+     */
+    public function getSources();
 
     /**
      * Sets a source as loaded in the catalogue.
@@ -43,7 +87,6 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      * are referenced on catalogues for determining if their translations were already loaded.
      *
      * @param mixed $source The source.
-     *
      * @return TranslatorCatalogueInterface
      */
     public function setLoaded($source);
@@ -53,8 +96,7 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      *
      * For more information about what a source is @see TranslatorCatalogueInterface::setLoaded
      *
-     * @param mixed $source The source to check against.
-     *
+     * @param mixed $source The source to check against
      * @return bool True if loaded, false otherwise.
      */
     public function isLoaded($source);

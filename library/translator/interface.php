@@ -100,6 +100,7 @@ interface TranslatorInterface
     /**
      * Translator catalogue getter.
      *
+     * @throws	\UnexpectedValueException	If the catalogue doesn't implement the TranslatorCatalogueInterface
      * @return TranslatorCatalogueInterface The translator catalogue.
      */
     public function getCatalogue();

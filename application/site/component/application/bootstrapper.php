@@ -31,20 +31,13 @@ class ApplicationBootstrapper extends Application\Bootstrapper
                 'lib:template.locator.component' => 'com:application.template.locator.component',
                 'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
             ),
-            'configs' => array(
-                'com:application.translator.catalogue.cache'        => array(
-                    'registry' => 'com:application.translator.catalogue.registry.apc'),
-                'com:application.translator.catalogue.registry.apc' => array(
-                    'namespace' => 'site.translator.catalogue.registry'
+            'identifiers' => array(
+                'com:application.translator'                 => array(
+                    'paths' => array(JPATH_ROOT, JPATH_BASE)
                 ),
-                'com:application.translator'                        => array(
-                    'options' => array(
-                        'paths' => array(
-                            JPATH_ROOT,
-                            JPATH_BASE
-                        )
-                    )
-                )
+                'com:application.translator.catalogue.cache' => array(
+                    'namespace' => 'admin'
+                ),
             )
         ));
 

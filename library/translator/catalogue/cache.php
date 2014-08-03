@@ -18,77 +18,122 @@ namespace Nooku\Library;
 class TranslatorCatalogueCache extends TranslatorCatalogue
 {
     /**
-     * Catalogue registry.
+     * The registry cache namespace
      *
-     * @var TranslatorCatalogueRegistryInterface
+     * @var boolean
      */
-    protected $_registry;
+    protected $_namespace = 'nooku';
 
+    /**
+     * Constructor
+     *
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
+     * @throws \RuntimeException    If the APC PHP extension is not enabled or available
+     */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_registry  = $config->registry;
-
-        $registry = $this->getRegistry();
-
-        // Load registry data.
-        if ($registry->has('translations')) $this->_data = (array) $registry->get('translations');
-        if ($registry->has('loaded')) $this->_loaded = (array) $registry->get('loaded');
-    }
-
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array('registry' => 'lib:translator.catalogue.registry.apc'));
-        parent::_initialize($config);
+        if (!extension_loaded('apc')) {
+            throw new \RuntimeException('APC is not loaded');
+        }
     }
 
     /**
-     * Registry setter.
+     * Get the registry cache namespace
      *
-     * @param TranslatorCatalogueRegistryInterface $handler The registry object.
-     *
-     * @return TranslatorCatalogueInterface
+     * @param string $namespace
+     * @return void
      */
-    public function setRegistry(TranslatorCatalogueRegistryInterface $registry)
+    public function setNamespace($namespace)
     {
-        $this->_registry = $registry;
+        $this->_namespace = $namespace;
     }
 
     /**
-     * Registry getter.
+     * Get the registry cache namespace
      *
-     * @return TranslatorCatalogueRegistryInterface The registry object.
+     * @return string
      */
-    public function getRegistry()
+    public function getNamespace()
     {
-        if (!$this->_registry instanceof TranslatorCatalogueRegistryInterface)
+        return $this->_namespace;
+    }
+
+    /**
+     * Get an item from the array by offset
+     *
+     * @param   int     $offset The offset
+     * @return  mixed   The item from the array
+     */
+    public function offsetGet($offset)
+    {
+        if(!parent::offsetExists($offset))
         {
-            $registry = $this->getObject($this->_registry);
-            $this->setRegistry($registry);
+            if($result = apc_fetch($this->getNamespace().'-translator-'.$offset))
+            {
+                $result =  unserialize($result);
+                parent::offsetSet($offset, $result);
+            }
+        }
+        else $result = parent::offsetGet($offset);
+
+        return $result;
+    }
+
+    /**
+     * Set an item in the array
+     *
+     * @param   int     $offset The offset of the item
+     * @param   mixed   $value  The item's value
+     * @return  object  ObjectRegistryCache
+     */
+    public function offsetSet($offset, $value)
+    {
+        if($value instanceof ObjectIdentifierInterface) {
+            apc_store($this->getNamespace().'-translator-'.$offset, serialize($value));
         }
 
-        return $this->_registry;
+        parent::offsetSet($offset, $value);
     }
 
-    public function load($translations, $override = false)
+    /**
+     * Check if the offset exists
+     *
+     * @param   int     $offset The offset
+     * @return  bool
+     */
+    public function offsetExists($offset)
     {
-        $result = parent::load($translations, $override);
-
-        if ($result)
-        {
-            $result = $this->getRegistry()->set('translations', $this->toArray());
+        if(false === $result = parent::offsetExists($offset)) {
+            $result = apc_exists($this->getNamespace().'-translator-'.$offset);
         }
 
         return $result;
     }
 
-    public function setLoaded($source)
+    /**
+     * Unset an item from the array
+     *
+     * @param   int     $offset
+     * @return  void
+     */
+    public function offsetUnset($offset)
     {
-        parent::setLoaded($source);
-        $this->getRegistry()->set('loaded', $this->_loaded);
-        return $this;
+        apc_delete($this->getNamespace().'-translator-'.$offset);
+        parent::offsetUnset($offset);
     }
 
+    /**
+     * Clears APC cache
+     *
+     * @return $this
+     */
+    public function clear()
+    {
+        // Clear user cache
+        apc_clear_cache('user');
 
+        return parent::clear();
+    }
 }
