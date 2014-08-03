@@ -40,21 +40,13 @@ interface TranslatorInterface
     public function choose(array $strings, $number, array $parameters = array());
 
     /**
-     * Loads translations from a source.
+     * Loads translations from a file
      *
      * @param mixed $file     The file containing translations.
      * @param bool  $override Tells if previous loaded translations should be overridden
      * @return bool True if translations were loaded, false otherwise
      */
     public function load($file, $override = false);
-
-    /**
-     * Imports a source translations.
-     *
-     * @param mixed $source The source for which translations will be imported.
-     * @return TranslatorInterface
-     */
-    public function import($source);
 
     /**
      * Translations finder.
@@ -120,4 +112,12 @@ interface TranslatorInterface
      * @return bool
      */
     public function isTranslatable($string);
+
+    /**
+     * Tells if translations from a given file has already been loaded.
+     *
+     * @param mixed $file The file to check
+     * @return bool TRUE if loaded, FALSE otherwise.
+     */
+    public function isLoaded($file);
 }

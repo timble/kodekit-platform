@@ -18,13 +18,6 @@ namespace Nooku\Library;
 class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInterface
 {
     /**
-     * List containing sources of loaded translations.
-     *
-     * @var array
-     */
-    protected $_sources;
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config Configuration options
@@ -43,7 +36,7 @@ class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInte
      * @param bool   $override     Whether or not existing translations can be overridden during import.
      * @return bool True on success, false otherwise.
      */
-    public function load($translations, $override = false)
+    public function load(array $translations, $override = false)
     {
         if ($override) {
             $this->_data = array_merge($this->_data, $translations);
@@ -120,45 +113,5 @@ class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInte
     public function getStrings()
     {
         return array_keys($this->_data);
-    }
-
-    /**
-     * Get a list of all sources that are loaded
-     *
-     * @return  array
-     */
-    public function getSources()
-    {
-        return $this->_sources;
-    }
-
-    /**
-     * Sets a source as loaded in the catalogue.
-     *
-     * A source can be anything that contains translations, e.g. a component, an object, a file, an URI, etc. They
-     * are referenced on catalogues for determining if their translations were already loaded.
-     *
-     * @param mixed $source The source.
-     * @return TranslatorCatalogue
-     */
-    public function setLoaded($source)
-    {
-        $this->_sources[] = $source;
-        $this->_sources   = array_unique($this->_sources);
-
-        return $this;
-    }
-
-    /**
-     * Tells if translations from a given source are already loaded.
-     *
-     * For more information about what a source is @see TranslatorCatalogueInterface::setLoaded
-     *
-     * @param mixed $source The source to check against.
-     * @return bool True if loaded, false otherwise.
-     */
-    public function isLoaded($source)
-    {
-        return in_array($source, $this->_sources);
     }
 }

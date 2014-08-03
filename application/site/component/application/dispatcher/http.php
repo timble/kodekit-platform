@@ -237,15 +237,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $translator = $this->getObject('translator', array('locale' => $language->iso_code));
 
         // Load Framework translations.
-        $source = 'lib.' . $translator->getLocale();
-
-        if (!$translator->getCatalogue()->isLoaded($source))
-        {
-            if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true)) {
-                throw new \RuntimeException('Unable to load framework translations');
-            }
-
-            $translator->getCatalogue()->setLoaded($source);
+        if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true)) {
+            throw new \RuntimeException('Unable to load framework translations');
         }
 
         // Load application translations.

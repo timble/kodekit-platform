@@ -64,7 +64,7 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      * @param bool   $override     Whether or not existing translations can be overridden during import.
      * @return bool True on success, false otherwise.
      */
-    public function load($translations, $override = false);
+    public function load(array $translations, $override = false);
 
     /**
      * Get a list of all strings in the catalogue
@@ -72,32 +72,4 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      * @return  array
      */
     public function getStrings();
-
-    /**
-     * Get a list of all sources that are loaded
-     *
-     * @return  array
-     */
-    public function getSources();
-
-    /**
-     * Sets a source as loaded in the catalogue.
-     *
-     * A source can be anything that contains translations, e.g. a component, an object, a file, an URI, etc. They
-     * are referenced on catalogues for determining if their translations were already loaded.
-     *
-     * @param mixed $source The source.
-     * @return TranslatorCatalogueInterface
-     */
-    public function setLoaded($source);
-
-    /**
-     * Tells if translations from a given source are already loaded.
-     *
-     * For more information about what a source is @see TranslatorCatalogueInterface::setLoaded
-     *
-     * @param mixed $source The source to check against
-     * @return bool True if loaded, false otherwise.
-     */
-    public function isLoaded($source);
 }

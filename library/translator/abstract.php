@@ -40,6 +40,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     protected $_catalogue;
 
     /**
+     * List of file paths that have been loaded.
+     *
+     * @var array
+     */
+    protected $_loaded;
+
+    /**
      * Constructor.
      *
      * @param ObjectConfig $config Configuration options
@@ -50,6 +57,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
         $this->setLocale($config->locale);
 
+        $this->_loaded          = array();
         $this->_catalogue       = $config->catalogue;
         $this->_locale_fallback = $config->locale_fallback;
     }
@@ -142,33 +150,32 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function load($file, $override = false)
     {
-        try
+        $result = false;
+
+        if (!$this->isLoaded($file))
         {
-            $translations = $this->getObject('object.config.factory')->fromFile($file)->toArray();
-            $result       = $this->getCatalogue()->load($translations, $override);
+            try
+            {
+                $translations = $this->getObject('object.config.factory')->fromFile($file)->toArray();
+
+                if(is_array($translations))
+                {
+                    if($result = $this->getCatalogue()->load($translations, $override))
+                    {
+                        //Mark the file as loaded to prevent re-loading
+                        $this->_loaded[] = $file;
+                        $this->_loaded   = array_unique($this->_loaded);
+
+                        return true;
+                    }
+                }
+            }
+            catch (\Exception $e) {}
         }
-        catch (\RuntimeException $e) {
-            $result = false;
-        }
+        //Translation file has already been loaded
+        else $result = true;
 
         return $result;
-    }
-
-    /**
-     * Imports translations from a file.
-     *
-     * @param string $file The translations file path
-     * @return TranslatorInterface
-     */
-    public function import($file)
-    {
-        $catalogue = $this->getCatalogue();
-
-        if (!$catalogue->isLoaded($file) && $this->load($file, true)) {
-            $catalogue->setLoaded($file);
-        }
-
-        return $this;
     }
 
     /**
@@ -301,6 +308,19 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     public function isTranslatable($string)
     {
         return $this->getCatalogue()->has($string);
+    }
+
+    /**
+     * Tells if translations from a given source are already loaded.
+     *
+     * For more information about what a source is @see TranslatorCatalogueInterface::setLoaded
+     *
+     * @param mixed $file The file to check
+     * @return bool True if loaded, false otherwise.
+     */
+    public function isLoaded($file)
+    {
+        return in_array($file, $this->_loaded);
     }
 
     /**

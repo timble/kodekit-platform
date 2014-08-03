@@ -32,26 +32,15 @@ class Translator extends Library\Translator
 
     public function import($component)
     {
-        $catalogue = $this->getCatalogue();
+        $paths = $this->getConfig()->paths;
 
-        // Append current locale to source.
-        $source = 'com:' . $component . '.' . $this->getLocale();
-
-        if (!$catalogue->isLoaded($source))
+        foreach ($paths as $path)
         {
-            $paths = $this->getConfig()->paths;
+            $path .= "/component/{$component}/resources/language/";
 
-            foreach ($paths as $path)
-            {
-                $path .= "/component/{$component}/resources/language/";
-
-                if (($file = $this->find($path)) && !$this->load($file, true)) {
-                    throw new \RuntimeException('Unable to load translations from .' . $file);
-                }
+            if (($file = $this->find($path)) && !$this->load($file, true)) {
+                throw new \RuntimeException('Unable to load translations from .' . $file);
             }
-
-            // Set component as loaded.
-            $catalogue->setLoaded($source);
         }
 
         return $this;
