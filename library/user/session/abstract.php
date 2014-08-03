@@ -668,9 +668,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param   string $name  The attribute name.
      * @return  string $value The attribute value.
      */
-    public function __get($name)
+    final public function __get($name)
     {
-        return $this->getContainer('attribute')->get($name);
+        return $this->get($name);
     }
 
     /**
@@ -680,9 +680,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param   mixed  $value The attribute value.
      * @return  void
      */
-    public function __set($name, $value)
+    final public function __set($name, $value)
     {
-        $this->getContainer('attribute')->set($name, $value);
+        $this->set($name, $value);
     }
 
     /**
@@ -691,9 +691,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param  string $name The attribute name.
      * @return boolean
      */
-    public function __isset($name)
+    final public function __isset($name)
     {
-        return $this->getContainer('attribute')->has($name);
+        return $this->has($name);
     }
 
     /**
@@ -702,8 +702,8 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param   string $key  The attribute name.
      * @return  void
      */
-    public function __unset($name)
+    final public function __unset($name)
     {
-        $this->getContainer('attribute')->remove($name);
+        $this->remove($name);
     }
 }
