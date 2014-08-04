@@ -37,7 +37,7 @@ class ObjectConfigPhp extends ObjectConfigFormat
             }
         }
 
-        $this->add($data);
+        $this->merge($data);
 
         return $this;
     }
@@ -67,7 +67,7 @@ class ObjectConfigPhp extends ObjectConfigFormat
             throw new \RuntimeException(sprintf("File '%s' doesn't exist or not readable", $filename));
         }
 
-        $this->add(include $filename);
+        $this->merge(include $filename);
 
         return $this;
     }
