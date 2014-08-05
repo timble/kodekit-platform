@@ -19,6 +19,12 @@
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
+<? if($modules->isTranslatable()) : ?>
+<ktml:module position="actionbar" content="append">
+    <?= helper('com:languages.listbox.languages') ?>
+</ktml:module>
+<? endif ?>
+
 <ktml:module position="sidebar">
 	<?= import('default_sidebar.html'); ?>
 </ktml:module>
