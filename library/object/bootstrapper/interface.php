@@ -34,13 +34,6 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
     public function bootstrap();
 
     /**
-     * Get the priority of the bootstrapper
-     *
-     * @return  integer The priority level
-     */
-    public function getPriority();
-
-    /**
      * Get the object manager
      *
      * @return ObjectManagerInterface
@@ -53,4 +46,11 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      * @return ClassLoaderInterface
      */
     public function getClassLoader();
+
+    /**
+     * Check if the bootstrapper has been run
+     *
+     * @return bool TRUE if the bootstrapping has run FALSE otherwise
+     */
+    public function isBootstrapped();
 }

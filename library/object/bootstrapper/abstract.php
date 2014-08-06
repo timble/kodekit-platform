@@ -25,13 +25,6 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     private $__object_manager;
 
     /**
-     * The bootstrapper priority
-     *
-     * @var integer
-     */
-    protected $_priority;
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options
@@ -40,25 +33,7 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     {
         parent::__construct($config);
 
-        $this->_priority        = $config->priority;
         $this->__object_manager = $config->object_manager;
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'priority'    => self::PRIORITY_NORMAL,
-        ));
-
-        parent::_initialize($config);
     }
 
     /**
@@ -82,12 +57,12 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     }
 
     /**
-     * Get the priority of the bootstrapper
+     * Check if the bootstrapper has been run
      *
-     * @return  integer The priority level
+     * @return bool TRUE if the bootstrapping has run FALSE otherwise
      */
-    public function getPriority()
+    public function isBootstrapped()
     {
-        return $this->_priority;
+        return false;
     }
 }
