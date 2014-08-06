@@ -11,7 +11,7 @@ use Nooku\Library;
 
 return array(
 
-    'priority' => Library\ObjectBootstrapper::PRIORITY_LOW,
+    'priority' => Library\ObjectBootstrapper::PRIORITY_HIGH,
 
     'aliases'  => array(
         'application'                    => 'com:application.dispatcher.http',
