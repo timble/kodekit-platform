@@ -24,7 +24,7 @@ interface ClassLocatorInterface
      * @param  string $basepath The basepath to use to find the class
      * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $basepath = null);
+    public function locate($class, $basepath);
 
     /**
      * Register a namespace
