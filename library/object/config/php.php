@@ -58,7 +58,7 @@ class ObjectConfigPhp extends ObjectConfigFormat
      *
      * @param  string $filename
      * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
-     * @throws \RuntimeException
+     * @throws \RuntimeException If file doesn't exist is not readable or cannot be included.
      * @return ObjectConfigPhp|array
      */
     public function fromFile($filename, $object = true)
@@ -67,7 +67,7 @@ class ObjectConfigPhp extends ObjectConfigFormat
             throw new \RuntimeException(sprintf("File '%s' doesn't exist or not readable", $filename));
         }
 
-        $data = include $filename;
+        $data = call_user_func(function(){return require func_get_arg(0);}, $filename);
 
         return $object ? $this->merge($data) : $data;
     }
