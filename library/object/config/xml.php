@@ -21,10 +21,11 @@ class ObjectConfigXml extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \DomainException
-     * @return ObjectConfigXml
+     * @return ObjectConfigXml|array
      */
-    public function fromString($string)
+    public function fromString($string, $object = true)
     {
         $data = array();
 
@@ -41,9 +42,7 @@ class ObjectConfigXml extends ObjectConfigFormat
             }
         }
 
-        $this->merge($data);
-
-        return $this;
+        return $object ? $this->merge($data) : $data;
     }
 
     /**

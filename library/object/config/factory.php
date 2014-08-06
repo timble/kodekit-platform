@@ -120,13 +120,14 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      *
      * @param  string  $format
      * @param  string  $config
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
-     * @return ObjectConfigInterface
+     * @return ObjectConfigInterface|array
      */
-    public function fromString($format, $config)
+    public function fromString($format, $config, $object = true)
     {
-        $config = $this->createFormat($format)->fromString($config);
+        $config = $this->createFormat($format)->fromString($config, $object);
         return $config;
     }
 
@@ -134,11 +135,12 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      * Read a config from a file.
      *
      * @param  string  $filename
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
-     * @return ObjectConfigInterface
+     * @return ObjectConfigInterface|array
      */
-    public function fromFile($filename)
+    public function fromFile($filename, $object = true)
     {
         $pathinfo = pathinfo($filename);
 
@@ -149,7 +151,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
             ));
         }
 
-        $config = $this->createFormat($pathinfo['extension'])->fromFile($filename);
+        $config = $this->createFormat($pathinfo['extension'])->fromFile($filename, $object);
         return $config;
     }
 
@@ -173,5 +175,16 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
         }
 
         return $this->createFormat($pathinfo['extension'])->toFile($filename, $config);
+    }
+
+    /**
+     * Check if the format is registered
+     *
+     * @param string $format A config format
+     * @return bool TRUE if the format is a registered, FALSE otherwise.
+     */
+    public function isRegistered($format)
+    {
+        return isset($this->_formats[$format]);
     }
 }

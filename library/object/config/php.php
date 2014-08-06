@@ -21,10 +21,11 @@ class ObjectConfigPhp extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \DomainException
-     * @return ObjectConfigPhp
+     * @return ObjectConfigPhp|array
      */
-    public function fromString($string)
+    public function fromString($string, $object = true)
     {
         $data = array();
 
@@ -37,9 +38,7 @@ class ObjectConfigPhp extends ObjectConfigFormat
             }
         }
 
-        $this->merge($data);
-
-        return $this;
+        return $object ? $this->merge($data) : $data;
     }
 
     /**
@@ -58,17 +57,18 @@ class ObjectConfigPhp extends ObjectConfigFormat
      * Read from a file and create a config object
      *
      * @param  string $filename
-     * @return $this
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \RuntimeException
+     * @return ObjectConfigPhp|array
      */
-    public function fromFile($filename)
+    public function fromFile($filename, $object = true)
     {
         if (!is_file($filename) || !is_readable($filename)) {
             throw new \RuntimeException(sprintf("File '%s' doesn't exist or not readable", $filename));
         }
 
-        $this->merge(include $filename);
+        $data = include $filename;
 
-        return $this;
+        return $object ? $this->merge($data) : $data;
     }
 }
