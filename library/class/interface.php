@@ -42,16 +42,6 @@ interface ClassLoaderInterface
     public function load($class);
 
     /**
-     * Enable or disable class loading
-     *
-     * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
-     *
-     * @param bool|null $debug True or false. If NULL the method will return the current debug value.
-     * @return bool Returns the current debug value.
-     */
-    public function debug($debug);
-
-    /**
      * Get the path based on a class name
      *
      * @param string $class     The class name
@@ -137,6 +127,23 @@ interface ClassLoaderInterface
      * @return array An array with namespaces as keys and path as value
      */
     public function getNamespaces();
+
+    /**
+     * Enable or disable class loading
+     *
+     * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool $debug True or false.
+     * @return ClassLoader
+     */
+    public function setDebug($debug);
+
+    /**
+     * Check if the loader is running in debug mode
+     *
+     * @return bool
+     */
+    public function isDebug();
 
     /**
      * Tells if a class, interface or trait exists.

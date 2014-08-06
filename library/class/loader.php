@@ -26,18 +26,18 @@ require_once dirname(__FILE__).'/registry/cache.php';
 class ClassLoader implements ClassLoaderInterface
 {
     /**
+     * The class registry
+     *
+     * @var array
+     */
+    private $__registry = null;
+
+    /**
      * The class locators
      *
      * @var array
      */
     protected $_locators = array();
-
-    /**
-     * The class registry
-     *
-     * @var array
-     */
-    protected $_registry = null;
 
     /**
      * Global namespaces
@@ -70,17 +70,17 @@ class ClassLoader implements ClassLoaderInterface
         //Create the class registry
         if(isset($config['cache_enabled']) && $config['cache_enabled'])
         {
-            $this->_registry = new ClassRegistryCache();
+            $this->__registry = new ClassRegistryCache();
 
             if(isset($config['cache_namespace'])) {
-                $this->_registry->setNamespace($config['cache_namespace']);
+                $this->__registry->setNamespace($config['cache_namespace']);
             }
         }
-        else $this->_registry = new ClassRegistry();
+        else $this->__registry = new ClassRegistry();
 
         //Set the debug mode
         if(isset($config['debug'])) {
-            $this->_debug = $config['debug'];
+            $this->setDebug($config['debug']);
         }
 
         //Register the library locator
@@ -180,23 +180,6 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Enable or disable class loading
-     *
-     * If debug is enabled the class loader will throw an exception if a file is found but does not declare the class.
-     *
-     * @param bool|null $debug True or false. If NULL the method will return the current debug setting.
-     * @return bool Returns the current debug setting.
-     */
-    public function debug($debug)
-    {
-        if($debug !== null) {
-            $this->_debug = (bool) $debug;
-        }
-
-        return $this->_debug;
-    }
-
-    /**
      * Get the path based on a class name
      *
      * @param string $class     The class name
@@ -210,7 +193,7 @@ class ClassLoader implements ClassLoaderInterface
         //Switch the namespace
         $prefix = $namespace ? $namespace : $this->_namespace;
 
-        if(!$this->_registry->has($prefix.'-'.$class))
+        if(!$this->__registry->has($prefix.'-'.$class))
         {
             //Locate the class
             foreach($this->_locators as $locator)
@@ -222,9 +205,9 @@ class ClassLoader implements ClassLoaderInterface
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
-            $this->_registry->set($prefix.'-'.$class, $result);
+            $this->__registry->set($prefix.'-'.$class, $result);
 
-        } else $result = $this->_registry->get($prefix.'-'.$class);
+        } else $result = $this->__registry->get($prefix.'-'.$class);
 
         return $result;
     }
@@ -240,17 +223,7 @@ class ClassLoader implements ClassLoaderInterface
     public function setPath($class, $path, $namespace = null)
     {
         $prefix = $namespace ? $namespace : $this->_namespace;
-        $this->_registry->set($prefix.'-'.$class, $path);
-    }
-
-    /**
-     * Get the class registry object
-     *
-     * @return ClassRegistry
-     */
-    public function getRegistry()
-    {
-        return $this->_registry;
+        $this->__registry->set($prefix.'-'.$class, $path);
     }
 
     /**
@@ -299,7 +272,7 @@ class ClassLoader implements ClassLoaderInterface
         $alias = trim($alias);
         $class = trim($class);
 
-        $this->_registry->alias($class, $alias);
+        $this->__registry->alias($class, $alias);
     }
 
     /**
@@ -310,7 +283,7 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function getAliases($class)
     {
-        return array_search($class, $this->_registry->getAliases());
+        return array_search($class, $this->__registry->getAliases());
     }
 
     /**
@@ -375,6 +348,29 @@ class ClassLoader implements ClassLoaderInterface
     public function getNamespaces()
     {
         return $this->_namespaces;
+    }
+
+    /**
+     * Enable or disable class loading
+     *
+     * If debug is enabled the class loader will throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool $debug True or false.
+     * @return ClassLoader
+     */
+    public function setDebug($debug)
+    {
+        return $this->_debug = (bool) $debug;
+    }
+
+    /**
+     * Check if the loader is running in debug mode
+     *
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->_debug;
     }
 
     /**
