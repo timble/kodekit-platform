@@ -39,6 +39,13 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
     protected $_aliases;
 
     /**
+     * List of config files
+     *
+     * @var array
+     */
+    protected $_files;
+
+    /**
      * Bootstrapped status.
      *
      * @var bool
@@ -62,12 +69,14 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
             $config->bootstrapped = false;
             $config->directories = array();
             $config->components  = array();
+            $config->files       = array();
             $config->aliases     = array();
             $config->identifiers = array();
         }
 
         $this->_directories  = ObjectConfig::unbox($config->directories);
         $this->_components   = ObjectConfig::unbox($config->components);
+        $this->_files        = ObjectConfig::unbox($config->files);
         $this->_aliases      = ObjectConfig::unbox($config->aliases);
         $this->_identifiers  = ObjectConfig::unbox($config->identifiers);
     }
@@ -87,6 +96,7 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
             'bootstrapped' => false,
             'directories'  => array(),
             'components'   => array(),
+            'files'        => array(),
             'aliases'      => array(),
             'identifiers'  => array(),
         ));
@@ -128,43 +138,43 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                     //Register object manager package
                     $this->getObjectManager()->getLocator('com')->registerPackage($name, $vendor);
                 }
+            }
 
-                /*
-                * Load resources
-                *
-                * If cache is enabled and the bootstrapper has been run we do not reload the config resources
-                */
-                if(!$this->getConfig()->bootstrapped)
+            /*
+             * Load resources
+             *
+             * If cache is enabled and the bootstrapper has been run we do not reload the config resources
+             */
+            if(!$this->getConfig()->bootstrapped)
+            {
+                $factory = $this->getObject('object.config.factory');
+
+                foreach($this->_files as $filename)
                 {
-                    //Register the component bootstrapper
-                    $config = $path .'/resources/config/bootstrapper.php';
-                    if(file_exists($config))
+                    $array = $factory->fromFile($filename, false);
+
+                    if(isset($array['priority'])) {
+                        $priority = $array['priority'];
+                    } else {
+                        $priority = self::PRIORITY_NORMAL;
+                    }
+
+                    if(isset($array['aliases']))
                     {
-                        $array = $this->getObject('object.config.factory')->fromFile($config, false);
-
-                        if(isset($array['priority'])) {
-                            $priority = $array['priority'];
-                        } else {
-                            $priority = self::PRIORITY_NORMAL;
+                        if(!isset($aliases[$priority])) {
+                            $aliases[$priority] = array();
                         }
 
-                        if(isset($array['aliases']))
-                        {
-                            if(!isset($aliases[$priority])) {
-                                $aliases[$priority] = array();
-                            }
+                        $aliases[$priority] = array_merge($aliases[$priority], $array['aliases']);;
+                    }
 
-                            $aliases[$priority] = array_merge($aliases[$priority], $array['aliases']);;
+                    if(isset($array['identifiers']))
+                    {
+                        if(!isset($identifiers[$priority])) {
+                            $identifiers[$priority] = array();
                         }
 
-                        if(isset($array['identifiers']))
-                        {
-                            if(!isset($identifiers[$priority])) {
-                                $identifiers[$priority] = array();
-                            }
-
-                            $identifiers[$priority] = array_merge_recursive($identifiers[$priority], $array['identifiers']);;
-                        }
+                        $identifiers[$priority] = array_merge_recursive($identifiers[$priority], $array['identifiers']);;
                     }
                 }
 
@@ -197,19 +207,17 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                 foreach($result as $alias => $identifier) {
                     $this->getObjectManager()->registerAlias($identifier, $alias);
                 }
-            }
 
-            /*
-             * Set the bootstrapper config.
-             *
-             * If cache is enabled this will prevent the bootstrapper from reloading the config resources
-             */
-            if(!$this->getConfig()->bootstrapped)
-            {
+                /*
+                 * Set the bootstrapper config.
+                 *
+                 * If cache is enabled this will prevent the bootstrapper from reloading the config resources
+                 */
                 $this->getObjectManager()->setIdentifier(new ObjectIdentifier('lib:object.bootstrapper', array(
                     'bootstrapped' => true,
                     'directories'  => $this->_directories,
                     'components'   => $this->_components,
+                    'files'        => $this->_files,
                     'aliases'      => $aliases,
                 )));
             }
@@ -219,10 +227,10 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
     }
 
     /**
-     * Register a component
+     * Register a component to be bootstrapped.
      *
-     * This method will setup the class and object locators for vendor component and register the bootstrapper for both
-     * vendor and application components if one can be found.
+     * If the component contains a /resources/config/bootstrapper.php file it will be registered. Class and object
+     * locators will be setup for vendor only components.
      *
      * @param string $name      The component name
      * @param string $path      The component path
@@ -245,13 +253,18 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                 'path'   => $path,
                 'vendor' => $vendor
             );
+
+            //Register the config file
+            $this->registerFile($path .'/resources/config/bootstrapper.php');
         }
 
         return $this;
     }
 
     /**
-     * Register components from a directory
+     * Register components from a directory to be bootstrapped
+     *
+     * All the first level directories are assumed to be component folders and will be registered.
      *
      * @param string  $directory
      * @param string  $vendor
@@ -284,6 +297,21 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
             }
 
             $this->_directories[$directory] = true;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register a configuration file to be bootstrapped
+     *
+     * @param string $filename The absolute path to the file
+     * @return ObjectBootstrapper
+     */
+    public function registerFile($filename)
+    {
+        if(file_exists($filename)) {
+            $this->_files[$filename] = $filename;
         }
 
         return $this;
