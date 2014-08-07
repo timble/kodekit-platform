@@ -15,6 +15,7 @@ return array(
 
     'aliases'  => array(
         'application'                    => 'com:application.dispatcher.http',
+        'translator'                     => 'com:application.translator',
         'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
         'lib:template.locator.component' => 'com:application.template.locator.component',
         'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',

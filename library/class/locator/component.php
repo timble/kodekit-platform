@@ -57,6 +57,8 @@ class ClassLocatorComponent extends ClassLocatorAbstract
      */
     public function locate($class, $basepath)
 	{
+        $test = $class;
+
         //Find the class
         foreach($this->getNamespaces() as $namespace => $basepath)
         {
@@ -86,6 +88,8 @@ class ClassLocatorComponent extends ClassLocatorAbstract
 
             if(count($parts)){
                 $path = implode('/', $parts).'/'.$path;
+            } else {
+                $path = $path.'/'.$path;
             }
 
             return $basepath.'/'.$path.'.php';
