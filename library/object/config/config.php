@@ -262,8 +262,6 @@ class ObjectConfig implements ObjectConfigInterface
         return new \RecursiveArrayIterator($this->__options);
     }
 
-
-
     /**
      * Check if the offset exists
      *

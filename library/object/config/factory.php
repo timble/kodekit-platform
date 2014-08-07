@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class ObjectConfigFactory extends Object implements ObjectSingleton
 {
     /**
+     * Config object prototypes
+     *
+     * @var array
+     */
+    private $__prototypes;
+
+    /**
      * Registered config file formats.
      *
      * @var array
@@ -66,34 +73,34 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      * @param   array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
      * @throws \InvalidArgumentException    If the format isn't registered
      * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
-     * @return ObjectConfigInterface
+     * @return ObjectConfigSerializable
      */
     public function createFormat($format, $options = array())
     {
-        $format = strtolower($format);
+        $name = strtolower($format);
 
-        if (!isset($this->_formats[$format])) {
-            throw new \RuntimeException(sprintf('Unsupported config format: %s ', $format));
+        if (!isset($this->_formats[$name])) {
+            throw new \RuntimeException(sprintf('Unsupported config format: %s ', $name));
         }
 
-        $format = $this->_formats[$format];
-
-        if(!($format instanceof ObjectConfigSerializable))
+        if(!isset($this->__prototypes[$name]))
         {
-            $format = new $format($options);
+            $class = $this->_formats[$name];
+            $instance = new $class($options);
 
-            if(!$format instanceof ObjectConfigSerializable)
+            if(!$instance instanceof ObjectConfigSerializable)
             {
                 throw new \UnexpectedValueException(
-                    'Format: '.get_class($format).' does not implement ObjectConfigSerializable Interface'
+                    'Format: '.get_class($instance).' does not implement ObjectConfigSerializable Interface'
                 );
             }
 
-            $this->_formats[$format->name] = $format;
+            $this->__prototypes[$name] = $instance;
         }
-        else $format = clone $format;
 
-        return $format;
+        //Clone the object
+        $result = clone $this->__prototypes[$name];
+        return $result;
     }
 
     /**
@@ -112,6 +119,12 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
         }
 
         $this->_formats[$format] = $class;
+
+        //In case the format is being re-registered clear the prototype
+        if(isset($this->__prototypes[$format])) {
+            unset($this->__prototypes[$format]);
+        }
+
         return $this;
     }
 
@@ -161,7 +174,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      * @param string $filename
      * @param ObjectConfigInterface $config
      * @throws \RuntimeException
-     * @return boolean TRUE on success. FALSE on failure
+     * @return ObjectConfigFactory
      */
     public function toFile($filename, ObjectConfigInterface $config)
     {
@@ -174,7 +187,8 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
             ));
         }
 
-        return $this->createFormat($pathinfo['extension'])->toFile($filename, $config);
+        $this->createFormat($pathinfo['extension'])->toFile($filename, $config);
+        return $this;
     }
 
     /**

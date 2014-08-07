@@ -48,7 +48,7 @@ interface ObjectConfigSerializable
      * Write a config object to a file.
      *
      * @param  string  $filename
-     * @return void
+     * @return  ObjectConfigSerializable
      */
     public function toFile($filename);
 }
