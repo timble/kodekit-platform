@@ -183,13 +183,13 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                  *
                  * Collect identifiers by priority and then flatten the array.
                  */
-                $result = array();
+                $identfiiers_flat = array();
 
                 foreach ($identifiers as $priority => $merges) {
-                    $result = array_merge_recursive($merges, $result);
+                    $result = array_merge_recursive($merges, $identfiiers_flat);
                 }
 
-                foreach ($result as $identifier => $config) {
+                foreach ($identfiiers_flat as $identifier => $config) {
                     $this->getObjectManager()->setIdentifier(new ObjectIdentifier($identifier, $config));
                 }
 
@@ -198,28 +198,34 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                  *
                  * Collect aliases by priority and then flatten the array.
                  */
-                $result = array();
+                $aliases_flat = array();
 
                 foreach ($aliases as $priority => $merges) {
-                    $result = array_merge($merges, $result);
+                    $aliases_flat = array_merge($merges, $aliases_flat);
                 }
 
-                foreach($result as $alias => $identifier) {
+                foreach($aliases_flat as $alias => $identifier) {
                     $this->getObjectManager()->registerAlias($identifier, $alias);
                 }
 
                 /*
-                 * Set the bootstrapper config.
-                 *
-                 * If cache is enabled this will prevent the bootstrapper from reloading the config resources
-                 */
+                * Set the bootstrapper config.
+                *
+                * If cache is enabled this will prevent the bootstrapper from reloading the config resources
+                */
                 $this->getObjectManager()->setIdentifier(new ObjectIdentifier('lib:object.bootstrapper', array(
                     'bootstrapped' => true,
                     'directories'  => $this->_directories,
                     'components'   => $this->_components,
                     'files'        => $this->_files,
-                    'aliases'      => $aliases,
+                    'aliases'      => $aliases_flat,
                 )));
+            }
+            else
+            {
+                foreach($aliases as $alias => $identifier) {
+                    $this->getObjectManager()->registerAlias($identifier, $alias);
+                }
             }
 
             $this->_bootstrapped = true;
