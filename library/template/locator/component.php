@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -18,83 +18,53 @@ namespace Nooku\Library;
 class TemplateLocatorComponent extends TemplateLocatorAbstract
 {
     /**
-     * Locate the template based on a virtual path
+     * The type
      *
-     * @param  string $path  Stream path or resource
-     * @return string   The physical stream path for the template
+     * @var string
      */
-    public function locate($path)
-    {
-        //Qualify partial templates.
-        if(strpos($path, ':') === false)
-        {
-            if(!$base = $this->getTemplate()->getPath()) {
-                throw new \RuntimeException('Cannot qualify partial template path');
-            }
-
-            $identifier = $this->getIdentifier($base)->toArray();
-
-            $format    = pathinfo($path, PATHINFO_EXTENSION);
-            $template  = pathinfo($path, PATHINFO_FILENAME);
-
-            $parts     = $identifier['path'];
-            array_pop($parts);
-        }
-        else
-        {
-            // Need to clone here since we use array_pop and it modifies the cached identifier
-            $identifier = $this->getIdentifier($path)->toArray();
-
-            $format    = $identifier['name'];
-            $template  = array_pop($identifier['path']);
-            $parts     = $identifier['path'];
-        }
-
-        $filepath  = strtolower($identifier['package']).'/'.implode('/', $parts).'/templates';
-        $fullpath  = $filepath.'/'.$template.'.'.$format.'.php';
-
-        //Find the file
-        $paths    = $this->getObject('manager')->getClassLoader()->getLocator('component')->getNamespaces();
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($paths));
-
-        foreach($iterator as $basepath)
-        {
-            $file = $basepath.'/'.$fullpath;
-            if($result = $this->realPath($file)) {
-                break;
-            }
-        }
-
-        return $result;
-    }
+    protected $_type = 'com';
 
     /**
-     * Get a path from an file
+     * Find a template path
      *
-     * Function will check if the path is an alias and return the real file path
-     *
-     * @param  string $file The file path
-     * @return string The real file path
+     * @param array  $info      The path information
+     * @return bool|mixed
      */
-    public function realPath($file)
+    public function find(array $info)
     {
-        $result = false;
-        $path   = dirname($file);
+        $paths  = array();
+        $loader = $this->getObject('manager')->getClassLoader();
 
-        // Is the path based on a stream?
-        if (strpos($path, '://') === false)
+        //Get the package
+        $package = $info['package'];
+
+        //Get the domain
+        if(empty($info['domain'])) {
+            $domain = $this->getObject('manager')->getLocator('com')->getPackage($info['package']);
+        } else {
+            $domain = $info['domain'];
+        }
+
+        //Base paths
+        if($path = $loader->getLocator('component')->getNamespace('\\')) {
+            $paths[] = $path.'/'.$package;
+        }
+
+        $namespace = ucfirst($domain).'\Component\\'.ucfirst($package);
+        if($path = $loader->getLocator('component')->getNamespace($namespace)) {
+            $paths[] = $path;
+        }
+
+        //File path
+        $filepath = implode('/', $info['path']).'/templates/'.$info['file'].'.'.$info['format'].'.php';
+
+        foreach($paths as $basepath)
         {
-            // Not a stream, so do a realpath() to avoid directory traversal attempts on the local file system.
-            $path = realpath($path); // needed for substr() later
-            $file = realpath($file);
+            if($result = $this->realPath($basepath.'/'.$filepath)) {
+                return $result;
+            }
         }
 
-        // The substr() check added to make sure that the realpath() results in a directory registered so that
-        // non-registered directories are not accessible via directory traversal attempts.
-        if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
-            $result = $file;
-        }
-
-        return $result;
+        return false;
     }
 }

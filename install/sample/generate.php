@@ -3,7 +3,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -35,14 +35,11 @@ function pick_random(array $array)
 }
 
 // Load application.
-define('JPATH_APPLICATION', realpath(__DIR__.'/../../code/administrator'));
-define('JPATH_BASE'       , JPATH_APPLICATION);
-define('JPATH_ROOT'       , dirname(JPATH_APPLICATION));
-define('JPATH_VENDOR'     , JPATH_ROOT.'/vendor' );
+define('JPATH_ROOT'       , dirname(realpath(__DIR__.'/../../code/administrator')));
 define('JPATH_SITES'      , JPATH_ROOT.'/sites');
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_APPLICATION.'/bootstrap.php';
+require_once JPATH_ROOT.'/bootstrap.php';
 
 $application =  Library\ObjectManager::getInstance()->getObject('com:application.dispatcher');
 $application->loadConfig(new Library\Command());

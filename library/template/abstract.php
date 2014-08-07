@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -157,15 +157,20 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     {
         $parts = parse_url($path);
 
-        $locator = $this->getLocator(isset($parts['scheme']) ? $parts['scheme'] : $this->getIdentifier()->type);
+        //Set the default type is not scheme can be found
+        if(!isset($parts['scheme'])) {
+            $type = $this->getIdentifier()->type;
+        } else {
+            $type = $parts['scheme'];
+        }
 
-        // Set the component locator if none was found.
-        if (!$locator) {
+        //Fall back on the component locator if none was found.
+        if (!$locator = $this->getLocator($type)) {
             $locator = $this->getLocator('com');
         }
 
         //Check of the file exists
-        if (!$template = $locator->locate($path)) {
+        if (!$template = $locator->locate($path, $this->getPath())) {
             throw new \InvalidArgumentException('Template "' . $path . '" not found');
         }
 
@@ -262,7 +267,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * This function passes the template through the render filter queue
      *
-     * @return TemplateInterface
+     * @return TemplateAbstract
      */
     public function render()
     {
@@ -333,7 +338,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * Set the template data
      *
      * @param  array   $data     The template data
-     * @return TemplateInterface
+     * @return TemplateAbstract
      */
     public function setData(array $data)
     {
@@ -356,7 +361,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @param  string   $content     The template content
      * @param  integer  $status     The template state
-     * @return TemplateInterface
+     * @return TemplateAbstract
      */
     public function setContent($content, $status = self::STATUS_LOADED)
     {
@@ -400,7 +405,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * @param	mixed	$view An object that implements ObjectInterface, ObjectIdentifier object
      * 					      or valid identifier string
-     * @return TemplateInterface
+     * @return TemplateAbstract
      */
     public function setView($view)
     {

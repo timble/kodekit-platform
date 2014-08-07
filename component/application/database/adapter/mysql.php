@@ -2,27 +2,29 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Component\Application;
+
 use Nooku\Library;
 
 /**
- * MySql Database Adapter
+ * MySQL Database Adapter
  *
- * @author   Johan Janssens <http://github.com/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql
+class DatabaseAdapterMysql extends Library\DatabaseAdapterMysql
 {
 	/**
 	 * Constructor
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param ObjectConfig $config 	An optional Library\ObjectConfig object with configuration options
+	 * @param 	Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options
 	 */
 	public function __construct(Library\ObjectConfig $config)
 	{
@@ -37,7 +39,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
+     * @param 	Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)

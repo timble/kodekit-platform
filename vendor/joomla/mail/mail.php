@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
 
@@ -35,7 +32,7 @@ class JMail extends PHPMailer
 	function JMail()
 	{
 		 // phpmailer has an issue using the relative path for it's language files
-		 $this->SetLanguage('joomla', JPATH_VENDOR.DS.'phpmailer'.DS.'language'.DS);
+		 $this->SetLanguage('joomla', \Nooku::getInstance()->getVendorPath().DS.'phpmailer'.DS.'language'.DS);
 	}
 
 	/**

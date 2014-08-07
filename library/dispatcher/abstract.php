@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -169,6 +169,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	 *
 	 * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
 	 * 					            or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
 	 * @return	DispatcherAbstract
 	 */
 	public function setController($controller, $config = array())
@@ -191,7 +192,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 		    else $identifier = $this->getIdentifier($controller);
 
             //Set the configuration
-            $identifier->setConfig($config);
+            $identifier->getConfig()->append($config);
 
 			$controller = $identifier;
 		}

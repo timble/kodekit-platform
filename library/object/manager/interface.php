@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -17,50 +17,6 @@ namespace Nooku\Library;
  */
 interface ObjectManagerInterface
 {
-    /**
-     * Returns an identifier object.
-     *
-     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
-     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
-     * string. Function recursively resolves identifier aliases and returns the aliased identifier.
-     *
-     * If no identifier is passed the object identifier of this object will be returned.
-     *
-     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @return ObjectIdentifier
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     */
-    public function getIdentifier($identifier = null);
-
-    /**
-     * Set an identifier configuration
-     *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An associative array of configuration options
-     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
-     * @return ObjectManager
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     */
-    public function setIdentifier($identifier, $config = array(), $merge = true);
-
-    /**
-     * Get the identifier class
-     *
-     * @param mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
-     * @param bool  $fallback   Use fallbacks when locating the class. Default is TRUE.
-     * @return string|false  Returns the class name or false if the class could not be found.
-     */
-    public function getClass($identifier, $fallback = true);
-
-    /**
-     * Get the identifier class
-     *
-     * @param mixed  $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
-     * @param string $class      The class name
-     * @return string
-     */
-    public function setClass($identifier, $class);
-
     /**
      * Get an object instance based on an object identifier
      *
@@ -90,6 +46,58 @@ interface ObjectManagerInterface
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
 	public function setObject($identifier, ObjectInterface $object);
+
+    /**
+     * Returns an identifier object.
+     *
+     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
+     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
+     * string. Function recursively resolves identifier aliases and returns the aliased identifier.
+     *
+     * If no identifier is passed the object identifier of this object will be returned.
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectIdentifier
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
+     */
+    public function getIdentifier($identifier = null);
+
+    /**
+     * Set an identifier
+     *
+     * This function will reset the identifier if it has already been set. Use this very carefully as it can have
+     * unwanted side-effects.
+     *
+     * @param ObjectIdentifier  $identifier An ObjectIdentifier
+     * @return ObjectManager
+     */
+    public function setIdentifier(ObjectIdentifier $identifier);
+
+    /**
+     * Check if an identifier exists
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return bool TRUE if the identifier exists, false otherwise.
+     */
+    public function hasIdentifier($identifier);
+
+    /**
+     * Get the identifier class
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param bool  $fallback   Use fallbacks when locating the class. Default is TRUE.
+     * @return string|false  Returns the class name or false if the class could not be found.
+     */
+    public function getClass($identifier, $fallback = true);
+
+    /**
+     * Get the object configuration
+     *
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectConfig
+     * @throws ObjectExceptionInvalidIdentifier  If the identifier is not valid
+     */
+    public function getConfig($identifier = null);
 
     /**
      * Register a mixin for an identifier

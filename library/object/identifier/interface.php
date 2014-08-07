@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -20,6 +20,15 @@ namespace Nooku\Library;
  */
 interface ObjectIdentifierInterface extends \Serializable
 {
+    /**
+     * Constructor
+     *
+     * @param  string|array $identifier Identifier string or array in type://domain/package.[.path].name format
+     * @param	array       $config     An optional associative array of configuration settings.
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
+     */
+    public function __construct($identifier, array $config = array());
+
     /**
      * Get the identifier type
      *
@@ -56,46 +65,11 @@ interface ObjectIdentifierInterface extends \Serializable
     public function getConfig();
 
     /**
-     * Get the identifier class name
-     *
-     * @return string
-     */
-    public function getClass();
-
-    /**
-     * Set the identifier class name
-     *
-     * @param  string $class
-     * @return ObjectIdentifierInterface
-     */
-    public function setClass($class);
-
-    /**
-     * Add a mixin
-     *
-     *  @param mixed $decorator An object implementing ObjectMixinInterface, an ObjectIdentifier or an identifier string
-     * @param array $config     An array of configuration options
-     * @return ObjectIdentifierInterface
-     * @see Object::mixin()
-     */
-    public function addMixin($mixin, $config = array());
-
-    /**
      * Get the mixins
      *
      *  @return ObjectConfig
      */
     public function getMixins();
-
-    /**
-     * Add a decorator
-     *
-     * @param mixed $decorator An object implementing ObjectDecoratorInterface, an ObjectIdentifier or an identifier string
-     * @param array $config    An array of configuration options
-     * @return ObjectIdentifierInterface
-     * @see Object::decorate()
-     */
-    public function addDecorator($decorator, $config = array());
 
     /**
      * Get the decorators

@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 jimport('joomla.filesystem.path');
 
 /**
@@ -253,7 +250,8 @@ class JFolder
 	function delete($path = null)
 	{
 		// Sanity check
-	    if(in_array(rtrim($path, '/\\'), array(null, '', JPATH_ROOT, JPATH_BASE))) {
+	    if(in_array(rtrim($path, '/\\'), array(null, '', JPATH_ROOT, JPATH_BASE)))
+        {
 			// Bad programmer! Bad Bad programmer!
 			JError::raiseWarning(500, 'JFolder::delete: ' . 'Attempt to delete base directory' );
 			return false;

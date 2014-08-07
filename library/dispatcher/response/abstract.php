@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -250,22 +250,34 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
 
     /**
      * Check if the response is streamable
-
+     *
      * A response is considered streamable, if the Accept-Ranges does not have value 'none' or if the Transfer-Encoding
      * is set the chunked.
+     *
+     * If the request is made by a IE user agent for a PDF file that is not attached the response will not be streamable.
+     * The build in IE PDF viewer cannot handle inline rendering of PDF files when the file is streamed.
      *
      * @link http://tools.ietf.org/html/rfc2616#section-14.5
      * @return bool
      */
     public function isStreamable()
     {
-        if($this->_headers->get('Transfer-Encoding') == 'chunked') {
-            return true;
-        }
+        $request = $this->getRequest();
 
-        if($this->_headers->get('Accept-Ranges', null) !== 'none') {
-            return true;
-        };
+        $isIE     = (bool) preg_match('#(MSIE|Trident)#', $request->getAgent());
+        $isPDF    = (bool) $this->getContentType() == 'application/pdf';
+        $isInline = (bool) !$request->isDownload();
+
+        if(!($isIE && $isPDF && $isInline))
+        {
+            if($this->_headers->get('Transfer-Encoding') == 'chunked') {
+                return true;
+            }
+
+            if($this->_headers->get('Accept-Ranges', null) !== 'none') {
+                return true;
+            };
+        }
 
         return false;
     }

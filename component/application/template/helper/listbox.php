@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -33,9 +33,9 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
         }
 
-        $basepaths = $this->getObject('manager')->getClassLoader()->getBasepaths();
-        foreach($basepaths as $application => $path) {
-            $options[] = $this->option(array('label' => $application, 'value' => $application));
+        $namespaces = $this->getObject('manager')->getClassLoader()->getNamespaces();
+        foreach($namespaces as $name => $path) {
+            $options[] = $this->option(array('label' => $name, 'value' => $name));
         }
         
         $config->options = $options;

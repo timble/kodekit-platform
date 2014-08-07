@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -30,6 +30,13 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      * @var string
      */
     protected $_type = '';
+
+    /**
+     * Package/domain pairs to search
+     *
+     * @var array
+     */
+    protected $_packages = array();
 
     /**
      * Constructor.
@@ -64,19 +71,27 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @param bool  $fallback   Use the fallback sequence to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
+        if(empty($identifier->domain)) {
+            $domain  = ucfirst($this->getPackage($identifier->package));
+        } else {
+            $domain = ucfirst($identifier->domain);
+        }
+
         $package = ucfirst($identifier->package);
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $file    = ucfirst($identifier->name);
+
         $class   = $path.$file;
 
         $info = array(
             'class'   => $class,
             'package' => $package,
+            'domain'  => $domain,
             'path'    => $path,
             'file'    => $file
         );
@@ -98,9 +113,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         //Find the class
         foreach($this->_sequence as $template)
         {
-            $class= str_replace(
-                array('<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
-                array($info['package'], $info['path'], $info['file'], $info['class']),
+            $class = str_replace(
+                array('<Domain>',      '<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
+                array($info['domain'], $info['package'], $info['path'], $info['file'], $info['class']),
                 $template
             );
 
@@ -116,6 +131,43 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         }
 
         return $result;
+    }
+
+    /**
+     * Register a package
+     *
+     * @param  string $name    The package name
+     * @param  string $domain  The domain for the package
+     * @return ObjectLocatorInterface
+     */
+    public function registerPackage($name, $domain)
+    {
+        $this->_packages[$name] = $domain;
+        return $this;
+    }
+
+    /**
+     * Get the registered package domain
+     *
+     * If no domain has been registered for this package, the default 'Nooku' domain will be returned.
+     *
+     * @param string $package
+     * @return string The registered domain
+     */
+    public function getPackage($package)
+    {
+        $domain = isset($this->_packages[$package]) ?  $this->_packages[$package] : 'Nooku';
+        return $domain;
+    }
+
+    /**
+     * Get the registered packages
+     *s
+     * @return array An array with package names as keys and domain as values
+     */
+    public function getPackages()
+    {
+        return $this->_packages;
     }
 
     /**

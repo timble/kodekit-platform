@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -134,12 +134,13 @@ class ModelModules extends Library\ModelDatabase
         if ($state->installed)
         {
             $modules  = array();
-            $app_path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
+            $app_path = $this->getObject('manager')->getClassLoader()->getNamespace('site');
             $com_path = $app_path;
 
             foreach (new \DirectoryIterator($com_path) as $component)
             {
-                if ($component->isDir() && substr($component, 0, 1) !== '.') {
+                if ($component->isDir() && substr($component, 0, 1) !== '.')
+                {
                     $mod_path = $com_path . '/' . $component . '/module';
 
                     if (is_dir($mod_path))

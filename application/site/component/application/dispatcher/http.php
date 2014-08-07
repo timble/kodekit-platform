@@ -2,7 +2,7 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -68,7 +68,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             'options'   => array(
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
-                'theme'        => 'bootstrap'
             ),
         ));
 
@@ -316,16 +315,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     public function getCfg( $name, $default = null )
     {
         return JFactory::getConfig()->getValue('config.' . $name, $default);
-    }
-
-    /**
-     * Get the theme
-     *
-     * @return string The theme name
-     */
-    public function getTheme()
-    {
-        return $this->getCfg('theme');
     }
 
     /**

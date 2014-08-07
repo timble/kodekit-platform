@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -21,10 +21,11 @@ class ObjectConfigIni extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ObjectConfigIni
-     * @throws \RuntimeException
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
+     * @throws \DomainException
+     * @return ObjectConfigIni|array
      */
-    public function fromString($string)
+    public function fromString($string, $object = true)
     {
         $data = array();
 
@@ -33,13 +34,11 @@ class ObjectConfigIni extends ObjectConfigFormat
             $data = parse_ini_string($string, true);
 
             if($data === false) {
-                throw new \RuntimeException('Cannot parse INI string');
+                throw new \DomainException('Cannot parse INI string');
             }
         }
 
-        $this->merge($data);
-
-        return $this;
+        return $object ? $this->merge($data) : $data;
     }
 
     /**

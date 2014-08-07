@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -37,8 +37,8 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         $config->append(array(
             'sequence' => array(
                 '<Package><Class>',
-                'Nooku\Component\<Package>\<Class>',
-                'Nooku\Component\<Package>\<Path><File>',
+                '<Domain>\Component\<Package>\<Class>',
+                '<Domain>\Component\<Package>\<Path><File>',
                 'Nooku\Library\<Path><File>',
                 'Nooku\Library\<Path>Default',
             )
@@ -49,19 +49,25 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @param bool  $fallback   Use the fallback sequence to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure if searching for a fallback
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
+        if(empty($identifier->domain)) {
+            $domain  = ucfirst($this->getPackage($identifier->package));
+        } else {
+            $domain = ucfirst($identifier->domain);
+        }
 
         $package = ucfirst($identifier->package);
         $file    = ucfirst($identifier->name);
+        $path    = $identifier->path;
+
+        $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
         //Make an exception for 'view' and 'module' types
-        $path  = $identifier->path;
-        $type  = !empty($path) ? array_shift($path) : '';
+        $type = !empty($path) ? array_shift($path) : '';
 
         if(!in_array($type, array('view','module'))) {
             $path = ucfirst($type).StringInflector::camelize(implode('_', $path));
@@ -79,6 +85,7 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         $info = array(
             'class'   => $class,
             'package' => $package,
+            'domain'  => $domain,
             'path'    => $path,
             'file'    => $file
         );

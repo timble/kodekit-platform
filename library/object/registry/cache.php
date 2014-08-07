@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -58,6 +58,30 @@ class ObjectRegistryCache extends ObjectRegistry
 	    return $this->_namespace;
 	}
 
+    /**
+     * Register a class for an identifier
+     *
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
+     * @param string                   $class      The class
+     * @return ObjectRegistry
+     */
+    public function setClass($identifier, $class)
+    {
+        $identifier = (string) $identifier;
+
+        if(parent::offsetExists($identifier))
+        {
+            $data = array(
+                'identifier' =>  parent::offsetGet($identifier),
+                'class'      =>  $class
+            );
+
+            apc_store($this->_namespace.'-object-'.$identifier, $data);
+        }
+
+        return  parent::setClass($identifier, $class);
+    }
+
  	/**
      * Get an item from the array by offset
      *
@@ -68,15 +92,21 @@ class ObjectRegistryCache extends ObjectRegistry
     {
         if(!parent::offsetExists($offset))
         {
-            if($result = apc_fetch($this->_namespace.'-object-'.$offset))
+            if($data = apc_fetch($this->_namespace.'-object-'.$offset))
             {
-                $result =  unserialize($result);
-                parent::offsetSet($offset, $result);
+                $class      = $data['class'];
+                $identifier = $data['identifier'];
+
+                //Set the identifier
+                parent::offsetSet($offset, $identifier);
+
+                //Set the class
+                $this->setClass($offset, $class);
             }
         }
-        else $result = parent::offsetGet($offset);
+        else $identifier = parent::offsetGet($offset);
 
-        return $result;
+        return $identifier;
     }
 
     /**
@@ -86,13 +116,19 @@ class ObjectRegistryCache extends ObjectRegistry
      * @param   mixed   $value  The item's value
      * @return  object  ObjectRegistryCache
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $identifier)
     {
-        if($value instanceof ObjectIdentifierInterface) {
-            apc_store($this->_namespace.'-object-'.$offset, serialize($value));
+        if($identifier instanceof ObjectIdentifierInterface)
+        {
+            $data = array(
+                'identifier' =>  $identifier,
+                'class'      =>  $this->getClass($identifier)
+            );
+
+            apc_store($this->_namespace.'-object-'.$offset, $data);
         }
 
-        parent::offsetSet($offset, $value);
+        parent::offsetSet($offset, $identifier);
     }
 
 	/**

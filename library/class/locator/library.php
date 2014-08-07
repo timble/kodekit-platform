@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -48,13 +48,13 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
     protected $_type = 'library';
 
     /**
-     *  Get a fully qualified path based on a class name
+     * Get a fully qualified path based on a class name
      *
-     * @param  string $class     The class name
-     * @param  string $basepath  The base path
-     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param  string $class    The class name
+     * @param  string $basepath The basepath to use to find the class
+     * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $classpath = null)
+    public function locate($class, $basepath)
 	{
         foreach($this->getNamespaces() as $namespace => $basepath)
         {

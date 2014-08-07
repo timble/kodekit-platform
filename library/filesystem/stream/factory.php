@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
@@ -76,7 +76,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         $name   = !empty($scheme) ? $scheme : 'file';
 
         //Invalid context
-        if (!is_array($context) && !is_resource($context) && !get_resource_type($context) == 'stream-context')
+        if (!is_null($context) && !is_array($context) && !is_resource($context) && !get_resource_type($context) == 'stream-context')
         {
             throw new \InvalidArgumentException(sprintf(
                 'Context must be an array or a resource of type stream-context; received "%s"', gettype($context)
@@ -95,7 +95,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         if (is_resource($context)) {
             $options = stream_context_get_options($context);
         } else {
-            $options = $context;
+            $options = (array) $context;
         }
 
         //Create the stream

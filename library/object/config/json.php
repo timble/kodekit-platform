@@ -21,10 +21,11 @@ class ObjectConfigJson extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \DomainException  If the JSON cannot be decoded or if the encoded data is deeper than the recursion limit.
-     * @return ObjectConfigJson
+     * @return ObjectConfigJson|array
      */
-    public function fromString($string)
+    public function fromString($string, $object = true)
     {
         $data = array();
 
@@ -37,16 +38,14 @@ class ObjectConfigJson extends ObjectConfigFormat
             }
         }
 
-        $this->merge($data);
-
-        return $this;
+        return $object ? $this->merge($data) : $data;
     }
 
     /**
      * Write a config object to a string.
      *
-     * @return string|false    Returns a JSON encoded string on success. False on failure.
      * @throws \DomainException Object could not be encoded to valid JSON.
+     * @return string|false    Returns a JSON encoded string on success. False on failure.
      */
     public function toString()
     {
