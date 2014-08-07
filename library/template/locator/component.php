@@ -39,7 +39,7 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
         $package = $info['package'];
 
         //Get the domain
-        if(empty($identifier['domain'])) {
+        if(empty($info['domain'])) {
             $domain = $this->getObject('manager')->getLocator('com')->getPackage($info['package']);
         } else {
             $domain = $info['domain'];
