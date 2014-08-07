@@ -40,7 +40,7 @@ class ModelEntityModule extends Library\ModelEntityRow
         $module  = $this->name;
         $package = $this->component;
 
-        return $this->getIdentifier('com://site/'.$package.'.module.'.$module.'.html');
+        return $this->getIdentifier('com:'.$package.'.module.'.$module.'.html');
     }
 
     public function getPropertyManifest()

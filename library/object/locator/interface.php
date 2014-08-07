@@ -21,13 +21,13 @@ interface ObjectLocatorInterface
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @param bool  $fallback   Use the fallback sequence to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true);
 
     /**
-     * Find a class
+     * Find an identifier class
      *
      * @param array  $info      The class information
      * @param bool   $fallback  If TRUE use the fallback sequence
@@ -36,11 +36,30 @@ interface ObjectLocatorInterface
     public function find(array $info, $fallback = true);
 
     /**
-     * Get the locator type
+     * Register a package
      *
-     * @return string
+     * @param  string $name    The package name
+     * @param  string $domain  The domain for the package
+     * @return ObjectLocatorInterface
      */
-    public function getType();
+    public function registerPackage($name, $domain);
+
+    /**
+     * Get the registered package domain
+     *
+     * If no domain has been registered for this package, the default 'Nooku' domain will be returned.
+     *
+     * @param string $name The package name
+     * @return string The domain
+     */
+    public function getPackage($name);
+
+    /**
+     * Get the registered packages
+     *s
+     * @return array An array with package names as keys and domain as values
+     */
+    public function getPackages();
 
     /**
      * Get the locator fallback sequence
@@ -48,4 +67,11 @@ interface ObjectLocatorInterface
      * @return array
      */
     public function getSequence();
+
+    /**
+     * Get the locator type
+     *
+     * @return string
+     */
+    public function getType();
 }

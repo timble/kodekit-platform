@@ -158,13 +158,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
 
         //Set the default type is not scheme can be found
         if(!isset($parts['scheme'])) {
-            $type = 'com';
+            $type = $this->getIdentifier()->type;
         } else {
             $type = $parts['scheme'];
         }
 
+        //Fall back on the component locator if none was found.
+        if (!$locator = $this->getLocator($type)) {
+            $locator = $this->getLocator('com');
+        }
+
         //Check of the file exists
-        if (!$template = $this->getLocator($type)->locate($path)) {
+        if (!$template = $locator->locate($path, $this->getPath())) {
             throw new \InvalidArgumentException('Template "' . $path . '" not found');
         }
 

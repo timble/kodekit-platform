@@ -330,7 +330,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             else $identifier = $this->getIdentifier($handler);
 
             //Set the configuration
-            $identifier->setConfig($config);
+            $identifier->getConfig()->append($config);
 
             $handler = $identifier;
         }

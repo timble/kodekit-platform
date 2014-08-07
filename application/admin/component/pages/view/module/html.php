@@ -1,6 +1,6 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Nooku Framework - http://www.nooku.org
  *
  * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

@@ -18,18 +18,11 @@ namespace Nooku\Library;
 abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootstrapperInterface
 {
     /**
-     * The bootstrapper priority
-     *
-     * @var integer
-     */
-    protected $_priority;
-
-    /**
      * The object manager
      *
      * @var ObjectManagerInterface
      */
-    protected $_object_manager;
+    private $__object_manager;
 
     /**
      * Constructor.
@@ -40,25 +33,7 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     {
         parent::__construct($config);
 
-        $this->_priority       = $config->priority;
-        $this->_object_manager = $config->object_manager;
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'priority' => self::PRIORITY_NORMAL,
-        ));
-
-        parent::_initialize($config);
+        $this->__object_manager = $config->object_manager;
     }
 
     /**
@@ -68,7 +43,7 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
      */
     public function getObjectManager()
     {
-        return $this->_object_manager;
+        return $this->__object_manager;
     }
 
     /**
@@ -82,12 +57,12 @@ abstract class ObjectBootstrapperAbstract extends Object implements ObjectBootst
     }
 
     /**
-     * Get the priority of the bootstrapper
+     * Check if the bootstrapper has been run
      *
-     * @return  integer The priority level
+     * @return bool TRUE if the bootstrapping has run FALSE otherwise
      */
-    public function getPriority()
+    public function isBootstrapped()
     {
-        return $this->_priority;
+        return false;
     }
 }

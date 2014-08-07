@@ -21,10 +21,11 @@ interface ObjectConfigSerializable
      * Read from a string and create a ObjectConfig object
      *
      * @param  string $string
-     * @return ObjectConfigSerializable
-     * @throws \RuntimeException
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
+     * @throws \DomainException
+     * @return ObjectConfigSerializable|array
      */
-    public function fromString($string);
+    public function fromString($string, $object = false);
 
     /**
      * Write a config object to a string.
@@ -37,16 +38,17 @@ interface ObjectConfigSerializable
      * Read from a file and create an array
      *
      * @param  string $filename
-     * @return ObjectConfigSerializable
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \RuntimeException
+     * @return ObjectConfigSerializable|array
      */
-    public function fromFile($filename);
+    public function fromFile($filename, $object = false);
 
     /**
      * Write a config object to a file.
      *
      * @param  string  $filename
-     * @return void
+     * @return  ObjectConfigSerializable
      */
     public function toFile($filename);
 }

@@ -21,9 +21,19 @@ interface TemplateLocatorInterface
      * Locate the template based on a virtual path
      *
      * @param  string $path  Stream path or resource
+     * @param  string $base  The base path or resource (used to resolved partials).
+     * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
      * @return string   The physical stream path for the template
      */
-    public function locate($path);
+    public function locate($path, $base = null);
+
+    /**
+     * Find a template path
+     *
+     * @param array  $info The path information
+     * @return bool|mixed
+     */
+    public function find(array $info);
 
     /**
      * Get the loader type
@@ -31,4 +41,14 @@ interface TemplateLocatorInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * Get a path from an file
+     *
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $file The file path
+     * @return string The real file path
+     */
+    public function realPath($file);
 }

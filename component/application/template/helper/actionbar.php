@@ -80,7 +80,7 @@ class TemplateHelperActionbar extends Library\TemplateHelperAbstract
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';
-       	$html .= $this->getObject('translator')->translate($command->label);
+       	$html .= /*$this->getObject('translator')->translate($command->label)*/ \JText::_($command->label);
        	$html .= '</a>';
 
     	return $html;

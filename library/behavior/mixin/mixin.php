@@ -80,13 +80,16 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
     public function addBehavior($behavior, $config = array())
     {
         //Create the complete identifier if a partial identifier was passed
-        if (is_string($behavior) && strpos($behavior, '.') === false) {
+        if (is_string($behavior) && strpos($behavior, '.') === false)
+        {
             $identifier         = $this->getIdentifier()->toArray();
             $identifier['path'] = array($identifier['path'][0], 'behavior');
             $identifier['name'] = $behavior;
 
             $identifier = $this->getIdentifier($identifier);
-        } else {
+        }
+        else
+        {
             if ($behavior instanceof BehaviorInterface) {
                 $identifier = $behavior->getIdentifier();
             } else {
@@ -98,7 +101,8 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
         if (!$this->hasCommandHandler($identifier))
         {
             //Create the behavior object
-            if (!($behavior instanceof BehaviorInterface)) {
+            if (!($behavior instanceof BehaviorInterface))
+            {
                 $config['mixer'] = $this->getMixer();
                 $behavior        = $this->getObject($identifier, $config);
             }

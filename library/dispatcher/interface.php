@@ -30,6 +30,7 @@ interface DispatcherInterface extends ControllerInterface
      *
      * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
      * 					            or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
      * @return	DispatcherInterface
      */
     public function setController($controller, $config = array());

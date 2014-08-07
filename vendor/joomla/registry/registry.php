@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 //Register the session storage class with the loader
 JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
 

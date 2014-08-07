@@ -21,24 +21,28 @@ class ObjectConfigXml extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ObjectConfigXml
-     * @throws \RuntimeException
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
+     * @throws \DomainException
+     * @return ObjectConfigXml|array
      */
-    public function fromString($string)
+    public function fromString($string, $object = true)
     {
         $data = array();
 
         if(!empty($string))
         {
             $xml  = simplexml_load_string($string);
+
+            if($xml === false) {
+                throw new \DomainException('Cannot parse XML string');
+            }
+
             foreach ($xml->children() as $node) {
                 $data[(string) $node['name']] = self::_decodeValue($node);
             }
         }
 
-        $this->merge($data);
-
-        return $this;
+        return $object ? $this->merge($data) : $data;
     }
 
     /**

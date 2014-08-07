@@ -26,7 +26,7 @@ class TemplateHelperModal extends Library\TemplateHelperAbstract
 			'name'      => '',
 			'visible'   => true,
 			'link'      => '',
-			'link_text' => $this->getObject('translator')->translate('Select'),
+			'link_text' => /*$this->getObject('translator')->translate('Select')*/ \JText::_('Select'),
 			'link_selector' => 'modal'
 		))->append(array(
 			'value' => $config->name

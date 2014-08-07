@@ -25,43 +25,6 @@ abstract class TemplateLocatorAbstract extends Object implements TemplateLocator
     protected $_type = '';
 
     /**
-     * Template object
-     *
-     * @var	TemplateInterface
-     */
-    protected $_template;
-
-    /**
-     * Constructor
-     *
-     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        // Set the template object
-        $this->setTemplate($config->template);
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'template' => null,
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
      * Get the type
      *
      * @return string
@@ -72,23 +35,78 @@ abstract class TemplateLocatorAbstract extends Object implements TemplateLocator
     }
 
     /**
-     * Set the template object
+     * Locate the template based on a virtual path
      *
-     * @return  TemplateInterface $template	The template object
+     * @param  string $template  Stream path or resource
+     * @param  string $base      The base path or resource (used to resolved partials).
+     * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
+     * @return string   The physical stream path for the template
      */
-    public function setTemplate(TemplateInterface $template)
+    public function locate($template, $base = null)
     {
-        $this->_template = $template;
-        return $this;
+        //Qualify partial templates.
+        if(strpos($template, ':') === false)
+        {
+            if(empty($base)) {
+                throw new \RuntimeException('Cannot qualify partial template path');
+            }
+
+            $identifier = $this->getIdentifier($base);
+
+            $file    = pathinfo($template, PATHINFO_FILENAME);
+            $format  = pathinfo($template, PATHINFO_EXTENSION);
+            $path    = $identifier->getPath();
+
+            array_pop($path);
+        }
+        else
+        {
+            $identifier = $this->getIdentifier($template);
+
+            $path    = $identifier->getPath();
+            $file    = array_pop($path);
+            $format  = $identifier->getName();
+        }
+
+        $info = array(
+            'template' => $template,
+            'domain'   => $identifier->getDomain(),
+            'package'  => $identifier->getPackage(),
+            'path'     => $path,
+            'file'     => $file,
+            'format'   => $format,
+        );
+
+        return $this->find($info);
     }
 
     /**
-     * Get the template object
+     * Get a path from an file
      *
-     * @return  object	The template object
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $file The file path
+     * @return string The real file path
      */
-    public function getTemplate()
+    final public function realPath($file)
     {
-        return $this->_template;
+        $result = false;
+        $path   = dirname($file);
+
+        // Is the path based on a stream?
+        if (strpos($path, '://') === false)
+        {
+            // Not a stream, so do a realpath() to avoid directory traversal attempts on the local file system.
+            $path = realpath($path); // needed for substr() later
+            $file = realpath($file);
+        }
+
+        // The substr() check added to make sure that the realpath() results in a directory registered so that
+        // non-registered directories are not accessible via directory traversal attempts.
+        if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
+            $result = $file;
+        }
+
+        return $result;
     }
 }
