@@ -77,7 +77,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
             'locale_fallback' => 'en-GB',
             'cache_enabled'   => false,
         ))->append(array(
-            'catalogue' => 'lib:translator.catalogue' . ($config->cache_enabled ? '.cache' : '')
+             'catalogue' =>  $config->cache_enabled ? 'cache' : 'default',
         ));
 
         parent::_initialize($config);
@@ -94,11 +94,16 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
      */
     public function translate($string, array $parameters = array())
     {
-        $catalogue   = $this->getCatalogue();
-        $translation = $catalogue->has($string) ? $catalogue->{$string} : $string;
+        $translation = '';
 
-        if (count($parameters)) {
-            $translation = $this->_replaceParameters($translation, $parameters);
+        if(!empty($string))
+        {
+            $catalogue   = $this->getCatalogue();
+            $translation = $catalogue->has($string) ? $catalogue->{$string} : $string;
+
+            if (count($parameters)) {
+                $translation = $this->_replaceParameters($translation, $parameters);
+            }
         }
 
         return $translation;
@@ -266,14 +271,19 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     }
 
     /**
-     * Translator catalogue getter.
+     * Get the catalogue
      *
-     * @throws	\UnexpectedValueException	If the catalogue doesn't implement the TranslatorCatalogueInterface
+     * @throws\UnexpectedValueException	If the catalogue doesn't implement the TranslatorCatalogueInterface
      * @return TranslatorCatalogueInterface The translator catalogue.
      */
     public function getCatalogue()
     {
-        if (!$this->_catalogue instanceof TranslatorCatalogueInterface) {
+        if (!$this->_catalogue instanceof TranslatorCatalogueInterface)
+        {
+            if(!($this->_catalogue instanceof ObjectIdentifier)) {
+                $this->setCatalogue($this->_catalogue);
+            }
+
             $this->_catalogue = $this->getObject($this->_catalogue);
         }
 
@@ -288,14 +298,31 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
     }
 
     /**
-     * Translator catalogue setter.
+     * Set a cataglogue
      *
-     * @param TranslatorCatalogueInterface $catalogue
+     * @param	mixed	$catalogue An object that implements KObjectInterface, KObjectIdentifier object
+     * 					           or valid identifier string
      * @return TranslatorInterface
      */
-    public function setCatalogue(TranslatorCatalogueInterface $catalogue)
+    public function setCatalogue($catalogue)
     {
+        if(!($catalogue instanceof ModelInterface))
+        {
+            if(is_string($catalogue) && strpos($catalogue, '.') === false )
+            {
+                $identifier			= $this->getIdentifier()->toArray();
+                $identifier['path']	= array('translator', 'catalogue');
+                $identifier['name'] = $catalogue;
+
+                $identifier = $this->getIdentifier($identifier);
+            }
+            else $identifier = $this->getIdentifier($catalogue);
+
+            $catalogue = $identifier;
+        }
+
         $this->_catalogue = $catalogue;
+
         return $this;
     }
 

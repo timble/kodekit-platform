@@ -71,5 +71,5 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      *
      * @return  array
      */
-    public function getStrings();
+    public function toArray();
 }

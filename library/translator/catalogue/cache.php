@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Arunas Mazeika <https://github.com/arunasmazeika>
  * @package Nooku\Library\Translator
  */
-class TranslatorCatalogueCache extends TranslatorCatalogue
+class TranslatorCatalogueCache extends TranslatorCatalogueAbstract
 {
     /**
      * The registry cache namespace

@@ -90,7 +90,7 @@ interface TranslatorInterface
     public function getLocaleFallback();
 
     /**
-     * Translator catalogue getter.
+     * Get the catalogue
      *
      * @throws	\UnexpectedValueException	If the catalogue doesn't implement the TranslatorCatalogueInterface
      * @return TranslatorCatalogueInterface The translator catalogue.
@@ -98,12 +98,13 @@ interface TranslatorInterface
     public function getCatalogue();
 
     /**
-     * Translator catalogue setter.
+     * Set a catalogue
      *
-     * @param TranslatorCatalogueInterface $catalogue
+     * @param	mixed	$catalogue An object that implements KObjectInterface, KObjectIdentifier object
+     * 					           or valid identifier string
      * @return TranslatorInterface
      */
-    public function setCatalogue(TranslatorCatalogueInterface $catalogue);
+    public function setCatalogue($catalogue);
 
     /**
      * Checks if the translator can translate a string

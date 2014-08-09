@@ -15,20 +15,8 @@ namespace Nooku\Library;
  * @author  Arunas Mazeika <https://github.com/arunasmazeika>
  * @package Nooku\Library\Translator
  */
-class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInterface
+abstract class TranslatorCatalogueAbstract extends ObjectArray implements TranslatorCatalogueInterface
 {
-    /**
-     * Constructor.
-     *
-     * @param ObjectConfig $config Configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_sources = array();
-    }
-
     /**
      * Load translations into the catalogue.
      *
@@ -63,7 +51,7 @@ class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInte
      *
      * @param  string $string
      * @param  string $translation
-     * @return TranslatorCatalogue
+     * @return TranslatorCatalogueAbstract
      */
     public function set($string, $translation)
     {
@@ -86,7 +74,7 @@ class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInte
      * Remove a string from the registry
      *
      * @param  string $string
-     * @return TranslatorCatalogue
+     * @return TranslatorCatalogueAbstract
      */
     public function remove($string)
     {
@@ -97,21 +85,11 @@ class TranslatorCatalogue extends ObjectArray implements TranslatorCatalogueInte
     /**
      * Clears out all strings from the registry
      *
-     * @return  TranslatorCatalogue
+     * @return  TranslatorCatalogueAbstract
      */
     public function clear()
     {
         $this->_data = array();
         return $this;
-    }
-
-    /**
-     * Get a list of all strings in the catalogue
-     *
-     * @return  array
-     */
-    public function getStrings()
-    {
-        return array_keys($this->_data);
     }
 }
