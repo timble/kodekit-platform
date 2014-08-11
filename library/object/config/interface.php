@@ -69,7 +69,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * - Items in $options with INTEGER keys will be appended.
      * - Items in $options with STRING keys will overwrite current values.
      *
-     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be added
+     * @param  array|\Traversable|ObjectConfig  $options A ObjectConfig object an or array of options to be added
      * @throws \RuntimeException If the config is read only
      * @return ObjectConfigInterface
      */
@@ -80,7 +80,7 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * This function only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  mixed $config A value of an or array of values to be appended
+     * @param  array|\Traversable|ObjectConfig $config A value of an or array of values to be appended
      * @throws \RuntimeException If the config is read only
      * @return ObjectConfigInterface
      */
