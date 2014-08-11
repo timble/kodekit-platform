@@ -165,7 +165,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface
 
                 if(is_array($translations))
                 {
-                    if($result = $this->getCatalogue()->load($translations, $override))
+                    if($result = $this->getCatalogue()->add($translations, $override))
                     {
                         //Mark the file as loaded to prevent re-loading
                         $this->_loaded[] = $file;

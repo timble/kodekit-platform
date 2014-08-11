@@ -58,13 +58,13 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
     public function clear();
 
     /**
-     * Load translations into the catalogue.
+     * Add translations to the catalogue.
      *
      * @param array  $translations Associative array containing translations.
-     * @param bool   $override     Whether or not existing translations can be overridden during import.
+     * @param bool   $override     If TRUE override existing translations. Default is FALSE.
      * @return bool True on success, false otherwise.
      */
-    public function load(array $translations, $override = false);
+    public function add(array $translations, $override = false);
 
     /**
      * Get a list of all strings in the catalogue
