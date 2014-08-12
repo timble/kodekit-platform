@@ -181,10 +181,10 @@ abstract class FilesystemStreamAbstract extends Object implements FilesystemStre
             try
             {
                 $options = $this->getOptions();
-                $scheme  = parse_url($path, PHP_URL_SCHEME);
 
-                if($scheme && !empty($options))
+                if(!empty($options))
                 {
+                    $scheme          = $this->getIdentifier()->getName();
                     $context         = stream_context_create(array($scheme => $options));
                     $this->_resource = @fopen($path, $this->getMode(), false, $context);
                 }

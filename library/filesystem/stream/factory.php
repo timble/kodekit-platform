@@ -73,7 +73,17 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
     public function createStream($path, $mode = 'rb', $context = array())
     {
         $scheme = parse_url($path, PHP_URL_SCHEME);
-        $name   = !empty($scheme) ? $scheme : 'file';
+
+        //If no scheme is specified fall back to file:// stream
+        $name = !empty($scheme) ? $scheme : 'file';
+
+        //If a windows drive letter is passed use file:// stream
+        if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        {
+            if(preg_match('#^[a-z]{1}$#i', $name)) {
+                $name = 'file';
+            }
+        }
 
         //Invalid context
         if (!is_null($context) && !is_array($context) && !is_resource($context) && !get_resource_type($context) == 'stream-context')
