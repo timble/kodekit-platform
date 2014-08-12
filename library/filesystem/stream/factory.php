@@ -87,7 +87,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         if(!in_array($name, $this->getStreams()))
         {
             throw new \RuntimeException(sprintf(
-                'Unable to find the stream "%d" - did you forget to register it ?', $name
+                'Unable to find the stream "%s" - did you forget to register it ?', $name
             ));
         }
 
