@@ -34,23 +34,54 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
     public function bootstrap();
 
     /**
-     * Get the object manager
+     * Register a component to be bootstrapped.
      *
-     * @return ObjectManagerInterface
+     * If the component contains a /resources/config/bootstrapper.php file it will be registered. Class and object
+     * locators will be setup for domain only components.
+     *
+     * @param string $name      The component name
+     * @param string $path      The component path
+     * @param string $domain    The component domain. Domain is optional and can be NULL
+     * @return ObjectBootstrapper
      */
-    public function getObjectManager();
+    public function registerComponent($name, $path, $domain = null);
 
     /**
-     * Get the class loader
+     * Register components from a directory to be bootstrapped
      *
-     * @return ClassLoaderInterface
+     * All the first level directories are assumed to be component folders and will be registered.
+     *
+     * @param string  $directory
+     * @param string  $domain
+     * @return ObjectBootstrapper
      */
-    public function getClassLoader();
+    public function registerDirectory($directory, $doamin = null);
+
+    /**
+     * Register a configuration file to be bootstrapped
+     *
+     * @param string $filename The absolute path to the file
+     * @return ObjectBootstrapper
+     */
+    public function registerFile($filename);
+
+    /**
+     * Get a registered component path
+     *
+     * @param string $name   The component name
+     * @param string $domain The component domain. Domain is optional and can be NULL
+     * @return bool TRUE if the bootstrapping has run FALSE otherwise
+     */
+    public function getComponentPath($component, $domain = null);
 
     /**
      * Check if the bootstrapper has been run
      *
+     * If you specify a specific component name the function will check if this component was bootstrapped.
+     *
+     * @param string $name    The component name
+     * @param string $domain  The domain name. Domain is optional and can be NULL
      * @return bool TRUE if the bootstrapping has run FALSE otherwise
      */
-    public function isBootstrapped();
+    public function isBootstrapped($component = null, $domain = null);
 }

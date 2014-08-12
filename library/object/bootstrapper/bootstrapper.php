@@ -10,13 +10,20 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Object Bootstrapper
+ * Object Bootstrapper
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSingleton
+class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, ObjectSingleton
 {
+    /**
+     * The object manager
+     *
+     * @var ObjectManagerInterface
+     */
+    private $__object_manager;
+
     /**
      * List of bootstrapped directories
      *
@@ -60,6 +67,9 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
+
+        //Setup the object manager
+        $this->__object_manager = $config->object_manager;
 
         $this->_bootstrapped = false;
 
@@ -118,25 +128,27 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
 
         if(!$this->isBootstrapped())
         {
+            $manager = $this->getObject('manager');
+
             foreach($this->_components as $identifier => $component)
             {
                 $name   = $component['name'];
                 $path   = $component['path'];
-                $vendor = $component['vendor'];
+                $domain = $component['domain'];
 
                 /*
                  * Setup the component class and object locators
                  *
                  * Locators are always setup as the data cannot be cached in the registry objects.
                  */
-                if($vendor)
+                if($domain)
                 {
                     //Register class namespace
-                    $namespace = ucfirst($vendor).'\Component\\'.ucfirst($name);
-                    $this->getClassLoader()->getLocator('component')->registerNamespace($namespace, $path);
+                    $namespace = ucfirst($domain).'\Component\\'.ucfirst($name);
+                    $manager->getClassLoader()->getLocator('component')->registerNamespace($namespace, $path);
 
                     //Register object manager package
-                    $this->getObjectManager()->getLocator('com')->registerPackage($name, $vendor);
+                    $manager->getLocator('com')->registerPackage($name, $domain);
                 }
             }
 
@@ -183,14 +195,14 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                  *
                  * Collect identifiers by priority and then flatten the array.
                  */
-                $identfiers_flat = array();
+                $identifiers_flat = array();
 
                 foreach ($identifiers as $priority => $merges) {
-                    $identfiers_flat = array_merge_recursive($merges, $identfiers_flat);
+                    $identifiers_flat = array_merge_recursive($merges, $identifiers_flat);
                 }
 
-                foreach ($identfiers_flat as $identifier => $config) {
-                    $this->getObjectManager()->setIdentifier(new ObjectIdentifier($identifier, $config));
+                foreach ($identifiers_flat as $identifier => $config) {
+                    $manager->setIdentifier(new ObjectIdentifier($identifier, $config));
                 }
 
                 /*
@@ -205,7 +217,7 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                 }
 
                 foreach($aliases_flat as $alias => $identifier) {
-                    $this->getObjectManager()->registerAlias($identifier, $alias);
+                    $manager->registerAlias($identifier, $alias);
                 }
 
                 /*
@@ -221,14 +233,13 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                     'aliases'      => $aliases_flat,
                 ));
 
-                $this->getObjectManager()
-                    ->setIdentifier($identifier)
-                    ->setObject('lib:object.bootstrapper', $this);
+                $manager->setIdentifier($identifier)
+                        ->setObject('lib:object.bootstrapper', $this);
             }
             else
             {
                 foreach($aliases as $alias => $identifier) {
-                    $this->getObjectManager()->registerAlias($identifier, $alias);
+                    $manager->registerAlias($identifier, $alias);
                 }
             }
 
@@ -240,18 +251,18 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
      * Register a component to be bootstrapped.
      *
      * If the component contains a /resources/config/bootstrapper.php file it will be registered. Class and object
-     * locators will be setup for vendor only components.
+     * locators will be setup for domain only components.
      *
      * @param string $name      The component name
      * @param string $path      The component path
-     * @param string $vendor    The vendor name. Vendor is optional and can be NULL
+     * @param string $domain    The component domain. Domain is optional and can be NULL
      * @return ObjectBootstrapper
      */
-    public function registerComponent($name, $path, $vendor = null)
+    public function registerComponent($name, $path, $domain = null)
     {
         //Get the component identifier
-        if($vendor) {
-            $identifier = 'com://'.$vendor.'/'.$name;
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$name;
         } else {
             $identifier = 'com:'.$name;
         }
@@ -261,7 +272,7 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
             $this->_components[$identifier] = array(
                 'name'   => $name,
                 'path'   => $path,
-                'vendor' => $vendor
+                'domain' => $domain
             );
 
             //Register the config file
@@ -277,10 +288,10 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
      * All the first level directories are assumed to be component folders and will be registered.
      *
      * @param string  $directory
-     * @param string  $vendor
+     * @param string  $domain
      * @return ObjectBootstrapper
      */
-    public function registerDirectory($directory, $vendor = null)
+    public function registerDirectory($directory, $domain = null)
     {
         if(!isset($this->_directories[$directory]))
         {
@@ -303,7 +314,7 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
                     $name = $parts[0];
                 }
 
-                $this->registerComponent($name, $dir->getPathname(), $vendor);
+                $this->registerComponent($name, $dir->getPathname(), $domain);
             }
 
             $this->_directories[$directory] = true;
@@ -328,21 +339,46 @@ class ObjectBootstrapper extends ObjectBootstrapperAbstract implements ObjectSin
     }
 
     /**
+     * Get a registered component path
+     *
+     * @param string $name    The component name
+     * @param string $domain  The component domain. Domain is optional and can be NULL
+     * @return bool TRUE if the bootstrapping has run FALSE otherwise
+     */
+    public function getComponentPath($component, $domain = null)
+    {
+        $result = false;
+
+        //Get the bootstrapper identifier
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$component;
+        } else {
+            $identifier = 'com:'.$component;
+        }
+
+        if(isset($this->_components[$identifier])) {
+            $result = $this->_components[$identifier]['path'];
+        }
+
+        return $result;
+    }
+
+    /**
      * Check if the bootstrapper has been run
      *
      * If you specify a specific component name the function will check if this component was bootstrapped.
      *
      * @param string $name      The component name
-     * @param string $vendor    The vendor name. Vendor is optional and can be NULL
+     * @param string $domain    The comoonent domain. Domain is optional and can be NULL
      * @return bool TRUE if the bootstrapping has run FALSE otherwise
      */
-    public function isBootstrapped($component = null, $vendor = null)
+    public function isBootstrapped($component = null, $domain = null)
     {
         if($component)
         {
             //Get the bootstrapper identifier
-            if($vendor) {
-                $identifier = 'com://'.$vendor.'/'.$component;
+            if($domain) {
+                $identifier = 'com://'.$domain.'/'.$component;
             } else {
                 $identifier = 'com:'.$component;
             }
