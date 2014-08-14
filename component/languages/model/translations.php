@@ -26,6 +26,7 @@ class ModelTranslations extends Library\ModelTable
         $this->getState()
             ->insert('table', 'cmd')
             ->insert('row', 'int')
+            ->insert('slug', 'string')
             ->insert('iso_code', 'com:languages.filter.iso')
             ->insert('status', 'int')
             ->insert('deleted', 'boolean', false);
@@ -34,6 +35,7 @@ class ModelTranslations extends Library\ModelTable
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
+
         $state = $this->getState();
         
         if(!$state->isUnique())
@@ -48,6 +50,10 @@ class ModelTranslations extends Library\ModelTable
             
             if($state->row) {
                 $query->where('tbl.row = :row')->bind(array('row' => $state->row));
+            }
+
+            if($state->slug) {
+                $query->where('tbl.slug = :slug')->bind(array('slug' => $state->slug));
             }
             
             if($state->iso_code) {
@@ -66,12 +72,14 @@ class ModelTranslations extends Library\ModelTable
     
     protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
-        if($this->sort == 'table')
+        $state = $this->getState();
+
+        if($state->sort == 'table')
         {
-            $direction = strtoupper($this->direction);
+            $direction = strtoupper($state->direction);
             
             $query->order('tbl.table', $direction);
-      		$query->order('tbl.row', $direction);
+      		$query->order('tbl.row',   $direction);
       		$query->order('tbl.original', 'DESC');
         }
     }

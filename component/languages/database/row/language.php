@@ -26,7 +26,7 @@ class DatabaseRowLanguage extends Library\DatabaseRowTable
         
         if($this->getStatus() == Library\Database::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
-            $tables   = $this->getObject('com:languages.model.tables')->getRowset();
+            $tables   = $this->getObject('com:languages.model.tables')->enabled(true)->getRowset();
             $database = $this->getTable()->getAdapter();
             
             foreach($tables as $table)

@@ -17,9 +17,9 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class LanguagesFilterIso extends Library\FilterCmd
+class FilterIso extends Library\FilterCmd
 {
-    protected function _validate($value)
+    public function validate($value)
     {
         $value = trim($value);
         $pattern = '#^[a-z]{2,3}\-[a-z]{2,3}$#i';
@@ -27,7 +27,7 @@ class LanguagesFilterIso extends Library\FilterCmd
         return (is_string($value) && (preg_match($pattern, $value)) == 1);
     }
 
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = trim($value);
         $pattern  = '#[^a-z\-]*#i';

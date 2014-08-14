@@ -32,7 +32,8 @@ class DatabaseTablePages extends Library\DatabaseTableAbstract
                 ),
                 'com:pages.database.behavior.closurable' => array(
                     'table' => 'com:pages.database.table.closures'
-                )
+                ),
+                'com:languages.database.behavior.translatable'
             ),
             'filters' => array(
                 'params' => 'ini'

@@ -7,17 +7,18 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-namespace Nooku\Component\Languages;
-
 use Nooku\Library;
 
 /**
- * Extensions Model
+ * Extension Controller Permission
  *
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package Nooku\Component\Languages
+ * @package Component\Languages
  */
-class ModelExxtensions extends Library\ModelAbstract
+class LanguagesControllerPermissionTable extends ApplicationControllerPermissionAbstract
 {
-    
+    public function canEdit()
+    {
+        return true;
+    }
 }

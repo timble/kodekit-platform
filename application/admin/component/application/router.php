@@ -36,6 +36,18 @@ class ApplicationRouter extends Library\DispatcherRouter
         $path = str_replace($url->query['site'], '', $path);
         $path = ltrim($path, '/');
 
+        // Parse language.
+        $languages = $this->getObject('application.languages');
+        if(count($languages) > 1)
+        {
+            $language  = $languages->find(array('slug' => strtok($path, '/')));
+            if(count($language))
+            {
+                $languages->setActive($language->top());
+                $path = substr($path, strlen(strtok($path, '/')) + 1);
+            }
+        }
+
         //Parse component route
         if(!empty($path))
         {
@@ -70,6 +82,20 @@ class ApplicationRouter extends Library\DispatcherRouter
             $segments[] = $site;
         }
 
+        //Build language route
+        $languages = $this->getObject('application.languages');
+        if(count($languages) > 1)
+        {
+            if(isset($query['language']))
+            {
+                $language = $query['language'];
+                unset($query['language']);
+            }
+            else $language = $languages->getActive()->slug;
+
+            $segments[] = $language;
+        }
+
 	    //Build component route
         if(isset($query['option']))
         {
@@ -101,7 +127,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         }
 
         //Build the route
-        $url->path = $this->getObject('request')->getBaseUrl()->getPath().'/'. implode('/', $segments);
+        $url->setPath($this->getObject('request')->getBaseUrl()->getPath().'/'. implode('/', $segments));
 
         // Removed unused query variables
         unset($url->query['Itemid']);

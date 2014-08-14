@@ -32,4 +32,10 @@ class ControllerToolbarLanguage extends Library\ControllerToolbarActionbar
         $this->addEnable();
         $this->addDisable();
     }
+
+    protected function _commandNew(Library\ControllerToolbarCommand $command)
+    {
+        $application = $this->getController()->getModel()->getState()->application;
+        $command->href = 'option=com_languages&view=language&application='.$application;
+    }
 }

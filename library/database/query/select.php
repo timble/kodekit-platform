@@ -162,8 +162,19 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
     {
         settype($table, 'array');
 
+        $translate = $this->getObject('com:languages.database.row.table');
+        $translate->name    = current($table);
+        $translate->enabled = '1';
+
+        if($translate->load()) {
+            $languages  = $this->getObject('application.languages');
+            $active     = $languages->getActive();
+            $primary    = $languages->getPrimary();
+            $prefix     = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
+        }
+
         $data = array(
-            'table'     => current($table),
+            'table'     => isset($prefix) ? $prefix.current($table) : current($table),
             'condition' => $condition,
             'type'      => $type
         );

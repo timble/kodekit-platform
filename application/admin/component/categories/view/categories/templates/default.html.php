@@ -18,6 +18,12 @@
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
+<? if($categories->isTranslatable()) : ?>
+<ktml:module position="actionbar" content="append">
+    <?= helper('com:languages.listbox.languages') ?>
+</ktml:module>
+<? endif ?>
+
 <? if($state->table == 'articles') : ?>
 <ktml:module position="sidebar">
     <?= import('default_sidebar.html'); ?>
@@ -44,6 +50,11 @@
                 <th width="1">
                     <?= helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
                 </th>
+                <? if($categories->isTranslatable()) : ?>
+                <th width="70">
+                    <?= translate('Translation') ?>
+                </th>
+                <? endif ?>
             </tr>
         </thead>
 
@@ -80,6 +91,15 @@
                     <td align="center">
                         <?= $category->count; ?>
                     </td>
+                    <? if($category->isTranslatable()) : ?>
+                    <td>
+                        <?= helper('com:languages.grid.status', array(
+                            'status'   => $category->translation_status,
+                            'original' => $category->translation_original,
+                            'deleted'  => $category->translation_deleted));
+                        ?>
+                    </td>
+                    <? endif ?>
             	</tr>
             <? endforeach; ?>
        </tbody>

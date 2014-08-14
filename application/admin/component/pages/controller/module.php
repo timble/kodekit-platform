@@ -10,22 +10,22 @@
 use Nooku\Library;
 
 /**
- * Page Controller
+ * Module Controller
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Component\Pages
  */
-class PagesControllerPage extends Library\ControllerModel
+class PagesControllerModule extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-    	$config->append(array(
-    		'behaviors' => array(
-                'editable', 'closurable',
+        $config->append(array(
+            'behaviors' => array(
+                'editable',
                 'com:languages.controller.behavior.translatable'
             )
-    	));
-    
-    	parent::_initialize($config);
+        ));
+
+        parent::_initialize($config);
     }
 }

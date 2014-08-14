@@ -18,6 +18,7 @@
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form">
+    <input type="hidden" name="application" value="<?= $state->application ?>" />
     <input type="hidden" name="enabled" value="0" />
     <input type="hidden" name="primary" value="0" />
     

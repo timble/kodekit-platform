@@ -22,11 +22,8 @@ class DatabaseTableLanguages extends Library\DatabaseTableAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'name'      => 'languages',
-            'behaviors' => array(
-                'sluggable' => array('columns' => array('name'))
-            ),
-            'filters'   => array(
+            'name'    => 'languages',
+            'filters' => array(
                 'iso_code'  => array('com:languages.filter.iso'),
 		    )
         ));
