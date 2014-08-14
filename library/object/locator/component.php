@@ -55,7 +55,7 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
         if(empty($identifier->domain)) {
-            $domain  = ucfirst($this->getPackage($identifier->package));
+            $domain  = ucfirst($this->getObject('object.bootstrapper')->getComponentDomain($identifier->package));
         } else {
             $domain = ucfirst($identifier->domain);
         }

@@ -32,13 +32,6 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     protected $_type = '';
 
     /**
-     * Package/domain pairs to search
-     *
-     * @var array
-     */
-    protected $_packages = array();
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config  An optional KObjectConfig object with configuration options
@@ -76,12 +69,7 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        if(empty($identifier->domain)) {
-            $domain  = ucfirst($this->getPackage($identifier->package));
-        } else {
-            $domain = ucfirst($identifier->domain);
-        }
-
+        $domain  = empty($identifier->domain) ? 'Nooku' : ucfirst($identifier->domain);
         $package = ucfirst($identifier->package);
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $file    = ucfirst($identifier->name);
@@ -131,43 +119,6 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         }
 
         return $result;
-    }
-
-    /**
-     * Register a package
-     *
-     * @param  string $name    The package name
-     * @param  string $domain  The domain for the package
-     * @return ObjectLocatorInterface
-     */
-    public function registerPackage($name, $domain)
-    {
-        $this->_packages[$name] = $domain;
-        return $this;
-    }
-
-    /**
-     * Get the registered package domain
-     *
-     * If no domain has been registered for this package, the default 'Nooku' domain will be returned.
-     *
-     * @param string $package
-     * @return string The registered domain
-     */
-    public function getPackage($package)
-    {
-        $domain = isset($this->_packages[$package]) ?  $this->_packages[$package] : 'Nooku';
-        return $domain;
-    }
-
-    /**
-     * Get the registered packages
-     *s
-     * @return array An array with package names as keys and domain as values
-     */
-    public function getPackages()
-    {
-        return $this->_packages;
     }
 
     /**

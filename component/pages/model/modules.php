@@ -56,7 +56,8 @@ class ModelModules extends Library\ModelDatabase
         parent::_buildQueryWhere($query);
 
         $state = $this->getState();
-        if (!$state->isUnique()) {
+        if (!$state->isUnique())
+        {
             if ($state->position) {
                 $query->where('tbl.position = :position')->bind(array('position' => $state->position));
             }
@@ -134,7 +135,7 @@ class ModelModules extends Library\ModelDatabase
         if ($state->installed)
         {
             $modules  = array();
-            $app_path = $this->getObject('manager')->getClassLoader()->getNamespace('site');
+            $app_path = $this->getObject('object.bootstrapper')->getApplicationPath('site');
             $com_path = $app_path;
 
             foreach (new \DirectoryIterator($com_path) as $component)

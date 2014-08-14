@@ -47,7 +47,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
 
                 $application->dispatch();
 
-                //Stop event propgation
+                //Stop event propagation
                 $event->stopPropagation();
             }
         }

@@ -36,32 +36,6 @@ interface ObjectLocatorInterface
     public function find(array $info, $fallback = true);
 
     /**
-     * Register a package
-     *
-     * @param  string $name    The package name
-     * @param  string $domain  The domain for the package
-     * @return ObjectLocatorInterface
-     */
-    public function registerPackage($name, $domain);
-
-    /**
-     * Get the registered package domain
-     *
-     * If no domain has been registered for this package, the default 'Nooku' domain will be returned.
-     *
-     * @param string $name The package name
-     * @return string The domain
-     */
-    public function getPackage($name);
-
-    /**
-     * Get the registered packages
-     *s
-     * @return array An array with package names as keys and domain as values
-     */
-    public function getPackages();
-
-    /**
      * Get the locator fallback sequence
      *
      * @return array

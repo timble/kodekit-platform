@@ -126,7 +126,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $view      = $query['view'];
         $layout    = isset($query['layout']) ? $query['layout'] : 'default';
 
-        $path = $this->getObject('manager')->getClassLoader()->getNamespace('site') . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
+        $path = $this->getObject('object.bootstrapper')->getApplicationPath('site') . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
 
         $xml = \JFactory::getXMLParser('simple');
         if (file_exists($path)) {

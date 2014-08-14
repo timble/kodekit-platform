@@ -19,8 +19,7 @@ class PagesViewMenusHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $namespaces = $this->getObject('manager')->getClassLoader()->getNamespaces();
-        $context->data->applications = array_keys($namespaces);
+        $context->data->applications = $this->getObject('object.bootstrapper')->getApplications();
 
         parent::_fetchData($context);
     }

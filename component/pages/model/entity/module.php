@@ -45,9 +45,8 @@ class ModelEntityModule extends Library\ModelEntityRow
 
     public function getPropertyManifest()
     {
-        $class = $this->getObject('manager')->getClass($this->identifier, false);
-        $path  = dirname($this->getObject('manager')->getClassLoader()->getPath($class, 'site'));
-        $file  = $path.'/'.basename($path).'.xml';
+        $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+        $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/'.$this->name.'.xml';
 
         if(file_exists($file)) {
             $result = simplexml_load_file($file);
@@ -87,9 +86,8 @@ class ModelEntityModule extends Library\ModelEntityRow
     {
         if (empty($this->_parameters))
         {
-            $class = $this->getObject('manager')->getClass($this->identifier, false);
-            $path = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
-            $file = $path.'/config.xml';
+            $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+            $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/config.xml';
 
             $this->_parameters = new \JParameter( $this->parameters, $file, 'module' );
         }

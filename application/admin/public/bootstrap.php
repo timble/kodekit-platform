@@ -38,14 +38,12 @@ $nooku = Nooku::getInstance(array(
 
 unset($config);
 
-//Register application namespaces
-Library\ClassLoader::getInstance()->registerNamespace('site' , $nooku->getRootPath().'/application/site/component');
-Library\ClassLoader::getInstance()->registerNamespace('admin', $nooku->getRootPath().'/application/admin/component', true);
-
 //Bootstrap the application
 Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
-    ->registerDirectory($nooku->getRootPath().'/component', 'nooku')
-    ->registerDirectory($nooku->getBasePath().'/component')
+    ->registerApplication('site' , $nooku->getRootPath().'/application/site/component')
+    ->registerApplication('admin', $nooku->getRootPath().'/application/admin/component')
+    ->registerComponents($nooku->getRootPath().'/component', 'nooku')
+    ->registerComponents($nooku->getBasePath().'/component')
     ->bootstrap();
 
 // Joomla : setup

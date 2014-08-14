@@ -129,7 +129,7 @@ class ObjectConfig implements ObjectConfigInterface
      * - Items in $options with INTEGER keys will be appended.
      * - Items in $options with STRING keys will overwrite current values.
      *
-     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
+     * @param  array|\Traversable|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
      * @throws \RuntimeException If the config is read only
      * @return ObjectConfig
      */
@@ -139,7 +139,7 @@ class ObjectConfig implements ObjectConfigInterface
         {
             $options = self::unbox($options);
 
-            if (is_array($options))
+            if (is_array($options) || $options instanceof \Traversable)
             {
                 foreach ($options as $key => $value) {
                     $this->set($key, $value);
@@ -156,7 +156,7 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * This method only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  array|ObjectConfig    $config A ObjectConfig object an or array of options to be appended
+     * @param  array|\Traversable|ObjectConfig    $config A ObjectConfig object an or array of options to be appended
      * @throws \RuntimeException If the config is read only
      * @return ObjectConfig
      */
@@ -166,7 +166,7 @@ class ObjectConfig implements ObjectConfigInterface
         {
             $options = self::unbox($options);
 
-            if(is_array($options))
+            if(is_array($options) || $options instanceof \Traversable)
             {
                 if(!is_numeric(key($options)))
                 {

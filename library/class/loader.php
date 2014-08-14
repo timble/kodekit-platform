@@ -40,18 +40,11 @@ class ClassLoader implements ClassLoaderInterface
     protected $_locators = array();
 
     /**
-     * Global namespaces
-     *
-     * @var array
-     */
-    protected $_namespaces = array();
-
-    /**
-     * The active global namespace
+     * The loader basepath
      *
      * @var  string
      */
-    protected $_namespace = 'nooku';
+    protected $_basepath;
 
     /**
      * Debug
@@ -153,7 +146,7 @@ class ClassLoader implements ClassLoaderInterface
         $result = false;
 
         //Get the path
-        $path = $this->getPath( $class, $this->_namespace);
+        $path = $this->getPath( $class, $this->_basepath);
 
         if ($path !== false)
         {
@@ -183,31 +176,29 @@ class ClassLoader implements ClassLoaderInterface
      * Get the path based on a class name
      *
      * @param string $class     The class name
-     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
+     * @param string $basepath  The basepath. If NULL the global basepath will be used.
      * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $namespace = null)
+    public function getPath($class, $basepath = null)
     {
         $result = false;
 
         //Switch the namespace
-        $prefix = $namespace ? $namespace : $this->_namespace;
-
-        if(!$this->__registry->has($prefix.'-'.$class))
+        if(!$this->__registry->has($class))
         {
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                $basepath = $this->getNamespace($namespace);
+                $basepath = $basepath ?: $this->_basepath;
                 if(false !== $result = $locator->locate($class, $basepath)) {
                     break;
                 };
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
-            $this->__registry->set($prefix.'-'.$class, $result);
+            $this->__registry->set($class, $result);
 
-        } else $result = $this->__registry->get($prefix.'-'.$class);
+        } else $result = $this->__registry->get($class);
 
         return $result;
     }
@@ -220,10 +211,9 @@ class ClassLoader implements ClassLoaderInterface
      * @param string $namespace The global namespace. If NULL the active global namespace will be used.
      * @return void
      */
-    public function setPath($class, $path, $namespace = null)
+    public function setPath($class, $path)
     {
-        $prefix = $namespace ? $namespace : $this->_namespace;
-        $this->__registry->set($prefix.'-'.$class, $path);
+        $this->__registry->set($class, $path);
     }
 
     /**
@@ -287,67 +277,25 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Register a global namespace
+     * Get the basepath
      *
-     * @param  string $namespace
-     * @param  string $path The location of the namespace
-     * @param  boolean $active Make the namespace active. Default is FALSE.
-     * @return  ClassLoaderInterface
+     * @return string The base path
      */
-    public function registerNamespace($namespace, $path, $active = false)
+    public function getBasepath()
     {
-        $this->_namespaces[$namespace] = $path;
-
-        //Set the active namespace
-        if($active) {
-            $this->_namespace = $namespace;
-        }
-
-        return $this;
+        return $this->_basepath;
     }
 
     /**
-     * Get a global namespace path
+     * Set the basepath
      *
-     * If no namespace is passed in this method will return the active global namespace.
-     *
-     * @param string|null $namespace The namespace.
-     * @return string|false The namespace path or FALSE if the namespace does not exist.
-     */
-    public function getNamespace($namespace = null)
-    {
-        if(!isset($namespace)) {
-            $namespace = $this->_namespace;
-        }
-
-        return isset($this->_namespaces[$namespace]) ? $this->_namespaces[$namespace] : false;
-    }
-
-    /**
-     * Set the active global namespace
-     *
-     * Method can only set a namespace that previously has been registered.
-     *
-     * @param string $namespace The namespace
+     * @param string $basepath The basepath
      * @return ClassLoader
      */
-    public function setNamespace($namespace)
+    public function setBasepath($basepath)
     {
-        if(isset($this->_namespaces[$namespace])) {
-            $this->_namespace = $namespace;
-        }
-
+        $this->_basepath = $basepath;
         return $this;
-    }
-
-    /**
-     * Get the global namespaces
-     *
-     * @return array An array with namespaces as keys and path as value
-     */
-    public function getNamespaces()
-    {
-        return $this->_namespaces;
     }
 
     /**
