@@ -33,7 +33,7 @@ class CommandValidatorFile extends CommandValidatorNode
 				$file->load();
 				$row->contents = $file->contents;
 
-			} catch (DatabaseRowUrlException $e) {
+			} catch (DatabaseExceptionRemoteAdapterError $e) {
 				throw new \RuntimeException($e->getMessage(), $e->getCode());
 			}
 
