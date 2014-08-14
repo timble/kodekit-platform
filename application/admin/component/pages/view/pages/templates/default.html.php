@@ -72,7 +72,7 @@
                     <?
                     $link = 'type[name]=' . $page->type;
                     if ($page->type == 'component') {
-                        $link .= '&type[option]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
+                        $link .= '&type[component]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
                         $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
                     }
 
