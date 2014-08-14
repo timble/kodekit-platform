@@ -38,9 +38,9 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      *
      * @param string  $name  The application name
      * @param string  $path  The application path
-     * @return ObjectBootstrapperInterface
+     * @return ObjectBootstrapper
      */
-    public function registerApplication($name, $path);
+    public function registerApplication($name, $path, $bootstrap = false);
 
     /**
      * Register a component to be bootstrapped.
@@ -100,7 +100,7 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      * Get a registered component domain
      *
      * @param string $name    The component name
-     * @return string Returns the component domain if the component is registered. FALSE otherwise
+     * @return string Returns the component domain if the component is registered. NULL otherwise
      */
     public function getComponentDomain($name);
 
@@ -111,7 +111,7 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      * @param string $domain  The component domain. Domain is optional and can be NULL
      * @return string Returns the component path if the component is registered. FALSE otherwise
      */
-    public function getComponentPath($name);
+    public function getComponentPath($name, $domain = null);
 
     /**
      * Get a registered component domain
@@ -120,15 +120,25 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      * @param string $domain  The component domain. Domain is optional and can be NULL
      * @return string Returns the component class namespace if the component is registered. FALSE otherwise
      */
-    public function getComponentNamespace($name);
+    public function getComponentNamespace($name, $domain = null);
+
+    /**
+     * Get a hash based on a name and domain
+     *
+     * @param string $name    The component name
+     * @param string $domain  The component domain. Domain is optional and can be NULL
+     * @return string The hash
+     */
+    public function getComponentIdentifier($name, $domain = null);
 
     /**
      * Check if the bootstrapper has been run
      *
      * If you specify a specific component name the function will check if this component was bootstrapped.
      *
-     * @param string $name      The component name
+     * @param string $name    The component name
+     * @param string $domain  The component domain. Domain is optional and can be NULL
      * @return bool TRUE if the bootstrapping has run FALSE otherwise
      */
-    public function isBootstrapped($name = null);
+    public function isBootstrapped($name = null, $domain = null);
 }

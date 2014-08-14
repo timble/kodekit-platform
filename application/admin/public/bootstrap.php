@@ -41,9 +41,8 @@ unset($config);
 //Bootstrap the application
 Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
     ->registerApplication('site' , $nooku->getRootPath().'/application/site/component')
-    ->registerApplication('admin', $nooku->getRootPath().'/application/admin/component')
+    ->registerApplication('admin', $nooku->getRootPath().'/application/admin/component', true)
     ->registerComponents($nooku->getRootPath().'/component', 'nooku')
-    ->registerComponents($nooku->getBasePath().'/component')
     ->bootstrap();
 
 // Joomla : setup
