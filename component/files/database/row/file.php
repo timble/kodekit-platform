@@ -25,6 +25,8 @@ class DatabaseRowFile extends DatabaseRowNode
 	{
 		parent::__construct($config);
 
+        $this->getCommandChain()->enqueue($this->getObject('com:files.command.resizable'));
+
 		$this->registerCallback('after.save'  , array($this, 'saveThumbnail'));
 		$this->registerCallback('after.delete', array($this, 'deleteThumbnail'));
 	}
