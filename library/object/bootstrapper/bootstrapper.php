@@ -15,15 +15,8 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\Bootstrapper
  */
-class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, ObjectSingleton
+final class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, ObjectSingleton
 {
-    /**
-     * The object manager
-     *
-     * @var ObjectManagerInterface
-     */
-    private $__object_manager;
-
     /**
      * List of bootstrapped directories
      *
@@ -39,11 +32,25 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
     protected $_components;
 
     /**
-     * List of identifier aliases
+     * Component/domain map
      *
      * @var array
      */
-    protected $_aliases;
+    protected $_domains;
+
+    /**
+     * Component/path map
+     *
+     * @var array
+     */
+    protected $_paths;
+
+    /**
+     * List of registered applications
+     *
+     * @var array
+     */
+    protected $_applications;
 
     /**
      * List of config files
@@ -51,6 +58,13 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
      * @var array
      */
     protected $_files;
+
+    /**
+     * List of identifier aliases
+     *
+     * @var array
+     */
+    protected $_aliases;
 
     /**
      * Bootstrapped status.
@@ -68,25 +82,30 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
     {
         parent::__construct($config);
 
-        //Setup the object manager
-        $this->__object_manager = $config->object_manager;
+        parent::__construct($config);
 
         $this->_bootstrapped = false;
 
         //Force a reload if cache is enabled and we have already bootstrapped
         if($config->force_reload && $config->bootstrapped)
         {
-            $config->bootstrapped = false;
-            $config->directories = array();
-            $config->components  = array();
-            $config->files       = array();
-            $config->aliases     = array();
-            $config->identifiers = array();
+            $config->bootstrapped   = false;
+            $config->directories    = array();
+            $config->components     = array();
+            $config->domains        = array();
+            $config->paths          = array();
+            $config->files          = array();
+            $config->aliases        = array();
+            $config->identifiers    = array();
+            $config->applications   = array();
         }
 
         $this->_directories  = ObjectConfig::unbox($config->directories);
         $this->_components   = ObjectConfig::unbox($config->components);
+        $this->_domains      = ObjectConfig::unbox($config->domains);
+        $this->_paths        = ObjectConfig::unbox($config->paths);
         $this->_files        = ObjectConfig::unbox($config->files);
+        $this->_applications = ObjectConfig::unbox($config->applications);
         $this->_aliases      = ObjectConfig::unbox($config->aliases);
         $this->_identifiers  = ObjectConfig::unbox($config->identifiers);
     }
@@ -106,9 +125,12 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
             'bootstrapped' => false,
             'directories'  => array(),
             'components'   => array(),
+            'domains'      => array(),
+            'paths'        => array(),
             'files'        => array(),
             'aliases'      => array(),
             'identifiers'  => array(),
+            'applications' => array(),
         ));
 
         parent::_initialize($config);
@@ -130,26 +152,15 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
         {
             $manager = $this->getObject('manager');
 
-            foreach($this->_components as $identifier => $component)
+            /*
+             * Setup the component class locator
+             *
+             * Locators are always setup as the  cannot be cached in the registry objects.
+             */
+            foreach($this->_paths as $name => $path)
             {
-                $name   = $component['name'];
-                $path   = $component['path'];
-                $domain = $component['domain'];
-
-                /*
-                 * Setup the component class and object locators
-                 *
-                 * Locators are always setup as the data cannot be cached in the registry objects.
-                 */
-                if($domain)
-                {
-                    //Register class namespace
-                    $namespace = ucfirst($domain).'\Component\\'.ucfirst($name);
-                    $manager->getClassLoader()->getLocator('component')->registerNamespace($namespace, $path);
-
-                    //Register object manager package
-                    $manager->getLocator('com')->registerPackage($name, $domain);
-                }
+                $namespace = $this->getComponentNamespace($name);
+                $manager->getClassLoader()->getLocator('component')->registerNamespace($namespace, $path);
             }
 
             /*
@@ -229,7 +240,10 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
                     'bootstrapped' => true,
                     'directories'  => $this->_directories,
                     'components'   => $this->_components,
+                    'domains'      => $this->_domains,
+                    'paths'        => $this->_paths,
                     'files'        => $this->_files,
+                    'applications' => $this->_domains,
                     'aliases'      => $aliases_flat,
                 ));
 
@@ -248,6 +262,19 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
     }
 
     /**
+     * Register an application
+     *
+     * @param string  $name  The application name
+     * @param string  $path  The application path
+     * @return ObjectBootstrapper
+     */
+    public function registerApplication($name, $path)
+    {
+        $this->_applications[$name] = $path;
+        return $this;
+    }
+
+    /**
      * Register a component to be bootstrapped.
      *
      * If the component contains a /resources/config/bootstrapper.php file it will be registered. Class and object
@@ -260,20 +287,19 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
      */
     public function registerComponent($name, $path, $domain = null)
     {
-        //Get the component identifier
-        if($domain) {
-            $identifier = 'com://'.$domain.'/'.$name;
-        } else {
-            $identifier = 'com:'.$name;
-        }
+        $hash = $domain.$name;
 
-        if(!isset($this->_components[$identifier]))
+        //Prevent registering a component twice
+        if(!isset($this->_components[$hash]))
         {
-            $this->_components[$identifier] = array(
-                'name'   => $name,
-                'path'   => $path,
-                'domain' => $domain
-            );
+            $this->_components[$hash] = $name;
+
+            //Only register components if the domain is set.
+            if($domain)
+            {
+                $this->_domains[$name] = $domain;
+                $this->_paths[$name]   = $path;
+            }
 
             //Register the config file
             $this->registerFile($path .'/resources/config/bootstrapper.php');
@@ -288,10 +314,10 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
      * All the first level directories are assumed to be component folders and will be registered.
      *
      * @param string  $directory
-     * @param string  $domain
+     * @param string $domain    The component domain. Domain is optional and can be NULL
      * @return ObjectBootstrapper
      */
-    public function registerDirectory($directory, $domain = null)
+    public function registerComponents($directory, $domain = null)
     {
         if(!isset($this->_directories[$directory]))
         {
@@ -339,25 +365,96 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
     }
 
     /**
+     * Get the registered applications
+     *
+     * @return array
+     */
+    public function getApplications()
+    {
+        return array_keys($this->_applications);
+    }
+
+    /**
+     * Get an application path
+     *
+     * @param string  $name   The application name
+     * @return string|null Returns the application path if the application was registered. NULL otherwise
+     */
+    public function getApplicationPath($name)
+    {
+        $result = null;
+
+        if(isset($this->_applications[$name])) {
+            $result = $this->_applications[$name];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the registered components
+     *
+     * @return array
+     */
+    public function getComponents()
+    {
+        return array_values($this->_components);
+    }
+
+    /**
+     * Get a registered component domain
+     *
+     * @param string $name    The component name
+     * @return string Returns the component domain if the component is registered. FALSE otherwise
+     */
+    public function getComponentDomain($name)
+    {
+        $result = false;
+
+        if(isset($this->_domains[$name])) {
+            $result = $this->_domains[$name];
+        }
+
+        return $result;
+    }
+
+    /**
      * Get a registered component path
      *
      * @param string $name    The component name
      * @param string $domain  The component domain. Domain is optional and can be NULL
-     * @return bool TRUE if the bootstrapping has run FALSE otherwise
+     * @return string Returns the component path if the component is registered. FALSE otherwise
      */
-    public function getComponentPath($component, $domain = null)
+    public function getComponentPath($name)
     {
-        $result = false;
+        $result = null;
 
-        //Get the bootstrapper identifier
-        if($domain) {
-            $identifier = 'com://'.$domain.'/'.$component;
-        } else {
-            $identifier = 'com:'.$component;
+        if(isset($this->_paths[$name])) {
+            $result = $this->_paths[$name];
         }
 
-        if(isset($this->_components[$identifier])) {
-            $result = $this->_components[$identifier]['path'];
+        return $result;
+    }
+
+    /**
+     * Get a registered component domain
+     *
+     * @param string $name    The component name
+     * @param string $domain  The component domain. Domain is optional and can be NULL
+     * @return string|null Returns the component class namespace if the component is registered. NULL otherwise
+     */
+    public function getComponentNamespace($name)
+    {
+        $result = null;
+
+        if($domain = $this->getComponentDomain($name)) {
+            $hash = $domain.$name;
+        } else {
+            $hash = $name;
+        }
+
+        if(isset($this->_components[$hash])) {
+            $result = ucfirst($domain).'\Component\\'.ucfirst($name);
         }
 
         return $result;
@@ -369,21 +466,19 @@ class ObjectBootstrapper extends Object implements ObjectBootstrapperInterface, 
      * If you specify a specific component name the function will check if this component was bootstrapped.
      *
      * @param string $name      The component name
-     * @param string $domain    The comoonent domain. Domain is optional and can be NULL
      * @return bool TRUE if the bootstrapping has run FALSE otherwise
      */
-    public function isBootstrapped($component = null, $domain = null)
+    public function isBootstrapped($name = null)
     {
-        if($component)
+        if($name)
         {
-            //Get the bootstrapper identifier
-            if($domain) {
-                $identifier = 'com://'.$domain.'/'.$component;
+            if($domain = $this->getComponentDomain($name)) {
+                $hash = $domain.$name;
             } else {
-                $identifier = 'com:'.$component;
+                $hash = $name;
             }
 
-            $result = $this->_bootstrapped && isset($this->_components[$identifier]);
+            $result = $this->_bootstrapped && isset($this->_components[$hash]);
         }
         else $result = $this->_bootstrapped;
 

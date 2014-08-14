@@ -38,19 +38,12 @@ class TemplateLocatorComponent extends TemplateLocatorAbstract
         //Get the package
         $package = $info['package'];
 
-        //Get the domain
-        if(empty($info['domain'])) {
-            $domain = $this->getObject('manager')->getLocator('com')->getPackage($info['package']);
-        } else {
-            $domain = $info['domain'];
-        }
-
         //Base paths
         if($path = $loader->getLocator('component')->getNamespace('\\')) {
             $paths[] = $path.'/'.$package;
         }
 
-        $namespace = ucfirst($domain).'\Component\\'.ucfirst($package);
+        $namespace = $this->getObject('object.bootstrapper')->getComponentNamespace($package);
         if($path = $loader->getLocator('component')->getNamespace($namespace)) {
             $paths[] = $path;
         }

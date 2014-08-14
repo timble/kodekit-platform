@@ -39,7 +39,7 @@ class ModelTypes extends Library\ModelAbstract
     {
         $components = array();
 
-        $app_path = $this->getObject('manager')->getClassLoader()->getNamespace($this->getState()->application);
+        $app_path = $this->getObject('object.bootstrapper')->getApplicationPath($this->getState()->application);
         $com_path = $app_path;
 
         foreach (new \DirectoryIterator($com_path) as $component)

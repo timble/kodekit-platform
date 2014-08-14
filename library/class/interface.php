@@ -45,10 +45,10 @@ interface ClassLoaderInterface
      * Get the path based on a class name
      *
      * @param string $class     The class name
-     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
+     * @param string $basepath  The basepath. If NULL the global basepath will be used.
      * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $namespace = null);
+    public function getPath($class, $basepath = null);
 
     /**
      * Get the path based on a class name
@@ -58,7 +58,7 @@ interface ClassLoaderInterface
      * @param string $namespace The global namespace. If NULL the active global namespace will be used.
      * @return void
      */
-    public function setPath($class, $path, $namespace = null);
+    public function setPath($class, $path);
 
     /**
      * Register a class locator
@@ -94,39 +94,19 @@ interface ClassLoaderInterface
     public function getAliases($class);
 
     /**
-     * Register a global namespace
+     * Get the basepath
      *
-     * @param  string $namespace
-     * @param  string $path The location of the namespace
-     * @param  boolean $active Make the namespace active. Default is FALSE.
-     * @return  ClassLoaderInterface
+     * @return string The base path
      */
-    public function registerNamespace($namespace, $path, $active = false);
+    public function getBasepath();
 
     /**
-     * Set the active global namespace
+     * Set the basepath
      *
-     * @param string $namespace The namespace
+     * @param string $basepath The basepath
      * @return ClassLoaderInterface
      */
-    public function setNamespace($namespace);
-
-    /**
-     * Get a global namespace path by name
-     *
-     * If no namespace is passed in this method will return the active global namespace.
-     *
-     * @param string|null $namespace The namespace.
-     * @return string|false The namespace path or FALSE if the namespace does not exist.
-     */
-    public function getNamespace($namespace = null);
-
-    /**
-     * Get the global namespaces
-     *
-     * @return array An array with namespaces as keys and path as value
-     */
-    public function getNamespaces();
+    public function setBasepath($basepath);
 
     /**
      * Enable or disable class loading
@@ -134,7 +114,7 @@ interface ClassLoaderInterface
      * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
      *
      * @param bool $debug True or false.
-     * @return ClassLoader
+     * @return ClassLoaderInterface
      */
     public function setDebug($debug);
 
