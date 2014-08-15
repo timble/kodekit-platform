@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Template Locator Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\TemplateLoaderComponent
+ * @package Nooku\Library\Template
  */
 interface TemplateLocatorInterface
 {
@@ -36,7 +36,7 @@ interface TemplateLocatorInterface
     public function find(array $info);
 
     /**
-     * Get the loader type
+     * Get the locator type
      *
      * @return string
      */

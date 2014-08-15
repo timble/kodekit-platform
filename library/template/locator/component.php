@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Component Template Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\TemplateLoaderComponent
+ * @package Nooku\Library\Template
  */
 class TemplateLocatorComponent extends TemplateLocatorAbstract
 {
