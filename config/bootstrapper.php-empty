@@ -24,13 +24,9 @@ return array(
         'application'               => array(
 
             //Site Settings
-            'offline'    => '0',
-            'sitename'   => 'Nooku Platform',
-            'timezone'   => 'UTC',
-            'language'   => 'en-GB',
-
-            //Debug Settings
-            'debug_mode' => null, //Use system defaults
+            'title'    => 'Nooku Platform',
+            'timezone' => 'UTC',
+            'language' => 'en-GB',
 
             /* Mail Settings */
             'mailer'    => 'mail',
