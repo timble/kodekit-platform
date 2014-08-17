@@ -135,7 +135,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             'user'       => null,
             'name'       => 'KSESSIONID',
             'id'         => '',
-            'lifetime'   => 1440,
+            'lifetime'   => ini_get('session.gc_maxlifetime'),
             'namespace'  => '__nooku',
             'options' => array(
                 'auto_start'        => 0,
