@@ -31,7 +31,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 $url = $context->request->getUrl()
                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site = $this->getObject('application')->getCfg('sitename');
+                $site = $this->getObject('application')->getConfig->sitename;
 
                 $subject = $translator->translate('User Account Activation');
                 $message = $translator->translate('User account activation E-mail',

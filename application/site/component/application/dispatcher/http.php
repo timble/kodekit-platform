@@ -48,9 +48,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $this->_site = $config->site;
         }
 
-        $this->loadConfig();
-
-        $this->addCommandCallback('before.run', 'loadLanguage');
+        $this->addCommandCallback('before.run', 'setLanguage');
     }
 
     /**
@@ -64,11 +62,8 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'site'      => null,
-            'options'   => array(
-                'config_file'  => JPATH_ROOT.'/config/config.php',
-                'language'     => null,
-            ),
+            'site'     => null,
+            'language' => 'en-GB',
         ));
 
         parent::_initialize($config);
@@ -81,14 +76,10 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
-        //Set the site error reporting
-        $this->getObject('exception.handler')->setErrorLevel($this->getCfg('debug_mode'));
-
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
-        define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
         // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getCfg('timezone')));
+        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getConfig()->timezone));
         date_default_timezone_set($timezone->getName());
 
         //Route the request
@@ -153,27 +144,32 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Load the configuration
+     * Load the application language
      *
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return	void
      */
-    public function loadConfig()
+    public function setLanguage(Library\DispatcherContextInterface $context)
     {
-        // Check if the site exists
-        if($this->getObject('com:sites.model.sites')->fetch()->find($this->getSite()))
-        {
-            //Load the application config settings
-            JFactory::getConfig()->loadArray($this->getConfig()->options->toArray());
+        $languages = $this->getObject('application.languages');
+        $language  = null;
 
-            //Load the global config settings
-            require_once( $this->getConfig()->options->config_file );
-            JFactory::getConfig()->loadObject(new JConfig());
-
-            //Load the site config settings
-            require_once( JPATH_SITES.'/'.$this->getSite().'/config/config.php');
-            JFactory::getConfig()->loadObject(new JSiteConfig());
+        // Otherwise use user language setting.
+        if(!$language && $iso_code = $context->user->get('language')) {
+            $language = $languages->find(array('iso_code' => $iso_code));
         }
-        else throw new Library\ControllerExceptionResourceNotFound('Site :'.$this->getSite().' not found');
+
+        // If no user language specified, use application
+        if($iso_code = $this->getConfig()->language) {
+            $language = $languages->find(array('iso_code' => $iso_code));
+        }
+
+        // If language still not set, use the primary.
+        if(!$language) {
+            $language = $languages->getPrimary();
+        }
+
+        $languages->setActive($language);
     }
 
     /**
@@ -203,45 +199,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return parent::getUser();
-    }
-
-    /**
-     * Load the application language
-     *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     * @return	void
-     */
-    public function loadLanguage(Library\DispatcherContextInterface $context)
-    {
-        $languages = $this->getObject('application.languages');
-        $language = null;
-
-        // If a language was specified it has priority.
-        if($iso_code = $this->getConfig()->options->language) {
-            $language = $languages->find(array('iso_code' => $iso_code));
-        }
-
-        // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language')) {
-            $language = $languages->find(array('iso_code' => $iso_code));
-        }
-
-        // If language still not set, use the primary.
-        if(!$language) {
-            $language = $languages->getPrimary();
-        }
-
-        $languages->setActive($language);
-
-        $translator = $this->getObject('translator', array('locale' => $language->iso_code));
-
-        // Load Framework translations.
-        if (($file = $translator->find(JPATH_ROOT . '/library/resources/language/')) && !$translator->load($file, true)) {
-            throw new \RuntimeException('Unable to load framework translations');
-        }
-
-        // Load application translations.
-        $translator->import('application');
     }
 
     /**
@@ -303,18 +260,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return $this->_pathway;
-    }
-
-    /**
-     * Gets a configuration value.
-     *
-     * @param	string	$name    The name of the value to get.
-     * @param	mixed	$default The default value
-     * @return	mixed	The user state.
-     */
-    public function getCfg( $name, $default = null )
-    {
-        return JFactory::getConfig()->getValue('config.' . $name, $default);
     }
 
     /**

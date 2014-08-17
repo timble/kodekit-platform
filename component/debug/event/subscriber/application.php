@@ -22,7 +22,7 @@ class EventSubscriberApplication extends Library\EventSubscriberAbstract
     public function __construct(Library\ObjectConfig $config)
 	{
 	    //Intercept the events for profiling
-	    if($this->getObject('application')->getCfg('debug'))
+	    if($this->getObject('application')->getConfig()->debug)
 	    {
 	        //Profile the event dispatcher
 	        $this->getObject('event.dispatcher')->decorate('event.profiler');

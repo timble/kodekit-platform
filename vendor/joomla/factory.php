@@ -21,28 +21,6 @@
 class JFactory
 {
     /**
-     * Get a configuration object
-     *
-     * Returns a reference to the global {@link JRegistry} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @param string    The path to the configuration file
-     * @param string    The type of the configuration file
-     * @return object JRegistry
-     */
-    function &getConfig($file = null, $type = 'PHP')
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            $instance = JFactory::_createConfig($file, $type);
-        }
-
-        return $instance;
-    }
-
-    /**
      * Get a mailer object
      *
      * Returns a reference to the global {@link JMail} object, only creating it
@@ -93,28 +71,6 @@ class JFactory
     }
 
     /**
-     * Create a configuration object
-     *
-     * @access private
-     * @param string    The path to the configuration file
-     * @param string    The type of the configuration file
-     * @return object JRegistry
-     * @since 1.5
-     */
-    function &_createConfig($file, $type = 'PHP')
-    {
-        jimport('joomla.registry.registry');
-
-        if($file !== null) {
-            require_once $file;
-        }
-
-        // Create the registry with a default namespace of config
-        $registry = new JRegistry('config');
-        return $registry;
-    }
-
-    /**
      * Create a mailer object
      *
      * @access private
@@ -125,18 +81,18 @@ class JFactory
     {
         jimport('joomla.mail.mail');
 
-        $conf =& JFactory::getConfig();
+        $conf = Nooku\Library\ObjectManager::getInstance()->getObject('application')->getConfig();
 
-        $sendmail = $conf->getValue('config.sendmail');
-        $smtpauth = $conf->getValue('config.smtpauth');
-        $smtpuser = $conf->getValue('config.smtpuser');
-        $smtppass = $conf->getValue('config.smtppass');
-        $smtphost = $conf->getValue('config.smtphost');
-        $smtpsecure = $conf->getValue('config.smtpsecure');
-        $smtpport = $conf->getValue('config.smtpport');
-        $mailfrom = $conf->getValue('config.mailfrom');
-        $fromname = $conf->getValue('config.fromname');
-        $mailer = $conf->getValue('config.mailer');
+        $sendmail = $conf->sendmail;
+        $smtpauth = $conf->smtpauth;
+        $smtpuser = $conf->smtpuser;
+        $smtppass = $conf->smtppass;
+        $smtphost = $conf->smtphost;
+        $smtpsecure = $conf->smtpsecure;
+        $smtpport = $conf->smtpport;
+        $mailfrom = $conf->mailfrom;
+        $fromname = $conf->fromname;
+        $mailer = $conf->mailer;
 
         // Create a JMail object
         $mail =& JMail::getInstance();

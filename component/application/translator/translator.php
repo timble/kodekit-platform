@@ -23,7 +23,7 @@ class Translator extends Library\Translator
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'cache_enabled' => $this->getObject('application')->getCfg('caching'),
+            'cache_enabled' => false,
             'paths'         => array()
         ));
 

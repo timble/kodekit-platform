@@ -175,8 +175,8 @@ class ModelEntityUser extends Library\ModelEntityRow
         $config->append(array(
             'subject' => '',
             'message' => '',
-            'from_email' => $application->getCfg('mailfrom'),
-            'from_name'  => $application->getCfg('fromname')))
+            'from_email' => $application->getConfig()->mailfrom,
+            'from_name'  => $application->getConfig()->fromname))
             ->append(array('from_email' => $user->getEmail(), 'from_name' => $user->getName()));
 
         return \JUtility::sendMail($config->from_email, $config->from_name, $this->email, $config->subject, $config->message);
