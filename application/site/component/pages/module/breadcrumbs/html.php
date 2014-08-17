@@ -19,7 +19,7 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $list   = (array) $this->getObject('application')->getPathway()->items;
+        $list   = $this->getObject('com:pages.pathway');
         $params = $this->module->getParameters();
 
         if($params->get('homeText'))

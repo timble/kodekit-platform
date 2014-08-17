@@ -26,13 +26,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected $_site;
 
     /**
-     * The pathway object
-     *
-     * @var object
-     */
-    protected $_pathway;
-
-    /**
      * Constructor.
      *
      * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
@@ -206,55 +199,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     public function getRouter(array $options = array())
     {
         return $this->getObject('com:application.router', $options);
-    }
-
-    /**
-     * Return a reference to the application pathway object
-     *
-     * @return object ApplicationConfigPathway
-     */
-    public function getPathway()
-    {
-        if(!isset($this->_pathway))
-        {
-            $pathway = new ApplicationConfigPathway();
-            $pages   = $this->getObject('application.pages');
-
-            if($active = $pages->getActive())
-            {
-                $home = $pages->getHome();
-                if($active->id != $home->id)
-                {
-                    foreach(explode('/', $active->path) as $id)
-                    {
-                        $page = $pages->getPage($id);
-                        switch($page->type)
-                        {
-                            case 'pagelink':
-                            case 'url' :
-                                $url = $page->getLink();
-                                break;
-
-                            case 'separator':
-                                $url = null;
-                                break;
-
-                            default:
-                                $url = $page->getLink();
-                                $url->query['Itemid'] = $page->id;
-                                $this->getRouter()->build($url);
-                                break;
-                        }
-
-                        $pathway->addItem($page->title, $url);
-                    }
-                }
-            }
-
-            $this->_pathway = $pathway;
-        }
-
-        return $this->_pathway;
     }
 
     /**
