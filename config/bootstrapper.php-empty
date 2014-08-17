@@ -17,7 +17,7 @@ return array(
 
     'priority' => 1, //Library\ObjectBootstrapper::PRIORITY_HIGHEST,
 
-    /* Global Settings */
+    // Global Settings
     'caching' => false,
     'debug'   => '0',
 
@@ -25,12 +25,12 @@ return array(
 
         'application'               => array(
 
-            //Site Settings
+            // Site Settings
             'title'    => 'Nooku Platform',
             'timezone' => 'UTC',
             'language' => 'en-GB',
 
-            /* Mail Settings */
+            // Mail Settings
             'mailer'    => 'mail',
             'mailfrom'  => '',
             'fromname'  => '',
