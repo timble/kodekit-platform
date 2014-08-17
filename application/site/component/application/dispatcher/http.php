@@ -144,7 +144,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Load the application language
+     * Set the application language
      *
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return	void
@@ -173,13 +173,9 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Load the user session or create a new one
+     * Re-create the session if site has changed
      *
-     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session,
-     * then the last access time is updated. If a new session, a session id is generated and a record is created
-     * in the users_sessions table.
-     *
-     * @return	void
+     * @return Library\UserInterface
      */
     public function getUser()
     {
@@ -209,8 +205,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getObject('com:application.router', $options);
-        return $router;
+        return $this->getObject('com:application.router', $options);
     }
 
     /**

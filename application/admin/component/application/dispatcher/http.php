@@ -102,9 +102,10 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Get the application languages.
+     * Set the application language
      *
-     * @return ApplicationDatabaseRowsetLanguages
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @return	void
      */
     public function setLanguage(Library\DispatcherContextInterface $context)
     {
@@ -130,9 +131,9 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Load the user session or create a new one
+     * Re-create the session if site has changed
      *
-     * @return    void
+     * @return Library\UserInterface
      */
     public function getUser()
     {
@@ -163,9 +164,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getObject('com:application.router', $options);
-
-        return $router;
+        return $this->getObject('com:application.router', $options);
     }
 
     /**

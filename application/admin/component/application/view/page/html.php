@@ -25,8 +25,7 @@ class ApplicationViewPageHtml extends Application\ViewPageHtml
      */
     public function getTitle()
     {
-        $title = $this->getObject('application')->getConfig()->sitename;
-        return $title;
+        return $this->getObject('application')->getTitle();
     }
 
     protected function _fetchData(Library\ViewContext $context)

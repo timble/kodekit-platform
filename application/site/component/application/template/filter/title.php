@@ -27,7 +27,7 @@ class ApplicationTemplateFilterTitle extends Application\TemplateFilterTitle
         if($page = $this->getObject('application.pages')->getActive())
         {
             $params = $page->getParams('page');
-            $title  = htmlspecialchars_decode($this->getObject('application')->getConfig()->sitename);
+            $title  = htmlspecialchars_decode($this->getObject('application')->getTitle());
 
             if($params->get('page_title', $title)) {
                 $title = $this->_renderTag(array(), $params->get('page_title'));
