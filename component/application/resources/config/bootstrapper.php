@@ -7,11 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
-use Nooku\Library;
-
 return array(
-
-    'priority' => Library\ObjectBootstrapper::PRIORITY_HIGH,
 
     'aliases'  => array(
         'application'                    => 'com:application.dispatcher.http',

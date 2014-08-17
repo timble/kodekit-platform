@@ -15,6 +15,8 @@
 
 return array(
 
+    'priority' => 1, //Library\ObjectBootstrapper::PRIORITY_HIGHEST,
+
     /* Global Settings */
     'caching' => false,
     'debug'   => '0',
