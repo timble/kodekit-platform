@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,23 +13,23 @@ namespace Nooku\Library;
  * Abstract Object Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Nooku\Library\Object\Locator\Abstract
  */
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
+    /**
+     * The locator name
+     *
+     * @var string
+     */
+    protected static $_name = '';
+
     /**
      * The class prefix sequence in FIFO order
      *
      * @var array
      */
     protected $_sequence = array();
-
-    /**
-     * The locator type
-     *
-     * @var string
-     */
-    protected $_type = '';
 
     /**
      * Constructor.
@@ -127,9 +127,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      *
      * @return string
      */
-    public function getType()
+    public static function getName()
     {
-        return $this->_type;
+        return static::$_name;
     }
 
     /**

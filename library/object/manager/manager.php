@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Object Manager
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Nooku\Library\Object\Manager
  */
 class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSingleton
 {
@@ -36,7 +36,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @var ClassLoader
      */
-    protected $_loader;
+    private $__loader;
 
     /**
      * The identifier locators
@@ -65,7 +65,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         else $this->setClassLoader($config->class_loader);
 
         //Create the object registry
-        if($config->cache_enabled)
+        if($config->cache)
         {
             $this->__registry = new ObjectRegistryCache();
             $this->__registry->setNamespace($config->cache_namespace);
@@ -77,7 +77,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
 
         //Manually register the library loader
         $config = new ObjectConfig(array(
-            'class_loader'      => $config->class_loader,
             'object_manager'    => $this,
             'object_identifier' => new ObjectIdentifier('lib:object.locator.library')
         ));
@@ -101,7 +100,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         $config->append(array(
             'class_loader'     => null,
-            'cache_enabled'    => false,
+            'cache'            => false,
             'cache_namespace'  => 'nooku'
         ));
     }
@@ -147,11 +146,11 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * If the object implements the ObjectInstantiable interface the manager will delegate object instantiation
      * to the object itself.
      *
-     * @param	string|object	$identifier  An ObjectIdentifier or identifier string
-     * @param	array  			$config     An optional associative array of configuration settings.
-     * @return	ObjectInterface  Return object on success, throws exception on failure
+     * @param   string|object   $identifier  An ObjectIdentifier or identifier string
+     * @param   array           $config     An optional associative array of configuration settings.
+     * @return  ObjectInterface  Return object on success, throws exception on failure
      * @throws  ObjectExceptionInvalidIdentifier   If the identifier is not valid
-     * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
+     * @throws	ObjectExceptionInvalidObject      If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
@@ -399,7 +398,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         if(!$identifier instanceof ObjectLocatorInterface)
         {
-            $config['class_loader'] = $this->getClassLoader();
             $locator = $this->getObject($identifier, $config);
 
             if(!$locator instanceof ObjectLocatorInterface)
@@ -412,7 +410,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         else $locator = $identifier;
 
         //Add the locator
-        $this->_locators[$locator->getType()] = $locator;
+        $this->_locators[$locator->getName()] = $locator;
 
         return $this;
     }
@@ -489,7 +487,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function getClassLoader()
     {
-        return $this->_loader;
+        return $this->__loader;
     }
 
     /**
@@ -500,7 +498,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function setClassLoader(ClassLoaderInterface $loader)
     {
-        $this->_loader = $loader;
+        $this->__loader = $loader;
         return $this;
     }
 
@@ -679,7 +677,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @param   ObjectIdentifier $identifier
      * @param   array            $config    An optional associative array of configuration settings.
-     * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
+     * @throws	ObjectExceptionInvalidObject      If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
