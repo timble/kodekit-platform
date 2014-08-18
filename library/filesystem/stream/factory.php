@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Filesystem Stream Factory
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\FileSystem
+ * @package Nooku\Library\FileSystem\Stream\Factory
  */
 class FilesystemStreamFactory extends Object implements ObjectSingleton
 {
@@ -22,7 +22,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
      *
      * @var array
      */
-    protected $_streams;
+    private $__streams;
 
     /**
      * Constructor.
@@ -60,13 +60,13 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
      * Note that only URLs delimited by "://"" are supported. ":" and ":/" while technically valid URLs, are not. If no
      * stream is registered for the specific scheme a exception will be thrown.
      *
-     * @param string         $url       The stream url
+     * @param string         $path       The stream path
      * @param string         $mode      The type of access required for this stream. (see Table 1 of the fopen() reference);
      * @param array|resource $context   Either an array of a resource of type 'stream-context' created with stream_create_context()
      * @param bool           $auto_open IF TRUE automatically open the stream. Default TRUE.
      * @throws \InvalidArgumentException If the url is not valid
      * @throws \RuntimeException         If the stream isn't registered
-     * @throws \UnexpectedValueException	If the stream object doesn't implement the KFilesystemStreamInterface
+     * @throws \UnexpectedValueException If the stream object doesn't implement the KFilesystemStreamInterface
      * @throws \RuntimeException         If the stream cannot be opened.
      * @return FilesystemStreamInterface
      */
@@ -97,7 +97,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         if(!in_array($name, $this->getStreams()))
         {
             throw new \RuntimeException(sprintf(
-                'Unable to find the stream "%s" - did you forget to register it ?', $name
+                'Unable to find the filesystem stream "%s" - did you forget to register it ?', $name
             ));
         }
 
@@ -149,10 +149,10 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         $identifier = $this->getIdentifier($identifier);
         $class      = $this->getObject('manager')->getClass($identifier);
 
-        if(!array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
+        if($class && !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
         {
             throw new \UnexpectedValueException(
-                'Stream: '.$class.' does not implement KFilesystemStreamInterface'
+                'Stream: '.$class.' does not implement FilesystemStreamInterface'
             );
         }
 
@@ -161,7 +161,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         if (!empty($name) && !$this->isRegistered($name))
         {
             if($result = stream_wrapper_register($name, __NAMESPACE__.'\FilesystemStreamAdapter')) {
-                $this->_streams[$name] = $identifier;
+                $this->__streams[$name] = $identifier;
             }
         }
 
@@ -184,7 +184,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
             $identifier = $this->getIdentifier($identifier);
             $class      = $this->getObject('manager')->getClass($identifier);
 
-            if(!array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
+            if($class && !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
             {
                 throw new \UnexpectedValueException(
                     'Stream: '.$class.' does not implement FilesystemStreamInterface'
@@ -199,7 +199,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         if (!empty($name) && $this->isRegistered($name))
         {
             if($result = stream_wrapper_unregister($name)) {
-                unset($this->_streams[$name]);
+                unset($this->__streams[$name]);
             }
         }
 
@@ -218,8 +218,8 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
 
         if($this->isRegistered($name))
         {
-            if(isset($this->_streams[$name])) {
-                $stream = $this->_streams[$name];
+            if(isset($this->__streams[$name])) {
+                $stream = $this->__streams[$name];
             } else {
                 $stream = 'lib:filesystem.stream.'.$name;
             }
@@ -251,7 +251,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
             $identifier = $this->getIdentifier($identifier);
             $class      = $this->getObject('manager')->getClass($identifier);
 
-            if(!array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
+            if($class && !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
             {
                 throw new \UnexpectedValueException(
                     'Stream: '.$class.' does not implement FilesystemStreamInterface'
