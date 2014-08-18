@@ -69,7 +69,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
-        define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
+        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
 
         // Set timezone to user's setting, falling back to global configuration.
         $timezone = new \DateTimeZone($context->user->get('timezone', $this->getConfig()->timezone));

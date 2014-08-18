@@ -75,6 +75,12 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
 
         // Mixin the event interface
         $this->mixin('lib:event.mixin', $config);
+
+        //Fetch the view data before rendering
+        $this->addCommandCallback('before.render', '_fetchData');
+
+        //Fetch the view data before rendering
+        $this->addCommandCallback('before.render', '_loadTranslations');
     }
 
     /**
@@ -147,6 +153,28 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     {
         $contents = $this->getContent();
         return trim($contents);
+    }
+
+    /**
+     * Fetch the view data
+     *
+     * @param ViewContext	$context A view context object
+     * @return void
+     */
+    protected function _fetchData(ViewContext $context)
+    {
+
+    }
+
+    /**
+     * Load the view translations
+     *
+     * @param ViewContext	$context A view context object
+     * @return void
+     */
+    protected function _loadTranslations(ViewContext $context)
+    {
+        $this->getObject('translator')->load('com:'.$this->getIdentifier()->package);
     }
 
     /**

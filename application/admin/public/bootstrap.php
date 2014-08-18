@@ -18,15 +18,21 @@ use Nooku\Library;
 //Don't run in STRICT mode (Joomla is not E_STRICT compat)
 error_reporting(error_reporting() | ~ E_STRICT);
 
-// Bootstrap the framework
-$config = require JPATH_ROOT . '/config/bootstrapper.php';
+define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(JPATH_ROOT . '/library/nooku.php');
+define('APPLICATION_NAME' , 'admin');
+define('APPLICATION_ROOT' , realpath($_SERVER['DOCUMENT_ROOT']));
+define('APPLICATION_BASE' , APPLICATION_ROOT.'/application/admin');
+
+// Bootstrap the framework
+$config = require APPLICATION_ROOT.'/config/bootstrapper.php';
+
+require_once(APPLICATION_ROOT.'/library/nooku.php');
 $nooku = Nooku::getInstance(array(
-    'debug'           =>  isset($config['debug']) ? (bool) $config['debug'] : false,
-    'cache_namespace' => 'admin',
-    'cache_enabled'   =>  isset($config['caching']) ? (bool) $config['debug'] : false,
-    'base_path'       =>  JPATH_ROOT.'/application/admin'
+    'debug'           =>  $config['debug'],
+    'cache'           =>  $config['cache'],
+    'cache_namespace' =>  $config['cache_namespace'],
+    'base_path'       =>  APPLICATION_BASE
 ));
 
 //Bootstrap the application

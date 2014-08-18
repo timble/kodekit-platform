@@ -18,8 +18,9 @@ return array(
     'priority' => 1, //Library\ObjectBootstrapper::PRIORITY_HIGHEST,
 
     // Global Settings
-    'caching' => false,
-    'debug'   => '0',
+    'cache'           => false,
+    'cache_namespace' => defined('APPLICATION_NAME') ? APPLICATION_NAME : 'nooku',
+    'debug'           => '0',
 
     'identifiers' => array(
 
@@ -39,6 +40,14 @@ return array(
             'smtpuser'  => '',
             'smtppass'  => '',
             'smtphost'  => 'localhost',
+
+        ),
+
+        'translator'               => array(
+
+            //Cache Settings
+            'cache'           => false,
+            'cache_namespace' => defined('APPLICATION_NAME') ? APPLICATION_NAME : 'nooku',
 
         ),
 

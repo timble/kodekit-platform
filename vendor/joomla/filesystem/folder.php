@@ -89,7 +89,7 @@ class JFolder
 
 					case 'file':
 						// Translate path for the FTP account
-						$dfid = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $dfid), '/');
+						$dfid = JPath::clean(str_replace(APPLICATION_ROOT, $ftpOptions['root'], $dfid), '/');
 						if (! $ftp->store($sfid, $dfid)) {
 							return JError::raiseError(-1, 'Copy failed');
 						}
@@ -183,7 +183,7 @@ class JFolder
 			);
 
 			// Translate path to FTP path
-			$path = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
+			$path = JPath::clean(str_replace(APPLICATION_ROOT, $ftpOptions['root'], $path), '/');
 			$ret = $ftp->mkdir($path);
 			$ftp->chmod($path, $mode);
 		} else {
@@ -250,7 +250,7 @@ class JFolder
 	function delete($path = null)
 	{
 		// Sanity check
-	    if(in_array(rtrim($path, '/\\'), array(null, '', JPATH_ROOT, JPATH_BASE)))
+	    if(in_array(rtrim($path, '/\\'), array(null, '', APPLICATION_ROOT, APPLICATION_BASE)))
         {
 			// Bad programmer! Bad Bad programmer!
 			JError::raiseWarning(500, 'JFolder::delete: ' . 'Attempt to delete base directory' );
@@ -311,7 +311,7 @@ class JFolder
 			$ret = true;
 		} elseif ($ftpOptions['enabled'] == 1) {
 			// Translate path and delete
-			$path = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
+			$path = JPath::clean(str_replace(APPLICATION_ROOT, $ftpOptions['root'], $path), '/');
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
 		} else {
@@ -361,8 +361,8 @@ class JFolder
 			);
 
 			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $src), '/');
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $dest), '/');
+			$src = JPath::clean(str_replace(APPLICATION_ROOT, $ftpOptions['root'], $src), '/');
+			$dest = JPath::clean(str_replace(APPLICATION_ROOT, $ftpOptions['root'], $dest), '/');
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
@@ -542,7 +542,7 @@ class JFolder
 					'parent' => $parent,
 					'name' => $name,
 					'fullname' => $fullName,
-					'relname' => str_replace(JPATH_ROOT, '', $fullName)
+					'relname' => str_replace(APPLICATION_ROOT, '', $fullName)
 				);
 				$dirs2 = JFolder::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
 				$dirs = array_merge($dirs, $dirs2);

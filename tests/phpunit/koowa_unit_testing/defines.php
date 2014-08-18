@@ -12,9 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 //Defines
-define( 'JPATH_ROOT',			JPATH_BASE );
-
-define( 'JPATH_SITE',			JPATH_ROOT );
 define( 'JPATH_CONFIGURATION', 	JPATH_ROOT );
 define( 'JPATH_ADMINISTRATOR', 	JPATH_ROOT.DS.'administrator' );
 define( 'JPATH_LIBRARIES',	 	JPATH_ROOT.DS.'libraries' );

@@ -150,7 +150,7 @@ class JParameter extends JRegistry
 				$this->_xml['_default'] = $xml;
 			}
 			if ($dir = $xml->attributes( 'addpath' )) {
-				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
+				$this->addElementPath( APPLICATION_ROOT . str_replace('/', DS, $dir) );
 			}
 		}
 	}

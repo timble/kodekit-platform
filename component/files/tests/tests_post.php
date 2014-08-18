@@ -9,7 +9,7 @@ $result = KObject::get('com:files.controller.file')
 	->add(array('contents' => 'test'))
 	->toArray();
 
-var_dump('Root file - add', $result, file_exists(JPATH_ROOT.'/images/ercan.txt'));
+var_dump('Root file - add', $result, file_exists(APPLICATION_ROOT.'/images/ercan.txt'));
 
 /*
  * Root file - edit
@@ -20,7 +20,7 @@ $result = KObject::get('com:files.controller.file')
 	->edit(array('contents' => 'after edit'))
 	->toArray();
 
-var_dump('Root file - edit', $result, file_get_contents(JPATH_ROOT.'/images/ercan.txt') === 'after edit');
+var_dump('Root file - edit', $result, file_get_contents(APPLICATION_ROOT.'/images/ercan.txt') === 'after edit');
 
 /*
  * Root file - delete
@@ -31,7 +31,7 @@ $result = KObject::get('com:files.controller.file')
 	->delete()
 	->toArray();
 
-var_dump('Root file - delete', $result, !file_exists(JPATH_ROOT.'/images/ercan.txt'));
+var_dump('Root file - delete', $result, !file_exists(APPLICATION_ROOT.'/images/ercan.txt'));
 
 /*
  * Nested file - add
@@ -43,7 +43,7 @@ $result = KObject::get('com:files.controller.file')
 	->add(array('contents' => 'test'))
 	->toArray();
 
-var_dump('Nested file - add', $result, file_exists(JPATH_ROOT.'/images/banners/nested.txt'));
+var_dump('Nested file - add', $result, file_exists(APPLICATION_ROOT.'/images/banners/nested.txt'));
 
 /*
  * Nested file - delete
@@ -55,7 +55,7 @@ $result = KObject::get('com:files.controller.file')
 	->delete()
 	->toArray();
 
-var_dump('Nested file - delete', $result, !file_exists(JPATH_ROOT.'/images/banners/nested.txt'));
+var_dump('Nested file - delete', $result, !file_exists(APPLICATION_ROOT.'/images/banners/nested.txt'));
 
 /*
  * Root folder - add
@@ -66,7 +66,7 @@ $result = KObject::get('com:files.controller.folder')
 	->add()
 	->toArray();
 
-var_dump('Root folder - add', $result, is_dir(JPATH_ROOT.'/images/ercan_test'));
+var_dump('Root folder - add', $result, is_dir(APPLICATION_ROOT.'/images/ercan_test'));
 
 /*
  * Root folder - delete
@@ -77,7 +77,7 @@ $result = KObject::get('com:files.controller.folder')
 	->delete()
 	->toArray();
 
-var_dump('Root folder - delete', $result, !file_exists(JPATH_ROOT.'/images/ercan_test'));
+var_dump('Root folder - delete', $result, !file_exists(APPLICATION_ROOT.'/images/ercan_test'));
 
 /*
  * Nested folder - add
@@ -89,7 +89,7 @@ $result = KObject::get('com:files.controller.folder')
 	->add()
 	->toArray();
 
-var_dump('Nested folder - add', $result, is_dir(JPATH_ROOT.'/images/banners/ercan_nested'));
+var_dump('Nested folder - add', $result, is_dir(APPLICATION_ROOT.'/images/banners/ercan_nested'));
 
 /*
  * Nested folder - delete
@@ -101,4 +101,4 @@ $result = KObject::get('com:files.controller.folder')
 	->delete()
 	->toArray();
 
-var_dump('Nested folder - delete', $result, !file_exists(JPATH_ROOT.'/images/banners/nested.txt'));
+var_dump('Nested folder - delete', $result, !file_exists(APPLICATION_ROOT.'/images/banners/nested.txt'));
