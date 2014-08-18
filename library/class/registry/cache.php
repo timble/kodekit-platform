@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,15 +13,15 @@ namespace Nooku\Library;
  * Cache Class Registry
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class\Registry\Cache
  */
 class ClassRegistryCache extends ClassRegistry
 {
     /**
- 	 * The registry cache namespace
- 	 *
- 	 * @var boolean
- 	 */
+     * The registry cache namespace
+     *
+     * @var boolean
+     */
     protected $_namespace = 'nooku';
 
     /**
@@ -58,7 +58,7 @@ class ClassRegistryCache extends ClassRegistry
         return $this->_namespace;
     }
 
- 	/**
+    /**
      * Get an item from the array by offset
      *
      * @param   int     $offset The offset
@@ -68,7 +68,7 @@ class ClassRegistryCache extends ClassRegistry
     {
         if(!parent::offsetExists($offset))
         {
-            if($result = apc_fetch($this->_namespace.'-class-'.$offset)) {
+            if($result = apc_fetch($this->getNamespace().'-class_'.$offset)) {
                 parent::offsetSet($offset, $result);
             }
         }
@@ -86,12 +86,12 @@ class ClassRegistryCache extends ClassRegistry
      */
     public function offsetSet($offset, $value)
     {
-        apc_store($this->_namespace.'-class-'.$offset, $value);
+        apc_store($this->getNamespace().'-class_'.$offset, $value);
 
         parent::offsetSet($offset, $value);
     }
 
-	/**
+    /**
      * Check if the offset exists
      *
      * @param   int   $offset The offset
@@ -100,7 +100,7 @@ class ClassRegistryCache extends ClassRegistry
     public function offsetExists($offset)
     {
         if(false === $result = parent::offsetExists($offset)) {
-            $result = apc_exists($this->_namespace.'-class-'.$offset);
+            $result = apc_exists($this->getNamespace().'-class_'.$offset);
         }
 
         return $result;
@@ -114,7 +114,7 @@ class ClassRegistryCache extends ClassRegistry
      */
     public function offsetUnset($offset)
     {
-        apc_delete($this->_namespace.'-class-'.$offset);
+        apc_delete($this->getNamespace().'-class_'.$offset);
         parent::offsetUnset($offset);
     }
 

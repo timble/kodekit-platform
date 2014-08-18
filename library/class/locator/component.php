@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -37,16 +37,16 @@ namespace Nooku\Library;
  * Location  : namespace/.../path/to/exception/filenameforexception.php
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class|Locator\Component
  */
 class ClassLocatorComponent extends ClassLocatorAbstract
 {
     /**
-     * The type
+     * The locator name
      *
      * @var string
      */
-    protected $_type = 'component';
+    protected static $_name = 'component';
 
     /**
      * Get a fully qualified path based on a class name

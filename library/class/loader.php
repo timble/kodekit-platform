@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -21,7 +21,7 @@ require_once dirname(__FILE__).'/registry/cache.php';
  * Class Loader
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class|Loader
  */
 class ClassLoader implements ClassLoaderInterface
 {
@@ -61,7 +61,7 @@ class ClassLoader implements ClassLoaderInterface
     final private function __construct($config = array())
     {
         //Create the class registry
-        if(isset($config['cache_enabled']) && $config['cache_enabled'])
+        if(isset($config['cache']) && $config['cache'])
         {
             $this->__registry = new ClassRegistryCache();
 
@@ -225,7 +225,7 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function registerLocator(ClassLocatorInterface $locator, $prepend = false )
     {
-        $array = array($locator->getType() => $locator);
+        $array = array($locator->getName() => $locator);
 
         if($prepend) {
             $this->_locators = $array + $this->_locators;
