@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,7 +13,7 @@ namespace Nooku\Library;
   * Template Interface
   *
   * @author  Johan Janssens <http://github.com/johanjanssens>
-  * @package Nooku\Library\Template
+  * @package Nooku\Library\Template\Interface
   */
 interface TemplateInterface
 {
@@ -25,12 +25,13 @@ interface TemplateInterface
     /**
      * Load a template by path
      *
-     * @param   string  $path     The template path
+     * @param   string  $url      The template url
      * @param   array   $data     An associative array of data to be extracted in local template scope
      * @param   integer $status   The template state
-     * @return TemplateInterface
+     * @throws \InvalidArgumentException If the template could not be found
+     * @return TemplateAbstract
      */
-    public function load($path, $data = array(), $status = self::STATUS_LOADED);
+    public function load($url, $data = array(), $status = self::STATUS_LOADED);
 
     /**
      * Parse and compile the template to PHP code
@@ -174,21 +175,6 @@ interface TemplateInterface
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
 	public function invokeHelper($identifier, $config = array());
-
-    /**
-     * Register a template locator
-     *
-     * @param TemplateLocatorInterface $locator
-     * @return TemplateAbstract
-     */
-    public function registerLocator(TemplateLocatorInterface $locator);
-
-    /**
-     * Get a registered template locator based on his type
-     *
-     * @return TemplateLocatorInterface|null  Returns the template locator or NULL if the locator can not be found.
-     */
-    public function getLocator($type, $config = array());
 
     /**
      * Returns the template contents
