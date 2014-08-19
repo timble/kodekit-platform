@@ -32,9 +32,18 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function __construct()
     {
-        if (!extension_loaded('apc')) {
+        if (!static::isSupported()) {
             throw new \RuntimeException('Unable to use ObjectRegistryCache as APC is not enabled.');
         }
+    }
+
+    /**
+     * Checks if the APC PHP extension is enabled
+     * @return bool
+     */
+    public static function isSupported()
+    {
+        return extension_loaded('apc');
     }
 
 	/**

@@ -61,7 +61,7 @@ class ClassLoader implements ClassLoaderInterface
     final private function __construct($config = array())
     {
         //Create the class registry
-        if(isset($config['cache']) && $config['cache'])
+        if(isset($config['cache']) && $config['cache'] && ClassRegistryCache::isSupported())
         {
             $this->__registry = new ClassRegistryCache();
 
