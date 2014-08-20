@@ -61,7 +61,8 @@ class UsersControllerSession extends Users\ControllerSession
                     $url->query['id']     = $user->getId();
 
                     $this->getObject('application')->getRouter()->build($url);
-                    $context->response->setRedirect($url, 'Your password has expired. Please set a new password', 'notice');
+                    $context->response->setRedirect($url,
+                        $this->getObject('translator')->translate('Your password has expired. Please set a new password'), 'notice');
                 }
             }
         }

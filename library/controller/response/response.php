@@ -184,7 +184,7 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
             $this->_messages[$type] = array();
         }
 
-        $this->_messages[$type][] = $this->getObject('translator')->translate($message);
+        $this->_messages[$type][] = $message;
         return $this;
     }
 

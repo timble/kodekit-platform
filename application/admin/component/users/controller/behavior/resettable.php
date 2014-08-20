@@ -25,7 +25,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         if (!parent::_beforeToken($context))
         {
             $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, 'Invalid request', 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
         }
 
@@ -66,10 +66,10 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                     array('name' => $entity->name, 'site' => $site, 'url' => $url));
 
                 if (!$entity->notify(array('subject' => $subject, 'message' => $message))) {
-                    $context->getResponse()->addMessage('Unable to send password reset E-mail', 'notice');
+                    $context->getResponse()->addMessage($translator->translate('Unable to send password reset E-mail'), 'notice');
                 }
             }
-            else $context->response->addMessage('Unable to get a password reset URL', 'error');
+            else $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
         }
     }
 }

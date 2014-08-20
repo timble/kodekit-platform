@@ -45,7 +45,8 @@ class UsersControllerSession extends Users\ControllerSession
             $data->authentic = false;
             $user->setData($data);
 
-            $context->response->setRedirect($context->request->getReferrer(), 'Access denied');
+            $context->response->setRedirect($context->request->getReferrer(),
+                $this->getObject('translator')->translate('Access denied'));
         }
 
         return $result;
