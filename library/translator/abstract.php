@@ -98,8 +98,13 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
 
         if($config->cache)
         {
-            $instance = $instance->decorate('lib:translator.cache');
-            $instance->setNamespace($config->cache_namespace);
+            $class = $manager->getClass('lib:translator.cache');
+
+            if($class::isSupported())
+            {
+                $instance = $instance->decorate('lib:translator.cache');
+                $instance->setNamespace($config->cache_namespace);
+            }
         }
 
         return $instance;

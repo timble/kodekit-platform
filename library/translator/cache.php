@@ -41,8 +41,8 @@ class TranslatorCache extends ObjectDecorator implements TranslatorInterface
     {
         parent::__construct($config);
 
-        if (!extension_loaded('apc')) {
-            throw new \RuntimeException('APC is not loaded');
+        if (!self::isSupported()) {
+            throw new RuntimeException('Unable to use TranslatorCache as APC is not enabled.');
         }
 
         $this->_loaded = array();
@@ -236,6 +236,16 @@ class TranslatorCache extends ObjectDecorator implements TranslatorInterface
     public function isTranslatable($string)
     {
         return $this->getDelegate()->isTranslatable($string);
+    }
+
+    /**
+     * Checks if the APC PHP extension is enabled
+     *
+     * @return bool
+     */
+    public static function isSupported()
+    {
+        return extension_loaded('apc');
     }
 
     /**
