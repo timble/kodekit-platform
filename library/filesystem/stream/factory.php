@@ -149,10 +149,10 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         $identifier = $this->getIdentifier($identifier);
         $class      = $this->getObject('manager')->getClass($identifier);
 
-        if($class && !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
+        if(!$class || !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
         {
             throw new \UnexpectedValueException(
-                'Stream: '.$class.' does not implement FilesystemStreamInterface'
+                'Stream: '.$identifier.' does not implement FilesystemStreamInterface'
             );
         }
 
@@ -184,10 +184,10 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
             $identifier = $this->getIdentifier($identifier);
             $class      = $this->getObject('manager')->getClass($identifier);
 
-            if($class && !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
+            if(!$class || !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
             {
                 throw new \UnexpectedValueException(
-                    'Stream: '.$class.' does not implement FilesystemStreamInterface'
+                    'Stream: '.$identifier.' does not implement FilesystemStreamInterface'
                 );
             }
 
@@ -251,10 +251,10 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
             $identifier = $this->getIdentifier($identifier);
             $class      = $this->getObject('manager')->getClass($identifier);
 
-            if($class && !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
+            if(!$class || !array_key_exists(__NAMESPACE__.'\FilesystemStreamInterface', class_implements($class)))
             {
                 throw new \UnexpectedValueException(
-                    'Stream: '.$class.' does not implement FilesystemStreamInterface'
+                    'Stream: '.$identifier.' does not implement FilesystemStreamInterface'
                 );
             }
 
