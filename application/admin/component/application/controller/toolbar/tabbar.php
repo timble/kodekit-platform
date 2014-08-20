@@ -75,6 +75,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             $package    = $this->getObject('dispatcher')->getIdentifier()->package;
             $view       = $this->getObject('dispatcher')->getController()->getIdentifier()->name;
             $groups     = $this->getObject('user')->getGroups();
+            $translator = $this->getObject('translator');
 
             // Make sure that pages without an assigned group are also included.
             $groups[] = 0;
@@ -90,7 +91,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             {
                 if($page->level > 2)
                 {
-                    $this->addCommand($this->getObject('translator')->translate($page->title), array(
+                    $this->addCommand($translator($page->title), array(
                         'href'   => (string) $page->link_url,
                         'active' => (string) $view == Library\StringInflector::singularize($page->getLink()->query['view'])
                     ));

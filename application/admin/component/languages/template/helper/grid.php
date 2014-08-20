@@ -38,6 +38,6 @@ class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
         $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
         $class = $config->deleted  ? 'deleted'  : $class;
     
-        return '<span class="label label-'.$class.'">'.$translator->translate($text).'</span>';
+        return '<span class="label label-'.$class.'">'.$translator($text).'</span>';
     }
 }

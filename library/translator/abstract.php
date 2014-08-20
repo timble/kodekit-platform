@@ -386,4 +386,18 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
 
         return strtr($string, $parameters);
     }
+
+    /**
+     * Translates a string and handles parameter replacements
+     *
+     * Parameters are wrapped in curly braces. So {foo} would be replaced with bar given that $parameters['foo'] = 'bar'
+     *
+     * @param string $string String to translate
+     * @param array  $parameters An array of parameters
+     * @return string Translated string
+     */
+    public function __invoke($string, array $parameters = array())
+    {
+        return $this->translate($string, $parameters);
+    }
 }

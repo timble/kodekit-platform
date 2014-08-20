@@ -24,7 +24,8 @@ class JElementFolders extends JElement
 		$el_name = $control_name ? $control_name.'['.$name.']' : $name;
 		$show_root = $node->attributes('show_root');
 
-        $manager = Library\ObjectManager::getInstance();
+        $manager    = Library\ObjectManager::getInstance();
+        $translator = $manager->getObject('translator');
 
 		$tree =  $manager->getObject('com:files.controller.folder')
 			->container('files-files')
@@ -35,7 +36,7 @@ class JElementFolders extends JElement
 		$options = array();
 		
 		if ($show_root) {
-		    $options[] = array('label' => $manager->getObject('translator')->translate('Root Folder'), 'value' => '');
+		    $options[] = array('label' => $translator('Root Folder'), 'value' => '');
 		}
 		
 		foreach ($tree as $folder) {

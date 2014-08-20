@@ -31,7 +31,7 @@ class TemplateHelperTranslator extends TemplateHelperAbstract
 
         $translations = array();
         foreach ($strings as $string) {
-            $translations[$string] = $translator->translate($string);
+            $translations[$string] = $translator($string);
         }
 
         $html  = '';

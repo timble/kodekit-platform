@@ -153,7 +153,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * @throws	ObjectExceptionInvalidObject      If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
-     * @return  object  Return object on success, throws exception on failure
+     * @return  ObjectInterface|Callable  Return object on success, throws exception on failure
      */
     public function getObject($identifier, array $config = array())
     {

@@ -46,11 +46,11 @@ class TemplateHelperPaginator extends TemplateHelperSelect
             $html = '';
 
             if($config->show_limit) {
-                $html .= '<div class="pagination__limit">'.$translator->translate('Display NUM').' '.$this->limit($config).'</div>';
+                $html .= '<div class="pagination__limit">'.$translator('Display NUM').' '.$this->limit($config).'</div>';
             }
             $html .=  $this->pages($config);
             if($config->show_count) {
-                $html .= '<div class="pagination__count"> '.$translator->translate('Page').' '.$config->current.' '.$translator->translate('of').' '.$config->count.'</div>';
+                $html .= '<div class="pagination__count"> '.$translator('Page').' '.$config->current.' '.$translator('of').' '.$config->count.'</div>';
             }
 
             return $html;

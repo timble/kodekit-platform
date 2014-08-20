@@ -34,12 +34,12 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $translator = $this->getObject('translator');
 
-                $message = $translator->translate('The user account you are trying to reset the password for is not enabled');
+                $message = $translator('The user account you are trying to reset the password for is not enabled');
                 $context->response->setRedirect($url, $message, 'error');
 
                 if ($user->activation)
                 {
-                    $message = $translator->translate('Please activate your account before resetting your password');
+                    $message = $translator('Please activate your account before resetting your password');
                     $context->response->addMessage($message, 'notice');
                 }
 
@@ -108,17 +108,17 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $url = $context->request->getUrl()
                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $subject = $translator->translate('Reset your password');
-                $message = $translator->translate('Password reset instructions E-mail',
+                $subject = $translator('Reset your password');
+                $message = $translator('Password reset instructions E-mail',
                     array('name' => $entity->name, 'url' => $url));
 
                 if ($entity->notify(array('subject' => $subject, 'message' => $message))) {
                     $message = array(
-                        'text' => $translator->translate('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
+                        'text' => $translator('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
                         'type' => 'success');
                 } else {
                     $message = array(
-                        'text' => $translator->translate('The confirmation E-mail for resetting your password could not be sent'),
+                        'text' => $translator('The confirmation E-mail for resetting your password could not be sent'),
                         'type' => 'notice');
                 }
 
@@ -127,7 +127,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $context->response->setRedirect($url, $message['text'], $message['type']);
             }
-            else $context->response->addMessage($translator->translate('Unable to get a password reset URL'), 'error');
+            else $context->response->addMessage($translator('Unable to get a password reset URL'), 'error');
         }
     }
 

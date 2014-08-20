@@ -40,11 +40,11 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $translator->translate($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $translator($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => $translator->translate( 'Enabled' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => $translator->translate( 'Disabled' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $translator( 'Enabled' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $translator( 'Disabled' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -75,11 +75,11 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $translator->translate($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $translator($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => $translator->translate( 'Published' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => $translator->translate( 'Draft' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $translator( 'Published' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $translator( 'Draft' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;

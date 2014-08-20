@@ -119,7 +119,7 @@ class Date extends Object implements DateInterface
             {
                 // Since we got 1 by rounding it down and if it's less than 24 hours it would say x hours ago, this
                 // is yesterday
-                return $tense == 'ago' ? $translator->translate('Yesterday') : $translator->translate('Tomorrow');
+                return $tense == 'ago' ? $translator('Yesterday') : $translator('Tomorrow');
             }
 
             $period        = $periods[$i];
@@ -133,7 +133,7 @@ class Date extends Object implements DateInterface
                                      array('number' => $difference)
             );
         }
-        else $result = $translator->translate('Just now');
+        else $result = $translator('Just now');
 
         return $result;
     }
@@ -261,19 +261,19 @@ class Date extends Object implements DateInterface
         switch ($matches[0])
         {
             case 'D':
-                $replacement = $translator->translate(strtoupper($this->_date->format('D')));
+                $replacement = $translator(strtoupper($this->_date->format('D')));
                 break;
 
             case 'l':
-                $replacement = $translator->translate(strtoupper($this->_date->format('l')));
+                $replacement = $translator(strtoupper($this->_date->format('l')));
                 break;
 
             case 'F':
-                $replacement = $translator->translate(strtoupper($this->_date->format('F')));
+                $replacement = $translator(strtoupper($this->_date->format('F')));
                 break;
 
             case 'M':
-                $replacement = $translator->translate(strtoupper($this->_date->format('F').' short'));
+                $replacement = $translator(strtoupper($this->_date->format('F').' short'));
                 break;
         }
 

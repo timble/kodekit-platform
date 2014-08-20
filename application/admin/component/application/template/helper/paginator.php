@@ -40,11 +40,11 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 
         $html  = '<div class="pagination">';
         if($config->show_limit) {
-            $html .= '<div class="limit">'.$translator->translate('Display NUM').' '.$this->limit($config).'</div>';
+            $html .= '<div class="limit">'.$translator('Display NUM').' '.$this->limit($config).'</div>';
         }
         $html .=  $this->pages($config);
         if($config->show_count) {
-            $html .= '<div class="limit"> '.$translator->translate('Page').' '.$config->current.' '.$translator->translate('of').' '.$config->count.'</div>';
+            $html .= '<div class="limit"> '.$translator('Page').' '.$config->current.' '.$translator('of').' '.$config->count.'</div>';
         }
         $html .= '</div>';
         
@@ -107,7 +107,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
-        $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.$translator->translate($config->title).'</a>';
+        $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.$translator($config->title).'</a>';
 
 
        return $html;

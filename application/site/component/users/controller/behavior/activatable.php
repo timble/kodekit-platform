@@ -76,19 +76,19 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
                 $site = $this->getObject('application')->getTitle();
 
-                $subject = $translator->translate('User Account Activation');
-                $message = $translator->translate('User account activation E-mail',
+                $subject = $translator('User Account Activation');
+                $message = $translator('User account activation E-mail',
                     array('name' => $user->name, 'site' => $site, 'url' => $url));
 
                 if ($user->notify(array('subject' => $subject, 'message' => $message)))
                 {
-                    $context->response->addMessage($translator->translate(
+                    $context->response->addMessage($translator(
                         'An E-mail for activating your account has been sent to the address you have provided'
                     ));
                 }
-                else $context->reponse->addMessage($translator->translate('Failed to send activation E-mail'), 'error');
+                else $context->reponse->addMessage($translator('Failed to send activation E-mail'), 'error');
             }
-            else $context->reponse->addMessage($translator->translate('Unable to get an activation URL'), 'error');
+            else $context->reponse->addMessage($translator('Unable to get an activation URL'), 'error');
         }
     }
 
@@ -135,7 +135,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         $translator = $this->getObject('translator');
 
         if ($context->result === true) {
-            $context->response->addMessage($translator->translate('User account successfully activated'));
+            $context->response->addMessage($translator('User account successfully activated'));
         } else {
             $context->response->addMessage($context->error, 'error');
         }

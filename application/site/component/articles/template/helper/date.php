@@ -37,15 +37,15 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
         if ($config->show_create_date)
         {
             $html[] = '<span class="timestamp">';
-            $html[] = $this->format(array('date'=> $article->ordering_date, 'format' => $translator->translate('Timestamp Date Format')));
+            $html[] = $this->format(array('date'=> $article->ordering_date, 'format' => $translator('Timestamp Date Format')));
         }
 
         if ($config->get('show_modify_date') && $config->show_create_date && ($modified_on = $article->modified_on) && (intval($modified_on) != 0))
         {
-            $html[] = $translator->translate('Last Updated on {date}', array(
+            $html[] = $translator('Last Updated on {date}', array(
                 'date' => $this->format(array(
                     'date'   => $article->modified_on,
-                    'format' => $translator->translate('Timestamp Date Format')
+                    'format' => $translator('Timestamp Date Format')
                     ))
                 )
             );

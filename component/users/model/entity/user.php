@@ -70,7 +70,7 @@ class ModelEntityUser extends Library\ModelEntityRow
         if ($this->isModified('name') && trim($this->name) == '')
         {
             $this->setStatus(self::STATUS_FAILED);
-            $this->setStatusMessage($translator->translate('Please enter a name'));
+            $this->setStatusMessage($translator('Please enter a name'));
             return false;
         }
 
@@ -80,7 +80,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             if (!$this->getObject('lib:filter.email')->validate($this->email))
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage($translator->translate('Please enter a valid E-mail address'));
+                $this->setStatusMessage($translator('Please enter a valid E-mail address'));
                 return false;
             }
 
@@ -92,7 +92,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             if ($this->getObject('com:users.database.table.users')->count($query))
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage($translator->translate('The provided E-mail address is already registered'));
+                $this->setStatusMessage($translator('The provided E-mail address is already registered'));
                 return false;
             }
         }

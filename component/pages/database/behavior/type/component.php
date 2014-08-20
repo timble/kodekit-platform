@@ -49,11 +49,11 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         $translator = $this->getObject('translator');
 
         if(isset($query['view'])) {
-            $description .= ' &raquo; '. $translator->translate(ucfirst($query['view']));
+            $description .= ' &raquo; '. $translator(ucfirst($query['view']));
         }
 
         if(isset($query['layout'])) {
-            $description .= ' / '. $translator->translate(ucfirst($query['layout']));
+            $description .= ' / '. $translator(ucfirst($query['layout']));
         }
 
         return $description;

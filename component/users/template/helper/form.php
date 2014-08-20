@@ -37,14 +37,14 @@ class TemplateHelperForm extends Library\TemplateHelperDefault
             'words'                    => array(),
             'container_id'             => 'password-check',
             'min_score'                => 0,
-            'min_score_msg'            => $translator->translate('Please select a stronger password'),
+            'min_score_msg'            => $translator('Please select a stronger password'),
             'score_map'                => array(
-                '0' => $translator->translate('Please provide a password'),
-                '1' => $translator->translate('Very weak'),
-                '2' => $translator->translate('Weak'),
-                '3' => $translator->translate('Good'),
-                '4' => $translator->translate('Strong'),
-                '5' => $translator->translate('Very strong'))));
+                '0' => $translator('Please provide a password'),
+                '1' => $translator('Very weak'),
+                '2' => $translator('Weak'),
+                '3' => $translator('Good'),
+                '4' => $translator('Strong'),
+                '5' => $translator('Very strong'))));
 
         $options = array(
             'class'               => $config->class,
