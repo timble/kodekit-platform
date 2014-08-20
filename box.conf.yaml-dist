@@ -1,0 +1,6 @@
+# Manages your nooku/box instance's configuration.
+
+virtualbox:
+   name: "myprojectcustom-box"
+   memory: 512
+   cpus: 2
