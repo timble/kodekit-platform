@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Translator Interface
  *
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
- * @package Nooku\Library\Translator
+ * @package Nooku\Library\Translator\Interface
  */
 interface TranslatorInterface
 {
@@ -40,24 +40,21 @@ interface TranslatorInterface
     public function choose(array $strings, $number, array $parameters = array());
 
     /**
-     * Loads translations from a file
+     * Loads translations from a url
      *
-     * @param mixed $file     The file containing translations.
-     * @param bool  $override Tells if previous loaded translations should be overridden
+     * @param string $url      The translation url
+     * @param bool   $override If TRUE override previously loaded translations. Default FALSE.
      * @return bool True if translations were loaded, false otherwise
      */
     public function load($file, $override = false);
 
     /**
-     * Translations finder.
+     * Find translations from a url
      *
-     * Looks for translation files on the provided path.
-     *
-     * @param string $path      The path to look for translations.
-     * @param string $extension The file extension to look for.
-     * @return string|false The translation filename. False in no translations file is found.
+     * @param string $url      The translation url
+     * @return array An array with physical file paths
      */
-    public function find($path, $extension = 'yaml');
+    public function find($url);
 
     /**
      * Sets the locale
@@ -92,7 +89,7 @@ interface TranslatorInterface
     /**
      * Get the catalogue
      *
-     * @throws	\UnexpectedValueException	If the catalogue doesn't implement the TranslatorCatalogueInterface
+     * @throws	\UnexpectedValueException   If the catalogue doesn't implement the TranslatorCatalogueInterface
      * @return TranslatorCatalogueInterface The translator catalogue.
      */
     public function getCatalogue();
@@ -100,8 +97,8 @@ interface TranslatorInterface
     /**
      * Set a catalogue
      *
-     * @param	mixed	$catalogue An object that implements KObjectInterface, KObjectIdentifier object
-     * 					           or valid identifier string
+     * @param   mixed   $catalogue An object that implements ObjectInterface, ObjectIdentifier object
+     *                             or valid identifier string
      * @return TranslatorInterface
      */
     public function setCatalogue($catalogue);
@@ -115,10 +112,10 @@ interface TranslatorInterface
     public function isTranslatable($string);
 
     /**
-     * Tells if translations from a given file has already been loaded.
+     * Checks if translations from a given url are already loaded.
      *
-     * @param mixed $file The file to check
+     * @param mixed $url The url to check
      * @return bool TRUE if loaded, FALSE otherwise.
      */
-    public function isLoaded($file);
+    public function isLoaded($url);
 }

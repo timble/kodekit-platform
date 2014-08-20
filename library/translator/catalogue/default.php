@@ -13,6 +13,6 @@ namespace Nooku\Library;
  * Default Translator Catalogue
  *
  * @author  Arunas Mazeika <https://github.com/arunasmazeika>
- * @package Nooku\Library\Translator
+ * @package Nooku\Library\Translator\Catalogue\Default
  */
 final class TranslatorCatalogueDefault extends TranslatorCatalogueAbstract {}

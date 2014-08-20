@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 return array(
@@ -23,14 +23,6 @@ return array(
 
         'com:application.template.filter.asset'         => array(
             'schemes' => array('/assets/application/' => '/administrator/theme/default/')
-        ),
-
-        'com:application.translator'                 => array(
-            'paths' => array(Nooku::getInstance()->getRootPath(), Nooku::getInstance()->getBasePath())
-        ),
-
-        'com:application.translator.catalogue.cache' => array(
-            'namespace' => 'admin'
         ),
     )
 );

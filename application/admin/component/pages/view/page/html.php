@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -17,18 +17,6 @@ use Nooku\Library;
  */
 class PagesViewPageHtml extends Library\ViewHtml
 {
-    protected function _actionRender(Library\ViewContext $context)
-    {
-        // Load languages.
-        $translator = $this->getObject('translator');
-
-        foreach($context->data->components as $component) {
-            $translator->import($component->name);
-        }
-
-        return parent::_actionRender($context);
-    }
-
     protected function _fetchData(Library\ViewContext $context)
     {
         // Load components.
@@ -66,5 +54,15 @@ class PagesViewPageHtml extends Library\ViewHtml
         $context->data->parent_id = $page->getParentId();
 
         parent::_fetchData($context);
+    }
+
+    protected function _loadTranslations(Library\ViewContext $context)
+    {
+        // Load languages.
+        $translator = $this->getObject('translator');
+
+        foreach($context->data->components as $component) {
+            $translator->load('com:'.$component->name);
+        }
     }
 }

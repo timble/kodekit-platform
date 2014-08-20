@@ -6,13 +6,14 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
+
 namespace Nooku\Library;
 
 /**
  * Translation Catalogue Interface
  *
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
- * @package Nooku\Library\Translator
+ * @package Nooku\Library\Translator\Catalogue\Interface
  */
 interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess, \Serializable
 {
@@ -50,13 +51,6 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
     public function remove($string);
 
     /**
-     * Clears out all strings from the registry
-     *
-     * @return  TranslatorCatalogueInterface
-     */
-    public function clear();
-
-    /**
      * Add translations to the catalogue.
      *
      * @param array  $translations Associative array containing translations.
@@ -64,6 +58,13 @@ interface TranslatorCatalogueInterface extends \IteratorAggregate, \ArrayAccess,
      * @return bool True on success, false otherwise.
      */
     public function add(array $translations, $override = false);
+
+    /**
+     * Clears out all strings from the registry
+     *
+     * @return  TranslatorCatalogueInterface
+     */
+    public function clear();
 
     /**
      * Get a list of all strings in the catalogue

@@ -79,7 +79,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         //Fetch the view data before rendering
         $this->addCommandCallback('before.render', '_fetchData');
 
-        //Fetch the view data before rendering
+        //Load the controller translations
         $this->addCommandCallback('before.render', '_loadTranslations');
     }
 
@@ -174,7 +174,16 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      */
     protected function _loadTranslations(ViewContext $context)
     {
-        $this->getObject('translator')->load('com:'.$this->getIdentifier()->package);
+        $package = $this->getIdentifier()->package;
+        $domain  = $this->getIdentifier()->domain;
+
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$package;
+        } else {
+            $identifier = 'com:'.$package;
+        }
+
+        $this->getObject('translator')->load($identifier);
     }
 
     /**

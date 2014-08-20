@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Translator Inflector Interface
  *
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
- * @package Nooku\Library\Translator
+ * @package Nooku\Library\Translator\Inflector\Interface
  */
 interface TranslatorInflectorInterface
 {

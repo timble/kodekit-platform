@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * Copyright (c) Fabien Potencier <fabien@symfony.com>
  *
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
- * @package Nooku\Library\Translator
+ * @package Nooku\Library\Translator\Inflector
  */
 class TranslatorInflector extends StringInflector implements TranslatorInflectorInterface
 {

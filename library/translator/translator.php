@@ -15,7 +15,4 @@ namespace Nooku\Library;
  * @author  Ercan Ozkaya <https://github.com/ercanozkaya>
  * @package Nooku\Library\Translator
  */
-class Translator extends TranslatorAbstract implements ObjectSingleton
-{
-
-}
+class Translator extends TranslatorAbstract implements ObjectSingleton {}
