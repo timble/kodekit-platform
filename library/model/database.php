@@ -222,6 +222,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds SELECT columns list for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryColumns(DatabaseQuerySelect $query)
     {
@@ -230,6 +232,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds JOINS clauses for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryJoins(DatabaseQuerySelect $query)
     {
@@ -238,6 +242,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds WHERE clause for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryWhere(DatabaseQuerySelect $query)
     {
@@ -246,6 +252,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds GROUP BY clause for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryGroup(DatabaseQuerySelect $query)
     {

@@ -35,11 +35,10 @@ function pick_random(array $array)
 }
 
 // Load application.
-define('JPATH_ROOT'       , dirname(realpath(__DIR__.'/../../code/administrator')));
-define('JPATH_SITES'      , JPATH_ROOT.'/sites');
+define('APPLICATION_ROOT'       , dirname(realpath(__DIR__.'/../../code/administrator')));
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_ROOT.'/bootstrap.php';
+require_once APPLICATION_ROOT.'/bootstrap.php';
 
 $application =  Library\ObjectManager::getInstance()->getObject('com:application.dispatcher');
 $application->loadConfig(new Library\Command());

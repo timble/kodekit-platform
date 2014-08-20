@@ -224,7 +224,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      *
      * @param ObjectIdentifier|string $identifier An ObjectIdentifier or valid identifier string
      * @param array  			      $config     An optional associative array of configuration settings.
-     * @return ObjectInterface  Return object on success, throws exception on failure.
+     * @return ObjectInterface|Callable  Return object on success, throws exception on failure.
      */
     final public function getObject($identifier, array $config = array())
     {

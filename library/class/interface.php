@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Class Loader Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class\Loader\Interface
  */
 interface ClassLoaderInterface
 {

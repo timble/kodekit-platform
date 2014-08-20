@@ -7,15 +7,11 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library;
-
 return array(
-
-    'priority' => Library\ObjectBootstrapper::PRIORITY_HIGH,
 
     'aliases'  => array(
         'application'                    => 'com:application.dispatcher.http',
-        'lib:database.adapter.mysql'     => 'com:application.database.adapter.mysql',
+        'translator'                     => 'com:application.translator',
         'lib:template.locator.component' => 'com:application.template.locator.component',
         'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
     )

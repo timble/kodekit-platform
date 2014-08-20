@@ -24,7 +24,7 @@ $result = KObject::get('com:files.controller.file')
 	->toArray();
 
 var_dump('Root file - move', $result,
-	!file_exists(JPATH_ROOT.'/images/random_test_file.txt') && file_exists(JPATH_ROOT.'/images/moved_test_file.txt'));
+	!file_exists(APPLICATION_ROOT.'/images/random_test_file.txt') && file_exists(APPLICATION_ROOT.'/images/moved_test_file.txt'));
 
 /*
  * Root file - copy
@@ -36,7 +36,7 @@ $result = KObject::get('com:files.controller.file')
 	->toArray();
 
 var_dump('Root file - copy', $result,
-	file_exists(JPATH_ROOT.'/images/moved_test_file.txt') && file_exists(JPATH_ROOT.'/images/copied_test_file.txt'));
+	file_exists(APPLICATION_ROOT.'/images/moved_test_file.txt') && file_exists(APPLICATION_ROOT.'/images/copied_test_file.txt'));
 
 /*
  * Nested file - move
@@ -48,7 +48,7 @@ $result = KObject::get('com:files.controller.file')
 	->toArray();
 
 var_dump('Nested file - move', $result,
-	!file_exists(JPATH_ROOT.'/images/moved_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/moved_test_file.txt'));
+	!file_exists(APPLICATION_ROOT.'/images/moved_test_file.txt') && file_exists(APPLICATION_ROOT.'/images/random_test_folder/moved_test_file.txt'));
 
 /*
  * Nested file - copy
@@ -60,7 +60,7 @@ $result = KObject::get('com:files.controller.file')
 	->toArray();
 
 var_dump('Nested file - copy', $result,
-	file_exists(JPATH_ROOT.'/images/copied_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/copied_test_file.txt'));
+	file_exists(APPLICATION_ROOT.'/images/copied_test_file.txt') && file_exists(APPLICATION_ROOT.'/images/random_test_folder/copied_test_file.txt'));
 
 /*
  * Nested file - copy with a new name
@@ -72,7 +72,7 @@ $result = KObject::get('com:files.controller.file')
 	->toArray();
 
 var_dump('Nested file - copy with a new name', $result,
-	file_exists(JPATH_ROOT.'/images/copied_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/copied_test_file2.txt'));
+	file_exists(APPLICATION_ROOT.'/images/copied_test_file.txt') && file_exists(APPLICATION_ROOT.'/images/random_test_folder/copied_test_file2.txt'));
 
 /*
  * Nested file - move with a new name
@@ -84,7 +84,7 @@ $result = KObject::get('com:files.controller.file')
 	->toArray();
 
 var_dump('Nested file - move with a new name', $result,
-	!file_exists(JPATH_ROOT.'/images/copied_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/moved_test_file2.txt'));
+	!file_exists(APPLICATION_ROOT.'/images/copied_test_file.txt') && file_exists(APPLICATION_ROOT.'/images/random_test_folder/moved_test_file2.txt'));
 
 /*
  * Delete test files

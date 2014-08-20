@@ -7,11 +7,5 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-define('JPATH_ROOT' , realpath($_SERVER['DOCUMENT_ROOT']));
-define('JPATH_SITES', JPATH_ROOT.'/sites');
-
-define( 'DS', DIRECTORY_SEPARATOR );
-
 require_once(__DIR__.'/bootstrap.php' );
-
 Nooku\Library\ObjectManager::getInstance()->getObject('application')->run();

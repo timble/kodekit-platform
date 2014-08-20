@@ -46,7 +46,7 @@ class UsersControllerSession extends Users\ControllerSession
             $user->setData($data);
 
             $context->response->setRedirect($context->request->getReferrer(),
-                \JText::_('Access denied'));
+                $this->getObject('translator')->translate('Access denied'));
         }
 
         return $result;

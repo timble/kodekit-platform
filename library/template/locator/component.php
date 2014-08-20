@@ -13,16 +13,16 @@ namespace Nooku\Library;
  * Component Template Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\TemplateLoaderComponent
+ * @package Nooku\Library\Template\Locator\Component
  */
-class TemplateLocatorComponent extends TemplateLocatorAbstract
+class TemplateLocatorComponent extends TemplateLocatorIdentifier
 {
     /**
-     * The type
+     * The locator name
      *
      * @var string
      */
-    protected $_type = 'com';
+    protected static $_name = 'com';
 
     /**
      * Find a template path

@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Cache Object Registry
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Nooku\Library\Object\Registry\Cache
  */
 class ObjectRegistryCache extends ObjectRegistry
 {
@@ -76,7 +76,7 @@ class ObjectRegistryCache extends ObjectRegistry
                 'class'      =>  $class
             );
 
-            apc_store($this->_namespace.'-object-'.$identifier, $data);
+            apc_store($this->getNamespace().'-object_'.$identifier, $data);
         }
 
         return  parent::setClass($identifier, $class);
@@ -92,7 +92,7 @@ class ObjectRegistryCache extends ObjectRegistry
     {
         if(!parent::offsetExists($offset))
         {
-            if($data = apc_fetch($this->_namespace.'-object-'.$offset))
+            if($data = apc_fetch($this->getNamespace().'-object_'.$offset))
             {
                 $class      = $data['class'];
                 $identifier = $data['identifier'];
@@ -125,7 +125,7 @@ class ObjectRegistryCache extends ObjectRegistry
                 'class'      =>  $this->getClass($identifier)
             );
 
-            apc_store($this->_namespace.'-object-'.$offset, $data);
+            apc_store($this->getNamespace().'-object_'.$offset, $data);
         }
 
         parent::offsetSet($offset, $identifier);
@@ -140,7 +140,7 @@ class ObjectRegistryCache extends ObjectRegistry
     public function offsetExists($offset)
     {
         if(false === $result = parent::offsetExists($offset)) {
-            $result = apc_exists($this->_namespace.'-object-'.$offset);
+            $result = apc_exists($this->getNamespace().'-object_'.$offset);
         }
 
         return $result;
@@ -154,7 +154,7 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function offsetUnset($offset)
     {
-        apc_delete($this->_namespace.'-object-'.$offset);
+        apc_delete($this->getNamespace().'-object_'.$offset);
         parent::offsetUnset($offset);
     }
 

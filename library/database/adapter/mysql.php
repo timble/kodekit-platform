@@ -102,14 +102,12 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'options' => array(
-                'username' => null,
-                'password' => null,
-                'database' => null,
-                'host'     => null,
-                'port'     => null,
-                'socket'   => null
-            )
+            'username' => ini_get('mysql.default_user'),
+            'password' => ini_get('mysql.default_password'),
+            'host'     => ini_get('mysql.default_host'),
+            'port'     => ini_get('mysql.default_port'),
+            'socket'   => ini_get('mysql.default_socket'),
+            'database' => '',
         ));
 
         parent::_initialize($config);
@@ -122,8 +120,9 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      */
     public function connect()
     {
-        $options = $this->_options;
-        $dsn     = 'mysql:dbname='.$options->database.';charset=utf8';
+        $options = $this->getConfig();
+
+        $dsn = 'mysql:dbname='.$options->database.';charset=utf8';
 
         if($options->host)
         {

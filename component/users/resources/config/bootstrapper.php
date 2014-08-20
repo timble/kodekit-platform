@@ -7,11 +7,7 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library;
-
 return array(
-
-    'priority' => Library\ObjectBootstrapper::PRIORITY_HIGH,
 
     'aliases'  => array(
         'user.provider'  => 'com:users.user.provider',

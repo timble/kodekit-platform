@@ -7,11 +7,7 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library;
-
 return array(
-
-    'priority' => Library\ObjectBootstrapper::PRIORITY_HIGH,
 
     'aliases'  => array(
         'com:files.model.entity.directories'  => 'com:files.model.entity.folders',

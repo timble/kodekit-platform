@@ -13,23 +13,23 @@ namespace Nooku\Library;
  * Abstract Object Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Nooku\Library\Object\Locator\Abstract
  */
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
+    /**
+     * The locator name
+     *
+     * @var string
+     */
+    protected static $_name = '';
+
     /**
      * The class prefix sequence in FIFO order
      *
      * @var array
      */
     protected $_sequence = array();
-
-    /**
-     * The locator type
-     *
-     * @var string
-     */
-    protected $_type = '';
 
     /**
      * Constructor.
@@ -77,11 +77,12 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         $class   = $path.$file;
 
         $info = array(
-            'class'   => $class,
-            'package' => $package,
-            'domain'  => $domain,
-            'path'    => $path,
-            'file'    => $file
+            'identifier' => $identifier,
+            'class'      => $class,
+            'package'    => $package,
+            'domain'     => $domain,
+            'path'       => $path,
+            'file'       => $file
         );
 
         return $this->find($info, $fallback);
@@ -126,9 +127,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      *
      * @return string
      */
-    public function getType()
+    public static function getName()
     {
-        return $this->_type;
+        return static::$_name;
     }
 
     /**

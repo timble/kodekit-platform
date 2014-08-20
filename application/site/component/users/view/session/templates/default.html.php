@@ -20,15 +20,16 @@
             <h1><?= escape($parameters->get('page_title')) ?></h1>
         </div>
 
-        <? if($parameters->get('description_login_text')) : ?>
-        <p><?= escape(translate($parameters->get('description_login_text'))) ?></p>
+        <? if ($description = $parameters->get('description_login_text',
+            'To access the private area of this site, please log in')): ?>
+            <p><?= escape(translate($description)) ?></p>
         <? endif ?>
 
         <fieldset>
             <input id="email" class="required validate-email form-control" name="email" type="email" alt="email" placeholder="Email address" />
             <input id="password" class="required form-control" type="password" name="password" alt="password" placeholder="Password"/>
         </fieldset>
-        <small><a href="<?= helper('route.user', array('layout' => 'reset')); ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
+        <small><a href="<?= helper('route.user', array('layout' => 'reset')); ?>"><?= translate('Forgot your password?'); ?></a></small>
     </div>
 
     <div class="form-actions">

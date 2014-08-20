@@ -41,9 +41,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $this->_site = $config->site;
         }
 
-        $this->loadConfig();
-
-        $this->addCommandCallback('before.run', 'loadLanguage');
+        $this->addCommandCallback('before.run', 'setLanguage');
     }
 
     /**
@@ -60,10 +58,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         $config->append(array(
             'base_url' => '/administrator',
             'site'     => null,
-            'options'  => array(
-                'config_file' => JPATH_ROOT . '/config/config.php',
-                'language'    => null,
-            ),
+            'language' => 'en-GB',
         ));
 
         parent::_initialize($config);
@@ -76,14 +71,10 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     protected function _actionRun(Library\DispatcherContextInterface $context)
     {
-        //Set the site error reporting
-        $this->getObject('exception.handler')->setErrorLevel($this->getCfg('debug_mode'));
-
-        define('JPATH_FILES', JPATH_SITES . '/' . $this->getSite() . '/files');
-        define('JPATH_CACHE', $this->getCfg('cache_path', JPATH_ROOT . '/cache'));
+        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
 
         // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getCfg('timezone')));
+        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getConfig()->timezone));
         date_default_timezone_set($timezone->getName());
 
         //Route the request
@@ -111,41 +102,49 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Load the configuration
+     * Set the application language
      *
-     * @return    void
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @return	void
      */
-    public function loadConfig()
+    public function setLanguage(Library\DispatcherContextInterface $context)
     {
-        // Check if the site exists
-        if ($this->getObject('com:sites.model.sites')->fetch()->find($this->getSite())) {
-            //Load the application config settings
-            JFactory::getConfig()->loadArray($this->getConfig()->options->toArray());
+        $languages = $this->getObject('application.languages');
+        $language  = null;
 
-            //Load the global config settings
-            require_once($this->getConfig()->options->config_file);
-            JFactory::getConfig()->loadObject(new JConfig());
+        // Otherwise use user language setting.
+        if(!$language && $iso_code = $context->user->get('language')) {
+            $language = $languages->find(array('iso_code' => $iso_code));
+        }
 
-            //Load the site config settings
-            require_once(JPATH_SITES . '/' . $this->getSite() . '/config/config.php');
-            JFactory::getConfig()->loadObject(new JSiteConfig());
+        // If no user language specified, use application
+        if($iso_code = $this->getConfig()->language) {
+            $language = $languages->find(array('iso_code' => $iso_code));
+        }
 
-        } else throw new Library\ControllerExceptionResourceNotFound('Site :' . $this->getSite() . ' not found');
+        // If language still not set, use the primary.
+        if(!$language) {
+            $language = $languages->getPrimary();
+        }
+
+        $languages->setActive($language);
     }
 
     /**
-     * Load the user session or create a new one
+     * Re-create the session if site has changed
      *
-     * @return    void
+     * @return Library\UserInterface
      */
     public function getUser()
     {
-        if (!$this->_user instanceof Library\UserInterface) {
+        if (!$this->_user instanceof Library\UserInterface)
+        {
             $user    = parent::getUser();
             $session = $user->getSession();
 
             //Re-create the session if we changed sites
-            if ($user->isAuthentic() && ($session->site != $this->getSite())) {
+            if ($user->isAuthentic() && ($session->site != $this->getSite()))
+            {
                 //@TODO : Fix this
                 //if(!$this->getObject('com:users.controller.session')->add()) {
                 //    $session->destroy();
@@ -157,43 +156,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Get the application languages.
-     *
-     * @return ApplicationDatabaseRowsetLanguages
-     */
-    public function loadLanguage(Library\DispatcherContextInterface $context)
-    {
-        $languages = $this->getObject('application.languages');
-        $language  = null;
-
-        // If a language was specified it has priority.
-        if ($iso_code = $this->getConfig()->options->language) {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if (count($result) == 1) {
-                $language = $result->top();
-            }
-        }
-
-        // Otherwise use user language setting.
-        if (!$language && $iso_code = $context->user->get('language')) {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if (count($result) == 1) {
-                $language = $result->top();
-            }
-        }
-
-        // If language still not set, use the primary.
-        if (!$language) {
-            $language = $languages->getPrimary();
-        }
-
-        $languages->setActive($language);
-
-        // TODO: Remove this.
-        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
-    }
-
-    /**
      * Get the application router.
      *
      * @param  array $options An optional associative array of configuration options.
@@ -202,22 +164,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getObject('com:application.router', $options);
-
-        return $router;
-    }
-
-    /**
-     * Gets a configuration value.
-     *
-     * @param    string $name    The name of the value to get.
-     * @param    mixed  $default The default value
-     *
-     * @return    mixed    The user state.
-     */
-    public function getCfg($name, $default = null)
-    {
-        return JFactory::getConfig()->getValue('config.' . $name, $default);
+        return $this->getObject('com:application.router', $options);
     }
 
     /**
@@ -232,12 +179,14 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     public function getSite($reparse = false)
     {
-        if (!$this->_site || $reparse) {
+        if (!$this->_site || $reparse)
+        {
             // Check URL host
             $uri = clone($this->getRequest()->getUrl());
 
             $host = $uri->getHost();
-            if (!$this->getObject('com:sites.model.sites')->fetch()->find($host)) {
+            if (!$this->getObject('com:sites.model.sites')->fetch()->find($host))
+            {
                 // Check folder
                 $base = $this->getRequest()->getBaseUrl()->getPath();
                 $path = trim(str_replace($base, '', $uri->getPath()), '/');

@@ -65,27 +65,30 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
     {
         $user = $context->result;
 
-        if ($user instanceof Users\DatabaseRowUser && $user->getStatus() == $user::STATUS_CREATED && $user->activation)
+        if ($user instanceof Users\ModelEntityUser && $user->getStatus() == $user::STATUS_CREATED && $user->activation)
         {
+            $translator = $this->getObject('translator');
+
             if (($url = $this->_getActivationUrl()))
             {
                 $url = $context->request->getUrl()
                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                // TODO Uncomment and fix after Langauge support is re-factored.
-                //$subject = JText::_('User Account Activation');
-                //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-                //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
-                $subject = 'User Account Activation';
-                $message = $url;
+                $site = $this->getObject('application')->getTitle();
 
-                if ($user->notify(array('subject' => $subject, 'message' => $message))) {
-                    $context->response->addMessage('An E-mail for activating your account has been sent to the address you have provided.');
-                } else {
-                    $context->reponse->addMessage('Failed to send activation E-mail', 'error');
+                $subject = $translator('User Account Activation');
+                $message = $translator('User account activation E-mail',
+                    array('name' => $user->name, 'site' => $site, 'url' => $url));
+
+                if ($user->notify(array('subject' => $subject, 'message' => $message)))
+                {
+                    $context->response->addMessage($translator(
+                        'An E-mail for activating your account has been sent to the address you have provided'
+                    ));
                 }
+                else $context->reponse->addMessage($translator('Failed to send activation E-mail'), 'error');
             }
-            else $context->reponse->addMessage('Unable to get an activation URL', 'error');
+            else $context->reponse->addMessage($translator('Unable to get an activation URL'), 'error');
         }
     }
 
@@ -129,10 +132,12 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
         $this->getObject('application')->getRouter()->build($url);
 
+        $translator = $this->getObject('translator');
+
         if ($context->result === true) {
-            $context->response->addMessage('Activation successfully completed');
+            $context->response->addMessage($translator('User account successfully activated'));
         } else {
-            $context->response->addMessage('Activation failed', 'error');
+            $context->response->addMessage($context->error, 'error');
         }
 
         $context->response->setRedirect($url);

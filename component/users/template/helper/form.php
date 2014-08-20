@@ -25,10 +25,11 @@ class TemplateHelperForm extends Library\TemplateHelperDefault
      * @param array $config An optional configuration array.
      * @return string The HTML layout.
      */
-    public function password($config = array()) {
+    public function password($config = array())
+    {
+        $translator = $this->getObject('translator');
 
         $config = new Library\ObjectConfig($config);
-
         $config->append(array(
             'class'                    => 'help-block',
             'input_id'                 => 'password',
@@ -36,14 +37,14 @@ class TemplateHelperForm extends Library\TemplateHelperDefault
             'words'                    => array(),
             'container_id'             => 'password-check',
             'min_score'                => 0,
-            'min_score_msg'            => $this->translate('Please select a stronger password'),
+            'min_score_msg'            => $translator('Please select a stronger password'),
             'score_map'                => array(
-                '0' => $this->translate('Please provide a password'),
-                '1' => $this->translate('Very weak'),
-                '2' => $this->translate('Weak'),
-                '3' => $this->translate('Good'),
-                '4' => $this->translate('Strong'),
-                '5' => $this->translate('Very strong'))));
+                '0' => $translator('Please provide a password'),
+                '1' => $translator('Very weak'),
+                '2' => $translator('Weak'),
+                '3' => $translator('Good'),
+                '4' => $translator('Strong'),
+                '5' => $translator('Very strong'))));
 
         $options = array(
             'class'               => $config->class,

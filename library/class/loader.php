@@ -21,7 +21,7 @@ require_once dirname(__FILE__).'/registry/cache.php';
  * Class Loader
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class|Loader
  */
 class ClassLoader implements ClassLoaderInterface
 {
@@ -61,7 +61,7 @@ class ClassLoader implements ClassLoaderInterface
     final private function __construct($config = array())
     {
         //Create the class registry
-        if(isset($config['cache_enabled']) && $config['cache_enabled'])
+        if(isset($config['cache']) && $config['cache'])
         {
             $this->__registry = new ClassRegistryCache();
 
@@ -225,7 +225,7 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function registerLocator(ClassLocatorInterface $locator, $prepend = false )
     {
-        $array = array($locator->getType() => $locator);
+        $array = array($locator->getName() => $locator);
 
         if($prepend) {
             $this->_locators = $array + $this->_locators;

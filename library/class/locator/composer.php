@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,16 +15,16 @@ namespace Nooku\Library;
  * Proxy calls to the Composer Autoloader through Composer\Autoload\ClassLoader::findFile().
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class|Locator\Component
  */
 class ClassLocatorComposer extends ClassLocatorAbstract
 {
     /**
-     * The type
+     * The locator name
      *
      * @var string
      */
-    protected $_type = 'composer';
+    protected static $_name = 'composer';
 
     /**
      * The composer loader

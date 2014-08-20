@@ -55,18 +55,6 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
     }
 
     /**
-     * Translates a string and handles parameter replacements
-     *
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array())
-    {
-        return $this->getTemplate()->translate($string, $parameters);
-    }
-
-    /**
      * Set the template object
      *
      * @return  TemplateInterface $template	The template object
@@ -111,7 +99,10 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 
                 if (is_bool($item))
                 {
-                    if ($item === false) continue;
+                    if ($item === false) {
+                        continue;
+                    }
+                    
                     $item = $key;
                 }
 

@@ -28,7 +28,7 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
         //Set the pathway
         $page = $this->getObject('application.pages')->getActive();
         if ($page->getLink()->query['view'] == 'categories') {
-            $this->getObject('application')->getPathway()->addItem($category->title, '');
+            $this->getObject('com:pages.pathway')->addItem($category->title, '');
         }
 
         $context->data->params   = $params;

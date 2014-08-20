@@ -23,9 +23,9 @@ use Nooku\Library;
         <link><?= route() ?></link>
         <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
-        <language><?= JFactory::getLanguage()->getTag() ?></language>
+        <language><?= @object('translator')->getLocale(); ?></language>
 
-        <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
+        <dc:language><?= @object('translator')->getLocale(); ?></dc:language>
         <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
         <dc:date><?= helper('date.format') ?></dc:date>
 
@@ -36,7 +36,7 @@ use Nooku\Library;
 
         <? if($category->image) : ?>
         <image>
-            <url><?= object('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
+            <url><?= object('request')->getUrl()->setPath(str_replace(APPLICATION_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
             <title><?= escape($category->title) ?></title>
             <link><?= route() ?></link>
             <width><?= $category->image->width ?></width>
