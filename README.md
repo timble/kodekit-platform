@@ -13,6 +13,19 @@ and includes everything needed to create components according to the [Hierarchic
 By doing most of the repetitive work for you, Nooku Platform greatly reduces the time to develop all kinds of websites
 and web applications, allowing you to focus on the things that matter : business logic and the user experience.
 
+Why Nooku Platform ?
+--------------------
+
+Nooku Platform was [born at the end of 2010][nooku-birth] with the goal to create a [leaner][nooku-leaner] and [meaner][nooku-meaner]
+multi-site and multi-lingual distro of Joomla 1.5. Originally named Nooku Server and renamed to Nooku Platform in 2014.
+
+With the end of life of Joomla 1.5 end of 2012 compatibility with Joomla was dropped and development continued in an
+effort to completely refactor the code base to a modern and lean architecture using well-established coding standards
+and best practices.
+
+At the moment Nooku Platform is at version 0.9 and work is ongoing in the `develop` branch to refactor the last bits
+of Joomla legacy code. Once this work is completed the first 1.0 alpha release will be made available.
+
 Experimental Only
 -----------------
 
@@ -92,6 +105,9 @@ The files in this archive are released under the GPLv3 license. You can find a c
 
 [nooku-platform]: https://github.com/nooku/nooku-platform
 [nooku-framework]: https://github.com/nooku/nooku-framework
+[nooku-birth]: http://www.nooku.org/blog/2010/12/nooku-server-joomla-on-steroids/
+[nooku-leaner]: http://www.nooku.org/blog/2011/01/creating-a-diet-for-nooku-server/
+[nooku-meaner]: http://www.nooku.org/blog/2011/01/nooku-server-loses-40-weight/
 
 [gitflow-model]: http://nvie.com/posts/a-successful-git-branching-model/
 [gitflow-extensions]: https://github.com/nvie/gitflow
