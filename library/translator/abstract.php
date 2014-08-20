@@ -317,7 +317,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
     }
 
     /**
-     * Set a cataglogue
+     * Set a catalogue
      *
      * @param   mixed   $catalogue An object that implements KObjectInterface, KObjectIdentifier object
      *                             or valid identifier string
