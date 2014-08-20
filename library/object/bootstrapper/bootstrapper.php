@@ -241,7 +241,7 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
                     'domains'      => $this->_domains,
                     'namespaces'   => $this->_namespaces,
                     'files'        => $this->_files,
-                    'applications' => $this->_domains,
+                    'applications' => $this->_applications,
                     'aliases'      => $aliases_flat,
                 ));
 
@@ -308,6 +308,11 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
 
                 //Set the component namespace
                 $namespace = $this->getComponentNamespace($name);
+                $this->getObject('manager')
+                    ->getClassLoader()
+                    ->getLocator('component')
+                    ->registerNamespace($namespace, $path);
+
                 $this->_namespaces[$namespace] = $path;
             }
 
