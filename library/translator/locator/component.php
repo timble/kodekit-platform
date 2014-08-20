@@ -36,15 +36,14 @@ class TranslatorLocatorComponent extends TranslatorLocatorIdentifier
         $loader = $this->getObject('manager')->getClassLoader();
 
         //Base paths
-        if($path = $loader->getLocator('component')->getNamespace('\\')) {
-            $paths[] = $path.'/'.$info['package'];
-        }
-
         $namespace = $this->getObject('object.bootstrapper')->getComponentNamespace($info['package']);
         if($path = $loader->getLocator('component')->getNamespace($namespace)) {
             $paths[] = $path;
         }
 
+        if($path = $loader->getLocator('component')->getNamespace('\\')) {
+            $paths[] = $path.'/'.$info['package'];
+        }
 
         $result = array();
         foreach($paths as $basepath)
