@@ -49,4 +49,3 @@ jimport('joomla.environment.uri');
 jimport('joomla.html.html');
 jimport('joomla.html.parameter');
 jimport('joomla.utilities.utility');
-jimport('joomla.language.language');
