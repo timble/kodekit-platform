@@ -24,8 +24,8 @@ With the end of life of Joomla 1.5 end of 2012 compatibility with Joomla was dro
 effort to completely refactor the code base to a modern and lean architecture using well-established coding standards
 and best practices.
 
-At the moment Nooku Platform is at version 0.9 and work is ongoing in the `develop` branch to refactor the last bits
-of Joomla legacy code. Once this work is completed the first 1.0 alpha release will be made available.
+At the moment Nooku Platform is at version 0.9 and work is ongoing to remove the last bits of Joomla legacy code. Once
+this work is completed an 1.0 alpha release will be made available.
 
 Experimental Only
 -----------------
