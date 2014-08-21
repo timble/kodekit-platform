@@ -26,7 +26,6 @@ abstract class TranslatorLocatorIdentifier extends TranslatorLocatorAbstract
      */
     public function locate($url, $locale)
     {
-        $result     = array();
         $identifier = $this->getIdentifier($url);
 
         $info   = array(

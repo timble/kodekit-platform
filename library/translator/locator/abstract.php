@@ -43,7 +43,6 @@ abstract class TranslatorLocatorAbstract extends Object implements TranslatorLoc
      */
     public function locate($url, $locale)
     {
-        $result = array();
         $info   = array(
             'url'     => $url,
             'locale'  => $locale,
