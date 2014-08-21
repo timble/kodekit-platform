@@ -13,7 +13,7 @@ namespace Nooku\Library;
   * Template Interface
   *
   * @author  Johan Janssens <http://github.com/johanjanssens>
-  * @package Nooku\Library\Template
+  * @package Nooku\Library\Template\Interface
   */
 interface TemplateInterface
 {
@@ -25,12 +25,13 @@ interface TemplateInterface
     /**
      * Load a template by path
      *
-     * @param   string  $path     The template path
+     * @param   string  $url      The template url
      * @param   array   $data     An associative array of data to be extracted in local template scope
      * @param   integer $status   The template state
-     * @return TemplateInterface
+     * @throws \InvalidArgumentException If the template could not be found
+     * @return TemplateAbstract
      */
-    public function load($path, $data = array(), $status = self::STATUS_LOADED);
+    public function load($url, $data = array(), $status = self::STATUS_LOADED);
 
     /**
      * Parse and compile the template to PHP code
@@ -68,15 +69,6 @@ interface TemplateInterface
      * @return string Escaped string
      */
     public function escape($string);
-
-    /**
-     * Translates a string and handles parameter replacements
-     *
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array());
 
     /**
      * Get the template file identifier
@@ -133,6 +125,14 @@ interface TemplateInterface
 	public function setView($view);
 
     /**
+     * Check if a filter exists
+     *
+     * @param 	string	$filter The name of the filter
+     * @return  boolean	TRUE if the filter exists, FALSE otherwise
+     */
+    public function hasFilter($filter);
+
+    /**
      * Get a filter by identifier
      *
      * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
@@ -175,21 +175,6 @@ interface TemplateInterface
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
 	public function invokeHelper($identifier, $config = array());
-
-    /**
-     * Register a template locator
-     *
-     * @param TemplateLocatorInterface $locator
-     * @return TemplateAbstract
-     */
-    public function registerLocator(TemplateLocatorInterface $locator);
-
-    /**
-     * Get a registered template locator based on his type
-     *
-     * @return TemplateLocatorInterface|null  Returns the template locator or NULL if the locator can not be found.
-     */
-    public function getLocator($type, $config = array());
 
     /**
      * Returns the template contents

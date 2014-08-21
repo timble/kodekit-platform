@@ -154,7 +154,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         $output .= "\n document.write( '<span style=\'display: none;\'>' );";
         $output .= "\n //-->";
         $output .= "\n </script>";
-        $output .= $this->translate('CLOAKING');
+        $output .= $this->getObject('translator')->translate('Cloaking');
         $output .= "\n <script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n document.write( '</' );";

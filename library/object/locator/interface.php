@@ -13,10 +13,17 @@ namespace Nooku\Library;
  * Object  Locator Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Nooku\Library\Object\Locator\Interface
  */
 interface ObjectLocatorInterface
 {
+    /**
+     * Get the locator name
+     *
+     * @return string
+     */
+    public static function getName();
+
     /**
      * Returns a fully qualified class name for a given identifier.
      *
@@ -41,11 +48,4 @@ interface ObjectLocatorInterface
      * @return array
      */
     public function getSequence();
-
-    /**
-     * Get the locator type
-     *
-     * @return string
-     */
-    public function getType();
 }

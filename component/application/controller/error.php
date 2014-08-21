@@ -70,7 +70,7 @@ class ControllerError extends Library\ControllerView
         foreach($traces as $key => $trace)
         {
             if(isset($trace['file'])) {
-                $traces[$key]['file'] = str_replace(JPATH_ROOT, '', $trace['file']);
+                $traces[$key]['file'] = str_replace(APPLICATION_ROOT, '', $trace['file']);
             }
         }
 

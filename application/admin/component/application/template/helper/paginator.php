@@ -20,7 +20,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
     /**
      * Render item pagination
      * 
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      * @see     http://developer.yahoo.com/ypatterns/navigation/pagination/
      */
@@ -36,13 +36,15 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 		    'show_count' => true
         ));
 
+        $translator = $this->getObject('translator');
+
         $html  = '<div class="pagination">';
         if($config->show_limit) {
-            $html .= '<div class="limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
+            $html .= '<div class="limit">'.$translator('Display NUM').' '.$this->limit($config).'</div>';
         }
         $html .=  $this->pages($config);
         if($config->show_count) {
-            $html .= '<div class="limit"> '.$this->translate('Page').' '.$config->current.' '.$this->translate('of').' '.$config->count.'</div>';
+            $html .= '<div class="limit"> '.$translator('Page').' '.$config->current.' '.$translator('of').' '.$config->count.'</div>';
         }
         $html .= '</div>';
         
@@ -51,11 +53,8 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
     
     /**
      * Render a list of pages links
-     * 
-     * This function is overriddes the default behavior to render the links in the khepri template
-     * backend style.
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function pages($config = array())
@@ -87,7 +86,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
     /**
      * Render a page link
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return	string	Html
      */
    public function link($config)
@@ -103,10 +102,12 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 			'attribs'  => array(),
 		));
 
+        $translator = $this->getObject('translator');
+
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
-        $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.$this->translate($config->title).'</a>';
+        $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.$translator($config->title).'</a>';
 
 
        return $html;

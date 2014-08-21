@@ -31,9 +31,7 @@ class ViewHtml extends Library\ViewHtml
     protected function _fetchData(Library\ViewContext $context)
     {
         //Set the language information
-        $language = $this->getObject('application')->getCfg('language');
-        $context->data->language  = $language ? $language : 'en-GB';
-        $context->data->direction = \JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
+        $context->data->language  = $this->getObject('translator')->getLocale();
 
         // Set the site information
         $context->data->site  = $this->getObject('application')->getSite();

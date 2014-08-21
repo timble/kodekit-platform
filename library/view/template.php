@@ -67,9 +67,6 @@ abstract class ViewTemplate extends ViewAbstract
                 $this->getTemplate()->attachFilter($key, $value);
             }
         }
-
-        //Fetch the view data before rendering
-        $this->addCommandCallback('before.render', '_fetchData');
     }
 
     /**

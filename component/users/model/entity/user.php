@@ -64,11 +64,13 @@ class ModelEntityUser extends Library\ModelEntityRow
 
     public function save()
     {
+        $translator = $this->getObject('translator');
+
         // Validate name
         if ($this->isModified('name') && trim($this->name) == '')
         {
             $this->setStatus(self::STATUS_FAILED);
-            $this->setStatusMessage(\JText::_('Please enter a name'));
+            $this->setStatusMessage($translator('Please enter a name'));
             return false;
         }
 
@@ -78,7 +80,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             if (!$this->getObject('lib:filter.email')->validate($this->email))
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
+                $this->setStatusMessage($translator('Please enter a valid E-mail address'));
                 return false;
             }
 
@@ -90,7 +92,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             if ($this->getObject('com:users.database.table.users')->count($query))
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
+                $this->setStatusMessage($translator('The provided E-mail address is already registered'));
                 return false;
             }
         }
@@ -173,8 +175,8 @@ class ModelEntityUser extends Library\ModelEntityRow
         $config->append(array(
             'subject' => '',
             'message' => '',
-            'from_email' => $application->getCfg('mailfrom'),
-            'from_name'  => $application->getCfg('fromname')))
+            'from_email' => $application->getConfig()->mailfrom,
+            'from_name'  => $application->getConfig()->fromname))
             ->append(array('from_email' => $user->getEmail(), 'from_name' => $user->getName()));
 
         return \JUtility::sendMail($config->from_email, $config->from_name, $this->email, $config->subject, $config->message);

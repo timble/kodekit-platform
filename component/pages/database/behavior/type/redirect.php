@@ -36,8 +36,8 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
 
     public function getTitle()
     {
-        if (!isset($this->_title)) {
-            $this->_title = \JText::_('Redirect');
+        if(!isset($this->_title)) {
+            $this->_title = $this->getObject('translator')->translate('Redirect');
         }
 
         return $this->_title;
@@ -45,8 +45,8 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
 
     public function getDescription()
     {
-        if (!isset($this->_description)) {
-            $this->_description = \JText::_('Redirect');
+        if(!isset($this->_description)) {
+            $this->_description = $this->getObject('translator')->translate('Redirect');
         }
 
         return $this->_description;

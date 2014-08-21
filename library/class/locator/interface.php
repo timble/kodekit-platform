@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,10 +13,17 @@ namespace Nooku\Library;
  * Class Locator Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class|Locator\Interface
  */
 interface ClassLocatorInterface
 {
+    /**
+     * Get locator name
+     *
+     * @return string
+     */
+    public static function getName();
+
     /**
      * Get a fully qualified path based on a class name
      *
@@ -49,11 +56,4 @@ interface ClassLocatorInterface
      * @return array An array with namespaces as keys and path as values
      */
     public function getNamespaces();
-
-    /**
-     * Get the locator type
-     *
-     * @return string
-     */
-    public function getType();
 }

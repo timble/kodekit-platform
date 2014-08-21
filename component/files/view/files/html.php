@@ -31,11 +31,6 @@ class ViewFilesHtml extends Library\ViewHtml
 	{
 	    $state = $this->getModel()->getState();
 
-        //Set the limit
-        if (empty($state->limit)) {
-	        $state->limit = $this->getObject('application')->getCfg('list_limit');
-	    }
-
         $context->data->container = $this->getModel()->getContainer();
         $context->data->site      = $this->getObject('application')->getSite();
 		$context->data->token     = $this->getObject('user')->getSession()->getToken();

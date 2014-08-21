@@ -25,7 +25,7 @@
   	    			<td class="-koowa-sortable" align="right"><?= $i; ?></td>
   	    			<td class="-koowa-sortable"><?= translate('language') ?></td>
   	    		<td class="-koowa-sortable"><?= helper('com:files.filesize.humanize', array('size' => filesize($file))); ?></td>
-  	        	<td class="-koowa-sortable"><?= str_replace(JPATH_ROOT, '', $file); ?></td>
+  	        	<td class="-koowa-sortable"><?= str_replace(APPLICATION_ROOT, '', $file); ?></td>
   	    	</tr>
   	        <? endforeach; ?>
   	        <? $i++; ?>
@@ -36,7 +36,7 @@
   				<td class="-koowa-sortable" align="right" width="10"><?= $i; ?></td>
   				<td class="-koowa-sortable"><?= translate('PHP') ?></td>
 				<td class="-koowa-sortable"><?= helper('com:files.filesize.humanize', array('size' => filesize($file))); ?></td>
-            	<td class="-koowa-sortable"><?= str_replace(JPATH_ROOT, '', $file); ?></td>
+            	<td class="-koowa-sortable"><?= str_replace(APPLICATION_ROOT, '', $file); ?></td>
         	</tr>
             <? $i++; ?>
         <? endforeach; ?>

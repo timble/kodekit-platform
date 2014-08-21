@@ -2,10 +2,11 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
+
 namespace Nooku\Library;
 
 /**
@@ -21,14 +22,14 @@ class ObjectConfigYaml extends ObjectConfigFormat
      *
      * @var callable
      */
-    protected $_encoder;
+    protected static $_encoder;
 
     /**
      * YAML decoder callback
      *
      * @var callable
      */
-    protected $_decoder;
+    protected static $_decoder;
 
     /**
      * Constructor.
@@ -39,11 +40,11 @@ class ObjectConfigYaml extends ObjectConfigFormat
     {
         parent::__construct($options);
 
-        if (function_exists('yaml_emit')) {
+        if (function_exists('yaml_emit') && !self::$_encoder) {
             $this->setEncoder('yaml_emit');
         }
 
-        if (function_exists('yaml_parse')) {
+        if (function_exists('yaml_parse') && !self::$_decoder) {
             $this->setDecoder('yaml_parse');
         }
     }
@@ -53,22 +54,20 @@ class ObjectConfigYaml extends ObjectConfigFormat
      *
      * @return callable
      */
-    public function getEncoder()
+    public static function getEncoder()
     {
-        return $this->_ecncoder;
+        return self::$_encoder;
     }
 
     /**
      * Set callback for encoding YAML
      *
      * @param  callable $encoder the encoder to set
-     * @throws \InvalidArgumentException
-     * @return ObjectConfigYaml
+     * @return void
      */
-    public function setEncoder(callable $encoder)
+    public static function setEncoder(callable $encoder)
     {
-        $this->_encoder = $encoder;
-        return $this;
+        self::$_encoder = $encoder;
     }
 
     /**
@@ -76,22 +75,20 @@ class ObjectConfigYaml extends ObjectConfigFormat
      *
      * @return callable
      */
-    public function getDecoder()
+    public static function getDecoder()
     {
-        return $this->_decoder;
+        return self::$_decoder;
     }
 
     /**
      * Set callback for decoding YAML
      *
      * @param  callable $decoder the decoder to set
-     * @throws \InvalidArgumentException
-     * @return ObjectConfigYaml
+     * @return void
      */
-    public function setDecoder(callable $decoder)
+    public static function setDecoder(callable $decoder)
     {
-        $this->_decoder = $decoder;
-        return $this;
+        self::$_decoder = $decoder;
     }
 
     /**

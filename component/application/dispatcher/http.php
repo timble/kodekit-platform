@@ -53,6 +53,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
             'controller'        => 'page',
             'base_url'          => '/',
             'event_subscribers' => array('unauthorized'),
+            'title'             => 'Application',
         ));
 
         parent::_initialize($config);
@@ -79,6 +80,16 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         }
 
         return $manager->getObject('application');
+    }
+
+    /**
+     * Get the application title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getConfig()->title;
     }
 
     /**

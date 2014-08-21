@@ -42,7 +42,7 @@ class ModelEntityArticle extends Library\ModelEntityRow
         if(empty($this->title))
         {
             $this->_status          = self::STATUS_FAILED;
-            $this->_status_message  = \JText::_('Article must have a title');
+            $this->_status_message  = $this->getObject('translator')->translate('Article must have a title');
 
             return false;
         }

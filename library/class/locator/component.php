@@ -37,16 +37,16 @@ namespace Nooku\Library;
  * Location  : namespace/.../path/to/exception/filenameforexception.php
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Class
+ * @package Nooku\Library\Class|Locator\Component
  */
 class ClassLocatorComponent extends ClassLocatorAbstract
 {
     /**
-     * The type
+     * The locator name
      *
      * @var string
      */
-    protected $_type = 'component';
+    protected static $_name = 'component';
 
     /**
      * Get a fully qualified path based on a class name
@@ -86,6 +86,8 @@ class ClassLocatorComponent extends ClassLocatorAbstract
 
             if(count($parts)){
                 $path = implode('/', $parts).'/'.$path;
+            } else {
+                $path = $path.'/'.$path;
             }
 
             return $basepath.'/'.$path.'.php';

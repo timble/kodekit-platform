@@ -1,0 +1,40 @@
+# Nooku Platform - http://www.nooku.org/platform
+#
+# @copyright  Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link       https://github.com/nooku/nooku-platform for the canonical source repository
+
+Top: Top
+Title: Title
+Slug: Slug
+Application: Application
+Description: Description
+Applications: Applications
+Details: Details
+Type: Type
+Default Parameters: Default Parameters
+Advanced Parameters: Advanced Parameters
+Other Parameters: Other Parameters
+Custom Output: Custom Output
+Publish: Publish
+Position: Position
+All: All
+Selected: Selected
+None: None
+Save: Save
+Varies: Varies
+Unpublished: Unpublished
+Positions: Positions
+All positions: All positions
+Select module: Select module
+Other: Other
+Page link: Page link
+External link: External link
+Modules: Modules
+Module assignment: Module assignment
+URL: URL
+Hidden: Hidden
+Group: Group
+Menu: Menu
+Parent: Parent
+Menus: Menus

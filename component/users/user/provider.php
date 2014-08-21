@@ -54,7 +54,7 @@ class UserProvider extends Library\UserProvider
 
                 $user = $this->create(array(
                     $field => $identifier,
-                    'name' => /*$this->getObject('translator')->translate('Anonymous')*/ \JText::_('Anonymous')
+                    'name' => $this->getObject('translator')->translate('Anonymous')
                 ));
             }
         }

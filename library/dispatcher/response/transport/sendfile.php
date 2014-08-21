@@ -85,7 +85,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
                 //Nginx uses X-Accel-Redirect header
                 if(strpos($server, 'nginx') !== FALSE)
                 {
-                    $path = preg_replace('/'.preg_quote(JPATH_ROOT, '/').'/', '', $path, 1);
+                    $path = preg_replace('/'.preg_quote(\Nooku::getInstance()->getRootPath(), '/').'/', '', $path, 1);
                     $response->headers->set('X-Accel-Redirect', $path);
                     $response->headers->remove('X-Sendfile');
                 }

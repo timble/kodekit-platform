@@ -43,7 +43,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
             $size = getimagesize($path);
 
             $category->image = (object) array(
-                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
+                'path'   => '/'.str_replace(APPLICATION_ROOT.DS, '', $path),
                 'width'  => $size[0],
                 'height' => $size[1]
             );

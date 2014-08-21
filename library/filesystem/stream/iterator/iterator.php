@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * FileSystem Stream Iterator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\FileSystem
+ * @package Nooku\Library\FileSystem\Stream\Iterator
  */
 class FilesystemStreamIterator implements \SeekableIterator
 {
@@ -34,9 +34,9 @@ class FilesystemStreamIterator implements \SeekableIterator
     /**
      * Constructor.
      *
-     * @param FilesystemStream $stream  A FilesystemStream object
+     * @param FilesystemStreamInterface $stream  A FilesystemStream object
      */
-    public function __construct(FilesystemStream $stream)
+    public function __construct(FilesystemStreamInterface $stream)
     {
         $this->_chunk      = '';
         $this->__stream    = $stream;
@@ -94,7 +94,7 @@ class FilesystemStreamIterator implements \SeekableIterator
      */
     public function rewind()
     {
-        $this->getStream()->rewind();
+        $this->getStream()->seek(0);
     }
 
     /**
@@ -120,7 +120,7 @@ class FilesystemStreamIterator implements \SeekableIterator
     /**
      * Get the stream object
      *
-     * @return FilesystemStream
+     * @return FilesystemStreamInterface
      */
     public function getStream()
     {

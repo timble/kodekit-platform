@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Abstract Template
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Template
+ * @package Nooku\Library\Template\Abstract
  */
 abstract class TemplateAbstract extends Object implements TemplateInterface
 {
@@ -46,13 +46,6 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * @var string
      */
     protected $_content;
-
-    /**
-     * The template locators
-     *
-     * @var array
-     */
-    protected $_locators;
 
     /**
      * View object or identifier
@@ -135,10 +128,9 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'     => array(),
-            'view'     => null,
-            'filters'  => array(),
-            'locators' => array('com' => 'lib:template.locator.component')
+            'data'    => array(),
+            'view'    => null,
+            'filters' => array(),
         ));
 
         parent::_initialize($config);
@@ -147,40 +139,30 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Load a template by path
      *
-     * @param   string  $path     The template path
+     * @param   string  $url      The template url
      * @param   array   $data     An associative array of data to be extracted in local template scope
+     * @param   integer $status   The template state
      * @throws \InvalidArgumentException If the template could not be found
      * @return TemplateAbstract
      */
-    public function load($path, $data = array(), $status = self::STATUS_LOADED)
+    public function load($url, $data = array(), $status = self::STATUS_LOADED)
     {
-        $parts = parse_url( $path );
-
-        //Set the default type is not scheme can be found
-        if(!isset($parts['scheme'])) {
-            $type = $this->getIdentifier()->type;
-        } else {
-            $type = $parts['scheme'];
-        }
-
-        //Fall back on the component locator if none was found.
-        if (!$locator = $this->getLocator($type)) {
-            $locator = $this->getLocator('com');
-        }
+        //Get the template locator
+        $locator = $this->getObject('template.locator.factory')->createLocator($url, $this->getPath());
 
         //Check of the file exists
-        if (!$template = $locator->locate($path, $this->getPath())) {
-            throw new \InvalidArgumentException('Template "' . $path . '" not found');
+        if (!$file = $locator->locate($url, $this->getPath())) {
+            throw new \InvalidArgumentException('Template "' . $url . '" not found');
         }
 
         //Push the path on the stack
-        array_push($this->_stack, $path);
+        array_push($this->_stack, $url);
 
         //Set the status
         $this->_status = $status;
 
         //Load the file content
-        $this->_content = file_get_contents($template);
+        $this->_content = file_get_contents($file);
 
         //Compile and evaluate partial templates
         if(count($this->_stack) > 1)
@@ -296,19 +278,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function escape($string)
     {
-        return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
-    }
+        if(is_string($string)) {
+            $string = htmlspecialchars($string, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8', false);
+        }
 
-    /**
-     * Translates a string and handles parameter replacements
-     *
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array())
-    {
-        return \JText::_($string);
+        return $string;
     }
 
     /**
@@ -366,7 +340,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Set the template content from a string
      *
-     * @param  string   $string     The template content
+     * @param  string   $content     The template content
      * @param  integer  $status     The template state
      * @return TemplateAbstract
      */
@@ -410,8 +384,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Method to set a view object attached to the controller
      *
-     * @param	mixed	$view An object that implements ObjectInterface, ObjectIdentifier object
-     * 					      or valid identifier string
+     * @param	mixed   $view An object that implements ObjectInterface, ObjectIdentifier object
+     *                        or valid identifier string
      * @return TemplateAbstract
      */
     public function setView($view)
@@ -437,11 +411,24 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
+     * Check if a filter exists
+     *
+     * @param 	string	$filter The name of the filter
+     * @return  boolean	TRUE if the filter exists, FALSE otherwise
+     */
+    public function hasFilter($filter)
+    {
+        return isset($this->_filters[$filter]);
+    }
+
+    /**
      * Get a filter by identifier
      *
-     * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
+     * @param   mixed $filter       An object that implements ObjectInterface, ObjectIdentifier object
      *                              or valid identifier string
-     * @param   array    $config    An optional associative array of configuration settings
+     * @param   array $config       An optional associative array of configuration settings
+     *
+     * @throws \UnexpectedValueException
      * @return TemplateFilterInterface
      */
     public function getFilter($filter, $config = array())
@@ -457,7 +444,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
         else $identifier = $this->getIdentifier($filter);
 
-        if (!isset($this->_filters[$identifier->name]))
+        if (!$this->hasFilter($identifier->name))
         {
             $filter = $this->getObject($identifier, array_merge($config, array('template' => $this)));
 
@@ -498,8 +485,10 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Get a template helper
      *
-     * @param    mixed    $helper ObjectIdentifierInterface
-     * @param    array    $config An optional associative array of configuration settings
+     * @param    mixed $helper ObjectIdentifierInterface
+     * @param    array $config An optional associative array of configuration settings
+     *
+     * @throws \UnexpectedValueException
      * @return  TemplateHelperInterface
      */
     public function getHelper($helper, $config = array())
@@ -517,7 +506,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $helper = $this->getObject($identifier, array_merge($config, array('template' => $this)));
 
         //Check the helper interface
-        if (!($helper instanceof TemplateHelperInterface))
+        if (!($helper instanceof TemplateHelperInterface)) 
         {
             throw new \UnexpectedValueException(
                 "Template helper $identifier does not implement TemplateHelperInterface"
@@ -565,7 +554,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         if(StringInflector::isPlural($view->getName()))
         {
             if($state = $view->getModel()->getState()) {
-                $params = array_merge( $state->getValues(), $params);
+                $params = array_merge($state->getValues(), $params);
             }
         }
         else
@@ -576,57 +565,6 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         return $helper->$function($params);
-    }
-
-    /**
-     * Register a template locator
-     *
-     * @param TemplateLocatorInterface $locator
-     * @return TemplateAbstract
-     */
-    public function registerLocator(TemplateLocatorInterface $locator)
-    {
-        $this->_locators[$locator->getType()] = $locator;
-        return $this;
-    }
-
-    /**
-     * Get a registered template locator based on his type
-     *
-     * @return TemplateLocatorInterface|null  Returns the template loader or NULL if the loader can not be found.
-     */
-    public function getLocator($type, $config = array())
-    {
-        $locator = null;
-        if(isset($this->_locators[$type]))
-        {
-            $locator = $this->_locators[$type];
-
-            if(!$locator instanceof TemplateLocatorInterface)
-            {
-                //Create the complete identifier if a partial identifier was passed
-                if (is_string($locator) && strpos($locator, '.') === false)
-                {
-                    $identifier = $this->getIdentifier()->toArray();
-                    $identifier['path'] = array('template', 'locator');
-                    $identifier['name'] = $locator;
-                }
-                else $identifier = $this->getIdentifier($locator);
-
-                $locator = $this->getObject($identifier, array_merge($config, array('template' => $this)));
-
-                if (!($locator instanceof TemplateLocatorInterface))
-                {
-                    throw new \UnexpectedValueException(
-                        "Template loader $identifier does not implement TemplateLocatorInterface"
-                    );
-                }
-
-                $this->_locators[$type] = $locator;
-            }
-        }
-
-        return $locator;
     }
 
     /**

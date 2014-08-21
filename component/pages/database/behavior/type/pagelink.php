@@ -36,8 +36,8 @@ class DatabaseBehaviorTypePagelink extends DatabaseBehaviorTypeAbstract
 
     public function getTitle()
     {
-        if (!isset($this->_title)) {
-            $this->_title = \JText::_('Page Link');
+        if(!isset($this->_type_title)) {
+            $this->_type_title = $this->getObject('translator')->translate('Page Link');
         }
 
         return $this->_title;
@@ -45,8 +45,8 @@ class DatabaseBehaviorTypePagelink extends DatabaseBehaviorTypeAbstract
 
     public function getDescription()
     {
-        if (!isset($this->_description)) {
-            $this->_description = \JText::_('Page Link');
+        if(!isset($this->_type_description)) {
+            $this->_type_description = $this->getObject('translator')->translate('Page Link');
         }
 
         return $this->_description;

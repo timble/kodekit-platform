@@ -9,7 +9,7 @@
 ?>
 
 <!DOCTYPE HTML>
-<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+<html lang="<?= $language; ?>">
 <?= import('page_head.html') ?>
 
 <body>

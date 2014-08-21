@@ -38,17 +38,19 @@ class TemplateHelperPaginator extends TemplateHelperSelect
             'page_rows'  => array(10, 20, 50, 100)
         ));
 
+        $translator = $this->getObject('translator');
+
         // Do not show pagination when $config->limit is lower then $config->total
         if($config->total > $config->limit)
         {
             $html = '';
 
             if($config->show_limit) {
-                $html .= '<div class="pagination__limit">'.$this->translate('Display NUM').' '.$this->limit($config).'</div>';
+                $html .= '<div class="pagination__limit">'.$translator('Display NUM').' '.$this->limit($config).'</div>';
             }
             $html .=  $this->pages($config);
             if($config->show_count) {
-                $html .= '<div class="pagination__count"> '.$this->translate('Page').' '.$config->current.' '.$this->translate('of').' '.$config->count.'</div>';
+                $html .= '<div class="pagination__count"> '.$translator('Page').' '.$config->current.' '.$translator('of').' '.$config->count.'</div>';
             }
 
             return $html;
@@ -145,7 +147,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
         $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
-        $html = '<li '.$this->buildAttributes($config->attribs).'><a href="'.$route.'" '.$rel.'>'.$this->translate($config->title).'</a></li>';
+        $html = '<li '.$this->buildAttributes($config->attribs).'><a href="'.$route.'" '.$rel.'>'.$this->getObject('translator')->translate($config->title).'</a></li>';
 
         return $html;
     }

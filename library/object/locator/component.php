@@ -13,16 +13,16 @@ namespace Nooku\Library;
  * Component Object Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Nooku\Library\Object\Locator\Component
  */
 class ObjectLocatorComponent extends ObjectLocatorAbstract
 {
     /**
-     * The type
+     * The locator name
      *
      * @var string
      */
-    protected $_type = 'com';
+    protected static $_name = 'com';
 
     /**
      * Initializes the options for the object
@@ -83,11 +83,12 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         }
 
         $info = array(
-            'class'   => $class,
-            'package' => $package,
-            'domain'  => $domain,
-            'path'    => $path,
-            'file'    => $file
+            'identifier' => $identifier,
+            'class'      => $class,
+            'package'    => $package,
+            'domain'     => $domain,
+            'path'       => $path,
+            'file'       => $file
         );
 
         return $this->find($info, $fallback);

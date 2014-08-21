@@ -16,11 +16,4 @@ use Nooku\Component\Pages;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml
-{
-    protected function _actionRender(Library\ViewContext $context)
-    {
-        JFactory::getLanguage()->load($this->getIdentifier()->package, 'mod_'.$this->module->name);
-        return parent::_actionRender($context);
-    }
-}
+class PagesModuleDefaultHtml extends Pages\ModuleDefaultHtml {}

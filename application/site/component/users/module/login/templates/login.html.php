@@ -8,13 +8,13 @@
  */
 ?>
 
-<?=helper('behavior.mootools')?>
-<?=helper('behavior.validator')?>
+<?= helper('behavior.mootools')?>
+<?= helper('behavior.validator')?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
-	<? if($module->getParameters()->get('show_title', false)) : ?>
-	<h3><?= $module->title ?></h3>
-	<? endif ?>
+    <? if($module->getParameters()->get('show_title', false)) : ?>
+        <h3><?= $module->title ?></h3>
+    <? endif ?>
 
 	<fieldset class="input">
 	<div class="form-group">
@@ -26,7 +26,7 @@
         <input id="modlgn_passwd" class="required form-control" type="password" name="password" />
         <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
             <span class="help-block">
-                <a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a>
+                <a href="<?= $user_route ?>"><?= translate('Forgot your password?'); ?></a>
             </span>
         <? endif; ?>
 	</div>

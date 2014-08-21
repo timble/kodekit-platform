@@ -18,6 +18,19 @@ namespace Nooku\Library;
 class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
     /**
+     * Constructor.
+     *
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        //Load the dispatcher translations
+        $this->addCommandCallback('before.dispatch', '_loadTranslations');
+    }
+
+    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -56,6 +69,26 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         $instance  = new $class($config);
 
         return $instance;
+    }
+
+    /**
+     * Load the controller translations
+     *
+     * @param ControllerContextInterface $context
+     * @return void
+     */
+    protected function _loadTranslations(ControllerContextInterface $context)
+    {
+        $package = $this->getIdentifier()->package;
+        $domain  = $this->getIdentifier()->domain;
+
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$package;
+        } else {
+            $identifier = 'com:'.$package;
+        }
+
+        $this->getObject('translator')->load($identifier);
     }
 
     /**

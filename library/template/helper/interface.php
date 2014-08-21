@@ -18,16 +18,6 @@ namespace Nooku\Library;
 interface TemplateHelperInterface
 {
     /**
-     * Translates a string and handles parameter replacements
-     *
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     *
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array());
-
-    /**
      * Get the template object
      *
      * @return  object	The template object

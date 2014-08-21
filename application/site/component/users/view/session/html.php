@@ -19,8 +19,8 @@ class UsersViewSessionHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {
-        $title = JText::_('Login');
-        $this->getObject('application')->getPathway()->addItem($title);
+        $title = $this->getObject('translator')->translate('Login');
+        $this->getObject('com:pages.pathway')->addItem($title);
 
         return parent::_actionRender($context);
     }
@@ -38,7 +38,6 @@ class UsersViewSessionHtml extends Library\ViewHtml
         $page       = $this->getObject('application.pages')->getActive();
         $parameters = $page->getParams('page');
 
-        $parameters->def('description_login_text', 'LOGIN_DESCRIPTION');
         $parameters->def('registration', true);
 
         return $parameters;

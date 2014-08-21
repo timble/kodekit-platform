@@ -23,7 +23,6 @@ return array(
 
         'com:application.template.filter.asset'  => array(
             'schemes' => array('/assets/application/' => '/theme/bootstrap/')
-        )
+        ),
     )
-
 );

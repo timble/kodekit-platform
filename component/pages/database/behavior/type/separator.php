@@ -36,8 +36,8 @@ class DatabaseBehaviorTypeSeparator extends DatabaseBehaviorTypeAbstract
 
     public function getTitle()
     {
-        if (!isset($this->_title)) {
-            $this->_title = \JText::_('Separator');
+        if(!isset($this->_title)) {
+            $this->_title = $this->getObject('translator')->translate('Separator');
         }
 
         return $this->_title;
@@ -45,8 +45,8 @@ class DatabaseBehaviorTypeSeparator extends DatabaseBehaviorTypeAbstract
 
     public function getDescription()
     {
-        if (!isset($this->_description)) {
-            $this->_description = \JText::_('Separator');
+        if(!isset($this->_description)) {
+            $this->_description = $this->getObject('translator')->translate('Separator');
         }
 
         return $this->_description;

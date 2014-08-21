@@ -15,34 +15,32 @@
 
 use Nooku\Library;
 
-//Installation check
-if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/config/config.php') < 10)) {
-    echo 'No configuration file found. Exciting...';
-    exit();
-}
-
 //Don't run in STRICT mode (Joomla is not E_STRICT compat)
 error_reporting(error_reporting() | ~ E_STRICT);
 
-// Koowa : setup
-require_once JPATH_ROOT . '/config/config.php';
-$config = new JConfig();
+define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(JPATH_ROOT . '/library/nooku.php');
+define('APPLICATION_NAME' , 'admin');
+define('APPLICATION_ROOT' , realpath($_SERVER['DOCUMENT_ROOT']));
+define('APPLICATION_BASE' , APPLICATION_ROOT.'/application/admin');
+
+// Bootstrap the framework
+$config = require APPLICATION_ROOT.'/config/bootstrapper.php';
+
+require_once(APPLICATION_ROOT.'/library/nooku.php');
 $nooku = Nooku::getInstance(array(
-    'debug'           => $config->debug,
-    'cache_namespace' => 'admin',
-    'cache_enabled'   =>  $config->caching,
-    'base_path'       =>  JPATH_ROOT.'/application/admin'
+    'debug'           =>  $config['debug'],
+    'cache'           =>  $config['cache'],
+    'cache_namespace' =>  $config['cache_namespace'],
+    'base_path'       =>  APPLICATION_BASE
 ));
-
-unset($config);
 
 //Bootstrap the application
 Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
     ->registerApplication('site' , $nooku->getRootPath().'/application/site/component')
     ->registerApplication('admin', $nooku->getRootPath().'/application/admin/component', true)
     ->registerComponents($nooku->getRootPath().'/component', 'nooku')
+    ->registerFile($nooku->getRootPath(). '/config/bootstrapper.php')
     ->bootstrap();
 
 // Joomla : setup
@@ -51,4 +49,3 @@ jimport('joomla.environment.uri');
 jimport('joomla.html.html');
 jimport('joomla.html.parameter');
 jimport('joomla.utilities.utility');
-jimport('joomla.language.language');

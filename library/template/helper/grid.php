@@ -63,9 +63,11 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			'placeholder' => 'Title'
 		));
 
+        $translator = $this->getObject('translator');
+
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->getTemplate()->escape($config->search).'" />';
-        $html .= '<button class="button">'.$this->translate('Go').'</button>';
-		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
+        $html .= '<button class="button">'.$translator('Go').'</button>';
+		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$translator('Reset').'</button>';
 
 	    return $html;
 	}
@@ -100,6 +102,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			'sort'          => '',
 		));
 
+        $translator = $this->getObject('translator');
+
 		//Set the title
 		if(empty($config->title)) {
 			$config->title = ucfirst($config->column);
@@ -123,8 +127,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		}
 
 		$route = $this->getTemplate()->getView()->getRoute($route);
-		$html  = '<a href="'.$route.'" title="'.$this->translate('Click to sort by this column').'"  '.$class.'>';
-		$html .= $this->translate($config->title);
+		$html  = '<a href="'.$route.'" title="'.$translator('Click to sort by this column').'"  '.$class.'>';
+		$html .= $translator($config->title);
 		$html .= '</a>';
 
 		return $html;
@@ -146,9 +150,11 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		    'data'	=> array($config->field => $config->entity->{$config->field})
 		));
 
+        $translator = $this->getObject('translator');
+
 		$img    = $config->entity->{$config->field} ? 'icon-ok' : 'icon-remove';
-		$alt 	= $config->entity->{$config->field} ? $this->translate( 'Enabled' ) : $this->translate( 'Disabled' );
-		$text 	= $config->entity->{$config->field} ? $this->translate( 'Disable Item' ) : $this->translate( 'Enable Item' );
+		$alt 	= $config->entity->{$config->field} ? $translator('Enabled') : $translator('Disabled');
+		$text 	= $config->entity->{$config->field} ? $translator('Disable Item') : $translator('Enable Item');
 
 	    $config->data->{$config->field} = $config->entity->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
@@ -211,19 +217,21 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		    'data'		=> array($config->field => $config->entity->{$config->field})
 		));
 
+        $translator = $this->getObject('translator');
+
 		switch($config->entity->{$config->field})
 		{
 			case 0 :
 			{
 				$color   = 'green';
-				$group   = $this->translate('Public');
+				$group   = $translator('Public');
 				$access  = 1;
 			} break;
 
 			case 1 :
 			{
 				$color   = 'red';
-				$group   = $this->translate('Registered');
+				$group   = $translator('Registered');
 				$access  = 2;
 			} break;
 		}

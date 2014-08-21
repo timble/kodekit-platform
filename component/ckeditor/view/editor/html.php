@@ -21,13 +21,12 @@ class ViewEditorHtml extends Library\ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $language = \JFactory::getLanguage();
+        $locale = $this->getObject('translator')->getLocale();
 
         $config->append(array('settings' => array(
             'baseHref'		         => '/files/'.$this->getObject('application')->getSite().'/',
-            'language'			     => substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
-            'contentsLanguage'       => substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
-			'contentsLangDirectiony' => $language->isRTL() ? 'rtl' : 'ltr',
+            'language'			     => substr($locale, 0, strpos( $locale, '-' )),
+            'contentsLanguage'       => substr($locale, 0, strpos( $locale, '-' )),
 			'height' 				 => '',
 			'width'					 => '',
             'removeButtons'			 => '',

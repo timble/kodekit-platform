@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * Abstract FileSystem Stream
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\FileSystem
+ * @package Nooku\Library\FileSystem\Stream\Abstract
  */
 abstract class FilesystemStreamAbstract extends Object implements FilesystemStreamInterface
 {

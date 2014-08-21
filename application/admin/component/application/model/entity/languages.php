@@ -41,6 +41,9 @@ class ApplicationModelEntityLanguages extends Library\ModelEntityComposite imple
             $this->_active = $active;
         }
 
+        //Set the translator locale
+        $this->getObject('translator')->setLocale($this->_active->iso_code);
+
         return $this;
     }
 

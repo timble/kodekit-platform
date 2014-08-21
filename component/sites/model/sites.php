@@ -47,7 +47,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
         $sites  = array();
 
         //Get the sites
-        foreach (new \DirectoryIterator(JPATH_SITES) as $file)
+        foreach (new \DirectoryIterator(\Nooku::getInstance()->getRootPath().'/sites') as $file)
         {
             if ($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.'))
             {

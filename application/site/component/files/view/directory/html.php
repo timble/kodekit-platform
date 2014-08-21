@@ -18,11 +18,11 @@ use Nooku\Library;
 class FilesViewDirectoryHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
-	{
-		$this->setPathway();
+    {
+        $this->setPathway();
 
-		return parent::_actionRender($context);
-	}
+        return parent::_actionRender($context);
+    }
 
     protected function _fetchData(Library\ViewContext $context)
     {
@@ -131,32 +131,31 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         return array('items' => $files, 'total' => $total);
     }
 
-	public function setPathway()
-	{
-		if ($this->parent !== null)
-		{
+    public function setPathway()
+    {
+        if ($this->parent !== null)
+        {
             $folder = $this->getModel()->fetch();
 
-			$pathway = $this->getObject('application')->getPathway();
-			$path    = $folder->path;
-			$query   = $this->page->getLink()->query;
-		
-			if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
-				$path = substr($path, strlen($query['folder'])+1, strlen($path));
-			}
-			$parts = explode('/', $path);
+            $path    = $folder->path;
+            $query   = $this->page->getLink()->query;
 
-			foreach ($parts as $i => $part)
-			{
-				if ($part !== $folder->name)
-				{
-					$path = implode('/', array_slice($parts, 0, $i+1));
-					$link = $this->getRoute('&view=directory&folder='.$path);
-				}
-				else $link = '';
+            if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
+                $path = substr($path, strlen($query['folder'])+1, strlen($path));
+            }
+            $parts = explode('/', $path);
 
-				$pathway->addItem($part, $link);
-			}
-		}
-	}
+            foreach ($parts as $i => $part)
+            {
+                if ($part !== $folder->name)
+                {
+                    $path = implode('/', array_slice($parts, 0, $i+1));
+                    $link = $this->getRoute('&view=directory&folder='.$path);
+                }
+                else $link = '';
+
+                $this->getObject('com:pages.pathway')->addItem($part, $link);
+            }
+        }
+    }
 }

@@ -46,17 +46,24 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
 
     public function canDelete()
     {
-        $user   = $this->getUser();
-        $entity = $this->getModel()->fetch();
+        $model = $this->getModel();
 
-        // Users cannot delete themselves
-        if($user->getId() == $entity->id) {
-            return false;
-        }
+        if ($model->getState()->isUnique())
+        {
+            $user   = $this->getUser();
+            $entity = $model->fetch();
 
-        // Don't allow a user to delete another user that has a higher role
-        if($user->getRole() < $entity->role_id) {
-            return false;
+            // Users cannot delete themselves
+            if ($user->getId() == $entity->id)
+            {
+                return false;
+            }
+
+            // Don't allow a user to delete another user that has a higher role
+            if ($user->getRole() < $entity->role_id)
+            {
+                return false;
+            }
         }
 
         return parent::canDelete();

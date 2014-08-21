@@ -26,17 +26,18 @@ class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
             'original' => 0,
             'deleted'  => 0
         ));
-    
-        $statuses = array(
-            ModelEntityTranslation::STATUS_COMPLETED => 'Completed',
-            ModelEntityTranslation::STATUS_MISSING   => 'Missing',
-            ModelEntityTranslation::STATUS_OUTDATED  => 'Outdated'
+
+        $translator = $this->getObject('translator');
+        $statuses   = array(
+            Languages\ModelEntityTranslation::STATUS_COMPLETED => 'Completed',
+            Languages\ModelEntityTranslation::STATUS_MISSING   => 'Missing',
+            Languages\ModelEntityTranslation::STATUS_OUTDATED  => 'Outdated'
         );
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];
         $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
         $class = $config->deleted  ? 'deleted'  : $class;
     
-        return '<span class="label label-'.$class.'">'.$this->translate($text).'</span>';
+        return '<span class="label label-'.$class.'">'.$translator($text).'</span>';
     }
 }

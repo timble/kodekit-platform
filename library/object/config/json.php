@@ -2,7 +2,7 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
@@ -33,8 +33,8 @@ class ObjectConfigJson extends ObjectConfigFormat
         {
             $data = json_decode($string, true);
 
-            if($data === null) {
-                throw new \DomainException('Cannot decode data from JSON string');
+            if (json_last_error() > 0) {
+                throw new \DomainException(sprintf('Cannot decode from JSON string - %s', json_last_error_msg()));
             }
         }
 
@@ -52,8 +52,8 @@ class ObjectConfigJson extends ObjectConfigFormat
         $data = $this->toArray();
         $data = json_encode($data);
 
-        if($data === false) {
-            throw new \DomainException('Cannot encode data to JSON string');
+        if (json_last_error() > 0) {
+            throw new \DomainException(sprintf('Cannot encode data to JSON string - %s', json_last_error_msg()));
         }
 
         return $data;

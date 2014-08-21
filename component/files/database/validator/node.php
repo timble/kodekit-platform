@@ -25,7 +25,8 @@ class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 
 		if (!$entity->isNew() && !$entity->overwrite)
         {
-			$entity->setStatusMessage(\JText::_('Resource already exists and overwrite switch is not present.'));
+            $translator = $this->getObject('translator');
+            $entity->setStatusMessage($translator('Resource already exists and overwrite switch is not present.'));
 			return false;
 		}
 
@@ -36,15 +37,17 @@ class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 	{
 		$entity = $context->getSubject();
 
+        $translator = $this->getObject('translator');
+
 		if (!$entity->isModified('destination_folder') && !$entity->isModified('destination_name'))
         {
-            $entity->setStatusMessage(\JText::_('Please supply a destination.'));
+            $entity->setStatusMessage($translator('Please supply a destination.'));
 			return false;
 		}
 
 		if ($entity->fullpath === $entity->destination_fullpath)
         {
-            $entity->setStatusMessage(JText::_('Source and destination are the same.'));
+            $entity->setStatusMessage($translator('Source and destination are the same.'));
 			return false;
 		}
 
@@ -58,7 +61,7 @@ class DatabaseValidatorNode extends Library\CommandHandlerAbstract
 		{
 			if (!$entity->overwrite)
             {
-                $entity->setStatusMessage(\JText::_('Destination resource already exists.'));
+                $entity->setStatusMessage($translator('Destination resource already exists.'));
 				return false;
 			}
             else $entity->overwritten = true;

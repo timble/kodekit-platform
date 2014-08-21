@@ -29,12 +29,15 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
     	'object('    => '$this->getObject(',
         'date('      => '$this->invokeHelper(\'date.format\',',
         'overlay('   => '$this->invokeHelper(\'behavior.overlay\', ',
-        'translate(' => '$this->translate(',
+        'translate(' => '$this->getObject(\'translator\')->translate(',
         'import('    => '$this->load(',
         'route('     => '$this->getView()->getRoute(',
         'escape('    => '$this->escape(',
         'url('       => '$this->getView()->getUrl()->toString(',
-        'title('     => '$this->getView()->getTitle('
+        'title('     => '$this->getView()->getTitle(',
+        'json('      => 'json_encode(',
+        'format('    => 'sprintf(',
+        //'replace('   => ' strtr(',
     );
 
     /**

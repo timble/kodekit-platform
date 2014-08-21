@@ -19,13 +19,14 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $list   = (array) $this->getObject('application')->getPathway()->items;
-        $params = $this->module->getParameters();
+        $list      = $this->getObject('com:pages.pathway');
+        $params     = $this->module->getParameters();
+        $translator = $this->getObject('translator');
 
         if($params->get('homeText'))
         {
             $item = new \stdClass();
-            $item->name = $params->get('homeText', JText::_('Home'));
+            $item->name = $params->get('homeText', $translator('Home'));
 
             $home = $this->getObject('application.pages')->getHome();
             $item->link = $this->getRoute($home->getLink()->getQuery().'&Itemid='.$home->id);

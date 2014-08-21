@@ -1,0 +1,20 @@
+# Nooku Platform - http://www.nooku.org/platform
+#
+# @copyright  Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link       https://github.com/nooku/nooku-platform for the canonical source repository
+
+You need to provide a password with at least {number} characters.: You need to provide
+  a password with at least {number} characters.
+New and old passwords are the same: New and old passwords are the same
+Please enter a name: Please enter a name
+Please enter a valid E-mail address: Please enter a valid E-mail address
+The provided E-mail address is already registered: The provided E-mail address is
+  already registered
+Please select a stronger password: Please select a stronger password
+Please provide a password: Please provide a password
+Very weak: Very weak
+Weak: Weak
+Good: Good
+Strong: Strong
+Very strong: Very strong

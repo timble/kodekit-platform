@@ -9,13 +9,13 @@
 ?>
 
 <!DOCTYPE HTML>
-<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+<html lang="<?= $language; ?>">
 <?= import('page_head.html') ?>
 
 <body>
 <header class="container">
     <nav class="navbar navbar-default">
-        <a class="navbar-brand" href="/"><?= escape(object('application')->getCfg('sitename' )) ?></a>
+        <a class="navbar-brand" href="/"><?= escape(object('application')->getTitle()) ?></a>
         <div>
             <ktml:modules position="user3">
         </div>

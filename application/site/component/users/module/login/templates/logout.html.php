@@ -11,7 +11,7 @@
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login">
 	<input type="hidden" name="_action" value="delete" />
     
-    <?= JText::sprintf( 'HINAME', object('user')->getName()); ?>
+    <?= translate( 'Hi {name}', array('name' => object('user')->getName())); ?>
 	
 	<div class="form-actions">
 		<input type="submit" name="Submit" class="btn" value="<?= translate('Sign out'); ?>" />
