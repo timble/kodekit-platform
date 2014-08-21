@@ -183,22 +183,24 @@ class ClassLoader implements ClassLoaderInterface
     {
         $result = false;
 
+        $basepath = $basepath ? $basepath : $this->_basepath;
+        $key      = $basepath ? $class.'-'.$basepath : $class;
+
         //Switch the namespace
-        if(!$this->__registry->has($class))
+        if(!$this->__registry->has($key))
         {
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                $basepath = $basepath ?: $this->_basepath;
                 if(false !== $result = $locator->locate($class, $basepath)) {
                     break;
                 };
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
-            $this->__registry->set($class, $result);
+            $this->__registry->set($key, $result);
 
-        } else $result = $this->__registry->get($class);
+        } else $result = $this->__registry->get($key);
 
         return $result;
     }
@@ -211,9 +213,12 @@ class ClassLoader implements ClassLoaderInterface
      * @param string $namespace The global namespace. If NULL the active global namespace will be used.
      * @return void
      */
-    public function setPath($class, $path)
+    public function setPath($class, $path, $basepath = null)
     {
-        $this->__registry->set($class, $path);
+        $basepath = $basepath ? $basepath : $this->_basepath;
+        $key      = $basepath ? $class.'-'.$basepath : $class;
+
+        $this->__registry->set($key, $path);
     }
 
     /**

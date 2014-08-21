@@ -55,7 +55,7 @@ interface ClassLoaderInterface
      *
      * @param string $class     The class name
      * @param string $path      The class path
-     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
+     * @param string $basepath  The basepath. If NULL the global basepath will be used.
      * @return void
      */
     public function setPath($class, $path);
