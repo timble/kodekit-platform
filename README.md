@@ -92,11 +92,14 @@ to get started by installing this very good collection of [git extensions][gitfl
 
 What you should know before submitting a pull request :
 
-- All the development happens in the `develop` branch. Any pull requests should be addressed only to that branch. We
-will not consider pull requests made to the `master`.
+- If you are submitting a bug-fix, or an enhancement that is not a breaking change, submit your pull request to the
+branch corresponding to the latest stable release of the framework, such as the 0.9 `release` branch.
+-  If you are submitting a breaking change or an entirely new feature, submit your pull request against the `develop`
+branch.
 - It's very well appreciated, and highly suggested, to start a new feature branch whenever you want to make changes or
 add functionalities. It will make it much easier for us to just checkout your feature branch and test it, before merging
 it into `develop`
+- We will not consider pull requests made to the `master`.
 
 License
 -------
