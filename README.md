@@ -77,7 +77,7 @@ and setup your development environment.
 * You can now reach Nooku at [nooku.dev](http://nooku.dev/)
 * You can login into the admin application at [nooku.dev/administrator](http://nooku.dev/) using the username and password `admin@localhost.home`/`admin`.
 * You can access the APC dashboard at [nooku.dev/apc](http://nooku.dev/apc) and phpinfo() at [nooku.dev/phpinfo](http://nooku.dev/phpinfo).
-* [Varnish](https://www.varnish-cache.org/) cache runs in front of the Nooku application but passes through all request by default. To enable Varnish, SSH into the box and execute `varnish enable`. Purge the cache using `varnish purge`, and disable again with `varnish disable`.
+* [Varnish](https://www.varnish-cache.org/) cache runs in front of the Nooku application but passes through all requests by default. To enable Varnish, SSH into the box and execute `varnish enable`. Purge the cache using `varnish purge`, and disable again with `varnish disable`.
 * You can tweak the virtual machine configuration by copying the `box.config.yaml-dist` file to `box.config.yaml` and edit its contents. If you want to run multiple boxes for multiple projects, you should change the name of the box through this file to avoid naming conflicts in Virtualbox.
 
 Contributing
