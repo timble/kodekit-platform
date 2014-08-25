@@ -432,7 +432,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             //Prevent a re-render of the message
             if($context->request->getUrl() != $context->request->getReferrer())
             {
-                $user = $this->getObject('user.provider')->load($entity->locked_by);
+                $user = $entity->getLocker();
                 $date = $this->getObject('lib:date',array('date' => $entity->locked_on));
 
                 $message = $this->getObject('translator')->translate('Locked by {user} {date}',

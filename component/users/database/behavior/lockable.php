@@ -24,7 +24,7 @@ class DatabaseBehaviorLockable extends Library\DatabaseBehaviorLockable
      *
      * @return Library\UserInterface|null Returns a User object or NULL if no user could be found
      */
-    public function getOwner()
+    public function getLocker()
     {
         $user     = null;
         $provider = $this->getObject('user.provider');

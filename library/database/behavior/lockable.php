@@ -49,7 +49,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      *
      * @return UserInterface|null Returns a User object or NULL if no user could be found
      */
-    public function getOwner()
+    public function getLocker()
     {
         $user = null;
 
