@@ -129,9 +129,9 @@ abstract class FilesystemStreamAbstract extends Object implements FilesystemStre
         foreach($config->filters as $key => $filter)
         {
             if (is_numeric($key)) {
-                $this->attachFilter($filter);
+                $this->addFilter($filter);
             } else {
-                $this->attachFilter($key, $filter);
+                $this->addFilter($key, $filter);
             }
         }
     }
@@ -798,7 +798,7 @@ abstract class FilesystemStreamAbstract extends Object implements FilesystemStre
      * @param array $config  An optional array of filter config options
      * @return  bool   Returns TRUE if the filter was attached, FALSE otherwise
      */
-    public function attachFilter($filter, $config = array())
+    public function addFilter($filter, $config = array())
     {
         $result = false;
 
@@ -857,7 +857,7 @@ abstract class FilesystemStreamAbstract extends Object implements FilesystemStre
      * @param string $filter   The name of the filter
      * @return  bool   Returns TRUE if the filter was detached, FALSE otherwise
      */
-    public function detachFilter($filter)
+    public function removeFilter($filter)
     {
         $result = false;
         if(!is_resource($filter) && isset($this->_filters[$filter])){
