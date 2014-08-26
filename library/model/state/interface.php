@@ -73,6 +73,13 @@ interface ModelStateInterface
     public function reset();
 
     /**
+     * Get the total number of entities
+     *
+     * @return  int
+     */
+    public function count();
+
+    /**
      * Set the state data
      *
      * This function will only filter values if we have a value. If the value is an empty string it will be filtered
