@@ -168,7 +168,6 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
         $context = $this->getContext();
         $context->modified = $modified;
 
-
         if ($this->invokeCommand('before.reset', $context) !== false)
         {
             $this->_actionReset($context);
