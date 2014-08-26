@@ -274,7 +274,7 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
         if($bootstrap)
         {
             $this->registerComponents($path);
-            $this->getObject('manager')->getClassLoader()->setBasepath($path);
+            $this->getObject('manager')->getClassLoader()->setBasePath($path);
         }
 
         return $this;

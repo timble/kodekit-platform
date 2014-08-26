@@ -44,7 +44,7 @@ class ClassLoader implements ClassLoaderInterface
      *
      * @var  string
      */
-    protected $_basepath;
+    protected $_base_path;
 
     /**
      * Debug
@@ -146,7 +146,7 @@ class ClassLoader implements ClassLoaderInterface
         $result = false;
 
         //Get the path
-        $path = $this->getPath( $class, $this->_basepath);
+        $path = $this->getPath( $class, $this->_base_path);
 
         if ($path !== false)
         {
@@ -175,16 +175,16 @@ class ClassLoader implements ClassLoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param string $class     The class name
-     * @param string $basepath  The basepath. If NULL the global basepath will be used.
-     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param string $class    The class name
+     * @param string $base     The base_path. If NULL the global base path will be used.
+     * @return string|boolean  Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $basepath = null)
+    public function getPath($class, $base = null)
     {
         $result = false;
 
-        $basepath = $basepath ? $basepath : $this->_basepath;
-        $key      = $basepath ? $class.'-'.$basepath : $class;
+        $base = $base ? $base : $this->_base_path;
+        $key  = $base ? $class.'-'.$base : $class;
 
         //Switch the namespace
         if(!$this->__registry->has($key))
@@ -192,7 +192,7 @@ class ClassLoader implements ClassLoaderInterface
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                if(false !== $result = $locator->locate($class, $basepath)) {
+                if(false !== $result = $locator->locate($class, $base)) {
                     break;
                 };
             }
@@ -213,10 +213,10 @@ class ClassLoader implements ClassLoaderInterface
      * @param string $namespace The global namespace. If NULL the active global namespace will be used.
      * @return void
      */
-    public function setPath($class, $path, $basepath = null)
+    public function setPath($class, $path, $base = null)
     {
-        $basepath = $basepath ? $basepath : $this->_basepath;
-        $key      = $basepath ? $class.'-'.$basepath : $class;
+        $base = $base ? $base : $this->_base_path;
+        $key  = $base ? $class.'-'.$base : $class;
 
         $this->__registry->set($key, $path);
     }
@@ -282,24 +282,24 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Get the basepath
+     * Get the base path
      *
      * @return string The base path
      */
-    public function getBasepath()
+    public function getBasePath()
     {
-        return $this->_basepath;
+        return $this->_base_path;
     }
 
     /**
-     * Set the basepath
+     * Set the base path
      *
-     * @param string $basepath The basepath
+     * @param string $base_path The base path
      * @return ClassLoader
      */
-    public function setBasepath($basepath)
+    public function setBasePath($path)
     {
-        $this->_basepath = $basepath;
+        $this->_base_path = $path;
         return $this;
     }
 

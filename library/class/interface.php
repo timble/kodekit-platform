@@ -44,21 +44,21 @@ interface ClassLoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param string $class     The class name
-     * @param string $basepath  The basepath. If NULL the global basepath will be used.
-     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param string $class The class name
+     * @param string $base  The base path. If NULL the global base path will be used.
+     * @return string|boolean Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $basepath = null);
+    public function getPath($class, $base = null);
 
     /**
      * Get the path based on a class name
      *
-     * @param string $class     The class name
-     * @param string $path      The class path
-     * @param string $basepath  The basepath. If NULL the global basepath will be used.
+     * @param string $class  The class name
+     * @param string $path   The class path
+     * @param string $base   The base path. If NULL the global base path will be used.
      * @return void
      */
-    public function setPath($class, $path);
+    public function setPath($class, $path, $base = null);
 
     /**
      * Register a class locator
@@ -94,19 +94,19 @@ interface ClassLoaderInterface
     public function getAliases($class);
 
     /**
-     * Get the basepath
+     * Get the base path
      *
      * @return string The base path
      */
-    public function getBasepath();
+    public function getBasePath();
 
     /**
-     * Set the basepath
+     * Set the base path
      *
-     * @param string $basepath The basepath
+     * @param string $path The base path
      * @return ClassLoaderInterface
      */
-    public function setBasepath($basepath);
+    public function setBasePath($path);
 
     /**
      * Enable or disable class loading
