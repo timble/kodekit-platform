@@ -127,9 +127,6 @@ abstract class ViewTemplate extends ViewAbstract
     {
         $model = $this->getModel();
 
-        //Auto-assign the state to the view
-        $context->data->state = $model->getState();
-
         //Auto-assign the data from the model
         if($this->_auto_fetch)
         {
