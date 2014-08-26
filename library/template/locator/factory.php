@@ -63,8 +63,8 @@ class TemplateLocatorFactory extends Object implements ObjectSingleton
      * Note that only URLs delimited by "://"" are supported. ":" and ":/" while technically valid URLs, are not. If no
      * locator is registered for the specific scheme a exception will be thrown.
      *
-     * @param  string  $url  The template url
-     * @param  string $base  The base url or resource (used to resolve partials).
+     * @param  string $url  The template url
+     * @param  string $base  The baseurl or resource (used to resolve partials).
      * @throws \InvalidArgumentException If the path is not valid
      * @throws \RuntimeException         If the locator isn't registered
      * @throws \UnexpectedValueException If the locator object doesn't implement the TemplateLocatorInterface
@@ -189,13 +189,8 @@ class TemplateLocatorFactory extends Object implements ObjectSingleton
     {
         $locator = false;
 
-        if($this->isRegistered($name))
-        {
-            if(isset($this->__locators[$name])) {
-                $locator = $this->__locators[$name];
-            } else {
-                $locator = 'lib:template.locator.'.$name;
-            }
+        if($this->isRegistered($name)) {
+            $locator = $this->__locators[$name];
         }
 
         return $locator;

@@ -18,11 +18,57 @@ namespace Nooku\Library;
 abstract class TemplateLocatorAbstract extends Object implements TemplateLocatorInterface, ObjectMultiton
 {
     /**
-     * The stream name
+     * The locator name
      *
      * @var string
      */
     protected static $_name = '';
+
+    /**
+     * Found locations map
+     *
+     * @var array
+     */
+    protected $_locations;
+
+    /**
+     * The base path
+     *
+     * @var string
+     */
+    protected $_base_path;
+
+    /**
+     * Constructor
+     *
+     * Prevent creating instances of this class by making the constructor private
+     *
+     * @param ObjectConfig $config   An optional ObjectConfig object with configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        //Set the base path
+        $this->setBasePath($config->base_path);
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'base_path' => null
+        ));
+
+        parent::_initialize($config);
+    }
 
     /**
      * Get the locator name
@@ -35,22 +81,69 @@ abstract class TemplateLocatorAbstract extends Object implements TemplateLocator
     }
 
     /**
+     * Get the base path
+     *
+     * @return string The base path
+     */
+    public function getBasePath()
+    {
+        return $this->_base_path;
+    }
+
+    /**
+     * Set the base path
+     *
+     * @param string $base_path The base path
+     * @return TemplateLocatorAbstract
+     */
+    public function setBasePath($path)
+    {
+        $this->_base_path = $path;
+        return $this;
+    }
+
+    /**
      * Locate the template based on a virtual path
      *
      * @param  string $url   The Template url
-     * @param  string $base  The base url or resource (used to resolved partials).
+     * @throws  \RuntimeException If the no base path exists while trying to locate a partial.
+     * @return string   The physical path of the template
+     */
+    public function locate($url)
+    {
+        $base = $this->getBasePath();
+
+        if($base) {
+            $key = $base.'-'.$url;
+        } else {
+            $key = $url;
+        }
+
+        if(!isset($this->_locations[$key]))
+        {
+            $info = array(
+                'url'   => $url,
+                'base'  => $base,
+                'path'  => '',
+            );
+
+            $this->_locations[$key] = $this->find($info);
+        }
+
+        return $this->_locations[$key];
+    }
+
+    /**
+     * Load the template based on a virtual path
+     *
+     * @param  string $url   The Template url
      * @throws \RuntimeException If the no base path was passed while trying to locate a partial.
      * @return string   The physical path of the template
      */
-    public function locate($url, $base = null)
+    public function load($url)
     {
-        $info = array(
-            'url'   => $url,
-            'base'  => $base,
-            'path'  => '',
-        );
-
-        return $this->find($info);
+        $file = $this->locate($url);
+        return file_get_contents($file);
     }
 
     /**
@@ -81,5 +174,21 @@ abstract class TemplateLocatorAbstract extends Object implements TemplateLocator
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if the template is still fresh.
+     *
+     * @param  string $url   The Template url
+     * @param int     $time  The last modification time of the cached template (timestamp)
+     * @return bool TRUE if the template is still fresh, FALSE otherwise
+     */
+    public function isFresh($url, $time)
+    {
+        if($file = $this->locate($url)) {
+            return (bool) filemtime($file) < $time;
+        }
+
+        return false;
     }
 }

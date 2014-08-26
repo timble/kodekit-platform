@@ -35,7 +35,7 @@ class TemplateLocatorFile extends TemplateLocatorAbstract
         //Qualify partial templates.
         if(is_file($info['url']) === false)
         {
-            if(empty($base)) {
+            if(empty($info['base'])) {
                 throw new \RuntimeException('Cannot qualify partial template path');
             }
 
