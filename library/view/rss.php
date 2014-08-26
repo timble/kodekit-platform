@@ -28,8 +28,6 @@ class ViewRss extends ViewTemplate
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'layout'   => 'rss',
-            'template' => 'rss',
             'mimetype' => 'application/rss+xml',
             'data'     => array(
                 'update_period'    => 'hourly',
@@ -61,5 +59,20 @@ class ViewRss extends ViewTemplate
     public function getRoute($route = '', $fqr = true, $escape = true)
     {
         return parent::getRoute($route, $fqr, $escape);
+    }
+
+    /**
+     * Prepend the xml prolog
+     *
+     * @param  ViewContext  $context A view context object
+     * @return string  The output of the view
+     */
+    protected function _actionRender(ViewContext $context)
+    {
+        //Prepend the xml prolog
+        $result  = '<?xml version="1.0" encoding="utf-8" ?>';
+        $result .=  parent::_actionRender($context);
+
+        return $result;
     }
 }
