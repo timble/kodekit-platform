@@ -19,9 +19,9 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
-class TemplateFilterMessage extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
+class TemplateFilterMessage extends Library\TemplateFilterAbstract
 {
-    public function render(&$text)
+    public function filter(&$text)
     {
         if (strpos($text, '<ktml:messages>') !== false)
         {

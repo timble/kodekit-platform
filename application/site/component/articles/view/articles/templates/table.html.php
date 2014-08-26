@@ -55,7 +55,6 @@
 
 <?= helper('paginator.pagination',array(
         'limit'      => $params->get('articles_per_page', 10),
-        'total'      => $total,
         'show_limit' => false,
         'show_count' => false)
 ); ?>

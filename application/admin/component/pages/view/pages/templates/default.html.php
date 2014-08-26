@@ -26,7 +26,7 @@
     <table>
         <thead>
         <tr>
-            <? if ($state->sort == 'custom' && $state->direction == 'asc') : ?>
+            <? if (state()->sort == 'custom' && state()->direction == 'asc') : ?>
                 <th class="handle"></th><? endif ?>
             <th width="1">
                 <?= helper('grid.checkall'); ?>
@@ -46,7 +46,7 @@
         <tfoot>
         <tr>
             <td colspan="6">
-                <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                <?= helper('com:application.paginator.pagination') ?>
             </td>
         </tr>
         </tfoot>
@@ -57,7 +57,7 @@
             <? if (!$page->getParentId() && $page->getParentId() != $tbody) $tbody = $page->getParentId(); ?>
             <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>"
                 data-sortable-level="<?= (int)$page->level ?>">
-                <? if ($state->sort == 'custom' && $state->direction == 'asc') : ?>
+                <? if (state()->sort == 'custom' && state()->direction == 'asc') : ?>
                     <td class="handle">
                         <span class="text--small data-order"><?= $page->ordering ?></span>
                     </td>
@@ -76,7 +76,7 @@
                         $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
                     }
 
-                    $link .= '&view=page&menu=' . $state->menu . '&id=' . $page->id;
+                    $link .= '&view=page&menu=' . state()->menu . '&id=' . $page->id;
                     ?>
                     <a href="<?= urldecode(route($link)) ?>">
                         <? if ($page->level > 1) : ?>
@@ -95,7 +95,7 @@
                     <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= helper('grid.order', array('entity' => $page, 'total' => $total)) ?>
+                    <?= helper('grid.order', array('entity' => $page, 'total' => count(state()))) ?>
                 </td>
                 <td>
                     <?= $page->getDescription() ?>

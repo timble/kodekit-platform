@@ -24,15 +24,13 @@ class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectMulti
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome))
         {
-            $this->getTemplate()->attachFilter('com:pages.template.filter.chrome', array(
+            $this->getTemplate()->addFilter('com:pages.template.filter.chrome', array(
                 'module' => $this->getIdentifier(),
                 'styles' => $this->module->chrome
             ));
         }
 
-        $this->_content = (string) $this->getTemplate()
-            ->setContent($this->_content)
-            ->setData($this->_data);
+        $this->_content = (string) $this->getTemplate()->setContent($this->_content)->filter();
 
         return $this->_content;
     }

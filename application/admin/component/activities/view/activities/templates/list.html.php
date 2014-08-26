@@ -23,7 +23,7 @@
                 <?= helper('activity.message', array('entity' => $activity)) ?>
             </div>
             <div class="activity__info">
-                <?= $activity->package.' - '.$activity->name ?> | <?= date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
+                <?= $activity->package.' - '.$activity->name ?> | <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>
             </div>
         </div>
         <? endforeach ?>

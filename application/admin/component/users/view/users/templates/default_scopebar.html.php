@@ -10,23 +10,23 @@
 
 <div class="scopebar">
 	<div class="scopebar__group">
-		<a class="<?= is_null($state->enabled) && is_null($state->visited) && is_null($state->authentic) ? 'active' : ''; ?>" href="<?= route('enabled=&authentic=&visited=' ) ?>">
+		<a class="<?= is_null(state()->enabled) && is_null(state()->visited) && is_null(state()->authentic) ? 'active' : ''; ?>" href="<?= route('enabled=&authentic=&visited=' ) ?>">
 		    <?= translate('All') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= $state->enabled === true ? 'active' : ''; ?>" href="<?= route($state->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
+		<a class="<?= state()->enabled === true ? 'active' : ''; ?>" href="<?= route(state()->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
 		    <?= translate('Enabled') ?>
 		</a> 
-		<a class="<?= $state->enabled === false ? 'active' : ''; ?>" href="<?= route($state->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
+		<a class="<?= state()->enabled === false ? 'active' : ''; ?>" href="<?= route(state()->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
 		    <?= translate('Disabled') ?>
 		</a> 
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= $state->authentic === true ? 'active' : ''; ?>" href="<?= route( $state->authentic === true ? 'authentic=' : 'authentic=1&visited=' ) ?>">
+		<a class="<?= state()->authentic === true ? 'active' : ''; ?>" href="<?= route( state()->authentic === true ? 'authentic=' : 'authentic=1&visited=' ) ?>">
 		    <?= translate('Logged in') ?>
 		</a> 
-		<a class="<?= $state->visited === false ? 'active' : ''; ?>" href="<?= route( $state->visited === false? 'visited=' : 'visited=0&authentic=' ) ?>">
+		<a class="<?= state()->visited === false ? 'active' : ''; ?>" href="<?= route( state()->visited === false? 'visited=' : 'visited=0&authentic=' ) ?>">
 		    <?= translate('Never visited') ?>
 		</a> 
 	</div>

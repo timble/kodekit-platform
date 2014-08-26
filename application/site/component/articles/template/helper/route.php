@@ -48,7 +48,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-        return $this->getTemplate()->getView()->getRoute($route);
+        return $this->getTemplate()->route($route);
     }
 
     public function category($config = array())
@@ -79,6 +79,6 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         };
 
-        return $this->getTemplate()->getView()->getRoute($route);
+        return $this->getTemplate()->route($route);
     }
 }

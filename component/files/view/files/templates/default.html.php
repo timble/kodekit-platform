@@ -17,20 +17,20 @@ Files.base     = '<?= $base; ?>';
 Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
-	var config = <?= json_encode($state->config); ?>,
+	var config = <?= json_encode(state()->config); ?>,
 		options = {
             title: false,
 			state: {
 				defaults: {
-					limit: <?= (int) $state->limit; ?>,
-					offset: <?= (int) $state->offset; ?>,
-					types: <?= json_encode($state->types); ?>
+					limit: <?= (int) state()->limit; ?>,
+					offset: <?= (int) state()->offset; ?>,
+					types: <?= json_encode(state()->types); ?>
 				}
 			},
 			tree: {
 				theme: 'assets://files/images/mootree.png'
 			},
-			types: <?= json_encode($state->types); ?>,
+			types: <?= json_encode(state()->types); ?>,
             site: <?= json_encode($site); ?>,
 			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
 			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
@@ -158,7 +158,7 @@ window.addEvent('domready', function() {
 <div id="files-app">
 	<?= import('templates_icons.html'); ?>
 	<?= import('templates_details.html'); ?>
-	
+
 	<ktml:module position="sidebar">
 		<div id="files-tree"></div>
 	</ktml:module>
@@ -178,7 +178,7 @@ window.addEvent('domready', function() {
 		<div id="files-paginator">
 			<?= helper('paginator.pagination') ?>
 		</div>
-		
+
 		<?= import('uploader.html');?>
 	</div>
 </div>

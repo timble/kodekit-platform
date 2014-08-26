@@ -17,13 +17,13 @@
         <title><?= escape($article->title) ?> </title>
         <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
         <link><?= helper('route.article', array('entity' => $article)) ?></link>
-        <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
+        <lastBuildDate><?= helper('date.format', array('format' => \DateTime::RSS)) ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= @object('translator')->getLocale(); ?></language>
 
         <dc:language><?= @object('translator')->getLocale(); ?></dc:language>
         <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= helper('date.format') ?></dc:date>
+        <dc:date><?= helper('date.format', array('format' => \DateTime::RSS)) ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
@@ -38,8 +38,8 @@
                 <guid isPermaLink="false"><?= helper('route.article', array('entity' => $article)) ?></guid>
                 <description><![CDATA[<?= $comment->text ?>]]></description>
 
-                <pubDate><?= helper('date.format', array('date' => $comment->created_on)) ?></pubDate>
-                <dc:date><?= helper('date.format', array('date' => $comment->created_on)) ?></dc:date>
+                <pubDate><?= helper('date.format', array('date' => $comment->created_on, 'format' => \DateTime::RSS)) ?></pubDate>
+                <dc:date><?= helper('date.format', array('date' => $comment->created_on, 'format' => \DateTime::RSS)) ?></dc:date>
             </item>
         <? endforeach; ?>
     </channel>

@@ -76,7 +76,7 @@ class TemplateHelperActionbar extends Library\TemplateHelperAbstract
 
         //Create the href
         if(!empty($command->href)) {
-            $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
+            $command->attribs['href'] = $this->getTemplate()->route($command->href);
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';

@@ -22,9 +22,9 @@
 		</div>
 		<? endforeach; ?>
 	</div>
-	<form action="<?= route('row='.@$state->row.'&table='.$state->table.'&tmpl='); ?>" method="post">
-		<input type="hidden" name="row"     value="<?= $state->row?>" />
-		<input type="hidden" name="table" value="<?= $state->table?>" />
+	<form action="<?= route('row='.state()->row.'&table='.state()->table.'&tmpl='); ?>" method="post">
+		<input type="hidden" name="row"     value="<?= state()->row?>" />
+		<input type="hidden" name="table" value="<?= state()->table?>" />
 		<input name="title" type="text" value="" placeholder="<?= translate('Add new tag') ?>" <?= $disabled ?> />
 		<input class="button" type="submit" <?= $disabled ?> value="<?= translate('Add') ?>"/>
 	</form>

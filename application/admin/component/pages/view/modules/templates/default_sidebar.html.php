@@ -11,13 +11,13 @@
 <h3><?= translate( 'Positions' ); ?></h3>
 <ul class="navigation">
 	<li>
-        <a <? if(!$state->position && $state->application == 'site') echo 'class="active"' ?> href="<?= route('position=&application=site') ?>">
+        <a <? if(!state()->position && state()->application == 'site') echo 'class="active"' ?> href="<?= route('position=&application=site') ?>">
             <?= translate('All positions') ?>
         </a>
 	</li>
 	<? foreach($positions as $position) : ?>
 	<li>
-        <a <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?> href="<?= route('sort=ordering&position='.$position.'&application=site') ?>">
+        <a <? if(state()->position == $position && state()->application == 'site') echo 'class="active"' ?> href="<?= route('sort=ordering&position='.$position.'&application=site') ?>">
             <?= $position; ?>
         </a>
 	</li>

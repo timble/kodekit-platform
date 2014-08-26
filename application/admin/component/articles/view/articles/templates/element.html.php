@@ -32,7 +32,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination') ?>
 				</td>
 			</tr>
 		</tfoot>

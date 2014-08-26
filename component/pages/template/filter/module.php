@@ -23,7 +23,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterModule extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
+class TemplateFilterModule extends Library\TemplateFilterAbstract
 {
     /**
      * Database rowset or identifier
@@ -68,7 +68,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      * @param string $text Block of text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $this->_parseModuleTags($text);
         $this->_parseModulesTags($text);

@@ -31,14 +31,14 @@
 		<tfoot>
 			<tr>
 				<td colspan="3">
-					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination') ?>
 				</td>
 			</tr>
 		</tfoot>
 		<tbody>
 		<? $date = $old_date = '';   ?>
-		<? foreach ($activities as $activity) : ?>	
-	        <? $date = date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
+		<? foreach ($activities as $activity) : ?>
+	        <? $date = helper('date.format', array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
 	        <tr class="no-hover separator">
@@ -53,7 +53,7 @@
 				</td>
 
 				<td align="left">
-			        <?= date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
+			        <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>
 				</td>
 
 				<td>

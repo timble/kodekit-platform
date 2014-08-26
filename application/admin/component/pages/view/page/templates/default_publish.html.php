@@ -35,12 +35,12 @@
 <div>
     <label for="parent"><?= translate('Menu') ?></label>
     <div id="parent" class="controls">
-        <?= helper('listbox.menus', array('selected' => $state->menu)) ?>
+        <?= helper('listbox.menus', array('selected' => state()->menu)) ?>
     </div>
 </div>
 <div>
     <label for="parent"><?= translate('Parent') ?></label>
     <div id="pages-parent" class="controls">
-        <?= helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $parent_id, 'attribs')) ?>
+        <?= helper('listbox.parents', array('page' => $page, 'menu' => state()->menu, 'selected' => $parent_id, 'attribs')) ?>
     </div>
 </div>

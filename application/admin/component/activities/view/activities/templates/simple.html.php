@@ -18,7 +18,7 @@
     	$list[substr($activity->created_on, 0, 10)][] = $activity;
     }
     ?>
-    
+
     <div id="activities-list">
     	<? foreach($list as $date => $activities) : ?>
     		<h4><?= helper('date.humanize', array('date' => $date)) ?></h4>

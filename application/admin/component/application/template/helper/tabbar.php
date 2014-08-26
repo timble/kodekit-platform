@@ -82,7 +82,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
 
         //Create the href
         if(!empty($command->href) && !$command->disabled) {
-            $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
+            $command->attribs['href'] = $this->getTemplate()->route($command->href);
         }
 
         if ($command->disabled) {

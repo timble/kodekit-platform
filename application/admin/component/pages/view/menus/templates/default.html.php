@@ -35,7 +35,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
+                    <?= helper('com:application.paginator.pagination') ?>
                 </td>
             </tr>
         </tfoot>
@@ -47,7 +47,7 @@
                     <?= helper('grid.checkbox',array('entity' => $menu)); ?>
                 </td>
                 <td>
-                    <? if(!$state->trash) : ?>
+                    <? if(!state()->trash) : ?>
                     <a href="<?= route('view=menu&id='.$menu->id); ?>">
                         <?= escape($menu->title); ?>
                     </a>

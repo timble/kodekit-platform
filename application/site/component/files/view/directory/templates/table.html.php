@@ -44,7 +44,7 @@
 			<td>	
 				<i class="icon-file"></i>
 				<a class="files-download" data-path="<?= escape($file->path); ?>"
-					href="<?= route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
+					href="<?= route('&view=file&folder='.state()->folder.'&name='.$file->name);?>">
 					<?=escape($file->display_name)?>
 				</a>
 			</td>
@@ -59,11 +59,10 @@
 	</tbody>
 </table>
 
-<? if(count($files) != $total): ?>
+<? if(count($files) != count(state())): ?>
     <?= helper('paginator.pagination', array(
-        'limit' => $state->limit,
-        'offset' => $state->offset,
-    	'total' => $total, 
+        'limit'      => state()->limit,
+        'offset'     => state()->offset,
     	'show_limit' => false, 
     	'show_count' => false
     )); ?>

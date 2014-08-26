@@ -36,9 +36,23 @@ class ApplicationTemplateFilterAsset extends Library\TemplateFilterAsset
 
         $config->append(array(
             'priority' => self::PRIORITY_LOW,
-            'schemes'  => array('"/assets/' => '"'.$path),
+            'schemes'  => array('assets://' => $path, '"/assets/' => '"'.$path),
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Convert the schemes to their real paths
+     *
+     * @param string $text  The text to parse
+     * @return void
+     */
+    public function filter(&$text)
+    {
+        $text = str_replace(
+            array_keys($this->_schemes),
+            array_values($this->_schemes),
+            $text);
     }
 }

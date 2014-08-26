@@ -13,11 +13,11 @@
 <script>
 window.addEvent('domready', (function() {
     new Pages.Module({
-        'module': <?= $state->id ?>,
-        'page': <?= $state->page ?>,
+        'module': <?= state()->id ?>,
+        'page': <?= state()->page ?>,
         'form': document.forms['module-pages'],
-        'parent_input_current': window.parent.document.getElement('#pages-modules input[name="modules[<?= $state->id ?>][current]"]'),
-        'parent_input_others': window.parent.document.getElement('#pages-modules input[name="modules[<?= $state->id ?>][others]"]')
+        'parent_input_current': window.parent.document.getElement('#pages-modules input[name="modules[<?= state()->id ?>][current]"]'),
+        'parent_input_others': window.parent.document.getElement('#pages-modules input[name="modules[<?= state()->id ?>][others]"]')
     });
 }));
 </script>
@@ -49,7 +49,7 @@ window.addEvent('domready', (function() {
                 <? $disabled = is_array($module->pages) ? '' : ' disabled="disabled"'?>
                 <label class="checkbox level<?= $page->level ?>">
                     <input type="checkbox" name="page_ids[]" value="<?= $page->id ?>" class="page-<?= $page->id ?>" <?= $checked ?><?= $disabled ?> />
-                    <? if($page->id == $state->page) : ?>
+                    <? if($page->id == state()->page) : ?>
                     <strong><?= $page->title ?></strong>
                     <? else : ?>
                     <?= $page->title ?>

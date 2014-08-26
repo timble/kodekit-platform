@@ -17,6 +17,17 @@ use Nooku\Library;
  */
 class ArticlesViewArticlesHtml extends ArticlesViewHtml
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'template_functions' => array(
+                'highlight'     => array($this, 'highlight'),
+            ),
+        ));
+
+        parent::_initialize($config);
+    }
+
     protected function _fetchData(Library\ViewContext $context)
     {
         //Get the parameters

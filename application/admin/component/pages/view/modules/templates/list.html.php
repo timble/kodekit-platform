@@ -24,7 +24,7 @@
 		<? $last = $i+1 == count($modules) ?>
 
 		<td width="50%">
-            <a href="<?= route('view=module&name='.$module->name.'&application='.$state->application.'&component='.$module->component) ?>">
+            <a href="<?= route('view=module&name='.$module->name.'&application='.state()->application.'&component='.$module->component) ?>">
                 <?= translate(escape($module->name)) ?>
             </a>
 		</td>

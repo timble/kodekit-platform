@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
+class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract
 {
     /**
      * Determines if email address should be linked
@@ -64,7 +64,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         return $result;
     }
 
-    public function render(&$text)
+    public function filter(&$text)
     {
         // Search for <a href="mailto:|http(s)://mce_host/dir/email@email.tld">
         $pattern = '~<a[^>]*href\s*=\s*"(?:mailto:|https?://.+?)';

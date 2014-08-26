@@ -29,7 +29,7 @@ class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 
         if($entity->name == 'session')
         {
-		    $item = $this->getTemplate()->getView()->getRoute('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
+		    $item = $this->getTemplate()->route('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
 		    
 		    $message   = '<a href="'.$item.'">'.$entity->title.'</a>';
 		    $message  .= ' <span class="action">'.$entity->status.'</span>';

@@ -50,7 +50,7 @@ jQuery(function($) {
     	<? if (!empty($file->thumbnail)): ?>
         <li class="span3">
     		<a class="thumbnail text-center" data-path="<?= escape($file->path); ?>"
-    			href="<?= route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
+    			href="<?= route('&view=file&folder='.state()->folder.'&name='.$file->name) ?>"
     		    title="<?= escape($file->display_name) ?>"
     		    style="min-height:<?= $thumbnail_size['y'] ?>px"
             >
@@ -61,11 +61,10 @@ jQuery(function($) {
         <? endforeach ?>
     </ol>
 
-    <? if(count($files) != $total): ?>
+    <? if(count($files) != count(state())): ?>
 	    <?= helper('paginator.pagination', array(
-	    	'total' => $total,
-	    	'limit' => $state->limit,
-	    	'offset' => $state->offset,
+	    	'limit' => state()->limit,
+	    	'offset' => state()->offset,
 	    	'show_count' => false,
 	    	'show_limit' => false
 	    )) ?>

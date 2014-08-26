@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class TemplateFilterScript extends Library\TemplateFilterScript
 {
-    public function render(&$text)
+    public function filter(&$text)
     {
         $scripts = $this->_parseTags($text);
         $text = str_replace('<ktml:script>', $scripts, $text);

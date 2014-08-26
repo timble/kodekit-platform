@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesTemplateHelperRoute extends Library\TemplateHelperDefault
+class PagesTemplateHelperRoute extends Library\TemplateHelperAbstract
 {
     /**
      * Find a page based on list of needles

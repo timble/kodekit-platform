@@ -32,7 +32,7 @@
                 <div>
                     <label for="application"><?= translate('Application') ?></label>
                     <div>
-                        <?= helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application, 'deselect' => false)) ?>
+                        <?= helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? state()->application : $menu->application, 'deselect' => false)) ?>
                     </div>
                 </div>
                 <div>

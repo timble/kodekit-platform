@@ -97,10 +97,10 @@ class ControllerError extends Library\ControllerView
             $message  = $exception->getMessage();
             $file	  = $exception->getFile();
             $line     = $exception->getLine();
-            $function = isset($traces[0]['function']) ? $traces[0]['class'] : '';
-            $class    = isset($traces[0]['class']) ? $traces[0]['class']    : '';
-            $args     = isset($traces[0]['args'])  ? $traces[0]['args']     : '';
-            $info     = isset($traces[0]['info'])  ? $traces[0]['info']     : '';
+            $function = isset($traces[0]['function']) ? $traces[0]['function'] : '';
+            $class    = isset($traces[0]['class']) ? $traces[0]['class']       : '';
+            $args     = isset($traces[0]['args'])  ? $traces[0]['args']        : '';
+            $info     = isset($traces[0]['info'])  ? $traces[0]['info']        : '';
         }
 
         //Create the exception message

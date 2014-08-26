@@ -43,7 +43,8 @@ class ModelComments extends Library\ModelDatabase
     {
         parent::_buildQueryWhere($query);
 
-        if (!$this->getState()->isUnique()) {
+        if (!$this->getState()->isUnique())
+        {
             $state = $this->getState();
 
             if ($state->table) {

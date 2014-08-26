@@ -28,7 +28,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
     { 
         $config = new Library\ModelPaginator($config);
         $config->append(array(
-            'total'      => 0,
+            'total'      => count($this->getTemplate()->state()),
             'display'    => 4,
             'offset'     => 0,
             'limit'      => 0,
@@ -104,7 +104,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 
         $translator = $this->getObject('translator');
 
-        $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
+        $route = $this->getTemplate()->route('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
         $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.$translator($config->title).'</a>';

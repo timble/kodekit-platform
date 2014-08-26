@@ -7,9 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library;
-?>
-<?='<?xml version="1.0" encoding="utf-8" ?>' ?>
+use Nooku\Library; ?>
+
 
 <rss version="2.0"
      xmlns:atom="http://www.w3.org/2005/Atom"
@@ -21,13 +20,13 @@ use Nooku\Library;
         <title><?= escape($category->title) ?></title>
         <description><![CDATA[<?= escape($category->description) ?>]]></description>
         <link><?= route() ?></link>
-        <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
+        <lastBuildDate><?= helper('date.format', array('format' => \DateTime::RSS)) ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= @object('translator')->getLocale(); ?></language>
 
         <dc:language><?= @object('translator')->getLocale(); ?></dc:language>
         <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= helper('date.format') ?></dc:date>
+        <dc:date><?= helper('date.format', array('format' => \DateTime::RSS)) ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
@@ -54,8 +53,8 @@ use Nooku\Library;
             <category domain="<?= helper('route.category', array('entity' => $category)) ?>">
                 <![CDATA[<? $article->category_title ?>]]>
             </category>
-            <pubDate><?= helper('date.format', array('date' => $article->published_on)) ?></pubDate>
-            <dc:date><?= helper('date.format', array('date' => $article->published_on)) ?></dc:date>
+            <pubDate><?= helper('date.format', array('date' => $article->published_on, 'format' => \DateTime::RSS)) ?></pubDate>
+            <dc:date><?= helper('date.format', array('date' => $article->published_on, 'format' => \DateTime::RSS)) ?></dc:date>
         </item>
         <? endforeach; ?>
 

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
-class TemplateHelperCaptcha extends Library\TemplateHelperDefault
+class TemplateHelperCaptcha extends Library\TemplateHelperAbstract
 {
     /**
      * Renders the reCAPTCHA widget.

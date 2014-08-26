@@ -22,7 +22,7 @@ return array(
         ),
 
         'com:application.template.filter.asset'         => array(
-            'schemes' => array('/assets/application/' => '/administrator/theme/default/')
+            'schemes' => array('assets://application/' => '/administrator/theme/default/')
         )
     )
 );

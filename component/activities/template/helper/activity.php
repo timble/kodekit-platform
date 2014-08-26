@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiable
+class TemplateHelperActivity extends Library\TemplateHelperAbstract implements Library\ObjectInstantiable
 {
 	/**
      * Check for overrides of the helper
@@ -51,8 +51,8 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 		));
 	
 		$entity  = $config->entity;
-		$item = $this->getTemplate()->getView()->getRoute('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
-		$user = $this->getTemplate()->getView()->getRoute('component=users&view=user&id='.$entity->created_by);
+		$item = $this->getTemplate()->route('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
+		$user = $this->getTemplate()->route('component=users&view=user&id='.$entity->created_by);
 		
 		$message   = '<a href="'.$user.'">'.$entity->getAuthor()->getName().'</a> ';
 		$message  .= $entity->status;

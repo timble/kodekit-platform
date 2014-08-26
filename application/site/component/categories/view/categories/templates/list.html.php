@@ -10,7 +10,7 @@
 
 <ul>
     <? foreach ($categories as $category): ?>
-    <li<?= $category->id == $state->category ? ' class="active"' : '' ?>>
+    <li<?= $category->id == state()->category ? ' class="active"' : '' ?>>
         <a href="<?= helper('route.category', array('entity' => $category)) ?>">
             <?= $category->title ?>
         </a>

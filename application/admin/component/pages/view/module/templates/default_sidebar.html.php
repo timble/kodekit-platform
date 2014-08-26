@@ -19,7 +19,7 @@
     <div>
         <label for=""><?= translate('Position') ?></label>
         <div>
-            <?= helper('listbox.positions', array('name' => 'position', 'selected' => $module->position, 'application' => $state->application, 'deselect' => false)) ?>
+            <?= helper('listbox.positions', array('name' => 'position', 'selected' => $module->position, 'application' => state()->application, 'deselect' => false)) ?>
         </div>
     </div>
     <div>

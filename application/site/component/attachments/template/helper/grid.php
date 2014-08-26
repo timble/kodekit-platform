@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Attachments
  */
-class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
+class AttachmentsTemplateHelperGrid extends Library\TemplateHelperAbstract
 {
     public function thumbnails($config = array())
     {

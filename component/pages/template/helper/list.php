@@ -92,7 +92,7 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getTemplate()->getView()->getRoute($page->getLink()->getQuery());
+                    $link = $this->getTemplate()->route($page->getLink()->getQuery());
                     $result .= '<a href="'.(string) $link.'">';
                     $result .= $page->title;
                     $result .= '</a>';

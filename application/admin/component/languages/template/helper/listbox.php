@@ -42,7 +42,7 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 		
 		foreach($languages as $language)
 		{
-		    $route = $this->getTemplate()->getView()->getRoute('language='.$language->slug);
+		    $route = $this->getTemplate()->route('language='.$language->slug);
 		    $options[] = $this->option(array('label' => $language->name, 'value' => $route));
 		    
 		    if($language->iso_code == $active->iso_code) {

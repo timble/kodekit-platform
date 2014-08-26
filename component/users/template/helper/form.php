@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
-class TemplateHelperForm extends Library\TemplateHelperDefault
+class TemplateHelperForm extends Library\TemplateHelperAbstract
 {
     /**
      * Provides a password strength check layout.

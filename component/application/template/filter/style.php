@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class TemplateFilterStyle extends Library\TemplateFilterStyle
 {
-    public function render(&$text)
+    public function filter(&$text)
     {
         $styles = $this->_parseTags($text);
         $text = str_replace('<ktml:style>', $styles, $text);

@@ -26,8 +26,9 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         if ($page->getLink()->query['view'] == 'categories')
         {
             $category = $article->getCategory();
+            $url      = $this->getTemplate()->createHelper('route')->category(array('entity' => $category));
 
-            $this->getObject('com:pages.pathway')->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('entity' => $category)));
+            $this->getObject('com:pages.pathway')->addItem($category->title, $url);
             $this->getObject('com:pages.pathway')->addItem($article->title, '');
         }
 

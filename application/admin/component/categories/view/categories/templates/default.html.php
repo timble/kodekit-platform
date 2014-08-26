@@ -17,20 +17,20 @@
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
-<? if($state->table == 'articles') : ?>
+<? if(state()->table == 'articles') : ?>
 <ktml:module position="sidebar">
     <?= import('default_sidebar.html'); ?>
 </ktml:module>
 <? endif; ?>
 
 <form action="" method="get" class="-koowa-grid">
-    <input type="hidden" name="type" value="<?= $state->type;?>" />
+    <input type="hidden" name="type" value="<?= state()->type;?>" />
 
     <?= import('default_scopebar.html'); ?>
     <table>
         <thead>
             <tr>
-                <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
+                <? if(state()->sort == 'ordering' && state()->direction == 'asc') : ?>
                 <th class="handle"></th>
                 <? endif ?>
                 <th width="1">
@@ -49,15 +49,15 @@
         <tfoot>
             <tr>
                 <td colspan="13">
-                    <?= helper('com:application.paginator.pagination', array('total' => $total)); ?>
+                    <?= helper('com:application.paginator.pagination'); ?>
                 </td>
             </tr>
         </tfoot>
 
-        <tbody<? if($state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<? if(state()->sort == 'ordering' && state()->direction == 'asc') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
+                    <? if(state()->sort == 'ordering' && state()->direction == 'asc') : ?>
                     <td class="handle">
                         <span class="text--small data-order"><?= $category->ordering ?></span>
                     </td>

@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= overlay(array('url' => route('component=activities&view=activities&layout=list'))); ?>
+<?= helper('behavior.overlay', array('url' => route('component=activities&view=activities&layout=list'))); ?>
 
 <div class="sidebar">
     <div class="mod_users">

@@ -41,7 +41,7 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-		return $this->getTemplate()->getView()->getRoute($route);
+		return $this->getTemplate()->route($route);
 	}
 
     public function user($config = array())
@@ -71,6 +71,6 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-        return is_null($page) ? null : $this->getTemplate()->getView()->getRoute($route);
+        return is_null($page) ? null : $this->getTemplate()->route($route);
     }
 }

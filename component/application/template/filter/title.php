@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class TemplateFilterTitle extends Library\TemplateFilterTitle
 {
-    public function render(&$text)
+    public function filter(&$text)
     {
         $title = $this->_parseTags($text);
         $text = str_replace('<ktml:title>', $title, $text);

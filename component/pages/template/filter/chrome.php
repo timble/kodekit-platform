@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\ObjectInstantiable
 {
     /**
      * The chrome styles
@@ -117,7 +117,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      * @param string $text Block of text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $data = (object) $this->getTemplate()->getData();
 
@@ -149,7 +149,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
 
     protected function _styleAccordion($module)
     {
-        $accordion = $this->getTemplate()->getHelper('accordion');
+        $accordion = $this->getTemplate()->createHelper('accordion');
 
         $config = array(
             'title'     => $this->getObject('translator')->translate( $module->title ),
@@ -175,7 +175,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
 
     protected function _styleTabs($module)
     {
-        $tabs = $this->getTemplate()->getHelper('tabs');
+        $tabs = $this->getTemplate()->createHelper('tabs');
 
         $config = array(
             'title'     => $this->getObject('translator')->translate( $module->title ),

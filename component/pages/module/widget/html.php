@@ -48,13 +48,11 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
     public function _overlay()
     {
         $params = $this->module->getParameters();
-        $helper = $this->getTemplate()->getHelper('behavior');
-
         $route   = $this->getRoute($params->get('url'));
         $options = array('options' => array('selector' => $params->get('selector', 'body')));
 
         //Create the overlay
-        $html = $helper->overlay(array('url' => $route, $options));
+        $html = $this->getTemplate()->createHelper('behavior')->overlay(array('url' => $route, $options));
 
         return $html;
     }
