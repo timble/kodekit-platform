@@ -88,6 +88,13 @@ interface ViewInterface
 	public function getFormat();
 
     /**
+     * Get the state
+     *
+     * @return ModelStateInterface
+     */
+    public function getState();
+
+    /**
      * Get the content
      *
      * @return  string The content of the view

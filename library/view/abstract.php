@@ -279,6 +279,16 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     }
 
     /**
+     * Get the state
+     *
+     * @return ModelStateInterface
+     */
+    public function getState()
+    {
+        return $this->getModel()->getState();
+    }
+
+    /**
      * Get the content
      *
      * @return  string The content of the view
