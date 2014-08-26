@@ -15,4 +15,4 @@ namespace Nooku\Library;
   * @author  Johan Janssens <http://github.com/johanjanssens>
   * @package Nooku\Library\Template\Default
   */
-final class TemplateDefault extends TemplateAbstract {}
+final class TemplateDefault extends TemplateAdapter {}

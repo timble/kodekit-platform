@@ -18,20 +18,11 @@ namespace Nooku\Library;
 abstract class TemplateAbstract extends Object implements TemplateInterface
 {
     /**
-     * Tracks the status the template
+     * List of template functions
      *
-     * Available template status values are defined as STATUS_ constants
-     *
-     * @var string
+     * @var array
      */
-    protected $_status = null;
-
-    /**
-     * The template path
-     *
-     * @var string
-     */
-    protected $_path;
+    protected $_functions;
 
     /**
      * The template data
@@ -41,42 +32,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_data;
 
     /**
-     * The template contents
+     * The template content
      *
      * @var string
      */
     protected $_content;
-
-    /**
-     * View object or identifier
-     *
-     * @var    string|object
-     */
-    protected $_view;
-
-    /**
-     * Template stack
-     *
-     * Used to track recursive load calls during template evaluation
-     *
-     * @var array
-     * @see load()
-     */
-    protected $_stack;
-
-    /**
-     * List of template filters
-     *
-     * @var array
-     */
-    protected $_filters;
-
-    /**
-     * Filter queue
-     *
-     * @var	ObjectQueue
-     */
-    protected $_queue;
 
     /**
      * Constructor
@@ -89,32 +49,18 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     {
         parent::__construct($config);
 
-        // Set the view identifier
-        $this->_view = $config->view;
+        //Reset the data
+        $this->_data = array();
 
-        // Set the template data
-        $this->_data = $config->data;
+        //Reset the content
+        $this->_content = null;
 
-        //Set the filter queue
-        $this->_queue = $this->getObject('lib:object.queue');
+        //Register the functions
+        $functions = (array)ObjectConfig::unbox($config->functions);
 
-        //Register the loaders
-        $this->_locators = ObjectConfig::unbox($config->locators);
-
-        //Attach the filters
-        $filters = ObjectConfig::unbox($config->filters);
-
-        foreach ($filters as $key => $value)
-        {
-            if (is_numeric($key)) {
-                $this->attachFilter($value);
-            } else {
-                $this->attachFilter($key, $value);
-            }
+        foreach ($functions as $name => $callback) {
+            $this->registerFunction($name, $callback);
         }
-
-        //Reset the stack
-        $this->_stack = array();
     }
 
     /**
@@ -128,9 +74,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'    => array(),
-            'view'    => null,
-            'filters' => array(),
+            'functions' => array()
         ));
 
         parent::_initialize($config);
@@ -140,191 +84,54 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * Load a template by path
      *
      * @param   string  $url      The template url
+     * @throws \InvalidArgumentException If the template could not be located
+     * @return TemplateAbstract
+     */
+    public function load($url)
+    {
+        //Locate the template
+        $locator = $this->getObject('template.locator.factory')->createLocator($url);
+
+        if (!$this->_content = $locator->locate($url)) {
+            throw new \InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Render the template
+     *
      * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @param   integer $status   The template state
-     * @throws \InvalidArgumentException If the template could not be found
-     * @return TemplateAbstract
+     * @return string The Rendered content
      */
-    public function load($url, $data = array(), $status = self::STATUS_LOADED)
+    public function render(array $data = array())
     {
-        //Get the template locator
-        $locator = $this->getObject('template.locator.factory')->createLocator($url, $this->getPath());
+        $this->_data = $data;
 
-        //Check of the file exists
-        if (!$file = $locator->locate($url, $this->getPath())) {
-            throw new \InvalidArgumentException('Template "' . $url . '" not found');
-        }
-
-        //Push the path on the stack
-        array_push($this->_stack, $url);
-
-        //Set the status
-        $this->_status = $status;
-
-        //Load the file content
-        $this->_content = file_get_contents($file);
-
-        //Compile and evaluate partial templates
-        if(count($this->_stack) > 1)
-        {
-            if(!($status & self::STATUS_COMPILED)) {
-                $this->compile();
-            }
-
-            if(!($status & self::STATUS_EVALUATED)) {
-                $this->evaluate($data);
-            }
-        }
-
-        return $this;
+        return $this->_content;
     }
 
     /**
-     * Parse and compile the template to PHP code
+     * Get a template property
      *
-     * This function passes the template through compile filter queue and returns the result.
-     *
-     * @return TemplateAbstract
+     * @param   string  $property The property name.
+     * @param   mixed   $default  Default value to return.
+     * @return  string  The property value.
      */
-    public function compile()
+    public function get($property, $default = null)
     {
-        if(!($this->_status & self::STATUS_COMPILED))
-        {
-            foreach($this->_queue as $filter)
-            {
-                if($filter instanceof TemplateFilterCompiler) {
-                    $filter->compile($this->_content);
-                }
-            }
-
-            //Set the status
-            $this->_status ^= self::STATUS_COMPILED;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Evaluate the template using a simple sandbox
-     *
-     * This function writes the template to a temporary file and then includes it.
-     *
-     * @param  array   $data  An associative array of data to be extracted in local template scope
-     * @return TemplateAbstract
-     * @see tempnam()
-     */
-    public function evaluate($data = array())
-    {
-        if(!($this->_status & self::STATUS_EVALUATED))
-        {
-            //Merge the data
-            $this->_data = array_merge((array) $this->_data, $data);
-
-            //Write the template to a temp file
-            $stream = $this->getObject('filesystem.stream.factory')->createStream('buffer://temp', 'w+b');
-            $stream->write($this->_content);
-
-            //Include the file
-            extract($this->_data, EXTR_SKIP);
-
-            ob_start();
-            include $stream->getPath();
-            $this->_content = ob_get_clean();
-
-            $stream->close();
-
-            //Remove the path from the stack
-            array_pop($this->_stack);
-
-            //Set the status
-            $this->_status ^= self::STATUS_EVALUATED;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Process the template
-     *
-     * This function passes the template through the render filter queue
-     *
-     * @return TemplateAbstract
-     */
-    public function render()
-    {
-        if(!($this->_status & self::STATUS_RENDERED))
-        {
-            foreach($this->_queue as $filter)
-            {
-                if($filter instanceof TemplateFilterRenderer) {
-                    $filter->render($this->_content);
-                }
-            }
-
-            //Set the status
-            $this->_status ^= self::STATUS_RENDERED;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Escape a string
-     *
-     * By default the function uses htmlspecialchars to escape the string
-     *
-     * @param string $string String to to be escape
-     * @return string Escaped string
-     */
-    public function escape($string)
-    {
-        if(is_string($string)) {
-            $string = htmlspecialchars($string, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8', false);
-        }
-
-        return $string;
-    }
-
-    /**
-     * Get the template path
-     *
-     * @return	string
-     */
-    public function getPath()
-    {
-        return end($this->_stack);
-    }
-
-    /**
-     * Get the format
-     *
-     * @return 	string 	The format of the view
-     */
-    public function getFormat()
-    {
-        return $this->getView()->getFormat();
+        return isset($this->_data[$property]) ? $this->_data[$property] : $default;
     }
 
     /**
      * Get the template data
      *
-     * @return  mixed
+     * @return  array   The view data
      */
     public function getData()
     {
         return $this->_data;
-    }
-
-    /**
-     * Set the template data
-     *
-     * @param  array   $data     The template data
-     * @return TemplateAbstract
-     */
-    public function setData(array $data)
-    {
-        $this->_data = $data;
-        return $this;
     }
 
     /**
@@ -340,283 +147,62 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Set the template content from a string
      *
-     * @param  string   $content     The template content
-     * @param  integer  $status     The template state
+     * @param  string   $content The template content
      * @return TemplateAbstract
      */
-    public function setContent($content, $status = self::STATUS_LOADED)
+    public function setContent($content)
     {
         $this->_content = $content;
-        $this->_status  = $status;
-
         return $this;
     }
 
     /**
-     * Get the view object attached to the template
+     * Register a function
      *
-     * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
-     * @return  ViewInterface
-     */
-    public function getView()
-    {
-        if(!$this->_view instanceof ViewInterface)
-        {
-            //Make sure we have a view identifier
-            if(!($this->_view instanceof ObjectIdentifier)) {
-                $this->setView($this->_view);
-            }
-
-            $this->_view = $this->getObject($this->_view);
-
-            //Make sure the view implements ViewInterface
-            if(!$this->_view instanceof ViewInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'View: '.get_class($this->_view).' does not implement ViewInterface'
-                );
-            }
-        }
-
-        return $this->_view;
-    }
-
-    /**
-     * Method to set a view object attached to the controller
-     *
-     * @param	mixed   $view An object that implements ObjectInterface, ObjectIdentifier object
-     *                        or valid identifier string
+     * @param string  $name      The function name
+     * @param string  $callable  The callable
      * @return TemplateAbstract
      */
-    public function setView($view)
+    public function registerFunction($name, callable $function)
     {
-        if(!($view instanceof ViewInterface))
-        {
-            if(is_string($view) && strpos($view, '.') === false )
-            {
-                $identifier			= $this->getIdentifier()->toArray();
-                $identifier['path']	= array('view', $view);
-                $identifier['name'] = 'html';
-
-                $identifier = $this->getIdentifier($identifier);
-            }
-            else $identifier = $this->getIdentifier($view);
-
-            $view = $identifier;
-        }
-
-        $this->_view = $view;
-
+        $this->_functions[$name] = $function;
         return $this;
     }
 
     /**
-     * Check if a filter exists
+     * Unregister a function
      *
-     * @param 	string	$filter The name of the filter
-     * @return  boolean	TRUE if the filter exists, FALSE otherwise
-     */
-    public function hasFilter($filter)
-    {
-        return isset($this->_filters[$filter]);
-    }
-
-    /**
-     * Get a filter by identifier
-     *
-     * @param   mixed $filter       An object that implements ObjectInterface, ObjectIdentifier object
-     *                              or valid identifier string
-     * @param   array $config       An optional associative array of configuration settings
-     *
-     * @throws \UnexpectedValueException
-     * @return TemplateFilterInterface
-     */
-    public function getFilter($filter, $config = array())
-    {
-        //Create the complete identifier if a partial identifier was passed
-        if (is_string($filter) && strpos($filter, '.') === false)
-        {
-            $identifier = $this->getIdentifier()->toArray();
-            $identifier['path'] = array('template', 'filter');
-            $identifier['name'] = $filter;
-
-            $identifier = $this->getIdentifier($identifier);
-        }
-        else $identifier = $this->getIdentifier($filter);
-
-        if (!$this->hasFilter($identifier->name))
-        {
-            $filter = $this->getObject($identifier, array_merge($config, array('template' => $this)));
-
-            if (!($filter instanceof TemplateFilterInterface))
-            {
-                throw new \UnexpectedValueException(
-                    "Template filter $identifier does not implement TemplateFilterInterface"
-                );
-            }
-
-            $this->_filters[$filter->getIdentifier()->name] = $filter;
-        }
-        else $filter = $this->_filters[$identifier->name];
-
-        return $filter;
-    }
-
-    /**
-     * Attach a filter for template transformation
-     *
-     * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
-     *                         or valid identifier string
-     * @param   array $config  An optional associative array of configuration settings
+     * @param string    $name   The function name
      * @return TemplateAbstract
      */
-    public function attachFilter($filter, $config = array())
+    public function unregisterFunction($name)
     {
-        if (!($filter instanceof TemplateFilterInterface)) {
-            $filter = $this->getFilter($filter, $config);
+        if( $this->_functions[$name]) {
+            unset($this->_functions[$name]);
         }
-
-        //Enqueue the filter
-        $this->_queue->enqueue($filter, $filter->getPriority());
 
         return $this;
-    }
-
-    /**
-     * Get a template helper
-     *
-     * @param    mixed $helper ObjectIdentifierInterface
-     * @param    array $config An optional associative array of configuration settings
-     *
-     * @throws \UnexpectedValueException
-     * @return  TemplateHelperInterface
-     */
-    public function getHelper($helper, $config = array())
-    {
-        //Create the complete identifier if a partial identifier was passed
-        if (is_string($helper) && strpos($helper, '.') === false)
-        {
-            $identifier = $this->getIdentifier()->toArray();
-            $identifier['path'] = array('template', 'helper');
-            $identifier['name'] = $helper;
-        }
-        else $identifier = $this->getIdentifier($helper);
-
-        //Create the template helper
-        $helper = $this->getObject($identifier, array_merge($config, array('template' => $this)));
-
-        //Check the helper interface
-        if (!($helper instanceof TemplateHelperInterface)) 
-        {
-            throw new \UnexpectedValueException(
-                "Template helper $identifier does not implement TemplateHelperInterface"
-            );
-        }
-
-        return $helper;
-    }
-
-    /**
-     * Invoke a template helper method
-     *
-     * This function accepts a partial identifier, in the form of helper.method or schema:package.helper.method. If
-     * a partial identifier is passed a full identifier will be created using the template identifier.
-     *
-     * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
-     *
-     * @param    string   $identifier Name of the helper, dot separated including the helper function to call
-     * @param    array    $params     An optional associative array of functions parameters to be passed to the helper
-     * @return   string   Helper output
-     * @throws   \BadMethodCallException If the helper function cannot be called.
-     */
-    public function invokeHelper($identifier, $params = array())
-    {
-        //Get the function and helper based on the identifier
-        $parts      = explode('.', $identifier);
-        $function   = array_pop($parts);
-        $identifier = array_pop($parts);
-
-        //Handle schema:package.helper.function identifiers
-        if(!empty($parts)) {
-            $identifier = implode('.', $parts).'.template.helper.'.$identifier;
-        }
-
-        $helper = $this->getHelper($identifier, $params);
-
-        //Call the helper function
-        if (!is_callable(array($helper, $function))) {
-            throw new \BadMethodCallException(get_class($helper) . '::' . $function . ' not supported.');
-        }
-
-        //Merge the view state with the helper params
-        $view = $this->getView();
-
-        if(StringInflector::isPlural($view->getName()))
-        {
-            if($state = $view->getModel()->getState()) {
-                $params = array_merge($state->getValues(), $params);
-            }
-        }
-        else
-        {
-            if($entity = $view->getModel()->fetch()) {
-                $params = array_merge( $entity->getProperties(), $params);
-            }
-        }
-
-        return $helper->$function($params);
-    }
-
-    /**
-     * Check if the template is loaded
-     *
-     * @return boolean  Returns TRUE if the template is loaded. FALSE otherwise
-     */
-    public function isLoaded()
-    {
-        return $this->_status & self::STATUS_LOADED;
-    }
-
-    /**
-     * Check if the template is compiled
-     *
-     * @return boolean  Returns TRUE if the template is compiled. FALSE otherwise
-     */
-    public function isCompiled()
-    {
-        return $this->_status & self::STATUS_COMPILED;
-    }
-
-    /**
-     * Check if the template is evaluated
-     *
-     * @return boolean  Returns TRUE if the template is evaluated. FALSE otherwise
-     */
-    public function isEvaluated()
-    {
-        return $this->_status & self::STATUS_EVALUATED;
-    }
-
-    /**
-     * Check if the template is rendered
-     *
-     * @return boolean  Returns TRUE if the template is rendered. FALSE otherwise
-     */
-    public function isRendered()
-    {
-        return $this->_status & self::STATUS_RENDERED;
     }
 
     /**
      * Returns the template contents
      *
-     * When casting to a string the template content will be compiled, evaluated and rendered.
-     *
      * @return  string
      */
     public function toString()
     {
-        return $this->getContent();
+        return (string) $this->getContent();
+    }
+
+    /**
+     * Get a template data property
+     *
+     * @param   string  $property The property name.
+     * @return  string  The property value.
+     */
+    final public function __get($property)
+    {
+        return $this->get($property);
     }
 
     /**
@@ -627,5 +213,24 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     final public function __toString()
     {
         return $this->toString();
+    }
+
+    /**
+     * Call template functions
+     *
+     * @param  string $method    The function name
+     * @param  array  $arguments The function arguments
+     * @throws \BadMethodCallException   If method could not be found
+     * @return mixed The result of the function
+     */
+    public function __call($method, $arguments)
+    {
+        if(isset($this->_functions[$method])) {
+            $result = call_user_func_array($this->_functions[$method], $arguments);
+        } else {
+            $result = parent::__call($method, $arguments);
+        }
+
+        return $result;
     }
 }

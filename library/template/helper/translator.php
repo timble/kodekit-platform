@@ -35,7 +35,7 @@ class TemplateHelperTranslator extends TemplateHelperAbstract
         }
 
         $html  = '';
-        $html .= $this->getTemplate()->invokeHelper('behavior.koowa') .
+        $html .= $this->getTemplate()->helper('behavior.koowa') .
             "<script>
             if (typeof Koowa === 'object' && Koowa !== null) {
                 if (typeof Koowa.translator === 'object' && Koowa.translator !== null) {

@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateFilterWhitespace extends TemplateFilterAbstract implements TemplateFilterRenderer
+class TemplateFilterWhitespace extends TemplateFilterAbstract
 {
     /**
      * Initializes the options for the object
@@ -42,7 +42,7 @@ class TemplateFilterWhitespace extends TemplateFilterAbstract implements Templat
      * @param string $text  The text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $text = trim(preg_replace('/>\s+</', '><', $text));
     }

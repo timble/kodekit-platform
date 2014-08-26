@@ -29,7 +29,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      *
      * @var TemplateInterface
      */
-    protected $_template;
+    private $__template;
 
     /**
      * Constructor.
@@ -80,7 +80,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      */
     public function getTemplate()
     {
-        return $this->_template;
+        return $this->__template;
     }
 
     /**
@@ -91,7 +91,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      */
     public function setTemplate(TemplateInterface $template)
     {
-        $this->_template = $template;
+        $this->__template = $template;
         return $this;
     }
 

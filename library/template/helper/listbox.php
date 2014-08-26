@@ -313,7 +313,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
             $config->selected = $selected;
         }
 
-		$html = $this->getTemplate()->getHelper('behavior')->autocomplete($config);
+		$html = $this->getTemplate()->createHelper('behavior')->autocomplete($config);
 
 	    return $html;
  	}

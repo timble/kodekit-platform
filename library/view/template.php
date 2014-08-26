@@ -55,18 +55,6 @@ abstract class ViewTemplate extends ViewAbstract
 
         //Set the template object
         $this->setTemplate($config->template);
-
-        //Attach the template filters
-        $filters = (array)ObjectConfig::unbox($config->template_filters);
-
-        foreach ($filters as $key => $value)
-        {
-            if (is_numeric($key)) {
-                $this->getTemplate()->attachFilter($value);
-            } else {
-                $this->getTemplate()->attachFilter($key, $value);
-            }
-        }
     }
 
     /**
@@ -80,10 +68,19 @@ abstract class ViewTemplate extends ViewAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'layout'           => '',
-            'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'function', 'asset', 'decorator'),
-            'auto_fetch'       => true,
+            'auto_fetch'         => true,
+            'layout'             => '',
+            'template'           => $this->getName(),
+            'template_filters'   => array('asset', 'decorator'),
+            'template_functions' => array(
+                'route'   => array($this, 'getRoute'),
+                'url'     => array($this, 'getUrl'),
+                'title'   => array($this, 'getTitle'),
+                'content' => array($this, 'getContent'),
+                'layout'  => array($this, 'getLayout'),
+                'state'   => array($this, 'getState'),
+                'name'    => array($this, 'getName')
+            ),
         ));
 
         parent::_initialize($config);
@@ -112,9 +109,7 @@ abstract class ViewTemplate extends ViewAbstract
 
         $this->_content = (string) $this->getTemplate()
             ->load((string) $layout.'.'.$format)
-            ->compile()
-            ->evaluate($data)
-            ->render();
+            ->render($data);
 
         return parent::_actionRender($context);
     }
@@ -140,12 +135,6 @@ abstract class ViewTemplate extends ViewAbstract
         {
             //Get the view name
             $name = $this->getName();
-
-            //Assign the data of the model to the view
-            if(StringInflector::isPlural($name)) {
-                $context->data->total = $model->count();
-            }
-
             $context->data->$name = $model->fetch();
         }
     }
@@ -188,7 +177,8 @@ abstract class ViewTemplate extends ViewAbstract
             }
 
             $options = array(
-                'view' => $this
+                'filters'   => $this->getConfig()->template_filters,
+                'functions' => $this->getConfig()->template_functions,
             );
 
             $this->_template = $this->getObject($this->_template, $options);

@@ -29,7 +29,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
-            'format'   => $this->getTemplate()->getFormat() == 'rss' ? \DateTime::RSS : $this->getObject('translator')->translate('Long Date Format'),
+            'format'   => $this->getObject('translator')->translate('Long Date Format'),
             'default'  => ''
         ));
 

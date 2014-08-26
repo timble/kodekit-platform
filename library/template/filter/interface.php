@@ -18,12 +18,6 @@ namespace Nooku\Library;
 interface TemplateFilterInterface extends ObjectHandlable
 {
     /**
-     * Filter modes
-     */
-    const MODE_COMPILE  = 1;
-    const MODE_RENDER   = 2;
-
-    /**
      * Priority levels
      */
     const PRIORITY_HIGHEST = 1;
@@ -52,6 +46,14 @@ interface TemplateFilterInterface extends ObjectHandlable
      * @return  integer The priority level
      */
     public function getPriority();
+
+    /**
+     * Filter the text
+     *
+     * @param string $text  The text to parse
+     * @return void
+     */
+    public function filter(&$text);
 
     /**
      * Method to extract key/value pairs out of a string with xml style attributes

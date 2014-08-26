@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateFilterAsset extends TemplateFilterAbstract implements TemplateFilterCompiler, TemplateFilterRenderer
+class TemplateFilterAsset extends TemplateFilterAbstract
 {
     /**
      * The schemes
@@ -77,21 +77,7 @@ class TemplateFilterAsset extends TemplateFilterAbstract implements TemplateFilt
      * @param string $text  The text to parse
      * @return void
      */
-    public function compile(&$text)
-    {
-        $text = str_replace(
-            array_keys($this->_schemes),
-            array_values($this->_schemes),
-            $text);
-    }
-
-    /**
-     * Convert the schemes to their real paths
-     *
-     * @param string $text  The text to parse
-     * @return void
-     */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $text = str_replace(
             array_keys($this->_schemes),

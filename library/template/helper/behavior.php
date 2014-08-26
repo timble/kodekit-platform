@@ -189,7 +189,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $config = new ObjectConfigJson($config);
         $config->append(array(
             'refresh' => 15 * 60000, //default refresh is 15min
-            'url'     => $this->getTemplate()->getView()->getRoute('', false, false),
+            'url'     => $this->getTemplate()->route('', false, false),
         ));
 
         $html = '';
@@ -329,7 +329,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         if (!isset($config->url))
         {
             $identifier = $this->getIdentifier($config->identifier);
-            $config->url = $this->getTemplate()->getView()->getRoute(
+            $config->url = $this->getTemplate()->route(
                 'component=' . $identifier->package . '&view=' . $identifier->name . '&format=json', false, false
             );
         }
@@ -372,7 +372,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $config = new ObjectConfigJson($config);
         $config->append(array(
             'component'	=> $this->getIdentifier()->getPackage(),
-            'view'		=> StringInflector::singularize($this->getTemplate()->getView()->getName()),
+            'view'		=> StringInflector::singularize($this->getTemplate()->name()),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc',
             'url'       => '?format=json'

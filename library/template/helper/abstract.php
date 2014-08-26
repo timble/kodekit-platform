@@ -22,7 +22,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	 *
 	 * @var	TemplateInterface
 	 */
-    protected $_template;
+    private $__template;
 
 	/**
 	 * Constructor
@@ -61,7 +61,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
      */
     public function setTemplate(TemplateInterface $template)
     {
-        $this->_template = $template;
+        $this->__template = $template;
         return $this;
     }
 
@@ -72,7 +72,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
      */
     public function getTemplate()
     {
-        return $this->_template;
+        return $this->__template;
     }
 
     /**

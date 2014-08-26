@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-abstract class TemplateFilterTag extends TemplateFilterAbstract implements TemplateFilterRenderer
+abstract class TemplateFilterTag extends TemplateFilterAbstract
 {
 	/**
      * Initializes the options for the object
@@ -43,7 +43,7 @@ abstract class TemplateFilterTag extends TemplateFilterAbstract implements Templ
 	 *
 	 * @param string $text  The text to parse
 	 */
-	public function render(&$text)
+	public function filter(&$text)
 	{
 		//Parse the tags
 		$tags = $this->_parseTags($text);

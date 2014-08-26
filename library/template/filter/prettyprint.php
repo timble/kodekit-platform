@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateFilterPrettyprint extends TemplateFilterAbstract implements TemplateFilterRenderer
+class TemplateFilterPrettyprint extends TemplateFilterAbstract
 {
     /**
      * Initializes the options for the object
@@ -41,7 +41,7 @@ class TemplateFilterPrettyprint extends TemplateFilterAbstract implements Templa
      * @param string $text  The text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $config = array('options' => array(
             'clean'          => false,

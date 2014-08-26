@@ -20,7 +20,7 @@ namespace Nooku\Library;
  * @package Nooku\Library\Template
  * @see         http://www.w3.org/TR/html401/interact/forms.html#h-17.13.3.4
  */
-class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilterRenderer
+class TemplateFilterForm extends TemplateFilterAbstract
 {
     /**
      * The form token value
@@ -105,20 +105,22 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
      * @param string $text  The text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         // All: Add the action if left empty
         if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER))
         {
-            $view = $this->getTemplate()->getView();
-            $state = $view->getModel()->getState();
-            $action = $view->getRoute(http_build_query($state->getValues($state->isUnique())));
-
-            foreach ($matches as $match)
+            if($state  = $this->getTemplate()->state())
             {
-                $str = str_replace('action=""', 'action="' . $action . '"', $match[0]);
-                $text = str_replace($match[0], $str, $text);
+                $action = $this->getTemplate()->route(http_build_query($state->getValues($state->isUnique())));
+
+                foreach ($matches as $match)
+                {
+                    $str = str_replace('action=""', 'action="' . $action . '"', $match[0]);
+                    $text = str_replace($match[0], $str, $text);
+                }
             }
+
         }
 
         // POST : Add token 

@@ -81,7 +81,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
 
         //Create the href
         if(!empty($command->href)) {
-            $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
+            $command->attribs['href'] = $this->getTemplate()->route($command->href);
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';
@@ -124,7 +124,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
         	'command' => NULL
         ));
 
-        $html  = $this->getTemplate()->invokeHelper('behavior.modal');
+        $html  = $this->getTemplate()->helper('behavior.modal');
         $html .= $this->command($config);
 
     	return $html;

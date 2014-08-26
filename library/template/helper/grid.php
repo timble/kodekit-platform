@@ -126,7 +126,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			$class = 'class="-koowa-'.$direction.'"';
 		}
 
-		$route = $this->getTemplate()->getView()->getRoute($route);
+		$route = $this->getTemplate()->route($route);
 		$html  = '<a href="'.$route.'" title="'.$translator('Click to sort by this column').'"  '.$class.'>';
 		$html .= $translator($config->title);
 		$html .= '</a>';

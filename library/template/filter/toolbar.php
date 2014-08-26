@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateFilterToolbar extends TemplateFilterAbstract implements TemplateFilterRenderer
+class TemplateFilterToolbar extends TemplateFilterAbstract
 {
     /**
      * Toolbars to render such as actionbar, menubar, ...
@@ -110,7 +110,7 @@ class TemplateFilterToolbar extends TemplateFilterAbstract implements TemplateFi
      * @param string $text Block of text to parse
      * @return TemplateFilterToolbar
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $matches = array();
 
@@ -132,7 +132,7 @@ class TemplateFilterToolbar extends TemplateFilterAbstract implements TemplateFi
                     $config->toolbar = $toolbar; //set the toolbar in the config
 
                     $html = $this->getTemplate()
-                                 ->getHelper($config->type)
+                                 ->createHelper($config->type)
                                  ->render($config);
                 }
 

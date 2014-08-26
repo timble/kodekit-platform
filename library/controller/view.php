@@ -92,7 +92,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
                 }
             }
 
-            $this->getView()->getTemplate()->attachFilter('toolbar', array('toolbars' => $this->getToolbars()));
+            $this->getView()->getTemplate()->addFilter('toolbar', array('toolbars' => $this->getToolbars()));
         }
     }
 

@@ -17,75 +17,41 @@ namespace Nooku\Library;
   */
 interface TemplateInterface
 {
-    const STATUS_LOADED    = 1;
-    const STATUS_COMPILED  = 2;
-    const STATUS_EVALUATED = 4;
-    const STATUS_RENDERED  = 8;
-
     /**
-     * Load a template by path
+     * Load a template by url
      *
-     * @param   string  $url      The template url
-     * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @param   integer $status   The template state
-     * @throws \InvalidArgumentException If the template could not be found
-     * @return TemplateAbstract
+     * @param   string  $url    The template url
+     * @throws \InvalidArgumentException If the template could not be located
+     * @return TemplateInterface
      */
-    public function load($url, $data = array(), $status = self::STATUS_LOADED);
-
-    /**
-     * Parse and compile the template to PHP code
-     *
-     * This function passes the template through compile filter queue and returns the result.
-     *
-     * @return string The parsed data
-     */
-    public function compile();
-
-    /**
-     * Evaluate the template using a simple sandbox
-     *
-     * This function writes the template to a temporary file and then includes it.
-     *
-     * @return string The evaluated data
-     * @see tempnam()
-     */
-    public function evaluate();
+    public function load($url);
 
     /**
      * Render the template
      *
-     * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @return string    The rendered data
+     * @param   array   $data     An associative array of data to be extracted in local template scope
+     * @return string The rendered template content
      */
-    public function render();
+    public function render(array $data = array());
 
     /**
-     * Escape a string
+     * Get a template property
      *
-     * By default the function uses htmlspecialchars to escape the string
-     *
-     * @param string $string String to to be escape
-     * @return string Escaped string
+     * @param   string  $property The property name.
+     * @param   mixed   $default  Default value to return.
+     * @return  string  The property value.
      */
-    public function escape($string);
+    public function get($property, $default = null);
 
     /**
-     * Get the template file identifier
+     * Get the template data
      *
-     * @return	string
+     * @return  array   The template data
      */
-    public function getPath();
-
-	/**
-	 * Get the template data
-	 * 
-	 * @return	mixed
-	 */
-	public function getData();
+    public function getData();
 
     /**
-     * Get the template contents
+     * Get the template content
      *
      * @return  string
      */
@@ -94,122 +60,32 @@ interface TemplateInterface
     /**
      * Set the template content from a string
      *
-     * @param  string   $string     The template content
-     * @param  integer  $status     The template state
-     * @return TemplateAbstract
-     */
-    public function setContent($content, $status = self::STATUS_LOADED);
-
-    /**
-     * Get the format
-     *
-     * @return 	string 	The format of the view
-     */
-    public function getFormat();
-
-    /**
-     * Get the view object attached to the template
-     *
-     * @return  ViewInterface
-     */
-	public function getView();
-
-    /**
-     * Method to set a view object attached to the template
-     *
-     * @param mixed  $view An object that implements ObjectInterface, ObjectIdentifier object
-     *                     or valid identifier string
-     * @throws \UnexpectedValueException    If the identifier is not a view identifier
+     * @param  string   $content The template content
      * @return TemplateInterface
      */
-	public function setView($view);
+    public function setContent($content);
 
     /**
-     * Check if a filter exists
+     * Register a function
      *
-     * @param 	string	$filter The name of the filter
-     * @return  boolean	TRUE if the filter exists, FALSE otherwise
-     */
-    public function hasFilter($filter);
-
-    /**
-     * Get a filter by identifier
-     *
-     * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
-                                    or valid identifier string
-     * @param   array    $config    An optional associative array of configuration settings
-     * @return TemplateFilterInterface
-     */
-    public function getFilter($filter, $config = array());
-
-    /**
-     * Attach a filter for template transformation
-     *
-     * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
-     *                         or valid identifier string
-     * @param   array $config  An optional associative array of configuration settings
+     * @param string  $name      The function name
+     * @param string  $callable  The callable
      * @return TemplateInterface
      */
-    public function attachFilter($filter, $config = array());
+    public function registerFunction($name, callable $function);
 
     /**
-     * Get a template helper
+     * Unregister a function
      *
-     * @param    mixed    $helper ObjectIdentifierInterface
-     * @param    array    $config An optional associative array of configuration settings
-     * @return  TemplateHelperInterface
+     * @param string    $name   The function name
+     * @return TemplateInterface
      */
-    public function getHelper($helper, $config = array());
-
-    /**
-     * Invoke a template helper method
-     *
-     * This function accepts a partial identifier, in the form of helper.method or schema:package.helper.method. If
-     * a partial identifier is passed a full identifier will be created using the template identifier.
-     *
-     * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
-     *
-     * @param    string   $identifier Name of the helper, dot separated including the helper function to call
-     * @param    array    $params     An optional associative array of functions parameters to be passed to the helper
-     * @return   string   Helper output
-     * @throws   \BadMethodCallException If the helper function cannot be called.
-     */
-	public function invokeHelper($identifier, $config = array());
+    public function unregisterFunction($name);
 
     /**
      * Returns the template contents
      *
-     * When casting to a string the template content will be compiled, evaluated and rendered.
-     *
      * @return  string
      */
     public function toString();
-
-    /**
-     * Check if the template is loaded
-     *
-     * @return boolean  Returns TRUE if the template is loaded. FALSE otherwise
-     */
-    public function isLoaded();
-
-    /**
-     * Check if the template is compiled
-     *
-     * @return boolean  Returns TRUE if the template is compiled. FALSE otherwise
-     */
-    public function isCompiled();
-
-    /**
-     * Check if the template is evaluated
-     *
-     * @return boolean  Returns TRUE if the template is evaluated. FALSE otherwise
-     */
-    public function isEvaluated();
-
-    /**
-     * Check if the template is rendered
-     *
-     * @return boolean  Returns TRUE if the template is rendered. FALSE otherwise
-     */
-    public function isRendered();
 }
