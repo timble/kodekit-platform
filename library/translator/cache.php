@@ -42,7 +42,7 @@ class TranslatorCache extends ObjectDecorator implements TranslatorInterface
         parent::__construct($config);
 
         if (!self::isSupported()) {
-            throw new \RuntimeException('Unable to use TranslatorCache as APC is not enabled.');
+            throw new \RuntimeException('Unable to use TranslatorCache. APC is not enabled.');
         }
 
         $this->_loaded = array();

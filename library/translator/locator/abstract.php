@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Translator\Locator\Abstract
  */
-abstract class TranslatorLocatorAbstract extends Object implements TranslatorLocatorInterface
+abstract class TranslatorLocatorAbstract extends Object implements TranslatorLocatorInterface, ObjectMultiton
 {
     /**
      * The stream name
@@ -23,6 +23,52 @@ abstract class TranslatorLocatorAbstract extends Object implements TranslatorLoc
      * @var string
      */
     protected static $_name = '';
+
+    /**
+     * The locale
+     *
+     * @var string
+     */
+    protected $_locale;
+
+    /**
+     * Found locations map
+     *
+     * @var array
+     */
+    protected $_locations;
+
+    /**
+     * Constructor
+     *
+     * Prevent creating instances of this class by making the constructor private
+     *
+     * @param ObjectConfig $config   An optional ObjectConfig object with configuration options
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        //Set the locale
+        $this->setLocale($config->locale);
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'locale' => 'en-GB'
+        ));
+
+        parent::_initialize($config);
+    }
 
     /**
      * Get the locator name
@@ -35,21 +81,50 @@ abstract class TranslatorLocatorAbstract extends Object implements TranslatorLoc
     }
 
     /**
+     * Gets the locale
+     *
+     * @return string|null
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
+     * Sets the locale
+     *
+     * @param string $locale
+     * @return TranslatorLocatorAbstract
+     */
+    public function setLocale($locale)
+    {
+        $this->_locale = $locale;
+        return $this;
+    }
+
+    /**
      * Locate the translation based on a physical path
      *
      * @param  string $url       The translation url
-     * @param  string $locale    The locale to search for
      * @return string  The real file path for the translation
      */
-    public function locate($url, $locale)
+    public function locate($url)
     {
-        $info   = array(
-            'url'     => $url,
-            'locale'  => $locale,
-            'path'    => '',
-        );
+        $key = $this->getLocale().'-'.$url;
 
-        return $this->find($info);
+        if(!isset($this->_locations[$key]))
+        {
+            $result = array();
+            $info   = array(
+                'url'     => $url,
+                'locale'  => $this->getLocale(),
+                'path'    => '',
+            );
+
+            $this->_locations[$key] = $this->find($info);
+        }
+
+        return $this->_locations[$key];
     }
 
     /**
@@ -107,5 +182,21 @@ abstract class TranslatorLocatorAbstract extends Object implements TranslatorLoc
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if the translation is still fresh.
+     *
+     * @param  string $url    The translation url
+     * @param int     $time   The last modification time of the cached translation (timestamp)
+     * @return bool TRUE if the template is still fresh, FALSE otherwise
+     */
+    public function isFresh($url, $time)
+    {
+        if($file = $this->locate($url)) {
+            return filemtime($file) < $time;
+        }
+
+        return false;
     }
 }

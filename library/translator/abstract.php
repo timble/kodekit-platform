@@ -88,8 +88,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
      *
      * @param   ObjectConfig            $config   A ObjectConfig object with configuration options
      * @param   ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return FilterInterface
-     * @see KFilterTraversable
+     * @return  TranslatorInterface
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
@@ -219,11 +218,11 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
         $locator  = $this->getObject('translator.locator.factory')->createLocator($url);
 
         //Find translation based on the locale
-        $result = $locator->locate($url, $locale);
+        $result = $locator->setLocale($locale)->locate($url);
 
         //If no translations found, try using the fallback locale
         if(empty($result) && $fallback && $fallback != $locale) {
-            $result = $locator->locate($url, $fallback);
+            $result = $locator->setLocale($fallback)->locate($url);
         }
 
         return $result;
