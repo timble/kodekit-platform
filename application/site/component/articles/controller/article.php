@@ -22,7 +22,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
         $config->append(array(
             'formats'   => array('rss'),
             'toolbars'  => array('article'),
-            'behaviors' => array('editable', 'searchable', 'com:varnish.controller.behavior.varnishable'))
+            'behaviors' => array('editable', 'searchable'))
         );
 
         parent::_initialize($config);

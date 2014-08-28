@@ -69,7 +69,7 @@ class DatabaseRowSocket extends Library\DatabaseRowAbstract
 
 		$this->host		= 'localhost';
 		$this->port		= 6082;
-		$this->secret	= 'b92f284c-5cc0-461c-9ca9-27e0d2ba9e22';
+		$this->secret	= 'c19f50ae-a113-46dd-9baa-c728060b0d3a';
 	}
 
 	/**

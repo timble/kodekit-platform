@@ -37,5 +37,5 @@
 	</div>
 	</fieldset>
 
-	<?= object('com:articles.controller.article')->limit(1)->render(); ?>
+	<esi:include src="http://nooku.dev/6-aenean-pellentesque?tmpl=raw" />
 </form>
