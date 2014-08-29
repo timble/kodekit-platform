@@ -83,7 +83,7 @@
         </div>
     <? endforeach ?>
     <?if(object('com:comments.controller.comment')->canAdd()):?>
-        <?= import('com:comments.view.comment.form.html'); ?>
+        <?= import('com:comments.comment.form.html'); ?>
     <?endif;?>
 </div>
 <? endif; ?>

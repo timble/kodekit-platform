@@ -46,11 +46,11 @@
     <?= $article->fulltext ?>
 
     <? if($article->isTaggable()) : ?>
-    <?= import('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
+    <?= import('com:tags.tags.default.html', array('tags' => $article->getTags())) ?>
     <? endif; ?>
 
     <? if($article->isAttachable()) : ?>
-    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
+    <?= import('com:attachments.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
     <? endif ?>
 </article>
 

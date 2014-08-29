@@ -53,7 +53,7 @@
         <?= $article->fulltext ?>
     </div>
 
-    <?= import('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
+    <?= import('com:tags.tags.default.html', array('tags' => $article->getTags())) ?>
     <?= import('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->image))) ?>
 </article>
 

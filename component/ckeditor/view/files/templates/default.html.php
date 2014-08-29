@@ -10,7 +10,7 @@
 use Nooku\Library;
 ?>
 
-<?= import('com:files.view.files.initialize.html'); ?>
+<?= import('com:files.files.initialize.html'); ?>
 
 <ktml:script src="assets://ckeditor/js/ckeditor.files.js" />
 
