@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Template Adapter
+ * Template
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template\Abstract
  */
-class TemplateAdapter extends TemplateAbstract implements TemplateFilterable, TemplateHelperable, ObjectInstantiable
+class Template extends TemplateAbstract implements TemplateFilterable, TemplateHelperable, ObjectInstantiable
 {
     /**
      * List of template filters
@@ -154,7 +154,7 @@ class TemplateAdapter extends TemplateAbstract implements TemplateFilterable, Te
     /**
      * Filter template content
      *
-     * @return TemplateAdapter
+     * @return Template
      */
     public function filter()
     {
