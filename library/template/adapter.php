@@ -120,8 +120,13 @@ class TemplateAdapter extends TemplateAbstract implements TemplateFilterable, Te
         parent::load($url);
 
         //Create the template engine
+        $config = array(
+            'template'  => $this,
+            'functions' => $this->_functions
+        );
+
         $this->_content = $this->getObject('template.engine.factory')
-            ->createEngine($this->_content, array('functions' => $this->_functions))
+            ->createEngine($this->_content, $config)
             ->load($url);
 
         return $this;
@@ -248,8 +253,13 @@ class TemplateAdapter extends TemplateAbstract implements TemplateFilterable, Te
         if($type)
         {
             //Create the template engine
+            $config = array(
+                'template'  => $this,
+                'functions' => $this->_functions
+            );
+
             $this->_content = $this->getObject('template.engine.factory')
-                ->createEngine($type, array('functions' => $this->_functions))
+                ->createEngine($type, $config)
                 ->setContent($content);
         }
         else parent::setContent($content);

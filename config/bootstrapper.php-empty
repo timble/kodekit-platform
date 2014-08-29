@@ -66,7 +66,7 @@ return array(
             'error_reporting' => null //Use PHP error_reporting
         ),
 
-        'lib:database.adapter.mysql' =>  array(
+        'database.adapter.mysql' =>  array(
 
             'auto_connect' => true,
             'database'     => '',          // MySQL database name
@@ -81,12 +81,40 @@ return array(
 
         ),
 
-        'lib:template.engine.nooku' => array(
+        'template.engine.factory'   => array(
 
             //Cache Settings
-            'cache'      => false,
-            'cache_path' => APPLICATION_BASE.'/cache',
+            'cache'        => false,
+            'cache_path'   => APPLICATION_BASE.'/cache',
+            'cache_reload' => false,
+            'engines'      => array(
 
-        )
+                /*
+                 * Uncomment to enable the markdown template engine
+                 *
+                 * Default compiler is ParsedownExtra which needs to be installed. Change the compiler by defining
+                 * a different callable in the 'compiler' config option below.
+                 */
+                /*'template.engine.markdown' => array(
+
+                    'compiler'   => function($content) { return \ParsedownExtra::instance()->text($content); }
+
+                ),*/
+
+                /*
+                 * Uncomment to enable the twig template engine
+                 *
+                 * Requires Twig to be installed.
+                 */
+                /*'template.engine.twig'    => array(
+
+                    'debug'            => false,
+                    'autoescape'       => true,
+                    'strict_variables' => false,
+                    'optimizations'    => -1,
+
+                )*/
+            )
+        ),
     )
 );

@@ -41,23 +41,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     protected $_buffer;
 
     /**
-     * Caching enabled
-     *
-     * @var bool
-     */
-    protected $_cache;
-
-    /**
-     * Cache path
-     *
-     * @var string
-     */
-    protected $_cache_path;
-
-    /**
      * Constructor
-     *
-     * Prevent creating instances of this class by making the constructor private
      *
      * @param ObjectConfig $config   An optional ObjectConfig object with configuration options
      */
@@ -67,13 +51,6 @@ class TemplateEngineNooku extends TemplateEngineAbstract
 
         //Reset the stack
         $this->_stack = array();
-
-        //Set the functions
-        $this->_functions = ObjectConfig::unbox($config->functions);
-
-        //Set caching
-        $this->_cache      = $config->cache;
-        $this->_cache_path = $config->cache_path;
 
         //Intercept template exception
         $this->getObject('exception.handler')->addHandler(array($this, 'handleException'), true);
@@ -89,8 +66,6 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'cache'      => false,
-            'cache_path' => '',
             'functions' => array(
                 'import' => array($this, '_import'),
             ),
@@ -103,7 +78,6 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      * Load a template by path
      *
      * @param   string  $url      The template url
-     * @param   integer $status   The template state
      * @throws \InvalidArgumentException If the template could not be located
      * @throws \RuntimeException         If the template could not be loaded
      * @throws \RuntimeException         If the template could not be compiled
@@ -112,29 +86,15 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     public function load($url)
     {
         //Locate the template
-        if($template = end($this->_stack)) {
-            $base = $template['url'];
-        } else {
-            $base = null;
-        }
-
-        $locator = $this->getObject('template.locator.factory')->createLocator($url, $base);
-
-        //Locate the template
-        if (!$this->_content = $locator->setBasePath($base)->locate($url)) {
-            throw new \InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
-        }
+        $file = $this->_locate($url);
 
         //Push the template on the stack
-        array_push($this->_stack, array('url' => $url, 'file' => $this->_content));
+        array_push($this->_stack, array('url' => $url, 'file' => $file));
 
-        $hash = crc32($this->_content);
-        $file = $this->_cache_path.'/template_'.$hash;
-
-        if(!$this->_cache || !is_file($file))
+        if(!$this->_content = $this->isCached($file))
         {
             //Load the template
-            if(!$content = file_get_contents($this->_content)) {
+            if(!$content = file_get_contents($file)) {
                 throw new \RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
             }
 
@@ -143,10 +103,8 @@ class TemplateEngineNooku extends TemplateEngineAbstract
                 throw new \RuntimeException(sprintf('The template "%s" cannot be compiled.', $file));
             }
 
-            $file = $this->_buffer($file, $content);
+            $this->_content = $this->_buffer($file, $content);
         }
-
-        $this->_content = $file;
 
         return $this;
     }
@@ -178,18 +136,137 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     }
 
     /**
+     * Get the template content
+     *
+     * @return  string
+     */
+    public function getContent()
+    {
+        return file_get_contents($this->_content);
+    }
+
+    /**
+     * Set the template content from a string
+     *
+     * @param  string  $content  The template content
+     * @throws \RuntimeException If the template could not be compiled
+     * @return TemplateEngineNooku
+     */
+    public function setContent($content)
+    {
+        $name = crc32($content);
+
+        if(!$file = $this->isCached($name))
+        {
+            //Compile the template
+            if(!$content = $this->_compile($content)) {
+                throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
+            }
+
+            $file = $this->_buffer($name, $content);
+        }
+
+        $this->_content = $file;
+
+        //Push the template on the stack
+        array_push($this->_stack, array('url' => '', 'file' => $file));
+        return $this;
+    }
+
+    /**
+     * Handle template exceptions
+     *
+     * If an ErrorException is thrown create a new exception and set the file location to the real template file.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function handleException(\Exception &$exception)
+    {
+        if($template = end($this->_stack))
+        {
+            if($this->_content == $exception->getFile())
+            {
+                //Prevents any partial templates from leaking.
+                ob_get_clean();
+
+                //Re-create the exception and set the real file path
+                if($exception instanceof \ErrorException)
+                {
+                    $class = get_class($exception);
+
+                    $exception = new $class(
+                        $exception->getMessage(),
+                        $exception->getCode(),
+                        $exception->getSeverity(),
+                        $template['file'],
+                        $exception->getLine(),
+                        $exception
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Locate the template
+     *
+     * @param   string  $url The template url
+     * @return string   The template real path
+     */
+    protected function _locate($url)
+    {
+        //Create the locator
+        if($template = end($this->_stack)) {
+            $base = $template['url'];
+        } else {
+            $base = null;
+        }
+
+        if(!$location = parse_url($url, PHP_URL_SCHEME)) {
+            $location = $base;
+        } else {
+            $location = $url;
+        }
+
+        $locator = $this->getObject('template.locator.factory')->createLocator($location);
+
+        //Locate the template
+        if (!$file = $locator->setBasePath($base)->locate($url)) {
+            throw new \InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
+        }
+
+        return $file;
+    }
+
+    /**
      * Import a partial template
      *
-     * Function merges the data passed in with the data from the call to render.
+     * If importing a partial merges the data passed in with the data from the call to render. If importing a different
+     * template type jump out of engine scope to back to the template.
      *
      * @param   string  $url      The template url
      * @param   array   $data     The data to pass to the template
-     * @return  TemplateEngineNooku
+     * @return  string The rendered template content
      */
     protected function _import($url, array $data = array())
     {
-        $data = array_merge((array) $this->getData(), $data);
-        return $this->load($url)->render($data);
+        $result = '';
+
+        //Locate the template
+        if($file = $this->_locate($url))
+        {
+            $type = pathinfo($file, PATHINFO_EXTENSION);
+
+            if(in_array($type, $this->getFileTypes()))
+            {
+                $data = array_merge((array) $this->getData(), $data);
+                $result = $this->load($url)->render($data);
+            }
+            else  $result = $this->getTemplate()->load($file)->render($data);
+        }
+
+        return $result;
     }
 
     /**
@@ -252,11 +329,28 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     }
 
     /**
+     * Evaluate the template using a simple sandbox
+     *
+     * @return string The evaluated template content
+     */
+    protected function _evaluate()
+    {
+        ob_start();
+
+        extract($this->getData(), EXTR_SKIP);
+        include $this->_content;
+        $content = ob_get_clean();
+
+        return $content;
+    }
+
+    /**
      * Buffer the template
      *
-     * Write the template content to a file buffer. If cache is enabled the file will be buffer in the cache path.
-     * If caching is not enabled the file will be written to the temp path using a buffer://temp stream
+     * Write the template content to a file buffer. If cache is enabled the file will be buffer using cache settings
+     * If caching is not enabled the file will be written to the temp path using a buffer://temp stream.
      *
+     * @param  string $file     The file name
      * @param  string $content  The template content to cache
      * @throws \RuntimeException If the template cache path is not writable
      * @throws \RuntimeException If template cannot be cached
@@ -264,23 +358,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      */
     protected function _buffer($file, $content)
     {
-        if($this->_cache)
-        {
-            $path = dirname($file);
-
-            if(!is_dir($path)) {
-                throw new \RuntimeException(sprintf('The template cache path "%s" does not exist', $path));
-            }
-
-            if(!is_writable($path)) {
-                throw new \RuntimeException(sprintf('The template cache path "%s" is not writable', $path));
-            }
-
-            if(!file_put_contents($file, $content)) {
-                throw new \RuntimeException(sprintf('The template cannot be cached in "%s"', $file));
-            }
-        }
-        else
+        if(!$this->_cache)
         {
             if(!isset($this->_buffer)) {
                 $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('buffer://temp', 'w+b');
@@ -291,100 +369,8 @@ class TemplateEngineNooku extends TemplateEngineAbstract
 
             $file = $this->_buffer->getPath();
         }
+        else $file = $this->cache($file, $content);
 
         return $file;
-    }
-
-
-    /**
-     * Evaluate the template using a simple sandbox
-     *
-     * @param  string  $file  The path of the file to evaluate
-     * @param  array   $data  An associative array of data to be extracted in local template scope
-     * @return string The evaluated template content
-     */
-    protected function _evaluate($file, $data = array())
-    {
-        ob_start();
-
-        extract($data, EXTR_SKIP);
-        include $file;
-        $content = ob_get_clean();
-
-        return $content;
-    }
-
-    /**
-     * Get the template content
-     *
-     * @return  string
-     */
-    public function getContent()
-    {
-        return file_get_contents($this->_content);
-    }
-
-    /**
-     * Set the template content from a string
-     *
-     * @param  string  $content  The template content
-     * @throws \RuntimeException If the template could not be compiled
-     * @return TemplateEngineNooku
-     */
-    public function setContent($content)
-    {
-        $hash = crc32($content);
-        $file = $this->_cache_path.'/template_'.$hash;
-
-        if(!$this->_cache || !is_file($file))
-        {
-            //Compile the template
-            if(!$content = $this->_compile($content)) {
-                throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
-            }
-
-            $file = $this->_buffer($file, $content);
-        }
-
-        $this->_content = $file;
-
-        //Push the template on the stack
-        array_push($this->_stack, array('url' => '', 'file' => $file));
-        return $this;
-    }
-
-    /**
-     * Handle template exceptions
-     *
-     * If an ErrorException is thrown create a new exception and set the file location to the real template file.
-     *
-     * @param  \Exception  $exception
-     * @return void
-     */
-    public function handleException(\Exception &$exception)
-    {
-        if($template = end($this->_stack))
-        {
-            if($this->_content == $exception->getFile())
-            {
-                //Prevents any partial templates from leaking.
-                ob_get_clean();
-
-                //Re-create the exception and set the real file path
-                if($exception instanceof \ErrorException)
-                {
-                    $class = get_class($exception);
-
-                    $exception = new $class(
-                        $exception->getMessage(),
-                        $exception->getCode(),
-                        $exception->getSeverity(),
-                        $template['file'],
-                        $exception->getLine(),
-                        $exception
-                    );
-                }
-            }
-        }
     }
 }

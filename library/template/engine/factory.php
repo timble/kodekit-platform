@@ -33,9 +33,16 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
     {
         parent::__construct($config);
 
-        //Auto register engines
-        foreach($config->engines as $engine) {
-            $this->registerEngine($engine);
+        //Register the engines
+        $engines = ObjectConfig::unbox($config->engines);
+
+        foreach ($engines as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->registerEngine($value);
+            } else {
+                $this->registerEngine($key, $value);
+            }
         }
     }
 
@@ -50,7 +57,9 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'engines' => array(
+            'cache'      => false,
+            'cache_path' => '',
+            'engines'    => array(
                 'lib:template.engine.nooku'
             ),
         ));
@@ -79,7 +88,7 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
         }
 
         //Engine not supported
-        if(!in_array($type, $this->getEngines()))
+        if(!in_array($type, $this->getFileTypes()))
         {
             throw new \RuntimeException(sprintf(
                 'Unable to find a template engine for the "%s" file format - did you forget to register it ?', $type
@@ -106,10 +115,11 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
      * Function prevents from registering the engine twice
      *
      * @param string $identifier A engine identifier string
+     * @param  array $config  An optional associative array of configuration options
      * @throws \UnexpectedValueException
      * @return bool Returns TRUE on success, FALSE on failure.
      */
-    public function registerEngine($identifier)
+    public function registerEngine($identifier, array $config = array())
     {
         $result = false;
 
@@ -129,7 +139,13 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
         {
             foreach($types as $type)
             {
-                if(!$this->isRegistered($type)) {
+                if(!$this->isRegistered($type))
+                {
+                    $identifier->getConfig()->merge($config)->append(array(
+                        'cache'      => $this->getConfig()->cache,
+                        'cache_path' => $this->getConfig()->cache_path
+                    ));
+
                     $this->__engines[$type] = $identifier;
                 }
             }
@@ -197,11 +213,11 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
     }
 
     /**
-     * Get a list of all the registered engines
+     * Get a list of all the registered file types
      *
      * @return array
      */
-    public function getEngines()
+    public function getFileTypes()
     {
         $result = array();
         if(is_array($this->__engines)) {
@@ -235,7 +251,7 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
         }
         else $types = (array) $identifier;
 
-        $result = in_array($types, $this->getEngines());
+        $result = in_array($types, $this->getFileTypes());
         return $result;
     }
 }
