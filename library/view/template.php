@@ -94,17 +94,23 @@ abstract class ViewTemplate extends ViewAbstract
      */
     protected function _actionRender(ViewContext $context)
     {
-        $layout     = $this->getLayout();
-        $format     = $this->getFormat();
-        $data       = $this->getData();
+        $format = $this->getFormat(); //format cannot be changed through context
+        $layout = $context->layout;
 
         //Handle partial layout paths
         if (is_string($layout) && strpos($layout, '.') === false)
         {
             $identifier = $this->getIdentifier()->toArray();
             $identifier['name'] = $layout;
+            unset($identifier['path'][0]);
 
             $layout = (string) $this->getIdentifier($identifier);
+        }
+
+        //Unpack the data (first level only)
+        $data = array();
+        foreach($context->data as $key => $value) {
+            $data[$key] = $value;
         }
 
         $this->_content = (string) $this->getTemplate()
@@ -255,5 +261,18 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         return parent::getRoute($parts, $fqr, $escape);
+    }
+
+    /**
+     * Get the view context
+     *
+     * @return  ViewContext
+     */
+    public function getContext()
+    {
+        $context = parent::getContext();
+        $context->layout = $this->getLayout();
+
+        return $context;
     }
 }
