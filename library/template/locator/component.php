@@ -28,10 +28,11 @@ class TemplateLocatorComponent extends TemplateLocatorIdentifier
      * Find a template path
      *
      * @param array  $info      The path information
-     * @return bool|mixed
+     * @return string|false The real template path or FALSE if the template could not be found
      */
     public function find(array $info)
     {
+        $result = false;
         $paths  = array();
         $loader = $this->getObject('manager')->getClassLoader();
 
@@ -48,16 +49,26 @@ class TemplateLocatorComponent extends TemplateLocatorIdentifier
             $paths[] = $path;
         }
 
-        //File path
-        $filepath = implode('/', $info['path']).'/templates/'.$info['file'].'.'.$info['format'].'.php';
+        //If no type exists create a glob pattern
+        if(!empty($info['type'])){
+            $filepath =  implode('/', $info['path']).'/templates/'.$info['file'].'.'.$info['format'].'.'.$info['type'];
+        } else {
+            $filepath =  implode('/', $info['path']).'/templates/'.$info['file'].'.'.$info['format'].'.*';
+        }
 
         foreach($paths as $basepath)
         {
-            if($result = $this->realPath($basepath.'/'.$filepath)) {
-                return $result;
+            $pattern = $basepath .'/view/'. $filepath;
+
+            //Try to find the file
+            foreach(glob($pattern) as $file)
+            {
+                if($result = $this->realPath($file)) {
+                    break;
+                }
             }
         }
 
-        return false;
+        return $result;
     }
 }

@@ -44,24 +44,15 @@ interface TemplateLocatorInterface
      *
      * @param  string $url   The Template url
      * @throws \RuntimeException If the no base path exists while trying to locate a partial.
-     * @return string   The physical path of the template
+     * @return string|false The real template path or FALSE if the template could not be found
      */
     public function locate($url);
-
-    /**
-     * Load the template content
-     *
-     * @param  string $url   The Template url
-     * @throws \RuntimeException If the no base path exists while trying to locate a partial.
-     * @return string   The template content
-     */
-    public function load($url);
 
     /**
      * Find a template path
      *
      * @param array  $info The path information
-     * @return bool|mixed
+     * @return string|false The real template path or FALSE if the template could not be found
      */
     public function find(array $info);
 

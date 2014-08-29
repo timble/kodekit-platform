@@ -22,12 +22,20 @@ abstract class TemplateLocatorIdentifier extends TemplateLocatorAbstract
      *
      * @param  string $url   The template url
      * @throws \RuntimeException If the no base path exists while trying to locate a partial.
-     * @return string   The physical path of the template
+     * @return string|false The real template path or FALSE if the template could not be found
      */
     public function locate($url)
     {
         if(!isset($this->_locations[$url]))
         {
+            $engines = $this->getObject('template.engine.factory')->getFileTypes();
+
+            //Set defaults
+            $path   = null;
+            $file   = null;
+            $format = null;
+            $type   = null;
+
             //Qualify partial templates.
             if(strpos($url, ':') === false)
             {
@@ -36,21 +44,50 @@ abstract class TemplateLocatorIdentifier extends TemplateLocatorAbstract
                     throw new \RuntimeException('Cannot qualify partial template path');
                 }
 
-                $identifier = $this->getIdentifier($base);
+                /**
+                 * Parse identifiers in following formats :
+                 *
+                 * - '[file.[format].[type]';
+                 * - '[file].[format];
+                 */
 
-                $file    = pathinfo($url, PATHINFO_FILENAME);
-                $format  = pathinfo($url, PATHINFO_EXTENSION);
-                $path    = $identifier->getPath();
+                $identifier = $this->getIdentifier($base);
+                $path       = $identifier->getPath();
 
                 array_pop($path);
+
+                $parts = explode('.', $url);
+
+                if(in_array(end($parts), $engines)) {
+                    $type = array_pop($parts);
+                }
+
+                $format = array_pop($parts);
+                $file   = array_pop($parts);
             }
             else
             {
-                $identifier = $this->getIdentifier($url);
+                /**
+                 * Parse identifiers in following formats :
+                 *
+                 * - '[type]:[package].[path].[file].[format].[type]';
+                 * - '[type]:[package].[path].[file].[format];
+                 */
 
-                $path    = $identifier->getPath();
-                $file    = array_pop($path);
-                $format  = $identifier->getName();
+                $identifier = $this->getIdentifier($url);
+                $path       = $identifier->getPath();
+
+                if(in_array($identifier->name, $engines))
+                {
+                    $type  = $identifier->getName();
+                    $format = array_pop($path);
+                    $file   = array_pop($path);
+                }
+                else
+                {
+                    $format = $identifier->getName();
+                    $file   = array_pop($path);
+                }
             }
 
             $info = array(
@@ -60,6 +97,7 @@ abstract class TemplateLocatorIdentifier extends TemplateLocatorAbstract
                 'path'     => $path,
                 'file'     => $file,
                 'format'   => $format,
+                'type'     => $type,
             );
 
             $this->_locations[$url] = $this->find($info);
