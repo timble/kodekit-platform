@@ -65,17 +65,21 @@ class TemplateLocatorComponent extends Library\TemplateLocatorComponent
     {
         if(!empty($this->_theme_path))
         {
-            //Remove the 'view' element from the path.
-            $path = $info['path'];
-            if(isset($path[0]) && $path[0] == 'view') {
-                array_shift($path);
+            //If no type exists create a glob pattern
+            if(!empty($info['type'])){
+                $filepath = $info['package'].'/'.implode('/', $info['path']).'/'.$info['file'].'.'.$info['format'].'.'.$info['type'];
+            } else {
+                $filepath = $info['package'].'/'.implode('/', $info['path']).'/'.$info['file'].'.'.$info['format'].'.*';
             }
 
-            //Find the template file
-            $filepath = $info['package'].'/'.implode('/', $path).'/'.$info['file'].'.'.$info['format'].'.php';
+            $pattern = $this->_theme_path.'/templates/'.$filepath;
 
-            if ($override = $this->realPath($this->_theme_path.'/templates/'.$filepath)) {
-                return $override;
+            //Try to find the file
+            foreach(glob($pattern) as $file)
+            {
+                if($result = $this->realPath($file)) {
+                    return $result;
+                }
             }
         }
 
