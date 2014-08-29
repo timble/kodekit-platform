@@ -23,37 +23,33 @@ class ViewEditorHtml extends Library\ViewHtml
     {
         $locale = $this->getObject('translator')->getLocale();
 
-        $config->append(array('settings' => array(
-            'baseHref'		         => '/files/'.$this->getObject('application')->getSite().'/',
-            'language'			     => substr($locale, 0, strpos( $locale, '-' )),
-            'contentsLanguage'       => substr($locale, 0, strpos( $locale, '-' )),
-			'height' 				 => '',
-			'width'					 => '',
-            'removeButtons'			 => '',
-            'options'  => array(
-                'autoheight'  => true,
-                'toolbar'     => $this->toolbar ? $this->toolbar : 'standard',
-            )
-		)));
+        $config->append(array(
+            'options' => array(
+                'baseHref'		    => '/files/'.$this->getObject('application')->getSite().'/',
+                'language'	        => substr($locale, 0, strpos( $locale, '-' )),
+                'contentsLanguage'  => substr($locale, 0, strpos( $locale, '-' )),
+			    'height' 	        => '',
+			    'width'			    => '',
+                'removeButtons'	    => '',
+                'autoheight'        => true,
+                'toolbar'           => $this->toolbar ? $this->toolbar : 'standard',
+		    )
+        ));
 
 		parent::_initialize($config);
     }
 
     protected function _fetchData(Library\ViewContext $context)
 	{
-		if(!$context->data->id) {
+		//Set editor id
+        if(!$context->data->id) {
 		    $context->data->id = $context->data->name;
 		}
 
-        $settings = clone $this->getConfig()->settings;
-        $settings->editor_selector = 'editable-'.$this->id;
-        $settings->options->toolbar = $this->toolbar ? $this->toolbar : 'standard';
+        //Set editor options
+		$context->data->append(array('options' => $this->getConfig()->options));
 
-        if($this->removeButtons) {
-            $settings->removeButtons = $this->removeButtons;
-        }
-
-		$context->data->settings = $settings;
+        //Set editor class
         $context->data->class = isset($this->attribs['class']) ? $this->attribs['class'] : '';
 
 		parent::_fetchData($context);

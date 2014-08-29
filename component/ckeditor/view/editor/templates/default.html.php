@@ -14,15 +14,15 @@
 <script>
     jQuery(document).ready(function() {
         CKEDITOR.replace( '<?= $id ?>', {
-            baseHref   : '<?= $settings->baseHref ?>',
-            toolbar    : '<?= $settings->options->toolbar ?>',
-            height     : '<?= $settings->height ?>',
-            width      : '<?= $settings->width ?>',
-            language   : '<?= $settings->language ?>',
-            contentsLanguage     : '<?= $settings->contentsLanguage ?>',
-            contentsLangDirection: '<?= $settings->contentsLangDirection ?>',
-            scayt_autoStartup    : '<?= $settings->scayt_autoStartup ?>',
-            removeButtons        : '<?= $settings->removeButtons ?>'
+            baseHref   : '<?= $options->baseHref ?>',
+            toolbar    : '<?= $options->toolbar ?>',
+            height     : '<?= $options->height ?>',
+            width      : '<?= $options->width ?>',
+            language   : '<?= $options->language ?>',
+            contentsLanguage     : '<?= $options->contentsLanguage ?>',
+            contentsLangDirection: '<?= $options->contentsLangDirection ?>',
+            scayt_autoStartup    : '<?= $options->scayt_autoStartup ?>',
+            removeButtons        : '<?= $options->removeButtons ?>'
         });
     });
 </script>
