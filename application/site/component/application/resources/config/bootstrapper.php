@@ -18,7 +18,11 @@ return array(
     'identifiers' => array(
 
         'com:application.template.locator.component'  => array(
-            'theme_path' => Nooku::getInstance()->getBasePath().'/public/theme/bootstrap'
+            'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/views'
+        ),
+
+        'com:application.template.locator.module'  => array(
+            'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/modules'
         ),
 
         'com:application.template.filter.asset'  => array(

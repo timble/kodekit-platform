@@ -35,6 +35,19 @@ class ModuleDefaultHtml extends Library\ViewHtml
             ));
         }
 
+        //Force layout type to 'mod' to force using the module locator for partial layouts
+        $layout = $context->layout;
+
+        if (is_string($layout) && strpos($layout, '.') === false)
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['type'] = 'mod';
+            $identifier['name'] = $layout;
+            unset($identifier['path'][0]);
+
+            $context->layout = $this->getIdentifier($identifier);
+        }
+
         return parent::_actionRender($context);
     }
 }

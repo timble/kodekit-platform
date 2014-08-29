@@ -12,7 +12,9 @@ return array(
     'aliases'  => array(
         'application'                    => 'com:application.dispatcher.http',
         'translator'                     => 'com:application.translator',
-        'lib:template.locator.component' => 'com:application.template.locator.component',
         'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
+
+        'lib:template.locator.component'    => 'com:application.template.locator.component',
+        'com:pages.template.locator.module' => 'com:application.template.locator.module',
     )
 );

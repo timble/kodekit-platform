@@ -10,6 +10,7 @@
 namespace Nooku\Component\Application;
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Component Theme Override Locator
@@ -17,10 +18,10 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\TemplateLoaderComponent
  */
-class TemplateLocatorComponent extends Library\TemplateLocatorComponent
+class TemplateLocatorModule extends Pages\TemplateLocatorModule
 {
     /**
-     * The override path
+     * The theme path
      *
      * @var string
      */
