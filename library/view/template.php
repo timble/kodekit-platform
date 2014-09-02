@@ -131,9 +131,6 @@ abstract class ViewTemplate extends ViewAbstract
     {
         $model = $this->getModel();
 
-        //Set the layout
-        $context->parameters->layout = $context->layout;
-
         //Auto-assign the data from the model
         if($this->_auto_fetch)
         {
@@ -150,6 +147,10 @@ abstract class ViewTemplate extends ViewAbstract
             }
             else $context->parameters = $entity->getProperties();
         }
+
+        //Set the layout
+        $context->parameters->layout = $context->layout;
+        $context->parameters->view   = $this->getName();
     }
 
     /**
