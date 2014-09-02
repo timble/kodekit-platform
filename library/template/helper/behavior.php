@@ -345,7 +345,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         $html .= "
 		<script>
-			window.addEvent('domready', function(){				
+			window.addEvent('domready', function(){
 				new Koowa.Autocomplete($('" . $config->element . "'), " . json_encode((string)$config->url) . ", " . $config->options . ");
 			});
 		</script>";
