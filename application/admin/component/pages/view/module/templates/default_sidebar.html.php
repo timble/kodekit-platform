@@ -22,7 +22,7 @@
             <?= helper('listbox.positions', array(
                 'name'        => 'position',
                 'selected'    => $module->position,
-                'application' => state()->application,
+                'application' => parameters()->application,
                 'deselect'    => false
             )) ?>
         </div>

@@ -79,20 +79,13 @@ interface ViewInterface
      * @return 	string 	The title of the view
      */
     public function getTitle();
-	
+
 	/**
 	 * Get the format
 	 *
 	 * @return 	string 	The format of the view
 	 */
 	public function getFormat();
-
-    /**
-     * Get the state
-     *
-     * @return ModelStateInterface
-     */
-    public function getState();
 
     /**
      * Get the content
@@ -115,7 +108,7 @@ interface ViewInterface
 	 * @return	ModelAbstract
 	 */
 	public function getModel();
-	
+
 	/**
 	 * Method to set a model object attached to the view
 	 *
@@ -142,8 +135,8 @@ interface ViewInterface
     public function setUrl(HttpUrl $url);
 
 	/**
-	 * Get a route based on a full or partial query string 
-	 * 
+	 * Get a route based on a full or partial query string
+	 *
 	 * option, view and layout can be omitted. The following variations will all result in the same route
 	 *
 	 * - foo=bar

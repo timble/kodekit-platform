@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class Template extends TemplateAbstract implements TemplateFilterable, TemplateHelperable, ObjectInstantiable
 {
     /**
+     * The template parameters
+     *
+     * @var array
+     */
+    private $__parameters;
+
+    /**
      * List of template filters
      *
      * @var array
@@ -43,10 +50,9 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
     {
         parent::__construct($config);
 
-        //Set the filter queue
+        //Set the filters
         $this->__filter_queue = $this->getObject('lib:object.queue');
 
-        //Attach the filters
         $filters = ObjectConfig::unbox($config->filters);
 
         foreach ($filters as $key => $value)
@@ -57,6 +63,9 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
                 $this->addFilter($key, $value);
             }
         }
+
+        //Set the parameters
+        $this->setParameters($config->parameters);
     }
 
     /**
@@ -70,10 +79,12 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'filters'   => array(),
-            'functions' => array(
-                'escape'  => array($this, 'escape'),
-                'helper'  => array($this, 'invoke'),
+            'parameters' => array(),
+            'filters'    => array(),
+            'functions'  => array(
+                'escape'     => array($this, 'escape'),
+                'helper'     => array($this, 'invoke'),
+                'parameters' => array($this, 'getParameters')
             ),
             'cache'           => false,
             'cache_namespace' => 'nooku',
@@ -222,6 +233,28 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
     }
 
     /**
+     * Set the template parameters
+     *
+     * @param  array $parameters Set the template parameters
+     * @return Template
+     */
+    public function setParameters($parameters)
+    {
+        $this->__parameters = new ObjectConfig($parameters);
+        return $this;
+    }
+
+    /**
+     * Get the model state object
+     *
+     * @return ObjectConfigInterface
+     */
+    public function getParameters()
+    {
+        return $this->__parameters;
+    }
+
+    /**
      * Invoke a template helper
      *
      * This function accepts a partial identifier, in the form of helper.method or schema:package.helper.method. If
@@ -253,21 +286,8 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
             throw new \BadMethodCallException(get_class($helper) . '::' . $function . ' not supported.');
         }
 
-        //Merge the state or entity properties with the helper params
-        $name = $this->getIdentifier()->getName();
-
-        if(StringInflector::isPlural($name))
-        {
-            if($this->state() instanceof ModelStateInterface) {
-                $params = array_merge($this->state()->getValues(), $params);
-            }
-        }
-        else
-        {
-            if($this->$name instanceof ModelEntityInterface) {
-                $params = array_merge( $this->$name->getProperties(), $params);
-            }
-        }
+        //Set the parameters
+        $params = array_merge($this->getParameters()->toArray(), $params);
 
         return $helper->$function($params);
     }

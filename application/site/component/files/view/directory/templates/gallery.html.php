@@ -31,7 +31,7 @@ jQuery(function($) {
 	<div class="page-header">
 		<h1><?= escape($params->get('page_title')); ?></h1>
 	</div>
-    
+
     <? if (count($folders)): ?>
     <ul>
     <? foreach($folders as $folder): ?>
@@ -43,14 +43,14 @@ jQuery(function($) {
 	<? endforeach ?>
 	</ul>
 	<? endif ?>
-	
+
 	<? if (count($files)): ?>
     <ol class="thumbnails files-gallery" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.thumbnail">
         <? foreach($files as $file): ?>
     	<? if (!empty($file->thumbnail)): ?>
         <li class="span3">
     		<a class="thumbnail text-center" data-path="<?= escape($file->path); ?>"
-    			href="<?= route('&view=file&folder='.state()->folder.'&name='.$file->name) ?>"
+    			href="<?= route('&view=file&folder='.parameters()->folder.'&name='.$file->name) ?>"
     		    title="<?= escape($file->display_name) ?>"
     		    style="min-height:<?= $thumbnail_size['y'] ?>px"
             >
@@ -61,14 +61,14 @@ jQuery(function($) {
         <? endforeach ?>
     </ol>
 
-    <? if(count($files) != count(state())): ?>
+    <? if(count($files) != parameters()->total): ?>
 	    <?= helper('paginator.pagination', array(
-	    	'limit' => state()->limit,
-	    	'offset' => state()->offset,
+	    	'limit' => parameters()->limit,
+	    	'offset' => parameters()->offset,
 	    	'show_count' => false,
 	    	'show_limit' => false
 	    )) ?>
     <? endif ?>
-    
+
     <? endif ?>
 </div>

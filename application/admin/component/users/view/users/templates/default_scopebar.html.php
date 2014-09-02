@@ -10,25 +10,25 @@
 
 <div class="scopebar">
 	<div class="scopebar__group">
-		<a class="<?= is_null(state()->enabled) && is_null(state()->visited) && is_null(state()->authentic) ? 'active' : ''; ?>" href="<?= route('enabled=&authentic=&visited=' ) ?>">
+		<a class="<?= is_null(parameters()->enabled) && is_null(parameters()->visited) && is_null(parameters()->authentic) ? 'active' : ''; ?>" href="<?= route('enabled=&authentic=&visited=' ) ?>">
 		    <?= translate('All') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= state()->enabled === true ? 'active' : ''; ?>" href="<?= route(state()->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
+		<a class="<?= parameters()->enabled === true ? 'active' : ''; ?>" href="<?= route(parameters()->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
 		    <?= translate('Enabled') ?>
-		</a> 
-		<a class="<?= state()->enabled === false ? 'active' : ''; ?>" href="<?= route(state()->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
+		</a>
+		<a class="<?= parameters()->enabled === false ? 'active' : ''; ?>" href="<?= route(parameters()->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
 		    <?= translate('Disabled') ?>
-		</a> 
+		</a>
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= state()->authentic === true ? 'active' : ''; ?>" href="<?= route( state()->authentic === true ? 'authentic=' : 'authentic=1&visited=' ) ?>">
+		<a class="<?= parameters()->authentic === true ? 'active' : ''; ?>" href="<?= route( parameters()->authentic === true ? 'authentic=' : 'authentic=1&visited=' ) ?>">
 		    <?= translate('Logged in') ?>
-		</a> 
-		<a class="<?= state()->visited === false ? 'active' : ''; ?>" href="<?= route( state()->visited === false? 'visited=' : 'visited=0&authentic=' ) ?>">
+		</a>
+		<a class="<?= parameters()->visited === false ? 'active' : ''; ?>" href="<?= route( parameters()->visited === false? 'visited=' : 'visited=0&authentic=' ) ?>">
 		    <?= translate('Never visited') ?>
-		</a> 
+		</a>
 	</div>
 	<div class="scopebar__search">
 		<?= helper('grid.search') ?>

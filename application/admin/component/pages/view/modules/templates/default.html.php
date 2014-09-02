@@ -12,7 +12,7 @@
 <ktml:style src="assets://css/koowa.css" />
 
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
-<?= helper('behavior.sortable', array('url' => '?format=json&application='.state()->application)) ?>
+<?= helper('behavior.sortable', array('url' => '?format=json&application='.parameters()->application)) ?>
 
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
@@ -27,7 +27,7 @@
 	<table>
 		<thead>
 			<tr>
-                <? if(state()->position && state()->sort == 'ordering' && state()->direction == 'asc') : ?><th class="handle"></th><? endif ?>
+                <? if(parameters()->position && parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?><th class="handle"></th><? endif ?>
 				<th width="1">
 				    <?= helper('grid.checkall'); ?>
 				</th>
@@ -52,10 +52,10 @@
 			</tr>
 			<? endif ?>
 		</tfoot>
-		<tbody<? if(state()->position && state()->sort == 'ordering' && state()->direction == 'asc') : ?> class="sortable"<? endif ?>>
+		<tbody<? if(parameters()->position && parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?> class="sortable"<? endif ?>>
 		<? foreach ($modules as $module) : ?>
 			<tr>
-                <? if(state()->position && state()->sort == 'ordering' && state()->direction == 'asc') : ?>
+                <? if(parameters()->position && parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?>
                 <td class="handle">
                     <span class="text--small data-order"><?= $module->ordering ?></span>
                 </td>

@@ -20,7 +20,7 @@ use Nooku\Library;
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {
-        var config = <?= json_encode(state()->config); ?>,
+        var config = <?= json_encode(parameters()->config); ?>,
         options = {
             state: {
                 defaults: {
@@ -28,13 +28,13 @@ use Nooku\Library;
                     offset: 0
                 }
             },
-            editor: <?= json_encode(state()->editor); ?>,
+            editor: <?= json_encode(parameters()->editor); ?>,
             tree: {
                 theme: 'assets://files/images/mootree.png'
             },
-            types: <?= json_encode(state()->types); ?>,
+            types: <?= json_encode(parameters()->types); ?>,
             site: <?= json_encode($site); ?>,
-            container: <?= json_encode(state()->container ? state()->container : null); ?>
+            container: <?= json_encode(parameters()->container ? parameters()->container : null); ?>
         };
         options = $extend(options, config);
 
@@ -68,7 +68,7 @@ use Nooku\Library;
                                 <input type="text" id="image-url" value="" />
                             </div>
                         </div>
-                        <? if(in_array('file', state()->types)) : ?>
+                        <? if(in_array('file', parameters()->types)) : ?>
                             <div id="link-text">
                                 <label for="image-text"><?= translate('Text') ?></label>
                                 <div>
@@ -88,7 +88,7 @@ use Nooku\Library;
                                 <input type="text" id="image-title" value="" />
                             </div>
                         </div>
-                        <? if(in_array('image', state()->types)) : ?>
+                        <? if(in_array('image', parameters()->types)) : ?>
                             <div>
                                 <label for="image-align"><?= translate('Align') ?></label>
                                 <div>

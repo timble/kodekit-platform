@@ -38,13 +38,13 @@
 			<td></td>
 		</tr>
 		<? endforeach; ?>
-		
+
 		<? foreach($files as $file): ?>
 		<tr>
-			<td>	
+			<td>
 				<i class="icon-file"></i>
 				<a class="files-download" data-path="<?= escape($file->path); ?>"
-					href="<?= route('&view=file&folder='.state()->folder.'&name='.$file->name);?>">
+					href="<?= route('&view=file&folder='.parameters()->folder.'&name='.$file->name);?>">
 					<?=escape($file->display_name)?>
 				</a>
 			</td>
@@ -59,11 +59,11 @@
 	</tbody>
 </table>
 
-<? if(count($files) != count(state())): ?>
+<? if(count($files) != parameters()->total): ?>
     <?= helper('paginator.pagination', array(
-        'limit'      => state()->limit,
-        'offset'     => state()->offset,
-    	'show_limit' => false, 
+        'limit'      => parameters()->limit,
+        'offset'     => parameters()->offset,
+    	'show_limit' => false,
     	'show_count' => false
     )); ?>
 <? endif; ?>

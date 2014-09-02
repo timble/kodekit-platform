@@ -15,12 +15,12 @@
     <ktml:toolbar type="actionbar">
 </ktml:module>
 
-<form action="<?= route('id='.$module->id.'&application='.state()->application) ?>" method="post" class="-koowa-form">
+<form action="<?= route('id='.$module->id.'&application='.parameters()->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />
 	<input type="hidden" name="published" value="0" />
 	<input type="hidden" name="name" value="<?= $module->name ?>" />
 	<input type="hidden" name="application" value="<?= $module->application ?>" />
-	
+
 	<div class="main">
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= escape($module->title) ?>" />

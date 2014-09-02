@@ -9,7 +9,7 @@
 ?>
 
 <form action="<?= helper('com:comments.route.comment', array('entity' => $entity)) ?>" method="post">
-    <input type="hidden" name="row" value="<?= state()->row ?>" />
+    <input type="hidden" name="row" value="<?= parameters()->row ?>" />
 
     <?= object('com:ckeditor.controller.editor')->render(
         array('name' => 'text', 'text' => "", 'toolbar' => 'basic')

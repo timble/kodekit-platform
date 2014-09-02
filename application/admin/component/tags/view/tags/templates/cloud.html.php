@@ -15,7 +15,7 @@
 	<? list($component, $view) = explode("_", $tag->table) ?>
 	<li>
 		<span><?= $tags->count ?> <?= translate('articles are tagged with') ?></span>
-		<a  href="<?= route('component='.$component.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/count(state()) + 1) ?>" ><?= $tag->title; ?></a>
+		<a  href="<?= route('component='.$component.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/parameters()->total + 1) ?>" ><?= $tag->title; ?></a>
 	</li>
 	<? endforeach; ?>
 	<li>

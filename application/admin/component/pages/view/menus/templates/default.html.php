@@ -47,7 +47,7 @@
                     <?= helper('grid.checkbox',array('entity' => $menu)); ?>
                 </td>
                 <td>
-                    <? if(!state()->trash) : ?>
+                    <? if(!parameters()->trash) : ?>
                     <a href="<?= route('view=menu&id='.$menu->id); ?>">
                         <?= escape($menu->title); ?>
                     </a>

@@ -11,12 +11,12 @@
 <h3><?= translate('Applications') ?></h3>
 <ul class="navigation">
     <li>
-        <a class="<?= state()->application == 'admin' ? 'active' : '' ?>" href="<?= route('application=admin') ?>">
+        <a class="<?= parameters()->application == 'admin' ? 'active' : '' ?>" href="<?= route('application=admin') ?>">
             <?= translate('Administrator') ?>
         </a>
     </li>
     <li>
-        <a class="<?= state()->application == 'site' ? 'active' : '' ?>" href="<?= route('application=site') ?>">
+        <a class="<?= parameters()->application == 'site' ? 'active' : '' ?>" href="<?= route('application=site') ?>">
             <?= translate('Site') ?>
         </a>
     </li>

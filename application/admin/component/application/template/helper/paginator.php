@@ -19,16 +19,16 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 {
     /**
      * Render item pagination
-     * 
+     *
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      * @see     http://developer.yahoo.com/ypatterns/navigation/pagination/
      */
     public function pagination($config = array())
-    { 
+    {
         $config = new Library\ModelPaginator($config);
         $config->append(array(
-            'total'      => count($this->getTemplate()->state()),
+            'total'      => 0,
             'display'    => 4,
             'offset'     => 0,
             'limit'      => 0,
@@ -47,10 +47,10 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
             $html .= '<div class="limit"> '.$translator('Page').' '.$config->current.' '.$translator('of').' '.$config->count.'</div>';
         }
         $html .= '</div>';
-        
+
         return $html;
     }
-    
+
     /**
      * Render a list of pages links
      *

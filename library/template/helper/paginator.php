@@ -19,7 +19,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 {
 	/**
 	 * Render item pagination
-	 * 
+	 *
 	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/
@@ -28,7 +28,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
     {
         $config = new ModelPaginator($config);
         $config->append(array(
-            'total'      => count($this->getTemplate()->state()),
+            'total'      => 0,
             'display'    => 4,
             'offset'     => 0,
             'limit'      => 0,
@@ -58,7 +58,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 
         return false;
     }
-	
+
 	/**
 	 * Render a select box with limit values
 	 *
@@ -73,9 +73,9 @@ class TemplateHelperPaginator extends TemplateHelperSelect
             'page_rows' => array(10, 20, 50, 100),
 			'attribs'	=> array(),
 		));
-		
+
 		$html = '';
-		
+
 		$selected = '';
 		foreach($config->page_rows as $limit)
 		{

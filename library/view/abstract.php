@@ -115,8 +115,9 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     final public function render($data = array())
     {
         $context = $this->getContext();
-        $context->data   = array_merge($this->getData(), $data);
-        $context->action = 'render';
+        $context->data       = array_merge($this->getData(), $data);
+        $context->action     = 'render';
+        $context->parameters = array();
 
         if ($this->invokeCommand('before.render', $context) !== false)
         {
@@ -273,16 +274,6 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     public function getFormat()
     {
         return $this->getIdentifier()->name;
-    }
-
-    /**
-     * Get the state
-     *
-     * @return ModelStateInterface
-     */
-    public function getState()
-    {
-        return $this->getModel()->getState();
     }
 
     /**

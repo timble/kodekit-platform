@@ -110,20 +110,16 @@ class TemplateFilterForm extends TemplateFilterAbstract
         // All: Add the action if left empty
         if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER))
         {
-            if($state  = $this->getTemplate()->state())
+            $action = $this->getTemplate()->route();
+
+            foreach ($matches as $match)
             {
-                $action = $this->getTemplate()->route(http_build_query($state->getValues($state->isUnique())));
-
-                foreach ($matches as $match)
-                {
-                    $str = str_replace('action=""', 'action="' . $action . '"', $match[0]);
-                    $text = str_replace($match[0], $str, $text);
-                }
+                $str = str_replace('action=""', 'action="' . $action . '"', $match[0]);
+                $text = str_replace($match[0], $str, $text);
             }
-
         }
 
-        // POST : Add token 
+        // POST : Add token
         $matches = array();
         preg_match_all('/(<form.*method="post".*>)/i', $text, $matches, PREG_SET_ORDER);
 
