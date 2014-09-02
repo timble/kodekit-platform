@@ -70,7 +70,7 @@ abstract class ViewTemplate extends ViewAbstract
         $config->append(array(
             'auto_fetch'         => true,
             'layout'             => '',
-            'template'           => $this->getName(),
+            'template'           => 'default',
             'template_filters'   => array('asset', 'decorator'),
             'template_functions' => array(
                 'route'   => array($this, 'getRoute'),
@@ -131,6 +131,9 @@ abstract class ViewTemplate extends ViewAbstract
     {
         $model = $this->getModel();
 
+        //Set the default parameters based on the model state
+        $context->parameters = $model->getState()->getValues();
+
         //Auto-assign the data from the model
         if($this->_auto_fetch)
         {
@@ -140,15 +143,15 @@ abstract class ViewTemplate extends ViewAbstract
             $context->data->$name = $entity;
 
             //Set the parameters
-            if($this->isCollection())
+            if(!$this->isCollection())
             {
-                $context->parameters        = $model->getState()->getValues();
-                $context->parameters->total = $model->count();
+                $context->paramaters->total = 1;
+                $context->parameters = $entity->getProperties();
             }
-            else $context->parameters = $entity->getProperties();
+            else  $context->parameters->total = $model->count();
         }
 
-        //Set the layout
+        //Set the layout and view in the parameters.
         $context->parameters->layout = $context->layout;
         $context->parameters->view   = $this->getName();
     }
