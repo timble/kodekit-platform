@@ -20,16 +20,9 @@ interface TemplateHelperInterface
     /**
      * Get the template object
      *
-     * @return  object	The template object
+     * @return  TemplateInterface	The template object
      */
     public function getTemplate();
-
-    /**
-     * Set the template object
-     *
-     * @return  TemplateInterface $template	The template object
-     */
-    public function setTemplate(TemplateInterface $template);
 
     /**
      * Method to build a string with xml style attributes from  an array of key/value pairs

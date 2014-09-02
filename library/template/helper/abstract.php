@@ -33,8 +33,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	{
 		parent::__construct($config);
 
-        // Set the template object
-        $this->setTemplate($config->template);
+        $this->__template = $config->template;
 	}
 
     /**
@@ -48,30 +47,32 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'template' => null,
+            'template' => 'default',
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Set the template object
+     * Gets the template object
      *
-     * @return  TemplateInterface $template	The template object
-     */
-    public function setTemplate(TemplateInterface $template)
-    {
-        $this->__template = $template;
-        return $this;
-    }
-
-    /**
-     * Get the template object
-     *
-     * @return  object	The template object
+     * @return  TemplateInterface	The template object
      */
     public function getTemplate()
     {
+        if(!$this->__template instanceof TemplateInterface)
+        {
+            if(empty($this->__template) || (is_string($this->__template) && strpos($this->__template, '.') === false) )
+            {
+                $identifier         = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('template');
+                $identifier['name'] = $this->__template;
+            }
+            else $identifier = $this->getIdentifier($this->__template);
+
+            $this->__template = $this->getObject($identifier);
+        }
+
         return $this->__template;
     }
 
@@ -102,7 +103,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
                     if ($item === false) {
                         continue;
                     }
-                    
+
                     $item = $key;
                 }
 
