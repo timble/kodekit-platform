@@ -28,14 +28,14 @@ class ModelState extends ObjectArray implements ModelStateInterface
      *
      * @var string|object
      */
-    protected $_model;
+    private $__model;
 
     /**
      * Constructor
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException    If no 'model' config option was passed
+     * @throws \InvalidArgumentException    If the model config option does not implement ModelInterface
      * @return \Nooku\Library\ModelState
      */
     public function __construct(ObjectConfig $config)
@@ -56,7 +56,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             );
         }
 
-        $this->_model = $config->model;
+        $this->__model = $config->model;
     }
 
     /**
@@ -145,7 +145,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             $this->offsetSet($name, $value);
 
             //Reset the model
-            $this->_model->reset(array($name));
+            $this->__model->reset(array($name));
         }
 
         return $this;
@@ -197,7 +197,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
     public function count()
     {
         //Reset the model
-        return $this->_model->count();
+        return $this->__model->count();
     }
 
     /**
