@@ -109,7 +109,7 @@ use Nooku\Library;
         <input type="radio" id="tab-2" name="tab-group-1">
         <label for="tab-2"><?= translate('Upload') ?></label>
         <div class="content">
-            <?= import('com:files.view.files.uploader.html'); ?>
+            <?= import('com:files.files.uploader.html'); ?>
         </div>
     </div>
 </div>

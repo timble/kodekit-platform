@@ -15,6 +15,7 @@ return array(
         'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
 
         'lib:template.locator.component'    => 'com:application.template.locator.component',
+        'lib:template.locator.file'         => 'com:application.template.locator.file',
         'com:pages.template.locator.module' => 'com:application.template.locator.module',
     )
 );

@@ -25,13 +25,13 @@
 </ktml:module>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<input type="hidden" name="enabled" value="<?= $this->getObject('user')->getId() == $user->id ? 1 : 0 ?>" />
-	
+	<input type="hidden" name="enabled" value="<?= object('user')->getId() == $user->id ? 1 : 0 ?>" />
+
 	<div class="main">
 		<div class="title">
 			<input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" placeholder="<?= translate('Name') ?>" />
 		</div>
-		
+
 		<div class="scrollable">
 			<fieldset>
 				<legend><?= translate('General') ?></legend>
@@ -95,7 +95,7 @@
 			</fieldset>
 		</div>
 	</div>
-	
+
 	<div class="sidebar">
         <?= import('default_sidebar.html'); ?>
 	</div>

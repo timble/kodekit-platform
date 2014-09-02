@@ -35,7 +35,7 @@ class TemplateFilterMarkdown extends TemplateFilterAbstract
 
             foreach($matches[1] as $key => $match)
             {
-                $html = $engine->setContent($matches[1][$key])->render();
+                $html = $engine->loadString($matches[1][$key])->render();
                 $text = str_replace($matches[0][$key], $html, $text);
             }
         }

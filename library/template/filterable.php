@@ -20,7 +20,7 @@ interface TemplateFilterable
     /**
      * Filter template content
      *
-     * @return string   The filtered template content
+     * @return string The filtered template source
      */
     public function filter();
 

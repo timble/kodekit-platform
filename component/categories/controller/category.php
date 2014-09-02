@@ -34,9 +34,11 @@ abstract class ControllerCategory extends Library\ControllerModel
         $view = $this->getView();
 
         //Alias the view layout
-        if ($view instanceof Library\ViewTemplate) {
+        if ($view instanceof Library\ViewTemplate)
+        {
             $layout         = $view->getIdentifier()->toArray();
             $layout['name'] = $view->getLayout();
+            unset($layout['path'][0]);
 
             $alias            = $layout;
             $alias['package'] = 'categories';

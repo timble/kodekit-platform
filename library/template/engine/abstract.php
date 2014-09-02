@@ -32,6 +32,13 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     private $__template;
 
     /**
+     * Debug
+     *
+     * @var boolean
+     */
+    protected $_debug;
+
+    /**
      * Caching enabled
      *
      * @var bool
@@ -49,16 +56,20 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
      * Constructor
      *
      * @param ObjectConfig $config   An optional ObjectConfig object with configuration options
+     * @throws \UnexpectedValueException    If no 'template' config option was passed
+     * @throws \InvalidArgumentException    If the model config option does not implement TemplateInterface
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        // Set the template object
-        $this->setTemplate($config->template);
+        $this->__template = $config->template;
 
         //Reset the stack
         $this->_stack = array();
+
+        //Set debug
+        $this->_debug        = $config->debug;
 
         //Set caching
         $this->_cache        = $config->cache;
@@ -76,10 +87,11 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'debug'        => false,
             'cache'        => false,
             'cache_path'   => '',
             'cache_reload' => true,
-            'template'     => null,
+            'template'     => 'default',
             'functions'    => array(
                 'object'    => array($this, 'getObject'),
                 'translate' => array($this->getObject('translator'), 'translate'),
@@ -93,6 +105,64 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     }
 
     /**
+     * Cache the template source in a file
+     *
+     * Write the template source to a file cache. Requires cache to be enabled. This method will throw exceptions if
+     * caching fails and debug is enabled. If debug is disabled FALSE will be returned.
+     *
+     * @param  string $name     The file name
+     * @param  string $content  The template source
+     * @throws \RuntimeException If the file path does not exist
+     * @throws \RuntimeException If the file path is not writable
+     * @throws \RuntimeException If template cannot be written to the cache
+     * @return string|false The cached file path. FALSE if the file cannot be stored in the cache
+     */
+    public function cache($name, $source)
+    {
+        if($this->_cache)
+        {
+            $path = $this->_cache_path;
+
+            if(!is_dir($path)) {
+
+                if($this->isDebug()) {
+                    throw new \RuntimeException(sprintf('The template cache path "%s" does not exist', $path));
+                } else {
+                    return false;
+                }
+            }
+
+            if(!is_writable($path))
+            {
+                if($this->isDebug()) {
+                    throw new \RuntimeException(sprintf('The template cache path "%s" is not writable', $path));
+                } else {
+                    return false;
+                }
+            }
+
+            $hash = crc32($name);
+            $file = $path.'/template_'.$hash;
+
+            if(!file_put_contents($file, $source) !== false)
+            {
+                if($this->isDebug()) {
+                    throw new \RuntimeException(sprintf('The template cannot be cached in "%s"', $file));
+                } else {
+                    return false;
+                }
+            }
+
+            //Override default permissions for cache files
+            @chmod($file, 0666 & ~umask());
+
+            return $file;
+        }
+
+        return false;
+    }
+
+    /**
      * Get the engine supported file types
      *
      * @return array
@@ -103,64 +173,50 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     }
 
     /**
-     * Get the template object
+     * Gets the template object
      *
-     * @return TemplateInterface The template object
+     * @return  TemplateInterface	The template object
      */
     public function getTemplate()
     {
+        if(!$this->__template instanceof TemplateInterface)
+        {
+            if(empty($this->__template) || (is_string($this->__template) && strpos($this->__template, '.') === false) )
+            {
+                $identifier         = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('template');
+                $identifier['name'] = $this->__template;
+            }
+            else $identifier = $this->getIdentifier($this->__template);
+
+            $this->__template = $this->getObject($identifier);
+        }
+
         return $this->__template;
     }
 
     /**
-     * Set the template object
+     * Enable or disable class loading
      *
-     * @param  TemplateInterface $template The template object
-     * @return TemplateFilterInterface $template The template object
+     * If debug is enabled the class loader will throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool $debug True or false.
+     * @return TemplateEngineAbstract
      */
-    public function setTemplate(TemplateInterface $template)
+    public function setDebug($debug)
     {
-        $this->__template = $template;
+        $this->_debug = (bool) $debug;
         return $this;
     }
 
     /**
-     * Cache the template to a file
+     * Check if the loader is running in debug mode
      *
-     * Write the template content to a file cache. Requires cache to be enabled.
-     *
-     * @param  string $file    The file name
-     * @param  string $content  The template content to cache
-     * @throws \RuntimeException If the file path does not exist
-     * @throws \RuntimeException If the file path is not writable
-     * @throws \RuntimeException If template cannot be written to the cache
-     * @return string|false The cached file path. FALSE if the file cannot be stored in the cache
+     * @return bool
      */
-    public function cache($file, $content)
+    public function isDebug()
     {
-        if($this->_cache)
-        {
-            $path = $this->_cache_path;
-
-            if(!is_dir($path)) {
-                throw new \RuntimeException(sprintf('The template cache path "%s" does not exist', $path));
-            }
-
-            if(!is_writable($path)) {
-                throw new \RuntimeException(sprintf('The template cache path "%s" is not writable', $path));
-            }
-
-            $hash = crc32($file);
-            $file = $path.'/template_'.$hash;
-
-            if(!file_put_contents($file, $content)) {
-                throw new \RuntimeException(sprintf('The template cannot be cached in "%s"', $file));
-            }
-
-            return $file;
-        }
-
-        return false;
+        return $this->_debug;
     }
 
     /**

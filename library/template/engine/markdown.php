@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Markdown Template Engine
  *
+ * @link https://github.com/erusev/parsedown
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template\Abstract
  */
@@ -63,35 +65,67 @@ class TemplateEngineMarkdown extends TemplateEngineAbstract
     }
 
     /**
-     * Load a template by path
+     * Load a template by url
      *
-     * @param   string  $url      The template url
+     * @param   string  $url The template url
      * @throws \InvalidArgumentException If the template could not be located
      * @throws \RuntimeException         If the template could not be loaded
+     * @throws \RuntimeException         If the template could not be compiled
      * @return TemplateEngineMarkdown
      */
-    public function load($url)
+    public function loadFile($url)
     {
-        parent::load($url);
-
-        $file = $this->_content;
-
-        if(!$this->_content = $this->isCached($file))
+        if(!$this->_source)
         {
-            //Load the template
-            if(!$content = file_get_contents($file)) {
-                throw new \RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
+            $locator = $this->getObject('template.locator.factory')->createLocator($url);
+
+            //Locate the template
+            if (!$file = $locator->locate($url)) {
+                throw new \InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
             }
 
-            //Compile the template
-            if(!$content = $this->_compile($content)) {
-                throw new \RuntimeException(sprintf('The template "%s" cannot be compiled.', $file));
-            }
+            if(!$cache_file = $this->isCached($file))
+            {
+                //Load the template
+                if(!$source = file_get_contents($file)) {
+                    throw new \RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
+                }
 
-            $this->cache($file, $content);
-            $this->_content = $content;
+                //Compile the template
+                if(!$source = $this->_compile($source)) {
+                    throw new \RuntimeException(sprintf('The template "%s" cannot be compiled.', $file));
+                }
+
+                $this->cache($file, $source);
+                $this->_source = $source;
+            }
+            else  $this->_source = include $cache_file;
         }
-        else $this->_content = include $this->_content;
+
+        return $this;
+    }
+
+    /**
+     * Load the template from a string
+     *
+     * @param  string  $souce  The template source
+     * @throws \RuntimeException If the template could not be compiled
+     * @return TemplateEngineMarkdown
+     */
+    public function loadString($source)
+    {
+        $file = crc32($source);
+
+        if(!$this->_source = $this->isCached($file))
+        {
+            //Compile the template
+            if(!$source = $this->_compile($source)) {
+                throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
+            }
+
+            $this->cache($file, $source);
+            $this->_source = $source;
+        }
 
         return $this;
     }
@@ -119,41 +153,16 @@ class TemplateEngineMarkdown extends TemplateEngineAbstract
     }
 
     /**
-     * Set the template content from a string
-     *
-     * @param  string  $content  The template content
-     * @throws \RuntimeException If the template could not be compiled
-     * @return TemplateEngineMarkdown
-     */
-    public function setContent($content)
-    {
-        $file = crc32($content);
-
-        if(!$this->_content = $this->isCached($file))
-        {
-            //Compile the template
-            if(!$content = $this->_compile($content)) {
-                throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
-            }
-
-            $this->cache($file, $content);
-            $this->_content = $content;
-        }
-
-        return $this;
-    }
-
-    /**
      * Compile the template
      *
-     * @param   string  $content The template content to compile
+     * @param   string  $source The template source to compile
      * @return string|false The compiled template content or FALSE on failure.
      */
-    protected function _compile($content)
+    protected function _compile($source)
     {
         $result = false;
         if(is_callable($this->_compiler)) {
-            $result = call_user_func($this->_compiler, $content);
+            $result = call_user_func($this->_compiler, $source);
         }
 
         return $result;

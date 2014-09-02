@@ -30,7 +30,7 @@ class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectMulti
             ));
         }
 
-        $this->_content = (string) $this->getTemplate()->setContent($this->_content)->filter();
+        $this->_content = $this->getTemplate()->loadString($this->_content)->filter();
 
         return $this->_content;
     }

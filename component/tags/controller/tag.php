@@ -42,6 +42,7 @@ abstract class ControllerTag extends Library\ControllerModel
         {
             $layout         = $view->getIdentifier()->toArray();
             $layout['name'] = $view->getLayout();
+            unset($layout['path'][0]);
 
             $alias            = $layout;
             $alias['package'] = 'tags';

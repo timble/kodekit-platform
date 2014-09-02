@@ -113,8 +113,8 @@ abstract class ViewTemplate extends ViewAbstract
             $data[$key] = $value;
         }
 
-        $this->_content = (string) $this->getTemplate()
-            ->load((string) $layout.'.'.$format)
+        $this->_content = $this->getTemplate()
+            ->loadFile((string) $layout.'.'.$format)
             ->render($data);
 
         return parent::_actionRender($context);

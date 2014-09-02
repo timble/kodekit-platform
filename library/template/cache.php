@@ -67,9 +67,21 @@ class TemplateCache extends ObjectDecorator implements TemplateInterface
      * @throws \InvalidArgumentException If the template could not be found
      * @return TemplateInterface
      */
-    public function load($url)
+    public function loadFile($url)
     {
-        $this->getDelegate()->load($url);
+        $this->getDelegate()->loadFile($url);
+        return $this;
+    }
+
+    /**
+     * Set the template content from a string
+     *
+     * @param  string   $content The template content
+     * @return TemplateInterface
+     */
+    public function loadString($content)
+    {
+        $this->getDelegate()->loadString($content);
         return $this;
     }
 
@@ -109,33 +121,11 @@ class TemplateCache extends ObjectDecorator implements TemplateInterface
     }
 
     /**
-     * Get the template content
-     *
-     * @return  string
-     */
-    public function getContent()
-    {
-        return $this->getDelegate()->getContent();
-    }
-
-    /**
-     * Set the template content from a string
-     *
-     * @param  string   $content The template content
-     * @return TemplateEngineInterface
-     */
-    public function setContent($content)
-    {
-        $this->getDelegate()->setContent($content);
-        return $this;
-    }
-
-    /**
      * Register a function
      *
      * @param string  $name      The function name
      * @param string  $callable  The callable
-     * @return TemplateEngineInterface
+     * @return TemplateInterface
      */
     public function registerFunction($name, callable $function)
     {
@@ -153,16 +143,6 @@ class TemplateCache extends ObjectDecorator implements TemplateInterface
     {
         $this->getDelegate()->unregisterFunction($name);
         return $this;
-    }
-
-    /**
-     * Returns the template contents
-     *
-     * @return  string
-     */
-    public function toString()
-    {
-        return $this->getDelegate()->toString();
     }
 
     /**
@@ -199,15 +179,5 @@ class TemplateCache extends ObjectDecorator implements TemplateInterface
     public function getDelegate()
     {
         return parent::getDelegate();
-    }
-
-    /**
-     * Cast the object to a string
-     *
-     * @return  string
-     */
-    final public function __toString()
-    {
-        return $this->toString();
     }
 }

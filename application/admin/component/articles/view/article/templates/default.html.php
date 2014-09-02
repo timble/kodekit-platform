@@ -37,7 +37,7 @@
 <form action="" method="post" id="article-form" class="-koowa-form">
     <input type="hidden" name="access" value="0" />
     <input type="hidden" name="published" value="0" />
-    
+
     <div class="main">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= translate('Title') ?>" />

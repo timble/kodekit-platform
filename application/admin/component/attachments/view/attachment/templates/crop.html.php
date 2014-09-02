@@ -20,13 +20,13 @@
         new Attachments.List({
             container: 'attachment',
             action: '<?= route('view=attachment&format=json&layout=crop&id='.$attachment->id) ?>',
-            token: '<?= $this->getObject('user')->getSession()->getToken() ?>'
+            token: '<?= object('user')->getSession()->getToken() ?>'
         });
     });
 </script>
 
 <div id="attachment">
-    <img id="target" src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $attachment->path ?>" />
+    <img id="target" src="files/<?= object('application')->getSite() ?>/attachments/<?= $attachment->path ?>" />
     <a class="button btn-success btn-block" style="margin-top: 10px" href="#" data-action="crop" data-id="<?= $attachment->id; ?>">
         <?= translate('Save') ?>
     </a>

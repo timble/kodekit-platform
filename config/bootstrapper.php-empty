@@ -24,7 +24,7 @@ return array(
 
     'identifiers' => array(
 
-        'application'               => array(
+        'application'           => [
 
             // Site Settings
             'title'    => 'Nooku Platform',
@@ -41,17 +41,17 @@ return array(
             'smtppass'  => '',
             'smtphost'  => 'localhost',
 
-        ),
+        ],
 
-        'translator'               => array(
+        'translator'            => [
 
             //Cache Settings
             'cache'           => false,
             'cache_namespace' => APPLICATION_NAME,
 
-        ),
+        ],
 
-        'exception.handler'     => array(
+        'exception.handler'     => [
 
             /*
              * Error Reporting
@@ -64,9 +64,9 @@ return array(
              * - ExceptionHandler::ERROR_PRODUCTION  //E_ERROR | E_WARNING | E_PARSE
              */
             'error_reporting' => null //Use PHP error_reporting
-        ),
+        ],
 
-        'database.adapter.mysql' =>  array(
+        'database.adapter.mysql' =>  [
 
             'auto_connect' => true,
             'database'     => '',          // MySQL database name
@@ -79,42 +79,58 @@ return array(
             'username'      => '',          // MySQL username
             'password'      => '',          // MySQL password
 
-        ),
+        ],
 
-        'template.engine.factory'   => array(
+        'template.engine.factory'   => [
 
             //Cache Settings
+            'debug'        => false,
             'cache'        => false,
             'cache_path'   => APPLICATION_BASE.'/cache',
             'cache_reload' => false,
-            'engines'      => array(
+            'engines'      => [
 
                 /*
                  * Uncomment to enable the markdown template engine
                  *
-                 * Default compiler is ParsedownExtra which needs to be installed. Change the compiler by defining
-                 * a different callable in the 'compiler' config option below.
+                 * Requires ParsedownExtra to be installed
+                 * @link : https://packagist.org/packages/erusev/parsedown-extra
+                 *
+                 * Note : Change the compiler by defining a different callable in the 'compiler' config option below.
                  */
-                /*'template.engine.markdown' => array(
+                /*'template.engine.markdown'  => [
 
                     'compiler'   => function($content) { return \ParsedownExtra::instance()->text($content); }
 
-                ),*/
+                ],*/
 
                 /*
                  * Uncomment to enable the twig template engine
                  *
-                 * Requires Twig to be installed.
+                 * Requires Twig to be installed
+                 * @link https://packagist.org/packages/twig/twig
                  */
-                /*'template.engine.twig'    => array(
+                /*'template.engine.twig'      => [
 
-                    'debug'            => false,
                     'autoescape'       => true,
                     'strict_variables' => false,
                     'optimizations'    => -1,
 
-                )*/
-            )
-        ),
+                ],*/
+
+                /*
+                 * Uncomment to enable the mustache template engine
+                 *
+                 * Requires Mustache to be installed.
+                 * @link : https://packagist.org/packages/mustache/mustache
+                 */
+                /*'template.engine.mustache'  => [
+
+                    'strict_callables' => false,
+                    'pragmas'          => ['FILTERS'],
+
+                ],*/
+            ],
+        ],
     )
 );

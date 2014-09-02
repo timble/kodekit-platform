@@ -57,6 +57,7 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'debug'      => false,
             'cache'      => false,
             'cache_path' => '',
             'engines'    => array(
@@ -142,6 +143,7 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
                 if(!$this->isRegistered($type))
                 {
                     $identifier->getConfig()->merge($config)->append(array(
+                        'debug'      => $this->getConfig()->debug,
                         'cache'      => $this->getConfig()->cache,
                         'cache_path' => $this->getConfig()->cache_path
                     ));

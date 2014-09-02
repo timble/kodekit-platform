@@ -20,7 +20,7 @@ window.addEvent('domready', function() {
     new Attachments.List({
         container: 'attachments-list',
         action: '<?= route('view=attachments') ?>',
-        token: '<?= $this->getObject('user')->getSession()->getToken() ?>'
+        token: '<?= object('user')->getSession()->getToken() ?>'
     });
 });
 </script>
@@ -30,8 +30,8 @@ window.addEvent('domready', function() {
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
         <div class="thumbnail" data-id="<?= $item->id; ?>">
-            <a class="modal" href="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
-                <img src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
+            <a class="modal" href="files/<?= object('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
+                <img src="files/<?= object('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
             </a>
             <div class="thumbnail__caption">
                 <a class="button btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
@@ -50,9 +50,9 @@ window.addEvent('domready', function() {
         </div>
     	<? endif ?>
     <? endforeach ?>
-    
+
     <ul>
-    <? foreach($list as $item) : ?>        
+    <? foreach($list as $item) : ?>
     	<? if(!$item->file->isImage()) : ?>
     	<li>
             <a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= escape($item->name) ?></a>

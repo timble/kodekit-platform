@@ -18,7 +18,7 @@
 
 <form action="" method="post" class="-koowa-form">
     <input type="hidden" name="application" value="site" />
-    
+
     <div class="main">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= translate('Title') ?>" />
@@ -32,7 +32,10 @@
                 <div>
                     <label for="application"><?= translate('Application') ?></label>
                     <div>
-                        <?= helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? state()->application : $menu->application, 'deselect' => false)) ?>
+                        <?= helper('com:application.listbox.applications', array(
+                            'selected' => $menu->isNew() ? state()->application : $menu->application,
+                            'deselect' => false))
+                        ?>
                     </div>
                 </div>
                 <div>

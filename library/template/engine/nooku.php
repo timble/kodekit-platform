@@ -66,7 +66,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'functions' => array(
+            'functions'           => array(
                 'import' => array($this, '_import'),
             ),
         ));
@@ -83,7 +83,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      * @throws \RuntimeException         If the template could not be compiled
      * @return TemplateEngineNooku
      */
-    public function load($url)
+    public function loadFile($url)
     {
         //Locate the template
         $file = $this->_locate($url);
@@ -91,7 +91,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
         //Push the template on the stack
         array_push($this->_stack, array('url' => $url, 'file' => $file));
 
-        if(!$this->_content = $this->isCached($file))
+        if(!$cache_file = $this->isCached($file))
         {
             //Load the template
             if(!$content = file_get_contents($file)) {
@@ -103,9 +103,38 @@ class TemplateEngineNooku extends TemplateEngineAbstract
                 throw new \RuntimeException(sprintf('The template "%s" cannot be compiled.', $file));
             }
 
-            $this->_content = $this->_buffer($file, $content);
+            $this->_source = $this->cache($file, $content);
+        }
+        else $this->_source = $cache_file;
+
+        return $this;
+    }
+
+    /**
+     * Set the template source from a string
+     *
+     * @param  string  $source The template source
+     * @throws \RuntimeException If the template could not be compiled
+     * @return TemplateEngineNooku
+     */
+    public function loadString($source)
+    {
+        $name = crc32($source);
+
+        if(!$file = $this->isCached($name))
+        {
+            //Compile the template
+            if(!$content = $this->_compile($source)) {
+                throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
+            }
+
+            $file = $this->cache($name, $source);
         }
 
+        $this->_source = $file;
+
+        //Push the template on the stack
+        array_push($this->_stack, array('url' => '', 'file' => $file));
         return $this;
     }
 
@@ -113,64 +142,49 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      * Render a template
      *
      * @param   array   $data   The data to pass to the template
-     * @throws \RuntimeException If the template could not be evaluated
-     * @return TemplateEngineNooku
+     * @throws \RuntimeException If the template could not be rendered
+     * @return string The rendered template source
      */
     public function render(array $data = array())
     {
-        parent::render($data);
+        //Set the data
+        $this->_data = $data;
 
-        $content = '';
-        if(!empty($this->_content))
-        {
-            //Evaluate the template
-            if (!$content = $this->_evaluate($this->_content, $this->getData())) {
-                throw new \RuntimeException(sprintf('The template "%s" cannot be evaluated.', $content));
-            }
-
-            //Remove the template from the stack
-            array_pop($this->_stack);
+        //Evaluate the template
+        if (!$content = $this->_evaluate()) {
+            throw new \RuntimeException(sprintf('The template "%s" cannot be evaluated.'));
         }
+
+        //Remove the template from the stack
+        array_pop($this->_stack);
 
         return $content;
     }
 
     /**
-     * Get the template content
+     * Cache the compiled template source
      *
-     * @return  string
-     */
-    public function getContent()
-    {
-        return file_get_contents($this->_content);
-    }
-
-    /**
-     * Set the template content from a string
+     * Write the template content to a file buffer. If cache is enabled the file will be buffer using cache settings
+     * If caching is not enabled the file will be written to the temp path using a buffer://temp stream.
      *
-     * @param  string  $content  The template content
-     * @throws \RuntimeException If the template could not be compiled
-     * @return TemplateEngineNooku
+     * @param  string $name     The file name
+     * @param  string $content  The template source to cache
+     * @throws \RuntimeException If the template cache path is not writable
+     * @throws \RuntimeException If template cannot be cached
+     * @return string The cached template file path
      */
-    public function setContent($content)
+    public function cache($name, $source)
     {
-        $name = crc32($content);
-
-        if(!$file = $this->isCached($name))
+        if(!$file = parent::cache($name, $source))
         {
-            //Compile the template
-            if(!$content = $this->_compile($content)) {
-                throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
-            }
+            $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('buffer://temp', 'w+b');
+            $this->_buffer->truncate(0);
+            $this->_buffer->write($source);
 
-            $file = $this->_buffer($name, $content);
+            $file = $this->_buffer->getPath();
         }
 
-        $this->_content = $file;
-
-        //Push the template on the stack
-        array_push($this->_stack, array('url' => '', 'file' => $file));
-        return $this;
+        return $file;
     }
 
     /**
@@ -185,7 +199,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     {
         if($template = end($this->_stack))
         {
-            if($this->_content == $exception->getFile())
+            if($this->_source == $exception->getFile())
             {
                 //Prevents any partial templates from leaking.
                 ob_get_clean();
@@ -240,46 +254,21 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     }
 
     /**
-     * Import a partial template
+     * Compile the template source
      *
-     * If importing a partial merges the data passed in with the data from the call to render. If importing a different
-     * template type jump out of engine scope to back to the template.
+     * If the a compile error occurs and exception will be thrown if the error cannot be recovered from or if debug
+     * is enabled.
      *
-     * @param   string  $url      The template url
-     * @param   array   $data     The data to pass to the template
-     * @return  string The rendered template content
-     */
-    protected function _import($url, array $data = array())
-    {
-        $result = '';
-
-        //Locate the template
-        if($file = $this->_locate($url))
-        {
-            $type = pathinfo($file, PATHINFO_EXTENSION);
-
-            if(in_array($type, $this->getFileTypes()))
-            {
-                $data = array_merge((array) $this->getData(), $data);
-                $result = $this->load($url)->render($data);
-            }
-            else  $result = $this->getTemplate()->load($file)->render($data);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Compile the template
-     *
-     * @param   string  $content      The template content to compile
+     * @param  string  $source  The template source to compile
+     * @throws \RuntimeException If the template source cannot be compiled.
      * @return string The compiled template content
      */
-    protected function _compile($content)
+    protected function _compile($source)
     {
         //Convert PHP tags
         if (!ini_get('short_open_tag'))
         {
+            //Supported by PHP5.4 by default
             // convert "<?=" to "<?php echo"
             //$find = '/\<\?\s*=\s*(.*?)/';
             //$replace = "<?php echo \$1";
@@ -288,11 +277,12 @@ class TemplateEngineNooku extends TemplateEngineAbstract
             // convert "<?" to "<?php"
             $find = '/\<\?(?:php)?\s*(.*?)/';
             $replace = "<?php \$1";
-            $content = preg_replace($find, $replace, $content);
+            $content = preg_replace($find, $replace, $source);
         }
 
         //Compile to valid PHP
-        $tokens = token_get_all($content);
+        $tokens   = token_get_all($source);
+        $function = get_defined_functions();
 
         $result = '';
         for ($i = 0; $i < sizeof($tokens); $i++)
@@ -317,6 +307,13 @@ class TemplateEngineNooku extends TemplateEngineAbstract
                             }
                         }
 
+                    //Do not allow to use $this context
+                    case T_VARIABLE:
+
+                        if ('$this' == $content) {
+                            throw new TemplateExceptionSyntaxError('Using $this when not in object context');
+                        }
+
                     default:
                         $result .= $content;
                         break;
@@ -338,39 +335,38 @@ class TemplateEngineNooku extends TemplateEngineAbstract
         ob_start();
 
         extract($this->getData(), EXTR_SKIP);
-        include $this->_content;
+        include $this->_source;
         $content = ob_get_clean();
 
         return $content;
     }
 
     /**
-     * Buffer the template
+     * Import a partial template
      *
-     * Write the template content to a file buffer. If cache is enabled the file will be buffer using cache settings
-     * If caching is not enabled the file will be written to the temp path using a buffer://temp stream.
+     * If importing a partial merges the data passed in with the data from the call to render. If importing a different
+     * template type jump out of engine scope back to the template.
      *
-     * @param  string $file     The file name
-     * @param  string $content  The template content to cache
-     * @throws \RuntimeException If the template cache path is not writable
-     * @throws \RuntimeException If template cannot be cached
-     * @return string    The buffer template file path
+     * @param   string  $url      The template url
+     * @param   array   $data     The data to pass to the template
+     * @return  string The rendered template content
      */
-    protected function _buffer($file, $content)
+    protected function _import($url, array $data = array())
     {
-        if(!$this->_cache)
+        //Locate the template
+        $file = $this->_locate($url);
+        $type = pathinfo($file, PATHINFO_EXTENSION);
+
+        if(in_array($type, $this->getFileTypes()))
         {
-            if(!isset($this->_buffer)) {
-                $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('buffer://temp', 'w+b');
+            if($this->loadFile($url))
+            {
+                $data = array_merge((array) $this->getData(), $data);
+                $result = $this->render($data);
             }
-
-            $this->_buffer->truncate(0);
-            $this->_buffer->write($content);
-
-            $file = $this->_buffer->getPath();
         }
-        else $file = $this->cache($file, $content);
+        else  $result = $this->getTemplate()->loadFile($file)->render($data);
 
-        return $file;
+        return $result;
     }
 }

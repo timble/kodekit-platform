@@ -42,6 +42,7 @@ abstract class ControllerComment extends Library\ControllerModel
         if ($view instanceof Library\ViewTemplate) {
             $layout         = $view->getIdentifier()->toArray();
             $layout['name'] = $view->getLayout();
+            unset($layout['path'][0]);
 
             $alias            = $layout;
             $alias['package'] = 'comments';

@@ -12,7 +12,7 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Component Theme Override Locator
+ * Component Override Locator
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\TemplateLoaderComponent
@@ -29,7 +29,7 @@ class TemplateLocatorComponent extends Library\TemplateLocatorComponent
     /**
      * Constructor.
      *
-     * @param Library\bjectConfig $config  An optional KObjectConfig object with configuration options
+     * @param Library\ObjectConfig $config  An optional KObjectConfig object with configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -56,7 +56,7 @@ class TemplateLocatorComponent extends Library\TemplateLocatorComponent
     }
 
     /**
-     * Find a template path
+     * Find a template override
      *
      * @param array  $info      The path information
      * @return bool|mixed

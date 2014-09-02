@@ -12,10 +12,12 @@ namespace Nooku\Library;
 /**
  * Twig Template Engine
  *
+ * @link https://github.com/fabpot/Twig
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template\Abstract
  */
-class TemplateEngineTwig extends TemplateEngineAbstract
+class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderInterface
 {
     /**
      * The engine file types
@@ -25,11 +27,27 @@ class TemplateEngineTwig extends TemplateEngineAbstract
     protected static $_file_types = array('twig');
 
     /**
+     * Template stack
+     *
+     * Used to track recursive load calls during template evaluation
+     *
+     * @var array
+     */
+    protected $_stack;
+
+    /**
      * The twig environment
      *
      * @var callable
      */
     protected $_twig;
+
+    /**
+     * The twig template
+     *
+     * @var callable
+     */
+    protected $_twig_template;
 
     /**
      * Constructor
@@ -40,7 +58,10 @@ class TemplateEngineTwig extends TemplateEngineAbstract
     {
         parent::__construct($config);
 
-        $this->_twig = new \Twig_Environment(null,  array(
+        //Reset the stack
+        $this->_stack = array();
+
+        $this->_twig = new \Twig_Environment($this,  array(
             'cache'       => $this->_cache ? $this->_cache_path : false,
             'auto_reload' => $this->_cache_reload,
             'debug'       => $config->debug,
@@ -67,10 +88,14 @@ class TemplateEngineTwig extends TemplateEngineAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'debug'            => false,
             'autoescape'       => true,
             'strict_variables' => false,
             'optimizations'    => -1,
+            'functions'        => array(
+                'import' => function($url, $data) {
+                    return $this->_import($url, $data);
+                }
+            ),
         ));
 
         parent::_initialize($config);
@@ -80,58 +105,18 @@ class TemplateEngineTwig extends TemplateEngineAbstract
      * Load a template by path
      *
      * @param   string  $url      The template url
-     * @throws \InvalidArgumentException If the template could not be located
-     * @throws \RuntimeException         If the template could not be loaded
-     * @return TemplateEngineTwig
+     * @throws  InvalidArgumentException If the template could not be located
+     * @throws  RuntimeException         If the template could not be loaded
+     * @return TemplateEngineTwig|string Returns a string when called by Twig.
      */
-    public function load($url)
+    public function loadFile($url)
     {
-        parent::load($url);
+        //Push the template on the stack
+        array_push($this->_stack, array('url' => $url));
 
-        $file = $this->_content;
-
-        $this->_twig->setLoader(new \Twig_Loader_Filesystem(dirname($file)));
+        $this->_twig_template = $this->_twig->loadTemplate($url);
 
         return $this;
-    }
-
-    /**
-     * Render a template
-     *
-     * @param   array   $data   The data to pass to the template
-     * @throws \RuntimeException If the template could not be evaluated
-     * @return TemplateEngineTwig
-     */
-    public function render(array $data = array())
-    {
-        parent::render($data);
-
-        $loader = $this->_twig->getLoader();
-        if($loader instanceof \Twig_Loader_Filesystem) {
-            $content = $this->_twig->render(basename($this->_content), $data);
-        } else {
-            $content = $this->_twig->render($this->_content, $data);
-        }
-
-        return $content;
-    }
-
-    /**
-     * Get the template content
-     *
-     * @return  string
-     */
-    public function getContent()
-    {
-        $loader = $this->_twig->getLoader();
-
-        if($loader instanceof \Twig_Loader_Filesystem) {
-            $content = file_get_contents($this->_content);
-        } else {
-            $content = $this->_content;
-        }
-
-        return $content;
     }
 
     /**
@@ -140,12 +125,40 @@ class TemplateEngineTwig extends TemplateEngineAbstract
      * @param  string  $content  The template content
      * @return TemplateEngineNooku
      */
-    public function setContent($content)
+    public function loadString($content)
     {
-        parent::setContent($content);
+        parent::loadString($content);
 
-        $this->_twig->setLoader(new \Twig_Loader_String());
+        //Let twig load the content by proxiing through the getSource() method.
+        $this->_twig_template = $this->_twig->loadTemplate($content);
+
+        //Push the template on the stack
+        array_push($this->_stack, array('url' => ''));
         return $this;
+    }
+
+    /**
+     * Render a template
+     *
+     * @param  array   $data   The data to pass to the template
+     * @throws RuntimeException If the template could not be evaluated
+     * @return string The rendered template source
+     */
+    public function render(array $data = array())
+    {
+        parent::render();
+
+        if(!$this->_twig_template instanceof \Twig_Template) {
+            throw new RuntimeException(sprintf('The template cannot be rendered'));
+        }
+
+        //Render the template
+        $content = $this->_twig_template->render($data);
+
+        //Remove the template from the stack
+        array_pop($this->_stack);
+
+        return $content;
     }
 
     /**
@@ -165,5 +178,129 @@ class TemplateEngineTwig extends TemplateEngineAbstract
         }
 
         return $this;
+    }
+
+    /**
+     * Load the template source
+     *
+     * @param  string  $url The template url
+     * @throws RuntimeException         If the template could not be loaded
+     * @return string   The template source
+     */
+    protected function _load($url)
+    {
+        $file = $this->_locate($url);
+        $type = pathinfo($file, PATHINFO_EXTENSION);
+
+        if(in_array($type, $this->getFileTypes()))
+        {
+            if(!$this->_source = file_get_contents($file)) {
+                throw new RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
+            }
+        }
+        else $this->_source = $this->getTemplate()->loadFile($file)->render($this->getData());
+
+        return $this->_source;
+    }
+
+    /**
+     * Locate the template
+     *
+     * @param   string  $url The template url
+     * @throws InvalidArgumentException If the template could not be located
+     * @return string   The template real path
+     */
+    protected function _locate($url)
+    {
+        //Create the locator
+        if($template = end($this->_stack)) {
+            $base = $template['url'];
+        } else {
+            $base = null;
+        }
+
+        if(!$location = parse_url($url, PHP_URL_SCHEME)) {
+            $location = $base;
+        } else {
+            $location = $url;
+        }
+
+        $locator = $this->getObject('template.locator.factory')->createLocator($location);
+
+        //Locate the template
+        if (!$file = $locator->setBasePath($base)->locate($url)) {
+            throw new InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
+        }
+
+        return $file;
+    }
+
+    /**
+     * Import a partial template
+     *
+     * If importing a partial merges the data passed in with the data from the call to render. If importing a different
+     * template type jump out of engine scope back to the template.
+     *
+     * @param   string  $url      The template url
+     * @param   array   $data     The data to pass to the template
+     * @return  string The rendered template content
+     */
+    protected function _import($url, array $data = array())
+    {
+        //Locate the template
+        $file = $this->_locate($url);
+        $type = pathinfo($file, PATHINFO_EXTENSION);
+
+        if(in_array($type, $this->getFileTypes()))
+        {
+            $data   = array_merge((array) $this->getData(), $data);
+            $result = $this->_twig->render($file, $data);
+        }
+        else  $result = $this->getTemplate()->loadFile($file)->render($data);
+
+        return $result;
+    }
+
+    /**
+     * Gets the source code of a template, given its name.
+     *
+     * Required by Twig_LoaderInterface Interface. Do not call directly.
+     *
+     * @param  string $name string The name of the template to load
+     * @return string The template source code
+     */
+    public function getSource($name)
+    {
+        return $this->_load($name);
+    }
+
+    /**
+     * Gets the cache key to use for the cache for a given template name.
+     *
+     * Required by Twig_LoaderInterface Interface. Do not call directly.
+     *
+     * @param  string $name string The name of the template to load
+     * @return string The cache key
+     */
+    public function getCacheKey($name)
+    {
+        return crc32($name);
+    }
+
+    /**
+     * Returns true if the template is still fresh.
+     *
+     * Required by Twig_Loader Interface. Do not call directly.
+     *
+     * @param string    $name The template name
+     * @param timestamp $time The last modification time of the cached template
+     */
+    public function isFresh($name, $time)
+    {
+        if(is_file($name)) {
+            return filemtime($name) <= $time;
+        }
+
+        return true;
     }
 }

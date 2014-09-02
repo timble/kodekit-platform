@@ -10,15 +10,14 @@
 namespace Nooku\Component\Application;
 
 use Nooku\Library;
-use Nooku\Component\Pages;
 
 /**
- * Component Override Locator
+ * File Override Locator
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Library\TemplateLoaderComponent
  */
-class TemplateLocatorModule extends Pages\TemplateLocatorModule
+class TemplateLocatorFile extends Library\TemplateLocatorFile
 {
     /**
      * The override path
@@ -66,20 +65,20 @@ class TemplateLocatorModule extends Pages\TemplateLocatorModule
     {
         if(!empty($this->_override_path))
         {
-            //If no type exists create a glob pattern
-            if(!empty($info['type'])){
-                $filepath = $info['package'].'/'.implode('/', $info['path']).'/'.$info['file'].'.'.$info['format'].'.'.$info['type'];
-            } else {
-                $filepath = $info['package'].'/'.implode('/', $info['path']).'/'.$info['file'].'.'.$info['format'].'.*';
-            }
+            $path   = $this->_override_path;
+            $file   = pathinfo($info['url'], PATHINFO_FILENAME);
+            $format = pathinfo($info['url'], PATHINFO_EXTENSION);
 
-            $pattern = $this->_override_path.'/'.$filepath;
-
-            //Try to find the file
-            foreach(glob($pattern) as $file)
+            if(!$result = $this->realPath($path.'/'.$file.'.'.$format))
             {
-                if($result = $this->realPath($file)) {
-                    return $result;
+                $pattern = $path.'/'.$file.'.'.$format.'.*';
+
+                //Try to find the file
+                foreach(glob($pattern) as $file)
+                {
+                    if($result = $this->realPath($file)) {
+                        break;
+                    }
                 }
             }
         }

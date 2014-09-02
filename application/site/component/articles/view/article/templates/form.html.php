@@ -54,7 +54,7 @@
     </div>
 
     <?= import('com:tags.tags.default.html', array('tags' => $article->getTags())) ?>
-    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->image))) ?>
+    <?= import('com:attachments.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->image))) ?>
 </article>
 
 

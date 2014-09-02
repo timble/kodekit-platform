@@ -38,6 +38,6 @@
     <? if (!$category->isNew()) : ?>
         <?= import('com:attachments.attachments.list.html', array('attachments' => $category->getAttachments(), 'attachments_attachment_id' => $category->attachments_attachment_id)) ?>
     <? endif ?>
-    <?= import('com:attachments.view.attachments.upload.html') ?>
+    <?= import('com:attachments.attachments.upload.html') ?>
 </fieldset>
 <? endif ?>
