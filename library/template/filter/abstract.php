@@ -35,14 +35,14 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      * Constructor.
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @throws \UnexpectedValueException    If no 'template' config option was passed
+     * @throws \InvalidArgumentException    If the model config option does not implement TemplateInterface
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        // Set the template object
-        $this->setTemplate($config->template);
-
+        $this->__template = $config->template;
         $this->_priority = $config->priority;
     }
 
@@ -56,7 +56,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'template' => null,
+            'template' => 'default',
             'priority' => self::PRIORITY_NORMAL
         ));
 
@@ -74,25 +74,26 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     }
 
     /**
-     * Get the template object
+     * Gets the template object
      *
-     * @return TemplateInterface The template object
+     * @return  TemplateInterface	The template object
      */
     public function getTemplate()
     {
-        return $this->__template;
-    }
+        if(!$this->__template instanceof TemplateInterface)
+        {
+            if(empty($this->__template) || (is_string($this->__template) && strpos($this->__template, '.') === false) )
+            {
+                $identifier         = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('template');
+                $identifier['name'] = $this->__template;
+            }
+            else $identifier = $this->getIdentifier($this->__template);
 
-    /**
-     * Set the template object
-     *
-     * @param  TemplateInterface $template The template object
-     * @return TemplateFilterInterface $template The template object
-     */
-    public function setTemplate(TemplateInterface $template)
-    {
-        $this->__template = $template;
-        return $this;
+            $this->__template = $this->getObject($identifier);
+        }
+
+        return $this->__template;
     }
 
     /**
@@ -151,7 +152,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
                     if ($item === false) {
                         continue;
                     }
-                    
+
                     $item = $key;
                 }
 

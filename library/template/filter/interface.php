@@ -27,6 +27,14 @@ interface TemplateFilterInterface extends ObjectHandlable
     const PRIORITY_LOWEST  = 5;
 
     /**
+     * Filter the text
+     *
+     * @param string $text  The text to parse
+     * @return void
+     */
+    public function filter(&$text);
+
+    /**
      * Get the template object
      *
      * @return  TemplateInterface	The template object
@@ -34,26 +42,11 @@ interface TemplateFilterInterface extends ObjectHandlable
     public function getTemplate();
 
     /**
-     * Set the template object
-     *
-     * @return  TemplateInterface $template	The template object
-     */
-    public function setTemplate(TemplateInterface $template);
-
-    /**
      * Get the priority of the filter
      *
      * @return  integer The priority level
      */
     public function getPriority();
-
-    /**
-     * Filter the text
-     *
-     * @param string $text  The text to parse
-     * @return void
-     */
-    public function filter(&$text);
 
     /**
      * Method to extract key/value pairs out of a string with xml style attributes
