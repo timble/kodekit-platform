@@ -286,8 +286,10 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
             throw new \BadMethodCallException(get_class($helper) . '::' . $function . ' not supported.');
         }
 
-        //Set the parameters
-        $params = array_merge($this->getParameters()->toArray(), $params);
+        //Merge the parameters if helper asks for it
+        if ($helper instanceof TemplateHelperParameterizable) {
+            $params = array_merge($this->getParameters()->toArray(), $params);
+        }
 
         return $helper->$function($params);
     }

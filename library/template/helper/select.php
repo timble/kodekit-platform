@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
-class TemplateHelperSelect extends TemplateHelperAbstract
+class TemplateHelperSelect extends TemplateHelperAbstract implements TemplateHelperParameterizable
 {
 	/**
 	 * Generates a select option

@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package Nooku\Library\Template
  * @see     http://ajaxpatterns.org/Data_Grid
  */
-class TemplateHelperGrid extends TemplateHelperAbstract
+class TemplateHelperGrid extends TemplateHelperAbstract implements TemplateHelperParameterizable
 {
 	/**
 	 * Render a checkbox field
@@ -29,10 +29,10 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
 			'entity'    => null,
-	    ))->append(array( 
+	    ))->append(array(
         	'column' => $config->entity->getIdentityKey()
-        )); 
-		
+        ));
+
 		if($config->entity->isLockable() && $config->entity->isLocked())
 		{
 		    $html = '<i class="icon-lock"></i>';
