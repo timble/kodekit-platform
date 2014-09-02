@@ -28,7 +28,7 @@ class TemplateLocatorFile extends TemplateLocatorAbstract
      * Find a template path
      *
      * @param array  $info  The path information
-     * @throws RuntimeException If the no base path exists while trying to locate a partial.
+     * @throws \RuntimeException  If the no base path exists while trying to locate a partial.
      * @return string|false The real template path or FALSE if the template could not be found
      */
     public function find(array $info)
