@@ -36,7 +36,7 @@ class TemplateLocatorFile extends TemplateLocatorAbstract
         $result = false;
 
         //Qualify partial templates.
-        if(is_file($info['url']) === false)
+        if(dirname($info['url']) === '.')
         {
             if(empty($info['base'])) {
                 throw new \RuntimeException('Cannot qualify partial template path');
@@ -48,6 +48,7 @@ class TemplateLocatorFile extends TemplateLocatorAbstract
 
         $file   = pathinfo($info['url'], PATHINFO_FILENAME);
         $format = pathinfo($info['url'], PATHINFO_EXTENSION);
+        $path   = str_replace(parse_url($path, PHP_URL_SCHEME).'://', '', $path);
 
         if(!$result = $this->realPath($path.'/'.$file.'.'.$format))
         {
