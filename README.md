@@ -18,7 +18,7 @@ Why Nooku Platform ?
 
 Nooku Platform was [born at the end of 2010][nooku-birth] with the goal to create a [leaner][nooku-leaner] and [meaner][nooku-meaner]
 multi-site and multi-lingual distro of [Joomla](http://www.joomla.org) 1.5. Originally named Nooku Server and renamed to
-Nooku Platform in 2014.
+Nooku Platform in 2013.
 
 Compatibility with Joomla was dropped soon after Joomla 1.5 reached end of life period in 2012. Since then, development continued in an effort to completely refactor the code base to a modern and lean architecture using well-established coding standards and best practices.
 
