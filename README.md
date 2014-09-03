@@ -20,9 +20,7 @@ Nooku Platform was [born at the end of 2010][nooku-birth] with the goal to creat
 multi-site and multi-lingual distro of [Joomla](http://www.joomla.org) 1.5. Originally named Nooku Server and renamed to
 Nooku Platform in 2014.
 
-With the end of life of Joomla 1.5 end of 2012 compatibility with Joomla was dropped and development continued in an
-effort to completely refactor the code base to a modern and lean architecture using well-established coding standards
-and best practices.
+Compatibility with Joomla was dropped soon after Joomla 1.5 reached end of life period in 2012. Since then, development continued in an effort to completely refactor the code base to a modern and lean architecture using well-established coding standards and best practices.
 
 At the moment Nooku Platform is at version 0.9 and work is ongoing to remove the last bits of Joomla legacy code. Once
 this work is completed an 1.0 alpha release will be made available.
