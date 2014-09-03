@@ -278,12 +278,14 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Get the view context
      *
-     * @return  ViewContext
+     * @return  ViewContextTemplate
      */
     public function getContext()
     {
-        $context = parent::getContext();
-        $context->layout = $this->getLayout();
+        $context = new ViewContextTemplate();
+        $context->setSubject($this);
+        $context->setData($this->_data);
+        $context->setLayout($this->getLayout());
 
         return $context;
     }
