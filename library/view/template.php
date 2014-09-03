@@ -131,9 +131,6 @@ abstract class ViewTemplate extends ViewAbstract
     {
         $model = $this->getModel();
 
-        //Set the default parameters based on the model state
-        $context->parameters = $model->getState()->getValues();
-
         //Auto-assign the data from the model
         if($this->_auto_fetch)
         {
@@ -145,11 +142,12 @@ abstract class ViewTemplate extends ViewAbstract
             //Set the parameters
             if(!$this->isCollection())
             {
-                $context->paramaters->total = 1;
                 $context->parameters = $entity->getProperties();
+                $context->parameters->total = 1;
             }
             else  $context->parameters->total = $model->count();
         }
+        else $context->parameters = $model->getState()->getValues();
 
         //Set the layout and view in the parameters.
         $context->parameters->layout = $context->layout;
