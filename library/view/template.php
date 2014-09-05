@@ -108,10 +108,7 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         //Unpack the data (first level only)
-        $data = array();
-        foreach($context->data as $key => $value) {
-            $data[$key] = $value;
-        }
+        $data = $context->data->toArray();
 
         $this->_content = $this->getTemplate()
             ->loadFile((string) $layout.'.'.$format)

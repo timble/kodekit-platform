@@ -11,6 +11,8 @@
 <ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />
 <ktml:script src="assets://ckeditor/js/ckeditor.koowa.js" />
 
+<? $options = new  Nooku\Library\ObjectConfig($options);  ?>
+
 <script>
     jQuery(document).ready(function() {
         CKEDITOR.replace( '<?= $id ?>', {
