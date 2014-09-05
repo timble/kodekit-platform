@@ -40,12 +40,22 @@ class ObjectConfigYaml extends ObjectConfigFormat
     {
         parent::__construct($options);
 
-        if (function_exists('yaml_emit') && !self::$_encoder) {
-            $this->setEncoder('yaml_emit');
+        if(!self::$_encoder)
+        {
+            if (function_exists('yaml_emit')) {
+                $this->setEncoder('yaml_emit');
+            } elseif(class_exists('Symfony\Component\Yaml\Yaml')) {
+                $this->setEncoder('Symfony\Component\Yaml\Yaml::dump');
+            }
         }
 
-        if (function_exists('yaml_parse') && !self::$_decoder) {
-            $this->setDecoder('yaml_parse');
+        if(!self::$_decoder)
+        {
+            if (function_exists('yaml_parse')) {
+                $this->setDecoder('yaml_parse');
+            } elseif(class_exists('Symfony\Component\Yaml\Yaml')) {
+                $this->setDecoder('Symfony\Component\Yaml\Yaml::parse');
+            }
         }
     }
 
