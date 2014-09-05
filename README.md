@@ -102,7 +102,7 @@ it into `develop`
 License
 -------
 
-The files in this archive are released under the GPLv3 license. You can find a copy of this license in [LICENSE](develop/LICENSE.md).
+The files in this archive are released under the GPLv3 license. You can find a copy of this license in [LICENSE](LICENSE.md).
 
 [HMVC]: http://en.wikipedia.org/wiki/Hierarchical_model%E2%80%93view%E2%80%93controller
 [boilerplate]: http://en.wikipedia.org/wiki/Boilerplate_code
