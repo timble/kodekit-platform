@@ -185,7 +185,7 @@ class DispatcherResponseTransportStream extends DispatcherResponseTransportHttp
 
             //Fix for IE7/8
             if(function_exists('apache_setenv')) {
-                apache_setenv('no-gzip', '1');
+                @apache_setenv('no-gzip', '1');
             }
 
             //Remove PHP time limit
