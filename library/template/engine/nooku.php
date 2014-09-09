@@ -94,12 +94,16 @@ class TemplateEngineNooku extends TemplateEngineAbstract
         if(!$cache_file = $this->isCached($file))
         {
             //Load the template
-            if(!$content = file_get_contents($file)) {
+            $content = file_get_contents($file);
+
+            if($content === false) {
                 throw new \RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
             }
 
             //Compile the template
-            if(!$content = $this->_compile($content)) {
+            $content = $this->_compile($content);
+
+            if($content === false) {
                 throw new \RuntimeException(sprintf('The template "%s" cannot be compiled.', $file));
             }
 
@@ -124,7 +128,9 @@ class TemplateEngineNooku extends TemplateEngineAbstract
         if(!$file = $this->isCached($name))
         {
             //Compile the template
-            if(!$source = $this->_compile($source)) {
+            $source = $this->_compile($source);
+
+            if($source === false) {
                 throw new \RuntimeException(sprintf('The template content cannot be compiled.'));
             }
 
@@ -151,8 +157,10 @@ class TemplateEngineNooku extends TemplateEngineAbstract
         $this->_data = $data;
 
         //Evaluate the template
-        if (!$content = $this->_evaluate()) {
-            throw new \RuntimeException(sprintf('The template "%s" cannot be evaluated.'));
+        $content = $this->_evaluate();
+
+        if ($content === false) {
+            throw new \RuntimeException(sprintf('The template "%s" cannot be evaluated.', $this->_source));
         }
 
         //Remove the template from the stack
