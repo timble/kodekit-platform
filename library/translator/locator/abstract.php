@@ -140,13 +140,17 @@ abstract class TranslatorLocatorAbstract extends Object implements TranslatorLoc
         if($info['path'] && $info['locale'])
         {
             $pattern = $info['path'].'/'.$info['locale'].'.*';
+            $results = glob($pattern);
 
-            foreach(glob($pattern) as $file)
+            if ($results)
             {
-                if($path = $this->realPath($file))
+                foreach($results as $file)
                 {
-                    $result[] = $path;
-                    break;
+                    if($path = $this->realPath($file))
+                    {
+                        $result[] = $path;
+                        break;
+                    }
                 }
             }
         }

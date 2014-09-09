@@ -61,12 +61,16 @@ class TemplateLocatorModule extends Library\TemplateLocatorIdentifier
         foreach($paths as $basepath)
         {
             $pattern = $basepath .'/module/'. $filepath;
+            $results = glob($pattern);
 
             //Try to find the file
-            foreach(glob($pattern) as $file)
+            if ($results)
             {
-                if($result = $this->realPath($file)) {
-                    break;
+                foreach($results as $file)
+                {
+                    if($result = $this->realPath($file)) {
+                        break;
+                    }
                 }
             }
         }

@@ -74,12 +74,16 @@ class TemplateLocatorModule extends Pages\TemplateLocatorModule
             }
 
             $pattern = $this->_override_path.'/'.$filepath;
+            $results = glob($pattern);
 
             //Try to find the file
-            foreach(glob($pattern) as $file)
+            if ($results)
             {
-                if($result = $this->realPath($file)) {
-                    return $result;
+                foreach($results as $file)
+                {
+                    if($result = $this->realPath($file)) {
+                        return $result;
+                    }
                 }
             }
         }
