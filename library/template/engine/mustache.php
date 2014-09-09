@@ -84,7 +84,7 @@ class TemplateEngineMustache extends TemplateEngineAbstract implements \Mustache
     {
         $config->append(array(
             'strict_callables' => false,
-            'pragmas'          => [\Mustache_Engine::PRAGMA_FILTERS],
+            'pragmas'          => array(\Mustache_Engine::PRAGMA_FILTERS),
         ));
 
         parent::_initialize($config);

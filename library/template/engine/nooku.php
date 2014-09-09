@@ -290,7 +290,6 @@ class TemplateEngineNooku extends TemplateEngineAbstract
 
         //Compile to valid PHP
         $tokens   = token_get_all($source);
-        $function = get_defined_functions();
 
         $result = '';
         for ($i = 0; $i < sizeof($tokens); $i++)
@@ -315,12 +314,18 @@ class TemplateEngineNooku extends TemplateEngineAbstract
                             }
                         }
 
+                        $result .= $content;
+                        break;
+
                     //Do not allow to use $this context
                     case T_VARIABLE:
 
                         if ('$this' == $content) {
                             throw new TemplateExceptionSyntaxError('Using $this when not in object context');
                         }
+
+                        $result .= $content;
+                        break;
 
                     default:
                         $result .= $content;
@@ -365,13 +370,10 @@ class TemplateEngineNooku extends TemplateEngineAbstract
         $file = $this->_locate($url);
         $type = pathinfo($file, PATHINFO_EXTENSION);
 
-        if(in_array($type, $this->getFileTypes()))
+        if(in_array($type, $this->getFileTypes()) && $this->loadFile($url))
         {
-            if($this->loadFile($url))
-            {
-                $data = array_merge((array) $this->getData(), $data);
-                $result = $this->render($data);
-            }
+            $data = array_merge((array) $this->getData(), $data);
+            $result = $this->render($data);
         }
         else  $result = $this->getTemplate()->loadFile($file)->render($data);
 
