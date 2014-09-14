@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -14,10 +14,10 @@ use Nooku\Library;
  *
  * Obfuscates email address using JavaScript for preventing bot email address harvesting.
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
+class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract
 {
     /**
      * Determines if email address should be linked
@@ -64,7 +64,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         return $result;
     }
 
-    public function render(&$text)
+    public function filter(&$text)
     {
         // Search for <a href="mailto:|http(s)://mce_host/dir/email@email.tld">
         $pattern = '~<a[^>]*href\s*=\s*"(?:mailto:|https?://.+?)';
@@ -154,7 +154,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         $output .= "\n document.write( '<span style=\'display: none;\'>' );";
         $output .= "\n //-->";
         $output .= "\n </script>";
-        $output .= $this->translate('CLOAKING');
+        $output .= $this->getObject('translator')->translate('Cloaking');
         $output .= "\n <script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n document.write( '</' );";

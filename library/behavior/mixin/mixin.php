@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Behaviors are attached in FIFO order during construction. Behaviors are added by name and, at runtime behaviors
  * cannot be overridden by attaching a behaviors with the same.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Behavior
  */
 class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
@@ -80,13 +80,16 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
     public function addBehavior($behavior, $config = array())
     {
         //Create the complete identifier if a partial identifier was passed
-        if (is_string($behavior) && strpos($behavior, '.') === false) {
+        if (is_string($behavior) && strpos($behavior, '.') === false)
+        {
             $identifier         = $this->getIdentifier()->toArray();
             $identifier['path'] = array($identifier['path'][0], 'behavior');
             $identifier['name'] = $behavior;
 
             $identifier = $this->getIdentifier($identifier);
-        } else {
+        }
+        else
+        {
             if ($behavior instanceof BehaviorInterface) {
                 $identifier = $behavior->getIdentifier();
             } else {
@@ -98,7 +101,8 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
         if (!$this->hasCommandHandler($identifier))
         {
             //Create the behavior object
-            if (!($behavior instanceof BehaviorInterface)) {
+            if (!($behavior instanceof BehaviorInterface))
+            {
                 $config['mixer'] = $this->getMixer();
                 $behavior        = $this->getObject($identifier, $config);
             }

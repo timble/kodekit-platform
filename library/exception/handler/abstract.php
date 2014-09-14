@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Exception Handler
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Exception
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Exception|Handler\Abstract
  */
 class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterface
 {
@@ -32,11 +32,11 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     private $__exceptions;
 
     /**
-     * The error level.
+     * The error reporting.
      *
      * @var int
      */
-    protected $_error_level;
+    protected $_error_reporting;
 
     /**
      * If this setting is false, the @ (shut-up) error control operator will be ignored so that notices, warnings and
@@ -77,8 +77,8 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             $this->_last_unhandled_error = md5(serialize($error));
         }
 
-        //Set the error level
-        $this->setErrorLevel($config->error_level);
+        //Set the errors to handle
+        $this->setErrorReporting($config->error_reporting);
 
         //Add handlers
         foreach($config->exception_handlers as $handler) {
@@ -108,7 +108,7 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
         $config->append(array(
             'exception_handlers' => array(),
             'exception_type'     => self::TYPE_ALL,
-            'exception_level'    => self::ERROR_REPORTING,
+            'error_reporting'    => self::ERROR_REPORTING,
             'error_operator'     => true
         ));
 
@@ -243,23 +243,23 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     }
 
     /**
-     * Set the error level
+     * Set which PHP errors are handled
      *
      * @param int $level If NULL, will reset the level to the system default.
      */
-    public function setErrorLevel($level)
+    public function setErrorReporting($level)
     {
-        $this->_error_level = null === $level ? error_reporting() : $level;
+        $this->_error_reporting = null === $level ? error_reporting() : $level;
     }
 
     /**
-     * Get the error level
+     * Get the PHP errors that are being handled
      *
      * @return int The error level
      */
-    public function getErrorLevel()
+    public function getErrorReporting()
     {
-        return $this->_error_level;
+        return $this->_error_reporting;
     }
 
     /**
@@ -278,7 +278,7 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             //Try to handle the exception
             foreach($this->getHandlers() as $handler)
             {
-                if(call_user_func($handler, $exception) === true)
+                if(call_user_func_array($handler, array(&$exception)) === true)
                 {
                     $this->__exceptions->push($exception);
                     return true;
@@ -365,9 +365,12 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
              */
             if (!($this->_error_operator && error_reporting() === 0))
             {
-                if ($this->getErrorLevel() & $level)
+                if ($this->getErrorReporting() & $level)
                 {
-                    $exception = new ExceptionError($message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line);
+                    $exception = new ExceptionError(
+                        $message, HttpResponse::INTERNAL_SERVER_ERROR, $level, $file, $line
+                    );
+
                     $result = $this->handleException($exception);
                 }
             }
@@ -397,9 +400,12 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             {
                 $level = $error['type'];
 
-                if ($this->getErrorLevel() & $level)
+                if ($this->getErrorReporting() & $level)
                 {
-                    $exception = new ExceptionFailure($error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']);
+                    $exception = new ExceptionFailure(
+                        $error['message'], HttpResponse::INTERNAL_SERVER_ERROR, $level, $error['file'], $error['line']
+                    );
+
                     $this->handleException($exception);
                 }
             }

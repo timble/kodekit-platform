@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Abstract Database Adapter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Database
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Database\Adapter\Abstract
  */
 abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface, ObjectMultiton
 {
@@ -102,11 +102,13 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             $this->setCharset($config->charset);
         }
 
-        // Set the connection options
-        $this->_options = $config->options;
-
         // Mixin the command interface
         $this->mixin('lib:command.mixin', $config);
+
+        //Auto connect to the database
+        if($config->auto_connect) {
+            $this->connect();
+        }
     }
 
     /**
@@ -130,10 +132,10 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'options'          => array(),
             'charset'          => 'UTF8',
             'command_chain'    => 'lib:command.chain',
             'connection'       => null,
+            'auto_connect'     => false,
         ));
 
         parent::_initialize($config);
@@ -466,8 +468,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch the first field of the first row
      *
-     * @param   mysqli_result   $result The result object. A result set identifier returned by the select() function
-     * @param   integer         $key    The index to use
+     * @param  \mysqli_result   $result The result object. A result set identifier returned by the select() function
+     * @param  integer         $key    The index to use
      * @return The value returned in the query or null if the query failed.
      */
     abstract protected function _fetchField($result, $key = 0);
@@ -475,7 +477,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch an array of single field results
      *
-     * @param   mysqli_result   $result The result object. A result set identifier returned by the select() function
+     * @param   \mysqli_result   $result The result object. A result set identifier returned by the select() function
      * @param   integer         $key    The index to use
      * @return  array           A sequential array of returned rows.
      */
@@ -484,7 +486,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch the first row of a result set as an associative array
      *
-     * @param   mysqli_result   $sql The result object. A result set identifier returned by the select() function
+     * @param  \mysqli_result   $sql The result object. A result set identifier returned by the select() function
      * @return array
      */
     abstract protected function _fetchArray($sql);
@@ -495,7 +497,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * of the database key.  Returns <var>null</var> if the query fails.
      *
-     * @param   mysqli_result   $result The result object. A result set identifier returned by the select() function
+     * @param   \mysqli_result   $result The result object. A result set identifier returned by the select() function
      * @param   string          $key    The column name of the index to use
      * @return  array   If key is empty as sequential list of returned records.
      */
@@ -504,7 +506,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Fetch the first row of a result set as an object
      *
-     * @param   mysqli_result  $result The result object. A result set identifier returned by the select() function
+     * @param   \mysqli_result  $result The result object. A result set identifier returned by the select() function
      * @param object
      */
     abstract protected function _fetchObject($result);
@@ -515,7 +517,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * of the database key.  Returns <var>null</var> if the query fails.
      *
-     * @param   mysqli_result  $result The result object. A result set identifier returned by the select() function
+     * @param   \mysqli_result  $result The result object. A result set identifier returned by the select() function
      * @param   string         $key    The column name of the index to use
      * @return  array   If <var>key</var> is empty as sequential array of returned rows.
      */

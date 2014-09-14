@@ -36,15 +36,15 @@ INSERT INTO `categories` (`categories_category_id`, `parent_id`, `attachments_at
 
 INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`, `uuid`)
 VALUES
-  (29, 1, 0, 'Articles', 'articles', 'option=com_articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\ncommentable=\"0\"\npage_title=\"\"', 'f8338fa3-d131-11e3-ab9f-080027880ca6'),
-  (30, 1, 0, 'Blog', 'blog', 'option=com_articles&view=articles&category=2', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\ncommentable=\"0\"\npage_title=\"\"', 'f833926e-d131-11e3-ab9f-080027880ca6'),
-  (31, 1, 0, 'Table', 'table', 'option=com_articles&view=articles&category=2&layout=table', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"10\"\nsort_by=\"newest\"\nshow_description=\"0\"\nshow_description_image=\"0\"\nshow_date=\"0\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\ncommentable=\"0\"\npage_title=\"\"', 'f833936c-d131-11e3-ab9f-080027880ca6'),
-  (37, 1, 0, 'Gallery', 'gallery', 'option=com_files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 'files', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"', 'f8339775-d131-11e3-ab9f-080027880ca6'),
-  (38, 1, 0, 'Table', 'table', 'option=com_files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 'files', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"', 'f8339841-d131-11e3-ab9f-080027880ca6'),
-  (39, 3, 0, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 0, 0, 'users', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"', 'f8339905-d131-11e3-ab9f-080027880ca6'),
-  (40, 4, 0, 'Search', 'search', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"', 'f83399ce-d131-11e3-ab9f-080027880ca6'),
-  (41, 3, 0, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 0, 0, 'users', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'f8339a94-d131-11e3-ab9f-080027880ca6'),
-  (42, 1, 0, 'Files', 'files', 'option=com_articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '', '027d0f80-a509-4448-b35d-429ea5259895');
+  (29, 1, 0, 'Articles', 'articles', 'component=articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\ncommentable=\"0\"\npage_title=\"\"', 'f8338fa3-d131-11e3-ab9f-080027880ca6'),
+  (30, 1, 0, 'Blog', 'blog', 'component=articles&view=articles&category=2', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\ncommentable=\"0\"\npage_title=\"\"', 'f833926e-d131-11e3-ab9f-080027880ca6'),
+  (31, 1, 0, 'Table', 'table', 'component=articles&view=articles&category=2&layout=table', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"10\"\nsort_by=\"newest\"\nshow_description=\"0\"\nshow_description_image=\"0\"\nshow_date=\"0\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\ncommentable=\"0\"\npage_title=\"\"', 'f833936c-d131-11e3-ab9f-080027880ca6'),
+  (37, 1, 0, 'Gallery', 'gallery', 'component=files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 'files', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"', 'f8339775-d131-11e3-ab9f-080027880ca6'),
+  (38, 1, 0, 'Table', 'table', 'component=files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 'files', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'show_folders=\"1\"\nhumanize_filenames=\"1\"\nlimit=\"-1\"\nsort=\"name\"\ndirection=\"asc\"\npage_title=\"\"', 'f8339841-d131-11e3-ab9f-080027880ca6'),
+  (39, 3, 0, 'Login', 'login', 'component=users&view=session', NULL, 'component', 1, 0, 0, 'users', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'description_login_text=\"\"\npage_title=\"\"', 'f8339905-d131-11e3-ab9f-080027880ca6'),
+  (40, 4, 0, 'Search', 'search', 'component=articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, 'page_title=\"\"', 'f83399ce-d131-11e3-ab9f-080027880ca6'),
+  (41, 3, 0, 'User', 'user', 'component=users&view=user', NULL, 'component', 1, 0, 0, 'users', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'f8339a94-d131-11e3-ab9f-080027880ca6'),
+  (42, 1, 0, 'Files', 'files', 'component=articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '', '027d0f80-a509-4448-b35d-429ea5259895');
 
 --
 -- Dumping data for table `pages_orderings`
@@ -67,6 +67,7 @@ VALUES
   (42, 38, 1),
   (42, 42, 0);
 
+
 --
 -- Dumping data for table `pages_menus`
 --
@@ -82,11 +83,11 @@ INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `des
 
 INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
 VALUES
-  (2, 'User Menu', '', 4, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 'pages', 'site', 'f833f4bc-d131-11e3-ab9f-080027880ca6'),
-  (3, 'Login Form', '', 5, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'mod_login', 0, 'show_title=1', 'users', 'site', 'f833f7cd-d131-11e3-ab9f-080027880ca6'),
-  (4, 'Search', '', 3, 'user4', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'mod_search', 0, 'form_class=navbar-search form-search pull-right\ninput_class=span2 search-query\nitem_id=40', 'articles', 'site', 'f833f87d-d131-11e3-ab9f-080027880ca6'),
-  (5, 'Breadcrumbs', '', 1, 'breadcrumb', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 'pages', 'site', 'f833f90b-d131-11e3-ab9f-080027880ca6'),
-  (6, 'Left Menu', '', 6, 'left', 1, '2014-05-01 14:47:37', NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=0\nclass=nav nav-pills nav-stacked\nstart_level=2', 'pages', 'site', 'af9430dc-3bc8-41dc-8e26-ef370e869bbb');
+  (2, 'User Menu', '', 4, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 'pages', 'site', 'f833f4bc-d131-11e3-ab9f-080027880ca6'),
+  (3, 'Login Form', '', 5, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'login', 0, 'show_title=1', 'users', 'site', 'f833f7cd-d131-11e3-ab9f-080027880ca6'),
+  (4, 'Search', '', 3, 'user4', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'search', 0, 'form_class=navbar-search form-search pull-right\ninput_class=span2 search-query\nitem_id=40', 'articles', 'site', 'f833f87d-d131-11e3-ab9f-080027880ca6'),
+  (5, 'Breadcrumbs', '', 1, 'breadcrumb', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 'pages', 'site', 'f833f90b-d131-11e3-ab9f-080027880ca6'),
+  (6, 'Left Menu', '', 6, 'left', 1, '2014-05-01 14:47:37', NULL, NULL, NULL, NULL, 1, 'menu', 0, 'menu_id=1\nshow_title=0\nclass=nav nav-pills nav-stacked\nstart_level=2', 'pages', 'site', 'af9430dc-3bc8-41dc-8e26-ef370e869bbb');
 
 --
 -- Dumping data for table `pages_modules`

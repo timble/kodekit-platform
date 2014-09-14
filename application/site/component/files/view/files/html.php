@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,7 +13,7 @@ use Nooku\Component\Files;
 /**
  * Files Html View
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Component\Files
  */
 class FilesViewFilesHtml extends Files\ViewFilesHtml
@@ -25,7 +25,7 @@ class FilesViewFilesHtml extends Files\ViewFilesHtml
         $context->data->sitebase = (string) $base;
 
         // FIXME: take out the hardcoded Itemid
-        $base->setQuery(array('option' => 'com_files', 'Itemid' => 56));
+        $base->setQuery(array('component' => 'files', 'Itemid' => 56));
         $this->getObject('application')->getRouter()->build($base);
 
         $context->data->base = (string) $base;

@@ -131,7 +131,7 @@ EJS.Helpers.prototype.select_tag = function(name, value, choices, html_options) 
         var optionOptions = {value: choice.value}
         if(choice.value == value)
             optionOptions.selected ='selected'
-        txt += this.start_tag_for('option', optionOptions )+choice.text+this.tag_end('option')
+        txt += this.start_tag_for('component', optionOptions )+choice.text+this.tag_end('component')
     }
     txt += this.tag_end('select');
     return txt;

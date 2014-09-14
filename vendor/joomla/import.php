@@ -32,6 +32,3 @@ JLoader::import( 'joomla.factory' 				);
 //Error
 JLoader::import( 'joomla.error.error' 			);
 JLoader::import( 'joomla.error.exception' 		);
-
-//Register class that don't follow one file per class naming conventions
-JLoader::register('JText' , dirname(__FILE__).DS.'methods.php');

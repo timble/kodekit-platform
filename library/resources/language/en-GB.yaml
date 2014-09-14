@@ -1,0 +1,99 @@
+# Nooku Platform - http://www.nooku.org/platform
+#
+# @copyright  Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link       https://github.com/nooku/nooku-platform for the canonical source repository
+
+Locked by {user} {date}: Locked by {user} {date}
+Deleted items will be lost forever. Would you like to continue?: Deleted items will
+  be lost forever. Would you like to continue?
+Yesterday: Yesterday
+Tomorrow: Tomorrow
+Just now: Just now
+Loading...: Loading...
+Long Date Format: l, d F Y H:i
+Never: Never
+Go: Go
+Reset: Reset
+Click to sort by this column: Click to sort by this column
+Enabled: Enabled
+Disabled: Disabled
+Disable Item: Disable Item
+Enable Item: Enable Item
+Public: Public
+Registered: Registered
+Published: Published
+Draft: Draft
+Select Time Zone: Select Time Zone
+Display NUM: Display NUM
+Page: Page
+of: of
+
+'{number} second ago': '{number} second ago'
+'{number} second from now': '{number} second from now'
+'{number} seconds ago': '{number} seconds ago'
+'{number} seconds from now': '{number} seconds from now'
+'{number} minute ago': '{number} minute ago'
+'{number} minute from now': '{number} minute from now'
+'{number} minutes ago': '{number} minutes ago'
+'{number} minutes from now': '{number} minutes from now'
+'{number} hour ago': '{number} hour ago'
+'{number} hour from now': '{number} hour from now'
+'{number} hours ago': '{number} hours ago'
+'{number} hours from now': '{number} hours from now'
+'{number} day ago': '{number} day ago'
+'{number} day from now': '{number} day from now'
+'{number} days ago': '{number} days ago'
+'{number} days from now': '{number} days from now'
+'{number} week ago': '{number} week ago'
+'{number} week from now': '{number} week from now'
+'{number} weeks ago': '{number} weeks ago'
+'{number} weeks from now': '{number} weeks from now'
+'{number} month ago': '{number} month ago'
+'{number} month from now': '{number} month from now'
+'{number} months ago': '{number} months ago'
+'{number} months from now': '{number} months from now'
+'{number} year ago': '{number} year ago'
+'{number} year from now': '{number} year from now'
+'{number} years ago': '{number} years ago'
+'{number} years from now': '{number} years from now'
+Sat: Sat
+Saturday: Saturday
+Sun: Sun
+Sunday: Sunday
+Mon: Mon
+Monday: Monday
+Tue: Tue
+Tuesday: Tuesday
+Wed: Wed
+Wednesday: Wednesday
+Thu: Thu
+Thursday: Thursday
+Fri: Fri
+Friday: Friday
+January short: Jan
+January: January
+February short: Feb
+February: February
+March short: Mar
+March: March
+April short: Apr
+April: April
+May short: May
+May: May
+June short: Jun
+June: June
+July short: Jul
+July: July
+August short: Aug
+August: August
+September short: Sep
+September: September
+October short: Oct
+October: October
+Novermber short: Nov
+November: November
+December short: Dec
+December: December
+Timestamp Date Format: D d/m/Y - G:i
+Short Date Format: j M Y

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Behavior Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateHelperBehavior extends TemplateHelperAbstract
@@ -41,7 +41,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $config = new ObjectConfig($config);
 
-            $html .= '<script src="assets://js/mootools.js" />';
+            $html .= '<ktml:script src="assets://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
         }
 
@@ -66,8 +66,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['modal'])) {
-            $html .= '<script src="assets://js/modal.js" />';
-            $html .= '<style src="assets://css/modal.css" />';
+            $html .= '<ktml:script src="assets://js/modal.js" />';
+            $html .= '<ktml:style src="assets://css/modal.css" />';
 
             self::$_loaded['modal'] = true;
         }
@@ -144,8 +144,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['overlay']))
         {
-            $html .= '<script src="assets://js/koowa.js" />';
-            $html .= '<style src="assets://css/koowa.css" />';
+            $html .= '<ktml:script src="assets://js/koowa.js" />';
+            $html .= '<ktml:style src="assets://css/koowa.css" />';
 
             self::$_loaded['overlay'] = true;
         }
@@ -172,7 +172,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $options = $config->options->toArray() ? ', ' . $config->options : '';
         $html .= "<script>window.addEvent('domready', function(){new Koowa.Overlay('$id'" . $options . ");});</script>";
 
-        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . $this->translate('Loading...') . '</div></div>';
+        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . $this->getObject('translator')->translate('Loading...'). '</div></div>';
         return $html;
     }
 
@@ -189,7 +189,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $config = new ObjectConfigJson($config);
         $config->append(array(
             'refresh' => 15 * 60000, //default refresh is 15min
-            'url'     => $this->getTemplate()->getView()->getRoute('', false, false),
+            'url'     => $this->getTemplate()->route('', false, false),
         ));
 
         $html = '';
@@ -254,8 +254,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['validator'])) {
-            $html .= '<script src="assets://js/validator-1.2.js" />';
-            $html .= '<script src="assets://js/patch.validator.js" />';
+            $html .= '<ktml:script src="assets://js/validator-1.2.js" />';
+            $html .= '<ktml:script src="assets://js/patch.validator.js" />';
 
             self::$_loaded['validator'] = true;
         }
@@ -329,8 +329,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         if (!isset($config->url))
         {
             $identifier = $this->getIdentifier($config->identifier);
-            $config->url = $this->getTemplate()->getView()->getRoute(
-                'option=com_' . $identifier->package . '&view=' . $identifier->name . '&format=json', false, false
+            $config->url = $this->getTemplate()->route(
+                'component=' . $identifier->package . '&view=' . $identifier->name . '&format=json', false, false
             );
         }
 
@@ -338,14 +338,14 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['autocomplete'])) {
-            $html .= '<script src="assets://js/autocomplete.js" />';
-            $html .= '<script src="assets://js/patch.autocomplete.js" />';
-            $html .= '<style src="assets://css/autocomplete.css" />';
+            $html .= '<ktml:script src="assets://js/autocomplete.js" />';
+            $html .= '<ktml:script src="assets://js/patch.autocomplete.js" />';
+            $html .= '<ktml:style src="assets://css/autocomplete.css" />';
         }
 
         $html .= "
 		<script>
-			window.addEvent('domready', function(){				
+			window.addEvent('domready', function(){
 				new Koowa.Autocomplete($('" . $config->element . "'), " . json_encode((string)$config->url) . ", " . $config->options . ");
 			});
 		</script>";
@@ -371,8 +371,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     {
         $config = new ObjectConfigJson($config);
         $config->append(array(
-            'option'	=> 'com_'.$this->getIdentifier()->getPackage(),
-            'view'		=> StringInflector::singularize($this->getTemplate()->getView()->getName()),
+            'component'	=> $this->getIdentifier()->getPackage(),
+            'view'		=> StringInflector::singularize($this->getTemplate()->getIdentifier()->getName()),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc',
             'url'       => '?format=json'
@@ -403,8 +403,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
-                <script src=\"/administrator/theme/default/js/sortables.js\" />
-                <style src=\"/administrator/theme/default/stylesheets/sortables.css\" />
+                <ktml:script src=\"/administrator/theme/default/js/sortables.js\" />
+                <ktml:style src=\"/administrator/theme/default/stylesheets/sortables.css\" />
 				<script>
 				(function(){
 					var sortable = function() {
@@ -443,8 +443,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['inline_editing']))
         {
-            $html .= '<script src="assets://application/js/jquery.js" />';
-            $html .= '<script src="assets://ckeditor/ckeditor/ckeditor.js" />';
+            $html .= '<ktml:script src="assets://application/js/jquery.js" />';
+            $html .= '<ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />';
 
             self::$_loaded['inline_editing'] = true;
         }

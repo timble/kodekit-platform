@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -81,7 +81,7 @@ namespace Nooku\Library;
  * ?>
  * </code>
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 class HttpUrl extends Object implements HttpUrlInterface
@@ -212,7 +212,7 @@ class HttpUrl extends Object implements HttpUrlInterface
         parent::__construct($config);
 
         //Set the escaping behavior
-        $this->_escape = $config->escape;
+        $this->setEscape($config->escape);
 
         //Set the url
         $this->setUrl($config->url);
@@ -435,13 +435,14 @@ class HttpUrl extends Object implements HttpUrlInterface
     /**
      * Returns the query portion as a string or array
      *
-     * @param   boolean $toArray If TRUE return an array. Default FALSE
-     * @param   boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @param   boolean      $toArray If TRUE return an array. Default FALSE
+     * @param   boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getQuery($toArray = false, $escape = false)
+    public function getQuery($toArray = false, $escape = null)
     {
         $result = $this->_query;
+        $escape = isset($escape) ? (bool) $escape : $this->getEscape();
 
         if(!$toArray)
         {
@@ -531,6 +532,28 @@ class HttpUrl extends Object implements HttpUrlInterface
     }
 
     /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * @return HttpUrl
+     */
+    public function setEscape($escape)
+    {
+        $this->_escape = (bool) $escape;
+        return $this;
+    }
+
+    /**
+     * Get the escape setting
+     *
+     * @return bool
+     */
+    public function getEscape()
+    {
+        return $this->_escape;
+    }
+
+    /**
      * Build the url from an array
      *
      * @param   string  $array Associative array like parse_url() returns.
@@ -569,12 +592,14 @@ class HttpUrl extends Object implements HttpUrlInterface
     /**
      * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param integer      $parts   A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string
      */
-    public function toString($parts = self::FULL)
+    public function toString($parts = self::FULL, $escape = null)
     {
         $url = '';
+        $escape = isset($escape) ? (bool) $escape : $this->getEscape();
 
         //Add the scheme
         if (($parts & self::SCHEME) && !empty($this->scheme)) {
@@ -612,8 +637,11 @@ class HttpUrl extends Object implements HttpUrlInterface
             }
         }
 
-        if (($parts & self::QUERY) && !empty($this->_query)) {
-            $url .= '?' . $this->getQuery(false, $this->_escape);
+        if (($parts & self::QUERY) && !empty($this->_query))
+        {
+            if($query = $this->getQuery(false, $escape)) {
+                $url .= '?' . $query;
+            }
         }
 
         if (($parts & self::FRAGMENT) && trim($this->fragment) !== '') {

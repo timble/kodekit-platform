@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
@@ -286,7 +286,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      *
      * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param  array $config     An optional associative array of configuration settings.
-     * @return ObjectInterface  Return object on success, throws exception on failure
+     * @return ObjectInterface|Callable  Return object on success, throws exception on failure
      */
     final public function getObject($identifier, array $config = array())
     {
@@ -323,7 +323,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @param  mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectConfig
      */
-    public function getConfig($identifier = null)
+    final public function getConfig($identifier = null)
     {
         if (isset($identifier)) {
             $result = $this->__object_manager->getIdentifier($identifier)->getConfig();

@@ -63,7 +63,7 @@ window.addEvent('domready', function() {
    		} else if('install' == elem.value) {
    			enableFieldset('lang_details', false);
    			enableButtons(false);
-   			top.location = 'option=com_installer';
+   			top.location = 'commponent=installer';
   		} else if('' == elem.value) {
   			enableFieldset('lang_details', false);
   			enableButtons(false);

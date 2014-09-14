@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * List Template Helper
  *
- * @author   Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author   Tom Janssens <http://github.com/tomjanssens>
  * @package  Nooku\Component\Pages
  */
 class TemplateHelperList extends Library\TemplateHelperAbstract
@@ -33,6 +33,7 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
         $last_level = 0;
 
         $pages = clone $config->pages;
+
         // We use a CachingIterator to peek ahead to the next item so that we can properly close elements
         $collection = new \CachingIterator($pages->getIterator(), \CachingIterator::TOSTRING_USE_KEY);
 
@@ -91,7 +92,7 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getTemplate()->getView()->getRoute($page->getLink()->getQuery());
+                    $link = $this->getTemplate()->route($page->getLink()->getQuery());
                     $result .= '<a href="'.(string) $link.'">';
                     $result .= $page->title;
                     $result .= '</a>';

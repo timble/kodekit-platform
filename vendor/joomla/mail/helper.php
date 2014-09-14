@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 /**
  * E-Mail helper class, provides static methods to perform various tasks relevant
  * to the Joomla e-mail routines.

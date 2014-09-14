@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Behavior defines 'save', 'apply' and cancel functions. Functions are only executable if the request format is
  * 'html'. For other formats, eg json use 'edit' and 'read' actions directly.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerBehaviorEditable extends ControllerBehaviorAbstract
@@ -153,9 +153,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $controller = $this->getMixer();
         $identifier = $controller->getIdentifier();
 
-        $option   = 'com_' . $identifier->package;
-        $view     = StringInflector::pluralize($identifier->name);
-        $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
+        $component = $identifier->package;
+        $view      = StringInflector::pluralize($identifier->name);
+        $referrer  = $controller->getView()->getRoute('component=' . $component . '&view=' . $view, true, false);
 
         return $this->getObject('lib:http.url', array('url' => $referrer));
     }
@@ -432,10 +432,11 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             //Prevent a re-render of the message
             if($context->request->getUrl() != $context->request->getReferrer())
             {
-                $user = $this->getObject('user.provider')->load($entity->locked_by);
+                $user = $entity->getLocker();
                 $date = $this->getObject('lib:date',array('date' => $entity->locked_on));
 
-                $message = \JText::sprintf('Locked by %s %s', $user->getName(), $date->humanize());
+                $message = $this->getObject('translator')->translate('Locked by {user} {date}',
+                    array('user' => $user->get('name'), 'date' => $date->humanize()));
 
                 $context->response->addMessage($message, 'notice');
             }

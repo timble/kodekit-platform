@@ -11,7 +11,6 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-defined('JPATH_BASE') or die();
 /** boolean True if a Windows based host */
 define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
 /** boolean True if a Mac based host */
@@ -20,11 +19,6 @@ define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 if (!defined('DS')) {
 	/** string Shortcut for the DIRECTORY_SEPARATOR define */
 	define('DS', DIRECTORY_SEPARATOR);
-}
-
-if (!defined('JPATH_ROOT')) {
-	/** string The root directory of the file system in native format */
-	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
 }
 
 /**
@@ -150,7 +144,7 @@ class JPath
 			jexit();
 		}
 		$path = JPath::clean($path);
-		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0) {
+		if (strpos($path, JPath::clean(APPLICATION_ROOT)) !== 0) {
 			JError::raiseError( 20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
 			jexit();
 		}
@@ -170,7 +164,7 @@ class JPath
 		$path = trim($path);
 
 		if (empty($path)) {
-			$path = JPATH_ROOT;
+			$path = APPLICATION_ROOT;
 		} else {
 			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
@@ -194,7 +188,7 @@ class JPath
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');
-		$jtp = JPATH_SITE.DS.'tmp';
+		$jtp = APPLICATION_ROOT.DS.'tmp';
 
 		// Try to find a writable directory
 		$dir = is_writable('/tmp') ? '/tmp' : false;

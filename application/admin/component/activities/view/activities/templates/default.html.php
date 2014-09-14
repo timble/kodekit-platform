@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
@@ -31,14 +31,14 @@
 		<tfoot>
 			<tr>
 				<td colspan="3">
-					<?= helper('com:application.paginator.pagination', array('total' => $total)) ?>
+					<?= helper('com:application.paginator.pagination') ?>
 				</td>
 			</tr>
 		</tfoot>
 		<tbody>
 		<? $date = $old_date = '';   ?>
-		<? foreach ($activities as $activity) : ?>	
-	        <? $date = date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
+		<? foreach ($activities as $activity) : ?>
+	        <? $date = helper('date.format', array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
 	        <tr class="no-hover separator">
@@ -53,7 +53,7 @@
 				</td>
 
 				<td align="left">
-			        <?= date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
+			        <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>
 				</td>
 
 				<td>

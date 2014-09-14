@@ -12,9 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 /**
  * Parameter base class
  *
@@ -84,7 +81,7 @@ class JElement extends JObject
 
 	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
-		$output = '<label for="'.$control_name.$name.'" class="control-label">'.JText::_( $label ).'</label>';
+		$output = '<label for="'.$control_name.$name.'" class="control-label">'. $label .'</label>';
 
 		return $output;
 	}

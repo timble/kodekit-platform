@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Template Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 abstract class TemplateFilterAbstract extends Object implements TemplateFilterInterface
@@ -29,22 +29,21 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      *
      * @var TemplateInterface
      */
-    protected $_template;
+    private $__template;
 
     /**
      * Constructor.
      *
      * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @throws \UnexpectedValueException    If no 'template' config option was passed
+     * @throws \InvalidArgumentException    If the model config option does not implement TemplateInterface
      */
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        // Set the template object
-        $this->setTemplate($config->template);
-
+        $this->__template = $config->template;
         $this->_priority = $config->priority;
-        $this->_template = $config->template;
     }
 
     /**
@@ -53,41 +52,15 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
-     * @return void
      */
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'template' => null,
-            'priority' => self::PRIORITY_NORMAL,
+            'template' => 'default',
+            'priority' => self::PRIORITY_NORMAL
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Translates a string and handles parameter replacements
-     *
-     * @param string $string String to translate
-     * @param array  $parameters An array of parameters
-     * @return string Translated string
-     */
-    public function translate($string, array $parameters = array())
-    {
-        return $this->getTemplate()->translate($string, $parameters);
-    }
-
-    /**
-     * Escape a string
-     *
-     * By default the function uses htmlspecialchars to escape the string
-     *
-     * @param string $string String to to be escape
-     * @return string Escaped string
-     */
-    public function escape($string)
-    {
-        return $this->getTemplate()->escape($string);
     }
 
     /**
@@ -101,24 +74,26 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     }
 
     /**
-     * Get the template object
+     * Gets the template object
      *
-     * @return TemplateInterface The template object
+     * @return  TemplateInterface	The template object
      */
     public function getTemplate()
     {
-        return $this->_template;
-    }
+        if(!$this->__template instanceof TemplateInterface)
+        {
+            if(empty($this->__template) || (is_string($this->__template) && strpos($this->__template, '.') === false) )
+            {
+                $identifier         = $this->getIdentifier()->toArray();
+                $identifier['path'] = array('template');
+                $identifier['name'] = $this->__template;
+            }
+            else $identifier = $this->getIdentifier($this->__template);
 
-    /**
-     * Set the template object
-     *
-     * @return  TemplateInterface $template	The template object
-     */
-    public function setTemplate(TemplateInterface $template)
-    {
-        $this->_template = $template;
-        return $this;
+            $this->__template = $this->getObject($identifier);
+        }
+
+        return $this->__template;
     }
 
     /**
@@ -137,9 +112,11 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
 
             preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-            if (is_array($attr)) {
+            if (is_array($attr))
+            {
                 $numPairs = count($attr[1]);
-                for ($i = 0; $i < $numPairs; $i++) {
+                for ($i = 0; $i < $numPairs; $i++)
+                {
                     $result[$attr[1][$i]] = $attr[2][$i];
                 }
             }
@@ -168,6 +145,15 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
             {
                 if (is_array($item)) {
                     $item = implode(' ', $item);
+                }
+
+                if (is_bool($item))
+                {
+                    if ($item === false) {
+                        continue;
+                    }
+
+                    $item = $key;
                 }
 
                 $output[] = $key . '="' . str_replace('"', '&quot;', $item) . '"';

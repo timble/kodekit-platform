@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * being filtered in case of an array of a Traversable object. If a filter does not implement FilterTraversable the data
  * will be passed directly to the filter.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable
@@ -72,10 +72,10 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     }
 
     /**
-     * Force creation of a singleton
+     * Instantiate the filter and decorate it if it implements the FilterTraversable interface.
      *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
+     * @param   ObjectConfig            $config   A ObjectConfig object with configuration options
+     * @param   ObjectManagerInterface	$manager  A ObjectInterface object
      * @return FilterInterface
      * @see KFilterTraversable
      */

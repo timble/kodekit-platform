@@ -1,11 +1,11 @@
 #!/usr/bin/env php
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,7 +13,7 @@ use Nooku\Library;
 /**
  * Sample data generator
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author      Gergo Erdosi <http://github.com/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Sample_Data
  */
@@ -35,14 +35,10 @@ function pick_random(array $array)
 }
 
 // Load application.
-define('JPATH_APPLICATION', realpath(__DIR__.'/../../code/administrator'));
-define('JPATH_BASE'       , JPATH_APPLICATION);
-define('JPATH_ROOT'       , dirname(JPATH_APPLICATION));
-define('JPATH_VENDOR'     , JPATH_ROOT.'/vendor' );
-define('JPATH_SITES'      , JPATH_ROOT.'/sites');
+define('APPLICATION_ROOT'       , dirname(realpath(__DIR__.'/../../code/administrator')));
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_APPLICATION.'/bootstrap.php';
+require_once APPLICATION_ROOT.'/bootstrap.php';
 
 $application =  Library\ObjectManager::getInstance()->getObject('com:application.dispatcher');
 $application->loadConfig(new Library\Command());

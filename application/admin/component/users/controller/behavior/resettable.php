@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,7 +13,7 @@ use Nooku\Component\Users;
 /**
  * Resettable Controller Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
@@ -24,8 +24,10 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
         if (!parent::_beforeToken($context))
         {
-            $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $url        = $context->request->getReferrer();
+            $translator = $this->getObject('translator');
+
+            $context->response->setRedirect($url, $translator('Invalid request'), 'error');
             $result = false;
         }
 
@@ -41,6 +43,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 'access'    => 0,
                 'link'      => array(array('view' => 'user'))));
 
+            $translator = $this->getObject('translator');
+
             if ($page)
             {
                 $token = $context->token;
@@ -51,24 +55,23 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $url->query['token']  = $token;
                 $url->query['uuid']   = $entity->uuid;
 
-                // TODO: This URL needs to be routed using the site app router.
+                // TODO: This is a frontend URL and we can't get a frontend router. To be solved.
                 $this->getObject('application')->getRouter()->build($url);
 
                 $url = $context->request->getUrl()
                                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site_name = \JFactory::getConfig()->getValue('sitename');
-                $subject   = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+                $site = $this->getObject('application')->getTitle();
 
-                // TODO Fix when language package is re-factored.
-                //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-                $message = $url;
+                $subject = $translator('Reset your password');
+                $message = $translator('Password reset instructions E-mail',
+                    array('name' => $entity->name, 'site' => $site, 'url' => $url));
 
                 if (!$entity->notify(array('subject' => $subject, 'message' => $message))) {
-                    $context->getResponse()->addMessage(JText::_('ERROR_SENDING_CONFIRMATION_MAIL'), 'notice');
+                    $context->getResponse()->addMessage($translator('Unable to send password reset E-mail'), 'notice');
                 }
             }
-            else $context->response->addMessage('Unable to get a password reset URL', 'error');
+            else $context->response->addMessage($translator('Unable to get a password reset URL'), 'error');
         }
     }
 }

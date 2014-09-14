@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Date
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Date
  */
 class Date extends Object implements DateInterface
@@ -38,11 +38,15 @@ class Date extends Object implements DateInterface
             $config->timezone = new \DateTimeZone($config->timezone);
         }
 
+        //Set the translator
+        $this->__translator = $config->translator;
+
+        //Set the date
         $this->_date = new \DateTime($config->date, $config->timezone);
     }
     
     /**
-     * Initializes the options for the date object
+     * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
@@ -52,20 +56,20 @@ class Date extends Object implements DateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-        	'date'     => 'now',
-            'timezone' => date_default_timezone_get()
+            'date'       => 'now',
+            'timezone'   => date_default_timezone_get(),
         ));
     }
 
     /**
-     * Returns date formatted according to given format.
+     * Returns the date formatted according to given format.
      *
      * @param  string $format The format to use
      * @return string The formatted date
      */
     public function format($format)
     {
-        $format = preg_replace_callback('/(?<!\\\)[DlFM]/', array($this, '_translate'), $format);
+        $format = preg_replace_callback('/(?<!\\\\)[DlFM]/', array($this, '_translate'), $format);
         return $this->_date->format($format);
     }
 
@@ -77,11 +81,13 @@ class Date extends Object implements DateInterface
      */
     public function humanize($period = 'second')
     {
+        $translator = $this->getObject('translator');
+
         $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
         $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
         $now     = new \DateTime();
 
-        if($now != $this)
+        if($now != $this->_date)
         {
             if($now->getTimestamp() > $this->getTimestamp())
             {
@@ -109,24 +115,25 @@ class Date extends Object implements DateInterface
                 $i          = $period_index;
             }
 
-            if($periods[$i] == 'day' && ($difference == 1 || $difference == 2))
+            if($periods[$i] == 'day' && $difference == 1)
             {
-                if($difference == 1) {
-                    $result = \JText::_('Today');
-                } else {
-                    $result = $tense == 'ago' ? \JText::_('Yesterday') : \JText::_('Tomorrow');
-                }
+                // Since we got 1 by rounding it down and if it's less than 24 hours it would say x hours ago, this
+                // is yesterday
+                return $tense == 'ago' ? $translator('Yesterday') : $translator('Tomorrow');
             }
-            else
-            {
-                if($difference != 1) {
-                    $periods[$i] .= 's';
-                }
 
-                $result = sprintf(\JText::_('%d '.$periods[$i].' '.$tense), $difference);
-            }
+            $period        = $periods[$i];
+            $period_plural = $period . 's';
+
+            // We do not pass $period or $tense as parameters to replace because some languages use different words
+            // for them based on the time difference.
+            $result = $translator->choose(
+                                 array("{number} $period $tense", "{number} $period_plural $tense"),
+                                     $difference,
+                                     array('number' => $difference)
+            );
         }
-        else $result = \JText::_('Now');
+        else $result = $translator('Just now');
 
         return $result;
     }
@@ -135,7 +142,7 @@ class Date extends Object implements DateInterface
      * Alters the timestamp
      *
      * @param string $modify A date/time string
-     * @return Date Returns the KDate object for method chaining or FALSE on failure.
+     * @return Date Returns the Date object or FALSE on failure.
      */
     public function modify($modify)
     {
@@ -198,7 +205,7 @@ class Date extends Object implements DateInterface
     /**
      * Return time zone relative to given DateTime
      *
-     * @return \DateTimeZone or FALSE on failure.
+     * @return \DateTimeZone Returns a \DateTimeZone object or FALSE on failure.
      */
     public function getTimezone()
     {
@@ -248,27 +255,30 @@ class Date extends Object implements DateInterface
      */
     protected function _translate($matches)
     {
-        switch ($matches[0]) 
+        $replacement = '';
+        $translator = $this->getObject('translator');
+
+        switch ($matches[0])
         {
             case 'D':
-                $replacement = \JText::_(strtoupper($this->_date->format('D')));
+                $replacement = $translator(strtoupper($this->_date->format('D')));
                 break;
 
             case 'l':
-                $replacement = \JText::_(strtoupper($this->_date->format('l')));
+                $replacement = $translator(strtoupper($this->_date->format('l')));
                 break;
 
             case 'F':
-                $replacement =  \JText::_(strtoupper($this->_date->format('F')));
+                $replacement = $translator(strtoupper($this->_date->format('F')));
                 break;
 
             case 'M':
-                $replacement =  \JText::_(strtoupper($this->_date->format('F').'_SHORT'));
+                $replacement = $translator(strtoupper($this->_date->format('F').' short'));
                 break;
         }
 
-        $replacement = preg_replace('/^([0-9])/', '\\\\\\\\\1', $replacement);
-        $replacement = preg_replace('/([a-z])/i', '\\\\\1', $replacement);
+        $replacement = preg_replace('/^([0-9])/', '$1', $replacement);
+        $replacement = preg_replace('/([a-z])/i', '$1', $replacement);
 
         return $replacement;
     }

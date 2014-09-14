@@ -1,16 +1,16 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
-<style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+<ktml:style src="assets://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
-<script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
+<ktml:script src="assets://files/plupload/plupload.core.html5.flash.queue.js" />
 
 <script>
 jQuery.noConflict();
@@ -448,7 +448,7 @@ window.addEvent('domready', function() {
     <div id="files-upload" style="clear: both" class="uploader-files-empty well">
 	<div style="text-align: center;">
 		<h3 style=" float: none">
-			<?= sprintf(translate('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
+			<?= translate('Upload files to {target}', array('target' => '<span id="upload-files-to"></span>')) ?>
 		</h3>
 	</div>
 	<div id="files-upload-controls">
@@ -457,7 +457,7 @@ window.addEvent('domready', function() {
 			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= translate('Computer'); ?></a></li>
 			<li><a class="upload-form-toggle target-web" href="#web"><?= translate('Web'); ?></a></li>
 			<li id="upload-max">
-                <?= str_replace('%size%', '<span id="upload-max-size"></span>',  translate('Each file should be smaller than %size%')) ?>
+                <?=  translate('Each file should be smaller than {size}', array('size' => '<span id="upload-max-size"></span>')) ?>
 			</li>
 		</ul>
 	</div>

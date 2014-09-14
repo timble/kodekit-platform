@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,11 +12,24 @@ namespace Nooku\Library;
 /**
  * Http Dispatcher
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
+    /**
+     * Constructor.
+     *
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        //Load the dispatcher translations
+        $this->addCommandCallback('before.dispatch', '_loadTranslations');
+    }
+
     /**
      * Initializes the options for the object
      *
@@ -56,6 +69,26 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         $instance  = new $class($config);
 
         return $instance;
+    }
+
+    /**
+     * Load the controller translations
+     *
+     * @param ControllerContextInterface $context
+     * @return void
+     */
+    protected function _loadTranslations(ControllerContextInterface $context)
+    {
+        $package = $this->getIdentifier()->package;
+        $domain  = $this->getIdentifier()->domain;
+
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$package;
+        } else {
+            $identifier = 'com:'.$package;
+        }
+
+        $this->getObject('translator')->load($identifier);
     }
 
     /**

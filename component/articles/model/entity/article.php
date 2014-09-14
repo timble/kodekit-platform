@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Articles;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Article Database Row
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Articles
  */
 class ModelEntityArticle extends Library\ModelEntityRow
@@ -42,7 +42,7 @@ class ModelEntityArticle extends Library\ModelEntityRow
         if(empty($this->title))
         {
             $this->_status          = self::STATUS_FAILED;
-            $this->_status_message  = \JText::_('Article must have a title');
+            $this->_status_message  = $this->getObject('translator')->translate('Article must have a title');
 
             return false;
         }

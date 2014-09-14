@@ -1,7 +1,7 @@
 /*
  Copyright 2012 Igor Vaynberg
 
- Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
+ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2014
 
  This software is licensed under the Apache License, Version 2.0 (the "Apache License") or the GNU
  General Public License version 2 (the "GPL License"). You may choose either license to govern your
@@ -1734,7 +1734,7 @@
         // abstract
         getPlaceholderOption: function() {
             if (this.select) {
-                var firstOption = this.select.children('option').first();
+                var firstOption = this.select.children('component').first();
                 if (this.opts.placeholderOption !== undefined ) {
                     //Determine the placeholder option based on the specified placeholderOption setting
                     return (this.opts.placeholderOption === "first" && firstOption) ||

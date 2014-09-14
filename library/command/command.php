@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Command Context
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
 class Command extends ObjectConfig implements CommandInterface
@@ -101,7 +101,7 @@ class Command extends ObjectConfig implements CommandInterface
      */
     public function setAttributes($attributes)
     {
-        if (!is_array($attributes) || $attributes instanceof \Traversable)
+        if (!is_array($attributes) && !$attributes instanceof \Traversable)
         {
             throw new \InvalidArgumentException(sprintf(
                 'Command attributes must be an array or an object implementing the Traversable interface; received "%s"', gettype($attributes)
@@ -154,37 +154,33 @@ class Command extends ObjectConfig implements CommandInterface
     }
 
     /**
-     * Set a command property
+     * Get a new instance
      *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return void
+     * @return ObjectConfig
      */
-    public function set($name, $value)
+    final public function getInstance()
     {
-        if (is_array($value)) {
-            $value = new ObjectConfig($value);
-        }
-
-        parent::set($name, $value);
+        $instance = new ObjectConfig(array(), $this->_readonly);
+        return $instance;
     }
 
     /**
-     * Get a command property or attribute
+     * Get an command property or attribute
      *
-     * If a command property exists the property will be returned, otherwise the attribute will be returned. If no
+     * If an event property exists the property will be returned, otherwise the attribute will be returned. If no
      * property or attribute can be found the method will return NULL.
      *
-     * @param  string $name
+     * @param  string $name    The property name
+     * @param  mixed  $default The default value
      * @return mixed|null  The property value
      */
-    public function __get($name)
+    final public function get($name, $default = null)
     {
-        $getter = 'get'.ucfirst($name);
-        if(method_exists($this, $getter)) {
-            $value = $this->$getter();
+        $method = 'get'.ucfirst($name);
+        if(!method_exists($this, $method) ) {
+            $value = parent::get($name);
         } else {
-            $value = parent::__get($name);
+            $value = $this->$method();
         }
 
         return $value;
@@ -193,19 +189,21 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Set a command property or attribute
      *
-     * If a command property exists the property will be set, otherwise an attribute will be added.
+     * If an event property exists the property will be set, otherwise an attribute will be added.
      *
      * @param  string $name
      * @param  mixed  $value
-     * @return void
+     * @return Command
      */
-    public function __set($name, $value)
+    final public function set($name, $value)
     {
-        $setter = 'set'.ucfirst($name);
-        if(method_exists($this, $setter)) {
-            $this->$setter($value);
+        $method = 'set'.ucfirst($name);
+        if(!method_exists($this, $method) ) {
+            parent::set($name, $value);
         } else {
-            parent::__set($name, $value);
+            $this->$method($value);
         }
+
+        return $this;
     }
 }

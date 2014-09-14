@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,17 +12,17 @@ namespace Nooku\Library;
 /**
  * Abstract Dispatcher
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 abstract class DispatcherAbstract extends ControllerAbstract implements DispatcherInterface
 {
-	/**
-	 * Controller object or identifier
-	 *
-	 * @var	string|object
-	 */
-	protected $_controller;
+    /**
+     * Controller object or identifier
+     *
+     * @var	string|object
+     */
+    protected $_controller;
 
     /**
      * List of authenticators
@@ -34,17 +34,17 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      */
     private $__authenticators;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
-	 */
-	public function __construct(ObjectConfig $config)
-	{
-		parent::__construct($config);
+    /**
+     * Constructor.
+     *
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
 
-		//Set the controller
-		$this->_controller = $config->controller;
+        //Set the controller
+        $this->_controller = $config->controller;
 
         //Add the authenticators
         $authenticators = (array) ObjectConfig::unbox($config->authenticators);
@@ -57,7 +57,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
                 $this->addAuthenticator($key, $value);
             }
         }
-	}
+    }
 
     /**
      * Initializes the options for the object
@@ -70,7 +70,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-        	'controller'     => $this->getIdentifier()->package,
+            'controller'     => $this->getIdentifier()->package,
             'request'        => 'dispatcher.request',
             'response'       => 'dispatcher.response',
             'authenticators' => array()
@@ -128,29 +128,29 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         return $this->_response;
     }
 
-	/**
-	 * Method to get a controller object
-	 *
+    /**
+     * Method to get a controller object
+     *
      * @throws	\UnexpectedValueException	If the controller doesn't implement the ControllerInterface
-	 * @return	ControllerAbstract
-	 */
-	public function getController()
-	{
+     * @return	ControllerAbstract
+     */
+    public function getController()
+    {
         if(!($this->_controller instanceof ControllerInterface))
-		{
-		    //Make sure we have a controller identifier
-		    if(!($this->_controller instanceof ObjectIdentifier)) {
-		        $this->setController($this->_controller);
-			}
+        {
+            //Make sure we have a controller identifier
+            if(!($this->_controller instanceof ObjectIdentifier)) {
+                $this->setController($this->_controller);
+            }
 
-		    $config = array(
-        		'request' 	 => $this->getRequest(),
+            $config = array(
+                'request' 	 => $this->getRequest(),
                 'user'       => $this->getUser(),
                 'response'   => $this->getResponse(),
-			    'dispatched' => true
-        	);
+                'dispatched' => true
+            );
 
-			$this->_controller = $this->getObject($this->_controller, $config);
+            $this->_controller = $this->getObject($this->_controller, $config);
 
             //Make sure the controller implements ControllerInterface
             if(!$this->_controller instanceof ControllerInterface)
@@ -159,47 +159,48 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
                     'Controller: '.get_class($this->_controller).' does not implement ControllerInterface'
                 );
             }
-		}
+        }
 
-		return $this->_controller;
-	}
+        return $this->_controller;
+    }
 
-	/**
-	 * Method to set a controller object attached to the dispatcher
-	 *
-	 * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
-	 * 					            or valid identifier string
-	 * @return	DispatcherAbstract
-	 */
-	public function setController($controller, $config = array())
-	{
-		if(!($controller instanceof ControllerInterface))
-		{
-			if(is_string($controller) && strpos($controller, '.') === false )
-		    {
-		        // Controller names are always singular
-			    if(StringInflector::isPlural($controller)) {
-				    $controller = StringInflector::singularize($controller);
-			    }
+    /**
+     * Method to set a controller object attached to the dispatcher
+     *
+     * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
+     * 					            or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
+     * @return	DispatcherAbstract
+     */
+    public function setController($controller, $config = array())
+    {
+        if(!($controller instanceof ControllerInterface))
+        {
+            if(is_string($controller) && strpos($controller, '.') === false )
+            {
+                // Controller names are always singular
+                if(StringInflector::isPlural($controller)) {
+                    $controller = StringInflector::singularize($controller);
+                }
 
-			    $identifier			= $this->getIdentifier()->toArray();
-			    $identifier['path']	= array('controller');
-			    $identifier['name']	= $controller;
+                $identifier			= $this->getIdentifier()->toArray();
+                $identifier['path']	= array('controller');
+                $identifier['name']	= $controller;
 
                 $identifier = $this->getIdentifier($identifier);
-			}
-		    else $identifier = $this->getIdentifier($controller);
+            }
+            else $identifier = $this->getIdentifier($controller);
 
             //Set the configuration
-            $identifier->setConfig($config);
+            $identifier->getConfig()->append($config);
 
-			$controller = $identifier;
-		}
+            $controller = $identifier;
+        }
 
-		$this->_controller = $controller;
+        $this->_controller = $controller;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Get the controller context

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,7 +13,7 @@ use Nooku\Component\Languages;
 /**
  * Grid Template Helper
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Languages
  */
 class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
@@ -26,17 +26,18 @@ class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
             'original' => 0,
             'deleted'  => 0
         ));
-    
-        $statuses = array(
-            ModelEntityTranslation::STATUS_COMPLETED => 'Completed',
-            ModelEntityTranslation::STATUS_MISSING   => 'Missing',
-            ModelEntityTranslation::STATUS_OUTDATED  => 'Outdated'
+
+        $translator = $this->getObject('translator');
+        $statuses   = array(
+            Languages\ModelEntityTranslation::STATUS_COMPLETED => 'Completed',
+            Languages\ModelEntityTranslation::STATUS_MISSING   => 'Missing',
+            Languages\ModelEntityTranslation::STATUS_OUTDATED  => 'Outdated'
         );
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];
         $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
         $class = $config->deleted  ? 'deleted'  : $class;
     
-        return '<span class="label label-'.$class.'">'.$this->translate($text).'</span>';
+        return '<span class="label label-'.$class.'">'.$translator($text).'</span>';
     }
 }

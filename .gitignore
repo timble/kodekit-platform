@@ -1,2 +1,5 @@
 .vagrant/
-config/config.php
+box.config.yaml
+config/bootstrapper.php
+
+/scripts/translations/vendor/

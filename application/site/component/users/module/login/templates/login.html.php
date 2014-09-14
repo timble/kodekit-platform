@@ -1,20 +1,20 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
-<?=helper('behavior.mootools')?>
-<?=helper('behavior.validator')?>
+<?= helper('behavior.mootools')?>
+<?= helper('behavior.validator')?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
-	<? if($module->getParameters()->get('show_title', false)) : ?>
-	<h3><?= $module->title ?></h3>
-	<? endif ?>
+    <? if($module->getParameters()->get('show_title', false)) : ?>
+        <h3><?= $module->title ?></h3>
+    <? endif ?>
 
 	<fieldset class="input">
 	<div class="form-group">
@@ -26,7 +26,7 @@
         <input id="modlgn_passwd" class="required form-control" type="password" name="password" />
         <? if ($user_route = helper('route.user', array('layout' => 'reset', 'access' => 0))): ?>
             <span class="help-block">
-                <a href="<?= $user_route ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a>
+                <a href="<?= $user_route ?>"><?= translate('Forgot your password?'); ?></a>
             </span>
         <? endif; ?>
 	</div>
