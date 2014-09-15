@@ -455,7 +455,10 @@ class FilterHtml extends FilterTidy
         $string = html_entity_decode($string, ENT_COMPAT, "UTF-8");
 
         // Convert decimal
-        $string = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $string);
+        $string = preg_replace_callback('/&#(\d+);/m',
+            function($matches){
+                return utf8_encode(chr($matches[1]));
+            }, $string);
 
         // Convert hex
         $string = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $string);
