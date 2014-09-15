@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Database Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
@@ -31,8 +31,8 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         $class     = $manager->getClass($config->object_identifier);
         $instance  = new $class($config);
 
-        //Lazy mix it into related row objects.
-        if ($config->row_mixin)
+        //Lazy mix behavior into related row objects. A supported behavior always has one is[Behaviorable] method.
+        if ($instance->isSupported() && $instance->getMixer() && count($instance->getMixableMethods()) > 1)
         {
             $identifier = $instance->getMixer()->getIdentifier()->toArray();
             $identifier['path'] = array('database', 'row');
@@ -112,7 +112,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public function getMixableMethods($exclude = array())
     {
-        $exclude +=  array('save', 'delete', 'getInstance');
+        $exclude = array_merge($exclude, array('getInstance', 'save', 'delete'));
         return parent::getMixableMethods($exclude);
     }
 }

@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
@@ -17,20 +17,20 @@ Files.base     = '<?= $base; ?>';
 Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
-	var config = <?= json_encode($state->config); ?>,
+	var config = <?= json_encode(parameters()->config); ?>,
 		options = {
             title: false,
 			state: {
 				defaults: {
-					limit: <?= (int) $state->limit; ?>,
-					offset: <?= (int) $state->offset; ?>,
-					types: <?= json_encode($state->types); ?>
+					limit: <?= (int) parameters()->limit; ?>,
+					offset: <?= (int) parameters()->offset; ?>,
+					types: <?= json_encode(parameters()->types); ?>
 				}
 			},
 			tree: {
 				theme: 'assets://files/images/mootree.png'
 			},
-			types: <?= json_encode($state->types); ?>,
+			types: <?= json_encode(parameters()->types); ?>,
             site: <?= json_encode($site); ?>,
 			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
 			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
@@ -158,7 +158,7 @@ window.addEvent('domready', function() {
 <div id="files-app">
 	<?= import('templates_icons.html'); ?>
 	<?= import('templates_details.html'); ?>
-	
+
 	<ktml:module position="sidebar">
 		<div id="files-tree"></div>
 	</ktml:module>
@@ -178,7 +178,7 @@ window.addEvent('domready', function() {
 		<div id="files-paginator">
 			<?= helper('paginator.pagination') ?>
 		</div>
-		
+
 		<?= import('uploader.html');?>
 	</div>
 </div>
@@ -188,7 +188,7 @@ window.addEvent('domready', function() {
         <form class="files-modal">
             <div style="text-align: center;">
                 <h3 style=" float: none">
-                    <?= str_replace('%folder%', '<span class="upload-files-to"></span>', translate('Create a new folder in %folder%')) ?>
+                    <?= translate('Create a new folder in {folder}', array('folder' => '<span class="upload-files-to"></span>')) ?>
                 </h3>
             </div>
             <div class="input-append">

@@ -1,16 +1,16 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
-<style src="assets://debug/highlighter/prettify.css" />
-<script src="assets://debug/highlighter/prettify.js" />
-<script src="assets://debug/highlighter/lang-sql.js" />
+<ktml:style src="assets://debug/highlighter/prettify.css" />
+<ktml:script src="assets://debug/highlighter/prettify.js" />
+<ktml:script src="assets://debug/highlighter/lang-sql.js" />
 <script>
 window.addEvent('domready', prettyPrint);
 </script>

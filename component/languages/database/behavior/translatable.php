@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Languages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Translatable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Languages
  */
 class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectMultiton
@@ -32,14 +32,20 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     public function isSupported()
     {
-        // If table is not enabled, return null to prevent enqueueing.
-        $table  = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
-        $needle = array(
-            'name'           => $table->getBase(),
-            'component_name' => 'com_' . $table->getIdentifier()->package
-        );
+        $table  = $this->getMixer();
 
-        return count($this->_tables->find($needle)) ? true : false;
+        if($table instanceof Library\DatabaseTableInterface)
+        {
+            // If table is not enabled, return null to prevent enqueueing.
+            $needle = array(
+                'name'           => $table->getBase(),
+                'component_name' => $table->getIdentifier()->package
+            );
+
+            return count($this->_tables->find($needle)) ? true : false;
+        }
+
+        return true;
     }
 
     public function getMixableMethods($exclude = array())
@@ -47,15 +53,17 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         $methods = parent::getMixableMethods($exclude);
         $mixer   = $this->getMixer();
 
-        if (!is_null($mixer)) {
+        if (!is_null($mixer))
+        {
             // If table is not enabled, don't mix the methods.
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name'           => $table->getBase(),
-                'component_name' => 'com_' . $table->getIdentifier()->package
+                'component_name' => $table->getIdentifier()->package
             );
 
-            if (!count($this->_tables->find($needle))) {
+            if (!count($this->_tables->find($needle)))
+            {
                 $methods['isTranslatable'] = false;
 
                 unset($methods['getLanguages']);

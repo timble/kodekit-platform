@@ -1,0 +1,52 @@
+# Nooku Platform - http://www.nooku.org/platform
+#
+# @copyright  Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link       https://github.com/nooku/nooku-platform for the canonical source repository
+
+The user account you are trying to reset the password for is not enabled: The user
+  account you are trying to reset the password for is not enabled
+Please activate your account before resetting your password: Please activate your
+  account before resetting your password
+Invalid request: Invalid request
+A confirmation E-mail for resetting your password has been sent to the address you have provided: A
+  confirmation E-mail for resetting your password has been sent to the address you
+  have provided
+The confirmation E-mail for resetting your password could not be sent: The confirmation
+  E-mail for resetting your password could not be sent
+Your password has been reset: Your password has been reset
+Email: Email
+Password: Password
+Forgot your password?: Forgot your password?
+Sign in: Sign in
+or: or
+Sign up: Sign up
+Hi {name}: Hi {name}
+Sign out: Sign out
+Login: Login
+Your Name: Your Name
+Verify Password: Verify Password
+Timezone: Timezone
+Save: Save
+Set your password: Set your password
+Registration: Registration
+Password reset request: Password reset request
+Please enter the E-mail address of the account you would like to reset.: Please enter
+  the E-mail address of the account you would like to reset.
+E-mail: E-mail
+Submit: Submit
+Your password has expired. Please set a new password: Your password has expired. Please set a new password
+User Account Activation: User Account Activation
+User account activation E-mail: "Hello {name},\n\nYour user account has been succesfully created on {site}.\n\nPlease
+  make use of the following URL for activating your account:\n\n{url}\n\nPlease do not reply to this message as it is
+  automatically generated and for information purposes only.\n\nThank you."
+An E-mail for activating your account has been sent to the address you have provided: An E-mail for activating your
+  account has been sent to the address you have provided
+Failed to send activation E-mail: Failed to send activation E-mail
+Unable to get an activation URL: Unable to get an activation URL
+User account successfully activated: User account successfully activated
+Password reset instructions E-mail: "Hello {name},\n\nPlease make use of the following URL for setting a new password
+  for your account:\n\n{url}\n\nPlease do not reply to this message as it is automatically generated and for information
+  purposes only.\n\nThank you."
+Unable to get a password reset URL: Unable to get a password reset URL
+To access the private area of this site, please log in: To access the private area of this site, please log in

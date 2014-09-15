@@ -1,17 +1,17 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
 <? if(object('com:comments.controller.comment')->canDelete()) : ?>
     <?= helper('behavior.mootools') ?>
-    <script src="assets://application/js/jquery.js" />
-    <script src="assets://comments/js/comments.js" />
+    <ktml:script src="assets://application/js/jquery.js" />
+    <ktml:script src="assets://comments/js/comments.js" />
 
     <script>
         window.addEvent('domready', (function() {
@@ -28,8 +28,8 @@
 <? endif ?>
 
 <? if(object('com:comments.controller.comment')->canAdd()) : ?>
-    <script src="assets://application/js/jquery.js" />
-    <script src="assets://ckeditor/ckeditor/ckeditor.js" />
+    <ktml:script src="assets://application/js/jquery.js" />
+    <ktml:cript src="assets://ckeditor/ckeditor/ckeditor.js" />
 
     <script>
         CKEDITOR.on( 'instanceCreated', function( event ) {
@@ -67,7 +67,7 @@
         <div class="comment" id="comment-<?=$comment->id;?>">
             <div class="comment__header">
                <span class="comment__header--left">
-                    <?= $comment->created_by == object('user')->id ? translate('You') : $comment->created_by_name ?>&nbsp;<?= translate('wrote') ?>
+                    <?= $comment->created_by == object('user')->id ? translate('You') : $comment->getAuthor()->getName() ?>&nbsp;<?= translate('wrote') ?>
                </span>
                <span class="comment__header--right">
                     <time datetime="<?= $comment->created_on ?>" pubdate><?= helper('date.humanize', array('date' => $comment->created_on)) ?></time>
@@ -83,7 +83,7 @@
         </div>
     <? endforeach ?>
     <?if(object('com:comments.controller.comment')->canAdd()):?>
-        <?= import('com:comments.view.comment.form.html'); ?>
+        <?= import('com:comments.comment.form.html'); ?>
     <?endif;?>
 </div>
 <? endif; ?>

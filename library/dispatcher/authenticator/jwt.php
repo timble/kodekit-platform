@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -27,7 +27,7 @@ namespace Nooku\Library;
  * A token MAY contain and additional 'user' claim which contains a JSON hash of user field key and values to set on
  * the user.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
@@ -37,7 +37,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      *
      * @var HttpToken
      */
-    protected $_token;
+    private $__token;
 
     /**
      * The secret
@@ -78,6 +78,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
         $this->_secret     = $config->secret;
         $this->_max_age    = $config->max_age;
         $this->_check_user = $config->check_user;
+
+        $this->addCommandCallback('before.dispatch', 'authenticateRequest');
+
     }
 
     /**
@@ -104,9 +107,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      *
      * @return HttpToken  The authorisation token or NULL if no token could be found
      */
-    public function getToken()
+    public function getAuthToken()
     {
-        if(!isset($this->_token))
+        if(!isset($this->__token))
         {
             $token   = false;
             $request = $this->getObject('request');
@@ -137,10 +140,10 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
                 $token = $this->getObject('lib:http.token')->fromString($token);
             }
 
-            $this->_token = $token;
+            $this->__token = $token;
         }
 
-        return $this->_token;
+        return $this->__token;
     }
 
     /**
@@ -150,9 +153,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
      * @throws ControllerExceptionRequestNotAuthenticated
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    protected function _beforeDispatch(DispatcherContextInterface $context)
+    public function authenticateRequest(DispatcherContextInterface $context)
     {
-        if(!$context->user->isAuthentic() && $token = $this->getToken())
+        if(!$context->user->isAuthentic() && $token = $this->getAuthToken())
         {
             if($token->verify($this->_secret))
             {

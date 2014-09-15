@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
 
@@ -35,7 +32,7 @@ class JMail extends PHPMailer
 	function JMail()
 	{
 		 // phpmailer has an issue using the relative path for it's language files
-		 $this->SetLanguage('joomla', JPATH_VENDOR.DS.'phpmailer'.DS.'language'.DS);
+		 $this->SetLanguage('joomla', \Nooku::getInstance()->getVendorPath().DS.'phpmailer'.DS.'language'.DS);
 	}
 
 	/**
@@ -76,7 +73,7 @@ class JMail extends PHPMailer
 	{
 		if ( ( $this->Mailer == 'mail' ) && ! function_exists('mail') )
 		{
-			return JError::raiseNotice( 500, JText::_('MAIL_FUNCTION_DISABLED') );
+			return JError::raiseNotice( 500, 'Mail Function Disabled');
 		}
 
 		@ $result = parent::Send();
@@ -84,7 +81,7 @@ class JMail extends PHPMailer
 		if ($result == false)
 		{
 			// TODO: Set an appropriate error number
-			$result =& JError::raiseNotice( 500, JText::_($this->ErrorInfo) );
+			$result =& JError::raiseNotice( 500, $this->ErrorInfo);
 		}
 		return $result;
 	}

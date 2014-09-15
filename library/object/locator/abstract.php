@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,24 +12,24 @@ namespace Nooku\Library;
 /**
  * Abstract Object Locator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Object
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Object\Locator\Abstract
  */
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
+    /**
+     * The locator name
+     *
+     * @var string
+     */
+    protected static $_name = '';
+
     /**
      * The class prefix sequence in FIFO order
      *
      * @var array
      */
     protected $_sequence = array();
-
-    /**
-     * The locator type
-     *
-     * @var string
-     */
-    protected $_type = '';
 
     /**
      * Constructor.
@@ -64,21 +64,25 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
-     * @param bool  $fallback   Use the fallbacks to locate the identifier
+     * @param bool  $fallback   Use the fallback sequence to locate the identifier
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
+        $domain  = empty($identifier->domain) ? 'Nooku' : ucfirst($identifier->domain);
         $package = ucfirst($identifier->package);
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $file    = ucfirst($identifier->name);
+
         $class   = $path.$file;
 
         $info = array(
-            'class'   => $class,
-            'package' => $package,
-            'path'    => $path,
-            'file'    => $file
+            'identifier' => $identifier,
+            'class'      => $class,
+            'package'    => $package,
+            'domain'     => $domain,
+            'path'       => $path,
+            'file'       => $file
         );
 
         return $this->find($info, $fallback);
@@ -98,9 +102,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         //Find the class
         foreach($this->_sequence as $template)
         {
-            $class= str_replace(
-                array('<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
-                array($info['package'], $info['path'], $info['file'], $info['class']),
+            $class = str_replace(
+                array('<Domain>',      '<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
+                array($info['domain'], $info['package'], $info['path'], $info['file'], $info['class']),
                 $template
             );
 
@@ -123,9 +127,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      *
      * @return string
      */
-    public function getType()
+    public static function getName()
     {
-        return $this->_type;
+        return static::$_name;
     }
 
     /**

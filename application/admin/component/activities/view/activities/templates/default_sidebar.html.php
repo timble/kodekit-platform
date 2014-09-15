@@ -1,16 +1,16 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
 <?= helper('behavior.validator') ?>
 
-<script inline>
+<script data-inline>
     window.addEvent('domready', function () {
         /* Reset the filter values to blank */
         document.id('activities-filter').addEvent('reset', function (e) {
@@ -27,11 +27,11 @@
 
 <h3><?= translate('Extensions') ?></h3>
 <ul class="navigation">
-    <a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
+    <a class="<?= empty(parameters()->package) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
         <?= translate('All extensions') ?>
     </a>
     <? foreach ($packages as $package): ?>
-        <a <?= $package->id == $state->package ? 'class="active"' : '' ?>
+        <a <?= $package->id == parameters()->package ? 'class="active"' : '' ?>
             href="<?= route('package=' . $package->id) ?>"><?= ucfirst($package->package) ?></a>
     <? endforeach ?>
 </ul>
@@ -41,11 +41,11 @@
     <fieldset>
         <div class="input-prepend">
             <span class="add-on">Start</span>
-            <input type="date" name="start_date" value="<?= $state->start_date ?>"/>
+            <input type="date" name="start_date" value="<?= parameters()->start_date ?>"/>
         </div>
         <div class="input-prepend">
             <span class="add-on">Days back</span>
-            <input type="text" name="days_back" value="<?= ($state->days_back) ? $state->days_back : '' ?>"/>
+            <input type="text" name="days_back" value="<?= (parameters()->days_back) ? parameters()->days_back : '' ?>"/>
         </div>
         <div class="input-prepend">
             <span class="add-on">User</span>

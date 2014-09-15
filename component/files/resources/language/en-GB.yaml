@@ -1,0 +1,39 @@
+# Nooku Platform - http://www.nooku.org/platform
+#
+# @copyright  Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link       https://github.com/nooku/nooku-platform for the canonical source repository
+
+Resource already exists and overwrite switch is not present.: Resource already exists
+  and overwrite switch is not present.
+Please supply a destination.: Please supply a destination.
+Source and destination are the same.: Source and destination are the same.
+Destination resource already exists.: Destination resource already exists.
+Invalid file extension: Invalid file extension
+Invalid Mimetype: Invalid Mimetype
+Invalid file name: Invalid file name
+File is too big: File is too big
+Folder names cannot contain slashes: Folder names cannot contain slashes
+Invalid folder name: Invalid folder name
+Select: Select
+Show files as icons: Show files as icons
+Show files in a list: Show files in a list
+Create a new folder in {folder}: Create a new folder in {folder}
+Enter a folder name: Enter a folder name
+Create: Create
+Name: Name
+Size: Size
+Last Modified: Last Modified
+View: View
+Are you sure you want to clear the upload queue? This cannot be undone!: Are you sure
+  you want to clear the upload queue? This cannot be undone!
+Upload files to {target}: Upload files to {target}
+'Upload from:': 'Upload from:'
+Computer: Computer
+Web: Web
+Each file should be smaller than {size}: Each file should be smaller than {size}
+Drag files here: Drag files here
+'OR Select a file to upload:': 'OR Select a file to upload:'
+Remote URL: Remote URL
+File name: File name
+Transfer File: Transfer File

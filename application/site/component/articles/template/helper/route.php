@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Route Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
@@ -38,7 +38,8 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             'format' => $config->format
         );
 
-        if ($article->isCategorizable()) {
+        if ($article->isCategorizable())
+        {
             $needles[]         = array('view' => 'category', 'id' => $article->getCategory()->id);
             $route['category'] = $article->getCategory()->getSlug();
         }
@@ -47,7 +48,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-        return $this->getTemplate()->getView()->getRoute($route);
+        return $this->getTemplate()->route($route);
     }
 
     public function category($config = array())
@@ -78,6 +79,6 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         };
 
-        return $this->getTemplate()->getView()->getRoute($route);
+        return $this->getTemplate()->route($route);
     }
 }

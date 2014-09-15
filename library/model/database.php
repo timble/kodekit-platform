@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Provides interaction with a database
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelDatabase extends ModelAbstract
@@ -40,19 +40,18 @@ class ModelDatabase extends ModelAbstract
         $identifier = $alias = $this->getIdentifier()->toArray();
 
         //Create database.rowset alias
-        $identifier['path'] = array('database', 'rowset');
-        $alias['path']      = array('model', 'entity');
+        $alias['path']      = array('database', 'rowset');
+        $identifier['path'] = array('model', 'entity');
 
-        $this->getObject('manager')->registerAlias($alias, $identifier);
+        $this->getObject('manager')->registerAlias($identifier, $alias);
 
         //Create database.row alias
-        $identifier['path'] = array('database', 'row');
+        $alias['path'] = array('database', 'row');
+        $alias['name'] = StringInflector::singularize($alias['name']);
+
         $identifier['name'] = StringInflector::singularize($identifier['name']);
 
-        $alias['path'] = array('model', 'entity');
-        $alias['name'] = StringInflector::singularize($identifier['name']);
-
-        $this->getObject('manager')->registerAlias($alias, $identifier);
+        $this->getObject('manager')->registerAlias($identifier, $alias);
 
         //Behavior depends on the database. Need to add if after database has been set.
         $this->addBehavior('indexable');
@@ -70,7 +69,7 @@ class ModelDatabase extends ModelAbstract
     {
         $config->append(array(
             'table'      => $this->getIdentifier()->name,
-            'behaviors'  => array('paginatable', 'orderable'),
+            'behaviors'  => array('paginatable', 'sortable'),
         ));
 
         parent::_initialize($config);
@@ -190,7 +189,7 @@ class ModelDatabase extends ModelAbstract
 		    {
 		        $identifier         = $this->getIdentifier()->toArray();
 		        $identifier['path'] = array('database', 'table');
-		        $identifier['name'] = StringInflector::tableize($table);
+		        $identifier['name'] = StringInflector::pluralize(StringInflector::underscore($table));
 
                 $identifier = $this->getIdentifier($identifier);
 		    }
@@ -223,6 +222,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds SELECT columns list for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryColumns(DatabaseQuerySelect $query)
     {
@@ -231,6 +232,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds JOINS clauses for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryJoins(DatabaseQuerySelect $query)
     {
@@ -239,6 +242,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds WHERE clause for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryWhere(DatabaseQuerySelect $query)
     {
@@ -247,6 +252,8 @@ class ModelDatabase extends ModelAbstract
 
     /**
      * Builds GROUP BY clause for the query
+     *
+     * @param DatabaseQueryInterface $query
      */
     protected function _buildQueryGroup(DatabaseQuerySelect $query)
     {

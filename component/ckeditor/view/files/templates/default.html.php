@@ -1,26 +1,26 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
 ?>
 
-<?= import('com:files.view.files.initialize.html'); ?>
+<?= import('com:files.files.initialize.html'); ?>
 
-<script src="assets://ckeditor/js/ckeditor.files.js" />
+<ktml:script src="assets://ckeditor/js/ckeditor.files.js" />
 
 <script>
     Files.sitebase = '<?= object('request')->getBaseUrl(); ?>';
-    Files.base     = '<?= route('option=com_files', true, false); ?>';
+    Files.base     = '<?= route('component=files', true, false); ?>';
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {
-        var config = <?= json_encode($state->config); ?>,
+        var config = <?= json_encode(parameters()->config); ?>,
         options = {
             state: {
                 defaults: {
@@ -28,13 +28,13 @@ use Nooku\Library;
                     offset: 0
                 }
             },
-            editor: <?= json_encode($state->editor); ?>,
+            editor: <?= json_encode(parameters()->editor); ?>,
             tree: {
                 theme: 'assets://files/images/mootree.png'
             },
-            types: <?= json_encode($state->types); ?>,
+            types: <?= json_encode(parameters()->types); ?>,
             site: <?= json_encode($site); ?>,
-            container: <?= json_encode($state->container ? $state->container : null); ?>
+            container: <?= json_encode(parameters()->container ? parameters()->container : null); ?>
         };
         options = $extend(options, config);
 
@@ -68,7 +68,7 @@ use Nooku\Library;
                                 <input type="text" id="image-url" value="" />
                             </div>
                         </div>
-                        <? if(in_array('file', $state->types)) : ?>
+                        <? if(in_array('file', parameters()->types)) : ?>
                             <div id="link-text">
                                 <label for="image-text"><?= translate('Text') ?></label>
                                 <div>
@@ -88,7 +88,7 @@ use Nooku\Library;
                                 <input type="text" id="image-title" value="" />
                             </div>
                         </div>
-                        <? if(in_array('image', $state->types)) : ?>
+                        <? if(in_array('image', parameters()->types)) : ?>
                             <div>
                                 <label for="image-align"><?= translate('Align') ?></label>
                                 <div>
@@ -109,7 +109,7 @@ use Nooku\Library;
         <input type="radio" id="tab-2" name="tab-group-1">
         <label for="tab-2"><?= translate('Upload') ?></label>
         <div class="content">
-            <?= import('com:files.view.files.uploader.html'); ?>
+            <?= import('com:files.files.uploader.html'); ?>
         </div>
     </div>
 </div>

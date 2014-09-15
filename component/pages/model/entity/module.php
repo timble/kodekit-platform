@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Module Model Entity
  *
- * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @author  Stian Didriksen <http://github.com/stipsan>
  * @package Nooku\Component\Pages
  */
 class ModelEntityModule extends Library\ModelEntityRow
@@ -37,17 +37,16 @@ class ModelEntityModule extends Library\ModelEntityRow
 
     public function getPropertyIdentifier()
     {
-        $module  = substr( $this->name, 4);
+        $module  = $this->name;
         $package = $this->component;
 
-        return $this->getIdentifier('com://site/'.$package.'.module.'.$module.'.html');
+        return $this->getIdentifier('com:'.$package.'.module.'.$module.'.html');
     }
 
     public function getPropertyManifest()
     {
-        $class = $this->getObject('manager')->getClass($this->identifier, false);
-        $path  = dirname($this->getObject('manager')->getClassLoader()->getPath($class, 'site'));
-        $file  = $path.'/'.basename($path).'.xml';
+        $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+        $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/'.$this->name.'.xml';
 
         if(file_exists($file)) {
             $result = simplexml_load_file($file);
@@ -87,9 +86,8 @@ class ModelEntityModule extends Library\ModelEntityRow
     {
         if (empty($this->_parameters))
         {
-            $class = $this->getObject('manager')->getClass($this->identifier, false);
-            $path = dirname($this->getObject('manager')->getClassLoader()->getPath($class));
-            $file = $path.'/config.xml';
+            $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+            $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/config.xml';
 
             $this->_parameters = new \JParameter( $this->parameters, $file, 'module' );
         }

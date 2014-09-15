@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * User Model Entity
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Users
  */
 class ModelEntityUser extends Library\ModelEntityRow
@@ -64,11 +64,13 @@ class ModelEntityUser extends Library\ModelEntityRow
 
     public function save()
     {
+        $translator = $this->getObject('translator');
+
         // Validate name
         if ($this->isModified('name') && trim($this->name) == '')
         {
             $this->setStatus(self::STATUS_FAILED);
-            $this->setStatusMessage(\JText::_('Please enter a name'));
+            $this->setStatusMessage($translator('Please enter a name'));
             return false;
         }
 
@@ -78,7 +80,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             if (!$this->getObject('lib:filter.email')->validate($this->email))
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
+                $this->setStatusMessage($translator('Please enter a valid E-mail address'));
                 return false;
             }
 
@@ -90,7 +92,7 @@ class ModelEntityUser extends Library\ModelEntityRow
             if ($this->getObject('com:users.database.table.users')->count($query))
             {
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
+                $this->setStatusMessage($translator('The provided E-mail address is already registered'));
                 return false;
             }
         }
@@ -173,8 +175,8 @@ class ModelEntityUser extends Library\ModelEntityRow
         $config->append(array(
             'subject' => '',
             'message' => '',
-            'from_email' => $application->getCfg('mailfrom'),
-            'from_name'  => $application->getCfg('fromname')))
+            'from_email' => $application->getConfig()->mailfrom,
+            'from_name'  => $application->getConfig()->fromname))
             ->append(array('from_email' => $user->getEmail(), 'from_name' => $user->getName()));
 
         return \JUtility::sendMail($config->from_email, $config->from_name, $this->email, $config->subject, $config->message);

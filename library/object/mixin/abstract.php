@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * This class does not extend from Object and acts as a special core class that is intended to offer semi-multiple
  * inheritance features to Object derived classes.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectMixinAbstract implements ObjectMixinInterface
@@ -189,7 +189,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      * @param  mixed  $value The variable value.
      * @return mixed
      */
-    public function __set($key, $value)
+    final public function __set($key, $value)
     {
         $this->getMixer()->$key = $value;
     }
@@ -200,7 +200,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      * @param  string $key The variable name.
      * @return mixed
      */
-    public function __get($key)
+    final public function __get($key)
     {
         return $this->getMixer()->$key;
     }
@@ -213,7 +213,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      * @param  string  $key The variable name
      * @return boolean
      */
-    public function __isset($key)
+    final public function __isset($key)
     {
         return isset($this->getMixer()->$key);
     }
@@ -226,7 +226,7 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      * @param string    $key The variable name.
      * @return void
      */
-    public function __unset($key)
+    final public function __unset($key)
     {
         if (isset($this->getMixer()->$key)) {
             unset($this->getMixer()->$key);

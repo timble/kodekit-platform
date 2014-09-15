@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
@@ -20,15 +20,16 @@
             <h1><?= escape($parameters->get('page_title')) ?></h1>
         </div>
 
-        <? if($parameters->get('description_login_text')) : ?>
-        <p><?= escape(translate($parameters->get('description_login_text'))) ?></p>
+        <? if ($description = $parameters->get('description_login_text',
+            'To access the private area of this site, please log in')): ?>
+            <p><?= escape(translate($description)) ?></p>
         <? endif ?>
 
         <fieldset>
             <input id="email" class="required validate-email form-control" name="email" type="email" alt="email" placeholder="Email address" />
             <input id="password" class="required form-control" type="password" name="password" alt="password" placeholder="Password"/>
         </fieldset>
-        <small><a href="<?= helper('route.user', array('layout' => 'reset')); ?>"><?= translate('FORGOT_YOUR_PASSWORD'); ?></a></small>
+        <small><a href="<?= helper('route.user', array('layout' => 'reset')); ?>"><?= translate('Forgot your password?'); ?></a></small>
     </div>
 
     <div class="form-actions">

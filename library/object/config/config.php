@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,9 +12,10 @@ namespace Nooku\Library;
 /**
  * Object Config
  *
- * ObjectConfig provides a property based interface to an array
+ * ObjectConfig provides a property based interface to an array. Data is can be modified unless the object is marked
+ * as readonly.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectConfig implements ObjectConfigInterface
@@ -27,28 +28,38 @@ class ObjectConfig implements ObjectConfigInterface
     private $__options = array();
 
     /**
+     * Is the config data readonly
+     *
+     * @var bool
+     */
+    protected $_readonly;
+
+    /**
      * Constructor.
      *
-     * @param   array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
+     * @param  array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
+     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      */
-    public function __construct( $options = array() )
+    public function __construct( $options = array(), $readonly = false)
     {
-        $this->add($options);
+        $this->_readonly = (bool) $readonly;
+
+        $this->merge($options);
     }
 
     /**
      * Retrieve a configuration option
      *
-     * If the option does not exist return the default
+     * If the option does not exist return the default.
      *
-     * @param string
-     * @param mixed
+     * @param string  $name
+     * @param mixed   $default
      * @return mixed
      */
     public function get($name, $default = null)
     {
         $result = $default;
-        if(isset($this->__options[$name])) {
+        if(isset($this->__options[$name]) || array_key_exists($name, $this->__options)) {
             $result = $this->__options[$name];
         }
 
@@ -60,16 +71,22 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * @param  string $name
      * @param  mixed  $value
-     * @return void
+     * @throws \RuntimeException If the config is read only
+     * @return ObjectConfig
      */
     public function set($name, $value)
     {
-        if (is_array($value))
+        if (!$this->isReadOnly())
         {
-            $class = get_class($this);
-            $this->__options[$name] = new $class($value);
+            if (is_array($value)) {
+                $this->__options[$name] = $this->getInstance()->merge($value);
+            } else {
+                $this->__options[$name] = $value;
+            }
         }
-        else $this->__options[$name] = $value;
+        else throw new \RuntimeException('Config is read only');
+
+        return $this;
     }
 
     /**
@@ -87,11 +104,17 @@ class ObjectConfig implements ObjectConfigInterface
      * Remove a configuration option
      *
      * @param   string $name The configuration option name.
+     * @throws \RuntimeException If the config is read only
      * @return  ObjectConfig
      */
     public function remove( $name )
     {
-        unset($this->__options[$name]);
+        if (!$this->isReadOnly()) {
+            unset($this->__options[$name]);
+        } else {
+            throw new \RuntimeException('Config is read only');
+        }
+
         return $this;
     }
 
@@ -100,19 +123,30 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * This method will overwrite keys that already exist, keys that don't exist yet will be added.
      *
-     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
+     * For duplicate keys, the following will be performed:
+     *
+     * - Nested configs will be recursively merged.
+     * - Items in $options with INTEGER keys will be appended.
+     * - Items in $options with STRING keys will overwrite current values.
+     *
+     * @param  array|\Traversable|ObjectConfig  $options A ObjectConfig object an or array of options to be appended
+     * @throws \RuntimeException If the config is read only
      * @return ObjectConfig
      */
-    public function add($options)
+    public function merge($options)
     {
-        $options = self::unbox($options);
-
-        if (is_array($options))
+        if (!$this->isReadOnly())
         {
-            foreach ($options as $key => $value) {
-                $this->set($key, $value);
+            $options = self::unbox($options);
+
+            if (is_array($options) || $options instanceof \Traversable)
+            {
+                foreach ($options as $key => $value) {
+                    $this->set($key, $value);
+                }
             }
         }
+        else throw new \RuntimeException('Config is read only');
 
         return $this;
     }
@@ -122,40 +156,76 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * This method only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  array|ObjectConfig    $config A ObjectConfig object an or array of options to be appended
+     * @param  array|\Traversable|ObjectConfig    $config A ObjectConfig object an or array of options to be appended
+     * @throws \RuntimeException If the config is read only
      * @return ObjectConfig
      */
     public function append($options)
     {
-        $options = self::unbox($options);
-
-        if(is_array($options))
+        if (!$this->isReadOnly())
         {
-            if(!is_numeric(key($options)))
+            $options = self::unbox($options);
+
+            if(is_array($options) || $options instanceof \Traversable)
             {
-                foreach($options as $key => $value)
+                if(!is_numeric(key($options)))
                 {
-                    if(array_key_exists($key, $this->__options))
+                    foreach($options as $key => $value)
                     {
-                        if(!empty($value) && ($this->__options[$key] instanceof ObjectConfig)) {
-                            $this->__options[$key] = $this->__options[$key]->append($value);
+                        if(array_key_exists($key, $this->__options))
+                        {
+                            if(!empty($value) && ($this->__options[$key] instanceof ObjectConfig)) {
+                                $this->__options[$key] = $this->__options[$key]->append($value);
+                            }
                         }
+                        else $this->set($key, $value);
                     }
-                    else $this->__set($key, $value);
                 }
-            }
-            else
-            {
-                foreach($options as $value)
+                else
                 {
-                    if (!in_array($value, $this->__options, true)) {
-                        $this->__options[] = $value;
+                    foreach($options as $value)
+                    {
+                        if (!in_array($value, $this->__options, true)) {
+                            $this->__options[] = $value;
+                        }
                     }
                 }
             }
         }
+        else throw new \RuntimeException('Config is read only');
 
         return $this;
+    }
+
+    /**
+     * Returns the number of elements in the collection.
+     *
+     * Required by the Countable interface
+     *
+     * @param int $mode Either COUNT_NORMAL or COUNT_RECURSIVE. Default is COUNT_NORMAL
+     * @return int
+     */
+    public function count($mode = COUNT_NORMAL)
+    {
+        if($mode == COUNT_RECURSIVE)
+        {
+            $count = 0;
+            $data  = $this->__options;
+            foreach ($data as $key => $value)
+            {
+                if(is_array($value) || $value instanceof ObjectConfig)
+                {
+                    if ($value instanceof ObjectConfig) {
+                        $count += $value->count($mode);
+                    } else {
+                        $count += count($value);
+                    }
+                }
+            }
+        }
+        else $count = count($this->__options);
+
+        return $count;
     }
 
     /**
@@ -172,6 +242,17 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
+     * Get a new instance
+     *
+     * @return ObjectConfigInterface
+     */
+    public function getInstance()
+    {
+        $instance = new static(array(), $this->_readonly);
+        return $instance;
+    }
+
+    /**
      * Get a new iterator
      *
      * @return  \RecursiveArrayIterator
@@ -182,18 +263,6 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
-     * Returns the number of elements in the collection.
-     *
-     * Required by the Countable interface
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->__options);
-    }
-
-    /**
      * Check if the offset exists
      *
      * Required by interface ArrayAccess
@@ -201,9 +270,9 @@ class ObjectConfig implements ObjectConfigInterface
      * @param   int  $offset   The offset
      * @return  bool
      */
-    public function offsetExists($offset)
+    final public function offsetExists($offset)
     {
-        return isset($this->__options[$offset]);
+        return $this->has($offset);
     }
 
     /**
@@ -214,18 +283,9 @@ class ObjectConfig implements ObjectConfigInterface
      * @param   int  $offset   The offset
      * @return  mixed   The item from the array
      */
-    public function offsetGet($offset)
+    final public function offsetGet($offset)
     {
-        $result = null;
-        if(isset($this->__options[$offset]))
-        {
-            $result = $this->__options[$offset];
-            if($result instanceof ObjectConfig) {
-                $result = $result->toArray();
-            }
-        }
-
-        return $result;
+        return self::unbox($this->get($offset));
     }
 
     /**
@@ -235,13 +295,11 @@ class ObjectConfig implements ObjectConfigInterface
      *
      * @param   int    $offset   The offset
      * @param   mixed  $value    The item's value
-     *
-     * @return  ObjectConfig
+     * @return  void
      */
-    public function offsetSet($offset, $value)
+    final public function offsetSet($offset, $value)
     {
-        $this->__options[$offset] = $value;
-        return $this;
+        $this->set($offset, $value);
     }
 
     /**
@@ -252,12 +310,11 @@ class ObjectConfig implements ObjectConfigInterface
      * Required by interface ArrayAccess
      *
      * @param   int     $offset The offset of the item
-     * @return  ObjectConfig
+     * @return  void
      */
-    public function offsetUnset($offset)
+    final public function offsetUnset($offset)
     {
-        unset($this->__options[$offset]);
-        return $this;
+        $this->remove($offset);
     }
 
     /**
@@ -285,11 +342,44 @@ class ObjectConfig implements ObjectConfigInterface
      * Return a ObjectConfig object from an array
      *
      * @param  array $array
+     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig Returns a ObjectConfig object
      */
-    public static function fromArray(array $array)
+    public static function fromArray(array $array, $readonly = false)
     {
-        return new static($array);
+        return new static($array, $readonly);
+    }
+
+    /**
+     * Prevent any more modifications being made to this instance.
+     *
+     * Useful after merge() has been used to merge multiple Config objects into one object which should then not be
+     * modified again.
+     *
+     * @return ObjectConfigInterface
+     */
+    public function setReadOnly()
+    {
+        $this->_readonly = true;
+
+        foreach ($this->__options as $value)
+        {
+            if ($value instanceof ObjectConfig) {
+                $value->setReadOnly();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns whether this Config object is read only or not.
+     *
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return $this->_readonly;
     }
 
     /**
@@ -298,7 +388,7 @@ class ObjectConfig implements ObjectConfigInterface
      * @param string $name
      * @return mixed
      */
-    public function __get($name)
+    final public function __get($name)
     {
         return $this->get($name);
     }
@@ -310,7 +400,7 @@ class ObjectConfig implements ObjectConfigInterface
      * @param  mixed  $value
      * @return void
      */
-    public function __set($name, $value)
+    final public function __set($name, $value)
     {
         $this->set($name, $value);
     }
@@ -321,7 +411,7 @@ class ObjectConfig implements ObjectConfigInterface
      * @param string $name
      * @return bool
      */
-    public function __isset($name)
+    final public function __isset($name)
     {
         return $this->has($name);
     }
@@ -332,14 +422,13 @@ class ObjectConfig implements ObjectConfigInterface
      * @param  string $name
      * @return void
      */
-    public function __unset($name)
+    final public function __unset($name)
     {
         $this->remove($name);
     }
 
     /**
-     * Deep clone of this instance to ensure that nested KObjectConfigs
-     * are also cloned.
+     * Deep clone of this instance to ensure that nested KObjectConfigs are also cloned.
      *
      * @return void
      */

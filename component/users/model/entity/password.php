@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Password Model Entity
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class ModelEntityPassword extends Library\ModelEntityRow
@@ -34,7 +34,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
         $this->_length = (int) $config->length;
 
         // TODO Remove when PHP 5.5 becomes a requirement.
-        require_once JPATH_ROOT.'/component/users/legacy/password.php';
+        require_once \Nooku::getInstance()->getRootPath().'/component/users/legacy/password.php';
     }
 
     /**
@@ -71,8 +71,13 @@ class ModelEntityPassword extends Library\ModelEntityRow
             // Check the password length.
             if (strlen($password) < $this->getLength())
             {
+                $message = $this->getObject('translator')->translate(
+                    'You need to provide a password with at least {number} characters.',
+                    array('number' => $this->getLength())
+                );
+
                 $this->setStatus(self::STATUS_FAILED);
-                $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $this->getLength()));
+                $this->setStatusMessage($message);
                 return false;
             }
 
@@ -82,7 +87,8 @@ class ModelEntityPassword extends Library\ModelEntityRow
                 if ($this->verifyPassword($password))
                 {
                     $this->setStatus(self::STATUS_FAILED);
-                    $this->setStatusMessage(\JText::_('New and old passwords are the same'));
+                    $this->setStatusMessage($this->getObject('translator')
+                                            ->translate('New and old passwords are the same'));
                     return false;
                 }
             }

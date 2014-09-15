@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 jimport( 'joomla.registry.registry' );
 
 //Register the element class with the loader
@@ -153,7 +150,7 @@ class JParameter extends JRegistry
 				$this->_xml['_default'] = $xml;
 			}
 			if ($dir = $xml->attributes( 'addpath' )) {
-				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
+				$this->addElementPath( APPLICATION_ROOT . str_replace('/', DS, $dir) );
 			}
 		}
 	}
@@ -196,7 +193,7 @@ class JParameter extends JRegistry
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
-			$desc	= JText::_($description);
+			$desc	= $description;
 			$html[]	= $desc;
 		}
 
@@ -317,7 +314,7 @@ class JParameter extends JRegistry
 		{
 			$result = array();
 			$result[0] = $node->attributes('name');
-			$result[1] = JText::_('Element not defined for type').' = '.$type;
+			$result[1] = 'Element not defined for type = '.$type;
 			$result[5] = $result[0];
 			return $result;
 		}

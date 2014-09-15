@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Activities;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Activities Model
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
 class ModelActivities extends Library\ModelDatabase
@@ -55,19 +55,13 @@ class ModelActivities extends Library\ModelDatabase
     {
         $state = $this->getState();
 
-        if ($state->distinct && !empty($state->column)) {
+        if ($state->distinct && !empty($state->column))
+        {
             $query->distinct()
                 ->columns($state->column)
                 ->columns(array('activities_activity_id' => $state->column));
-        } else {
-            parent::_buildQueryColumns($query);
-            $query->columns(array('created_by_name' => 'users.name'));
         }
-    }
-
-    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
-    {
-        $query->join(array('users' => 'users'), 'users.users_user_id = tbl.created_by');
+        else  parent::_buildQueryColumns($query);
     }
 
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
@@ -91,7 +85,8 @@ class ModelActivities extends Library\ModelDatabase
             $query->where('tbl.action ' . (is_array($state->action) ? 'IN' : '=') . ' :action')->bind(array('action' => $state->action));
         }
 
-        if ($state->start_date && $state->start_date != '0000-00-00') {
+        if ($state->start_date && $state->start_date != '0000-00-00')
+        {
             // TODO: Sync this code with Date and DatabaseQuery changes.
             $start_date = $this->getObject('lib:date', array('date' => $this->getState()->start_date));
             $days_back  = clone $start_date;

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Categories;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Radiolist Template Helper
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Nooku\Component\Categories
  */
 class TemplateHelperRadiolist extends Library\TemplateHelperSelect
@@ -51,8 +51,10 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
             'label'  => 'title',
         ));
 
-        if($config->uncategorised) {
-            array_unshift($options, $this->option(array('label' => $this->translate('Uncategorized'), 'value' => '0', 'id' => '0')));
+        if($config->uncategorised)
+        {
+            $label = $this->getObject('translator')->translate('Uncategorized');
+            array_unshift($options, $this->option(array('label' => $label, 'value' => '0', 'id' => '0')));
         }
 
         //Add the options to the config object

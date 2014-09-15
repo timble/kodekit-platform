@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Class used to pluralize and singularize English nouns.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\String
  * @static
  */
@@ -95,12 +95,6 @@ class StringInflector implements StringInflectorInterface
 			'/(.*)ss$/i'            => '\1ss',    
 			'/(.*)s$/i' 			=> '\1',
 		),
-		
-		'verbalization' => array(
-			'/y$/i' 				=> 'ied',
-			'/(e)$/i' 				=> '$1d',
-			'/$/' 					=> 'ed',
-		),
 
 		'countable' => array(
 			'aircraft',
@@ -117,19 +111,16 @@ class StringInflector implements StringInflectorInterface
 			'species',
 			'swine',
 		)
-		
-		
 	);
 
    	/**
- 	 * Cache of pluralized, singularized and verbalized nouns.
+ 	 * Cache of pluralized and singularized  nouns.
 	 *
 	 * @var array
      */
 	protected static $_cache = array(
 		'singularized' => array(),
 		'pluralized'   => array(),
-		'verbalized'   => array()
 	);
 
 	/**
@@ -144,21 +135,14 @@ class StringInflector implements StringInflectorInterface
 	 *
 	 * @param	string	$singular Singular word
 	 * @param 	string	$plural   Plural word
-	 * @param 	string	$verbal   Verbal word
 	 */
-	public static function addWord($singular, $plural, $verbal = null)
+	public static function addWord($singular, $plural)
 	{
 		self::$_cache['pluralized'][$singular]	= $plural;
 		self::$_cache['singularized'][$plural] 	= $singular;
 		
 		self::$_cache['singularized'][$singular] = $singular;
 		self::$_cache['pluralized'][$plural] = $plural;
-		
-		if(isset($verbal)) 
-		{
-		    self::$_cache['verbalized'][$singular] = $verbal;
-		    self::$_cache['verbalized'][$plural]   = $verbal;
-		}
 	}
 
    	/**
@@ -169,9 +153,6 @@ class StringInflector implements StringInflectorInterface
 	 */
 	public static function pluralize($word)
 	{
-		//Make sure we have the singular
-	    $word = self::singularize($word); 
-	    
 	    //Get the cached noun of it exists
  	   	if(isset(self::$_cache['pluralized'][$word])) {
 			return self::$_cache['pluralized'][$word];
@@ -223,33 +204,6 @@ class StringInflector implements StringInflectorInterface
 			if ($matches > 0) {
 				self::$_cache['singularized'][$word] = $singular;
 				return $singular;
-			}
-		}
-
- 	   return $word;
-	}
-	
-	/**
-	 * Present English verb conjugated to preterite participle.
-	 *
-	 * @param 	string $word Word to verbalize.
-	 * @return 	string Present verb
-	 */
-	public static function verbalize($word)
-	{
-		//Get the cached noun of it exists
- 	   	if(isset(self::$_cache['verbalized'][$word])) {
-			return self::$_cache['verbalized'][$word];
- 	   	}
- 
-		foreach (self::$_rules['verbalization'] as $regexp => $replacement)
-		{
-			$matches = null;
-			$verbal = preg_replace($regexp, $replacement, $word, -1, $matches);
-			if ($matches > 0) 
-			{
-				self::$_cache['verbalized'][$word] = $verbal;
-				return $verbal;
 			}
 		}
 
@@ -311,55 +265,6 @@ class StringInflector implements StringInflectorInterface
 	public static function implode($words)
 	{
 		$result = self::camelize(implode('_', $words));
-		return $result;
-	}
-
-   	/**
-	 * Returns a human-readable string from $word
-	 *
-	 * Returns a human-readable string from $word, by replacing underscores with a space, and by upper-casing the
-     * initial character by default.
-	 *
-	 * @param   string    $word    String to "humanize"
-	 * @return string Human-readable word
-     */
-	public static function humanize($word)
-	{
-		$result = ucwords(strtolower(str_replace("_", " ", $word)));
-		return $result;
-	}
-
-   	/**
-	 * Converts a class name to its table name according to Nooku naming conventions.
-	 *
-	 * Converts "Person" to "people"
-	 *
-	 * @param  string $className    Class name for getting related table_name.
-	 * @return string plural_table_name
-	 * @see classify
-	 */
-	public static function tableize($className)
-	{
-		$result = self::underscore($className);
-
-		if(!self::isPlural($className)) {
-			$result = self::pluralize($result);
-		}
-		return $result;
-	}
-
-   	/**
-	 * Converts a table name to its class name according to Nooku naming conventions.
-	 *
-	 * Converts "people" to "Person"
-	 *
-	 * @see tableize
-	 * @param  string $table_name  Table name for getting related ClassName.
-	 * @return string SingularClassName
-	 */
-	public static function classify($tableName)
-	{
-		$result = self::camelize(self::singularize($tableName));
 		return $result;
 	}
 

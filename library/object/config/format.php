@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Object Config Format
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSerializable
@@ -21,28 +21,27 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
      * Read from a file and create a config object
      *
      * @param  string $filename
-     * @return ObjectConfigFormat
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \RuntimeException
+     * @return ObjectConfigFormat|array
      */
-    public function fromFile($filename)
+    public function fromFile($filename, $object = true)
     {
         if (!is_file($filename) || !is_readable($filename)) {
             throw new \RuntimeException(sprintf("File '%s' doesn't exist or not readable", $filename));
         }
 
         $string = file_get_contents($filename);
-        $this->fromString($string);
-
-        return $this;
+        return $this->fromString($string, $object);
     }
 
     /**
      * Write a config object to a file.
      *
      * @param  string  $filename
-     * @return void
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @return void
      */
     public function toFile($filename)
     {
@@ -60,7 +59,6 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
             throw new \RuntimeException(sprintf("Cannot write in directory : %s", $directory));
         }
 
-        //Try to write the file
         $result = file_put_contents($filename, $this->toString(), LOCK_EX);
 
         if($result === false) {
@@ -73,8 +71,17 @@ abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSe
      *
      * @return string
      */
-    public function __toString()
+    final public function __toString()
     {
-        return $this->toString();
+        $result = '';
+
+        //Not allowed to throw exceptions in __toString() See : https://bugs.php.net/bug.php?id=53648
+        try {
+            $result = $this->toString();
+        } catch (\Exception $e) {
+            trigger_error(__NAMESPACE__.'\ObjectConfigFormat::__toString exception: '. (string) $e, E_USER_ERROR);
+        }
+
+        return $result;
     }
 }

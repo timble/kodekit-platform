@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,30 +14,30 @@ namespace Nooku\Library;
  *
  * Filter to parse script tags
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateFilterScript extends TemplateFilterTag
 {
-	/**
-	 * Parse the text for script tags
+    /**
+     * Parse the text for script tags
      *
      * This function will selectively filter all script tags that don't have a type attribute defined or where the
      * type="text/javascript". If the element includes a data-inline attribute the element will not be excluded.
-	 *
-	 * @param string $text  The text to parse
-	 * @return string
-	 */
-	protected function _parseTags(&$text)
-	{
-		$tags = '';
+     *
+     * @param string $text  The text to parse
+     * @return string
+     */
+    protected function _parseTags(&$text)
+    {
+        $tags = '';
 
-		$matches = array();
-		// <script src="" />
-		if(preg_match_all('#<script(?!\s+data\-inline\s*)\s+src="([^"]+)"(.*)/>#siU', $text, $matches))
-		{
-			foreach(array_unique($matches[1]) as $key => $match)
-			{
+        $matches = array();
+        // <script src="" />
+        if(preg_match_all('#<ktml:script(?!\s+data\-inline\s*)\s+src="([^"]+)"(.*)/>#siU', $text, $matches))
+        {
+            foreach(array_unique($matches[1]) as $key => $match)
+            {
                 //Set required attributes
                 $attribs = array(
                     'src' => $match
@@ -49,36 +49,32 @@ class TemplateFilterScript extends TemplateFilterTag
                     $attribs['type'] = 'text/javascript';
                 };
 
-                if($attribs['type'] == 'text/javascript') {
-				    $tags .= $this->_renderTag($attribs);
-                }
-			}
+                $tags .= $this->_renderTag($attribs);
+            }
 
             $text = str_replace($matches[0], '', $text);
-		}
+        }
 
-		$matches = array();
-		// <script></script>
-		if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
-		{
+        $matches = array();
+        // <script></script>
+        if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
+        {
             foreach($matches[2] as $key => $match)
-			{
-				$attribs = $this->parseAttributes( $matches[1][$key]);
+            {
+                $attribs = $this->parseAttributes( $matches[1][$key]);
 
                 if(!isset($attribs['type'])) {
                     $attribs['type'] = 'text/javascript';
                 };
 
-                if($attribs['type'] == 'text/javascript') {
-                    $tags .= $this->_renderTag($attribs, $match);
-                }
-			}
+                $tags .= $this->_renderTag($attribs, $match);
+            }
 
             $text = str_replace($matches[0], '', $text);
-		}
+        }
 
-		return $tags;
-	}
+        return $tags;
+    }
 
     /**
      * Render the tag
@@ -88,19 +84,19 @@ class TemplateFilterScript extends TemplateFilterTag
      * @return string
      */
     protected function _renderTag($attribs = array(), $content = null)
-	{
+    {
         $link = isset($attribs['src']) ? $attribs['src'] : false;
         $condition = isset($attribs['condition']) ? $attribs['condition'] : false;
 
-		if(!$link)
-		{
+        if(!$link)
+        {
             $attribs = $this->buildAttributes($attribs);
 
             $html  = '<script '.$attribs.'>'."\n";
-			$html .= trim($content);
-			$html .= '</script>'."\n";
-		}
-		else
+            $html .= trim($content);
+            $html .= '</script>'."\n";
+        }
+        else
         {
             unset($attribs['src']);
             unset($attribs['condition']);
@@ -109,12 +105,12 @@ class TemplateFilterScript extends TemplateFilterTag
             if($condition)
             {
                 $html  = '<!--[if '.$condition.']>';
-                $html .= '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
+                $html .= '<script src="'.$link.'" '.$attribs.'></script>'."\n";
                 $html .= '<![endif]-->';
             }
-            else $html  = '<script src="'.$link.'" '.$attribs.' /></script>'."\n";
+            else $html  = '<script src="'.$link.'" '.$attribs.'></script>'."\n";
         }
 
-		return $html;
-	}
+        return $html;
+    }
 }

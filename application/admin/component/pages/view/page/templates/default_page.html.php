@@ -1,16 +1,14 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
-<? if($state->type['name'] == 'component') : ?>
-
-<? $model = $this->getView()->getModel() ?>
+<? if(parameters()->type['name'] == 'component') : ?>
 
 <?= $page->getParams('url')->render('urlparams') ?>
 
@@ -21,7 +19,7 @@
 <?= $page->getParams('page')->render('params'); ?>
 <? endif ?>
 
-<? if($state->type['name'] == 'redirect') : ?>
+<? if(parameters()->type['name'] == 'redirect') : ?>
     <div id="page-link-type">
         <label for="parent"><?= translate('Type') ?></label>
         <div id="parent" class="controls">
@@ -29,7 +27,7 @@
                 <input type="radio" name="link_type" value="id" <?= $page->isNew() || $page->link_id ? 'checked="checked"' : '' ?> />
                 <?= translate('Page') ?>
             </label>
-    
+
             <label class="radio">
                 <input type="radio" name="link_type" value="url" <?= $page->link_url ? 'checked="checked"' : '' ?> />
                 <?= translate('URL') ?>
@@ -50,7 +48,7 @@
     </div>
 <? endif ?>
 
-<? if($state->type['name'] == 'pagelink') : ?>
+<? if(parameters()->type['name'] == 'pagelink') : ?>
     <div>
         <label for="parent"><?= translate('Page') ?></label>
         <div id="parent" class="controls">

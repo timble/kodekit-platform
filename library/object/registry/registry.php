@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Object Registry
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Object
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Object\Registry
  */
 class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
 {
@@ -25,12 +25,19 @@ class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
     protected $_aliases = array();
 
     /**
+     * The identifier classes
+     *
+     * @var  array
+     */
+    protected $_classes = array();
+
+    /**
      * Get a an object from the registry
      *
-     * @param  ObjectIdentifier $identifier
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
      * @return  ObjectInterface   The object or NULL if the identifier could not be found
      */
-    public function get(ObjectIdentifier $identifier)
+    public function get($identifier)
     {
         $identifier = (string) $identifier;
 
@@ -46,27 +53,27 @@ class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
     /**
      * Set an object in the registry
      *
-     * @param  ObjectIdentifier $identifier
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
      * @param  mixed            $data
-     * @return ObjectRegistry
+     * @return ObjectIdentifier The object identifier that was set in the registry.
      */
-    public function set(ObjectIdentifier $identifier, $data = null)
+    public function set($identifier, $data = null)
     {
         if($data == null) {
-            $data = $identifier;
+            $data = is_string($identifier) ? new ObjectIdentifier($identifier) : $identifier;
         }
 
         $this->offsetSet((string) $identifier, $data);
-        return $this;
+        return $data;
     }
 
     /**
      * Check if an object exists in the registry
      *
-     * @param  ObjectIdentifier $identifier
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
      * @return  boolean
      */
-    public function has(ObjectIdentifier $identifier)
+    public function has($identifier)
     {
         return $this->offsetExists((string) $identifier);
     }
@@ -74,10 +81,10 @@ class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
     /**
      * Remove an object from the registry
      *
-     * @param  ObjectIdentifier $identifier
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
      * @return  ObjectRegistry
      */
-    public function remove(ObjectIdentifier $identifier)
+    public function remove($identifier)
     {
         $this->offsetUnset((string) $identifier);
         return $this;
@@ -126,11 +133,11 @@ class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
     /**
      * Register an alias for an identifier
      *
-     * @param ObjectIdentifier  $identifier
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
      * @param mixed             $alias      The alias
      * @return ObjectRegistry
      */
-    public function alias(ObjectIdentifier $identifier, $alias)
+    public function alias($identifier, $alias)
     {
         $alias      = trim((string) $alias);
         $identifier = (string) $identifier;
@@ -141,6 +148,51 @@ class ObjectRegistry extends \ArrayObject implements ObjectRegistryInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Register a class for an identifier
+     *
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
+     * @param string                   $class      The class
+     * @return ObjectRegistry
+     */
+    public function setClass($identifier, $class)
+    {
+        $class      = trim($class);
+        $identifier = (string) $identifier;
+
+        $this->_classes[$identifier] = $class;
+
+        return $this;
+    }
+
+    /**
+     * Get the identifier class
+     *
+     * @param  ObjectIdentifier|string $identifier An ObjectIdentifier, identifier string
+     * @return string|false|null  Returns the class name or FALSE if the class could not be found.
+     */
+    public function getClass($identifier)
+    {
+        $result     = null;
+        $identifier = (string) $identifier;
+
+        if(isset($this->_classes[$identifier])) {
+            $result = $this->_classes[$identifier];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get a list of all the identifier aliases
+     *
+     * @return array
+     */
+    public function getClasses()
+    {
+        return $this->_classes;
     }
 
     /**

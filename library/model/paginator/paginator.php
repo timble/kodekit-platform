@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Paginator Model Class
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelPaginator extends ObjectConfig implements ModelPaginatorInterface
@@ -67,16 +67,17 @@ class ModelPaginator extends ObjectConfig implements ModelPaginatorInterface
  	/**
      * Implements lazy loading of the pages config property.
      *
-     * @param string 
+     * @param string
+     * @param mixed
      * @return mixed
      */
-    public function __get($name)
+    public function get($name, $default = null)
     {
         if($name == 'pages' && !isset($this->pages)) {
             $this->pages = $this->_pages();
         }
         
-        return $this->get($name);
+        return parent::get($name);
     }
    
  	/**
