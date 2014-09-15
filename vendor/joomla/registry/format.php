@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 /**
  * Abstract Format for JRegistry
  *
@@ -52,7 +49,7 @@ class JRegistryFormat extends JObject
 				if (file_exists($path)) {
 					require_once($path);
 				} else {
-					JError::raiseError(500,JText::_('Unable to load format class'));
+					JError::raiseError(500, 'Unable to load format class');
 				}
 			}
 

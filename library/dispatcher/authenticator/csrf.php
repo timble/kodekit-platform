@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Csrf Dispatcher Authenticator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
@@ -22,29 +22,16 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      *
      * @var string
      */
-    private $__token;
-
-    /**
-     * Constructor
-     *
-     * @param ObjectConfig $config Configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('before.post', 'authenticateRequest');
-        $this->addCommandCallback('after.get'  , 'signResponse');
-    }
+    protected $_token;
 
     /**
      * Return the CSRF request token
      *
      * @return  string  The CSRF token or NULL if no token could be found
      */
-    public function getCsrfToken()
+    public function getToken()
     {
-        if(!isset($this->__token))
+        if(!isset($this->token))
         {
             $token   = false;
             $request = $this->getObject('request');
@@ -61,10 +48,10 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
                 $token = $request->data->get('csrf_token', 'sha1');
             }
 
-            $this->__token = $token;
+            $this->_token = $token;
         }
 
-        return $this->__token;
+        return $this->_token;
     }
 
     /**
@@ -79,7 +66,7 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      * @throws ControllerExceptionRequestNotAuthenticated If the session token is not valid
      * @return boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    public function authenticateRequest(DispatcherContextInterface $context)
+    protected function _beforePost(DispatcherContextInterface $context)
     {
         $request = $context->request;
         $user    = $context->user;
@@ -90,19 +77,19 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
         }
 
         //Check csrf token
-        if(!$this->getCsrfToken()) {
+        if(!$this->getToken()) {
             throw new ControllerExceptionRequestNotAuthenticated('Token Not Found');
         }
 
         //Check cookie token
-        if($this->getCsrfToken() !== $request->cookies->get('csrf_token', 'sha1')) {
+        if($this->getToken() !== $request->cookies->get('csrf_token', 'sha1')) {
             throw new ControllerExceptionRequestNotAuthenticated('Invalid Cookie Token');
         }
 
         if($user->isAuthentic())
         {
             //Check session token
-            if( $this->getCsrfToken() !== $user->getSession()->getToken()) {
+            if( $this->getToken() !== $user->getSession()->getToken()) {
                 throw new ControllerExceptionRequestForbidden('Invalid Session Token');
             }
         }
@@ -115,7 +102,7 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
      */
-    public function signResponse(DispatcherContextInterface $context)
+    protected function _afterGet(DispatcherContextInterface $context)
     {
         if(!$context->response->isError())
         {

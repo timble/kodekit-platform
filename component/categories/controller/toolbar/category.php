@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Categories;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Category Controller Toolbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class ControllerToolbarCategory extends Library\ControllerToolbarActionbar
@@ -39,6 +39,6 @@ class ControllerToolbarCategory extends Library\ControllerToolbarActionbar
 		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->getState()->table;
 		
-        $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;
+        $command->href = 'component='.$option.'&view='.$view.'&table='.$table;
     }
 }

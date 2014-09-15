@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Timble CVBA and Contributors. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git
+ * @link           https://github.com/nooku/nooku-platform
  */
 
 namespace Nooku\Component\Categories;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Categorizable Database Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
 class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract

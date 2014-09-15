@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,8 +14,8 @@ namespace Nooku\Library;
  *
  * Pulls out chunks from an inner stream iterator and yields the chunks as arrays.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\FileSystem
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\FileSystem\Stream\Iterator\Chunked
  */
 class FilesystemStreamIteratorChunked implements \OuterIterator, \Countable
 {
@@ -72,7 +72,7 @@ class FilesystemStreamIteratorChunked implements \OuterIterator, \Countable
      */
     public function key()
     {
-        return $this->getInnerIterator()->peek() / $this->getChunkSize();
+        return $this->getInnerIterator()->key() / $this->getChunkSize();
     }
 
     /**
@@ -112,7 +112,7 @@ class FilesystemStreamIteratorChunked implements \OuterIterator, \Countable
      */
     public function count()
     {
-        return $this->getInnerIterator()->getSize() / $this->getChunkSize();
+        return $this->getInnerIterator()->getStream()->getSize() / $this->getChunkSize();
     }
 
     /**

@@ -1,20 +1,20 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
-<script src="assets://js/koowa.js" />
-<script src="assets://users/js/users.js" />
-<style src="assets://css/koowa.css" />
+<ktml:script src="assets://js/koowa.js" />
+<ktml:script src="assets://users/js/users.js" />
+<ktml:style src="assets://css/koowa.css" />
 
 <?= helper('behavior.validator') ?>
 
-<script type="text/javascript">
+<script>
     window.addEvent('domready', function() {
         ComUsers.Form.addValidators(['passwordLength','passwordVerify']);
     });
@@ -25,13 +25,13 @@
 </ktml:module>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<input type="hidden" name="enabled" value="<?= $this->getObject('user')->getId() == $user->id ? 1 : 0 ?>" />
-	
+	<input type="hidden" name="enabled" value="<?= object('user')->getId() == $user->id ? 1 : 0 ?>" />
+
 	<div class="main">
 		<div class="title">
 			<input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" placeholder="<?= translate('Name') ?>" />
 		</div>
-		
+
 		<div class="scrollable">
 			<fieldset>
 				<legend><?= translate('General') ?></legend>
@@ -95,7 +95,7 @@
 			</fieldset>
 		</div>
 	</div>
-	
+
 	<div class="sidebar">
         <?= import('default_sidebar.html'); ?>
 	</div>

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,12 +12,12 @@ use Nooku\Library;
 /**
  * Router
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class ApplicationRouter extends Library\DispatcherRouter
 {
-    public function parse(Library\HttpUrl $url)
+    public function parse(Library\HttpUrlInterface $url)
 	{
         $vars = array();
         $path = trim($url->getPath(), '/');
@@ -43,7 +43,7 @@ class ApplicationRouter extends Library\DispatcherRouter
 
             if(isset($segments[0]))
             {
-                $vars['option'] = 'com_'.$segments[0];
+                $vars['component'] = $segments[0];
 
                 if(isset($segments[1])) {
                     $vars['view']   = $segments[1];
@@ -59,7 +59,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         return true;
 	}
 
-	public function build(Library\HttpUrl $url)
+	public function build(Library\HttpUrlInterface $url)
 	{
         $query    = $url->query;
         $segments = array();
@@ -71,10 +71,10 @@ class ApplicationRouter extends Library\DispatcherRouter
         }
 
 	    //Build component route
-        if(isset($query['option']))
+        if(isset($query['component']))
         {
-            $segments[] = substr($query['option'], 4);
-            unset($query['option']);
+            $segments[] = $query['component'];
+            unset($query['component']);
 
             if(isset($query['view']))
             {
@@ -105,7 +105,7 @@ class ApplicationRouter extends Library\DispatcherRouter
 
         // Removed unused query variables
         unset($url->query['Itemid']);
-        unset($url->query['option']);
+        unset($url->query['component']);
 
         return true;
 	}

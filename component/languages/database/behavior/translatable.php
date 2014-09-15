@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Languages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Translatable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Languages
  */
 class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectMultiton
@@ -39,7 +39,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             // If table is not enabled, return null to prevent enqueueing.
             $needle = array(
                 'name'           => $table->getBase(),
-                'component_name' => 'com_' . $table->getIdentifier()->package
+                'component_name' => $table->getIdentifier()->package
             );
 
             return count($this->_tables->find($needle)) ? true : false;
@@ -59,7 +59,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name'           => $table->getBase(),
-                'component_name' => 'com_' . $table->getIdentifier()->package
+                'component_name' => $table->getIdentifier()->package
             );
 
             if (!count($this->_tables->find($needle)))

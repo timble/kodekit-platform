@@ -13,12 +13,11 @@ error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 
 // Constants
-define('_JEXEC', 1 );
-define('JPATH_BASE', realpath('.') );
+define('_JEXEC', 1 );;
 define('DS', DIRECTORY_SEPARATOR );
 
 // Includes
-require_once JPATH_BASE.'/koowa_unit_testing/defines.php';
+require_once realpath('.').'/koowa_unit_testing/defines.php';
 require_once KPATH_INCLUDES.'/commandline.php';
 require_once KPATH_LIBRARIES.'/PEAR/Console/Color.php';
 

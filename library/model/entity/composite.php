@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model Entity Composite
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, ModelEntityComposable
@@ -548,7 +548,7 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
      * @param   string  $property The property name.
      * @return  mixed
      */
-    public function __get($property)
+    final public function __get($property)
     {
         return $this->getProperty($property);
     }
@@ -560,7 +560,7 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
      * @param   mixed   $value      The property value.
      * @return  void
      */
-    public function __set($property, $value)
+    final public function __set($property, $value)
     {
         $this->setProperty($property, $value);
     }
@@ -571,7 +571,7 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
      * @param  string  $property The property name.
      * @return boolean
      */
-    public function __isset($property)
+    final public function __isset($property)
     {
         return $this->hasProperty($property);
     }
@@ -582,7 +582,7 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
      * @param   string  $property The property name.
      * @return  ModelEntityComposite
      */
-    public function __unset($property)
+    final public function __unset($property)
     {
         $this->removeProperty($property);
     }

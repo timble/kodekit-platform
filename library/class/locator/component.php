@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -36,26 +36,26 @@ namespace Nooku\Library;
  * Classname : [Namespace]\[Path][To]Exception[FileNameForException]
  * Location  : namespace/.../path/to/exception/filenameforexception.php
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Class
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Class|Locator\Component
  */
 class ClassLocatorComponent extends ClassLocatorAbstract
 {
     /**
-     * The type
+     * The locator name
      *
      * @var string
      */
-    protected $_type = 'component';
+    protected static $_name = 'component';
 
     /**
-     *  Get a fully qualified path based on a class name
+     * Get a fully qualified path based on a class name
      *
-     * @param  string $class     The class name
-     * @param  string $classpath The class path
-     * @return string|false   Returns canonicalized absolute pathname or FALSE if the class could not be found.
+     * @param  string $class    The class name
+     * @param  string $basepath The basepath to use to find the class
+     * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $classpath = null)
+    public function locate($class, $basepath)
 	{
         //Find the class
         foreach($this->getNamespaces() as $namespace => $basepath)
@@ -82,21 +82,15 @@ class ClassLocatorComponent extends ClassLocatorAbstract
             }
 
             $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class)));
-
-            $component = strtolower(array_shift($parts));
-            $file 	   = array_pop($parts);
+            $path  = array_pop($parts);
 
             if(count($parts)){
-                $path = implode('/', $parts).'/'.$file;
+                $path = implode('/', $parts).'/'.$path;
             } else {
-                $path = $file;
+                $path = $path.'/'.$path;
             }
 
-            if(!empty($classpath) && empty($namespace)) {
-                $basepath = $classpath;
-            }
-
-            return $basepath.'/'.$component.'/'.$path.'.php';
+            return $basepath.'/'.$path.'.php';
         }
 
 		return false;

@@ -12,9 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 use Nooku\Library;
 
 /**
@@ -42,7 +39,7 @@ class JElementRadio extends JElement
 		{
 			$val	= $option->attributes('value');
 			$text	= $option->data();
-			$options[] = (object) array('id' => $val, 'value' => $val, 'label' => JText::_($text));
+			$options[] = (object) array('id' => $val, 'value' => $val, 'label' => $text);
 		}
 
         $config = array(

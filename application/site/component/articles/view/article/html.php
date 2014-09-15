@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Article Html View
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
 class ArticlesViewArticleHtml extends ArticlesViewHtml
@@ -22,19 +22,18 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         $article = $this->getModel()->fetch();
 
         //Set the breadcrumbs
-        $pathway = $this->getObject('application')->getPathway();
-
         $page = $this->getObject('application.pages')->getActive();
         if ($page->getLink()->query['view'] == 'categories')
         {
             $category = $article->getCategory();
+            $url      = $this->getTemplate()->createHelper('route')->category(array('entity' => $category));
 
-            $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('entity' => $category)));
-            $pathway->addItem($article->title, '');
+            $this->getObject('com:pages.pathway')->addItem($category->title, $url);
+            $this->getObject('com:pages.pathway')->addItem($article->title, '');
         }
 
         if ($page->getLink()->query['view'] == 'articles') {
-            $pathway->addItem($article->title, '');
+            $this->getObject('com:pages.pathway')->addItem($article->title, '');
         }
 
         return parent::_actionRender($context);

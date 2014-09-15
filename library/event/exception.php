@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Exception Event
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Event
  */
 class EventException extends Event implements Exception
@@ -24,7 +24,7 @@ class EventException extends Event implements Exception
      */
     public function setException(\Exception $exception)
     {
-        $this->set('exception', $exception);
+        return ObjectConfig::set('exception', $exception);
     }
 
     /**
@@ -34,7 +34,7 @@ class EventException extends Event implements Exception
      */
     public function getException()
     {
-        return $this->get('exception');
+        return ObjectConfig::get('exception');
     }
 
     /**
@@ -102,8 +102,18 @@ class EventException extends Event implements Exception
      *
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         return (string) $this->exception;
+    }
+
+    /**
+     * Cast the object to a string
+     *
+     * @return string
+     */
+    final public function __toString()
+    {
+        return $this->toString();
     }
 }

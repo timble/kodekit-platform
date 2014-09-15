@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * The ObjectArray class provides provides the main functionality of an array and at the same time implement the
  * features of Object
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
@@ -195,7 +195,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param   string  $key The key name.
      * @return  string  The corresponding value.
      */
-    public function __get($key)
+    final public function __get($key)
     {
         return $this->offsetGet($key);
     }
@@ -207,7 +207,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param   mixed   $value The value for the key
      * @return  void
      */
-    public function __set($key, $value)
+    final public function __set($key, $value)
     {
         $this->offsetSet($key, $value);
     }
@@ -218,7 +218,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param  string  $key The key name
      * @return boolean
      */
-    public function __isset($key)
+    final public function __isset($key)
     {
         return $this->offsetExists($key);
     }
@@ -229,7 +229,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * @param   string  $key The key name
      * @return  void
      */
-    public function __unset($key)
+    final public function __unset($key)
     {
         $this->offsetUnset($key);
     }

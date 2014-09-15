@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
@@ -12,15 +12,15 @@
 
 <?= helper('behavior.modal') ?>
 
-<script src="assets://attachments/js/attachments.list.js" />
-<script src="assets://files/js/uri.js" />
+<ktml:script src="assets://attachments/js/attachments.list.js" />
+<ktml:script src="assets://files/js/uri.js" />
 
 <script>
 window.addEvent('domready', function() {
     new Attachments.List({
         container: 'attachments-list',
         action: '<?= route('view=attachments') ?>',
-        token: '<?= $this->getObject('user')->getSession()->getToken() ?>'
+        token: '<?= object('user')->getSession()->getToken() ?>'
     });
 });
 </script>
@@ -30,8 +30,8 @@ window.addEvent('domready', function() {
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
         <div class="thumbnail" data-id="<?= $item->id; ?>">
-            <a class="modal" href="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
-                <img src="files/<?= $this->getObject('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
+            <a class="modal" href="files/<?= object('application')->getSite() ?>/attachments/<?= $item->path ?>" rel="{handler: 'image'}">
+                <img src="files/<?= object('application')->getSite() ?>/attachments/<?= $item->thumbnail ?>" />
             </a>
             <div class="thumbnail__caption">
                 <a class="button btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
@@ -50,9 +50,9 @@ window.addEvent('domready', function() {
         </div>
     	<? endif ?>
     <? endforeach ?>
-    
+
     <ul>
-    <? foreach($list as $item) : ?>        
+    <? foreach($list as $item) : ?>
     	<? if(!$item->file->isImage()) : ?>
     	<li>
             <a href="<?= route('view=attachment&format=file&id='.$item->id) ?>"><?= escape($item->name) ?></a>

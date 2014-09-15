@@ -12,9 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 /**
  * Renders a spacer element
  *
@@ -40,7 +37,7 @@ class JElementSpacer extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		if ($value) {
-			return JText::_($value);
+			return $value;
 		} else {
 			return '<hr />';
 		}

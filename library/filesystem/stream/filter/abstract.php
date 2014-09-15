@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * FileSystem Stream Filter Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\FileSystem
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\FileSystem\Stream\Filter\Abstract
  */
 abstract class FilesystemStreamFilterAbstract extends \php_user_filter implements FilesystemStreamFilterInterface
 {
@@ -22,7 +22,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      *
      * @var string
      */
-    public static $name = '';
+    protected static $_name = '';
 
     /**
      * The filter name
@@ -33,7 +33,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      * @var string
      * @see \php_user_filter
      */
-    //public $filtername;
+    public $filtername;
 
     /**
      * The stream being filtered
@@ -44,7 +44,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      * @var resource
      * @see \php_user_filter
      */
-    //public $stream;
+    public $stream;
 
     /**
      * The filter params
@@ -54,7 +54,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
      * @var array
      * @see \php_user_filter
      */
-    //public $params;
+    public $params;
 
     /**
      * Register the stream filter
@@ -74,28 +74,13 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
     }
 
     /**
-     * Check if the stream filter is registered
-     *
-     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
-     */
-    public static function isRegistered()
-    {
-        $result = false;
-        if($name = self::getName()) {
-            $result = in_array($name, stream_get_wrappers());
-        }
-
-        return $result;
-    }
-
-    /**
      * Get the filter name
      *
      * @return string The filter name
      */
     public static function getName()
     {
-        return static::$name;
+        return static::$_name;
     }
 
     /**
@@ -121,5 +106,20 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
     public function onClose()
     {
         //do nothing
+    }
+
+    /**
+     * Check if the stream filter is registered
+     *
+     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
+     */
+    public static function isRegistered()
+    {
+        $result = false;
+        if($name = self::getName()) {
+            $result = in_array($name, stream_get_wrappers());
+        }
+
+        return $result;
     }
 }

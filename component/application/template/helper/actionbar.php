@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Application;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Toolbar Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
 class TemplateHelperActionbar extends Library\TemplateHelperAbstract
@@ -76,11 +76,11 @@ class TemplateHelperActionbar extends Library\TemplateHelperAbstract
 
         //Create the href
         if(!empty($command->href)) {
-            $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
+            $command->attribs['href'] = $this->getTemplate()->route($command->href);
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';
-       	$html .= $this->translate($command->label);
+       	$html .= $this->getObject('translator')->translate($command->label);
        	$html .= '</a>';
 
     	return $html;

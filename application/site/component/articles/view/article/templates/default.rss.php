@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
@@ -17,13 +17,13 @@
         <title><?= escape($article->title) ?> </title>
         <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
         <link><?= helper('route.article', array('entity' => $article)) ?></link>
-        <lastBuildDate><?= helper('date.format') ?></lastBuildDate>
+        <lastBuildDate><?= helper('date.format', array('format' => \DateTime::RSS)) ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
-        <language><?= JFactory::getLanguage()->getTag() ?></language>
+        <language><?= @object('translator')->getLocale(); ?></language>
 
-        <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
+        <dc:language><?= @object('translator')->getLocale(); ?></dc:language>
         <dc:rights>Copyright <?= helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= helper('date.format') ?></dc:date>
+        <dc:date><?= helper('date.format', array('format' => \DateTime::RSS)) ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
@@ -38,8 +38,8 @@
                 <guid isPermaLink="false"><?= helper('route.article', array('entity' => $article)) ?></guid>
                 <description><![CDATA[<?= $comment->text ?>]]></description>
 
-                <pubDate><?= helper('date.format', array('date' => $comment->created_on)) ?></pubDate>
-                <dc:date><?= helper('date.format', array('date' => $comment->created_on)) ?></dc:date>
+                <pubDate><?= helper('date.format', array('date' => $comment->created_on, 'format' => \DateTime::RSS)) ?></pubDate>
+                <dc:date><?= helper('date.format', array('date' => $comment->created_on, 'format' => \DateTime::RSS)) ?></dc:date>
             </item>
         <? endforeach; ?>
     </channel>

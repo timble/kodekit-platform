@@ -1,20 +1,20 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Default Dispatcher Router
+ * Dispatcher Router
  *
  * Provides route building and parsing functionality
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectMultiton
@@ -22,10 +22,10 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Obje
     /**
      * Function to convert a route to an internal URI
      *
-     * @param   HttpUrl  $url  The url.
+     * @param   HttpUrlInterface  $url  The url.
      * @return  boolean
      */
-    public function parse(HttpUrl $url)
+    public function parse(HttpUrlInterface $url)
     {
         return true;
     }
@@ -33,12 +33,11 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Obje
     /**
      * Function to convert an internal URI to a route
      *
-     * @param	HttpUrl   $url	The internal URL
+     * @param	HttpUrlInterface   $url	The internal URL
      * @return	boolean
      */
-    public function build(HttpUrl $url)
+    public function build(HttpUrlInterface $url)
     {
-        // Build the url : mysite/route/index.php?var=x
         return true;
     }
 }

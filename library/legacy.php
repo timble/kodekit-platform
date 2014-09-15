@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 /**
@@ -15,7 +15,7 @@ if(extension_loaded('apc') && !function_exists('apc_exists'))
     /**
      * Check if an APC key exists
      *
-     * @param  mixed  A string, or an array of strings, that contain keys.
+     * @param  mixed  $keys A string, or an array of strings, that contain keys.
      * @return boolean Returns TRUE if the key exists, otherwise FALSE
      */
     function apc_exists($keys)
@@ -23,5 +23,37 @@ if(extension_loaded('apc') && !function_exists('apc_exists'))
 		$r;
 		apc_fetch($keys,$r);
 		return $r;
+    }
+}
+
+/**
+ * PHP 5.5 compatibility
+ */
+if (!function_exists('json_last_error_msg'))
+{
+    function json_last_error_msg()
+    {
+        switch (json_last_error())
+        {
+            case JSON_ERROR_DEPTH:
+                $error = 'Maximum stack depth exceeded';
+                break;
+            case JSON_ERROR_STATE_MISMATCH:
+                $error = 'Underflow or the modes mismatch';
+                break;
+            case JSON_ERROR_CTRL_CHAR:
+                $error = 'Unexpected control character found';
+                break;
+            case JSON_ERROR_SYNTAX:
+                $error = 'Syntax error, malformed JSON';
+                break;
+            case JSON_ERROR_UTF8:
+                $error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+                break;
+            default:
+                $error = 'Unknown Error';
+        }
+
+        return $error;
     }
 }

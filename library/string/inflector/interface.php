@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Class used to pluralize and singularize English nouns.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\String
  */
 interface StringInflectorInterface
@@ -24,9 +24,8 @@ interface StringInflectorInterface
 	 *
 	 * @param	string	$singular Singular word
 	 * @param 	string	$plural   Plural word
-	 * @param 	string	$verbal   Verbal word
 	 */
-	public static function addWord($singular, $plural, $verbal = null);
+	public static function addWord($singular, $plural);
 
    	/**
 	 * Singular English word to plural.
@@ -43,14 +42,6 @@ interface StringInflectorInterface
 	 * @return 	string Singular noun
 	 */
 	public static function singularize($word);
-	
-	/**
-	 * Present English verb conjugated to preterite participle.
-	 *
-	 * @param 	string $word Word to verbalize.
-	 * @return 	string Present verb
-	 */
-	public static function verbalize($word);
 
    	/**
 	 * Returns given word as CamelCased
@@ -91,39 +82,6 @@ interface StringInflectorInterface
 	 * @return string  UpperCamelCasedWord
 	 */
 	public static function implode($words);
-
-   	/**
-	 * Returns a human-readable string from $word
-	 *
-	 * Returns a human-readable string from $word, by replacing underscores with a space, and by upper-casing the
-     * initial character by default.
-	 *
-	 * @param   string    $word    String to "humanize"
-	 * @return string Human-readable word
-     */
-	public static function humanize($word);
-
-   	/**
-	 * Converts a class name to its table name according to Nooku naming conventions.
-	 *
-	 * Converts "Person" to "people"
-	 *
-	 * @param  string $className    Class name for getting related table_name.
-	 * @return string plural_table_name
-	 * @see classify
-	 */
-	public static function tableize($className);
-
-   	/**
-	 * Converts a table name to its class name according to Nooku naming conventions.
-	 *
-	 * Converts "people" to "Person"
-	 *
-	 * @see tableize
-	 * @param  string $table_name  Table name for getting related ClassName.
-	 * @return string SingularClassName
-	 */
-	public static function classify($tableName);
 
 	/**
 	 * Check to see if an English word is singular

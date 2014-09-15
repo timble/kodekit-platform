@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 // Error Definition: Illegal Options
 define( 'JERROR_ILLEGAL_OPTIONS', 1 );
 // Error Definition: Callback does not exist

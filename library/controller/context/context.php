@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Controller Context
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerContext extends Command implements ControllerContextInterface
@@ -24,7 +24,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function getRequest()
     {
-        return $this->get('request');
+        return ObjectConfig::get('request');
     }
 
     /**
@@ -35,8 +35,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function setRequest(ControllerRequestInterface $request)
     {
-        $this->set('request', $request);
-        return $this;
+        return ObjectConfig::set('request', $request);
     }
 
     /**
@@ -46,7 +45,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function getResponse()
     {
-        return $this->get('response');
+        return ObjectConfig::get('response');
     }
 
     /**
@@ -57,8 +56,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function setResponse(ControllerResponseInterface $response)
     {
-        $this->set('response', $response);
-        return $this;
+        return ObjectConfig::set('response', $response);
     }
 
     /**
@@ -68,7 +66,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function getUser()
     {
-        return $this->get('user');
+        return ObjectConfig::get('user');
     }
 
     /**
@@ -79,8 +77,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function setUser(UserInterface $user)
     {
-        $this->set('user', $user);
-        return $this;
+        return ObjectConfig::set('user', $user);
     }
 
     /**
@@ -90,7 +87,7 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function getAction()
     {
-        return $this->get('action');
+        return ObjectConfig::get('action');
     }
 
     /**
@@ -101,7 +98,6 @@ class ControllerContext extends Command implements ControllerContextInterface
      */
     public function setAction($action)
     {
-        $this->set('action', $action);
-        return $this;
+        return ObjectConfig::set('action', $action);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Rss View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 class ViewRss extends ViewTemplate
@@ -28,8 +28,6 @@ class ViewRss extends ViewTemplate
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'layout'   => 'rss',
-            'template' => 'rss',
             'mimetype' => 'application/rss+xml',
             'data'     => array(
                 'update_period'    => 'hourly',
@@ -48,5 +46,33 @@ class ViewRss extends ViewTemplate
     public function getLayout()
     {
         return 'default';
+    }
+
+    /**
+     * Force the route to fully qualified and escaped by default
+     *
+     * @param   string  $route   The query string used to create the route
+     * @param   boolean $fqr     If TRUE create a fully qualified route. Default TRUE.
+     * @param   boolean $escape  If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return 	DispatcherRouterRoute 	The route
+     */
+    public function getRoute($route = '', $fqr = true, $escape = true)
+    {
+        return parent::getRoute($route, $fqr, $escape);
+    }
+
+    /**
+     * Prepend the xml prolog
+     *
+     * @param  ViewContext  $context A view context object
+     * @return string  The output of the view
+     */
+    protected function _actionRender(ViewContext $context)
+    {
+        //Prepend the xml prolog
+        $result  = '<?xml version="1.0" encoding="utf-8" ?>';
+        $result .=  parent::_actionRender($context);
+
+        return $result;
     }
 }

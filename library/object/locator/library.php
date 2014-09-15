@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,17 +12,17 @@ namespace Nooku\Library;
 /**
  * Library Object Locator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Object
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Object\Library
  */
 class ObjectLocatorLibrary extends ObjectLocatorAbstract
 {
     /**
-     * The type
+     * The locator names
      *
      * @var string
      */
-    protected $_type = 'lib';
+    protected static $_name = 'lib';
 
     /**
      * Initializes the options for the object
@@ -36,8 +36,8 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     {
         $config->append(array(
             'sequence' => array(
-                'Nooku\Library\<Package><Class>',
-                'Nooku\Library\<Package><Path>Default',
+                '<Domain>\Library\<Package><Class>',
+                '<Domain>\Library\<Package><Path>Default',
             )
         ));
     }

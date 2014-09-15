@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Class Loader Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Class
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Class\Loader\Interface
  */
 interface ClassLoaderInterface
 {
@@ -42,33 +42,23 @@ interface ClassLoaderInterface
     public function load($class);
 
     /**
-     * Enable or disable class loading
+     * Get the path based on a class name
      *
-     * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
-     *
-     * @param bool|null $debug True or false. If NULL the method will return the current debug value.
-     * @return bool Returns the current debug value.
+     * @param string $class The class name
+     * @param string $base  The base path. If NULL the global base path will be used.
+     * @return string|boolean Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function debug($debug);
+    public function getPath($class, $base = null);
 
     /**
      * Get the path based on a class name
      *
-     * @param string $class    The class name
-     * @param string $basepath The basepath name
-     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
-     */
-    public function getPath($class, $basepath = null);
-
-    /**
-     * Set the path based for a class
-     *
-     * @param string $class    The class name
-     * @param string $path     The class path
-     * @param string $basepath The basepath name
+     * @param string $class  The class name
+     * @param string $path   The class path
+     * @param string $base   The base path. If NULL the global base path will be used.
      * @return void
      */
-    public function setPath($class, $path, $basepath = null);
+    public function setPath($class, $path, $base = null);
 
     /**
      * Register a class locator
@@ -104,36 +94,36 @@ interface ClassLoaderInterface
     public function getAliases($class);
 
     /**
-     * Register a basepath by name
+     * Get the base path
      *
-     * @param string $name The name of the basepath
-     * @param string $path The path
-     * @return void
+     * @return string The base path
      */
-    public function registerBasepath($name, $path);
+    public function getBasePath();
 
     /**
-     * Get a basepath by name
+     * Set the base path
      *
-     * @param string $name The name of the application
-     * @return string The path of the application
-     */
-    public function getBasepath($name);
-
-    /**
-     * Set the active basepath by name
-     *
-     * @param string $name The name base path
+     * @param string $path The base path
      * @return ClassLoaderInterface
      */
-    public function setBasepath($name);
+    public function setBasePath($path);
 
     /**
-     * Get a list of basepaths
+     * Enable or disable class loading
      *
-     * @return array
+     * If debug is enabled the class loader should throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool $debug True or false.
+     * @return ClassLoaderInterface
      */
-    public function getBasepaths();
+    public function setDebug($debug);
+
+    /**
+     * Check if the loader is running in debug mode
+     *
+     * @return bool
+     */
+    public function isDebug();
 
     /**
      * Tells if a class, interface or trait exists.

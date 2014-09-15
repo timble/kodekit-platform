@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Application;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Application
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
@@ -30,12 +30,12 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt)));
+            $options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
         }
 
-        $basepaths = $this->getObject('manager')->getClassLoader()->getBasepaths();
-        foreach($basepaths as $application => $path) {
-            $options[] = $this->option(array('label' => $application, 'value' => $application));
+        $applications = $this->getObject('object.bootstrapper')->getApplications();
+        foreach($applications as $name) {
+            $options[] = $this->option(array('label' => $name, 'value' => $name));
         }
         
         $config->options = $options;

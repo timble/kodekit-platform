@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,11 +12,18 @@ namespace Nooku\Library;
 /**
  * FileSystem Stream Filter Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\FileSystem
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\FileSystem\Stream\Filter\Interface
  */
 interface FilesystemStreamFilterInterface
 {
+    /**
+     * Get the stream filter name
+     *
+     * @return string The stream filter name
+     */
+    public static function getName();
+
     /**
      * Called when applying the filter
      *
@@ -41,20 +48,6 @@ interface FilesystemStreamFilterInterface
     public static function register();
 
     /**
-     * Check if the stream filter is registered
-     *
-     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
-     */
-    public static function isRegistered();
-
-    /**
-     * Get the stream filter name
-     *
-     * @return string The stream filter name
-     */
-    public static function getName();
-
-    /**
      * Called the filter is created
      *
      * @return bool Return FALSE on failure, or TRUE on success.
@@ -72,5 +65,10 @@ interface FilesystemStreamFilterInterface
      */
     public function onClose();
 
-
+    /**
+     * Check if the stream filter is registered
+     *
+     * @return bool TRUE if the filter is registeredL, FALSE otherwise.
+     */
+    public static function isRegistered();
 }

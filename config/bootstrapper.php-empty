@@ -1,0 +1,136 @@
+<?php
+/**
+ * Nooku Platform - http://www.nooku.org/platform
+ *
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
+ */
+
+/**
+ * Rename this file to bootstrapper.php e.g.
+ *
+ * Now edit this file and configure the parameters for your site and database.
+ */
+
+return array(
+
+    'priority' => 1, //Library\ObjectBootstrapper::PRIORITY_HIGHEST,
+
+    // Object Manager Settings
+    'cache'           => false,
+    'cache_namespace' => APPLICATION_NAME,
+    'debug'           => '0',
+
+    'identifiers' => array(
+
+        'application'           => [
+
+            // Site Settings
+            'title'    => 'Nooku Platform',
+            'timezone' => 'UTC',
+            'language' => 'en-GB',
+
+            // Mail Settings
+            'mailer'    => 'mail',
+            'mailfrom'  => '',
+            'fromname'  => '',
+            'sendmail'  => '/usr/bin/env catchmail',
+            'smtpauth'  => '0',
+            'smtpuser'  => '',
+            'smtppass'  => '',
+            'smtphost'  => 'localhost',
+
+        ],
+
+        'translator'            => [
+
+            //Cache Settings
+            'cache'           => false,
+            'cache_namespace' => APPLICATION_NAME,
+
+        ],
+
+        'exception.handler'     => [
+
+            /*
+             * Error Reporting
+             *
+             * Either one of the predefined values or a custom error level. If NULL the error_reporting setting
+             * will be used. @link http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
+             *
+             * - ExceptionHandler::ERROR_REPORTING   //Use the error_reporting() setting
+             * - ExceptionHandler::ERROR_DEVELOPMENT //E_ALL   | E_STRICT  | ~E_DEPRECATED
+             * - ExceptionHandler::ERROR_PRODUCTION  //E_ERROR | E_WARNING | E_PARSE
+             */
+            'error_reporting' => null //Use PHP error_reporting
+        ],
+
+        'database.adapter.mysql' =>  [
+
+            'auto_connect' => true,
+            'database'     => '',          // MySQL database name
+
+            /*
+             * Default database settings can also be set through php.ini in which case following settings
+             * need to be removed. @link http://php.net/manual/en/mysql.configuration.php
+             */
+            'host'          => '127.0.0.1', // This is normally set to 127.0.0.1 or localhost
+            'username'      => '',          // MySQL username
+            'password'      => '',          // MySQL password
+
+        ],
+
+        'template.engine.factory'   => [
+
+            //Cache Settings
+            'debug'        => false,
+            'cache'        => false,
+            'cache_path'   => APPLICATION_BASE.'/cache',
+            'cache_reload' => false,
+            'engines'      => [
+
+                /*
+                 * Uncomment to enable the markdown template engine
+                 *
+                 * Requires ParsedownExtra to be installed
+                 * @link : https://packagist.org/packages/erusev/parsedown-extra
+                 *
+                 * Note : Change the compiler by defining a different callable in the 'compiler' config option below.
+                 */
+                /*'template.engine.markdown'  => [
+
+                    'compiler'   => function($content) { return \ParsedownExtra::instance()->text($content); }
+
+                ],*/
+
+                /*
+                 * Uncomment to enable the twig template engine
+                 *
+                 * Requires Twig to be installed
+                 * @link https://packagist.org/packages/twig/twig
+                 */
+                /*'template.engine.twig'      => [
+
+                    'autoescape'       => true,
+                    'strict_variables' => false,
+                    'optimizations'    => -1,
+
+                ],*/
+
+                /*
+                 * Uncomment to enable the mustache template engine
+                 *
+                 * Requires Mustache to be installed.
+                 * @link : https://packagist.org/packages/mustache/mustache
+                 */
+                /*'template.engine.mustache'  => [
+
+                    'strict_callables' => false,
+                    'pragmas'          => ['FILTERS'],
+
+                ],*/
+            ],
+        ],
+    )
+);

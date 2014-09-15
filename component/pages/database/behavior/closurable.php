@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link           http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Closurable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
@@ -55,7 +55,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     {
         $config->append(array(
             'priority'  => self::PRIORITY_HIGH,
-            'row_mixin' => true,
             'table'     => null
         ));
 
@@ -316,7 +315,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     $parent = $table->select((int)$row->parent_id, Library\Database::FETCH_ROW);
                     if ($parent->isDescendantOf($row))
                     {
-                        $this->setStatusMessage(JText::_('You cannot move a node under one of its descendants'));
+                        $this->setStatusMessage($this->getObject('translator')->translate('You cannot move a node under one of its descendants'));
                         $this->setStatus(Library\Database::STATUS_FAILED);
 
                         return false;

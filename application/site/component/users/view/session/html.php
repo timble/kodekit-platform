@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,15 +12,15 @@ use Nooku\Library;
 /**
  * Session Html View
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Users
  */
 class UsersViewSessionHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {
-        $title = JText::_('Login');
-        $this->getObject('application')->getPathway()->addItem($title);
+        $title = $this->getObject('translator')->translate('Login');
+        $this->getObject('com:pages.pathway')->addItem($title);
 
         return parent::_actionRender($context);
     }
@@ -38,7 +38,6 @@ class UsersViewSessionHtml extends Library\ViewHtml
         $page       = $this->getObject('application.pages')->getActive();
         $parameters = $page->getParams('page');
 
-        $parameters->def('description_login_text', 'LOGIN_DESCRIPTION');
         $parameters->def('registration', true);
 
         return $parameters;

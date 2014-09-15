@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -14,20 +14,11 @@ use Nooku\Library;
 /**
  * Authenticatable Database Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
 class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'row_mixin' => true
-        ));
-
-        parent::_initialize($config);
-    }
-
     protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $data = $context->data;
@@ -65,9 +56,13 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         if ($data->getStatus() == Library\Database::STATUS_CREATED)
         {
             // Create a password row for the user.
-            $data->getPassword()
-                  ->setProperties(array('id' => $data->email, 'password' => $data->password))
-                  ->save();
+            $password = $this->getPassword();
+
+            $data = array('id' => $data->email, 'password' => $data->password);
+
+            $password->isNew() ? $password->create($data) : $password->setProperties($data);
+
+            $password->save();
         }
     }
 

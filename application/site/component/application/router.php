@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,12 +12,12 @@ use Nooku\Library;
 /**
  * Router
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class ApplicationRouter extends Library\DispatcherRouter
 {
-    public function parse(Library\HttpUrl $url)
+    public function parse(Library\HttpUrlInterface $url)
 	{
 		// Get the path
         $path = trim($url->getPath(), '/');
@@ -36,7 +36,7 @@ class ApplicationRouter extends Library\DispatcherRouter
 		return $this->_parseRoute($url);
 	}
 
-	public function build(Library\HttpUrl $url)
+	public function build(Library\HttpUrlInterface $url)
 	{
         $result = $this->_buildRoute($url);
 
@@ -125,18 +125,18 @@ class ApplicationRouter extends Library\DispatcherRouter
     {
         $route = $url->path;
 
-        if(isset($url->query['option']) )
+        if(isset($url->query['component']) )
         {
             if(!empty($route))
             {
                 //Get the router identifier
-                $identifier = 'com:'.substr($url->query['option'], 4).'.router';
+                $identifier = 'com:'.$url->query['component'].'.router';
 
                 //Parse the view route
                 $query = $this->getObject($identifier)->parse($url);
 
                 //Prevent option and/or itemid from being override by the component router
-                $query['option'] = $url->query['option'];
+                $query['component'] = $url->query['component'];
                 $query['Itemid'] = $url->query['Itemid'];
 
                 $url->setQuery($query, true);
@@ -163,7 +163,7 @@ class ApplicationRouter extends Library\DispatcherRouter
 
         // Removed unused query variables
         unset($url->query['Itemid']);
-        unset($url->query['option']);
+        unset($url->query['component']);
 
         return true;
 	}
@@ -173,7 +173,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $segments = array();
 
         //Get the router identifier
-        $identifier = 'com:'.substr($url->query['option'], 4).'.router';
+        $identifier = 'com:'.$url->query['component'].'.router';
 
         //Build the view route
         $segments = $this->getObject($identifier)->build($url);
@@ -197,7 +197,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Set the page route in the url
         if(!$page->home)
         {
-            if($page->getLink()->query['option'] == $url->query['option']) {
+            if($page->getLink()->query['component'] == $url->query['component']) {
                 $segments = explode('/', $page->route);
             }
         }

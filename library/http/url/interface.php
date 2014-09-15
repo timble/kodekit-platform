@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Http Url Interface
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
 interface HttpUrlInterface
@@ -128,11 +128,11 @@ interface HttpUrlInterface
     /**
      * Returns the query portion as a string or array
      *
-     * @param     boolean $toArray If TRUE return an array. Default FALSE
-     * @param     boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @param   boolean      $toArray If TRUE return an array. Default FALSE
+     * @param   boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getQuery($toArray = false, $escape = false);
+    public function getQuery($toArray = false, $escape = null);
 
     /**
      * Sets the query string in the url
@@ -174,6 +174,21 @@ interface HttpUrlInterface
     public function setFragment($fragment);
 
     /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * @return HttpUrlInterface
+     */
+    public function setEscape($escape);
+
+    /**
+     * Get the escape setting
+     *
+     * @return bool
+     */
+    public function getEscape();
+
+    /**
      * Build the url from a string
      *
      * Partial URLs are also accepted. fromString tries its best to parse them correctly.
@@ -195,19 +210,18 @@ interface HttpUrlInterface
     public static function fromArray(array $parts);
 
     /**
-     * Convert the url or part of it to a string
+     * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * Using scheme://user:pass@host/path?query#fragment';
-     *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
-     * @return string
+     * @param integer      $parts   A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
+     * @return  string
      */
-    public function toString($parts = self::FULL);
+    public function toString($parts = self::FULL, $escape = null);
 
     /**
      * Check if two url's are equal
      *
-     * @param KHttpUrlInterface $url
+     * @param HttpUrlInterface $url
      * @return Boolean
      */
     public function equals(HttpUrlInterface $url);
