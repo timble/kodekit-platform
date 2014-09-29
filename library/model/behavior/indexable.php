@@ -27,7 +27,7 @@ class ModelBehaviorIndexable extends ModelBehaviorAbstract
         parent::__construct($config);
 
         $this->addCommandCallback('before.fetch', '_buildQuery')
-            ->addCommandCallback('before.count', '_buildQuery');
+             ->addCommandCallback('before.count', '_buildQuery');
     }
 
     /**
@@ -39,7 +39,8 @@ class ModelBehaviorIndexable extends ModelBehaviorAbstract
     {
         parent::onMixin($mixer);
 
-        if ($mixer instanceof ModelDatabase) {
+        if ($mixer instanceof ModelDatabase)
+        {
             $table = $mixer->getTable();
 
             // Set the dynamic states based on the unique table keys
@@ -53,8 +54,7 @@ class ModelBehaviorIndexable extends ModelBehaviorAbstract
      * Add order query
      *
      * @param   ModelContextInterface $context A model context object
-     *
-     * @return    void
+     * @return  void
      */
     protected function _buildQuery(ModelContextInterface $context)
     {
