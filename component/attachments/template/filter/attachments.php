@@ -38,8 +38,10 @@ class TemplateFilterAttachments extends Files\TemplateFilterFiles
 
         $path = $base->getPath().'/files/'.$site.'/attachments/';
 
+
         $config->append(array(
-            'aliases' => array(
+            'priority' => self::PRIORITY_LOWEST,
+            'schemes' => array(
                 'attachments://' => $path,
                 '"attachments/'  => '"'.$path
             )
