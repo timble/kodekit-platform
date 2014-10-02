@@ -8,6 +8,7 @@
  */
 ?>
 
+<ktml:script src="assets://js/koowa.js" />
 <ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />
 <ktml:script src="assets://ckeditor/js/ckeditor.koowa.js" />
 
