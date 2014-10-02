@@ -131,7 +131,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract implements TemplateHel
             foreach ($options as $option)
             {
                 $value = $option->value;
-                $label = $config->translate ? $this->translate( $option->label ) : $option->label;
+                $label = $config->translate ? $translator( $option->label ) : $option->label;
 
                 $extra = '';
                 if(isset($option->disable) && $option->disable) {
