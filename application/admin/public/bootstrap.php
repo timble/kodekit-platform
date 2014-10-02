@@ -16,7 +16,7 @@
 use Nooku\Library;
 
 //Don't run in STRICT mode (Joomla is not E_STRICT compat)
-error_reporting(error_reporting() | ~ E_STRICT);
+error_reporting(error_reporting() & ~ E_STRICT);
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
