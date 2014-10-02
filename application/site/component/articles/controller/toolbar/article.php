@@ -32,7 +32,7 @@ class ArticlesControllerToolbarArticle extends Library\ControllerToolbarActionba
         if($view->getLayout() != 'form' && $controller->isEditable() && $controller->canEdit())
         {
             $article = $controller->getModel()->fetch();
-            $route   = $controller->getView()->getTemplate()->createHelper('route')-article(
+            $route   = $controller->getView()->getTemplate()->createHelper('route')->article(
                 array('entity' => $article, 'layout' => 'form')
             );
 

@@ -53,9 +53,9 @@
             <h3><?= translate('Component') ?></h3>
             <div id="components-inner">
                 <? foreach($components as $component) : ?>
-                <? if(!empty($component->views)) : ?>
-                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= (parameters()->type['name'] == 'component' && parameters()->type['component'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
-                <? endif ?>
+                    <? if(!empty($component->views)) : ?>
+                        <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= (parameters()->type['name'] == 'component' && parameters()->type['component'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
+                    <? endif ?>
                 <? endforeach ?>
             </div>
             <? if($menu->application == 'site') : ?>
@@ -78,7 +78,7 @@
                     <div class="view">
                         <h4><?= translate($view->title) ?></h4>
                         <? foreach($view->layouts as $layout) : ?>
-                        <a class="<?= (parameters()->type['name'] == 'component' && parameters()->type['view'] == $view->name && parameters()->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.parameters()->menu.'&type[name]=component&type[option]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                        <a class="<?= (parameters()->type['name'] == 'component' && parameters()->type['view'] == $view->name && parameters()->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.$menu->id.'&type[name]=component&type[component]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
                             <?= translate($layout->title) ?>
                             <br />
                             <small><?= translate($layout->description) ?></small>

@@ -50,7 +50,12 @@ class ModelPages extends Library\ModelDatabase
         //Set the page properties based on the model state information
         if (isset($context->state->type) && $context->state->type) {
             $entity->type     = $context->state->type['name'];
-            $entity->link_url = http_build_query($context->state->type, '');
+
+            //Unsetting the type. We don't need it anymore
+            $type = $context->state->type;
+            unset($type['name']);
+
+            $entity->link_url = http_build_query($type, '');
         }
 
         return $entity;
