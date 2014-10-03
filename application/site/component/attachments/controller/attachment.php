@@ -16,7 +16,7 @@ use Nooku\Component\Attachments;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Attachments
  */
-abstract class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
+class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
 {
 
 }
