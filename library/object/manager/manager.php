@@ -48,10 +48,10 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         else $this->setClassLoader($config['class_loader']);
 
         //Create the object registry
-        if($config->cache_enabled)
+        if($config->cache_enabled && ObjectRegistryCache::isSupported())
         {
             $this->_registry = new ObjectRegistryCache();
-            $this->_registry->setCachePrefix($config->cache_prefix);
+            $this->_registry->setNamespace($config->cache_prefix);
         }
         else $this->_registry = new ObjectRegistry();
 

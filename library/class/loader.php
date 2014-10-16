@@ -60,12 +60,12 @@ class ClassLoader implements ClassLoaderInterface
     final private function __construct($config = array())
     {
         //Create the class registry
-        if(isset($config['cache_enabled']) && $config['cache_enabled'])
+        if(isset($config['cache_enabled']) && $config['cache_enabled'] && ClassRegistryCache::isSupported())
         {
             $this->_registry = new ClassRegistryCache();
 
             if(isset($config['cache_prefix'])) {
-                $this->_registry->setCachePrefix($config['cache_prefix']);
+                $this->_registry->setNamespace($config['cache_prefix']);
             }
         }
         else $this->_registry = new ClassRegistry();
