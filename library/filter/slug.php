@@ -105,7 +105,7 @@ class FilterSlug extends FilterAbstract implements FilterTraversable
 		$value = preg_replace('/['.preg_quote($this->_separator, '/').']+/', $this->_separator, $value);
 
         //remove trailing dash
-        $value = preg_replace("/\-$/m", "",  $value);
+        $value = trim($value, $this->_separator);
 
 		//limit length
 		if (strlen($value) > $this->_length) {
