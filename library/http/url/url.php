@@ -34,8 +34,7 @@ namespace Nooku\Library;
  *     // $url->host     => 'example.com'
  *     // $url->user     => 'anonymous'
  *     // $url->pass     => 'guest'
- *     // $url->path     => array('path', 'to', 'index.php', 'foo', 'bar')
- *     // $url->format   => 'xml'
+ *     // $url->path     => array('path', 'to', 'index.php', 'foo', 'bar.xml')
  *     // $url->query    => array('baz' => 'dib')
  *     // $url->fragment => 'anchor'
  * ?>
@@ -60,24 +59,13 @@ namespace Nooku\Library;
  *     $url->query['zim'] = 'gir';
  *
  *     // reset the path to something else entirely.
- *     // this will additionally set the format to 'php'.
  *     $url->setPath('/something/else/entirely.php');
- *
- *     // add another path element
- *     $url->path[] = 'another';
- *
- *     // and fetch it to a string.
- *     $new_url = $url->toString();
- *
- *     // the $new_url string is as follows; notice how the format
- *     // is always applied to the last path-element.
- *     // /something/else/entirely/another.php?baz=zab&zim=gir#anchor
  *
  *     // Get the full URL to get the scheme and host
  *     $full_url = $url->toString(true);
  *
  *     // the $full_url string is:
- *     // https://example.com/something/else/entirely/another.php?baz=zab&zim=gir#anchor
+ *     // https://example.com/something/else/entirely.php?baz=zab&zim=gir#anchor
  * ?>
  * </code>
  *
@@ -97,14 +85,13 @@ class HttpUrl extends Object implements HttpUrlInterface
     const HOST     = 8;
     const PORT     = 16;
     const PATH     = 32;
-    const FORMAT   = 64;
-    const QUERY    = 128;
-    const FRAGMENT = 256;
+    const QUERY    = 64;
+    const FRAGMENT = 128;
 
-    const USERINFO  = 6;     //User info
-    const AUTHORITY = 31;    //Authority
-    const BASE      = 127;   //Hierarchical part
-    const FULL      = 511;   //Complete url
+    const USERINFO  = 6;   //User info
+    const AUTHORITY = 31;  //Authority
+    const BASE      = 63;  //Hierarchical part
+    const FULL      = 255; //Complete url
 
     /**
      * The scheme [http|https|ftp|mailto|...]
@@ -140,13 +127,6 @@ class HttpUrl extends Object implements HttpUrlInterface
      * @var string
      */
     public $pass = '';
-
-    /**
-     * The dot-format extension of the last path element (for example, the "rss" in "feed.rss").
-     *
-     * @var string
-     */
-    public $format = '';
 
     /**
      * The fragment aka anchor portion (for example, the "foo" in "#foo").
@@ -392,9 +372,9 @@ class HttpUrl extends Object implements HttpUrlInterface
     }
 
     /**
-     * Sets the HttpUrl::$path array and $format from a string.
+     * Sets the HttpUrl::$path array
      *
-     * This will overwrite any previous values. Also, resets the format based on the final path value.
+     * This will overwrite any previous values.
      *
      * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
      *                              A leading slash will *not* create an empty first element; if the string has a
@@ -414,18 +394,6 @@ class HttpUrl extends Object implements HttpUrlInterface
 
         foreach ($path as $key => $val) {
             $path[$key] = urldecode($val);
-        }
-
-        if ($val = end($path))
-        {
-            // find the last dot in the value
-            $pos = strrpos($val, '.');
-
-            if ($pos !== false) {
-                $key = key($path);
-                $this->format = substr($val, $pos + 1);
-                $path[$key] = substr($val, 0, $pos);
-            }
         }
 
         $this->_path = $path;
@@ -484,28 +452,6 @@ class HttpUrl extends Object implements HttpUrlInterface
             $this->_query = $result;
         }
 
-        return $this;
-    }
-
-    /**
-     * Get the URL format
-     *
-     * @return string|null
-     */
-    public function getFormat()
-    {
-        return $this->format;
-    }
-
-    /**
-     * Set the URL format
-     *
-     * @param  string $format
-     * @return HttpUrl
-     */
-    public function setFormat($format)
-    {
-        $this->format = $format;
         return $this;
     }
 
@@ -632,9 +578,6 @@ class HttpUrl extends Object implements HttpUrlInterface
         if (($parts & self::PATH) && !empty($this->_path))
         {
             $url .= $this->getPath();
-            if (($parts & self::FORMAT) && trim($this->format) !== '') {
-                $url .= '.' . urlencode($this->format);
-            }
         }
 
         if (($parts & self::QUERY) && !empty($this->_query))
@@ -659,7 +602,7 @@ class HttpUrl extends Object implements HttpUrlInterface
      */
     public function equals(HttpUrlInterface $url)
     {
-        $parts = array('scheme', 'host', 'port', 'path', 'format', 'query', 'fragment');
+        $parts = array('scheme', 'host', 'port', 'path', 'query', 'fragment');
 
         foreach($parts as $part)
         {

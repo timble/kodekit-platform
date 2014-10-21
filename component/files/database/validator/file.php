@@ -38,7 +38,7 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
 			if (empty($entity->name))
 			{
 				$uri  = $this->getObject('lib:http.url', array('url' => $entity->file));
-	        	$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT);
+	        	$path = $uri->toString(Library\HttpUrl::PATH);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}

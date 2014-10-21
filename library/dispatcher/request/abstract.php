@@ -749,39 +749,35 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     {
         if (!isset($this->_format))
         {
-            $format = 'html';
-
             if(!$this->query->has('format'))
             {
-                if(!$this->getUrl()->getFormat())
+                $format = 'html';
+
+                if($this->_headers->has('Accept'))
                 {
-                    if($this->_headers->has('Accept'))
+                    $accept  = $this->_headers->get('Accept');
+                    $formats = $this->_parseAccept($accept);
+
+                    /**
+                     * If the browser is requested text/html serve it at all times
+                     *
+                     * @hotfix #409 : Android 2.3 requesting application/xml
+                     */
+                    if(!isset($formats['text/html']))
                     {
-                        $accept  = $this->_headers->get('Accept');
-                        $formats = $this->_parseAccept($accept);
+                        //Get the highest quality format
+                        $mime_type = key($formats);
 
-                        /**
-                         * If the browser is requested text/html serve it at all times
-                         *
-                         * @hotfix #409 : Android 2.3 requesting application/xml
-                         */
-                        if(!isset($formats['text/html']))
+                        foreach (static::$_formats as $value => $mime_types)
                         {
-                            //Get the highest quality format
-                            $mime_type = key($formats);
-
-                            foreach (static::$_formats as $value => $mime_types)
+                            if (in_array($mime_type, (array) $mime_types))
                             {
-                                if (in_array($mime_type, (array) $mime_types))
-                                {
-                                    $format = $value;
-                                    break;
-                                }
+                                $format = $value;
+                                break;
                             }
                         }
                     }
                 }
-                else $format = $this->getUrl()->getFormat();
             }
             else $format = $this->query->get('format', 'word');
 
