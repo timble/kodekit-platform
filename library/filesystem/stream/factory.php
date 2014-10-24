@@ -25,6 +25,13 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
     private $__streams;
 
     /**
+     * A prefix for registered streams
+     *
+     * @var string
+     */
+    protected $_stream_prefix = '';
+
+    /**
      * Constructor.
      *
      * @param ObjectConfig $config Configuration options
@@ -32,6 +39,8 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
     public function __construct( ObjectConfig $config)
     {
         parent::__construct($config);
+
+        $this->_stream_prefix = $config->stream_prefix;
 
         //Auto register streams
         foreach($config->streams as $stream) {
@@ -50,6 +59,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'stream_prefix'  => 'nooku-',
             'streams' => array('lib:filesystem.stream.buffer'),
         ));
     }
@@ -94,7 +104,7 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         }
 
         //Stream not supported
-        if(!in_array($name, $this->getStreams()))
+        if(!$this->isRegistered($name))
         {
             throw new \RuntimeException(sprintf(
                 'Unable to find the filesystem stream "%s" - did you forget to register it ?', $name
@@ -137,6 +147,8 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
      * Register a stream
      *
      * Function prevents from registering the stream twice
+     * If stream_prefix config option is set, the registered stream will be prefixed and createStream should be called
+     * with the prefix.
      *
      * @param string $identifier A stream identifier string
      * @throws \UnexpectedValueException
@@ -158,10 +170,10 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
 
         $name = $class::getName();
 
-        if (!empty($name) && !$this->isRegistered($name))
+        if (!empty($name) && !$this->isRegistered($this->_stream_prefix.$name))
         {
-            if($result = stream_wrapper_register($name, __NAMESPACE__.'\FilesystemStreamAdapter')) {
-                $this->__streams[$name] = $identifier;
+            if($result = stream_wrapper_register($this->_stream_prefix.$name, __NAMESPACE__.'\FilesystemStreamAdapter')) {
+                $this->__streams[$this->_stream_prefix.$name] = $identifier;
             }
         }
 
@@ -196,10 +208,10 @@ class FilesystemStreamFactory extends Object implements ObjectSingleton
         }
         else $name = $identifier;
 
-        if (!empty($name) && $this->isRegistered($name))
+        if (!empty($name) && $this->isRegistered($this->_stream_prefix.$name))
         {
-            if($result = stream_wrapper_unregister($name)) {
-                unset($this->__streams[$name]);
+            if($result = stream_wrapper_unregister($this->_stream_prefix.$name)) {
+                unset($this->__streams[$this->_stream_prefix.$name]);
             }
         }
 

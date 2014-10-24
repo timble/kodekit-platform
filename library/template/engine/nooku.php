@@ -185,7 +185,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     {
         if(!$file = parent::cache($name, $source))
         {
-            $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('buffer://temp', 'w+b');
+            $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('nooku-buffer://temp', 'w+b');
             $this->_buffer->truncate(0);
             $this->_buffer->write($source);
 

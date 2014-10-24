@@ -144,7 +144,7 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
 
             if(!$this->getObject('filter.path')->validate($content))
             {
-                $stream = $factory->createStream('buffer://memory', 'w+b');
+                $stream = $factory->createStream('nooku-buffer://memory', 'w+b');
                 $stream->write($content);
             }
             else $stream = $factory->createStream($content, 'rb');
