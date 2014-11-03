@@ -17,28 +17,22 @@ use Nooku\Library;
  * @author  Dave Li <http://nooku.assembla.com/profile/daveli>
  * @package Component\Varnish
  */
-class DispatcherBehaviorVarnishable extends Library\ControllerBehaviorAbstract
+class DispatcherBehaviorCacheable extends Library\ControllerBehaviorAbstract
 {
 	protected function _beforeSend(Library\DispatcherContextInterface $context)
 	{
-		$response = $context->response;
-		$request  = $context->request;
+		$response	= $context->response;
+		$controller = $context->getSubject()->getController();
 
-		$model = $context->getSubject()->getController()->getModel();
-		$entity	= $model->fetch();
-
-		$name = Library\StringInflector::singularize($entity->getIdentifier()->name);
+		$model		= $controller->getModel();
+		$entities	= $model->fetch();
 
 		$headers = $response->getHeaders();
 
-		if($headers->has('x-'. $name .'-ids')) {
-			$previous = explode(';', $headers->get('x-'. $name .'-ids'));
+		$headers->set('x-entities', (string) $controller->getIdentifier().':'.implode(';', array_keys($entities->toArray())));
 
-			$ids = array_unique(array_merge($previous, array_keys($entity->toArray())));
-		} else {
-			$ids = array_keys($entity->toArray());
+		if (!$model->getState()->isUnique()) {
+			$headers->set('x-lists', (string) $controller->getIdentifier());
 		}
-
-		$headers->set('x-'. $name .'-ids', implode(';', $ids));
 	}
 }

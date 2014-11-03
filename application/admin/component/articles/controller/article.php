@@ -25,7 +25,8 @@ class ArticlesControllerArticle extends Library\ControllerModel
                 'com:activities.controller.behavior.loggable',
                 'com:revisions.controller.behavior.revisable',
                 'com:attachments.controller.behavior.attachable',
-                'com:tags.controller.behavior.taggable'
+                'com:tags.controller.behavior.taggable',
+                'com:varnish.controller.behavior.cacheable'
             )
         ));
 

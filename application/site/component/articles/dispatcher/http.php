@@ -23,7 +23,7 @@ class ArticlesDispatcherHttp extends Library\DispatcherHttp
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'behaviors'        => array('com:varnish.dispatcher.behavior.varnishable'),
+			'behaviors'        => array('com:varnish.dispatcher.behavior.cacheable'),
 		));
 
 		parent::_initialize($config);
