@@ -32,8 +32,11 @@ class ArticlesControllerArticle extends Library\ControllerModel
     {
         $request = parent::getRequest();
 
-        if (!$this->getUser()->isAuthentic()) {
-            $request->query->access = 0;
+        // Public users can only access published none registered articles
+        if (!$this->getUser()->isAuthentic())
+        {
+            $request->query->access    = 0;
+            $request->query->published = 1;
         }
 
         $view = $request->query->get('view', 'cmd', null);
@@ -64,14 +67,6 @@ class ArticlesControllerArticle extends Library\ControllerModel
         }
 
         return $request;
-    }
-
-    protected function _actionBrowse(Library\ControllerContextInterface $context)
-    {
-        // Allow editors (and above) to view unpublished items on lists.
-        if (!$this->canEdit()) {
-            $context->request->query->published = 1;
-        }
     }
 
     protected function _actionAdd(Library\ControllerContextInterface $context)

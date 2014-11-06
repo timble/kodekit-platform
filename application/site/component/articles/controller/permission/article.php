@@ -29,11 +29,6 @@ class ArticlesControllerPermissionArticle extends ApplicationControllerPermissio
                 $result = false;
             }
 
-            // Only published articles can be read. An exception is made for editors and above.
-            if ($article->published == 0 && !$this->canEdit()) {
-                $result = false;
-            }
-
             // Users can read their own articles regardless of the state
             if ($article->created_by == $this->getUser()->getId()) {
                 $result = true;
