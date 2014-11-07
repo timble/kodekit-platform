@@ -29,10 +29,10 @@ class DispatcherBehaviorCacheable extends Library\ControllerBehaviorAbstract
 
 		$headers = $response->getHeaders();
 
-		$headers->set('x-entities', (string) $controller->getIdentifier().':'.implode(';', array_keys($entities->toArray())));
-
 		if (!$model->getState()->isUnique()) {
-			$headers->set('x-lists', (string) $controller->getIdentifier());
+			$headers->set('x-entities', (string) $controller->getIdentifier());
+		} else {
+			$headers->set('x-entities', (string) $controller->getIdentifier().':'.implode(';', array_keys($entities->toArray())));
 		}
 	}
 }
