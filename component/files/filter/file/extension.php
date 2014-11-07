@@ -21,7 +21,7 @@ class FilterFileExtension extends Library\FilterAbstract
 {
 	public function validate($entity)
 	{
-		$allowed = $entity->getContainer()->getParameters()->allowed_extensions;
+		$allowed = Library\ObjectConfig::unbox($entity->getContainer()->getParameters()->allowed_extensions);
 		$value   = $entity->extension;
 
 		if (is_array($allowed) && (empty($value) || !in_array(strtolower($value), $allowed))) {
