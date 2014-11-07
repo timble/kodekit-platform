@@ -98,7 +98,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         {
             // Get the route based on the path
             $search = array($context->request->getBasePath(), $this->getSite());
-            $route  = trim(str_replace($search, '', $url->toString(Library\HttpURL::PATH + Library\HttpURL::FORMAT)), '/');
+            $route  = trim(str_replace($search, '', $url->getPath()), '/');
 
             //Redirect to the default menu item if the route is empty
             if(strpos($route, $pages->getHome()->route) === 0 && $context->request->getFormat() == 'html')

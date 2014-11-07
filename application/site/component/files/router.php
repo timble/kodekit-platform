@@ -74,7 +74,7 @@ class FilesRouter extends Library\DispatcherRouter
 		if ($path[0] === 'file')
 		{ // file view
 			$vars['view']    = array_shift($path);
-			$vars['name']    = array_pop($path).'.'.$url->getFormat();
+			$vars['name']    = array_pop($path);
 			$vars['folder']  = $query['folder'] ? $query['folder'].'/' : '';
 			$vars['folder'] .= implode('/', $path);
 		}

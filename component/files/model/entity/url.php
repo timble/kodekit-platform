@@ -119,7 +119,7 @@ class ModelEntityUrl extends Library\ModelEntityAbstract
 		$scheme = $uri->toString(Library\HttpUrl::SCHEME);
 		$host = $uri->toString(Library\HttpUrl::HOST);
 		$port = $uri->toString(Library\HttpUrl::PORT);
-		$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT | Library\HttpUrl::QUERY | Library\HttpUrl::FRAGMENT);
+		$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::QUERY | Library\HttpUrl::FRAGMENT);
 
 		if ($scheme == 'https://')
         {

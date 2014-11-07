@@ -104,6 +104,9 @@ class FilterSlug extends FilterAbstract implements FilterTraversable
 		//remove repeated occurences of the separator
 		$value = preg_replace('/['.preg_quote($this->_separator, '/').']+/', $this->_separator, $value);
 
+        //remove trailing dash
+        $value = trim($value, $this->_separator);
+
 		//limit length
 		if (strlen($value) > $this->_length) {
 			$value = substr($value, 0, $this->_length);

@@ -21,7 +21,8 @@ class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbs
     {
         $request = $this->getRequest();
 
-        if ($search = $request->query->get('search', 'string')) {
+        if ($search = $request->query->get('search', 'string'))
+        {
             $this->getView()->setLayout('search');
 
             $this->getModel()->getTable()

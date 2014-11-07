@@ -21,23 +21,6 @@ class ModelEntityArticle extends Library\ModelEntityRow
 {
     public function save()
     {
-        //Set the introtext and the full text
-        $text    = str_replace('<br>', '<br />', $this->text);
-        $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-
-        if(preg_match($pattern, $text))
-        {
-            list($introtext, $fulltext) = preg_split($pattern, $text, 2);
-
-            $this->introtext = trim($introtext);
-            $this->fulltext  = trim($fulltext);
-        }
-        else
-        {
-        	$this->introtext = trim($text);
-        	$this->fulltext  = '';
-        }
-
         //Validate the title
         if(empty($this->title))
         {
@@ -64,6 +47,26 @@ class ModelEntityArticle extends Library\ModelEntityRow
 
         if($name == 'modified_by' && empty($value)) {
             $value = $this->created_by;
+        }
+
+        //Set the introtext and the fulltext
+        if($name == 'text')
+        {
+            $text    = str_replace('<br>', '<br />', $value);
+            $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+
+            if(preg_match($pattern, $text))
+            {
+                list($introtext, $fulltext) = preg_split($pattern, $text, 2);
+
+                $this->introtext = trim($introtext);
+                $this->fulltext  = trim($fulltext);
+            }
+            else
+            {
+                $this->introtext = trim($text);
+                $this->fulltext  = '';
+            }
         }
 
         return parent::setProperty($name, $value, $modified);
