@@ -139,6 +139,10 @@ class ModelModules extends Library\ModelTable
                         ->top()
                         ->name;
                 }
+
+                if($state->name){
+                    $this->_row->name = $state->name;
+                }
             }
         }
 
