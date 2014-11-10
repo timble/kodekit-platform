@@ -21,6 +21,11 @@ class DispatcherBehaviorCacheable extends Library\ControllerBehaviorAbstract
 {
 	protected function _beforeSend(Library\DispatcherContextInterface $context)
 	{
+		$this->setCacheHeaders($context);
+	}
+
+	public function setCacheHeaders($context)
+	{
 		$response	= $context->response;
 		$controller = $context->getSubject()->getController();
 

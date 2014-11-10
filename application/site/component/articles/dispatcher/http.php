@@ -23,6 +23,7 @@ class ArticlesDispatcherHttp extends Library\DispatcherHttp
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
+			'event_subscribers' => array('com:varnish.event.subscriber.notfound'),
 			'behaviors'        => array('com:varnish.dispatcher.behavior.cacheable'),
 		));
 
