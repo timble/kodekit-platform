@@ -149,7 +149,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract
         $replace = array();
         $matches = array();
         // <ktml:modules position="[position]"></khtml:modules>
-        if(preg_match_all('#<ktml:modules\s+position="([^"]+)"(.*)>(.*)</ktml:modules>#siU', $text, $matches))
+        if(preg_match_all('#<ktml:modules\s+position="([^"]+)"(.*)>(.*)(</ktml:modules>)#siU', $text, $matches))
         {
             $count = count($matches[1]);
 
@@ -166,6 +166,9 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract
                 }
             }
 
+            // Catch the closing tag and remove it
+            $text = str_replace($matches[3],'', $text);
+            
             $text = str_replace($matches[0], $replace, $text);
         }
 
