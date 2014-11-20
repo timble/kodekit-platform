@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Articles
  */
 class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
@@ -46,11 +46,11 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->row instanceof ArticlesDatabaseRowArticle) {
-            throw new \InvalidArgumentException('The row is missing.');
+        if (!$config->entity instanceof \ArticlesModelEntityArticle) {
+            throw new \InvalidArgumentException('The entity is missing.');
         }
 
-        $article = $config->row;
+        $article = $config->entity;
 
         $config->append(array(
             'name'     => 'order',
@@ -62,7 +62,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $list = $this->getObject('com:articles.model.articles')
                      ->set($config->filter)
-                     ->getRowset();
+                     ->fetch();
 
         foreach ($list as $item)
         {
@@ -80,9 +80,9 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
+        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->fetch();
         $pages = $pages->find(array(
-            'link_url' => 'option=com_articles&view=articles&layout=search'));
+            'link_url' => 'component=articles&view=articles&layout=search'));
 
         $options = array();
 

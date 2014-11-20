@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Activities;
@@ -14,10 +14,10 @@ use Nooku\Library;
 /**
  * Activity Template Helper
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiable
+class TemplateHelperActivity extends Library\TemplateHelperAbstract implements Library\ObjectInstantiable
 {
 	/**
      * Check for overrides of the helper
@@ -29,7 +29,7 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $identifier = $config->object_identifier->toArray();
-        $identifier['package'] = $config->row->package;
+        $identifier['package'] = $config->entity->package;
        
         $identifier = $manager->getIdentifier($identifier);
 
@@ -47,23 +47,23 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 	{
 	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'row'      => ''
+			'entity'      => ''
 		));
 	
-		$row  = $config->row;
-		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$row->package.'&view='.$row->name.'&id='.$row->row);
-		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$row->created_by); 
+		$entity  = $config->entity;
+		$item = $this->getTemplate()->route('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
+		$user = $this->getTemplate()->route('component=users&view=user&id='.$entity->created_by);
 		
-		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a> '; 
-		$message  .= $row->status;
+		$message   = '<a href="'.$user.'">'.$entity->getAuthor()->getName().'</a> ';
+		$message  .= $entity->status;
        
-		if ($row->status != 'trashed') {
-			$message .= ' <a href="'.$item.'">'.$row->title.'</a>';
+		if ($entity->status != 'trashed') {
+			$message .= ' <a href="'.$item.'">'.$entity->title.'</a>';
 		} else {
-			$message .= ' <span class="trashed">'.$row->title.'</span>';
+			$message .= ' <span class="trashed">'.$entity->title.'</span>';
 		}
 		
-		$message .= ' '.$row->name; 
+		$message .= ' '.$entity->name;
 		
 		return $message;
 	}

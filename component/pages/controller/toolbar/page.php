@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Pages Controller Toolbar
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class ControllerToolbarPage extends Library\ControllerToolbarActionbar
@@ -37,7 +37,7 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
 
     protected function _commandDefault(Library\ControllerToolbarCommand $command)
     {
-        $command->label = \JText::_('Make Default');
+        $command->label = $this->getObject('translator')->translate('Make Default');
 
         $command->append(array(
             'attribs' => array(
@@ -59,6 +59,6 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $menu = $this->getController()->getModel()->getState()->menu;
-        $command->href = 'option=com_pages&view=page&menu='.$menu;
+        $command->href = 'component=pages&view=page&menu='.$menu;
     }
 }

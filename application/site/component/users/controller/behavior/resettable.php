@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library, Nooku\Component\Users;
@@ -12,7 +12,7 @@ use Nooku\Library, Nooku\Component\Users;
 /**
  * Resettable Controller Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
 class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
@@ -24,28 +24,28 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         // Push the token to the view.
         if ($token = $context->request->query->get('token', $this->_filter))
         {
-            $user = $this->getModel()->getRow();
+            $user = $this->getModel()->fetch();
 
             // Only passwords from enabled users can be reset.
             if (!$user->enabled)
             {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
-                $context->response->setRedirect($url,
-                    \JText::_('The user account you are trying to reset the password for is not enabled', 'error'));
+
+                $translator = $this->getObject('translator');
+
+                $message = $translator('The user account you are trying to reset the password for is not enabled');
+                $context->response->setRedirect($url, $message, 'error');
 
                 if ($user->activation)
                 {
-                    $context->response->addMessage(\JText::_('Please activate your account before resetting your password'),
-                        'notice');
+                    $message = $translator('Please activate your account before resetting your password');
+                    $context->response->addMessage($message, 'notice');
                 }
 
                 $result = false;
             }
-            else
-            {
-                $this->getView()->token = $token;
-            }
+            else $this->getView()->token = $token;
         }
 
         return $result;
@@ -60,7 +60,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
         }
 
@@ -74,7 +74,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         if (!parent::_beforeToken($context))
         {
             $url = $context->request->getReferrer();
-            $context->response->setRedirect($url, \JText::_('Invalid request'), 'error');
+            $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
             $result = false;
         }
 
@@ -91,39 +91,34 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 'access'    => 0,
                 'link'      => array(array('view' => 'user'))));
 
+            $translator = $this->getObject('translator');
+
             if ($page)
             {
-                $token = $context->token;
-                $row   = $context->row;
+                $token  = $context->token;
+                $entity = $context->entity;
 
                 $url                  = $page->getLink();
                 $url->query['layout'] = 'password';
                 $url->query['token']  = $token;
-                $url->query['uuid']   = $row->uuid;
+                $url->query['uuid']   = $entity->uuid;
 
-                // TODO: This URL needs to be routed using the site app router.
                 $this->getObject('application')->getRouter()->build($url);
 
                 $url = $context->request->getUrl()
-                                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+                        ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site_name = \JFactory::getConfig()->getValue('sitename');
+                $subject = $translator('Reset your password');
+                $message = $translator('Password reset instructions E-mail',
+                    array('name' => $entity->name, 'url' => $url));
 
-                $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-                // TODO Fix when language package is re-factored.
-                //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
-                $message = $url;
-
-                if ($row->notify(array('subject' => $subject, 'message' => $message)))
-                {
+                if ($entity->notify(array('subject' => $subject, 'message' => $message))) {
                     $message = array(
-                        'text' => \JText::_('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
+                        'text' => $translator('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
                         'type' => 'success');
-                }
-                else
-                {
+                } else {
                     $message = array(
-                        'text' => \JText::_('The confirmation E-mail for resetting your password could not be sent'),
+                        'text' => $translator('The confirmation E-mail for resetting your password could not be sent'),
                         'type' => 'notice');
                 }
 
@@ -132,10 +127,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $context->response->setRedirect($url, $message['text'], $message['type']);
             }
-            else
-            {
-                $context->response->addMessage('Unable to get a password reset URL', 'error');
-            }
+            else $context->response->addMessage($translator('Unable to get a password reset URL'), 'error');
         }
     }
 
@@ -143,7 +135,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $message = array('text' => \JText::_('Your password has been reset'), 'type' => 'success');
+            $message = array('text' => $this->getObject('translator')->translate('Your password has been reset'), 'type' => 'success');
             $url     = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 

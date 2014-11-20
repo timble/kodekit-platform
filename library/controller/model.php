@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Model Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 abstract class ControllerModel extends ControllerView implements ControllerModellable
@@ -184,7 +184,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         $result = false;
 
         //Check if we are reading or browsing
-        $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
+        $action = $this->getView()->isCollection() ? 'browse' : 'read';
 
         //Execute the action
         if($this->execute($action, $context) !== false) {
@@ -195,140 +195,152 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     }
 
 	/**
-	 * Generic browse action, fetches a list
+	 * Generic browse action, fetches an entity collection
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
-	 * @return 	DatabaseRowsetInterface A rowset object containing the selected rows
+	 * @return 	ModelEntityInterface An entity object containing the selected entities
 	 */
 	protected function _actionBrowse(ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->getRowset();
+        $entity = $this->getModel()->fetch();
 		return $entity;
 	}
 
 	/**
-	 * Generic read action, fetches an item
+	 * Generic read action, fetches a single entity
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
-	 * @return 	DatabaseRowInterface A row object containing the selected row
+	 * @return 	ModelEntityInterface
 	 */
 	protected function _actionRead(ControllerContextInterface $context)
 	{
-	    $entity = $this->getModel()->getRow();
-	    $name   = ucfirst($this->getView()->getName());
+        if(!$context->result instanceof ModelEntityInterface)
+        {
+            if($this->getModel()->getState()->isUnique())
+            {
+                $entity = $this->getModel()->fetch();
 
-		if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
-		    throw new ControllerExceptionResourceNotFound($name.' Not Found');
-		}
+                if(!count($entity))
+                {
+                    $name   = ucfirst($this->getView()->getName());
+                    throw new ControllerExceptionResourceNotFound($name.' Not Found');
+                }
+            }
+            else $entity = $this->getModel()->create();
+        }
+        else $entity = $context->result;
 
-		return $entity;
+        return $entity;
 	}
 
 	/**
-	 * Generic edit action, saves over an existing item
+	 * Generic edit action, saves over an existing entity collection
 	 *
-	 * @param	ControllerContextInterface	$context A controller context object
+	 * @param	ControllerContextInterface	$context A command context object
      * @throws  ControllerExceptionResourceNotFound   If the resource could not be found
-	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
+	 * @return 	ModelEntityInterface
 	 */
 	protected function _actionEdit(ControllerContextInterface $context)
 	{
-	    $entity = $this->getModel()->getData();
+        if(!$context->result instanceof ModelEntityInterface) {
+            $entities = $this->getModel()->fetch();
+        } else {
+            $entities = $context->result;
+        }
 
-	    if(count($entity))
+	    if(count($entities))
 	    {
-	        $entity->setData($context->request->data->toArray());
+	        foreach($entities as $entity) {
+                $entity->setProperties($context->request->data->toArray());
+            }
 
 	        //Only set the reset content status if the action explicitly succeeded
-	        if($entity->save() === true) {
+	        if($entities->save() === true) {
 		        $context->response->setStatus(HttpResponse::RESET_CONTENT);
-		    }
+            }
 		}
 		else throw new ControllerExceptionResourceNotFound('Resource could not be found');
 
-		return $entity;
+		return $entities;
 	}
 
 	/**
-	 * Generic add action, saves a new item
+	 * Generic add action, saves a new entity
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionRequestInvalid   If the entity already exists
-	 * @return 	DatabaseRowInterface   A row object containing the new data
+	 * @return 	ModelEntityInterface
 	 */
 	protected function _actionAdd(ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->getRow();
+        if(!$context->result instanceof ModelEntityInterface) {
+            $entity = $this->getModel()->create($context->request->data->toArray());
+        } else {
+            $entity = $context->result;
+        }
 
-		if($entity->isNew())
-		{
-		    $entity->setData($context->request->data->toArray());
-
-		    //Only throw an error if the action explicitly failed.
-		    if($entity->save() === false)
-		    {
-			    $error = $entity->getStatusMessage();
-		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
-		    }
-            else
+        //Only throw an error if the action explicitly failed.
+        if($entity->save() === false)
+        {
+            $error = $entity->getStatusMessage();
+            throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
+        }
+        else
+        {
+            if ($entity instanceof ModelEntityInterface)
             {
-                if ($entity instanceof DatabaseRowInterface)
+                $url = clone $context->request->getUrl();
+
+                if ($this->getModel()->getState()->isUnique())
                 {
-                    $url = clone $context->request->getUrl();
+                    $states = $this->getModel()->getState()->getValues(true);
 
-                    if ($this->getModel()->getState()->isUnique())
-                    {
-                        $states = $this->getModel()->getState()->getValues(true);
-
-                        foreach ($states as $key => $value) {
-                            $url->query[$key] = $entity->get($key);
-                        }
+                    foreach ($states as $key => $value) {
+                        $url->query[$key] = $entity->getProperty($key);
                     }
-                    else $url->query[$entity->getIdentityColumn()] = $entity->get($entity->getIdentityColumn());
                 }
-
-                $context->response->headers->set('Location', (string) $url);
-                $context->response->setStatus(HttpResponse::CREATED);
+                else $url->query[$entity->getIdentityKey()] = $entity->getProperty($entity->getIdentityKey());
             }
-		}
-		else throw new ControllerExceptionRequestInvalid('Resource Already Exists');
 
-		return $entity;
+            $context->response->headers->set('Location', (string) $url);
+            $context->response->setStatus(HttpResponse::CREATED);
+        }
+
+        return $entity;
 	}
 
 	/**
-	 * Generic delete function
+	 * Generic delete function, deletes an existing entity collection
 	 *
 	 * @param	ControllerContextInterface	$context A controller context object
      * @throws  ControllerExceptionActionFailed 	If the delete action failed on the data entity
-	 * @return 	DatabaseRow(set)Interface A row(set) object containing the deleted row(s)
+	 * @return 	ModelEntityInterface An entity object containing the deleted entities
 	 */
 	protected function _actionDelete(ControllerContextInterface $context)
 	{
-	    $entity = $this->getModel()->getData();
-
-        if($entity instanceof DatabaseRowsetInterface)  {
-            $count = count($entity);
+        if(!$context->result instanceof ModelEntityInterface) {
+            $entities = $this->getModel()->fetch();
         } else {
-            $count = (int) !$entity->isNew();;
+            $entities = $context->result;
         }
 
-		if($count)
+		if(count($entities))
 	    {
-            $entity->setData($context->request->data->toArray());
+            foreach($entities as $entity) {
+                $entity->setProperties($context->request->data->toArray());
+            }
 
             //Only throw an error if the action explicitly failed.
-	        if($entity->delete() === false)
+	        if($entities->delete() === false)
 	        {
-			    $error = $entity->getStatusMessage();
+			    $error = $entities->getStatusMessage();
                 throw new ControllerExceptionActionFailed($error ? $error : 'Delete Action Failed');
 		    }
 		    else $context->response->setStatus(HttpResponse::NO_CONTENT);
 		}
 		else throw new ControllerExceptionResourceNotFound('Resource Not Found');
 
-		return $entity;
+		return $entities;
 	}
 
     /**

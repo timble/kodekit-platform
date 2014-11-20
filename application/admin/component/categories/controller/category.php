@@ -1,22 +1,31 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
+use Nooku\Component\Categories;
 
 /**
  * Category Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Categories
  */
-abstract class CategoriesControllerCategory extends Library\ControllerModel
-{ 
+abstract class CategoriesControllerCategory extends Categories\ControllerCategory
+{
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->addCommandCallback('after.save'  , 'setDefaultAttachment');
+        $this->addCommandCallback('after.apply' , 'setDefaultAttachment');
+    }
+    
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -25,39 +34,31 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
                 'com:activities.controller.behavior.loggable',
                 'com:attachments.controller.behavior.attachable',
             ),
-            'model' => 'com:categories.model.categories'
         ));
         
         parent::_initialize($config);
-        
+
         //Force the toolbars
         $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
-    
-    protected function _actionRender(Library\ControllerContextInterface $context)
+
+    public function setDefaultAttachment(Library\CommandContext $context)
     {
-        $view = $this->getView();
-        
-	    //Set the layout
-        if($view instanceof Library\ViewTemplate)
-	    {
-	        $layout = $view->getIdentifier()->toArray();
-            $layout['name'] = $view->getLayout();
+        if($this->isAttachable()) 
+        {
+            $entity = $context->result;
 
-            $alias = $layout;
-            $alias['package'] = 'categories';
+            $attachment = $this->getObject('com:attachments.model.attachments')
+                ->row($entity->id)
+                ->table($entity->getTable()->getBase())
+                ->fetch();
 
-	        $this->getObject('manager')->registerAlias($alias, $this->getIdentifier($layout));
-	    }
-	        
-        return parent::_actionRender($context);
+            // If attachments have been linked to this row but there's no default attachment ID is still empty, set the first one as default.
+            if(!$entity->attachments_attachment_id && count($attachment))
+            {
+                $entity->attachments_attachment_id = $entity->id;
+                $entity->save();
+            }
+        }
     }
-    
-    public function getRequest()
-	{
-		$request = parent::getRequest();
-        $request->query->table  = $this->getIdentifier()->package;
-
-	    return $request;
-	}
 }

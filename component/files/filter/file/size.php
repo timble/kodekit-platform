@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -14,27 +14,27 @@ use Nooku\Library;
 /**
  * File Size Filter
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class FilterFileSize extends Library\FilterAbstract
 {
-	public function validate($row)
+	public function validate($entity)
 	{
-		$max = $row->getContainer()->parameters->maximum_size;
+		$max = $entity->getContainer()->getParameters()->maximum_size;
 
 		if ($max)
 		{
-			$size = $row->contents ? strlen($row->contents) : false;
+			$size = $entity->contents ? strlen($entity->contents) : false;
 
-			if (!$size && is_uploaded_file($row->file)) {
-				$size = filesize($row->file);
-			} elseif ($row->file instanceof \SplFileInfo && $row->file->isFile()) {
-				$size = $row->file->getSize();
+			if (!$size && is_uploaded_file($entity->file)) {
+				$size = filesize($entity->file);
+			} elseif ($entity->file instanceof \SplFileInfo && $entity->file->isFile()) {
+				$size = $entity->file->getSize();
 			}
 
 			if ($size && $size > $max) {
-				return $this->_error(\JText::_('File is too big'));
+				return $this->_error($this->getObject('translate')->translate('File is too big'));
 			}
 		}
 	}

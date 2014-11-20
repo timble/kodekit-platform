@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,32 +14,22 @@ namespace Nooku\Library;
  *
  * Force the user object to a singleton with identifier alias 'response'.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherResponse extends DispatcherResponseAbstract implements ObjectInstantiable, ObjectSingleton
+class DispatcherResponse extends DispatcherResponseAbstract implements ObjectSingleton
 {
     /**
-     * Force creation of a singleton
+     * Constructor
      *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
+     * @return Object
      */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
+    public function __construct(ObjectConfig $config)
     {
-        if (!$manager->isRegistered('dispatcher.response'))
-        {
-            //Create the singleton
-            $class     = $manager->getClass($config->object_identifier);
-            $instance  = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
+        parent::__construct($config);
 
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'dispatcher.response');
-            $manager->registerAlias('dispatcher.response', 'response');
-        }
-
-        return $manager->getObject('dispatcher.response');
+        //Add a global object alias
+        $this->getObject('manager')->registerAlias($this->getIdentifier(), 'response');
     }
 }

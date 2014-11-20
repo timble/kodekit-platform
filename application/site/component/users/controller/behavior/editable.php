@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Editable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
 class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
@@ -21,8 +21,7 @@ class UsersControllerBehaviorEditable extends Library\ControllerBehaviorEditable
     {
         $entity = parent::_actionSave($context);
 
-        if ($entity->getStatus() === Library\Database::STATUS_FAILED)
-        {
+        if ($entity->getStatus() === $entity::STATUS_FAILED) {
             $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
         }
 

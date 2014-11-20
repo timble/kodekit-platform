@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Abstract Controller
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 abstract class ControllerAbstract extends Library\ControllerModel
@@ -38,11 +38,11 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 	protected function _actionCopy(Library\ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->getRow();
+		$entity = $this->getModel()->fetch();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
+			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
@@ -53,7 +53,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
+                    $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}
@@ -64,11 +64,11 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 	protected function _actionMove(Library\ControllerContextInterface $context)
 	{
-		$entity = $this->getModel()->getRow();
+		$entity = $this->getModel()->fetch();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
+			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)
@@ -79,7 +79,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Library\Database::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
+                    $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
 		}

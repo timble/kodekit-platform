@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Model Controller Toolbar
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
 class ControllerToolbarActionbar extends ControllerToolbarAbstract
@@ -83,7 +83,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
     protected function _commandNew(ControllerToolbarCommand $command)
     {
         $identifier = $this->getController()->getIdentifier();
-        $command->href = 'option=com_'.$identifier->package.'&view='.$identifier->name;
+        $command->href = 'component='.$identifier->package.'&view='.$identifier->name;
     }
 
     /**
@@ -97,7 +97,8 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
         $command->append(array(
             'attribs' => array(
                 'data-action' => 'delete',
-                'data-prompt' => \JText::_('Deleted items will be lost forever. Would you like to continue?')
+                'data-prompt' => $this->getObject('translator')
+                        ->translate('Deleted items will be lost forever. Would you like to continue?')
             )
         ));
     }
@@ -159,7 +160,7 @@ class ControllerToolbarActionbar extends ControllerToolbarAbstract
         $option = $this->getIdentifier()->package;
         $view   = $this->getIdentifier()->name;
 
-        $command->href = 'option=com_'.$option.'&view='.$view.'&'.$query;
+        $command->href = 'component='.$option.'&view='.$view.'&'.$query;
     }
 
     /**

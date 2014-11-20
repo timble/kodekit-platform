@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Files;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Thumbnailable Controller Behavior
  *
- * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Nooku\Component\Files
  */
 class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
@@ -23,42 +23,31 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
     {
         $container = $this->getModel()->getContainer();
 
-        if (!$context->request->query->get('thumbnails', 'cmd') || $container->parameters->thumbnails !== true) {
-            return;
-        }
-
-        $files = array();
-        foreach ($context->result as $row)
+        if ($context->request->query->get('thumbnails', 'cmd') || $container->getParameters()->thumbnails == true)
         {
-            if ($row->getIdentifier()->name === 'file') {
-                $files[] = $row->name;
+            $files = array();
+            foreach ($context->result as $entity)
+            {
+                if ($entity->getIdentifier()->name === 'file' && $entity->isImage()) {
+                    $files[] = $entity->name;
+                }
             }
-        }
 
-        $query =  array(
-            'container' => $this->getModel()->getState()->container,
-            'folder'    => $context->request->query->get('folder', 'com:files.filter.path'),
-            'filename'  => $files,
-            'limit'     => 0,
-            'offset'    => 0
-       );
+            $thumbnails = $this->getObject('com:files.controller.thumbnail')
+                ->container($this->getModel()->getState()->container)
+                ->folder($this->getRequest()->query->folder)
+                ->filename($files)
+                ->limit(0)
+                ->offset(0)
+                ->browse();
 
-        $controller = $this->getObject('com:files.controller.thumbnail');
-        $controller->getRequest()->setQuery($query);
-
-        $thumbnails = $controller->browse();
-
-        foreach ($thumbnails as $thumbnail)
-        {
-            if ($row = $context->result->find($thumbnail->filename)) {
-                $row->thumbnail = $thumbnail->thumbnail;
-            }
-        }
-
-        foreach ($context->result as $row)
-        {
-            if (!$row->thumbnail) {
-                $row->thumbnail = null;
+            foreach ($context->result as $entity)
+            {
+                if ($thumbnail = $thumbnails->find(array('filename' => $entity->name))) {
+                    $entity->thumbnail = $thumbnail->thumbnail;
+                } else {
+                    $entity->thumbnail = null;
+                }
             }
         }
     }

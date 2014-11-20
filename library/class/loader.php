@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -20,11 +20,18 @@ require_once dirname(__FILE__).'/registry/cache.php';
 /**
  * Class Loader
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Class
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Class|Loader
  */
 class ClassLoader implements ClassLoaderInterface
 {
+    /**
+     * The class registry
+     *
+     * @var array
+     */
+    private $__registry = null;
+
     /**
      * The class locators
      *
@@ -33,25 +40,11 @@ class ClassLoader implements ClassLoaderInterface
     protected $_locators = array();
 
     /**
-     * The class registry
-     *
-     * @var array
-     */
-    protected $_registry = null;
-
-    /**
-     * An associative array of basepaths
-     *
-     * @var array
-     */
-    protected $_basepaths = array();
-
-    /**
-     * The active basepath name
+     * The loader basepath
      *
      * @var  string
      */
-    protected $_basepath = null;
+    protected $_base_path;
 
     /**
      * Debug
@@ -68,35 +61,29 @@ class ClassLoader implements ClassLoaderInterface
     final private function __construct($config = array())
     {
         //Create the class registry
-        if(isset($config['cache_enabled']) && $config['cache_enabled'])
+        if(isset($config['cache']) && $config['cache'] && ClassRegistryCache::isSupported())
         {
-            $this->_registry = new ClassRegistryCache();
+            $this->__registry = new ClassRegistryCache();
 
             if(isset($config['cache_namespace'])) {
-                $this->_registry->setNamespace($config['cache_namespace']);
+                $this->__registry->setNamespace($config['cache_namespace']);
             }
         }
-        else $this->_registry = new ClassRegistry();
+        else $this->__registry = new ClassRegistry();
 
         //Set the debug mode
         if(isset($config['debug'])) {
-            $this->_debug = $config['debug'];
+            $this->setDebug($config['debug']);
         }
 
         //Register the library locator
-        $this->registerLocator(new ClassLocatorLibrary());
+        $this->registerLocator(new ClassLocatorLibrary($config));
 
         //Register the Nooku\Library namesoace
         $this->getLocator('library')->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
 
         //Register the loader with the PHP autoloader
         $this->register();
-
-        //Register the component locator
-        $this->registerLocator(new ClassLocatorComponent());
-
-        //Register the standard locator
-        $this->registerLocator(new ClassLocatorStandard());
     }
 
     /**
@@ -159,7 +146,7 @@ class ClassLoader implements ClassLoaderInterface
         $result = false;
 
         //Get the path
-        $path = $this->getPath( $class, $this->_basepath);
+        $path = $this->getPath( $class, $this->_base_path);
 
         if ($path !== false)
         {
@@ -186,77 +173,52 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Enable or disable class loading
-     *
-     * If debug is enabled the class loader will throw an exception if a file is found but does not declare the class.
-     *
-     * @param bool|null $debug True or false. If NULL the method will return the current debug setting.
-     * @return bool Returns the current debug setting.
-     */
-    public function debug($debug)
-    {
-        if($debug !== null) {
-            $this->_debug = (bool) $debug;
-        }
-
-        return $this->_debug;
-    }
-
-    /**
      * Get the path based on a class name
      *
      * @param string $class    The class name
-     * @param string $basepath The basepath name
-     * @return string|boolean   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param string $base     The base_path. If NULL the global base path will be used.
+     * @return string|boolean  Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $basepath = null)
+    public function getPath($class, $base = null)
     {
         $result = false;
 
-        //Switch the basepath
-        $prefix = $basepath ? $basepath : $this->_basepath;
+        $base = $base ? $base : $this->_base_path;
+        $key  = $base ? $class.'-'.$base : $class;
 
-        if(!$this->_registry->has($prefix.'-'.$class))
+        //Switch the namespace
+        if(!$this->__registry->has($key))
         {
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                $path = $this->getBasepath($basepath);
-                if(false !== $result = $locator->locate($class, $path)) {
+                if(false !== $result = $locator->locate($class, $base)) {
                     break;
                 };
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
-            $this->_registry->set($prefix.'-'.$class, $result);
+            $this->__registry->set($key, $result);
 
-        } else $result = $this->_registry->get($prefix.'-'.$class);
+        } else $result = $this->__registry->get($key);
 
         return $result;
     }
 
     /**
-     * Set the path based for a class
+     * Get the path based on a class name
      *
-     * @param string $class    The class name
-     * @param string $path     The class path
-     * @param string $basepath The basepath name
+     * @param string $class     The class name
+     * @param string $path      The class path
+     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
      * @return void
      */
-    public function setPath($class, $path, $basepath = null)
+    public function setPath($class, $path, $base = null)
     {
-        $prefix = $basepath ? $basepath : $this->_basepath;
-        $this->_registry->set($prefix.'-'.$class, $path);
-    }
+        $base = $base ? $base : $this->_base_path;
+        $key  = $base ? $class.'-'.$base : $class;
 
-    /**
-     * Get the class registry object
-     *
-     * @return ClassRegistry
-     */
-    public function getRegistry()
-    {
-        return $this->_registry;
+        $this->__registry->set($key, $path);
     }
 
     /**
@@ -268,7 +230,7 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function registerLocator(ClassLocatorInterface $locator, $prepend = false )
     {
-        $array = array($locator->getType() => $locator);
+        $array = array($locator->getName() => $locator);
 
         if($prepend) {
             $this->_locators = $array + $this->_locators;
@@ -305,7 +267,7 @@ class ClassLoader implements ClassLoaderInterface
         $alias = trim($alias);
         $class = trim($class);
 
-        $this->_registry->alias($class, $alias);
+        $this->__registry->alias($class, $alias);
     }
 
     /**
@@ -316,52 +278,52 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function getAliases($class)
     {
-        return array_search($class, $this->_registry->getAliases());
+        return array_search($class, $this->__registry->getAliases());
     }
 
     /**
-     * Register a basepath by name
+     * Get the base path
      *
-     * @param string $name The name of the basepath
-     * @param string $path The path
-     * @return void
+     * @return string The base path
      */
-    public function registerBasepath($name, $path)
+    public function getBasePath()
     {
-        $this->_basepaths[$name] = $path;
+        return $this->_base_path;
     }
 
     /**
-     * Get a basepath by name
+     * Set the base path
      *
-     * @param string $name The name of the application
-     * @return string The path of the application
-     */
-    public function getBasepath($name)
-    {
-        return isset($this->_basepaths[$name]) ? $this->_basepaths[$name] : null;
-    }
-
-    /**
-     * Set the active basepath by name
-     *
-     * @param string $name The name base path
+     * @param string $base_path The base path
      * @return ClassLoader
      */
-    public function setBasepath($name)
+    public function setBasePath($path)
     {
-        $this->_basepath = $name;
+        $this->_base_path = $path;
         return $this;
     }
 
     /**
-     * Get a list of basepaths
+     * Enable or disable class loading
      *
-     * @return array
+     * If debug is enabled the class loader will throw an exception if a file is found but does not declare the class.
+     *
+     * @param bool $debug True or false.
+     * @return ClassLoader
      */
-    public function getBasepaths()
+    public function setDebug($debug)
     {
-        return $this->_basepaths;
+        return $this->_debug = (bool) $debug;
+    }
+
+    /**
+     * Check if the loader is running in debug mode
+     *
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->_debug;
     }
 
     /**

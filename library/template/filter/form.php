@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -16,11 +16,11 @@ namespace Nooku\Library;
  * that use a get method this filter adds the action url query params as hidden fields
  * to comply with the html form standard.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  * @see         http://www.w3.org/TR/html401/interact/forms.html#h-17.13.3.4
  */
-class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilterRenderer
+class TemplateFilterForm extends TemplateFilterAbstract
 {
     /**
      * The form token value
@@ -61,7 +61,7 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     {
         $config->append(array(
             'token_value' => '',
-            'token_name'  => '_token',
+            'token_name'  => 'csrf_token',
         ));
 
         parent::_initialize($config);
@@ -105,14 +105,12 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
      * @param string $text  The text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         // All: Add the action if left empty
         if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER))
         {
-            $view = $this->getTemplate()->getView();
-            $state = $view->getModel()->getState();
-            $action = $view->getRoute(http_build_query($state->getValues($state->isUnique())));
+            $action = $this->getTemplate()->route();
 
             foreach ($matches as $match)
             {
@@ -121,7 +119,7 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
             }
         }
 
-        // POST : Add token 
+        // POST : Add token
         $matches = array();
         preg_match_all('/(<form.*method="post".*>)/i', $text, $matches, PREG_SET_ORDER);
 

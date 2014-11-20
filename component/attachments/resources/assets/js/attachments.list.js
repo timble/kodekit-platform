@@ -1,3 +1,11 @@
+/**
+ * Nooku Platform - http://www.nooku.org/platform
+ *
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
+ */
+
 if(!Attachments) var Attachments = {};
 
 Attachments.List = new Class({
@@ -84,7 +92,7 @@ Attachments.List = new Class({
             url: uri.toString(),
             params: {
                 _action: 'delete',
-                _token: this.token
+                csrf_token: this.token
             }
         });
 
@@ -99,7 +107,7 @@ Attachments.List = new Class({
             method: 'post',
             data: {
                 _action: 'edit',
-                _token: this.token,
+                csrf_token: this.token,
                 x1: this.coordinates.x,
                 y1: this.coordinates.y,
                 x2: this.coordinates.x2,

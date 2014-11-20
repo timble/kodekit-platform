@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,14 +12,28 @@ namespace Nooku\Library;
 /**
  * Object Identifier
  *
- * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors and methods for
+ * Wraps identifiers of the form type:[//domain/]package.[.path].name in an object, providing public accessors and methods for
  * derived formats.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectIdentifier implements ObjectIdentifierInterface
 {
+    /**
+     * The identifier config
+     *
+     * @var array
+     */
+    private $__config = null;
+
+    /**
+     * The runtime config
+     *
+     * @var ObjectConfig
+     */
+    protected $_config = null;
+
     /**
      * The object identifier
      *
@@ -32,7 +46,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @var string
      */
-    protected $_type = '';
+    protected $_type = 'lib';
 
     /**
      * The identifier domain
@@ -63,43 +77,13 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_name = '';
 
     /**
-     * The identifier class
-     *
-     * @var string
-     */
-    protected $_class = '';
-
-    /**
-     * The object config
-     *
-     * @var ObjectConfig
-     */
-    protected $_config = null;
-
-    /**
-     * The object mixins
-     *
-     * @var array
-     */
-    protected $_mixins = array();
-
-    /**
-     * The object decorators
-     *
-     * @var array
-     */
-    protected $_decorators = array();
-
-    /**
      * Constructor
      *
-     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
-     * lib:event.publisher.
-     *
      * @param  string|array $identifier Identifier string or array in type://domain/package.[.path].name format
+     * @param	array       $config     An optional associative array of configuration settings.
      * @throws  ObjectExceptionInvalidIdentifier If the identifier cannot be parsed
      */
-    public function __construct($identifier)
+    public function __construct($identifier, array $config = array())
     {
         //Get the parts
         if(!is_array($identifier))
@@ -133,14 +117,14 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             $parts = $identifier;
             foreach ($parts as $key => $value) {
                 $this->{'_'.$key} = $value;
-
             }
-
-            $identifier = $this->toString();
         }
 
         //Cache the identifier to increase performance
-        $this->_identifier = $identifier;
+        $this->_identifier = $this->toString();
+
+        //The identifier config
+        $this->__config = $config;
     }
 
     /**
@@ -150,9 +134,13 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function serialize()
     {
-        $data = $this->toArray();
-        $data['identifier'] = $this->_identifier;
-        $data['class']      = $this->_class;
+        $data['_type']       = $this->_type;
+        $data['_domain']     = $this->_domain;
+        $data['_package']    = $this->_package;
+        $data['_path']       = $this->_path;
+        $data['_name']       = $this->_name;
+        $data['_identifier'] = $this->_identifier;
+        $data['__config']    = $this->__config;
 
         return serialize($data);
     }
@@ -167,7 +155,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         $data = unserialize($data);
 
         foreach($data as $property => $value) {
-            $this->{'_'.$property} = $value;
+            $this->{$property} = $value;
         }
     }
 
@@ -222,28 +210,6 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Get the identifier class name
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->_class;
-    }
-
-    /**
-     * Set the identifier class name
-     *
-     * @param  string $class
-     * @return ObjectIdentifier
-     */
-    public function setClass($class)
-    {
-        $this->_class = $class;
-        return $this;
-    }
-
-    /**
      * Get the config
      *
      * This function will lazy create a config object is one does not exist yet.
@@ -252,109 +218,39 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      */
     public function getConfig()
     {
-        if(!isset($this->_config)) {
-            $this->_config = new ObjectConfig();
+        if(!$this->_config instanceof ObjectConfig) {
+            $this->_config = new ObjectConfig($this->__config);
         }
 
         return $this->_config;
     }
 
     /**
-     * Set the config
-     *
-     * @param   array    $data   A ObjectConfig object or a an array of configuration options
-     * @param   boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
-     * @return  ObjectIdentifierInterface
-     */
-    public function setConfig($data, $merge = true)
-    {
-        $config = $this->getConfig();
-
-        if($merge) {
-            $config->append($data);
-        } else {
-            $this->_config = new ObjectConfig($data);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add a mixin
-     *
-     *  @param mixed $decorator An object implementing ObjectMixinInterface, an ObjectIdentifier or an identifier string
-     * @param array $config     An array of configuration options
-     * @return ObjectIdentifierInterface
-     * @see Object::mixin()
-     */
-    public function addMixin($mixin, $config = array())
-    {
-        if ($mixin instanceof ObjectMixinInterface || $mixin instanceof ObjectIdentifier) {
-            $this->_mixins[] = $mixin;
-        } else {
-            $this->_mixins[$mixin] = $config;
-        }
-
-        return $this;
-    }
-
-    /**
      * Get the mixin registry
      *
-     * @return array
+     * @return ObjectConfig
      */
     public function getMixins()
     {
-        return $this->_mixins;
-    }
-
-    /**
-     * Add a decorator
-     *
-     * @param mixed $decorator An object implementing ObjectDecoratorInterface, an ObjectIdentifier or an identifier string
-     * @param array $config    An array of configuration options
-     * @return ObjectIdentifierInterface
-     * @see Object::decorate()
-     */
-    public function addDecorator($decorator, $config = array())
-    {
-        if ($decorator instanceof ObjectDecoratorInterface || $decorator instanceof ObjectIdentifier) {
-            $this->_decorators[] = $decorator;
-        } else {
-            $this->_decorators[$decorator] = $config;
+        if(!isset($this->getConfig()->mixins)) {
+            $this->getConfig()->append(array('mixins' => array()));
         }
 
-        return $this;
+        return $this->getConfig()->mixins;
     }
 
     /**
      * Get the decorators
      *
-     *  @return array
+     *  @return ObjectConfig
      */
     public function getDecorators()
     {
-        return $this->_decorators;
-    }
+        if(!isset($this->getConfig()->decorators)) {
+            $this->getConfig()->append(array('decorators' => array()));
+        }
 
-    /**
-     * Check if the object is a multiton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isMultiton()
-    {
-        return array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($this->class));
-    }
-
-    /**
-     * Check if the object is a singleton
-     *
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
-     */
-    public function isSingleton()
-    {
-        return array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($this->class));
+        return $this->getConfig()->decorators;
     }
 
     /**
@@ -441,7 +337,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
-     * Allow casting of the identifiier to a string
+     * Allow casting of the identifier to a string
      *
      * @return string
      */

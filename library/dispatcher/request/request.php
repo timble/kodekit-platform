@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,31 +14,22 @@ namespace Nooku\Library;
  *
  * Force the user object to a singleton with identifier with alias 'request'.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherRequest extends DispatcherRequestAbstract implements ObjectInstantiable, ObjectSingleton
+class DispatcherRequest extends DispatcherRequestAbstract implements ObjectSingleton
 {
     /**
-     * Force creation of a singleton
+     * Constructor
      *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherRequest
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
+     * @return Object
      */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
+    public function __construct(ObjectConfig $config)
     {
-        if (!$manager->isRegistered('dispatcher.request'))
-        {
-            $class     = $manager->getClass($config->object_identifier);
-            $instance  = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
+        parent::__construct($config);
 
-            //Add the service alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'dispatcher.request');
-            $manager->registerAlias('dispatcher.request', 'request');
-        }
-
-        return $manager->getObject('dispatcher.request');
+        //Add a global object alias
+        $this->getObject('manager')->registerAlias($this->getIdentifier(), 'request');
     }
 }

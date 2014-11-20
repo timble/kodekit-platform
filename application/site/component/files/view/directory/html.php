@@ -1,11 +1,10 @@
 <?php
 /**
- * @version        $Id$
- * @package        Nooku_Server
- * @subpackage     Articles
- * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Platform - http://www.nooku.org/platform
+ *
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           http://www.nooku.org
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -13,17 +12,17 @@ use Nooku\Library;
 /**
  * Files Html View
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Files
  */
 class FilesViewDirectoryHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
-	{
-		$this->setPathway();
+    {
+        $this->setPathway();
 
-		return parent::_actionRender($context);
-	}
+        return parent::_actionRender($context);
+    }
 
     protected function _fetchData(Library\ViewContext $context)
     {
@@ -37,7 +36,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $context->data->files = $files['items'];
         $context->data->total = $files['total'];
 
-        $folder = $this->getModel()->getRow();
+        $folder = $this->getModel()->fetch();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
         {
@@ -74,8 +73,8 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $identifier['name'] = Library\StringInflector::pluralize($this->getName());
 
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
-            $folders          = $model->getRowset();
-            $total            = $model->getTotal();
+            $folders          = $model->fetch();
+            $total            = $model->count();
 
             if ($params->get('humanize_filenames', 1))
             {
@@ -120,7 +119,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $controller         = $this->getObject($identifier, array('request' => $request));
 
         $files = $controller->browse();
-        $total = $controller->getModel()->getTotal();
+        $total = $controller->getModel()->count();
 
         if ($params->get('humanize_filenames', 1))
         {
@@ -132,32 +131,31 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         return array('items' => $files, 'total' => $total);
     }
 
-	public function setPathway()
-	{
-		if ($this->parent !== null)
-		{
-            $folder = $this->getModel()->getRow();
+    public function setPathway()
+    {
+        if ($this->parent !== null)
+        {
+            $folder = $this->getModel()->fetch();
 
-			$pathway = $this->getObject('application')->getPathway();
-			$path    = $folder->path;
-			$query   = $this->page->getLink()->query;
-		
-			if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
-				$path = substr($path, strlen($query['folder'])+1, strlen($path));
-			}
-			$parts = explode('/', $path);
+            $path    = $folder->path;
+            $query   = $this->page->getLink()->query;
 
-			foreach ($parts as $i => $part)
-			{
-				if ($part !== $folder->name)
-				{
-					$path = implode('/', array_slice($parts, 0, $i+1));
-					$link = $this->getRoute('&view=directory&folder='.$path);
-				}
-				else $link = '';
+            if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
+                $path = substr($path, strlen($query['folder'])+1, strlen($path));
+            }
+            $parts = explode('/', $path);
 
-				$pathway->addItem($part, $link);
-			}
-		}
-	}
+            foreach ($parts as $i => $part)
+            {
+                if ($part !== $folder->name)
+                {
+                    $path = implode('/', array_slice($parts, 0, $i+1));
+                    $link = $this->getRoute('&view=directory&folder='.$path);
+                }
+                else $link = '';
+
+                $this->getObject('com:pages.pathway')->addItem($part, $link);
+            }
+        }
+    }
 }

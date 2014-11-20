@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Default Dispatcher Response Transport
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstract
@@ -66,7 +66,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      */
     public function sendContent(DispatcherResponseInterface $response)
     {
-        echo $response->getStream()->getContent();
+        echo $response->getStream()->toString();
         return $this;
     }
 
@@ -100,28 +100,63 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
             }
         }
 
+        // IIS does not like it when you have a Location header in a non-redirect request
+        // http://stackoverflow.com/questions/12074730/w7-pro-iis-7-5-overwrites-php-location-header-solved
+        if ($response->headers->has('Location') && !$response->isRedirect())
+        {
+            $server = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE');
+
+            if ($server && strpos(strtolower($server), 'microsoft-iis') !== false) {
+                $response->headers->remove('Location');
+            }
+        }
+
         //Add file related information if we are serving a file
         if($response->isDownloadable())
         {
             //Last-Modified header
-            if($time = $response->getStream()->getTime(FilesystemStream::TIME_MODIFIED)) {
+            if($time = $response->getStream()->getTime(FilesystemStreamInterface::TIME_MODIFIED)) {
                 $response->setLastModified($time);
             };
 
+            $user_agent = $response->getRequest()->getAgent();
+            // basename does not work if the string starts with a UTF character
+            $filename   = ltrim(basename(' '.strtr($response->getStream()->getPath(), array('/' => '/ '))));
+
+            // Android cuts file names after #
+            if (stripos($user_agent, 'Android')) {
+                $filename = str_replace('#', '_', $filename);
+            }
+
+            $disposition = array('filename' => '"'.$filename.'"');
+
+            // IE7 and 8 accepts percent encoded file names as the filename value
+            // Other browsers (except Safari) use filename* header starting with UTF-8''
+            $encoded_name = rawurlencode($filename);
+
+            if($encoded_name !== $filename)
+            {
+                if (preg_match('/(?i)MSIE [4-8]/i', $user_agent)) {
+                    $disposition['filename'] = '"'.$encoded_name.'"';
+                }
+                elseif (!stripos($user_agent, 'AppleWebkit')) {
+                    $disposition['filename*'] = 'UTF-8\'\''.$encoded_name;
+                }
+            }
+
             //Disposition header
-            $response->headers->set('Content-Disposition', array(
-                'inline',
-                'filename' => '"'.basename($response->getStream()->getPath()).'"',
-            ));
+            $response->headers->set('Content-Disposition', array_merge(array('inline'), $disposition));
 
             //Force a download by the browser by setting the disposition to 'attachment'.
             if($response->isAttachable())
             {
-                $response->setContentType('application/force-download');
-                $response->headers->set('Content-Disposition', array(
-                    'attachment',
-                    'filename'  => '"'.basename($response->getStream()->getPath()).'"',
-                ));
+                $response->setContentType('application/octet-stream');
+                $response->headers->set('Content-Disposition', array_merge(array('attachment'), $disposition));
+            }
+
+            //Explicitly disable the IE pause button
+            if(!$response->headers->has('Accept-Ranges')) {
+                $response->headers->set('Accept-Ranges', 'none');
             }
         }
 

@@ -1,0 +1,21 @@
+# Nooku Platform - http://www.nooku.org/platform
+#
+# @copyright  Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+# @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link       https://github.com/nooku/nooku-platform for the canonical source repository
+
+press 'd' to bring the debug bar back up: press 'd' to bring the debug bar back up
+'Memory : ': 'Memory : '
+'Queries : ': 'Queries : '
+Identifier: Identifier
+Event: Event
+Time: Time
+Memory: Memory
+'#': '#'
+Type: Type
+Query: Query
+Component: Component
+Size: Size
+language: language
+PHP: PHP
+Untranslated Strings: Untranslated Strings

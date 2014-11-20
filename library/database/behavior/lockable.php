@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Lockable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
@@ -36,13 +36,29 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     {
     	$config->append(array(
 			'priority'   => self::PRIORITY_HIGH,
-            'lifetime'   =>  $this->getObject('user')->getSession()->getLifetime()
+            'lifetime'   => $this->getObject('user')->getSession()->getLifetime(),
 	  	));
 
 	  	$this->_lifetime = $config->lifetime;
 
     	parent::_initialize($config);
    	}
+
+    /**
+     * Get the user that owns the lock on the resource
+     *
+     * @return UserInterface|null Returns a User object or NULL if no user could be found
+     */
+    public function getLocker()
+    {
+        $user = null;
+
+        if($this->hasProperty('locked_by') && !empty($this->locked_by)) {
+            $user = $this->getObject('user.provider')->fetch($this->locked_by);
+        }
+
+        return $user;
+    }
 
     /**
      * Check if the behavior is supported
@@ -53,14 +69,17 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('locked_by') || $table->hasColumn('locked_on')) {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('locked_by') && !$table->hasColumn('locked_on')) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 	/**
@@ -117,7 +136,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 		$result = false;
 		if(!$this->isNew())
 		{
-		    if(isset($this->locked_on) && isset($this->locked_by))
+            if(isset($this->locked_on) && isset($this->locked_by))
 			{
 			    $locked  = strtotime($this->locked_on);
                 $current = strtotime(gmdate('Y-m-d H:i:s'));

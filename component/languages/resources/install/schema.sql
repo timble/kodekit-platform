@@ -13,8 +13,10 @@ CREATE TABLE `languages` (
     `slug` VARCHAR(50) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     `primary` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_language_id`)
-) ENGINE = InnoDB CHARSET = utf8;
+    `uuid` char(36) NOT NULL,
+    PRIMARY KEY (`languages_language_id`),
+    UNIQUE KEY `uuid` (`uuid`)
+) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -30,9 +32,11 @@ CREATE TABLE `languages_translations` (
     `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `original` BOOLEAN NOT NULL DEFAULT 0,
     `deleted` BOOLEAN NOT NULL DEFAULT 0,
+    `uuid` char(36) NOT NULL,
     PRIMARY KEY (`languages_translation_id`),
+    UNIQUE KEY `uuid` (`uuid`),
     KEY `table_row_iso_code` (`table`, `row`, `iso_code`)
-) ENGINE = InnoDB CHARSET = utf8;
+) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -46,6 +50,7 @@ CREATE TABLE `languages_tables` (
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
+    `uuid` char(36) NOT NULL,
     PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `languages_tables__component` FOREIGN KEY (`component`) REFERENCES `extensions` (`component`) ON DELETE CASCADE
+    UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=InnoDB CHARSET=utf8;

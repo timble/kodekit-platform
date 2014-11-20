@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -16,7 +16,7 @@ use Nooku\Library;
  *
  * The user provider will load users by their email address.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Users
  */
 class UserProvider extends Library\UserProvider
@@ -26,7 +26,7 @@ class UserProvider extends Library\UserProvider
      *
      * @param string $identifier A unique user identifier, (i.e a user id or email address)
      * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
-     * @return Library\UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @return Library\UserInterface Returns a UserInterface object
      */
     public function load($identifier, $refresh = false)
     {
@@ -40,8 +40,23 @@ class UserProvider extends Library\UserProvider
         }
 
         // Fetch the user if not exists
-        if ($current != $identifier) {
+        if ($current != $identifier)
+        {
             $user = parent::load($identifier, $refresh);
+
+            if (!$user instanceof Library\UserInterface)
+            {
+                if (!is_numeric($identifier)) {
+                    $field = 'email';
+                } else {
+                    $field = 'id';
+                }
+
+                $user = $this->create(array(
+                    $field => $identifier,
+                    'name' => $this->getObject('translator')->translate('Anonymous')
+                ));
+            }
         }
 
         return $user;
@@ -51,15 +66,15 @@ class UserProvider extends Library\UserProvider
      * Fetch the user for the given user identifier from the backend
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @return Library\UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
      */
     public function fetch($identifier)
     {
         // Find session user identifier
         if (!is_numeric($identifier)) {
-            $user = $this->getObject('com:users.model.users')->email($identifier)->getRow();
+            $user = $this->getObject('com:users.model.users')->email($identifier)->fetch();
         } else {
-            $user = $this->getObject('com:users.model.users')->id($identifier)->getRow();
+            $user = $this->getObject('com:users.model.users')->id($identifier)->fetch();
         }
 
         //Load the user
@@ -74,7 +89,8 @@ class UserProvider extends Library\UserProvider
                 'password'   => $user->getPassword()->password,
                 'salt'       => $user->getPassword()->salt,
                 'enabled'    => $user->enabled,
-                'attributes' => $user->params->toArray(),
+                'attributes' => $user->getParameters()->toArray(),
+                'expired'    => (bool) $user->activation,
                 'authentic'  => false
             );
 
@@ -83,5 +99,32 @@ class UserProvider extends Library\UserProvider
         else $user = null;
 
         return $user;
+    }
+
+    /**
+     * Check if a user has already been loaded for a given user identifier
+     *
+     * @param $identifier
+     * @return boolean TRUE if a user has already been loaded. FALSE otherwise
+     */
+    public function isLoaded($identifier)
+    {
+        $user = $this->getObject('user');
+
+        // Find session user identifier
+        if (!is_numeric($identifier)) {
+            $current = $user->getEmail();
+        } else {
+            $current = $user->getId();
+        }
+
+        // Fetch the user if not exists
+        if ($current != $identifier) {
+            $result = isset($this->_users[$identifier]);
+        } else {
+            $result = true;
+        }
+
+        return $result;
     }
 }

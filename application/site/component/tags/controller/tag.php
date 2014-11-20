@@ -1,55 +1,27 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
+use Nooku\Component\Tags;
 
 /**
  * Tag Controller
  *
- * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Tags
  */
-abstract class TagsControllerTag extends Library\ControllerModel
+abstract class TagsControllerTag extends Tags\ControllerTag
 {
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'model' => 'com:tags.model.tags'
-        ));
-
-        parent::_initialize($config);
-    }
-
-    protected function _actionRender(Library\ControllerContextInterface $context)
-    {
-        $view = $this->getView();
-
-        //Set the layout
-        if($view instanceof Library\ViewTemplate)
-        {
-            $layout = $view->getIdentifier()->toArray();
-            $layout['name']  = $view->getLayout();
-
-            $alias = $layout;
-            $alias['package'] = 'tags';
-
-            $this->getObject('manager')->registerAlias($alias, $this->getIdentifier($layout));
-        }
-
-        return parent::_actionRender($context);
-    }
-
     public function getRequest()
     {
         $request = parent::getRequest();
 
-        $request->query->table     = $this->getIdentifier()->package;
         $request->query->access    = $this->getUser()->isAuthentic();
         $request->query->published = 1;
 

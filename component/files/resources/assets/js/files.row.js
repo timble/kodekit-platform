@@ -80,7 +80,7 @@ Files.File = new Class({
 				method: 'post',
 				data: {
 					'_action': 'delete',
-					'_token': Files.token
+					'csrf_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
 					if (typeof success == 'function') {
@@ -192,7 +192,7 @@ Files.Folder = new Class({
 				method: 'post',
 				data: {
 					'_action': 'add',
-					'_token': Files.token
+					'csrf_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
 					if (typeof success == 'function') {
@@ -225,7 +225,7 @@ Files.Folder = new Class({
 				method: 'post',
 				data: {
 					'_action': 'delete',
-					'_token': Files.token
+					'csrf_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
 					if (typeof success == 'function') {

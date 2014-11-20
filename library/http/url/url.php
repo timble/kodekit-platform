@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -34,8 +34,7 @@ namespace Nooku\Library;
  *     // $url->host     => 'example.com'
  *     // $url->user     => 'anonymous'
  *     // $url->pass     => 'guest'
- *     // $url->path     => array('path', 'to', 'index.php', 'foo', 'bar')
- *     // $url->format   => 'xml'
+ *     // $url->path     => array('path', 'to', 'index.php', 'foo', 'bar.xml')
  *     // $url->query    => array('baz' => 'dib')
  *     // $url->fragment => 'anchor'
  * ?>
@@ -60,31 +59,20 @@ namespace Nooku\Library;
  *     $url->query['zim'] = 'gir';
  *
  *     // reset the path to something else entirely.
- *     // this will additionally set the format to 'php'.
  *     $url->setPath('/something/else/entirely.php');
- *
- *     // add another path element
- *     $url->path[] = 'another';
- *
- *     // and fetch it to a string.
- *     $new_url = $url->toString();
- *
- *     // the $new_url string is as follows; notice how the format
- *     // is always applied to the last path-element.
- *     // /something/else/entirely/another.php?baz=zab&zim=gir#anchor
  *
  *     // Get the full URL to get the scheme and host
  *     $full_url = $url->toString(true);
  *
  *     // the $full_url string is:
- *     // https://example.com/something/else/entirely/another.php?baz=zab&zim=gir#anchor
+ *     // https://example.com/something/else/entirely.php?baz=zab&zim=gir#anchor
  * ?>
  * </code>
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  */
-class HttpUrl extends Object
+class HttpUrl extends Object implements HttpUrlInterface
 {
     /**
      * The url parts
@@ -97,14 +85,13 @@ class HttpUrl extends Object
     const HOST     = 8;
     const PORT     = 16;
     const PATH     = 32;
-    const FORMAT   = 64;
-    const QUERY    = 128;
-    const FRAGMENT = 256;
+    const QUERY    = 64;
+    const FRAGMENT = 128;
 
-    const USERINFO  = 6;     //User info
-    const AUTHORITY = 31;    //Authority
-    const BASE      = 127;   //Hierarchical part
-    const FULL      = 511;   //Complete url
+    const USERINFO  = 6;   //User info
+    const AUTHORITY = 31;  //Authority
+    const BASE      = 63;  //Hierarchical part
+    const FULL      = 255; //Complete url
 
     /**
      * The scheme [http|https|ftp|mailto|...]
@@ -140,13 +127,6 @@ class HttpUrl extends Object
      * @var string
      */
     public $pass = '';
-
-    /**
-     * The dot-format extension of the last path element (for example, the "rss" in "feed.rss").
-     *
-     * @var string
-     */
-    public $format = '';
 
     /**
      * The fragment aka anchor portion (for example, the "foo" in "#foo").
@@ -212,7 +192,7 @@ class HttpUrl extends Object
         parent::__construct($config);
 
         //Set the escaping behavior
-        $this->_escape = $config->escape;
+        $this->setEscape($config->escape);
 
         //Set the url
         $this->setUrl($config->url);
@@ -392,9 +372,9 @@ class HttpUrl extends Object
     }
 
     /**
-     * Sets the HttpUrl::$path array and $format from a string.
+     * Sets the HttpUrl::$path array
      *
-     * This will overwrite any previous values. Also, resets the format based on the final path value.
+     * This will overwrite any previous values.
      *
      * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
      *                              A leading slash will *not* create an empty first element; if the string has a
@@ -416,18 +396,6 @@ class HttpUrl extends Object
             $path[$key] = urldecode($val);
         }
 
-        if ($val = end($path))
-        {
-            // find the last dot in the value
-            $pos = strrpos($val, '.');
-
-            if ($pos !== false) {
-                $key = key($path);
-                $this->format = substr($val, $pos + 1);
-                $path[$key] = substr($val, 0, $pos);
-            }
-        }
-
         $this->_path = $path;
         return $this;
     }
@@ -435,13 +403,14 @@ class HttpUrl extends Object
     /**
      * Returns the query portion as a string or array
      *
-     * @param   boolean $toArray If TRUE return an array. Default FALSE
-     * @param   boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @param   boolean      $toArray If TRUE return an array. Default FALSE
+     * @param   boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getQuery($toArray = false, $escape = false)
+    public function getQuery($toArray = false, $escape = null)
     {
         $result = $this->_query;
+        $escape = isset($escape) ? (bool) $escape : $this->getEscape();
 
         if(!$toArray)
         {
@@ -487,28 +456,6 @@ class HttpUrl extends Object
     }
 
     /**
-     * Get the URL format
-     *
-     * @return string|null
-     */
-    public function getFormat()
-    {
-        return $this->format;
-    }
-
-    /**
-     * Set the URL format
-     *
-     * @param  string $format
-     * @return HttpUrl
-     */
-    public function setFormat($format)
-    {
-        $this->format = $format;
-        return $this;
-    }
-
-    /**
      * Get the URL fragment
      *
      * @return string|null
@@ -528,6 +475,28 @@ class HttpUrl extends Object
     {
         $this->fragment = $fragment;
         return $this;
+    }
+
+    /**
+     * Enable/disable URL escaping
+     *
+     * @param bool $escape
+     * @return HttpUrl
+     */
+    public function setEscape($escape)
+    {
+        $this->_escape = (bool) $escape;
+        return $this;
+    }
+
+    /**
+     * Get the escape setting
+     *
+     * @return bool
+     */
+    public function getEscape()
+    {
+        return $this->_escape;
     }
 
     /**
@@ -569,12 +538,14 @@ class HttpUrl extends Object
     /**
      * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param integer      $parts   A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param boolean|null $escape  If TRUE escapes '&' to '&amp;' for xml compliance. If NULL use the default.
      * @return  string
      */
-    public function toString($parts = self::FULL)
+    public function toString($parts = self::FULL, $escape = null)
     {
         $url = '';
+        $escape = isset($escape) ? (bool) $escape : $this->getEscape();
 
         //Add the scheme
         if (($parts & self::SCHEME) && !empty($this->scheme)) {
@@ -607,13 +578,13 @@ class HttpUrl extends Object
         if (($parts & self::PATH) && !empty($this->_path))
         {
             $url .= $this->getPath();
-            if (($parts & self::FORMAT) && trim($this->format) !== '') {
-                $url .= '.' . urlencode($this->format);
-            }
         }
 
-        if (($parts & self::QUERY) && !empty($this->_query)) {
-            $url .= '?' . $this->getQuery(false, $this->_escape);
+        if (($parts & self::QUERY) && !empty($this->_query))
+        {
+            if($query = $this->getQuery(false, $escape)) {
+                $url .= '?' . $query;
+            }
         }
 
         if (($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
@@ -621,6 +592,26 @@ class HttpUrl extends Object
         }
 
         return $url;
+    }
+
+    /**
+     * Check if two url's are equal
+     *
+     * @param HttpUrlInterface $url
+     * @return Boolean
+     */
+    public function equals(HttpUrlInterface $url)
+    {
+        $parts = array('scheme', 'host', 'port', 'path', 'query', 'fragment');
+
+        foreach($parts as $part)
+        {
+            if($this->{$part} != $url->{$part}) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

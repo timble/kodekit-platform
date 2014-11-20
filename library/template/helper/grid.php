@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,11 +12,11 @@ namespace Nooku\Library;
 /**
  * Grid Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  * @see     http://ajaxpatterns.org/Data_Grid
  */
-class TemplateHelperGrid extends TemplateHelperAbstract
+class TemplateHelperGrid extends TemplateHelperAbstract implements TemplateHelperParameterizable
 {
 	/**
 	 * Render a checkbox field
@@ -28,19 +28,19 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'    => null,
-	    ))->append(array( 
-        	'column' => $config->row->getIdentityColumn() 
-        )); 
-		
-		if($config->row->isLockable() && $config->row->isLocked())
+			'entity'    => null,
+	    ))->append(array(
+        	'column' => $config->entity->getIdentityKey()
+        ));
+
+		if($config->entity->isLockable() && $config->entity->isLocked())
 		{
 		    $html = '<i class="icon-lock"></i>';
 		}
 		else
 		{
 		    $column = $config->column;
-		    $value  = $config->row->{$column};
+		    $value  = $config->entity->{$column};
 
 		    $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="'.$column.'[]" value="'.$value.'" />';
 		}
@@ -63,9 +63,11 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			'placeholder' => 'Title'
 		));
 
-	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->escape($config->search).'" />';
-        $html .= '<button class="button">'.$this->translate('Go').'</button>';
-		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$this->translate('Reset').'</button>';
+        $translator = $this->getObject('translator');
+
+	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->getTemplate()->escape($config->search).'" />';
+        $html .= '<button class="button">'.$translator('Go').'</button>';
+		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$translator('Reset').'</button>';
 
 	    return $html;
 	}
@@ -100,6 +102,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			'sort'          => '',
 		));
 
+        $translator = $this->getObject('translator');
+
 		//Set the title
 		if(empty($config->title)) {
 			$config->title = ucfirst($config->column);
@@ -122,9 +126,9 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 			$class = 'class="-koowa-'.$direction.'"';
 		}
 
-		$route = $this->getTemplate()->getView()->getRoute($route);
-		$html  = '<a href="'.$route.'" title="'.$this->translate('Click to sort by this column').'"  '.$class.'>';
-		$html .= $this->translate($config->title);
+		$route = $this->getTemplate()->route($route);
+		$html  = '<a href="'.$route.'" title="'.$translator('Click to sort by this column').'"  '.$class.'>';
+		$html .= $translator($config->title);
 		$html .= '</a>';
 
 		return $html;
@@ -140,17 +144,19 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'  	=> null,
+			'entity'  	=> null,
 		    'field'	=> 'enabled'
 		))->append(array(
-		    'data'	=> array($config->field => $config->row->{$config->field})
+		    'data'	=> array($config->field => $config->entity->{$config->field})
 		));
 
-		$img    = $config->row->{$config->field} ? 'icon-ok' : 'icon-remove';
-		$alt 	= $config->row->{$config->field} ? $this->translate( 'Enabled' ) : $this->translate( 'Disabled' );
-		$text 	= $config->row->{$config->field} ? $this->translate( 'Disable Item' ) : $this->translate( 'Enable Item' );
+        $translator = $this->getObject('translator');
 
-	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
+		$img    = $config->entity->{$config->field} ? 'icon-ok' : 'icon-remove';
+		$alt 	= $config->entity->{$config->field} ? $translator('Enabled') : $translator('Disabled');
+		$text 	= $config->entity->{$config->field} ? $translator('Disable Item') : $translator('Enable Item');
+
+	    $config->data->{$config->field} = $config->entity->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
 
 		$html = '<i class="'. $img .'" data-action="edit" data-data="'.$data.'"></i>';
@@ -168,7 +174,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'   => null,
+			'entity'   => null,
 		    'total'	=> null,
 		    'field'	=> 'ordering',
 		    'data'	=> array('order' => 0)
@@ -182,13 +188,13 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 
 		$html = '';
 
-		if ($config->row->{$config->field} > 1) {
+		if ($config->entity->{$config->field} > 1) {
             $html .= '<i class="icon-chevron-up" data-action="edit" data-data="'.$updata.'"></i>';
         }
 
-        $html .= '<span class="data-order">'.$config->row->{$config->field}.'</span>';
+        $html .= '<span class="data-order">'.$config->entity->{$config->field}.'</span>';
 
-        if($config->row->{$config->field} != $config->total) {
+        if($config->entity->{$config->field} != $config->total) {
             $html .= '<i class="icon-chevron-down" data-action="edit" data-data="'.$downdata.'"></i>';
 	    }
 
@@ -205,25 +211,27 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	{
 		$config = new ObjectConfigJson($config);
 		$config->append(array(
-			'row'  		=> null,
+			'entity'  		=> null,
 		    'field'		=> 'access'
 		))->append(array(
-		    'data'		=> array($config->field => $config->row->{$config->field})
+		    'data'		=> array($config->field => $config->entity->{$config->field})
 		));
 
-		switch($config->row->{$config->field})
+        $translator = $this->getObject('translator');
+
+		switch($config->entity->{$config->field})
 		{
 			case 0 :
 			{
 				$color   = 'green';
-				$group   = $this->translate('Public');
+				$group   = $translator('Public');
 				$access  = 1;
 			} break;
 
 			case 1 :
 			{
 				$color   = 'red';
-				$group   = $this->translate('Registered');
+				$group   = $translator('Registered');
 				$access  = 2;
 			} break;
 		}

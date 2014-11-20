@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Assignable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
@@ -95,7 +95,7 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                     else
                     {
                         // If relation is set to all, add all pages except current.
-                        if(count($rel_current) == 1 && $rel_current->top()->pages_page_id == 0)
+                        if(count($rel_current) == 1 && $rel_current->pages_page_id == 0)
                         {
                             $rel_current->delete();
                             foreach($pages as $page)
@@ -142,8 +142,13 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                     }
                     else
                     {
+                        $pages_page_id = array();
+                        foreach($rel_current as $page) {
+                            $pages_page_id[] = $page->pages_page_id;
+                        }
+
                         // If nothing is set or current page is not set and relations is not set to all, add current.
-                        if(!count($rel_current) || !in_array($context->data->id, $rel_current->pages_page_id) && $rel_current->top()->pages_page_id != 0) {
+                        if(!count($rel_current) || !in_array($context->data->id, $pages_page_id) && $rel_current->pages_page_id != 0) {
                             $data[] = array('pages_module_id' => $id, 'pages_page_id' => $context->data->id);
                         }
                     }
@@ -152,7 +157,8 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
                 if($data)
                 {
                     $rel_current->reset();
-                    $rel_current->addRow($data)->save();
+                    $rel_current->create($data);
+                    $rel_current->save();
                 }
             }
         }

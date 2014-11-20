@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,9 +12,10 @@ namespace Nooku\Library;
 /**
  * Object Config Interface
  *
- * ObjectConfig provides a property based interface to an array
+ * ObjectConfig provides a property based interface to an array. Data is can be modified unless the object is marked
+ * as readonly.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
@@ -22,10 +23,10 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
     /**
      * Retrieve a configuration option
      *
-     * If the option does not exist return the default
+     * If the option does not exist return the default.
      *
-     * @param string
-     * @param mixed
+     * @param string  $name
+     * @param mixed   $default
      * @return mixed
      */
     public function get($name, $default = null);
@@ -35,7 +36,8 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      *
      * @param  string $name
      * @param  mixed  $value
-     * @return void
+     * @throws \RuntimeException If the config is read only
+     * @return ObjectConfig
      */
     public function set($name, $value);
 
@@ -51,26 +53,35 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * Remove a configuration option
      *
      * @param   string $name The configuration option name.
-     * @return  ObjectConfigInterface
+     * @throws \RuntimeException If the config is read only
+     * @return  ObjectConfig
      */
     public function remove( $name );
 
     /**
-     * Add options
+     * Merge options
      *
      * This method will overwrite keys that already exist, keys that don't exist yet will be added.
      *
-     * @param  array|ObjectConfig  $options A ObjectConfig object an or array of options to be added
+     * For duplicate keys, the following will be performed:
+     *
+     * - Nested configs will be recursively merged.
+     * - Items in $options with INTEGER keys will be appended.
+     * - Items in $options with STRING keys will overwrite current values.
+     *
+     * @param  array|\Traversable|ObjectConfig  $options A ObjectConfig object an or array of options to be added
+     * @throws \RuntimeException If the config is read only
      * @return ObjectConfigInterface
      */
-    public function add($options);
+    public function merge($options);
 
     /**
      * Append values
      *
      * This function only adds keys that don't exist and it filters out any duplicate values
      *
-     * @param  mixed $config A value of an or array of values to be appended
+     * @param  array|\Traversable|ObjectConfig $config A value of an or array of values to be appended
+     * @throws \RuntimeException If the config is read only
      * @return ObjectConfigInterface
      */
     public function append($config);
@@ -96,7 +107,32 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * Return a ObjectConfig object from an array
      *
      * @param  array $array
+     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig Returns a ObjectConfig object
      */
-    public static function fromArray(array $array);
+    public static function fromArray(array $array, $readonly = false);
+
+    /**
+     * Prevent any more modifications being made to this instance.
+     *
+     * Useful after merge() has been used to merge multiple Config objects into one object which should then not be
+     * modified again.
+     *
+     * @return ObjectConfigInterface
+     */
+    public function setReadOnly();
+
+    /**
+     * Returns whether this ObjectConfig object is read only or not.
+     *
+     * @return bool
+     */
+    public function isReadOnly();
+
+    /**
+     * Get a new instance
+     *
+     * @return ObjectConfigInterface
+     */
+    public function getInstance();
 }

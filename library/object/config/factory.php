@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,11 +12,18 @@ namespace Nooku\Library;
 /**
  * Object Config Factory
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
-class ObjectConfigFactory extends Object implements ObjectMultiton
+class ObjectConfigFactory extends Object implements ObjectSingleton
 {
+    /**
+     * Config object prototypes
+     *
+     * @var array
+     */
+    private $__prototypes;
+
     /**
      * Registered config file formats.
      *
@@ -48,10 +55,11 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
     {
         $config->append(array(
             'formats' => array(
-                'ini'  => 'Nooku\Library\Object\ObjectConfigIni',
-                'json' => 'Nooku\Library\Object\ObjectConfigJson',
-                'xml'  => 'Nooku\Library\Object\ObjectConfigXml',
-                'yaml' => 'Nooku\Library\Object\ObjectConfigYaml'
+                'php'  => 'Nooku\Library\ObjectConfigPhp',
+                'ini'  => 'Nooku\Library\ObjectConfigIni',
+                'json' => 'Nooku\Library\ObjectConfigJson',
+                'xml'  => 'Nooku\Library\ObjectConfigXml',
+                'yaml' => 'Nooku\Library\ObjectConfigYaml'
             )
         ));
 
@@ -62,37 +70,37 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
      * Get a registered config object.
      *
      * @param  string $format The format name
-     * @param  array  $config A optional array of configuration options
+     * @param   array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
      * @throws \InvalidArgumentException    If the format isn't registered
      * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
-     * @return ObjectConfig
+     * @return ObjectConfigSerializable
      */
-    public function getFormat($format, $config = array())
+    public function createFormat($format, $options = array())
     {
-        $format = strtolower($format);
+        $name = strtolower($format);
 
-        if (!isset($this->_formats[$format])) {
-            throw new \RuntimeException(sprintf('Unsupported config format: %s ', $format));
+        if (!isset($this->_formats[$name])) {
+            throw new \RuntimeException(sprintf('Unsupported config format: %s ', $name));
         }
 
-        $format = $this->_formats[$format];
-
-        if(!($format instanceof ObjectConfigSerializable))
+        if(!isset($this->__prototypes[$name]))
         {
-            $format = new $format();
+            $class = $this->_formats[$name];
+            $instance = new $class($options);
 
-            if(!$format instanceof ObjectConfigSerializable)
+            if(!$instance instanceof ObjectConfigSerializable)
             {
                 throw new \UnexpectedValueException(
-                    'Format: '.get_class($format).' does not implement ObjectConfigSerializable Interface'
+                    'Format: '.get_class($instance).' does not implement ObjectConfigSerializable Interface'
                 );
             }
 
-            $this->_formats[$format->name] = $format;
+            $this->__prototypes[$name] = $instance;
         }
-        else $format = clone $format;
 
-        return $format;
+        //Clone the object
+        $result = clone $this->__prototypes[$name];
+        return $result;
     }
 
     /**
@@ -101,8 +109,8 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
      * @param string $format    The name of the format
      * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
      * 					        or valid identifier string
+     * @throws \InvalidArgumentException If the class does not exist.
      * @return	ObjectConfigFactory
-     * throws \InvalidArgumentException If the class does not exist.
      */
     public function registerFormat($format, $class)
     {
@@ -111,18 +119,41 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
         }
 
         $this->_formats[$format] = $class;
+
+        //In case the format is being re-registered clear the prototype
+        if(isset($this->__prototypes[$format])) {
+            unset($this->__prototypes[$format]);
+        }
+
         return $this;
+    }
+
+    /**
+     * Read a config from a string
+     *
+     * @param  string  $format
+     * @param  string  $config
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @return ObjectConfigInterface|array
+     */
+    public function fromString($format, $config, $object = true)
+    {
+        $config = $this->createFormat($format)->fromString($config, $object);
+        return $config;
     }
 
     /**
      * Read a config from a file.
      *
      * @param  string  $filename
-     * @return ObjectConfig
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @return ObjectConfigInterface|array
      */
-    public function fromFile($filename)
+    public function fromFile($filename, $object = true)
     {
         $pathinfo = pathinfo($filename);
 
@@ -133,7 +164,7 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
             ));
         }
 
-        $config = $this->getFormat($pathinfo['extension'])->fromFile($filename);
+        $config = $this->createFormat($pathinfo['extension'])->fromFile($filename, $object);
         return $config;
     }
 
@@ -141,11 +172,11 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
      * Writes a config to a file
      *
      * @param string $filename
-     * @param ObjectConfig $config
-     * @return boolean TRUE on success. FALSE on failure
+     * @param ObjectConfigInterface $config
      * @throws \RuntimeException
+     * @return ObjectConfigFactory
      */
-    public function toFile($filename, ObjectConfig $config)
+    public function toFile($filename, ObjectConfigInterface $config)
     {
         $pathinfo = pathinfo($filename);
 
@@ -156,6 +187,18 @@ class ObjectConfigFactory extends Object implements ObjectMultiton
             ));
         }
 
-        return $this->getFormat($pathinfo['extension'])->toFile($filename, $config);
+        $this->createFormat($pathinfo['extension'])->toFile($filename, $config);
+        return $this;
+    }
+
+    /**
+     * Check if the format is registered
+     *
+     * @param string $format A config format
+     * @return bool TRUE if the format is a registered, FALSE otherwise.
+     */
+    public function isRegistered($format)
+    {
+        return isset($this->_formats[$format]);
     }
 }

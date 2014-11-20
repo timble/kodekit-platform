@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
 class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
@@ -39,13 +39,15 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             'disable' => array()
         ));
 
+        $translator = $this->getObject('translator');
+
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt)));
+            $options[] = $this->option(array('label' => $translator($config->prompt)));
         }
 
-        $menus = $this->getObject('com:pages.model.menus')->getRowset();
-        $pages = $this->getObject('com:pages.model.pages')->published(true)->getRowset();
+        $menus = $this->getObject('com:pages.model.menus')->fetch();
+        $pages = $this->getObject('com:pages.model.pages')->published(true)->fetch();
 
         foreach($menus as $menu)
         {
@@ -74,11 +76,13 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             'menu' => null
         ));
 
+        $translator = $this->getObject('translator');
+
         $pages = $this->getObject('com:pages.model.pages')
             ->published(true)
             ->menu($config->menu)
             ->limit(0)
-            ->getRowset();
+            ->fetch();
 
         if($config->page)
         {
@@ -86,7 +90,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             foreach(clone $pages as $page)
             {
                 if(strpos($page->path, $config->page->path) === 0) {
-                    $pages->extract($page);
+                    $pages->remove($page);
                 }
             }
         }
@@ -96,7 +100,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $html[] = '<label class="radio" for="'.$config->name.'0">';
         $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.'0" value="0" '.$selected.' />';
-        $html[] = $this->translate('Top').'</label>';
+        $html[] = $translator('Top').'</label>';
 
         foreach($pages as $page)
         {
@@ -119,8 +123,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
 
-        $path = $this->getObject('manager')->getClassLoader()->getBasepath('site');
-        $path = $path.'/public/theme/'.$this->getObject('application')->getCfg('theme').'/config.xml';
+        $path = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+        $path = dirname($path).'/public/theme/bootstrap/config.xml';
 
         if (file_exists($path))
         {

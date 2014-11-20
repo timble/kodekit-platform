@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
@@ -17,9 +17,7 @@
     <?= helper('behavior.inline_editing'); ?>
 <? endif;?>
 
-<!--
-<script src="assets://js/koowa.js"/>
--->
+<ktml:script src="assets://js/koowa.js"/>
 
 <div class="btn-toolbar">
     <ktml:toolbar type="actionbar">
@@ -28,7 +26,7 @@
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
         <h1 id="title" contenteditable="<?= object('dispatcher')->getController()->canEdit() ? 'true':'false';?>"><?= $article->title ?></h1>
-        <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <?= helper('date.timestamp', array('entity' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
             <span class="label label-info"><?= translate('Unpublished') ?></span>
         <? endif ?>
@@ -55,8 +53,8 @@
         <?= $article->fulltext ?>
     </div>
 
-    <?= import('com:tags.view.tags.default.html') ?>
-    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+    <?= import('com:tags.tags.default.html', array('tags' => $article->getTags())) ?>
+    <?= import('com:attachments.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->image))) ?>
 </article>
 
 
@@ -93,7 +91,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= translate('Category'); ?></label>
             <div class="controls">
-                <?= helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
+                <?= helper('com:categories.radiolist.categories', array('entity' =>  $article, 'uncategorised' => 'true')) ?>
             </div>
         </div>
     </fieldset>

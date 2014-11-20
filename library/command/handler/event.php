@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -19,10 +19,10 @@ namespace Nooku\Library;
  * it passed by reference instead. By default the context is cloned and changes to the event will not impact the
  * command context.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
-class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectInstantiable, ObjectMultiton
+class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectSingleton
 {
     /**
      * The command priority
@@ -76,27 +76,6 @@ class CommandHandlerEvent extends CommandHandlerAbstract implements ObjectInstan
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Force creation of a singleton
-     *
-     * @param  ObjectConfigInterface   $config	  A ObjectConfig object with configuration options
-     * @param  ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return EventPublisher
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        // Check if an instance with this identifier already exists or not
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            //Create the singleton
-            $class    = $manager->getClass($config->object_identifier);
-            $instance = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
-        }
-
-        return $manager->getObject($config->object_identifier);
     }
 
     /**

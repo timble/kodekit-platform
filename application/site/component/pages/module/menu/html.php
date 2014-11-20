@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,16 +12,18 @@ use Nooku\Library;
 /**
  * Menu Module Html View
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
 class PagesModuleMenuHtml extends PagesModuleDefaultHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $start    = $this->module->params->get('start_level');
-        $end      = $this->module->params->get('end_level');
-        $children = $this->module->params->get('show_children', 'active');
+        $params = $this->module->getParameters();
+
+        $start    = $params->get('start_level');
+        $end      = $params->get('end_level');
+        $children = $params->get('show_children', 'active');
         $pages    = $this->getObject('application.pages');
         $groups   = $this->getObject('user')->getGroups();
 
@@ -29,7 +31,7 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
         $groups[] = 0;
 
         $context->data->active = $pages->getActive();
-        $context->data->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
+        $context->data->pages  = $pages->find(array('pages_menu_id' => $params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
 
         foreach(clone $context->data->pages as $page)
         {
@@ -54,12 +56,9 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
             }
             
             if($extract) {
-                $context->data->pages->extract($page);
+                $context->data->pages->remove($page);
             }
         }
-
-        $context->data->show_title = $this->module->params->get('show_title', false);
-        $context->data->class      = $this->module->params->get('class', 'nav');
 
         parent::_fetchData($context);
     }

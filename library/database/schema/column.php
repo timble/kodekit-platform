@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,10 +12,10 @@ namespace Nooku\Library;
 /**
  * Column Database Schema
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseSchemaColumn extends Object
+class DatabaseSchemaColumn
 {
 	/**
 	 * Column name
@@ -87,50 +87,10 @@ class DatabaseSchemaColumn extends Object
 	 */
 	public $related = array();
 
-	/**
-	 * Filter object
-	 *
-	 * Public access is allowed via __get() with $filter.
-	 *
-	 * @var	FilterInterface
-	 */
-	protected $_filter;
-
-	/**
-     * Implements the virtual $filter property.
-     *
-     * The value can be a Filter object, a filter name, an array of filter
-     * names or a filter identifier
-     *
-     * @param 	string 	$key   The virtual property to set, only accepts 'filter'
-     * @param 	string 	$value Set the virtual property to this value.
-     */
-    public function __set($key, $value)
-    {
-        if ($key == 'filter') {
-        	$this->_filter = $value;
-        }
-    }
-
     /**
-     * Implements access to $_filter by reference so that it appears to be a public $filter property.
+     * Filter
      *
-     * @param   string  $key The virtual property to return, only accepts 'filter'
-     * @return  mixed   The value of the virtual property.
+     * @var	string
      */
-    public function __get($key)
-    {
-        if ($key == 'filter')
-        {
-           if(!isset($this->_filter)) {
-                $this->_filter = $this->type;
-            }
-
-            if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getObject('lib:filter.factory')->getFilter($this->_filter);
-            }
-
-            return $this->_filter;
-        }
-    }
+    public $filter;
 }

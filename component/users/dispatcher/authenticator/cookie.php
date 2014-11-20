@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -14,11 +14,24 @@ use Nooku\Library;
 /**
  * Token Dispatcher Authenticator
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstract
 {
+    /**
+     * Constructor.
+     *
+     * @param Library\ObjectConfig $config Configuration options
+     */
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->addCommandCallback('before.dispatch', 'authenticateRequest');
+
+    }
+
     /**
      * Authenticate using the cookie session id
      *
@@ -27,7 +40,7 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    protected function _beforeDispatch(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(Library\DispatcherContextInterface $context)
     {
         $session = $context->getUser()->getSession();
         $request = $context->getRequest();
@@ -38,16 +51,9 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
             //Set Session Name
             $session->setName(md5($request->getBasePath()));
 
-            $base_path = (string) $request->getBaseUrl()->getPath();
-
-            if (empty($base_path))
-            {
-                $base_path = '/';
-            }
-
             //Set Session Options
             $session->setOptions(array(
-                'cookie_path'   => $base_path,
+                'cookie_path'   => (string) $request->getBaseUrl()->getPath() ?: '/',
                 'cookie_domain' => (string) $request->getBaseUrl()->getHost()
             ));
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Article Controller
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
 class ArticlesControllerArticle extends Library\ControllerModel
@@ -32,8 +32,11 @@ class ArticlesControllerArticle extends Library\ControllerModel
     {
         $request = parent::getRequest();
 
-        if (!$this->getUser()->isAuthentic()) {
-            $request->query->access = 0;
+        // Public users can only access published none registered articles
+        if (!$this->getUser()->isAuthentic())
+        {
+            $request->query->access    = 0;
+            $request->query->published = 1;
         }
 
         $view = $request->query->get('view', 'cmd', null);
@@ -64,14 +67,6 @@ class ArticlesControllerArticle extends Library\ControllerModel
         }
 
         return $request;
-    }
-
-    protected function _actionBrowse(Library\ControllerContextInterface $context)
-    {
-        // Allow editors (and above) to view unpublished items on lists.
-        if (!$this->canEdit()) {
-            $context->request->query->published = 1;
-        }
     }
 
     protected function _actionAdd(Library\ControllerContextInterface $context)

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,67 +12,59 @@ namespace Nooku\Library;
 /**
  * Persistable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerBehaviorPersistable extends ControllerBehaviorPersistableAbstract
+class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
 {
     /**
      * Check if the behavior is supported
      *
-     * Disable controller state persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
+     * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
      * variable of the requested model, which is often undesirable under these circumstances.
      *
      * @return  boolean  True on success, false otherwise
      */
     public function isSupported()
     {
-        $result = false;
-
         $mixer   = $this->getMixer();
         $request = $mixer->getRequest();
 
-        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && !$request->isAjax())
-        {
-            $result = true;
+        if ($mixer instanceof ControllerModellable && $mixer->isDispatched() && $request->isGet() && $request->getFormat() === 'html') {
+            return true;
         }
 
-        return $result;
-    }
-
-    protected function _setContainer(ControllerContextInterface $context)
-    {
-        $model            = $context->subject->getModel();
-        $this->_container = $model->getIdentifier() . '.' . $context->action . '.state';
+        return false;
     }
 
     /**
-     * Load the model state from the request and persist it.
-     *
-     * This functions merges the request information with any model state information that was saved in the session
+	 * Load the model state from the request and persist it.
+	 *
+	 * This functions merges the request information with any model state information that was saved in the session
      * and returns the result.
-     *
-     * @param ControllerContextInterface $context	A controller context object
-     * @return 	void
-     */
-    protected function _beforeBrowse(ControllerContextInterface $context)
-    {
+	 *
+	 * @param ControllerContextInterface $context	A controller context object
+	 * @return 	void
+	 */
+	protected function _beforeBrowse(ControllerContextInterface $context)
+	{
         $model      = $this->getModel();
         $query      = $context->getRequest()->query;
+        $identifier = $model->getIdentifier().'.'.$context->action;
 
-        $query->add((array) $this->_getData($context));
+        $query->add((array) $context->user->get($identifier));
 
         $model->getState()->setValues($query->toArray());
-    }
+	}
 
-    /**
-     * Saves the model state in the session.
-     *
-     * @param ControllerContextInterface $context	A controller context object
-     * @return 	void
-     */
-    protected function _afterBrowse(ControllerContextInterface $context)
-    {
+	/**
+	 * Saves the model state in the session.
+	 *
+	 * @param ControllerContextInterface $context	A controller context object
+	 * @return 	void
+	 */
+	protected function _afterBrowse(ControllerContextInterface $context)
+	{
         $model  = $this->getModel();
         $state  = $model->getState();
 
@@ -84,6 +76,7 @@ class ControllerBehaviorPersistable extends ControllerBehaviorPersistableAbstrac
             }
         }
 
-        $this->_setData($vars, $context);
-    }
+        $identifier = $model->getIdentifier().'.'.$context->action;
+        $context->user->set($identifier, $vars);
+	}
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,11 +12,24 @@ namespace Nooku\Library;
 /**
  * Http Dispatcher
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
+    /**
+     * Constructor.
+     *
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        //Load the dispatcher translations
+        $this->addCommandCallback('before.dispatch', '_loadTranslations');
+    }
+
     /**
      * Initializes the options for the object
      *
@@ -29,7 +42,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     {
     	$config->append(array(
             'behaviors'      => array('resettable'),
-            'authenticators' => array('token'),
+            'authenticators' => array('csrf'),
             'limit'          => array('max' => 1000, 'default' => 20)
          ));
 
@@ -45,21 +58,37 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            //Add the object alias to allow easy access to the singleton
-            $manager->registerAlias($config->object_identifier, 'dispatcher');
+        //Add the object alias to allow easy access to the singleton
+        $manager->registerAlias($config->object_identifier, 'dispatcher');
 
-            //Merge alias configuration into the identifier
-            $config->append($manager->getIdentifier('dispatcher')->getConfig());
+        //Merge alias configuration into the identifier
+        $config->append($manager->getIdentifier('dispatcher')->getConfig());
 
-            //Instantiate the class
-            $class     = $manager->getClass($config->object_identifier);
-            $instance  = new $class($config);
-            $manager->setObject($config->object_identifier, $instance);
+        //Instantiate the class
+        $class     = $manager->getClass($config->object_identifier);
+        $instance  = new $class($config);
+
+        return $instance;
+    }
+
+    /**
+     * Load the controller translations
+     *
+     * @param ControllerContextInterface $context
+     * @return void
+     */
+    protected function _loadTranslations(ControllerContextInterface $context)
+    {
+        $package = $this->getIdentifier()->package;
+        $domain  = $this->getIdentifier()->domain;
+
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$package;
+        } else {
+            $identifier = 'com:'.$package;
         }
 
-        return $manager->getObject($config->object_identifier);
+        $this->getObject('translator')->load($identifier);
     }
 
     /**
@@ -119,7 +148,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * be set the enforced to the maximum limit. Default max limit is 100.
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
-     * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
+     * @return 	ModelEntityInterface	An entity object containing the modified data
      */
     protected function _actionGet(DispatcherContextInterface $context)
     {
@@ -127,26 +156,37 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         if($controller instanceof ControllerModellable)
         {
-            if(!$controller->getModel()->getState()->isUnique())
-            {
-                $limit = $this->getRequest()->query->get('limit', 'int');
+            $controller->getModel()->getState()->setProperty('limit', 'default', $this->getConfig()->limit->default);
 
-                //If limit is empty use default
-                if(empty($limit)) {
-                    $limit = $this->getConfig()->limit->default;
-                }
+            $limit = $this->getRequest()->query->get('limit', 'int');
 
-                //Force the maximum limit
-                if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
-                    $limit = $this->getConfig()->limit->max;
-                }
-
-                $this->getRequest()->query->limit = $limit;
-                $controller->getModel()->getState()->limit = $limit;
+            // Set to default if there is no limit. This is done for both unique and non-unique states
+            // so that limit can be transparently used on unique state requests rendering lists.
+            if(empty($limit)) {
+                $limit = $this->getConfig()->limit->default;
             }
+
+            //Force the maximum limit
+            if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
+                $limit = $this->getConfig()->limit->max;
+            }
+
+            $this->getRequest()->query->limit = $limit;
+            $controller->getModel()->getState()->limit = $limit;
         }
 
         return $controller->execute('render', $context);
+    }
+
+    /**
+     * Head method
+     *
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     * @return ModelEntityInterface
+     */
+    protected function _actionHead(DispatcherContextInterface $context)
+    {
+        return $this->execute('get', $context);
     }
 
     /**
@@ -163,7 +203,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      *          entity identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested entity.
      *          ControllerExceptionRequestInvalid    The action could not be found based on the info in the request.
-     * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
+     * @return  ModelEntityInterface	An entity object containing the modified data
      */
     protected function _actionPost(DispatcherContextInterface $context)
     {
@@ -213,7 +253,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      *
      * @param   DispatcherContextInterface $context	A dispatcher context object
      * @throws  ControllerExceptionRequestInvalid 	If the model state is not unique
-     * @return 	DatabaseRow(set)Ineterface	    A row(set) object containing the modified data
+     * @return 	ModelEntityInterface	    A entity object containing the modified data
      */
     protected function _actionPut(DispatcherContextInterface $context)
     {
@@ -226,7 +266,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             if($controller->getModel()->getState()->isUnique())
             {
                 $action = 'add';
-                $entity = $controller->getModel()->getRow();
+                $entity = $controller->getModel()->fetch();
 
                 if(!$entity->isNew())
                 {
@@ -234,10 +274,11 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
                     $entity->reset();
                     $action = 'edit';
                 }
+                else $entity = $controller->getModel()->create();
 
                 //Set the row data based on the unique state information
                 $state = $controller->getModel()->getState()->getValues(true);
-                $entity->setData($state);
+                $entity->setProperties($state);
             }
             else throw new ControllerExceptionRequestInvalid('Resource not found');
 
@@ -259,7 +300,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      * This function translates a DELETE request into a delete action.
      *
      * @param   DispatcherContextInterface $context	A dispatcher context object
-     * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
+     * @return 	ModelEntityInterface	A entity object containing the modified data
      */
     protected function _actionDelete(DispatcherContextInterface $context)
     {

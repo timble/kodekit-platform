@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Activities;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Loggable Controller Behavior
  *
- * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @author  Israel Canasa <http://github.com/raeldc>
  * @package Nooku\Component\Activities
  */
 class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
@@ -58,22 +58,14 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
         if(in_array($name, $this->_actions))
         {
-            $entity = $command->result;
+            $entities = $command->result;
 
-            if($entity instanceof Library\DatabaseRowInterface || $entity instanceof Library\DatabaseRowsetInterface )
+            if($entities instanceof Library\ModelEntityInterface)
             {
-                $rowset = array();
-
-                if ($entity instanceof Library\DatabaseRowInterface) {
-                    $rowset[] = $entity;
-                } else {
-                    $rowset = $entity;
-                }
-
-                foreach ($rowset as $row)
+                foreach ($entities as $entity)
                 {
                     //Only log if the row status is valid.
-                    $status = $row->getStatus();
+                    $status = $entity->getStatus();
 
                     if(!empty($status))
                     {
@@ -91,25 +83,25 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         {
                             foreach($this->_title_column as $title)
                             {
-                                if($row->{$title}){
-                                    $log['title'] = $row->{$title};
+                                if($entity->{$title})
+                                {
+                                    $log['title'] = $entity->{$title};
                                     break;
                                 }
                             }
                         }
-                        elseif($row->{$this->_title_column}) {
-                            $log['title'] = $row->{$this->_title_column};
+                        elseif($entity->{$this->_title_column}) {
+                            $log['title'] = $entity->{$this->_title_column};
                         }
 
                         if (!isset($log['title'])) {
-                            $log['title'] = '#'.$row->id;
+                            $log['title'] = '#'.$entity->id;
                         }
 
-                        $log['row'] = $row->id;
+                        $log['row'] = $entity->id;
                         $log['ip']  = $command->request->getAddress();
 
-
-                        $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
+                        $this->getObject('com:activities.model.entity.activity', array('data' => $log))->save();
                     }
                 }
             }

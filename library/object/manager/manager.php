@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,8 +12,8 @@ namespace Nooku\Library;
 /**
  * Object Manager
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\Object
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\Object\Manager
  */
 class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSingleton
 {
@@ -29,14 +29,14 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @var ObjectRegistry
      */
-    protected $_registry;
+    private $__registry;
 
     /*
      * The class loader
      *
      * @var ClassLoader
      */
-    protected $_loader;
+    private $__loader;
 
     /**
      * The identifier locators
@@ -65,19 +65,19 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         else $this->setClassLoader($config->class_loader);
 
         //Create the object registry
-        if($config->cache_enabled)
+
+        if($config->cache && ObjectRegistryCache::isSupported())
         {
-            $this->_registry = new ObjectRegistryCache();
-            $this->_registry->setNamespace($config->cache_namespace);
+            $this->__registry = new ObjectRegistryCache();
+            $this->__registry->setNamespace($config->cache_namespace);
         }
-        else $this->_registry = new ObjectRegistry();
+        else $this->__registry = new ObjectRegistry();
 
         //Create the object identifier
         $this->__object_identifier = $this->getIdentifier('object.manager');
 
         //Manually register the library loader
         $config = new ObjectConfig(array(
-            'class_loader'      => $config->class_loader,
             'object_manager'    => $this,
             'object_identifier' => new ObjectIdentifier('lib:object.locator.library')
         ));
@@ -101,7 +101,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         $config->append(array(
             'class_loader'     => null,
-            'cache_enabled'    => false,
+            'cache'            => false,
             'cache_namespace'  => 'nooku'
         ));
     }
@@ -139,85 +139,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
-     * Get an identifier object based on an object identifier.
-     *
-     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
-     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
-     * string. Function recursively resolves identifier aliases and returns the aliased identifier.
-     *
-     * If no identifier is passed the object identifier of this object will be returned.
-     *
-     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @return ObjectIdentifier
-     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
-     */
-    public function getIdentifier($identifier = null)
-    {
-        if(isset($identifier))
-        {
-            if (!is_string($identifier))
-            {
-                if ($identifier instanceof ObjectInterface) {
-                    $identifier = $identifier->getIdentifier();
-                }
-
-                if(is_array($identifier)) {
-                    $identifier = new ObjectIdentifier($identifier);
-                }
-            }
-
-            //Get the identifier object
-            if (!$result = $this->_registry->find($identifier))
-            {
-                if (is_string($identifier)) {
-                    $result = new ObjectIdentifier($identifier);
-                } else {
-                    $result = $identifier;
-                }
-
-                $this->_registry->set($result);
-            }
-        }
-        else $result = $this->__object_identifier;
-
-        return $result;
-    }
-
-    /**
-     * Get the identifier class
-     *
-     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param bool  $fallback   Use fallbacks when locating the class. Default is TRUE.
-     * @return string|false  Returns the class name or false if the class could not be found.
-     */
-    public function getClass($identifier, $fallback = true)
-    {
-        $identifier = $this->getIdentifier($identifier);
-        return $this->_locate($identifier, $fallback);
-    }
-
-    /**
-     * Set the identifier class
-     *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param string $class      The class name
-     * @return string
-     */
-    public function setClass($identifier, $class)
-    {
-        if(!$this->isRegistered($identifier))
-        {
-            $identifier = $this->getIdentifier($identifier);
-            $identifier->setClass($class);
-
-            //Re-set the registry
-            $this->_registry->set($identifier);
-        }
-
-        return $this;
-    }
-
-    /**
      * Get an object instance based on an object identifier
      *
      * If the object implements the ObjectSingleton interface the object will be automatically registered in the
@@ -226,36 +147,35 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * If the object implements the ObjectInstantiable interface the manager will delegate object instantiation
      * to the object itself.
      *
-     * @param	string|object	$identifier  An ObjectIdentifier or identifier string
-     * @param	array  			$config     An optional associative array of configuration settings.
-     * @return	ObjectInterface  Return object on success, throws exception on failure
+     * @param   string|object   $identifier  An ObjectIdentifier or identifier string
+     * @param   array           $config     An optional associative array of configuration settings.
+     * @return  ObjectInterface  Return object on success, throws exception on failure
      * @throws  ObjectExceptionInvalidIdentifier   If the identifier is not valid
-     * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
+     * @throws	ObjectExceptionInvalidObject      If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
-     * @return  object  Return object on success, throws exception on failure
+     * @return  ObjectInterface|Callable  Return object on success, throws exception on failure
      */
     public function getObject($identifier, array $config = array())
     {
         $identifier = $this->getIdentifier($identifier);
 
-        if (!$this->isRegistered($identifier))
+        if (!$instance = $this->isRegistered($identifier))
         {
-            //Instantiate the object
+            //Instantiate the identifier
             $instance = $this->_instantiate($identifier, $config);
 
-            //Mix the object
-            $instance = $this->_mixin($identifier, $instance);
+            //Mixins's are early mixed in KObject::_construct()
+            //$instance = $this->_mixin($identifier, $instance);
 
             //Decorate the object
             $instance = $this->_decorate($identifier, $instance);
 
             //Auto register the object
-            if($identifier->isMultiton()) {
+            if($this->isMultiton($identifier)) {
                 $this->setObject($identifier, $instance);
             }
         }
-        else $instance = $this->_registry->get($identifier);
 
         return $instance;
     }
@@ -271,26 +191,120 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     public function setObject($identifier, ObjectInterface $object)
     {
         $identifier = $this->getIdentifier($identifier);
-        $this->_registry->set($identifier, $object);
+
+        //Add alias for singletons
+        if($identifier->getType() != 'lib' && $this->isSingleton($identifier))
+        {
+            $parts = $identifier->toArray();
+
+            unset($parts['type']);
+            unset($parts['domain']);
+            unset($parts['package']);
+
+            //Create singleton identifier : path.name
+            $singleton = $this->getIdentifier($parts);
+
+            $this->registerAlias($identifier, $singleton);
+        }
+
+        $this->__registry->set($identifier, $object);
 
         return $this;
     }
 
     /**
-     * Set the configuration options for an identifier
+     * Get an identifier object based on an object identifier.
      *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An associative array of configuration options
-     * @param  boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
-     * @return ObjectManager
+     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an
+     * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
+     * string. Function recursively resolves identifier aliases and returns the aliased identifier.
+     *
+     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
+     * lib:event.publisher.
+     *
+     * If no identifier is passed the object identifier of this object will be returned.
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectIdentifier
      * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function setConfig($identifier, $config = array(), $merge = true)
+    public function getIdentifier($identifier = null)
+    {
+        //Get the identifier
+        if(isset($identifier))
+        {
+            if(!$identifier instanceof ObjectIdentifierInterface)
+            {
+                if ($identifier instanceof ObjectInterface) {
+                    $identifier = $identifier->getIdentifier();
+                } else {
+                    $identifier = new ObjectIdentifier($identifier);
+                }
+            }
+
+            //Get the identifier object
+            if (!$result = $this->__registry->find($identifier)) {
+                $result = $this->__registry->set($identifier);
+            }
+        }
+        else $result = $this->__object_identifier;
+
+        return $result;
+    }
+
+    /**
+     * Set an identifier
+     *
+     * This function will reset the identifier if it has already been set. Use this very carefully as it can have
+     * unwanted side-effects.
+     *
+     * @param ObjectIdentifier  $identifier An ObjectIdentifier
+     * @return ObjectManager
+     */
+    public function setIdentifier(ObjectIdentifier $identifier)
+    {
+        $this->__registry->set($identifier);
+        return $this;
+    }
+
+    /**
+     * Check if an identifier exists
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return bool TRUE if the identifier exists, false otherwise.
+     */
+    public function hasIdentifier($identifier)
+    {
+        return $this->__registry->has($identifier);
+    }
+
+    /**
+     * Get the identifier class
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param bool  $fallback   Use fallbacks when locating the class. Default is TRUE.
+     * @return string|false  Returns the class name or false if the class could not be found.
+     */
+    public function getClass($identifier, $fallback = true)
     {
         $identifier = $this->getIdentifier($identifier);
-        $identifier->setConfig($config, $merge);
+        $class      = $this->__registry->getClass($identifier);
 
-        return $this;
+        //If the class is FALSE we have tried to locate it already, do not locate it again.
+        if(empty($class) && $class !== false)
+        {
+            $class = $this->_locate($identifier, $fallback);
+
+            //If we are falling back set the class in the registry
+            if($fallback)
+            {
+                if(!$this->__registry->get($identifier) instanceof ObjectInterface) {
+                    $this->__registry->setClass($identifier, $class);
+                }
+            }
+        }
+
+        return $class;
     }
 
     /**
@@ -323,12 +337,17 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     public function registerMixin($identifier, $mixin, array $config = array())
     {
         $identifier = $this->getIdentifier($identifier);
-        $identifier->addMixin($mixin, $config);
+
+        if ($mixin instanceof ObjectMixinInterface || $mixin instanceof ObjectIdentifier) {
+            $identifier->getMixins()->append(array($mixin));
+        } else {
+            $identifier->getMixins()->append(array($mixin => $config));
+        }
 
         //If the identifier already exists mixin the mixin
         if ($this->isRegistered($identifier))
         {
-            $mixer = $this->_registry->get($identifier);
+            $mixer = $this->__registry->get($identifier);
             $this->_mixin($identifier, $mixer);
         }
 
@@ -352,12 +371,17 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     public function registerDecorator($identifier, $decorator, array $config = array())
     {
         $identifier = $this->getIdentifier($identifier);
-        $identifier->addDecorator($decorator);
+
+        if ($decorator instanceof ObjectDecoratorInterface || $decorator instanceof ObjectIdentifier) {
+            $identifier->getDecorators()->append(array($decorator));
+        } else {
+            $identifier->getDecorators()->append(array($decorator => $config));
+        }
 
         //If the identifier already exists decorate it
         if ($this->isRegistered($identifier))
         {
-            $delegate = $this->_registry->get($identifier);
+            $delegate = $this->__registry->get($identifier);
             $this->_decorate($identifier, $delegate);
         }
 
@@ -375,7 +399,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         if(!$identifier instanceof ObjectLocatorInterface)
         {
-            $config['class_loader'] = $this->getClassLoader();
             $locator = $this->getObject($identifier, $config);
 
             if(!$locator instanceof ObjectLocatorInterface)
@@ -388,7 +411,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         else $locator = $identifier;
 
         //Add the locator
-        $this->_locators[$locator->getType()] = $locator;
+        $this->_locators[$locator->getName()] = $locator;
 
         return $this;
     }
@@ -434,10 +457,15 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         $alias      = $this->getIdentifier($alias);
 
         //Register the alias for the identifier
-        $this->_registry->alias($identifier, (string) $alias);
+        $this->__registry->alias($identifier, (string) $alias);
 
         //Merge alias configuration into the identifier
         $identifier->getConfig()->append($alias->getConfig());
+
+        // Register alias mixins.
+        foreach ($alias->getMixins() as $mixin) {
+            $this->registerMixin($identifier, $mixin);
+        }
 
         return $this;
     }
@@ -450,7 +478,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function getAliases($identifier)
     {
-        return array_search((string) $identifier, $this->_registry->getAliases());
+        return array_search((string) $identifier, $this->__registry->getAliases());
     }
 
     /**
@@ -460,7 +488,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function getClassLoader()
     {
-        return $this->_loader;
+        return $this->__loader;
     }
 
     /**
@@ -471,32 +499,46 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function setClassLoader(ClassLoaderInterface $loader)
     {
-        $this->_loader = $loader;
+        $this->__loader = $loader;
         return $this;
     }
 
     /**
-     * Check if an object instance was registered for the identifier
+     * Check if the object instance exists based on the identifier
      *
-     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
-     * @return boolean Returns TRUE on success or FALSE on failure.
+     * @param  mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @return ObjectInterface|false Returns the registered object on success or FALSE on failure.
+     * @throws ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function isRegistered($identifier)
     {
+        $result = false;
+
         try
         {
-            $object = $this->_registry->get($this->getIdentifier($identifier));
+            $registered = $this->getIdentifier($identifier);
+
+            //Get alias for singletons
+            if($registered->getType() != 'lib' && $this->isSingleton($registered))
+            {
+                $parts = $registered->toArray();
+
+                unset($parts['type']);
+                unset($parts['domain']);
+                unset($parts['package']);
+
+                //Create singleton identifier : path.name
+                $registered = $this->getIdentifier($parts);
+            }
+
+            $object = $this->__registry->get($registered);
 
             //If the object implements ObjectInterface we have registered an object
             if($object instanceof ObjectInterface) {
-                $result = true;
-            } else {
-                $result = false;
+                $result = $object;
             }
 
-        } catch (ObjectExceptionInvalidIdentifier $e) {
-            $result = false;
-        }
+        } catch (ObjectExceptionInvalidIdentifier $e) {}
 
         return $result;
     }
@@ -509,10 +551,11 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function isMultiton($identifier)
     {
-        try {
-            $result = $this->getIdentifier($identifier)->isMultiton();
-        } catch (ObjectExceptionInvalidIdentifier $e) {
-            $result = false;
+        $result = false;
+        $class  = $this->getClass($identifier);
+
+        if($class) {
+            $result = array_key_exists(__NAMESPACE__.'\ObjectMultiton', class_implements($class));
         }
 
         return $result;
@@ -526,10 +569,11 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function isSingleton($identifier)
     {
-        try {
-            $result = $this->getIdentifier($identifier)->isSingleton();
-        } catch (ObjectExceptionInvalidIdentifier $e) {
-            $result = false;
+        $result = false;
+        $class  = $this->getClass($identifier);
+
+        if($class) {
+            $result = array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($class));
         }
 
         return $result;
@@ -618,23 +662,15 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     protected function _locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        $class = $identifier->getClass();
-
-        //Set the basepath
-        $this->getClassLoader()->setBasepath($identifier->domain);
-
-        //If the class is FALSE we have tried to locate it already, do not locate it again.
-        if(empty($class) && $class !== false)
+        //Set loader basepath if we are locating inside an application
+        if($identifier->domain && $this->isRegistered('object.bootstrapper'))
         {
-            $class = $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
-
-            //If we are falling back set the class in the identifier.
-            if($fallback) {
-                $this->setClass($identifier, $class);
+            if($path = $this->getObject('object.bootstrapper')->getApplicationPath($identifier->domain)) {
+                $this->getClassLoader()->setBasePath($path);
             }
         }
 
-        return $class;
+        return $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
     }
 
     /**
@@ -642,7 +678,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @param   ObjectIdentifier $identifier
      * @param   array            $config    An optional associative array of configuration settings.
-     * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
+     * @throws	ObjectExceptionInvalidObject      If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
@@ -652,14 +688,14 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         $result = null;
 
         //Get the class name and set it in the identifier
-        $class = $this->_locate($identifier);
+        $class = $this->getClass($identifier);
 
         if($class && class_exists($class))
         {
-            if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->class, false)))
+            if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($class, false)))
             {
                 throw new ObjectExceptionInvalidObject(
-                    'Object: '.$identifier->class.' does not implement ObjectInterface'
+                    'Object: '.$class.' does not implement ObjectInterface'
                 );
             }
 
@@ -667,17 +703,17 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             $config = $this->_configure($identifier, $config);
 
             // Delegate object instantiation.
-            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiable', class_implements($identifier->class, false))) {
-                $result = call_user_func(array($identifier->class, 'getInstance'), $config, $this);
+            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiable', class_implements($class, false))) {
+                $result = call_user_func(array($class, 'getInstance'), $config, $this);
             } else {
-                $result = new $identifier->class($config);
+                $result = new $class($config);
             }
 
             //Thrown an error if no object was instantiated
             if (!is_object($result))
             {
                 throw new ObjectExceptionNotInstantiated(
-                    'Cannot instantiate object from identifier: ' . $identifier->class
+                    'Cannot instantiate object from identifier: ' . $class
                 );
             }
         }

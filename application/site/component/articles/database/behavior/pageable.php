@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Pageable Database Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
 class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
@@ -84,7 +84,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
                     $link = $page->getLink();
 
                     // Particular case ... all articles from all categories.
-                    if ($page->link_url == 'option=com_articles&view=articles') {
+                    if ($page->link_url == 'component=articles&view=articles') {
                         $constraints['categories'][] = 0;
                     }
 
@@ -123,7 +123,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 
             $needles = array(
                 'users_group_id' => array_merge(array(0), $user->getGroups()),
-                'component_name' => 'com_'.$this->getMixer()->getIdentifier()->package);
+                'component_name' => $this->getMixer()->getIdentifier()->package);
 
             if (!$user->isAuthentic()) {
                 $needles['access'] = 0;
@@ -132,7 +132,8 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             $pages = $this->getObject('com:pages.model.pages')
                            ->application('site')
                            ->published(true)
-                           ->getRowset()->find($needles);
+                           ->fetch()
+                           ->find($needles);
 
             $this->_pages = $pages;
         }
@@ -157,7 +158,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             if (is_null($page))
             {
                 // Look for a category page.
-                $category = $this->getObject('com:categories.model.categories')->category($this->category)->getRow();
+                $category = $this->getObject('com:categories.model.categories')->category($this->category)->fetch();
                 $page     = $pages->find(array('link' => array(
                         array(
                             'view'     => 'categories',
@@ -168,7 +169,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 
             // Look for an un-filtered articles view page.
             if (is_null($page)) {
-                $page = $pages->find(array('link_url' => 'option=com_articles&view=articles'));
+                $page = $pages->find(array('link_url' => 'component=articles&view=articles'));
             }
         }
 

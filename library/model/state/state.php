@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,13 +12,13 @@ namespace Nooku\Library;
 /**
  * Model State Class
  *
- * A state requires a model object. It will call back to the model upon a state change using the onStateChange notifier.
+ * A state requires a model object. It will call back to the model upon a state change by calling reset method.
  *
  * State values can only be of type scalar or array. Values are only filtered if not NULL. If the value is an empty
  * string it will be filtered to NULL. Values will only be set if the state exists. To insert new states use the
  * the insert() function.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
 class ModelState extends ObjectArray implements ModelStateInterface
@@ -28,13 +28,15 @@ class ModelState extends ObjectArray implements ModelStateInterface
      *
      * @var string|object
      */
-    protected $_model;
+    private $__model;
 
     /**
      * Constructor
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     * @return ObjectArray
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @throws \UnexpectedValueException    If no 'model' config option was passed
+     * @throws \InvalidArgumentException    If the model config option does not implement ModelInterface
+     * @return \Nooku\Library\ModelState
      */
     public function __construct(ObjectConfig $config)
     {
@@ -54,7 +56,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             );
         }
 
-        $this->_model = $config->model;
+        $this->__model = $config->model;
     }
 
     /**
@@ -62,7 +64,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -128,21 +130,22 @@ class ModelState extends ObjectArray implements ModelStateInterface
     /**
      * Set the a state value
      *
-     * This function only acts on existing states, if a state has changed it will call back to the model triggering the
-     * onStateChange notifier.
+     * This function only acts on existing states, if a state has changed it will call back to the model triggering a
+     * reset action.
      *
      * @param  	string 	$name  The state name.
      * @param  	mixed  	$value The state value.
+     *
      * @return  ModelAbstract
      */
     public function set($name, $value = null)
     {
-        if ($this->has($name) && $this->get($name) != $value)
+        if ($this->has($name) && $this->get($name) !== $value)
         {
             $this->offsetSet($name, $value);
 
-            //Notify the model
-            $this->_model->onStateChange($name);
+            //Reset the model
+            $this->__model->reset(array($name));
         }
 
         return $this;
@@ -179,15 +182,22 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function reset($default = true)
     {
-        foreach($this->_data as $state)
-        {
-            $state->value = $default ? $state->default : null;
-
-            //Notify the model
-            $this->_model->onStateChange($state->name);
+        foreach($this->_data as $state) {
+            $this->set($state->name, $default ? $state->default : null);
         }
 
         return $this;
+    }
+
+    /**
+     * Get the total number of entities
+     *
+     * @return  int
+     */
+    public function count()
+    {
+        //Reset the model
+        return $this->__model->count();
     }
 
     /**
@@ -286,7 +296,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function getProperty($name, $property)
     {
-        $value = null;
+        $result = null;
         if($this->has($name))
         {
             if(isset($this->_data[$name]->$property)) {
@@ -294,7 +304,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             }
         }
 
-        return $value;
+        return $result;
     }
 
     /**
@@ -382,7 +392,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      * Set an state value
      *
      * This function only accepts scalar or array values. Values are only filtered if not NULL. If the value is an empty
-     * string it will be filtered to NULL. Values will obly be set if the state exists. Function will not create new
+     * string it will be filtered to NULL. Values will only be set if the state exists. Function will not create new
      * states. Use the insert() function instead.
      *
      * @param   string        $name
@@ -399,7 +409,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             {
                 if($value !== '')
                 {
-                    //Only accepts scalar values
+                    //Only accepts scalar values and array
                     if(!is_scalar($value) && !is_array($value))
                     {
                         throw new \UnexpectedValueException(
@@ -410,15 +420,15 @@ class ModelState extends ObjectArray implements ModelStateInterface
                     $filter = $this->_data[$name]->filter;
 
                     if(!($filter instanceof FilterInterface)) {
-                        $filter =  $this->getObject('lib:filter.factory')->getFilter($filter);
+                        $filter =  $this->getObject('filter.factory')->createChain($filter);
                     }
 
                     $value = $filter->sanitize($value);
                 }
                 else $value = null;
-
-                $this->_data[$name]->value = $value;
             }
+
+            $this->_data[$name]->value = $value;
         }
     }
 

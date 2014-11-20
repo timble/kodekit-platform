@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Modifiable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
@@ -28,11 +28,27 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => self::PRIORITY_LOW,
+			'priority'  => self::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);
    	}
+
+    /**
+     * Get the user that last edited the resource
+     *
+     * @return UserInterface|null Returns a User object or NULL if no user could be found
+     */
+    public function getEditor()
+    {
+        $user = null;
+
+        if($this->hasProperty('modified_by') && !empty($this->modified_by)) {
+            $user = $this->getObject('user.provider')->fetch($this->modified_by);
+        }
+
+        return $user;
+    }
 
     /**
      * Check if the behavior is supported
@@ -43,14 +59,17 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('modified_by') || $table->hasColumn('modified_on')) {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('modified_by') && !$table->hasColumn('modified_on')) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 	/**
@@ -64,15 +83,15 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	protected function _beforeUpdate(DatabaseContext $context)
 	{
 		//Get the modified columns
-		$modified = $this->getTable()->filter($this->getModified());
+		$modified   = $this->getTable()->filter($this->getProperties(true));
 
 		if(!empty($modified))
 		{
-			if($this->has('modified_by')) {
+			if($this->hasProperty('modified_by')) {
 				$this->modified_by = (int) $this->getObject('user')->getId();
 			}
 
-			if($this->has('modified_on')) {
+			if($this->hasProperty('modified_on')) {
 				$this->modified_on = gmdate('Y-m-d H:i:s');
 			}
 		}

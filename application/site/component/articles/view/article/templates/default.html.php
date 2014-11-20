@@ -1,17 +1,19 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 ?>
 
 <title content="replace"><?= $article->title ?></title>
+
 <? if ($params->get('commentable')) : ?>
     <link href="<?= route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>
+
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
 	    <? if (object('dispatcher')->getController()->canEdit()) : ?>
@@ -20,7 +22,7 @@
         </div>
 	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
-	    <?= helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	    <?= helper('date.timestamp', array('entity' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
 	    <span class="label label-info"><?= translate('Unpublished') ?></span>
 	    <? endif ?>
@@ -43,9 +45,15 @@
 
     <?= $article->fulltext ?>
 
-    <?= import('com:tags.view.tags.default.html') ?>
-    <?= import('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
+    <? if($article->isTaggable()) : ?>
+    <?= import('com:tags.tags.default.html', array('tags' => $article->getTags())) ?>
+    <? endif; ?>
+
+    <? if($article->isAttachable()) : ?>
+    <?= import('com:attachments.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
+    <? endif ?>
 </article>
+
 <? if($article->id && $params->get('commentable')) : ?>
-    <?= object('com:articles.controller.comment')->row($article->id)->sort('created_on')->render(array('row' => $article));?>
+    <?= object('com:articles.controller.comment')->row($article->id)->sort('created_on')->render(array('entity' => $article));?>
 <? endif ?>

@@ -1,3 +1,11 @@
+/**
+ * Nooku Platform - http://www.nooku.org/platform
+ *
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
+ */
+
 Comments = new Class({
     Implements: Options,
 
@@ -27,7 +35,7 @@ Comments = new Class({
             url: '?view=comment&id='+id,
             data: {
                 id: id,
-                _token: options.data._token,
+                csrf_token: options.data.csrf_token,
                 _action: 'delete'
             },
             success: function(response){

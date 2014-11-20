@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Dispatcher Request
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
 class DispatcherRequestAbstract extends ControllerRequest implements DispatcherRequestInterface
@@ -58,13 +58,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * @var HttpUrl
      */
     protected $_referrer;
-
-    /**
-     * The token
-     *
-     * @var string
-     */
-    protected $_token;
 
     /**
      * The supported languages
@@ -582,28 +575,52 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     /**
      * Returns the HTTP referrer.
      *
+     * If a base64 encoded _referrer property exists in the request payload, it is used instead of the referrer.
      * 'referer' a commonly used misspelling word for 'referrer'
      * @link http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean  $isInternal Only allow internal url's
-     * @return  HttpUrl  A HttpUrl object
+     * @return  HttpUrl|null  A HttpUrl object or NULL if no referrer could be found
      */
     public function getReferrer($isInternal = true)
     {
-        if(!isset($this->_referrer))
+        if(!isset($this->_referrer) && ($this->_headers->has('Referer') || $this->data->has('_referrer')))
         {
-            $referrer = $this->getObject('lib:filter.url')->sanitize($this->_headers->get('Referer'));
-            $this->_referrer = $this->getObject('lib:http.url', array('url' => $referrer));
+            if ($this->data->has('_referrer')) {
+                $referrer = base64_decode($this->data->get('_referrer', 'base64'));
+            } else {
+                $referrer = $this->_headers->get('Referer');
+            }
+
+            $this->setReferrer($this->getObject('lib:filter.url')->sanitize($referrer));
         }
 
-        if($isInternal)
+        if(isset($this->_referrer) && $isInternal)
         {
-            if(!$this->getObject('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
+            $url = $this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST);
+            if(!$this->getObject('lib:filter.internalurl')->validate($url)) {
                 return null;
             }
         }
 
         return $this->_referrer;
+    }
+
+    /**
+     * Sets the referrer for the request
+     *
+     * @param  string|HttpUrlInterface $referrer
+     * @return $this
+     */
+    public function setReferrer($referrer)
+    {
+        if(!($referrer instanceof HttpUrlInterface)) {
+            $referrer = $this->getObject('lib:http.url', array('url' => $referrer));
+        }
+
+        $this->_referrer = $referrer;
+
+        return $this;
     }
 
     /**
@@ -718,31 +735,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
-     * Return the request token
-     *
-     * @return  string  The request token or NULL if no token could be found
-     */
-    public function getToken()
-    {
-        if(!isset($this->_token))
-        {
-            $token = null;
-
-            if($this->_headers->has('X-Token')) {
-                $token = $this->_headers->get('X-Token');
-            }
-
-            if($this->data->has('_token')) {
-                $token = $this->data->get('_token', 'sha1');
-            }
-
-            $this->_token = $token;
-        }
-
-        return $this->_token;
-    }
-
-    /**
      * Return the request format
      *
      * Find the format by using following sequence :
@@ -757,39 +749,35 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     {
         if (!isset($this->_format))
         {
-            $format = 'html';
-
             if(!$this->query->has('format'))
             {
-                if(!$this->getUrl()->getFormat())
+                $format = 'html';
+
+                if($this->_headers->has('Accept'))
                 {
-                    if($this->_headers->has('Accept'))
+                    $accept  = $this->_headers->get('Accept');
+                    $formats = $this->_parseAccept($accept);
+
+                    /**
+                     * If the browser is requested text/html serve it at all times
+                     *
+                     * @hotfix #409 : Android 2.3 requesting application/xml
+                     */
+                    if(!isset($formats['text/html']))
                     {
-                        $accept  = $this->_headers->get('Accept');
-                        $formats = $this->_parseAccept($accept);
+                        //Get the highest quality format
+                        $mime_type = key($formats);
 
-                        /**
-                         * If the browser is requested text/html serve it at all times
-                         *
-                         * @hotfix #409 : Android 2.3 requesting application/xml
-                         */
-                        if(!isset($formats['text/html']))
+                        foreach (static::$_formats as $value => $mime_types)
                         {
-                            //Get the highest quality format
-                            $mime_type = key($formats);
-
-                            foreach (static::$_formats as $value => $mime_types)
+                            if (in_array($mime_type, (array) $mime_types))
                             {
-                                if (in_array($mime_type, (array) $mime_types))
-                                {
-                                    $format = $value;
-                                    break;
-                                }
+                                $format = $value;
+                                break;
                             }
                         }
                     }
                 }
-                else $format = $this->getUrl()->getFormat();
             }
             else $format = $this->query->get('format', 'word');
 

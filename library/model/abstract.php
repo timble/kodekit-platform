@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,10 +12,10 @@ namespace Nooku\Library;
 /**
  * Abstract Model
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
-abstract class ModelAbstract extends Object implements ModelInterface
+abstract class ModelAbstract extends Object implements ModelInterface, CommandCallbackDelegate
 {
     /**
      * A state object
@@ -25,25 +25,25 @@ abstract class ModelAbstract extends Object implements ModelInterface
     private $__state;
 
     /**
-     * List total
+     * Entity count
      *
      * @var integer
      */
-    protected $_total;
+    protected $_count;
 
     /**
-     * Model list data
+     * Entity object
      *
-     * @var DatabaseRowsetInterface
+     * @var ModelEntityInterface
      */
-    protected $_rowset;
+    protected $_entity;
 
     /**
-     * Model row data
+     * Name of the identity key
      *
-     * @var DatabaseRowInterface
+     * @var    string
      */
-    protected $_row;
+    protected $_identity_key;
 
     /**
      * Constructor
@@ -56,6 +56,15 @@ abstract class ModelAbstract extends Object implements ModelInterface
 
         // Set the state identifier
         $this->__state = $config->state;
+
+        // Set the identity key
+        $this->_identity_key = $config->identity_key;
+
+        // Mixin the behavior interface
+        $this->mixin('lib:behavior.mixin', $config);
+
+        // Mixin the event interface
+        $this->mixin('lib:event.mixin', $config);
     }
 
     /**
@@ -69,27 +78,115 @@ abstract class ModelAbstract extends Object implements ModelInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'state' => 'lib:model.state',
+            'identity_key'     => null,
+            'state'            => 'lib:model.state',
+            'command_chain'    => 'lib:command.chain',
+            'command_handlers' => array('lib:command.handler.event'),
         ));
 
         parent::_initialize($config);
     }
 
     /**
+     * Fetch an entity from the data store
+     *
+     * @return ModelEntityInterface
+     */
+    final public function fetch()
+    {
+        if(!isset($this->_entity))
+        {
+            $context = $this->getContext();
+            $context->entity  = null;
+
+            if ($this->invokeCommand('before.fetch', $context) !== false)
+            {
+                $context->entity = $this->_actionFetch($context);
+                $this->invokeCommand('after.fetch', $context);
+            }
+
+            $this->_entity = ObjectConfig::unbox($context->entity);
+        }
+
+        return $this->_entity;
+    }
+
+    /**
+     * Create a new entity for the data source
+     *
+     * @param  array $properties Array of entity properties
+     * @return  ModelEntityInterface
+     */
+    final public function create(array $properties = array())
+    {
+        $context = $this->getContext();
+        $context->entity = $properties;
+
+        if ($this->invokeCommand('before.create', $context) !== false)
+        {
+            $context->entity = $this->_actionCreate($context);
+            $this->invokeCommand('after.create', $context);
+        }
+
+        $this->_entity = ObjectConfig::unbox($context->entity);
+
+        return $this->_entity;
+    }
+
+    /**
+     * Get the total number of entities
+     *
+     * @return  int
+     */
+    final public function count()
+    {
+        if(!isset($this->_count))
+        {
+            $context = $this->getContext();
+            $context->count = null;
+
+            if ($this->invokeCommand('before.count', $context) !== false)
+            {
+                $context->count = $this->_actionCount($context);
+                $this->invokeCommand('after.count', $context);
+            }
+
+            $this->_count = ObjectConfig::unbox($context->count);
+        }
+
+        return $this->_count;
+    }
+
+    /**
      * Reset the model data and state
      *
-     * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
-     * @return ModelAbstract
+     * @param  array $modified List of changed state names
+     * @return $this
      */
-    public function reset($default = true)
+    final public function reset(array $modified = array())
     {
-        $this->_rowset = null;
-        $this->_row    = null;
-        $this->_total  = null;
+        $context = $this->getContext();
+        $context->modified = $modified;
 
-        $this->getState()->reset($default);
+        if ($this->invokeCommand('before.reset', $context) !== false)
+        {
+            $this->_actionReset($context);
+            $this->invokeCommand('after.reset', $context);
+        }
 
         return $this;
+    }
+
+    /**
+     * Invoke a command handler
+     *
+     * @param string            $method   The name of the method to be executed
+     * @param CommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, CommandInterface $command)
+    {
+        return $this->$method($command);
     }
 
     /**
@@ -127,88 +224,96 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
-     * State Change notifier
+     * Get the model context
      *
-     * This function is called when the state has changed.
-     *
-     * @param  string 	$name  The state name being changed
-     * @return void
+     * @return  ModelContext
      */
-    public function onStateChange($name)
+    public function getContext()
     {
-        $this->_rowset = null;
-        $this->_row    = null;
-        $this->_total  = null;
+        $context = new ModelContext();
+        $context->setSubject($this);
+        $context->setState($this->getState());
+        $context->setIdentityKey($this->_identity_key);
+
+        return $context;
     }
 
     /**
-     * Method to get a item
+     * Create a new entity for the data source
      *
-     * @return  object
+     * @param ModelContext $context A model context object
+     * @return  ModelEntityInterface The entity
      */
-    public function getRow()
+    protected function _actionCreate(ModelContext $context)
     {
-        return $this->_row;
-    }
+        //Get the data
+        $data = ModelContext::unbox($context->entity);
 
-    /**
-     * Get a list of items
-     *
-     * @return  object
-     */
-    public function getRowset()
-    {
-        return $this->_rowset;
-    }
+        //Create the entity identifier
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
 
-    /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
-    public function getTotal()
-    {
-        return $this->_total;
-    }
-
-    /**
-     * Get the model data
-     *
-     * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
-     *
-     * @return DatabaseRowsetInterface or DatabaseRowInterface
-     */
-    public function getData()
-    {
-        if ($this->getState()->isUnique()) {
-            $data = $this->getRow();
+        if(!is_numeric(key($data))) {
+            $identifier['name'] = StringInflector::singularize($identifier['name']);
         } else {
-            $data = $this->getRowset();
+            $identifier['name'] = StringInflector::pluralize($identifier['name']);
         }
 
-        return $data;
+        $options = array(
+            'data'         => $data,
+            'identity_key' => $context->getIdentityKey()
+        );
+
+        return $this->getObject($identifier, $options);
     }
 
     /**
-     * Get the model paginator object
+     * Fetch a new entity from the data source
      *
-     * @return  ModelPaginator  The model paginator object
+     * @param ModelContext $context A model context object
+     * @return ModelEntityInterface The entity
      */
-    public function getPaginator()
+    protected function _actionFetch(ModelContext $context)
     {
-        $paginator = new ModelPaginator(array(
-            'offset' => (int) $this->getState()->offset,
-            'limit'  => (int) $this->getState()->limit,
-            'total'  => (int) $this->getTotal(),
-        ));
+        $identifier = $this->getIdentifier()->toArray();
+        $identifier['path'] = array('model', 'entity');
+        $identifier['name'] = StringInflector::pluralize($identifier['name']);
 
-        return $paginator;
+        $options = array(
+            'identity_key' => $context->getIdentityKey()
+        );
+
+        return $this->getObject($identifier, $options);
+    }
+
+    /**
+     * Get the total number of entities
+     *
+     * @param ModelContext $context A model context object
+     * @return integer  The total number of entities
+     */
+    protected function _actionCount(ModelContext $context)
+    {
+        return count($this->fetch());
+    }
+
+    /**
+     * Reset the model
+     *
+     * @param  string $name The state name being changed
+     *
+     * @return void
+     */
+    protected function _actionReset(ModelContext $context)
+    {
+        $this->_entity = null;
+        $this->_count  = null;
     }
 
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by using the state name as the method name.
      *
-     * For example : $model->sort('name')->limit(10)->getRowset();
+     * For example : $model->sort('name')->limit(10)->fetch();
      *
      * @param   string  $method Method name
      * @param   array   $args   Array containing all the arguments for the original call
@@ -237,5 +342,15 @@ abstract class ModelAbstract extends Object implements ModelInterface
         parent::__clone();
 
         $this->__state = clone $this->__state;
+    }
+
+    /**
+     * Fetch the data when model is invoked.
+     *
+     * @return ModelEntityInterface
+     */
+    public function __invoke()
+    {
+        return $this->fetch();
     }
 }

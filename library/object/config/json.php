@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
  * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Config Json
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
  */
 class ObjectConfigJson extends ObjectConfigFormat
@@ -21,10 +21,11 @@ class ObjectConfigJson extends ObjectConfigFormat
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ObjectConfigJson|false   Returns a ObjectConfig object. False on failure.
-     * @throws \RuntimeException
+     * @param  bool    $object  If TRUE return a ConfigObject, if FALSE return an array. Default TRUE.
+     * @throws \DomainException  If the JSON cannot be decoded or if the encoded data is deeper than the recursion limit.
+     * @return ObjectConfigJson|array
      */
-    public static function fromString($string)
+    public function fromString($string, $object = true)
     {
         $data = array();
 
@@ -32,26 +33,29 @@ class ObjectConfigJson extends ObjectConfigFormat
         {
             $data = json_decode($string, true);
 
-            if($data === null) {
-                throw new \RuntimeException('Cannot decode JSON string');
+            if (json_last_error() > 0) {
+                throw new \DomainException(sprintf('Cannot decode from JSON string - %s', json_last_error_msg()));
             }
         }
 
-        $config = new static($data);
-
-        return $config;
+        return $object ? $this->merge($data) : $data;
     }
 
     /**
      * Write a config object to a string.
      *
-     * @param  ObjectConfig $config
-     * @return string|false     Returns a JSON encoded string on success. False on failure.
+     * @throws \DomainException Object could not be encoded to valid JSON.
+     * @return string|false    Returns a JSON encoded string on success. False on failure.
      */
     public function toString()
     {
         $data = $this->toArray();
+        $data = json_encode($data);
 
-        return json_encode($data);
+        if (json_last_error() > 0) {
+            throw new \DomainException(sprintf('Cannot encode data to JSON string - %s', json_last_error_msg()));
+        }
+
+        return $data;
     }
 }

@@ -10,7 +10,7 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-defined('JPATH_BASE') or die();
+
 /**
  * Joomla Framework Factory class
  *
@@ -20,53 +20,6 @@ defined('JPATH_BASE') or die();
  */
 class JFactory
 {
-    /**
-     * Get a configuration object
-     *
-     * Returns a reference to the global {@link JRegistry} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @param string    The path to the configuration file
-     * @param string    The type of the configuration file
-     * @return object JRegistry
-     */
-    function &getConfig($file = null, $type = 'PHP')
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            $instance = JFactory::_createConfig($file, $type);
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Get a language object
-     *
-     * Returns a reference to the global {@link JLanguage} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @return object JLanguage
-     */
-    function &getLanguage()
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            //get the debug configuration setting
-            $conf =& JFactory::getConfig();
-            $debug = $conf->getValue('config.debug_lang');
-
-            $instance = JFactory::_createLanguage();
-            $instance->setDebug($debug);
-        }
-
-        return $instance;
-    }
-
     /**
      * Get a mailer object
      *
@@ -118,28 +71,6 @@ class JFactory
     }
 
     /**
-     * Create a configuration object
-     *
-     * @access private
-     * @param string    The path to the configuration file
-     * @param string    The type of the configuration file
-     * @return object JRegistry
-     * @since 1.5
-     */
-    function &_createConfig($file, $type = 'PHP')
-    {
-        jimport('joomla.registry.registry');
-
-        if($file !== null) {
-            require_once $file;
-        }
-
-        // Create the registry with a default namespace of config
-        $registry = new JRegistry('config');
-        return $registry;
-    }
-
-    /**
      * Create a mailer object
      *
      * @access private
@@ -150,18 +81,18 @@ class JFactory
     {
         jimport('joomla.mail.mail');
 
-        $conf =& JFactory::getConfig();
+        $conf = Nooku\Library\ObjectManager::getInstance()->getObject('application')->getConfig();
 
-        $sendmail = $conf->getValue('config.sendmail');
-        $smtpauth = $conf->getValue('config.smtpauth');
-        $smtpuser = $conf->getValue('config.smtpuser');
-        $smtppass = $conf->getValue('config.smtppass');
-        $smtphost = $conf->getValue('config.smtphost');
-        $smtpsecure = $conf->getValue('config.smtpsecure');
-        $smtpport = $conf->getValue('config.smtpport');
-        $mailfrom = $conf->getValue('config.mailfrom');
-        $fromname = $conf->getValue('config.fromname');
-        $mailer = $conf->getValue('config.mailer');
+        $sendmail = $conf->sendmail;
+        $smtpauth = $conf->smtpauth;
+        $smtpuser = $conf->smtpuser;
+        $smtppass = $conf->smtppass;
+        $smtphost = $conf->smtphost;
+        $smtpsecure = $conf->smtpsecure;
+        $smtpport = $conf->smtpport;
+        $mailfrom = $conf->mailfrom;
+        $fromname = $conf->fromname;
+        $mailer = $conf->mailer;
 
         // Create a JMail object
         $mail =& JMail::getInstance();
@@ -183,24 +114,5 @@ class JFactory
         }
 
         return $mail;
-    }
-
-    /**
-     * Create a language object
-     *
-     * @access private
-     * @return object JLanguage
-     * @since 1.5
-     */
-    function &_createLanguage()
-    {
-        jimport('joomla.language.language');
-
-        $conf =& JFactory::getConfig();
-        $locale = $conf->getValue('config.language');
-        $lang =& JLanguage::getInstance($locale);
-        $lang->setDebug($conf->getValue('config.debug_lang'));
-
-        return $lang;
     }
 }

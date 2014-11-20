@@ -12,9 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
-
 jimport('joomla.filesystem.path');
 
 /**
@@ -91,7 +88,7 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src)) {
-			JError::raiseWarning(21, 'JFile::copy: ' . JText::_('Cannot find or read file') . ": '$src'");
+			JError::raiseWarning(21, 'JFile::copy: ' . 'Cannot find or read file' . ": '$src'");
 			return false;
 		}
 
@@ -107,7 +104,7 @@ class JFile
 			}
 
 			//Translate the destination path for the FTP account
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			$dest = JPath::clean(str_replace(APPLICATION_ROOT, $FTPOptions['root'], $dest), '/');
 			if (!$ftp->store($src, $dest)) {
 				// FTP connector throws an error
 				return false;
@@ -115,7 +112,7 @@ class JFile
 			$ret = true;
 		} else {
 			if (!@ copy($src, $dest)) {
-				JError::raiseWarning(21, JText::_('Copy failed'));
+				JError::raiseWarning(21, 'Copy failed');
 				return false;
 			}
 			$ret = true;
@@ -163,14 +160,14 @@ class JFile
 			if (@unlink($file)) {
 				// Do nothing
 			} elseif ($FTPOptions['enabled'] == 1) {
-				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				$file = JPath::clean(str_replace(APPLICATION_ROOT, $FTPOptions['root'], $file), '/');
 				if (!$ftp->delete($file)) {
 					// FTP connector throws an error
 					return false;
 				}
 			} else {
 				$filename	= basename($file);
-				JError::raiseWarning('SOME_ERROR_CODE', JText::_('Delete failed') . ": '$filename'");
+				JError::raiseWarning('SOME_ERROR_CODE', 'Delete failed' . ": '$filename'");
 				return false;
 			}
 		}
@@ -200,7 +197,7 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src) && !is_writable($src)) {
-			JError::raiseWarning(21, 'JFile::move: ' . JText::_('Cannot find, read or write file') . ": '$src'");
+			JError::raiseWarning(21, 'JFile::move: ' . 'Cannot find, read or write file' . ": '$src'");
 			return false;
 		}
 
@@ -210,17 +207,17 @@ class JFile
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			//Translate path for the FTP account
-			$src	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-			$dest	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			$src	= JPath::clean(str_replace(APPLICATION_ROOT, $FTPOptions['root'], $src), '/');
+			$dest	= JPath::clean(str_replace(APPLICATION_ROOT, $FTPOptions['root'], $dest), '/');
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
-				JError::raiseWarning(21, JText::_('Rename failed'));
+				JError::raiseWarning(21, 'Rename failed');
 				return false;
 			}
 		} else {
 			if (!@ rename($src, $dest)) {
-				JError::raiseWarning(21, JText::_('Rename failed'));
+				JError::raiseWarning(21, 'Rename failed');
 				return false;
 			}
 		}
@@ -244,7 +241,7 @@ class JFile
 		$data = null;
 		if($amount && $chunksize > $amount) { $chunksize = $amount; }
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
-			JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file') . ": '$filename'");
+			JError::raiseWarning(21, 'JFile::read: '.'Unable to open file' . ": '$filename'");
 			return false;
 		}
 		clearstatcache();
@@ -297,7 +294,7 @@ class JFile
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path for the FTP account and use FTP write buffer to file
-			$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+			$file = JPath::clean(str_replace(APPLICATION_ROOT, $FTPOptions['root'], $file), '/');
 			$ret = $ftp->write($file, $buffer);
 		} else {
 			$file = JPath::clean($file);
@@ -337,7 +334,7 @@ class JFile
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			//Translate path for the FTP account
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+			$dest = JPath::clean(str_replace(APPLICATION_ROOT, $FTPOptions['root'], $dest), '/');
 
 			// Copy the file to the destination directory
 			if (is_uploaded_file($src) && $ftp->store($src, $dest))
@@ -345,17 +342,17 @@ class JFile
 			            $ret = true;
                 		unlink($src);
 			} else {
-				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
+				JError::raiseWarning(21, 'WARNFS_ERR02');
 			}
 		} else {
 			if (is_writeable($baseDir) && move_uploaded_file($src, $dest)) { // Short circuit to prevent file permission errors
 				if (JPath::setPermissions($dest)) {
 					$ret = true;
 				} else {
-					JError::raiseWarning(21, JText::_('WARNFS_ERR01'));
+					JError::raiseWarning(21, 'WARNFS_ERR01');
 				}
 			} else {
-				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
+				JError::raiseWarning(21, 'WARNFS_ERR02');
 			}
 		}
 		return $ret;

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Orderable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
@@ -26,14 +26,17 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('ordering'))  {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('ordering'))  {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 	/**
@@ -61,7 +64,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an 'ordering' column
 	 *
-	 * @param	integer	Amount to move up or down
+	 * @param	integer	$change Amount to move up or down
 	 * @return 	DatabaseRowAbstract
 	 */
 	public function order($change)
@@ -106,13 +109,12 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 		return $this->getMixer();
 	}
 
-	 /**
+	/**
      * Resets the order of all rows
      * 
-     * Resetting starts at $base to allow creating space in sequence for later 
-     * record insertion.
+     * Resetting starts at $base to allow creating space in sequence for later  record insertion.
      *
-     * @param	integer 	Order at which to start resetting.
+     * @param	integer $base Order at which to start resetting.
      * @return	DatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
@@ -162,14 +164,13 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
  	/**
      * Saves the row to the database.
      *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
      *
      * @param DatabaseContext	$context A database context object
      */
     protected function _beforeInsert(DatabaseContext $context)
     {
-        if($this->has('ordering'))
+        if($this->hasProperty('ordering'))
         {
             if($this->ordering <= 0) {
                 $this->ordering = $this->getMaxOrdering() + 1;
@@ -187,7 +188,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      */
     protected function _beforeUpdate(DatabaseContext $context)
     {
-        if(isset($this->order) && $this->has('ordering')) {
+        if(isset($this->order) && $this->hasProperty('ordering')) {
             $this->order($this->order);
         }
     }

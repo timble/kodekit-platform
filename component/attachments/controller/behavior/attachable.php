@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Attachments;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Attachable Controller Behavior
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
@@ -25,7 +25,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     protected $_attachments = array();
 
     /**
-     * Container to use in com_files
+     * Container to use in files
      */
     protected $_container = null;
 
@@ -89,8 +89,6 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
     {
         if (!$context->response->isError())
         {
-            $row = $context->result;
-
             foreach ($this->_attachments as $attachment) {
                 $this->_storeFile($context, $attachment);
             }
@@ -101,7 +99,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
     protected function _storeFile(Library\ControllerContextInterface $context, $attachment)
     {
-        $row = $context->result;
+        $entity = $context->result;
 
         $extension  = pathinfo($attachment['name'], PATHINFO_EXTENSION);
         $name       = md5(time().mt_rand()).'.'.$extension;
@@ -122,8 +120,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
             'path'      => $name,
             'container' => $this->_container,
             'hash'      => $hash,
-            'row'       => $row->id,
-            'table'     => $row->getTable()->getBase()
+            'row'       => $entity->id,
+            'table'     => $entity->getTable()->getBase()
         ));
 
         return true;
@@ -131,21 +129,21 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
     protected function _deleteFiles(Library\ControllerContextInterface $context)
     {
+        $entity = $context->result;
         $status = $context->result->getStatus();
 
-        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
-            $id    = $context->result->get('id');
-            $table = $context->result->getTable()->getBase();
+            $id    = $entity->id;
+            $table = $entity->getTable()->getBase();
 
             if(!empty($id) && $id != 0)
             {
-                $rows = $this->getObject('com:attachments.model.attachments')
+                $this->getObject('com:attachments.model.attachments')
                     ->row($id)
                     ->table($table)
-                    ->getRowset();
-
-                $rows->delete();
+                    ->fetch()
+                    ->delete();
             }
         }
     }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,10 +12,16 @@ namespace Nooku\Library;
 /**
  * Filter Chain
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterChain extends FilterAbstract
+/**
+ * Filter Chain
+ *
+ * @author  Johan Janssens <https://github.com/johanjanssens>
+ * @package Koowa\Library\Filter
+ */
+class FilterChain extends Object implements FilterInterface
 {
     /**
      * The filter queue
@@ -23,6 +29,37 @@ class FilterChain extends FilterAbstract
      * @var	ObjectQueue
      */
     protected $_queue;
+
+    /**
+     * The last filter
+     *
+     * @var FilterInterface
+     */
+    protected $_last;
+
+    /**
+     * The filter priority
+     *
+     * @var integer
+     */
+    protected $_priority;
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => self::PRIORITY_NORMAL,
+        ));
+
+        parent::_initialize($config);
+    }
 
     /**
      * Constructor.
@@ -35,6 +72,9 @@ class FilterChain extends FilterAbstract
 
         //Create the queue
         $this->_queue = $this->getObject('lib:object.queue');
+
+        //The filter priority
+        $this->_priority = $config->priority;
     }
 
     /**
@@ -86,7 +126,10 @@ class FilterChain extends FilterAbstract
      */
     public function addFilter(FilterInterface $filter, $priority = null)
     {
-        $priority = $priority == null ? $filter->getPriority() : $priority;
+        //Store reference to be used for filter chaining
+        $this->_last = $filter;
+
+        //Enqueue the filter
         $this->_queue->enqueue($filter, $priority);
         return $this;
     }
@@ -104,5 +147,43 @@ class FilterChain extends FilterAbstract
         }
 
         return $errors;
+    }
+
+    /**
+     * Get the priority of the filter
+     *
+     * @return  integer The priority level
+     */
+    public function getPriority()
+    {
+        return $this->_priority;
+    }
+
+    /**
+     * Allow for filter chaining
+     *
+     * @param  string   $method    The function name
+     * @param  array    $arguments The function arguments
+     * @return mixed The result of the function
+     */
+    public function __call($method, $arguments)
+    {
+        //Call the method on the filter if it exists
+        if($this->_last instanceof FilterInterface)
+        {
+            $methods = $this->_last->getMethods();
+
+            if(isset($methods[$method]))
+            {
+                call_user_func_array(array($this->_last, $method), $arguments);
+                return $this;
+            }
+        }
+
+        //Create a new filter based on the method name
+        $filter = $this->getObject('filter.factory')->createFilter($method, $arguments);
+        $this->addFilter($filter);
+
+        return $this;
     }
 }

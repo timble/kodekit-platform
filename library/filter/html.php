@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
 class FilterHtml extends FilterTidy
@@ -455,10 +455,14 @@ class FilterHtml extends FilterTidy
         $string = html_entity_decode($string, ENT_COMPAT, "UTF-8");
 
         // Convert decimal
-        $string = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $string);
+        $string = preg_replace_callback('/&#(\d+);/m', function($matches){
+            return utf8_encode(chr($matches[1]));
+        }, $string);
 
         // Convert hex
-        $string = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $string);
+        $string = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($matches){
+            return utf8_encode(chr('0x'.$matches[1]));
+        }, $string);
 
         return $string;
     }

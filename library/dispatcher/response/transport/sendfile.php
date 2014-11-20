@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * to handle authentication, logging or whatever else you please in your backend and then have the server serve the
  * contents from redirected location to the client, thus freeing up the backend to handle other requests.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  * @see Apache   : https://tn123.org/mod_xsendfile/
  * @see Nginx    : http://wiki.nginx.org/XSendfile
@@ -75,7 +75,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
             $path = $response->headers->get('X-Sendfile');
 
             if($path === true || $path === 1) {
-                $path = $response->getContent()->getPathname();
+                $path = $response->getStream()->getPath();
             }
 
             if(is_file($path))
@@ -85,7 +85,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
                 //Nginx uses X-Accel-Redirect header
                 if(strpos($server, 'nginx') !== FALSE)
                 {
-                    $path = preg_replace('/'.preg_quote(JPATH_ROOT, '/').'/', '', $path, 1);
+                    $path = preg_replace('/'.preg_quote(\Nooku::getInstance()->getRootPath(), '/').'/', '', $path, 1);
                     $response->headers->set('X-Accel-Redirect', $path);
                     $response->headers->remove('X-Sendfile');
                 }

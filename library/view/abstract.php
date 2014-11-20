@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 abstract class ViewAbstract extends Object implements ViewInterface, CommandCallbackDelegate
@@ -75,6 +75,12 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
 
         // Mixin the event interface
         $this->mixin('lib:event.mixin', $config);
+
+        //Fetch the view data before rendering
+        $this->addCommandCallback('before.render', '_fetchData');
+
+        //Load the controller translations
+        $this->addCommandCallback('before.render', '_loadTranslations');
     }
 
     /**
@@ -91,10 +97,10 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
             'data'             => array(),
             'command_chain'    => 'lib:command.chain',
             'command_handlers' => array('lib:command.handler.event'),
-            'model'    => 'lib:model.empty',
-            'contents' => '',
-            'mimetype' => '',
-            'url'      => $this->getObject('lib:http.url')
+            'model'            => 'lib:model.empty',
+            'contents'         => '',
+            'mimetype'         => '',
+            'url'              => $this->getObject('lib:http.url')
         ));
 
         parent::_initialize($config);
@@ -109,14 +115,12 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     final public function render($data = array())
     {
         $context = $this->getContext();
-        $context->data   = $data;
-        $context->action = 'render';
+        $context->data       = array_merge($this->getData(), $data);
+        $context->action     = 'render';
+        $context->parameters = array();
 
         if ($this->invokeCommand('before.render', $context) !== false)
         {
-            //Push the data in the view
-            $this->setData($context->data);
-
             //Render the view
             $context->result = $this->_actionRender($context);
             $this->invokeCommand('after.render', $context);
@@ -147,6 +151,37 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     {
         $contents = $this->getContent();
         return trim($contents);
+    }
+
+    /**
+     * Fetch the view data
+     *
+     * @param ViewContext	$context A view context object
+     * @return void
+     */
+    protected function _fetchData(ViewContext $context)
+    {
+
+    }
+
+    /**
+     * Load the view translations
+     *
+     * @param ViewContext	$context A view context object
+     * @return void
+     */
+    protected function _loadTranslations(ViewContext $context)
+    {
+        $package = $this->getIdentifier()->package;
+        $domain  = $this->getIdentifier()->domain;
+
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$package;
+        } else {
+            $identifier = 'com:'.$package;
+        }
+
+        $this->getObject('translator')->load($identifier);
     }
 
     /**
@@ -327,24 +362,23 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     /**
      * Get a route based on a full or partial query string
      *
-     * 'option', 'view' and 'layout' can be omitted. The following variations will all result in the same route :
+     * 'component', 'view' and 'layout' can be omitted. The following variations will all result in the same route :
      *
      * - foo=bar
-     * - option=com_mycomp&view=myview&foo=bar
+     * - component=mycomp&view=myview&foo=bar
      *
      * In templates, use route()
      *
      * @param   string|array $route  The query string used to create the route
      * @param   boolean      $fqr    If TRUE create a fully qualified route. Default TRUE.
      * @param   boolean      $escape If TRUE escapes the route for xml compliance. Default TRUE.
-     * @return  string The route
+     * @return  DispatcherRouterRoute The route
      */
-    public function getRoute($route, $fqr = null, $escape = null)
+    public function getRoute($route, $fqr = true, $escape = true)
     {
         //Parse route
         $parts = array();
 
-        //@TODO : Check if $route if valid. Throw exception if not.
         if(is_string($route)) {
             parse_str(trim($route), $parts);
         } else {
@@ -352,8 +386,8 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         }
 
         //Check to see if there is component information in the route if not add it
-        if (!isset($parts['option'])) {
-            $parts['option'] = 'com_' . $this->getIdentifier()->package;
+        if (!isset($parts['component'])) {
+            $parts['component'] = $this->getIdentifier()->package;
         }
 
         //Add the view information to the route if it's not set
@@ -367,7 +401,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         }
 
         //Add the model state only for routes to the same view
-        if ($parts['option'] == 'com_'.$this->getIdentifier()->package && $parts['view'] == $this->getName())
+        if ($parts['component'] == $this->getIdentifier()->package && $parts['view'] == $this->getName())
         {
             $states = array();
             foreach($this->getModel()->getState() as $name => $state)
@@ -381,13 +415,11 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         }
 
         //Create the route
-        $route = $this->getObject('lib:dispatcher.router.route', array(
-            'url'    => '?'.http_build_query($parts),
-            'escape' => $escape === null || $escape === true ? true : false
-        ));
+        $route = $this->getObject('lib:dispatcher.router.route', array('escape' =>  $escape))
+                      ->setQuery($parts);
 
         //Add the host and the schema
-        if ($fqr === null || $fqr === true)
+        if ($fqr === true)
         {
             $route->scheme = $this->getUrl()->scheme;
             $route->host   = $this->getUrl()->host;
@@ -437,12 +469,32 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     }
 
     /**
+     * Returns the views output
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->render();
+    }
+
+    /**
+     * Check if we are rendering an entity collection
+     *
+     * @return bool
+     */
+    public function isCollection()
+    {
+        return StringInflector::isPlural($this->getName());
+    }
+
+    /**
      * Set a view data property
      *
      * @param   string  $property The property name.
      * @param   mixed   $value    The property value.
      */
-    public function __set($property, $value)
+    final public function __set($property, $value)
     {
         $this->set($property, $value);
     }
@@ -453,9 +505,20 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      * @param   string  $property The property name.
      * @return  string  The property value.
      */
-    public function __get($property)
+    final public function __get($property)
     {
         return $this->get($property);
+    }
+
+    /**
+     * Test existence of a view data property
+     *
+     * @param  string $name The property name.
+     * @return boolean
+     */
+    final public function __isset($name)
+    {
+        return $this->has($name);
     }
 
     /**
@@ -463,9 +526,18 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
      *
      * @return string
      */
-    public function __toString()
+    final public function __toString()
     {
-        return $this->render();
+        $result = '';
+
+        //Not allowed to throw exceptions in __toString() See : https://bugs.php.net/bug.php?id=53648
+        try {
+            $result = $this->toString();
+        } catch (Exception $e) {
+            trigger_error(__NAMESPACE__.'\ViewAbstract::__toString exception: '. (string) $e, E_USER_ERROR);
+        }
+
+        return $result;
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Tags;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Taggable Controller Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Tags
  */
 class ControllerBehaviorTaggable extends Library\BehaviorAbstract
@@ -34,31 +34,40 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
     {
 		if (!$context->response->isError())
         {
-            $row   = $context->result;
-            $table = $row->getTable()->getBase();
+            $entity = $context->result;
+            $table  = $entity->getTable()->getBase();
 
             // Remove all existing relations
-            if($row->id && $row->getTable()->getBase())
+            if($entity->id && $entity->getTable()->getBase())
             {
-                $rows = $this->getObject('com:tags.model.relations')
-                    ->row($row->id)
+                $relations = $this->getObject('com:tags.model.relations')
+                    ->row($entity->id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
-                $rows->delete();
+                $relations->delete();
             }
 
-            if($row->tags)
+            if($entity->tags)
             {
                 // Save tags as relations
-                foreach ($row->tags as $tag)
+                foreach ($entity->tags as $tag)
                 {
-                    $relation = $this->getObject('com:tags.database.row.relation');
-                    $relation->tags_tag_id = $tag;
-                    $relation->row		  = $row->id;
-                    $relation->table      = $table;
+                    $properties = array(
+                        'tags_tag_id' => $tag,
+                        'row'         => $entity->id,
+                        'table'       => $table
+                    );
 
-                    if(!$relation->load()) {
+                    $relation = $this->getObject('com:tags.model.relations')
+                        ->setState($properties)
+                        ->fetch();
+
+                    if($relation->isNew())
+                    {
+                        $relation = $this->getObject('com:tags.model.relations')->create();
+
+                        $relation->setProperties($properties);
                         $relation->save();
                     }
                 }
@@ -70,9 +79,10 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 	
 	protected function _deleteTags(Library\ControllerContextInterface $context)
     {
-        $status = $context->result->getStatus();
+        $entity = $context->result;
+        $status = $entity->getStatus();
 
-        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
             $id    = $context->result->get('id');
             $table = $context->result->getTable()->getBase();
@@ -82,7 +92,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $rows = $this->getObject('com:tags.model.relations')
                     ->row($id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
                 $rows->delete();
             }

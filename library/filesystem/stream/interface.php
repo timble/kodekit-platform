@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright   Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,15 +12,19 @@ namespace Nooku\Library;
 /**
  * FileSystem Stream Interface
  *
- * The filesystem stream is an object oriented wrapper for the the PHP file system API. It wraps the file resource
- * returned by @see fopen().
+ * A stream interface. Modeled after the PHP streamWrapper class prototype. See http://php.net/streamwrapper
+ * for details on that.
  *
- * @link http://www.php.net/manual/en/ref.filesystem.php
+ * We divert from the PHP prototype in the following:
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Library\FileSystem
+ *  * better method names
+ *  * methods that should not be implemented in the PHP prototype when not being
+ *    supported (like rename) must throw a \BadMethodCallException instead.
+ *
+ * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Library\FileSystem\Stream\Interface
  */
-interface FilesystemStreamInterface
+interface FilesystemStreamInterface extends ObjectInterface
 {
     /**
      * Time Constants
@@ -43,101 +47,234 @@ interface FilesystemStreamInterface
     CONST TYPE_UNKNOWN   = false;
 
     /**
-     * Set the stream that is wrapped by the object
+     * Get the stream name used to register the stream with
      *
-     * If the stream is not an object we will try to open it in read-only mode.
-     *
-     * @param resource|string $stream Stream path or resource
-     * @param string          $mode   The mode to open the stream with
-     * @return FilesystemStreamInterface
+     * @return string The stream name
      */
-    public function open($stream, $mode = 'rb');
+    public static function getName();
 
     /**
-     * Seek to a position in the stream
+     * Opens the stream
      *
-     * @param int $offset Stream offset
-     * @param int $whence Where the offset is applied
-     * @return bool Returns TRUE on success or FALSE on failure
-     * @link   http://www.php.net/manual/en/function.fseek.php
+     * @throws \BadMethodCallException If open is not supported.
+     * @throws \RuntimeException If the stream cannot be opened.
+     * @return FilesystemStreamAbstract|false Return a stream object or FALSE on failure.
+     */
+    public function open();
+
+    /**
+     * Reads the specified number of bytes from the current position
+     *
+     * If the current position is the end-of-file, you must return an empty string.
+     *
+     * @param integer|null $length How many bytes of data from the current position should be returned. Defaults to -1
+     *                            (use the chunk size, default 8192 bytes).
+     * @throws \BadMethodCallException If read is not supported.
+     * @throws \LogicException If read is not allowed.
+     * @return string If there are less than count bytes available, return as many as are available. If no more data is
+     *                available, return either FALSE or an empty string.
+     */
+    public function read($length = -1);
+
+    /**
+     * Seeks to specific location in a stream.
+     *
+     * The read/write position of the stream should be updated according to the offset and whence.
+     *
+     * $whence can one of:
+     *
+     *  SEEK_SET - Set position equal to offset bytes.
+     *  SEEK_CUR - Set position to current location plus offset.
+     *  SEEK_END - Set position to end-of-file plus offset.
+     *
+     * @param integer $offset The stream offset to seek to.
+     * @param integer $whence
+     * @return boolean TRUE on success or FALSE on failure.
      */
     public function seek($offset, $whence = SEEK_SET);
 
     /**
-     * Returns the current position of the file read/write pointer
+     * Returns the current position of the stream read/write pointer
      *
-     * @return int|bool Returns the position of the file pointer or false on error
+     * @return int Should return the current position of the stream.
      */
     public function peek();
 
     /**
-     * Read data from the stream
+     * Lock the stream
      *
-     * @return string|bool Returns the data read from the stream or FALSE on failure or EOF
+     * $operation is one of the following:
+     *
+     *  LOCK_SH to acquire a shared lock (reader).
+     *  LOCK_EX to acquire an exclusive lock (writer).
+     *  LOCK_NB if you don't want flock() to block while locking.
+     *
+     * @param integer $operation One of the LOCK_* constants
+     * @throws \BadMethodCallException if lock is not supported.
+     * @return boolean TRUE on success or FALSE on failure.
      */
-    public function read();
+    public function lock($operation);
 
     /**
-     * Write data to the stream
+     * Unlock the stream
      *
-     * @param string $string The string that is to be written.
-     * @return int|bool Returns the number of bytes written to the stream on success or FALSE on failure.
+     * This method is called when closing the stream (LOCK_UN).
+     *
+     * @throws \BadMethodCallException if unlock is not supported.
+     * @return boolean TRUE on success or FALSE on failure.
      */
-    public function write($string);
+    public function unlock();
+
+    /**
+     *  Write to stream.
+     *
+     * If there is not enough room in the underlying stream, store as much as possible.
+     *
+     * Note : Don't forget to update the current position of the stream by number of bytes that were successfully written.
+     *
+     * @param string $data Should be stored into the underlying stream.
+     * @throws \BadMethodCallException if write is not supported.
+     * @throws \LogicException If write is not allowed.
+     * @return int Should return the number of bytes that were successfully stored, or 0 if none could be stored.
+     */
+    public function write($data);
 
     /**
      * Read data from the stream to another stream
      *
-     * @param resource $stream The stream resource to copy the data too
+     * @param resource|FilesystemStreamInterface $stream The stream resource to copy the data too
      * @return bool Returns TRUE on success, FALSE on failure
      */
     public function copy($stream);
 
     /**
-     * Truncates the stream to a given length
+     * Rename a stream
      *
-     * @param integer $size The size to truncate
-     * @return Returns TRUE on success or FALSE on failure.
+     * @param string $path  The URL which the stream should be renamed to.
+     * @throws \BadMethodCallException if rename is not supported.
+     * @return boolean TRUE on success or FALSE on failure.
      */
-    public function truncate($size);
+    public function rename($path);
 
     /**
-     * Flush the data from the stream to another stream
+     * Delete a file
      *
-     * @param resource $stream The stream resource to flush the data too
-     * @param int      $range  The total length of the stream to flush, if -1 the stream will be flushed until eof. The limit
-     *                         should lie within the total size of the stream.
-     * @return bool Returns TRUE on success, FALSE on failure
+     * @throws \BadMethodCallException if unlink is not supported.
+     * @return boolean TRUE on success or FALSE on failure.
      */
-    public function flush($output, $range = -1);
+    public function unlink();
 
     /**
-     * Rewind to the beginning of the stream
+     * Indicates whether the current position is the end-of-stream
      *
-     * @return bool Returns true on success or false on failure
-     */
-    public function rewind();
-
-    /**
-     * Check if the internal stream pointer has reached the end of the stream
-     *
-     * @return bool
+     * @return boolean Should return TRUE if the read/write position is at the end of the stream and if no more data is
+     *                 available to be read, or FALSE otherwise.
      */
     public function eof();
 
     /**
-     * Close the underlying stream
+     * Flush the data from the stream to another stream
      *
-     * @return FilesystemStreamInterface
+     * If no target stream is being passed and you have cached data that is not yet stored into the underlying storage,
+     * you should do so now
+     *
+     * @param resource|FilesystemStreamInterface|null $stream The stream resource to flush the data too
+     * @param int $length  The total bytes to flush, if -1 the stream will be flushed until eof. The limit should
+     *                     lie within the total size of the stream.
+     * @return boolean Should return TRUE if the cached data was successfully stored (or if there was no data to store),
+     *                 or FALSE if the data could not be stored.
+     */
+    public function flush($stream = null, $length = -1);
+
+    /**
+     * Truncate to given size
+     *
+     * @param int $size The new size
+     * @return bool Returns TRUE on success or FALSE on failure.
+     */
+    public function truncate($size);
+
+    /**
+     * Closes the stream
+     *
+     * It must free all the resources. If there is any data to flush, you should do so
+     *
+     * @return bool Returns TRUE on success or FALSE on failure.
      */
     public function close();
 
     /**
-     * Convert the stream to a string if the stream is readable and the stream is seekable.
+     * Retrieve the underlying resource
+     *
+     * @param  integer $cast_ass Can be STREAM_CAST_FOR_SELECT when stream_select() is calling stream_cast()
+     *                           or STREAM_CAST_AS_STREAM when stream_cast() is called for other uses.
+     * @return mixed   using resource or false
+     */
+    public function cast($cast_as);
+
+    /**
+     * Get the stream type
+     *
+     * @return string The stream type
+     */
+    public function getType();
+
+    /**
+     * Get the stream path
+     *
+     * @return string The stream path
+     */
+    public function getPath();
+
+    /**
+     * Get the stream mode
      *
      * @return string
      */
-    public function getContent();
+    public function getMode();
+
+    /**
+     * Retrieve information about the resource pointed to by the stream
+     *
+     * @param boolean $link For resources with the ability to link to other resource (such as an HTTP Location: forward,
+     *                      or a filesystem symlink). This flag specified that only information about the link itself
+     *                      should be returned, not the resource pointed to by the link. This flag is set in response
+     *                      to calls to lstat(), is_link(), or filetype().
+     * @throws \BadMethodCallException if info is not supported.
+     * @return array See http://php.net/stat
+     */
+    public function getInfo($link = false);
+
+    /**
+     * Get the size of the stream
+     *
+     * @return int|bool
+     */
+    public function getSize();
+
+    /**
+     * Get the stream options
+     *
+     * @return array
+     */
+    public function getOptions();
+
+    /**
+     * Calculate a hash of a Stream
+     *
+     * @param string  $algo Hash algorithm (e.g. md5, crc32, etc)
+     * @param bool    $raw  Whether or not to use raw output
+     * @return bool|string Returns false on failure or a hash string on success
+     */
+    public function getHash($algo = 'sha1', $raw = false);
+
+    /**
+     * Get the streams last modified, last accessed or created time.
+     *
+     * @param string $time One of the TIME_* constants
+     * @return \DateTime|false A DateTime object or FALSE if the time could not be found
+     */
+    public function getTime($time = self::TIME_MODIFIED);
 
     /**
      * Get the stream resource
@@ -147,34 +284,13 @@ interface FilesystemStreamInterface
     public function getResource();
 
     /**
-     * Calculate a hash of a Stream
+     * Set the stream resource
      *
-     * @param string          $algo Hash algorithm (e.g. md5, crc32, etc)
-     * @param bool            $raw  Whether or not to use raw output
-     * @return bool|string Returns false on failure or a hash string on success
+     * @param resource $resource  Stream resource
+     * @throws \RuntimeException  If the resource is not a valid 'stream' resource.
+     * @return FilesystemStreamInterface
      */
-    public function getHash($algo = 'sha1', $raw = false);
-
-    /**
-     * Get the stream wrapper type
-     *
-     * @return string
-     */
-    public function getProtocol();
-
-    /**
-     * Get the path or uri associated with this stream
-     *
-     * @return string
-     */
-    public function getPath();
-
-    /**
-     * Get the size of the stream if able
-     *
-     * @return int|bool
-     */
-    public function getSize();
+    public function setResource($resource);
 
     /**
      * Get the chunk size using during read operations
@@ -187,60 +303,42 @@ interface FilesystemStreamInterface
      * Set the chunk size using during read operation
      *
      * @param integer $size The chunk size in bytes
-     * @return FilesystemStream
+     * @return FilesystemStreamInterface
      */
     public function setChunkSize($size);
 
     /**
-     * Get the streams last modified, last accessed or created time.
+     * Set blocking/non-blocking mode on a stream
      *
-     * @param string $time One of the TIME_* constants
-     * @return \DateTime|false A DateTime object or FALSE if the time could not be found
+     * This function works for any stream that supports non-blocking mode (currently, regular files and socket streams)
+     *
+     * @param int $mode If mode is 0, the given stream will be switched to non-blocking mode, and if 1, it will be
+     *                  switched to blocking mode. This affects calls like fgets() and fread() that read from the
+     *                  stream. In non-blocking mode an fgets() call will always return right away while in blocking
+     *                  mode it will wait for data to become available on the stream.
+     * @return bool Returns TRUE on success or FALSE on failure.
      */
-    public function getTime($time = self::TIME_MODIFIED);
+    public function setBlocking($mode);
 
     /**
-     * Gives information about the stream
+     * Set timeout period on a stream
      *
-     * @link http://be2.php.net/manual/en/function.fstat.php
-     *
-     * @return array
+     * @param int $seconds       The seconds part of the timeout to be set.
+     * @param int $microseconds  The microseconds part of the timeout to be set.
+     * @return bool Returns TRUE on success or FALSE on failure.
      */
-    public function getInfo();
+    public function setTimeout($seconds, $microseconds = 0);
 
     /**
-     * Get stream metadata
+     * Sets write file buffering on the given stream
      *
-     * @link http://php.net/manual/en/function.stream-get-meta-data.php
-     *
-     * @param string $key Specific metadata to retrieve
-     * @return array|mixed|null
+     * @param int $mode STREAM_BUFFER_NONE or STREAM_BUFFER_FULL
+     * @param int $size The number of bytes to buffer. If buffer is 0 then write operations are unbuffered. This
+     *                  ensures that all writes with fwrite() are completed before other processes are allowed to
+     *                  write to the stream
+     * @return int|false Returns 0 on success, or FALSE on failure
      */
-    public function getData($key = null);
-
-    /**
-     * Set custom options on the stream
-     *
-     * @param string $name   Name of the option to set
-     * @param mixed  $value  Value to set
-     * @return FilesystemStreamInterface
-     */
-    public function setData($name, $value);
-
-    /**
-     * Get the stream context
-     *
-     * @return resource
-     */
-    public function getContext();
-
-    /**
-     * Set the stream context params
-     *
-     * @param array|resource $context An stream, wrapper or context resource or  an array of context parameters
-     * @return bool Returns TRUE if the context could be successfully set. FALSE otherwise.
-     */
-    public function setContext($context);
+    public function setBuffer($mode, $size);
 
     /**
      * Attach a filter in FIFO order
@@ -250,15 +348,15 @@ interface FilesystemStreamInterface
      * @param array $config  An optional array of filter config options
      * @return  bool   Returns TRUE if the filter was attached, FALSE otherwise
      */
-    public function attachFilter($filter, $config = array());
+    public function addFilter($filter, $config = array());
 
     /**
      * Detach a filter
      *
-     * @param string $name   The name of the filter
+     * @param string $filter   The name of the filter
      * @return bool
      */
-    public function detachFilter($filter);
+    public function removeFilter($filter);
 
     /**
      * Check if a filter is attached to the stream
@@ -284,38 +382,6 @@ interface FilesystemStreamInterface
     public function getFilters();
 
     /**
-     * Register the stream wrapper
-     *
-     * Function prevents from registering the wrapper twice
-     *
-     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
-     * @return bool Returns TRUE on success, FALSE on failure.
-     */
-    public function registerWrapper($wrapper, $config = array());
-
-    /**
-     * Un Register a stream wrapper
-     *
-     * @param mixed $wrapper An ObjectIdentifier object or valid identifier string
-     * @return bool Returns TRUE on success, FALSE on failure.
-     */
-    public function unregisterWrapper($wrapper);
-
-    /**
-     * Get a list of all the registered stream wrappers
-     *
-     * @return array
-     */
-    public function getWrappers();
-
-    /**
-     * Check if the stream is a local stream vs a remote stream
-     *
-     * @return bool
-     */
-    public function isLocal();
-
-    /**
      * Check if the stream is readable
      *
      * @return bool
@@ -330,44 +396,57 @@ interface FilesystemStreamInterface
     public function isWritable();
 
     /**
-     * Check if the stream is repeatable
-     *
-     * When TRUE the stream can be repeated an unlimited number of times, without any limitation on when a repeat can
-     * occur.  A repeatable stream getContent() and copy or flush methods can be called more than once whereas a
-     * non-repeatable entity's can not.
-     *
-     * @return bool
-     */
-    public function isRepeatable();
-
-    /**
-     * Check if the string is repeatable
+     * Check if the stream is seekable
      *
      * @return bool
      */
     public function isSeekable();
 
     /**
-     * Check if the stream is consumed
+     * Indicates whether the stream is in binary mode
      *
-     * @return bool
+     * @return Boolean
      */
-    public function isConsumed();
+    public function isBinary();
 
     /**
-    /**
-     * Check if the stream wrapper is registered for a specific protocol
+     * Indicates whether the stream is in text mode
      *
-     * @param string $protocol
-     * @return bool TRUE if the path is a registered stream URL, FALSE otherwise.
+     * @return Boolean
      */
-    public function isRegistered($protocol);
+    public function isText();
 
     /**
-     * Check if the stream wrapper for a registered protocol is supported
+     * Check if the stream is a local stream vs a remote stream
      *
-     * @param string $protocol
-     * @return bool TRUE if the protocol is a registered stream wrapper and is supported, FALSE otherwise.
+     * @return boolean TRUE on success or FALSE on failure.
      */
-    public function isSupported($protocol);
+    public function isLocal();
+
+    /**
+     * Indicates whether the stream is blocked
+     *
+     * @return bool TRUE when the stream is in blocking IO mode
+     */
+    public function isBlocked();
+
+    /**
+     * Indicates whether the stream is blocked
+     *
+     * @return bool TRUE if the stream timed out while waiting for data on the last call to fread() or fgets().
+     */
+    public function isTimeout();
+
+    /**
+     * Reads all data from the stream into a string, from the beginning to end.
+     *
+     * This method MUST attempt to seek to the beginning of the stream before reading data and read the stream until
+     * the end is reached. The file pointer should stay at it's original position.
+     *
+     * Warning: This could attempt to load a large amount of data into memory.
+     *
+     * @return string
+     */
+    public function toString();
+
 }

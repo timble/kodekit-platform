@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Attachments;
@@ -14,15 +14,32 @@ use Nooku\Library;
 /**
  * Attachable Database Behavior
  *
- * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @author  Steven Rombauts <http://github.com/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
 class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
 {
     /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  Library\ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'auto_mixin' => true
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
      * Get a list of attachments
      *
-     * @return RowsetAttachments
+     * @return Library\DatabaseRowsetInterface
      */
     public function getAttachments()
 	{
@@ -32,9 +49,9 @@ class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
         {
             $attachments = $model->row($this->id)
                 ->table($this->getTable()->getBase())
-                ->getRowset();
+                ->fetch();
         }
-        else $attachments = $model->getRowset();
+        else $attachments = $model->fetch();
 
         return $attachments;
 	}

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Listbox Template Helper
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Template
  */
 class TemplateHelperListbox extends TemplateHelperSelect
@@ -35,14 +35,16 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'selected'  => $config->{$config->name}
         ));
 
+        $translator = $this->getObject('translator');
+
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $translator($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => $this->translate( 'Enabled' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => $this->translate( 'Disabled' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $translator( 'Enabled' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $translator( 'Disabled' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -66,16 +68,18 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'prompt'    => '- Select -',
         ))->append(array(
                 'selected'  => $config->{$config->name}
-            ));
+        ));
+
+        $translator = $this->getObject('translator');
 
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $this->translate($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => $translator($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('label' => $this->translate( 'Published' ) , 'value' => 1 ));
-        $options[] = $this->option(array('label' => $this->translate( 'Draft' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => $translator( 'Published' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => $translator( 'Draft' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -129,7 +133,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'name'		=> 'timezone',
             'attribs'	=> array(),
             'deselect'  => true,
-            'prompt'    => '- '.$this->translate('Select Time Zone').' -',
+            'prompt'    => '- '.$this->getObject('translator')->translate('Select Time Zone').' -',
         ));
 
         if ($config->deselect) {
@@ -148,10 +152,8 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options[] = $this->option(array('label' => 'Coordinated Universal Time', 'value' => 'UTC'));
         foreach ($groups as $group => $locales)
         {
-            $options[] = $this->option(array('label' => $group, 'group' => true));
-
             foreach ($locales as $locale) {
-                $options[] = $this->option(array('label' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
+                $options[$group][] = $this->option(array('label' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
             }
         }
 
@@ -231,10 +233,14 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		    'filter' 	=> array('sort' => $config->label),
 		));
 
-		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->getRowset();
+		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->fetch();
 
 		//Get the list of items
- 	    $items = $list->get($config->value);
+        $items = array();
+        foreach($list as $key => $item) {
+            $items[$key] = $item->getProperty($config->value);
+        }
+
 		if($config->unique) {
 		    $items = array_unique($items);
 		}
@@ -242,7 +248,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		//Compose the options array
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('label' => $this->translate($config->prompt)));
+         	$options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
         }
 
  		foreach($items as $key => $value)
@@ -250,6 +256,17 @@ class TemplateHelperListbox extends TemplateHelperSelect
  		    $item      = $list->find($key);
  		    $options[] =  $this->option(array('label' => $item->{$config->label}, 'value' => $item->{$config->value}));
 		}
+
+        //Compose the selected array
+        if($config->selected instanceof ModelEntityInterface)
+        {
+            $selected = array();
+            foreach($config->selected as $entity) {
+                $selected[] = $entity->{$config->value};
+            }
+
+            $config->selected = $selected;
+        }
 
 		//Add the options to the config object
 		$config->options = $options;
@@ -285,7 +302,18 @@ class TemplateHelperListbox extends TemplateHelperSelect
     	$config->element = $config->value;
     	$config->path    = $config->label;
 
-		$html = $this->getTemplate()->getHelper('behavior')->autocomplete($config);
+        //Compose the selected array
+        if($config->selected instanceof ModelEntityInterface)
+        {
+            $selected = array();
+            foreach($config->selected as $entity) {
+                $selected[] = $entity->{$config->value};
+            }
+
+            $config->selected = $selected;
+        }
+
+		$html = $this->getTemplate()->createHelper('behavior')->autocomplete($config);
 
 	    return $html;
  	}

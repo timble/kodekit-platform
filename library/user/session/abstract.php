@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  * Provides access to session-state values as well as session-level settings and lifetime management methods.
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 class UserSessionAbstract extends Object implements UserSessionInterface
@@ -135,7 +135,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             'user'       => null,
             'name'       => 'KSESSIONID',
             'id'         => '',
-            'lifetime'   => 1440,
+            'lifetime'   => ini_get('session.gc_maxlifetime'),
             'namespace'  => '__nooku',
             'options' => array(
                 'auto_start'        => 0,
@@ -330,7 +330,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             else $identifier = $this->getIdentifier($handler);
 
             //Set the configuration
-            $identifier->setConfig($config);
+            $identifier->getConfig()->append($config);
 
             $handler = $identifier;
         }
@@ -668,9 +668,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param   string $name  The attribute name.
      * @return  string $value The attribute value.
      */
-    public function __get($name)
+    final public function __get($name)
     {
-        return $this->getContainer('attribute')->get($name);
+        return $this->get($name);
     }
 
     /**
@@ -680,9 +680,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param   mixed  $value The attribute value.
      * @return  void
      */
-    public function __set($name, $value)
+    final public function __set($name, $value)
     {
-        $this->getContainer('attribute')->set($name, $value);
+        $this->set($name, $value);
     }
 
     /**
@@ -691,9 +691,9 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param  string $name The attribute name.
      * @return boolean
      */
-    public function __isset($name)
+    final public function __isset($name)
     {
-        return $this->getContainer('attribute')->has($name);
+        return $this->has($name);
     }
 
     /**
@@ -702,8 +702,8 @@ class UserSessionAbstract extends Object implements UserSessionInterface
      * @param   string $key  The attribute name.
      * @return  void
      */
-    public function __unset($name)
+    final public function __unset($name)
     {
-        $this->getContainer('attribute')->remove($name);
+        $this->remove($name);
     }
 }

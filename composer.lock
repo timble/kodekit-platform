@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "312d8e467e81e22d7667f9c1523414f8",
+    "hash": "8323b638620d2314f7ec410f319c4056",
     "packages": [
         {
             "name": "imagine/imagine",
@@ -51,37 +52,6 @@
                 "image processing"
             ],
             "time": "2012-12-13 18:31:18"
-        },
-        {
-            "name": "jlong/sass-bootstrap",
-            "version": "v2.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jlong/sass-bootstrap.git",
-                "reference": "c4d7cbce669f4f6e5838e75e847a443c9f59bb37"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jlong/sass-bootstrap/zipball/c4d7cbce669f4f6e5838e75e847a443c9f59bb37",
-                "reference": "c4d7cbce669f4f6e5838e75e847a443c9f59bb37",
-                "shasum": ""
-            },
-            "type": "library",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "A sass port of the sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-            "homepage": "http://github.com/jlong/sass-twitter-bootstrap/",
-            "keywords": [
-                "bootstrap",
-                "css",
-                "sass"
-            ],
-            "support": {
-                "source": "https://github.com/jlong/sass-bootstrap/tree/v2.3.2",
-                "issues": "https://github.com/jlong/sass-bootstrap/issues"
-            },
-            "time": "2013-05-25 10:55:13"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -135,20 +105,10 @@
             "time": "2013-12-03 13:33:24"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "stability-flags": [],
+    "platform": [],
+    "platform-dev": []
 }

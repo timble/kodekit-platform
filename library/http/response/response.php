@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 namespace Nooku\Library;
 
@@ -13,7 +13,7 @@ namespace Nooku\Library;
  *
  *
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Http
  * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
  * @link    http://tools.ietf.org/html/rfc2616
@@ -282,8 +282,9 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      * Returns the Date header as a DateTime instance.
      *
      * @link http://tools.ietf.org/html/rfc2616#section-14.18
-     * @return \DateTime A \DateTime instance
-     * @throws \RuntimeException When the header is not parseable
+     *
+     * @throws \RuntimeException If the Date header could not be parsed
+     * @return \DateTime|null A DateTime instance or NULL if no Date header exists
      */
     public function getDate()
     {
@@ -292,8 +293,9 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
         if ($this->_headers->has('Date'))
         {
             $value = $this->_headers->get('Date');
+            $data  = \DateTime::createFromFormat(DATE_RFC2822, $value);
 
-            if (false === $date = \DateTime::createFromFormat(DATE_RFC2822, $value)) {
+            if ($date === false) {
                 throw new \RuntimeException(sprintf('The Last-Modified HTTP header is not parseable (%s).', $value));
             }
         }
@@ -320,7 +322,9 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      * Returns the Last-Modified HTTP header as a DateTime instance.
      *
      * @link http://tools.ietf.org/html/rfc2616#section-14.29
-     * @return \DateTime A DateTime instance
+     *
+     * @throws \RuntimeException If the Last-Modified header could not be parsed
+     * @return \DateTime|null A DateTime instance or NULL if no Last-Modified header exists
      */
     public function getLastModified()
     {
@@ -328,9 +332,10 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
 
         if ($this->_headers->has('Last-Modified'))
         {
-           $value = $this->_headers->get('Last-Modified');
+            $value = $this->_headers->get('Last-Modified');
+            $data  = \DateTime::createFromFormat(DATE_RFC2822, $value);
 
-            if (false === $date = \DateTime::createFromFormat(DATE_RFC2822, $value)) {
+            if ($data === false) {
                 throw new \RuntimeException(sprintf('The Last-Modified HTTP header is not parseable (%s).', $value));
             }
         }
@@ -364,7 +369,9 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      * Returns the value of the Expires header as a DateTime instance.
      *
      * @link http://tools.ietf.org/html/rfc2616#section-14.21
-     * @return \DateTime A DateTime instance
+     *
+     * @throws \RuntimeException If the Expires header could not be parsed
+     * @return \DateTime|null A DateTime instance or NULL if no Expires header exists
      */
     public function getExpires()
     {
@@ -373,8 +380,9 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
         if ($this->_headers->has('Expires'))
         {
             $value = $this->_headers->get('Expires');
+            $date  = \DateTime::createFromFormat(DATE_RFC2822,  $value);
 
-            if (false === $date = \DateTime::createFromFormat(DATE_RFC2822, $value)) {
+            if ($date === false) {
                 throw new \RuntimeException(sprintf('The Expires HTTP header is not parseable (%s).', $value));
             }
         }

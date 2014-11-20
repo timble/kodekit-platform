@@ -118,14 +118,6 @@ class KInflectorTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideNames
      */
-    public function testUnderscoreToClassify($classified, $separator, $split, $exploded, $camelized, $underscored)
-    {
-        $this->assertEquals(KInflector::classify($underscored), $classified);
-    }
-
-    /**
-     * @dataProvider provideNames
-     */
     public function testClassifyToUnderscore($classified, $separator, $split, $exploded, $camelized, $underscored)
     {
         $this->assertEquals(KInflector::underscore($classified), $underscored);
@@ -140,11 +132,6 @@ class KInflectorTest extends PHPUnit_Framework_TestCase
     }
 
     public function testgetPart()
-    {
-        $this->markTestIncomplete('Not implemented');
-    }
-
-    public function testHumanize()
     {
         $this->markTestIncomplete('Not implemented');
     }
@@ -189,21 +176,10 @@ class KInflectorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( KInflector::split($separator, $classified), $split);
     }
 
-    public function testTableize()
-    {
-        $this->markTestIncomplete('Not implemented');
-    }
-
     public function testUnderscore()
     {
         $this->markTestIncomplete('Not implemented');
     }
-
-    public function testVariablize()
-    {
-        $this->markTestIncomplete('Not implemented');
-    }
-
 }
 
 

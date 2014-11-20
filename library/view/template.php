@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract Template View
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
 abstract class ViewTemplate extends ViewAbstract
@@ -55,21 +55,6 @@ abstract class ViewTemplate extends ViewAbstract
 
         //Set the template object
         $this->setTemplate($config->template);
-
-        //Attach the template filters
-        $filters = (array)ObjectConfig::unbox($config->template_filters);
-
-        foreach ($filters as $key => $value)
-        {
-            if (is_numeric($key)) {
-                $this->getTemplate()->attachFilter($value);
-            } else {
-                $this->getTemplate()->attachFilter($key, $value);
-            }
-        }
-
-        //Fetch the view data before rendering
-        $this->addCommandCallback('before.render', '_fetchData');
     }
 
     /**
@@ -83,10 +68,16 @@ abstract class ViewTemplate extends ViewAbstract
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'layout'           => '',
-            'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'function', 'url', 'decorator'),
-            'auto_fetch'       => true,
+            'auto_fetch'         => true,
+            'layout'             => '',
+            'template'           => 'default',
+            'template_filters'   => array('asset', 'decorator'),
+            'template_functions' => array(
+                'route'   => array($this, 'getRoute'),
+                'url'     => array($this, 'getUrl'),
+                'title'   => array($this, 'getTitle'),
+                'content' => array($this, 'getContent'),
+            ),
         ));
 
         parent::_initialize($config);
@@ -100,24 +91,29 @@ abstract class ViewTemplate extends ViewAbstract
      */
     protected function _actionRender(ViewContext $context)
     {
-        $layout     = $this->getLayout();
-        $format     = $this->getFormat();
-        $data       = $this->getData();
+        $format = $this->getFormat(); //format cannot be changed through context
+        $layout = $context->layout;
 
-        //Handle partial layout paths
-        if (is_string($layout) && strpos($layout, '.') === false)
+        if(!parse_url($layout, PHP_URL_SCHEME))
         {
-            $identifier = $this->getIdentifier()->toArray();
-            $identifier['name'] = $layout;
+            //Handle partial layout paths
+            if (is_string($layout) && strpos($layout, '.') === false)
+            {
+                $identifier = $this->getIdentifier()->toArray();
+                $identifier['name'] = $layout;
+                unset($identifier['path'][0]);
 
-            $layout = (string) $this->getIdentifier($identifier);
+                $layout = (string) $this->getIdentifier($identifier);
+            }
         }
 
-        $this->_content = (string) $this->getTemplate()
-            ->load((string) $layout.'.'.$format)
-            ->compile()
-            ->evaluate($data)
-            ->render();
+        //Unpack the data (first level only)
+        $data = $context->data->toArray();
+
+        $this->_content = $this->getTemplate()
+            ->loadFile((string) $layout.'.'.$format)
+            ->setParameters($context->parameters)
+            ->render($data);
 
         return parent::_actionRender($context);
     }
@@ -135,23 +131,30 @@ abstract class ViewTemplate extends ViewAbstract
     {
         $model = $this->getModel();
 
-        //Auto-assign the state to the view
-        $context->data->state = $model->getState();
-
         //Auto-assign the data from the model
         if($this->_auto_fetch)
         {
-            //Get the view name
-            $name = $this->getName();
+            //Set the data
+            $name   = $this->getName();
+            $entity = $model->fetch();
+            $context->data->$name = $entity;
 
-            //Assign the data of the model to the view
-            if(StringInflector::isPlural($name))
+            //Set the parameters
+            if($this->isCollection())
             {
-                $context->data->$name = $model->getRowset();
-                $context->data->total = $model->getTotal();
+                $context->parameters = $model->getState()->getValues();
+                $context->parameters->total = $model->count();
             }
-            else $context->data->$name = $model->getRow();
+            else {
+                $context->parameters = $entity->getProperties();
+                $context->parameters->total = 1;
+            }
         }
+        else $context->parameters = $model->getState()->getValues();
+
+        //Set the layout and view in the parameters.
+        $context->parameters->layout = $context->layout;
+        $context->parameters->view   = $this->getName();
     }
 
     /**
@@ -192,7 +195,8 @@ abstract class ViewTemplate extends ViewAbstract
             }
 
             $options = array(
-                'view' => $this
+                'filters'   => $this->getConfig()->template_filters,
+                'functions' => $this->getConfig()->template_functions,
             );
 
             $this->_template = $this->getObject($this->_template, $options);
@@ -244,11 +248,10 @@ abstract class ViewTemplate extends ViewAbstract
      * @param string $route   The query string used to create the route
      * @param boolean $fqr    If TRUE create a fully qualified route. Default TRUE.
      * @param boolean $escape If TRUE escapes the route for xml compliance. Default TRUE.
-     * @return  string The route
+     * @return 	DispatcherRouterRoute 	The route
      */
-    public function getRoute($route = '', $fqr = null, $escape = null)
+    public function getRoute($route = '', $fqr = true, $escape = true)
     {
-        //@TODO : Check if $route if valid. Throw exception if not.
         if(is_string($route)) {
             parse_str(trim($route), $parts);
         } else {
@@ -256,8 +259,8 @@ abstract class ViewTemplate extends ViewAbstract
         }
 
         // Check to see if there is component information in the route if not add it
-        if (!isset($parts['option'])) {
-            $parts['option'] = 'com_' . $this->getIdentifier()->package;
+        if (!isset($parts['component'])) {
+            $parts['component'] = $this->getIdentifier()->package;
         }
 
         // Add the view information to the route if it's not set
@@ -267,11 +270,26 @@ abstract class ViewTemplate extends ViewAbstract
 
         if (!isset($parts['layout']) && !empty($this->_layout))
         {
-            if ((substr($parts['option'], 4) == $this->getIdentifier()->package) && ($parts['view'] == $this->getName())) {
+            if (($parts['component'] == $this->getIdentifier()->package) && ($parts['view'] == $this->getName())) {
                 $parts['layout'] = $this->getLayout();
             }
         }
 
         return parent::getRoute($parts, $fqr, $escape);
+    }
+
+    /**
+     * Get the view context
+     *
+     * @return  ViewContextTemplate
+     */
+    public function getContext()
+    {
+        $context = new ViewContextTemplate();
+        $context->setSubject($this);
+        $context->setData($this->_data);
+        $context->setLayout($this->getLayout());
+
+        return $context;
     }
 }

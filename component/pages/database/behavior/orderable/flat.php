@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Flat Orderable Database Behavior
  *
- * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
 class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract implements DatabaseBehaviorOrderableInterface
@@ -22,7 +22,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
     protected function _beforeInsert(Library\DatabaseContext $context)
     {
         $query = $this->getObject('lib:database.query.select')
-            ->columns('MAX(ordering)');
+            ->columns('MAX(tbl.ordering)');
         
         $this->_buildQuery($query);
         
@@ -97,7 +97,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         $table->getAdapter()->execute('SET @index = 0');
 
         $query = $this->getObject('lib:database.query.update')
-            ->table($table->getBase())
+            ->table(array('tbl' => $table->getBase()))
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
         

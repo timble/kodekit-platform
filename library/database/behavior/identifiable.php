@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Database Identifiable Behavior
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
 class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
@@ -34,12 +34,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach ($config as $key => $value)
-        {
-            if (property_exists($this, '_' . $key)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
+        $this->_auto_generate = $config->auto_generate;
     }
 
     /**
@@ -68,14 +63,17 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      */
     public function isSupported()
     {
-        $mixer = $this->getMixer();
-        $table = $mixer instanceof DatabaseRowInterface ?  $mixer->getTable() : $mixer;
+        $table = $this->getMixer();
 
-        if($table->hasColumn('uuid')) {
-            return true;
+        //Only check if we are connected with a table object, otherwise just return true.
+        if($table instanceof DatabaseTableInterface)
+        {
+            if(!$table->hasColumn('uuid')) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -93,7 +91,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         if($this->getMixer() instanceof DatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
-            if($this->has('uuid') && empty($this->uuid))
+            if($this->hasProperty('uuid') && empty($this->uuid))
             {
                 $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
                 $this->uuid = $this->_uuid($hex);
@@ -116,7 +114,7 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     {
         if($this->getMixer() instanceof DatabaseRowInterface)
         {
-            if($this->has('uuid') && empty($this->uuid))
+            if($this->hasProperty('uuid') && empty($this->uuid))
             {
                 $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
                 $this->uuid = $this->_uuid($hex);

@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Article Controller Permission
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
 class ArticlesControllerPermissionArticle extends ApplicationControllerPermissionAbstract
@@ -20,17 +20,12 @@ class ArticlesControllerPermissionArticle extends ApplicationControllerPermissio
     public function canRead()
     {
         $result  = true;
-        $article = $this->getModel()->getRow();
+        $article = $this->getModel()->fetch();
 
         if (!$article->isNew())
         {
             //If user doesn't have access to it, deny access.
             if ($article->access > (int) $this->getUser()->isAuthentic()) {
-                $result = false;
-            }
-
-            // Only published articles can be read. An exception is made for editors and above.
-            if ($article->published == 0 && !$this->canEdit()) {
                 $result = false;
             }
 

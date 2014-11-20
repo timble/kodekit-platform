@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Abstract User Provider
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
 class UserProviderAbstract extends Object implements UserProviderInterface
@@ -66,12 +66,12 @@ class UserProviderAbstract extends Object implements UserProviderInterface
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
-     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @return UserInterface  Returns a UserInterface object
      */
     public function load($identifier, $refresh = false)
     {
         //Fetch a user from the backend
-        if($refresh || !isset($this->_users[$identifier]))
+        if($refresh || !$this->isLoaded($identifier))
         {
             $user = $this->fetch($identifier);
             $this->_users[$identifier] = $user;
@@ -97,6 +97,24 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     }
 
     /**
+     * Store a user object in the provider
+     *
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @param array $data An associative array of user data
+     * @return UserInterface     Returns a UserInterface object
+     */
+    public function store($identifier, $data)
+    {
+        if(!$data instanceof UserInterface) {
+            $data = $this->create($data);
+        }
+
+        $this->_users[$identifier] = $data;
+
+        return $data;
+    }
+
+    /**
      * Create a user object
      *
      * @param array $data An associative array of user data
@@ -106,5 +124,16 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     {
         $user = $this->getObject('user.default', array('data' => $data));
         return $user;
+    }
+
+    /**
+     * Check if a user has already been loaded for a given user identifier
+     *
+     * @param $identifier
+     * @return boolean TRUE if a user has already been loaded. FALSE otherwise
+     */
+    public function isLoaded($identifier)
+    {
+        return isset($this->_users[$identifier]);
     }
 }

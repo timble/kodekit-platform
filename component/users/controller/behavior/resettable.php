@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Users;
@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Resettable Controller Behavior
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author     Arunas Mazeika <http://github.com/amazeika>
  * @package    Nooku_Server
  * @subpackage Users
  */
@@ -45,7 +45,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        if ($this->getModel()->getRow()->isNew() || !$this->_isTokenValid($context))
+        if ($this->getModel()->fetch()->isNew() || !$this->_isTokenValid($context))
         {
             $result = false;
         }
@@ -57,11 +57,11 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        $password           = $this->getModel()->getRow()->getPassword();
+        $password           = $this->getModel()->fetch()->getPassword();
         $password->password = $context->request->data->get('password', 'string');
         $password->save();
 
-        if ($password->getStatus() == Library\Database::STATUS_FAILED)
+        if ($password->getStatus() == $password::STATUS_FAILED)
         {
             $context->error = $password->getStatusMessage();
             $result = false;
@@ -74,14 +74,14 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $row = $this->getObject('com:users.model.users')
+        $entity = $this->getObject('com:users.model.users')
                     ->email($context->request->data->get('email', 'email'))
-                    ->getRow();
+                    ->fetch();
 
-        if (!$row->isNew())
+        if (!$entity->isNew())
         {
-            $context->row = $row;
-            $result       = true;
+            $context->entity = $entity;
+            $result          = true;
         }
 
         return $result;
@@ -91,11 +91,11 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $password = $this->getModel()->getRow()->getPassword();
+        $password = $this->getModel()->fetch()->getPassword();
         $hash     = $password->reset;
         $token    = $context->request->data->get('token', $this->_filter);
 
-        if ($hash && ($password->verify($token, $hash))) {
+        if ($hash && ($password->verifyPassword($token, $hash))) {
             $result = true;
         }
 
@@ -106,10 +106,10 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $row   = $context->row;
+        $entity = $context->entity;
 
         // Set the password as resettable and keep a copy of the token for further use.
-        if ($token = $row->getPassword()->setReset())
+        if ($token = $entity->getPassword()->resetPassword())
         {
             $context->token = $token;
             $result         = true;

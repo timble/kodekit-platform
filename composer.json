@@ -1,13 +1,31 @@
 {
-    "repositories": [
+    "name": "nooku/nooku-platform",
+    "type": "nooku-platform",
+    "license": "GPLv3",
+    "description": "Nooku Platform is an open-source web application platform",
+    "keywords": [
+        "platform",
+        "framework",
+        "nooku"
+    ],
+    "homepage": "https://github.com/nooku/nooku-platform",
+    "authors": [
         {
-            "type": "vcs",
-            "url": "https://github.com/jlong/sass-bootstrap"
+            "name": "Timble",
+            "email": "info@timble.net",
+            "homepage": "http://www.timble.net"
         }
     ],
+
     "require": {
         "swiftmailer/swiftmailer": "5.0.*",
-        "imagine/imagine": "0.4.*",
-        "jlong/sass-bootstrap": "2.3.*"
+        "imagine/imagine": "0.4.*"
+    },
+
+    "suggest": {
+        "symfony/yaml" : "Allows parsing and writing Yaml files",
+        "twig/twig": "Allows building templates using the Twig template engine",
+        "mustache/mustache": "Allows building logic less template using Mustache syntax",
+        "erusev/parsedown-extra" : "Allows using Markddown in templates"
     }
 }

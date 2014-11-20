@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Pages;
@@ -14,10 +14,10 @@ use Nooku\Library;
 /**
  * Chrome Template Filter
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\ObjectInstantiable
 {
     /**
      * The chrome styles
@@ -117,7 +117,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      * @param string $text Block of text to parse
      * @return void
      */
-    public function render(&$text)
+    public function filter(&$text)
     {
         $data = (object) $this->getTemplate()->getData();
 
@@ -149,10 +149,10 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
 
     protected function _styleAccordion($module)
     {
-        $accordion = $this->getTemplate()->getHelper('accordion');
+        $accordion = $this->getTemplate()->createHelper('accordion');
 
         $config = array(
-            'title'     => $this->translate( $module->title ),
+            'title'     => $this->getObject('translator')->translate( $module->title ),
             'id'        => 'module' . $module->id,
             'translate' => false
         );
@@ -175,10 +175,10 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
 
     protected function _styleTabs($module)
     {
-        $tabs = $this->getTemplate()->getHelper('tabs');
+        $tabs = $this->getTemplate()->createHelper('tabs');
 
         $config = array(
-            'title'     => $this->translate( $module->title ),
+            'title'     => $this->getObject('translator')->translate( $module->title ),
             'id'        => 'module' . $module->id,
             'translate' => false
         );

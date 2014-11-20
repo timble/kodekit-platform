@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2007 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
@@ -12,66 +12,75 @@ namespace Nooku\Library;
 /**
  * Filter Factory
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
  */
-class FilterFactory extends Object implements ObjectMultiton
+class FilterFactory extends Object implements ObjectSingleton
 {
-	/**
-	 * Factory method for FilterInterface classes.
+    /**
+     * Factory method for KFilterChain classes.
      *
-     * Method accepts an array of filter names, or filter service identifiers and will create a chained filter
+     * Method accepts an array of filter names, or filter object identifiers and will create a chained filter
      * using a FIFO approach.
-	 *
-	 * @param	string|array $identifier Filter identifier(s)
-	 * @param 	object|array $config     An optional ObjectConfig object with configuration options
-	 * @return  FilterInterface
-	 */
-	public function getFilter($identifier, $config = array())
-	{
-		//Get the filter(s) we need to create
-		$filters = (array) $identifier;
+     *
+     * @param	string|array $identifier Filter identifier(s)
+     * @param 	object|array $config     An optional KObjectConfig object with configuration options
+     * @return  FilterInterface
+     */
+    public function createChain($identifier, $config = array())
+    {
+        //Get the filter(s) we need to create
+        $filters = (array) $identifier;
+        $chain   = $this->getObject('lib:filter.chain');
 
-        //Create a filter chain
-        if(count($filters) > 1)
+        foreach($filters as $name)
         {
-            $filter = $this->getObject('lib:filter.chain');
-
-            foreach($filters as $name)
-            {
-                $instance = $this->_createFilter($name, $config);
-                $filter->addFilter($instance);
-            }
+            $instance = $this->createFilter($name, $config);
+            $chain->addFilter($instance);
         }
-        else $filter = $this->_createFilter($filters[0], $config);
 
-		return $filter;
-	}
+        return $chain;
+    }
 
-	/**
-	 * Create a filter based on it's name
-	 *
-	 * If the filter is not an identifier this function will create it directly instead of going through the Object
+    /**
+     * Factory method for KFilter classes.
+     *
+     * If the filter is not an identifier this function will create it directly instead of going through the KObject
      * identification process.
-	 *
-	 * @param 	string	$filter Filter identifier
-     * @param   array   $config An array of configuration options.
+     *
+     * @param 	string	$filter Filter identifier
+     * @param 	object|array $config     An optional KObjectConfig object with configuration options
      * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
-	 * @return  FilterInterface
-	 */
-	protected function _createFilter($filter, $config)
-	{
-        if(is_string($filter) && strpos($filter, '.') === false ) {
-            $filter = 'lib:filter.'.trim($filter);
+     * @return  FilterInterface
+     */
+    public function createFilter($filter, $config = array())
+    {
+        if(is_string($filter) && strpos($filter, '.') === false )
+        {
+            $identifier = $this->getIdentifier()->toArray();
+            $identifier['name'] = $filter;
+        }
+        else $identifier = $filter;
+
+        $filter = $this->getObject($identifier, $config);
+
+        //Check the filter interface
+        if(!($filter instanceof FilterInterface)) {
+            throw new \UnexpectedValueException('Filter:'.get_class($filter).' does not implement FilterInterface');
         }
 
-        $filter = $this->getObject($filter, $config);
+        return $filter;
+    }
 
-	    //Check the filter interface
-		if(!($filter instanceof FilterInterface)) {
-			throw new \UnexpectedValueException('Filter:'.get_class($filter).' does not implement FilterInterface');
-		}
-
-		return $filter;
-	}
+    /**
+     * Allow for filter chaining
+     *
+     * @param  string   $method    The function name
+     * @param  array    $arguments The function arguments
+     * @return mixed The result of the function
+     */
+    public function __call($method, $arguments)
+    {
+        return $this->createChain($method, $arguments);
+    }
 }
