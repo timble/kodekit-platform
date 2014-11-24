@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Varnish;
@@ -12,12 +12,12 @@ namespace Nooku\Component\Varnish;
 use Nooku\Library;
 
 /**
- * Socket Database Row
+ * Varnish Model
  *
- * @author  Dave Li <http://nooku.assembla.com/profile/daveli>
- * @package Nooku\Component\Varnish
+ * @author  Dave Li <http://github.com/daveli>
+ * @package Component\Varnish
  */
-class DatabaseRowSocket extends Library\DatabaseRowAbstract
+class ModelSockets extends Library\ModelAbstract
 {
 	const SOCKET_TIMEOUT = 5;
 
@@ -158,33 +158,6 @@ class DatabaseRowSocket extends Library\DatabaseRowAbstract
 	}
 
 	/**
-	 * Marks all objects that have a URL matching $pattern as obsolete.
-	 *
-	 * @param string $pattern The pattern to use for matching URLs
-	 * @return string The server's response
-	 */
-	public function ban_url($pattern)
-	{
-		$response = $this->command('ban.url', $pattern, $statusCode);
-		if( $statusCode !== self::CLIS_OK )
-			throw new \RuntimeException(sprintf('VarnishAdm failed to ban.url pattern "%s" (status: %d).', $pattern, $statusCode));
-		return $response;
-	}
-
-	/**
-	 * List the active bans.
-	 *
-	 * @return string The server's response
-	 */
-	public function ban_list()
-	{
-		$response = $this->command('ban.list', null, $statusCode);
-		if( $statusCode !== self::CLIS_OK )
-			throw new \RuntimeException(sprintf('VarnishAdm failed to retrieve the list of active bans (status: %d).', $statusCode));
-		return $response;
-	}
-
-	/**
 	 * Read data from the socket.
 	 *
 	 * @param integer $statusCode The status code of the response, passed by reference
@@ -256,73 +229,5 @@ class DatabaseRowSocket extends Library\DatabaseRowAbstract
 		if( $statusCode !== self::CLIS_OK )
 			throw new \RuntimeException('Failed to authenticate with VarnishAdm.');
 		return $response;
-	}
-
-	/**
-	 * Load a configuration file.
-	 *
-	 * @param $args
-	 * @return string
-	 * @throws RuntimeException
-	 */
-	public function vcl_load($args)
-	{
-		$response = $this->command('vcl.load', $args, $statusCode);
-		if( $statusCode !== self::CLIS_OK )
-			throw new \RuntimeException(sprintf('VarnishAdm failed to retrieve the list of active bans (status: %d).', $statusCode));
-		return $response;
-	}
-
-	/**
-	 * @param $args
-	 * @return string
-	 * @throws RuntimeException
-	 */
-	public function vcl_use($args)
-	{
-		$response = $this->command('vcl.use', $args, $statusCode);
-		if( $statusCode !== self::CLIS_OK )
-			throw new \RuntimeException(sprintf('VarnishAdm failed to retrieve the list of active bans (status: %d).', $statusCode));
-		return $response;
-	}
-
-	/**
-	 * @param $args
-	 * @return string
-	 * @throws RuntimeException
-	 */
-	public function vcl_discard($args)
-	{
-		$response = $this->command('vcl.discard', $args, $statusCode);
-		if( $statusCode !== self::CLIS_OK )
-			throw new \RuntimeException(sprintf('VarnishAdm failed to retrieve the list of active bans (status: %d).', $statusCode));
-		return $response;
-	}
-
-	/**
-	 * @return array
-	 * @throws RuntimeException
-	 */
-	public function vcl_list()
-	{
-		$response = $this->command('vcl.list', null, $statusCode);
-		if( $statusCode !== self::CLIS_OK )
-			throw new \RuntimeException(sprintf('VarnishAdm failed to retrieve the list vcl configs (status: %d).', $statusCode));
-
-		$matches = array_filter(preg_split('/[\s\n]/', $response));
-
-		$list = array();
-
-		for($i = 0; $i < count($matches); $i++) {
-			if($i % 3 === 0) {
-				$pieces = array_slice($matches, $i, 3);
-				$list[] = array(
-					'name'		=> end($pieces),
-					'status'	=> reset($pieces)
-				);
-			}
-		}
-
-		return $list;
 	}
 }

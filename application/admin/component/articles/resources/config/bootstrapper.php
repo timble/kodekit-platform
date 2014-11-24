@@ -13,7 +13,13 @@ return array(
         'com:articles.model.tags'            => 'com:tags.model.tags',
         'com:articles.model.categories'      => 'com:categories.model.categories',
         'com:articles.controller.attachment' => 'com:attachments.controller.attachment',
-    )
+    ),
 
+	'identifiers' => array(
+
+		'com:articles.controller.article'  => array(
+			'behaviors'        => array('com:varnish.controller.behavior.cacheable'),
+		),
+	)
 );
 

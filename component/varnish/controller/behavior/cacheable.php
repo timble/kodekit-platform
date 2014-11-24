@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Dispatcher Varnishable Behavior
  *
- * @author  Dave Li <http://nooku.assembla.com/profile/daveli>
+ * @author  Dave Li <http://github.com/daveli>
  * @package Component\Varnish
  */
 class ControllerBehaviorCacheable extends Library\BehaviorAbstract
@@ -26,7 +26,7 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 		parent::__construct($config);
 
 		if(!isset($this->_varnish)) {
-			$this->_varnish = $this->getObject('com:varnish.database.row.socket');
+			$this->_varnish = $this->getObject('com:varnish.model.sockets');
 			$this->_varnish->connect();
 		}
 	}
@@ -63,9 +63,7 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 		$identifier = $this->getMixer()->getIdentifier();
 
 		if($modified) {
-			$varnish = $this->getObject('com:varnish.database.row.socket');
-			$varnish->connect();
-			$varnish->ban('obj.http.x-entities ~ '. $identifier.':'.$entity->id);
+			$this->_varnish->ban('obj.http.x-entities ~ '. $identifier.':'.$entity->id);
 		}
 	}
 }

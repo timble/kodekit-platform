@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Dispatcher Varnishable Behavior
  *
- * @author  Dave Li <http://nooku.assembla.com/profile/daveli>
+ * @author  Dave Li <http://github.com/daveli>
  * @package Component\Varnish
  */
 class DispatcherBehaviorCacheable extends Library\ControllerBehaviorAbstract

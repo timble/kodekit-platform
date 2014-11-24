@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Not found Event Subscriber
  *
- * @author  Dave Li <http://nooku.assembla.com/profile/daveli>
+ * @author  Dave Li <http://github.com/daveli>
  * @package Nooku\Component\Varnish
  */
 class EventSubscriberNotfound extends Library\EventSubscriberAbstract
