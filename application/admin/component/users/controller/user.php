@@ -34,10 +34,7 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $entity = parent::_actionDelete($context);
 
-        $this->getObject('com:users.model.sessions')
-            ->email($entity->email)
-            ->getRowset()
-            ->delete();
+        $this->getObject('com:users.model.sessions')->email($entity->email)->fetch()->delete();
 
         return $entity;
     }
@@ -45,8 +42,7 @@ class UsersControllerUser extends Users\ControllerUser
     protected function _beforeAdd(Library\ControllerContextInterface $context)
     {
         // Expire password
-        if (!$context->request->data->get('password', 'string'))
-        {
+        if (!$context->request->data->get('password', 'string')) {
             $this->addCommandCallback('after.add', '_resetPassword');
         }
     }
@@ -55,16 +51,14 @@ class UsersControllerUser extends Users\ControllerUser
     {
         $data = $context->request->data;
 
-        if ($data->get('password_reset', 'boolean'))
-        {
+        if ($data->get('password_reset', 'boolean')) {
             $this->addCommandCallback('after.edit', '_expirePassword');
         }
 
-        $user = $this->getModel()->getRow();
+        $user = $this->getModel()->fetch();
 
         // Only administrators can change roles.
-        if ($user->role_id != $data->role_id && !$this->getUser()->hasRole('administrator'))
-        {
+        if ($user->role_id != $data->role_id && !$this->getUser()->hasRole('administrator')) {
             $data->remove('role_id');
         }
     }
@@ -80,8 +74,7 @@ class UsersControllerUser extends Users\ControllerUser
 
         if ($user->getStatus() !== Library\Database::STATUS_FAILED && $this->isResettable())
         {
-            if (!$this->token($context))
-            {
+            if (!$this->token($context)) {
                 $context->response->addMessage('Failed to deliver the password reset token', 'error');
             }
         }
@@ -97,8 +90,7 @@ class UsersControllerUser extends Users\ControllerUser
         $user = $context->result;
 
         // Expire the user's password if a password reset was requested.
-        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $user->isExpirable())
-        {
+        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $user->isExpirable()) {
             $user->getPassword()->expire();
         }
     }

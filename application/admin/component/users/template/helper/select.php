@@ -25,7 +25,7 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
         ));
 
         $config->options = $this->options(array(
-            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->fetch(),
             'label'   => 'title'
         ));
 

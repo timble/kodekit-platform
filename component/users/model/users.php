@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class ModelUsers extends Library\ModelTable
+class ModelUsers extends Library\ModelDatabase
 {
     /**
      * Constructor.
@@ -25,16 +25,27 @@ class ModelUsers extends Library\ModelTable
      * @param   ObjectConfig  $config An optional Library\ObjectConfig object with configuration options.
      */
 	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    {
+        parent::__construct($config);
 
         $this->getState()
-            ->insert('group'      , 'int')
-            ->insert('role'       , 'int')
-            ->insert('enabled'    , 'boolean')
-            ->insert('visited'    , 'boolean')
-            ->insert('loggedin'   , 'boolean');
-	}
+             ->insert('group', 'int')
+             ->insert('role', 'int')
+             ->insert('group_tree', 'boolean', false)
+             ->insert('enabled', 'boolean')
+             ->insert('visited', 'boolean')
+             ->insert('authentic', 'boolean')
+             ->insert('distinct', 'boolean', true);
+    }
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('searchable' => array('columns' => 'name')),
+        ));
+
+        parent::_initialize($config);
+    }
 
 	/**
      * Builds SELECT columns list for the query.
@@ -48,18 +59,18 @@ class ModelUsers extends Library\ModelTable
 	    $state = $this->getState();
 
         $query->columns(array(
-            'loggedin'   => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
-            'role_title' => 'roles.title'
+            'authentic' => 'IF(sessions.users_session_id IS NOT NULL, 1, 0)',
+            'role_name' => 'roles.name'
         ));
 
-	    if($state->loggedin)
+	    if($state->authentic)
         {
-	        $query->columns(array(
-	        	'loggedin_path'        => 'session.path',
-                'loggedin_domain'      => 'session.domain',
-	        	'loggedin_on'          => 'session.time',
-	        	'loggedin_session_id'  => 'session.users_session_id'
-	        ));
+            $query->columns(array(
+                'session_path'   => 'sessions.path',
+                'session_domain' => 'sessions.domain',
+                'session_time'   => 'sessions.time',
+                'session_id'     => 'sessions.users_session_id'
+            ));
 	    }
 	}
 
@@ -72,13 +83,14 @@ class ModelUsers extends Library\ModelTable
 	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
 	    $state = $this->getState();
-	    
-        $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->loggedin ? 'RIGHT' : 'LEFT');
 
-        $query->join(array('roles' => 'users_roles'), 'roles.users_role_id = tbl.users_role_id', 'INNER');
+        $query->join(array('sessions' => 'users_sessions'), 'tbl.email = sessions.email', $state->authentic ? 'INNER' : 'LEFT');
 
-        if ($state->group)
-        {
+        if ($state->role) {
+            $query->join(array('roles' => 'users_roles'), 'roles.users_role_id = tbl.users_role_id', 'INNER');
+        }
+
+        if ($state->group) {
             $query->join(array('groups' => 'users_groups_users'), 'groups.users_user_id = tbl.users_user_id', 'INNER');
         }
 	}
@@ -94,38 +106,37 @@ class ModelUsers extends Library\ModelTable
 		parent::_buildQueryWhere($query);
 
         $state = $this->getState();
+
+        if ($state->distinct) {
+            $query->distinct();
+        }
 		
-		if ($state->group)
-        {
-		    $query->where('groups.users_group_id IN :group_id')
-                  ->bind(array('group_id' => (array) $state->group));
+		if ($state->group) {
+		    $query->where('groups.users_group_id IN :group_id')->bind(array('group_id' => (array) $state->group));
 		}
 		
-		if ($state->role)
-		{
-		    $query->where('roles.users_role_id IN :role_id')
-		          ->bind(array('role_id' => (array) $state->role));
+		if ($state->role) {
+		    $query->where('roles.users_role_id IN :role_id')->bind(array('role_id' => (array) $state->role));
 		}
         
-        if (is_bool($state->enabled))
-        {
-            $query->where('tbl.enabled = :enabled')
-                   ->bind(array('enabled' => $state->enabled));
+        if (is_bool($state->enabled)) {
+            $query->where('tbl.enabled = :enabled')->bind(array('enabled' => $state->enabled));
         }
-        
-        if ($state->loggedin === false) {
-            $query->where('loggedin IS NULL');
+
+        if ($state->authentic === false) {
+            $query->where('sessions.users_session_id IS NULL');
         }
-        
+
         if (is_bool($state->visited))
         {
             $query->where('last_visited_on '.($state->visited ? '!=' : '=').' :last_visited_on')
                   ->bind(array('last_visited_on', '0000-00-00 00:00:00'));
         }
 
-	    if ($state->search)
+        if (is_bool($state->visited))
         {
-	        $query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+            $query->where('last_visited_on ' . ($state->visited ? '!=' : '=') . ' :last_visited_on')
+                  ->bind(array('last_visited_on', '0000-00-00 00:00:00'));
         }
     }
 }
