@@ -74,7 +74,7 @@
 					<i class="<?= $user->authentic ? 'icon-ok' : 'icon-remove' ?>"></i>
 				</td>
 				<td>
-					<?= escape($user->role_title) ?>
+					<?= escape($user->role_name) ?>
 				</td>
 				<td class="array-separator">
                     <?= helper('grid.groups', array('groups' => $user->getGroups())) ?>
