@@ -29,7 +29,7 @@ class DatabaseTableUsers extends Library\DatabaseTableAbstract
                 'lockable',
                 'identifiable',
                 'authenticatable',
-                'groupable',
+                'relatable',
                 'parameterizable'
             ),
             'filters'    => array(
