@@ -53,7 +53,7 @@ abstract class UserAbstract extends Object implements UserInterface
                 'id'         => 0,
                 'email'      => '',
                 'name'       => '',
-                'role'       => 0,
+                'roles'      => array(),
                 'groups'     => array(),
                 'password'   => '',
                 'salt'       => '',
@@ -125,9 +125,35 @@ abstract class UserAbstract extends Object implements UserInterface
      *
      * @return array An array of role id's
      */
-    public function getRole()
+    public function getRoles()
     {
-        return $this->getData()->role;
+        return $this->getData()->roles;
+    }
+
+    /**
+     * Checks if the user has a role.
+     *
+     * @param  string|array A role name or an array containing role names.
+     * @return bool True if the user has at least one of the provided roles, false otherwise.
+     */
+    public function hasRole($roles)
+    {
+        $roles = (array) $roles;
+
+        return (bool) array_intersect($this->getRoles(), $roles);
+    }
+
+    /**
+     * Checks if the user has a set of roles.
+     *
+     * @param  array An array containing role names.
+     * @return bool True if the user has all of the provided roles, false otherwise.
+     */
+    public function hasRoles($roles)
+    {
+        $roles = (array) $roles;
+
+        return count(array_intersect($this->getRoles(), $roles)) === count($roles);
     }
 
     /**

@@ -26,12 +26,15 @@
                 <th>
                     <?= helper('grid.sort', array('column' => 'Name')) ?>
                 </th>
+                <th>
+                    <?= translate('Description') ?>
+                </th>
             </tr>
         </thead>
 
         <tfoot>
             <tr>
-                <td colspan="2">
+                <td colspan="3">
                     <?= helper('com:application.paginator.pagination') ?>
                 </td>
             </tr>
@@ -47,6 +50,9 @@
                         <a href="<?= route('view=group&id='.$group->id) ?>">
                             <?= escape($group->name) ?>
                         </a>
+                    </td>
+                    <td>
+                        <?= escape($group->description) ?>
                     </td>
                 </tr>
             <? endforeach ?>

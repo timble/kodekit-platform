@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function groups( $config = array())
+    public function groups($config = array())
     {
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(

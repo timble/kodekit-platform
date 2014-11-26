@@ -52,11 +52,8 @@ class ModelEntityUser extends Library\ModelEntityRow
 
     public function getGroups()
     {
-        if(is_null($this->_groups))
-        {
-            $this->_groups =  $this->getObject('com:users.database.table.groups_users')
-                ->select(array('users_user_id' => $this->role_id), Library\Database::FETCH_FIELD_LIST);
-
+        if(is_null($this->_groups) && !$this->isNew()) {
+            $this->_groups = $this->getObject('com:users.model.groups')->user($this->id)->fetch();
         }
 
         return $this->_groups;
@@ -86,7 +83,7 @@ class ModelEntityUser extends Library\ModelEntityRow
 
             // Check if E-mail address is not already being used
             $query = $this->getObject('lib:database.query.select')
-                ->where('email = :email')
+                ->where('tbl.email = :email')
                 ->bind(array('email' => $this->email));
 
             if ($this->getObject('com:users.database.table.users')->count($query))
@@ -119,8 +116,8 @@ class ModelEntityUser extends Library\ModelEntityRow
             // There must be at least one enabled super administrator
             if (($this->isModified('role_id') || ($this->isModified('enabled') && !$this->enabled)) && $current->role_id == 25)
             {
-                $query = $this->getObject('lib:database.query.select')->where('enabled = :enabled')
-                    ->where('users_role_id = :role_id')->bind(array('enabled' => 1, 'role_id' => 25));
+                $query = $this->getObject('lib:database.query.select')->where('tbl.enabled = :enabled')
+                    ->where('tbl.users_role_id = :role_id')->bind(array('enabled' => 1, 'role_id' => 25));
 
                 if ($this->getObject('com:users.database.table.users')->count($query) <= 1)
                 {

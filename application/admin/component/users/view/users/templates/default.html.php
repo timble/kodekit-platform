@@ -77,9 +77,7 @@
 					<?= escape($user->role_name) ?>
 				</td>
 				<td class="array-separator">
-					<? foreach($groups_users->find(array('users_user_id' => $user->id)) as $group) : ?>
-						<span><?= $group->group_name ?></span>
-					<? endforeach; ?>
+                    <?= helper('grid.groups', array('groups' => $user->getGroups())) ?>
 				</td>
 				<td>
 					<?= escape($user->email) ?>

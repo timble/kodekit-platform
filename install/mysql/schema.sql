@@ -441,7 +441,7 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `send_email` tinyint(1) DEFAULT '0',
-  `users_role_id` int(11) unsigned NOT NULL DEFAULT '18',
+  `users_role_id` int(11) unsigned NOT NULL DEFAULT '1',
   `last_visited_on` datetime DEFAULT NULL,
   `created_by` int(10) unsigned DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
@@ -468,9 +468,10 @@ CREATE TABLE `users` (
 CREATE TABLE `users_roles` (
   `users_role_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   PRIMARY KEY (`users_role_id`),
-  KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -499,7 +500,7 @@ CREATE TABLE `users_groups_users` (
   `users_group_id` int(11) unsigned NOT NULL,
   `users_user_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`users_group_id`,`users_user_id`),
-  CONSTRAINT `users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `users_roles` (`users_role_id`) ON DELETE CASCADE,
+  CONSTRAINT `users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `users` (`users_user_id`) ON DELETE CASCADE,
   CONSTRAINT `users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `users_groups` (`users_group_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

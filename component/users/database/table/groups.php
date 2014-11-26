@@ -12,18 +12,27 @@ namespace Nooku\Component\Users;
 use Nooku\Library;
 
 /**
- * Groups Users Database Table
+ * Groups Database Table
  *
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseTableGroups_users extends Library\DatabaseTableAbstract
+class DatabaseTableGroups extends Library\DatabaseTableAbstract
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'column_map' => array('group_id' => 'users_group_id', 'user_id' => 'users_user_id'))
-        );
+            'behaviors' => array(
+                'identifiable',
+                'relatable' => array(
+                    'values'  => 'users',
+                    'columns' => array(
+                        'collection' => 'users_user_id',
+                        'item'       => 'users_group_id'
+                    )
+                )
+            )
+        ));
 
         parent::_initialize($config);
     }
