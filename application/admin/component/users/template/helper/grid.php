@@ -27,8 +27,8 @@ class UsersTemplateHelperGrid extends Library\TemplateHelperGrid
 
         foreach ($config->groups as $group)
         {
-            $href     = $this->getTemplate()->getView()->getRoute('view=group&id=' . (int) $group->id);
-            $output[] = '<li><a href="' . $href . '">' . $this->escape($group->name) . '</a></li>';
+            $href     = $this->getTemplate()->route('view=group&id=' . (int) $group->id);
+            $output[] = '<li><a href="' . $href . '">' . $this->getTemplate()->escape($group->name) . '</a></li>';
         }
 
         return '<ul>' . implode('', $output) . '</ul>';
