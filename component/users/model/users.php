@@ -86,9 +86,7 @@ class ModelUsers extends Library\ModelDatabase
 
         $query->join(array('sessions' => 'users_sessions'), 'tbl.email = sessions.email', $state->authentic ? 'INNER' : 'LEFT');
 
-        if ($state->role) {
-            $query->join(array('roles' => 'users_roles'), 'roles.users_role_id = tbl.users_role_id', 'INNER');
-        }
+        $query->join(array('roles' => 'users_roles'), 'roles.users_role_id = tbl.users_role_id', $state->role ? 'INNER' : 'LEFT');
 
         if ($state->group) {
             $query->join(array('groups' => 'users_groups_users'), 'groups.users_user_id = tbl.users_user_id', 'INNER');
