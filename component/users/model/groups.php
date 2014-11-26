@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class ModelGroups extends Library\ModelTable
+class ModelGroups extends Library\ModelDatabase
 {
     public function __construct(Library\ObjectConfig $config)
     {
