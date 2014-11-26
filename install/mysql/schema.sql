@@ -441,7 +441,7 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `send_email` tinyint(1) DEFAULT '0',
-  `users_role_id` int(11) unsigned NOT NULL DEFAULT '18',
+  `users_role_id` int(11) unsigned NOT NULL DEFAULT '1',
   `last_visited_on` datetime DEFAULT NULL,
   `created_by` int(10) unsigned DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
