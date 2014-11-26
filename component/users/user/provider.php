@@ -77,6 +77,12 @@ class UserProvider extends Library\UserProvider
             $user = $this->getObject('com:users.model.users')->id($identifier)->fetch();
         }
 
+        $groups = array();
+
+        foreach ($user->getGroups() as $group) {
+            $groups[] = $group->id;
+        }
+
         //Load the user
         if($user->id)
         {
@@ -85,7 +91,7 @@ class UserProvider extends Library\UserProvider
                 'email'      => $user->email,
                 'name'       => $user->name,
                 'roles'      => array($user->getRole()->name),
-                'groups'     => $user->getGroups()->id,
+                'groups'     => $groups,
                 'password'   => $user->getPassword()->password,
                 'salt'       => $user->getPassword()->salt,
                 'enabled'    => $user->enabled,
