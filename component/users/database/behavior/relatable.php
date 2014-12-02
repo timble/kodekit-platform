@@ -35,7 +35,7 @@ class DatabaseBehaviorRelatable extends Library\DatabaseBehaviorAbstract
     protected function _afterUpdate(Library\DatabaseContextInterface $context)
     {
         // Same as insert.
-        return $this->_afterInsert($context);
+        $this->_afterInsert($context);
     }
 
     protected function _afterInsert(Library\DatabaseContextInterface $context)
@@ -90,14 +90,15 @@ class DatabaseBehaviorRelatable extends Library\DatabaseBehaviorAbstract
                       ->bind(array('item' => $this->_getItemValue($context)));
 
         $current = $adapter->select($query, Library\Database::FETCH_FIELD_LIST);
-
-        $remove = array_diff($current, $groups);
+        $remove  = array_diff($current, $groups);
 
         if (count($remove))
         {
-            $query = $this->getObject('lib:database.query.delete')->table($config->table)
-                          ->where("{$config->columns->collection} IN :groups")->where("{$config->columns->item} = :item")
-                          ->bind(array('groups' => $remove, 'item' => $this->_getItemValue($context)));
+            $query = $this->getObject('lib:database.query.delete')
+                           ->table($config->table)
+                           ->where("{$config->columns->collection} IN :groups")
+                           ->where("{$config->columns->item} = :item")
+                           ->bind(array('groups' => $remove, 'item' => $this->_getItemValue($context)));
 
             $adapter->execute((string) $query);
         }
