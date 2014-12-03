@@ -22,7 +22,7 @@ class ModelUsers extends Library\ModelDatabase
     /**
      * Constructor.
      *
-     * @param   ObjectConfig  $config An optional Library\ObjectConfig object with configuration options.
+     * @param Library\ObjectConfig  $config An optional Library\ObjectConfig object with configuration options.
      */
 	public function __construct(Library\ObjectConfig $config)
     {
@@ -60,7 +60,7 @@ class ModelUsers extends Library\ModelDatabase
 
         $query->columns(array(
             'authentic' => 'IF(sessions.users_session_id IS NOT NULL, 1, 0)',
-            'role_name' => 'roles.name'
+            'role'      => 'roles.name'
         ));
 
 	    if($state->authentic)
@@ -85,7 +85,6 @@ class ModelUsers extends Library\ModelDatabase
 	    $state = $this->getState();
 
         $query->join(array('sessions' => 'users_sessions'), 'tbl.email = sessions.email', $state->authentic ? 'INNER' : 'LEFT');
-
         $query->join(array('roles' => 'users_roles'), 'roles.users_role_id = tbl.users_role_id', $state->role ? 'INNER' : 'LEFT');
 
         if ($state->group) {
@@ -108,15 +107,15 @@ class ModelUsers extends Library\ModelDatabase
         if ($state->distinct) {
             $query->distinct();
         }
-		
+
 		if ($state->group) {
 		    $query->where('groups.users_group_id IN :group_id')->bind(array('group_id' => (array) $state->group));
 		}
-		
+
 		if ($state->role) {
 		    $query->where('roles.users_role_id IN :role_id')->bind(array('role_id' => (array) $state->role));
 		}
-        
+
         if (is_bool($state->enabled)) {
             $query->where('tbl.enabled = :enabled')->bind(array('enabled' => $state->enabled));
         }

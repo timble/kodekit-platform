@@ -31,7 +31,7 @@
             </a>
         </td>
         <td>
-            <?= $user->role_name;?>
+            <?= $user->role;?>
         </td>
         <td>
             <?= helper('date.humanize', array('date' => '@'.$user->session_time));?>
