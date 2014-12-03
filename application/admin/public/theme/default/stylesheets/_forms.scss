@@ -460,6 +460,9 @@ textarea,
 
 // Override Inputs, Textareas, Selects
 input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
 select {
     @include box-sizing(border-box);
     height: $baseLineHeight * 2;
