@@ -25,7 +25,8 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
     {
         parent::__construct($config);
 
-        if(!isset($this->_varnish)) {
+        if(!isset($this->_varnish))
+        {
             $this->_varnish = $this->getObject('com:varnish.model.sockets');
             $this->_varnish->connect();
         }
@@ -42,13 +43,15 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
     {
         $identifier = $this->getMixer()->getIdentifier();
 
-        $modified = $this->getModel()->getTable()->filter($context->request->data->toArray());
+        $modified  = $this->getModel()->getTable()->filter($context->request->data->toArray());
 
         //TODO: Make this configurable
         $columns = array('enabled', 'published', 'ordering');
 
-        foreach($columns as $column) {
-            if (array_key_exists($column, $modified)) {
+        foreach($columns as $column)
+        {
+            if (array_key_exists($column, $modified))
+            {
                 $this->_varnish->ban('obj.http.x-entities == '. $identifier);
                 break;
             }
@@ -57,9 +60,9 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 
     protected function _afterEdit(Library\ControllerContextInterface $context)
     {
-        $entity		= $context->result;
+        $entity     = $context->result;
 
-        $modified = $this->getModel()->getTable()->filter($context->request->data->toArray());
+        $modified   = $this->getModel()->getTable()->filter($context->request->data->toArray());
         $identifier = $this->getMixer()->getIdentifier();
 
         if($modified) {

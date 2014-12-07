@@ -32,8 +32,8 @@ class EventSubscriberNotfound extends Library\EventSubscriberAbstract
     {
         if($event->getException() instanceof Library\HttpExceptionNotFound)
         {
-            $dispatcher	= $this->getObject('dispatcher');
-            $request	= $dispatcher->getRequest();
+            $dispatcher = $this->getObject('dispatcher');
+            $request    = $dispatcher->getRequest();
 
             if($request->getFormat() == 'html')
             {

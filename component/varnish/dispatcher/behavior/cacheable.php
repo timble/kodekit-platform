@@ -26,11 +26,11 @@ class DispatcherBehaviorCacheable extends Library\ControllerBehaviorAbstract
 
     public function setCacheHeaders($context)
     {
-        $response	= $context->response;
+        $response   = $context->response;
         $controller = $context->getSubject()->getController();
 
-        $model		= $controller->getModel();
-        $entities	= $model->fetch();
+        $model      = $controller->getModel();
+        $entities   = $model->fetch();
 
         $headers = $response->getHeaders();
 
