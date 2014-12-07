@@ -22,7 +22,7 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      *
      * @var string
      */
-    protected $_token;
+    private $__token;
 
     /**
      * Return the CSRF request token
@@ -31,7 +31,7 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
      */
     public function getToken()
     {
-        if(!isset($this->token))
+        if(!isset($this->__token))
         {
             $token   = false;
             $request = $this->getObject('request');
@@ -48,10 +48,10 @@ class DispatcherAuthenticatorCsrf extends DispatcherAuthenticatorAbstract
                 $token = $request->data->get('csrf_token', 'sha1');
             }
 
-            $this->_token = $token;
+            $this->__token = $token;
         }
 
-        return $this->_token;
+        return $this->__token;
     }
 
     /**
