@@ -49,22 +49,19 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {
-        $identifier = $this->getMixer()->getIdentifier();
-
-        $this->_varnish->ban('obj.http.x-entities == '. $identifier);
+        $this->_varnish->ban('obj.http.x-entities == '. $this->getMixer()->getIdentifier());
     }
 
     protected function _beforeEdit(Library\ControllerContextInterface $context)
     {
-        $identifier = $this->getMixer()->getIdentifier();
-
+        $entity    = $context->result;
         $modified  = $this->getModel()->getTable()->filter($context->request->data->toArray());
 
         foreach($this->_entity_properties as $property)
         {
             if (array_key_exists($property, $modified))
             {
-                $this->_varnish->ban('obj.http.x-entities == '. $identifier);
+                $this->_varnish->ban('obj.http.x-entities == '. $this->getMixer()->getIdentifier());
                 break;
             }
         }
@@ -73,12 +70,10 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
     protected function _afterEdit(Library\ControllerContextInterface $context)
     {
         $entity     = $context->result;
-
         $modified   = $this->getModel()->getTable()->filter($context->request->data->toArray());
-        $identifier = $this->getMixer()->getIdentifier();
 
         if($modified) {
-            $this->_varnish->ban('obj.http.x-entities ~ '. $identifier.'#'.$entity->id);
+            $this->_varnish->ban('obj.http.x-entities ~ '. $this->getMixer()->getIdentifier().'#'.$entity->id);
         }
     }
 }
