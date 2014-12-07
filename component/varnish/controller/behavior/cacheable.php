@@ -78,7 +78,7 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
         $identifier = $this->getMixer()->getIdentifier();
 
         if($modified) {
-            $this->_varnish->ban('obj.http.x-entities ~ '. $identifier.':'.$entity->id);
+            $this->_varnish->ban('obj.http.x-entities ~ '. $identifier.'#'.$entity->id);
         }
     }
 }
