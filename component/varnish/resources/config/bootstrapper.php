@@ -11,7 +11,7 @@ return array(
 
     'identifiers' => array(
 
-        'com:varnish:model.sockets' => array(
+        'com:varnish.model.sockets' => array(
             'secret' => 'c19f50ae-a113-46dd-9baa-c728060b0d3a',
         ),
     )
