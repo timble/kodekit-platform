@@ -67,9 +67,28 @@ class ModelSockets extends Library\ModelAbstract
     {
         parent::__construct($config);
 
-        $this->host		= 'localhost';
-        $this->port		= 6082;
-        $this->secret	= 'c19f50ae-a113-46dd-9baa-c728060b0d3a';
+        $this->host		= $config->host;
+        $this->port		= $config->port;
+        $this->secret	= $config->secret;
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'host'     => 'localhost',
+            'port'     => 6082,
+            'secret'   => '',
+        ));
+
+        parent::_initialize($config);
     }
 
     /**
@@ -80,8 +99,9 @@ class ModelSockets extends Library\ModelAbstract
         /**
          * There is no point attempting to connect if we are already connected.
          */
-        if( $this->connection !== null )
+        if( $this->connection !== null ) {
             return;
+        }
 
         /**
          * Attempt to connect to the server.
@@ -98,8 +118,10 @@ class ModelSockets extends Library\ModelAbstract
         stream_set_timeout($this->connection, self::SOCKET_TIMEOUT);
 
         $response = $this->read($statusCode);
-        if( $statusCode === self::CLIS_AUTH )
+        if( $statusCode === self::CLIS_AUTH ) {
             $response = $this->authenticate(substr($response, 0, 32), $statusCode);
+        }
+
         if( $statusCode !== self::CLIS_OK ) {
             $this->disconnect();
             throw new \RuntimeException(sprintf('VarnishAdm returned an invalid status code upon connecting: %d.', $statusCode));
@@ -111,8 +133,9 @@ class ModelSockets extends Library\ModelAbstract
      */
     public function disconnect()
     {
-        if( $this->connection === null )
+        if( $this->connection === null ) {
             return;
+        }
 
         $this->command('quit', null, $statusCode);
         fclose($this->connection);
@@ -132,10 +155,11 @@ class ModelSockets extends Library\ModelAbstract
         /**
          * Issue the command.
          */
-        if( $parameterString === null || $parameterString === '' )
+        if( $parameterString === null || $parameterString === '' ) {
             $this->write($command . "\n");
-        else
+        } else {
             $this->write(sprintf("%s %s\n", $command, $parameterString));
+        }
 
         /**
          * Read and return the response.
@@ -165,38 +189,49 @@ class ModelSockets extends Library\ModelAbstract
      */
     private function read(&$statusCode)
     {
-        $statusCode = null;
+        $statusCode     = null;
         $responseLength = null;
 
         /**
          * Attempt to find the header line, which contains the status code and
          * the length of the response.
          */
-        while( !feof($this->connection) ) {
-            if( ($response = fgets($this->connection, 1024)) === false ) {
+        while( !feof($this->connection) )
+        {
+            if( ($response = fgets($this->connection, 1024)) === false )
+            {
                 $metaData = stream_get_meta_data($this->connection);
-                if( $metaData['timed_out'] )
+                if( $metaData['timed_out'] ) {
                     throw new \RuntimeException('Timed out reading from VarnishAdm socket.');
+                }
+
                 throw new \RuntimeException('Failed to read from VarnishAdm socket.');
             }
 
-            if( strlen($response) === 13 && preg_match('/^(\d{3}) (\d+)/', $response, $matches) ) {
+            if( strlen($response) === 13 && preg_match('/^(\d{3}) (\d+)/', $response, $matches) )
+            {
                 $statusCode = (int)$matches[1];
                 $responseLength = (int)$matches[2];
                 break;
             }
         }
-        if( $statusCode === null )
+
+        if( $statusCode === null ) {
             throw new \RuntimeException('VarnishAdm failed to return a valid status code.');
+        }
 
         /**
          * Retrieve the response.
          */
         $response = '';
-        while( !feof($this->connection) && strlen($response) < $responseLength )
+        while( !feof($this->connection) && strlen($response) < $responseLength ) {
             $response .= fread($this->connection, $responseLength);
-        if( strlen($response) !== $responseLength )
+        }
+
+        if( strlen($response) !== $responseLength ) {
             throw new \RuntimeException('VarnishAdm failed to return a valid response.');
+        }
+
 
         /**
          * Return the response.
@@ -211,8 +246,9 @@ class ModelSockets extends Library\ModelAbstract
      */
     private function write($data)
     {
-        if( ($bytesWritten = fwrite($this->connection, $data)) !== strlen($data) )
+        if( ($bytesWritten = fwrite($this->connection, $data)) !== strlen($data) ) {
             throw new \RuntimeException(sprintf('Failed to write data to VarnishAdm socket. Expected %d bytes, wrote %d bytes.', strlen($data), $bytesWritten));
+        }
     }
 
     /**
@@ -226,8 +262,11 @@ class ModelSockets extends Library\ModelAbstract
     {
         $response = hash('sha256', sprintf("%s\n%s\n%s\n", $challenge, $this->secret, $challenge));
         $response = $this->command('auth', $response, $statusCode);
-        if( $statusCode !== self::CLIS_OK )
+
+        if( $statusCode !== self::CLIS_OK ) {
             throw new \RuntimeException('Failed to authenticate with VarnishAdm.');
+        }
+
         return $response;
     }
 }
