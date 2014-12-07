@@ -1,10 +1,10 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
 use Nooku\Library;
@@ -12,60 +12,29 @@ use Nooku\Library;
 /**
  * User Controller Permission
  *
- * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
 class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract
 {
     public function canAdd()
     {
-        $user    = $this->getUser();
-        $context = $this->getMixer()->getContext();
-        $role_id = $context->request->data->get('role_id', 'int');
-
-        // New user role must be less or equal than logged user role
-        if($role_id && ($user->getRole() < $role_id)) {
-            return false;
-        }
-
-        return parent::canAdd();
-    }
-
-    public function canEdit()
-    {
-        $user   = $this->getUser();
-        $entity = $this->getModel()->fetch();
-
-        // Don't allow a user to edit another user that has a higher role
-        if($user->getRole() < $entity->role_id) {
-            return false;
-        }
-
-        return parent::canEdit();
+        // Only administrators can add users.
+        return $this->getUser()->hasRole('administrator');
     }
 
     public function canDelete()
     {
-        $model = $this->getModel();
+        $result = false;
 
-        if ($model->getState()->isUnique())
-        {
-            $user   = $this->getUser();
-            $entity = $model->fetch();
+        $user     = $this->getUser();
+        $entities = $this->getModel()->fetch();
 
-            // Users cannot delete themselves
-            if ($user->getId() == $entity->id)
-            {
-                return false;
-            }
-
-            // Don't allow a user to delete another user that has a higher role
-            if ($user->getRole() < $entity->role_id)
-            {
-                return false;
-            }
+        // Only administrators can delete users and they cannot delete themselves.
+        if ($user->hasRole('administrator') && $entities->find(array('id', $user->getId()))) {
+            $result = true;
         }
 
-        return parent::canDelete();
+        return $result;
     }
 }

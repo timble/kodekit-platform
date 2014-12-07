@@ -24,7 +24,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canRender()
     {
-        if(parent::canRender() && $this->getUser()->getRole() > 22) {
+        $roles = array('manager', 'administrator');
+
+        if(parent::canRender() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -38,7 +40,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canRead()
     {
-        if(parent::canRead() && $this->getUser()->getRole() > 22) {
+        $roles = array('manager', 'administrator');
+
+        if(parent::canRead() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -52,7 +56,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canBrowse()
     {
-        if(parent::canBrowse() && $this->getUser()->getRole() > 22) {
+        $roles = array('manager', 'administrator');
+
+        if(parent::canBrowse() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -66,7 +72,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canAdd()
     {
-        if(parent::canAdd() && $this->getUser()->getRole() > 22) {
+        $roles = array('manager', 'administrator');
+
+        if(parent::canAdd() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -80,7 +88,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canEdit()
     {
-        if(parent::canEdit() && $this->getUser()->getRole() > 22) {
+        $roles = array('manager', 'administrator');
+
+        if(parent::canEdit() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -94,7 +104,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canDelete()
     {
-        if(parent::canDelete() && $this->getUser()->getRole() > 22) {
+        $roles = array('manager', 'administrator');
+
+        if(parent::canDelete() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 

@@ -35,7 +35,7 @@
 					<?= helper('grid.sort',  array('title' => 'Logged In', 'column' => 'authentic')) ?>
 				</th>
 				<th width="1">
-					<?= helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
+					<?= helper('grid.sort',  array('title' => 'Role', 'column' => 'role')) ?>
 				</th>
 				<th width="1">
 					<?= translate('Group') ?>
@@ -74,12 +74,10 @@
 					<i class="<?= $user->authentic ? 'icon-ok' : 'icon-remove' ?>"></i>
 				</td>
 				<td>
-					<?= escape($user->role_name) ?>
+					<?= escape($user->role) ?>
 				</td>
 				<td class="array-separator">
-					<? foreach($groups_users->find(array('users_user_id' => $user->id)) as $group) : ?>
-						<span><?= $group->group_name ?></span>
-					<? endforeach; ?>
+                    <?= helper('grid.groups', array('groups' => $user->getGroups())) ?>
 				</td>
 				<td>
 					<?= escape($user->email) ?>

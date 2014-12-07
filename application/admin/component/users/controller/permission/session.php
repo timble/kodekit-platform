@@ -49,7 +49,7 @@ class UsersControllerPermissionSession extends ApplicationControllerPermissionAb
         }
 
         // Only administrator can logout other users
-        if($this->getUser()->getRole() > 24) {
+        if($this->getUser()->hasRole('administrator')) {
             return true;
         }
 

@@ -51,7 +51,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canAdd()
     {
-        if(parent::canAdd() && $this->getUser()->getRole() > 18) {
+        $roles = array('author', 'editor', 'publisher', 'manager', 'administrator');
+
+        if (parent::canAdd() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -65,7 +67,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canEdit()
     {
-        if(parent::canEdit() && $this->getUser()->getRole() > 19) {
+        $roles = array('editor', 'publisher', 'manager', 'administrator');
+
+        if (parent::canEdit() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
@@ -79,7 +83,9 @@ abstract class ApplicationControllerPermissionAbstract extends Library\Controlle
      */
     public function canDelete()
     {
-        if(parent::canDelete() && $this->getUser()->getRole() > 20) {
+        $roles = array('publisher', 'manager', 'administrator');
+
+        if (parent::canDelete() && $this->getUser()->hasRole($roles)) {
             return true;
         }
 
