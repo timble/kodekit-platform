@@ -21,15 +21,30 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 {
     protected $_varnish;
 
+    protected $_entity_properties;
+
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
+        //Set the columns
+        $this->_entity_properties = $config->entity_properties;
+
+        //Connect to Varnish
         if(!isset($this->_varnish))
         {
             $this->_varnish = $this->getObject('com:varnish.model.sockets');
             $this->_varnish->connect();
         }
+    }
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'entity_properties'  => array('enabled', 'published', 'ordering')
+        ));
+
+        parent::_initialize($config);
     }
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
@@ -45,12 +60,9 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 
         $modified  = $this->getModel()->getTable()->filter($context->request->data->toArray());
 
-        //TODO: Make this configurable
-        $columns = array('enabled', 'published', 'ordering');
-
-        foreach($columns as $column)
+        foreach($this->_entity_properties as $property)
         {
-            if (array_key_exists($column, $modified))
+            if (array_key_exists($property, $modified))
             {
                 $this->_varnish->ban('obj.http.x-entities == '. $identifier);
                 break;
