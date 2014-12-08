@@ -29,7 +29,7 @@ class ViewHtml extends ViewTemplate
     {
         $config->append(array(
             'mimetype'         => 'text/html',
-            'template_filters' => array('form'),
+            'template_filters' => array('form', 'include'),
         ));
 
         parent::_initialize($config);

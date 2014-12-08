@@ -37,6 +37,6 @@
 	</div>
 	</fieldset>
 
-	<esi:include src="http://nooku.dev/2-cras?tmpl=raw" />
-<!--	<ktml:include src="com://articles.controller.article?id=2" />-->
+    <!--	<esi:include src="http://nooku.dev/2-cras?tmpl=raw" />-->
+    <ktml:include src="com:articles.controller.article?id=2" />
 </form>
