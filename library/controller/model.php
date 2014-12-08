@@ -357,6 +357,25 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
      */
     public function __call($method, $args)
     {
+        //Handle action alias method
+        if(in_array($method, $this->getActions()))
+        {
+            //Get the data
+            $data = !empty($args) ? $args[0] : array();
+
+            //Set the data in the request
+            if(!($data instanceof CommandInterface))
+            {
+                //Make sure the data is cleared on HMVC calls
+                $this->getRequest()->getData()->clear();
+
+                //Automatic set the data in the request if an associative array is passed
+                if(is_array($data) && !is_numeric(key($data))) {
+                    $this->getRequest()->getData()->add($data);
+                }
+            }
+        }
+
         //Check first if we are calling a mixed in method to prevent the model being
         //loaded during object instantiation.
         if(!isset($this->_mixed_methods[$method]))
@@ -364,7 +383,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
             //Check for model state properties
             if(isset($this->getModel()->getState()->$method))
             {
-                $this->getRequest()->query->set($method, $args[0]);
+                $this->getRequest()->getQuery()->set($method, $args[0]);
                 $this->getModel()->getState()->set($method, $args[0]);
 
                 return $this;
