@@ -16,14 +16,12 @@
             "homepage": "http://www.timble.net"
         }
     ],
-
     "require": {
         "swiftmailer/swiftmailer": "5.0.*",
-        "imagine/imagine": "0.4.*"
+        "imagine/imagine": "0.4.*",
+        "symfony/yaml": "~2.6"
     },
-
     "suggest": {
-        "symfony/yaml" : "Allows parsing and writing Yaml files",
         "twig/twig": "Allows building templates using the Twig template engine",
         "mustache/mustache": "Allows building logic less template using Mustache syntax",
         "erusev/parsedown-extra" : "Allows using Markddown in templates"
