@@ -19,61 +19,65 @@ use Nooku\Library;
  */
 class ControllerBehaviorCacheable extends Library\BehaviorAbstract
 {
-    protected $_varnish;
+    private $__varnish;
 
-    protected $_entity_properties;
-
-    public function __construct(Library\ObjectConfig $config)
+    public function getVarnish()
     {
-        parent::__construct($config);
-
-        //Set the columns
-        $this->_entity_properties = $config->entity_properties;
-
-        //Connect to Varnish
-        if(!isset($this->_varnish))
+        if(!isset($this->__varnish))
         {
-            $this->_varnish = $this->getObject('com:varnish.model.sockets');
-            $this->_varnish->connect();
+            $this->__varnish = $this->getObject('com:varnish.model.sockets');
+            $this->__varnish->connect();
         }
-    }
 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'entity_properties'  => array('enabled', 'published', 'ordering')
-        ));
-
-        parent::_initialize($config);
+        return $this->__varnish;
     }
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {
-        $this->_varnish->ban('obj.http.x-entities == '. $this->getMixer()->getIdentifier());
-    }
-
-    protected function _beforeEdit(Library\ControllerContextInterface $context)
-    {
-        $entity    = $context->result;
-        $modified  = $this->getModel()->getTable()->filter($context->request->data->toArray());
-
-        foreach($this->_entity_properties as $property)
+        if($context->response->getStatusCode() == Library\HttpResponse::CREATED)
         {
-            if (array_key_exists($property, $modified))
-            {
-                $this->_varnish->ban('obj.http.x-entities == '. $this->getMixer()->getIdentifier());
-                break;
-            }
+            $entity     = $context->result;
+            $controller = $context->getSubject();
+
+            $this->getVarnish()->ban('obj.http.x-entities == '. $controller->getIdentifier());
         }
     }
 
     protected function _afterEdit(Library\ControllerContextInterface $context)
     {
-        $entity     = $context->result;
-        $modified   = $this->getModel()->getTable()->filter($context->request->data->toArray());
+        if($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT)
+        {
+            $entities  = $context->result;
+            $controller = $context->getSubject();
 
-        if($modified) {
-            $this->_varnish->ban('obj.http.x-entities ~ '. $this->getMixer()->getIdentifier().'#'.$entity->id);
+            foreach($entities as $entity)
+            {
+                $key   = $entity->getIdentityKey();
+                $value = $entity->getProperty($key);
+
+                $this->getVarnish()->ban('obj.http.x-entities ~ '. $controller->getIdentifier().'#'.$value);
+            }
+
+            $this->getVarnish()->ban('obj.http.x-entities == '. $controller->getIdentifier());
+        }
+    }
+
+    protected function _afterDelete(Library\ControllerContextInterface $context)
+    {
+        if($context->response->getStatusCode() == Library\HttpResponse::NO_CONTENT)
+        {
+            $entities   = $context->result;
+            $controller = $context->getSubject();
+
+            foreach($entities as $entity)
+            {
+                $key   = $entity->getIdentityKey();
+                $value = $entity->getProperty($key);
+
+                $this->getVarnish()->ban('obj.http.x-entities ~ '. $controller->getIdentifier().'#'.$value);
+            }
+
+            $this->getVarnish()->ban('obj.http.x-entities == '. $controller->getIdentifier());
         }
     }
 }
