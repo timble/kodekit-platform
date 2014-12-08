@@ -33,7 +33,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
         $request = parent::getRequest();
 
         // Public users can only access published none registered articles
-        if (!$this->getUser()->isAuthentic())
+        if ($this->isDispatched() && !$this->getUser()->isAuthentic())
         {
             $request->query->access    = 0;
             $request->query->published = 1;
