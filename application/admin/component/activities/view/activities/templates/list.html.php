@@ -20,7 +20,7 @@
         <div class="activity">
             <div class="activity__text">
                 <i class="icon-<?= $activity->action ?>"></i>
-                <?= helper('activity.message', array('entity' => $activity)) ?>
+                <?= helper('activity.activity', array('entity' => $activity)) ?>
             </div>
             <div class="activity__info">
                 <?= $activity->package.' - '.$activity->name ?> | <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>

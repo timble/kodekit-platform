@@ -57,7 +57,7 @@
 				</td>
 
 				<td>
-					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.message', array('entity' => $activity))?>
+					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.activity', array('entity' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>

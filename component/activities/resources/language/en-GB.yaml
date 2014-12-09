@@ -1,0 +1,21 @@
+Missing required data: Missing required data
+
+# Activities messages
+"{actor} {action} {object.type} title {object}": "{actor} {action} the {object.type} with the title {object}"
+"{actor} {action} {object.type} name {object}": "{actor} {action} the {object.type} with the name {object}"
+"{actor} {action} {object.subtype} {object.type} title {object}": "{actor} {action} the {object.subtype} {object.type} with the title {object}"
+"{actor} {action} {object.subtype} {object.type} name {object}": "{actor} {action} the {object.subtype} {object.type} with the name {object}"
+"{actor} {action} {object.type} name {object} {target} {target.type}": "{actor} {action} the {object.type} with the name {object} in the {target} {target.type}"
+"{actor} {action}": "{actor} {action}"
+"{actor} {action} own {object.subtype} {object.Type}": "{actor} {action} their own {object.subtype} {object.type}"
+"{actor} {action} {application}": "{actor} {action} from {application}"
+"{actor} {action} {object} {object.type}": "{actor} {action} the {object} {object.type}"
+"{actor} {action} {object} {object.subtype} {object.type}": "{actor} {action} the {object} {object.subtype} {object.type}"
+
+# Activities messages overrides
+"{actor} created {object.type} title {object}": "{actor} {action} a new {object.type} with the title {object}"
+"{actor} created {object.type} name {object}": "{actor} {action} a new {object.type} with the name {object}"
+"{actor} created {object.subtype} {object.type} title {object}": "{actor} {action} a new {object.subtype} {object.type} with the title {object}"
+"{actor} created {object.subtype} {object.type} name {object}": "{actor} {action} a new {object.subtype} {object.type} with the name {object}"
+"{actor} created {object.type} name {object} {target} {target.type}": "{actor} {action} a new {object.type} with the name {object} in the {target} {target.type}"
+"{actor} created {object} {object.type}": "{actor} {action} a new {object} {object.type}"
