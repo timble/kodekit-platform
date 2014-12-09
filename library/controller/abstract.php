@@ -386,14 +386,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
                 //Store the parameters in the context
                 $context->param = $data;
 
-                //Clear the data for subsequent requests
-                $context->request->data->clear();
-
-                //Automatic set the data in the request if an associative array is passed
-                if(is_array($data) && !is_numeric(key($data))) {
-                    $context->request->data->add($data);
-                }
-
+                //Force the result to false before executing
                 $context->result = false;
             }
             else $context = $data;
