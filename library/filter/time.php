@@ -49,17 +49,18 @@ class FilterTime extends FilterTimestamp
      */
     public function sanitize($value)
     {
-        // look for His keys?
-        if (is_array($value)) {
-            $value = $this->_arrayToTime($value);
+        $result = '00:00:00';
+        if (!(empty($value) || $value == $result))
+        {
+            $format = 'H:i:s';
+            if (is_int($value)) {
+                $result = date($format, $value);
+            } else {
+                $result = date($format, strtotime($value));
+            }
         }
 
-        $format = 'H:i:s';
-        if (is_int($value)) {
-            return date($format, $value);
-        }
-
-        return date($format, strtotime($value));
+        return $result;
     }
 }
 
