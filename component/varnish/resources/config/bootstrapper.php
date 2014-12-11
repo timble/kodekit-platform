@@ -11,6 +11,10 @@ return array(
 
     'identifiers' => array(
 
+        'dispatcher.response'       => array(
+            'transports' => array('com:varnish.dispatcher.response.transport.esi')
+        ),
+
         'com:varnish.model.sockets' => array(
             'secret' => 'c19f50ae-a113-46dd-9baa-c728060b0d3a',
         ),
