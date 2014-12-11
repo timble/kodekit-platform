@@ -48,7 +48,7 @@ interface UserInterface extends ObjectEquatable
     /**
      * Checks if the user has a role.
      *
-     * @param  string|array A role name or an array containing role names.
+     * @param  mixed|array $roles A role name or an array containing role identifiers.
      * @return bool True if the user has at least one of the provided roles, false otherwise.
      */
     public function hasRole($roles);
@@ -56,7 +56,7 @@ interface UserInterface extends ObjectEquatable
     /**
      * Checks if the user has a set of roles.
      *
-     * @param  array An array containing role names.
+     * @param  array $roles An array containing role identifiers.
      * @return bool True if the user has all of the provided roles, false otherwise.
      */
     public function hasRoles($roles);
