@@ -643,7 +643,20 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         //Prevent config settings from being stored in the identifier
         $config = clone $identifier->getConfig();
 
-        //Merge the config data
+        //Append the config data from the singleton
+        if($identifier->getType() != 'lib' && $this->isSingleton($identifier))
+        {
+            $parts = $identifier->toArray();
+
+            unset($parts['type']);
+            unset($parts['domain']);
+            unset($parts['package']);
+
+            //Append the config from the singleton
+            $config->append($this->getIdentifier($parts)->getConfig());
+        }
+
+        //Append the config data for the object
         $config->append($data);
 
         //Set the service container and identifier
