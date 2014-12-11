@@ -37,8 +37,6 @@ class ModelActivities extends Library\ModelDatabase
               ->insert('action', 'cmd')
               ->insert('row', 'int')
               ->insert('user', 'cmd')
-              ->insert('distinct', 'boolean', false)
-              ->insert('column', 'cmd')
               ->insert('start_date', 'date')
               ->insert('end_date', 'date')
               ->insert('day_range', 'int')
@@ -48,24 +46,6 @@ class ModelActivities extends Library\ModelDatabase
 
         // Force ordering by created_on
         $state->sort = 'created_on';
-    }
-
-    /**
-     * Builds SELECT columns list for the query.
-     *
-     * @param Library\DatabaseQueryInterface $query
-     */
-    protected function _buildQueryColumns(Library\DatabaseQueryInterface $query)
-    {
-        $state = $this->getState();
-
-        if($state->distinct && !empty($state->column))
-        {
-            $query->distinct()
-                ->columns($state->column)
-                ->columns(array('activities_activity_id' => $state->column));
-        }
-        else parent::_buildQueryColumns($query);
     }
 
     /**
@@ -131,22 +111,6 @@ class ModelActivities extends Library\ModelDatabase
 
         if ($ip = $state->ip) {
             $query->where('tbl.ip IN (:ip)')->bind(array('ip' => $state->ip));
-        }
-    }
-
-    /**
-     * Builds GROUP BY clause for the query.
-     *
-     * @param Library\DatabaseQueryInterface $query
-     */
-    protected function _buildQueryOrder(Library\DatabaseQueryInterface $query)
-    {
-        $state = $this->getState();
-
-        if($state->distinct && !empty($state->column)) {
-            $query->order('package', 'asc');
-        } else {
-            parent::_buildQueryOrder($query);
         }
     }
 }
