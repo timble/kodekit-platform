@@ -195,7 +195,7 @@ class HttpUrl extends Object implements HttpUrlInterface
         $this->setEscape($config->escape);
 
         //Set the url
-        $this->setUrl($config->url);
+        $this->setUrl(ObjectConfig::unbox($config->url));
     }
 
     /**
