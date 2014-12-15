@@ -84,8 +84,9 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 
         if($status == $entity::STATUS_DELETED || $status == 'trashed')
         {
-            $id    = $context->result->get('id');
-            $table = $context->result->getTable()->getBase();
+
+            $id    = $entity->{$entity->getIdentityKey()};
+            $table = $entity->getTable()->getBase();
 
             if(!empty($id) && $id != 0)
             {
