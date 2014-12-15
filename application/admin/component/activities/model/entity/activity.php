@@ -17,6 +17,17 @@ use Nooku\Library, Nooku\Component\Activities;
  */
 class ActivitiesModelEntityActivity extends Activities\ModelEntityActivity implements \Nooku\Library\ObjectInstantiable
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $data = $config->data;
+
+        if ($data->package == Library\StringInflector::pluralize($data->name)) {
+            $config->append(array('object_table' => $data->package));
+        }
+
+        parent::_initialize($config);
+    }
+
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $class = $manager->getClass($config->object_identifier, false);
