@@ -8,6 +8,9 @@
  */
 ?>
 
+<ktml:script src="assets://js/koowa.js" />
+<ktml:style src="assets://css/koowa.css" />
+
 <ktml:module position="actionbar">
     <ktml:toolbar type="actionbar">
 </ktml:module>
@@ -57,7 +60,7 @@
 				</td>
 
 				<td>
-					<i class="icon-<?= $activity->action ?>"></i> <?= helper('activity.activity', array('entity' => $activity))?>
+					<i class="icon-<?= $activity->image ?>"></i> <?= helper('activity.activity', array('entity' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>
