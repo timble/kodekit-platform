@@ -27,4 +27,16 @@ class UsersActivitySession extends ActivitiesModelEntityActivity
     {
         return $this->_getObject(array('objectName' => $this->application));
     }
+
+    public function getPropertyImage()
+    {
+        $images = array('add' => 'user', 'delete' => 'off');
+
+        if (isset($images[$this->action])) {
+            $image = $images[$this->action];
+        }
+        else $image = parent::getPropertyImage();
+
+        return $image;
+    }
 }
