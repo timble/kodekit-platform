@@ -34,4 +34,17 @@ class ActivitiesModelEntityActivity extends Activities\ModelEntityActivity imple
 
         return new $class($config);
     }
+
+    public function getPropertyImage()
+    {
+        $image = 'default';
+
+        $images = array('add' => 'add', 'delete' => 'delete', 'edit' => 'edit');
+
+        if (isset($images[$this->action])) {
+            $image = $images[$this->action];
+        }
+
+        return $image;
+    }
 }
