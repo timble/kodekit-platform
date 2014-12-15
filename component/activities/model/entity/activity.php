@@ -95,15 +95,9 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
     {
         $data = $config->data;
 
-        $table = $data->package . '_' . Library\StringInflector::pluralize($data->name);
-
-        if ($data->package == $data->name) {
-            $table = $data->package;
-        }
-
         $config->append(array(
             'format'        => '{actor} {action} {object.type} title {object}',
-            'object_table'  => $table,
+            'object_table'  => $data->package . '_' . Library\StringInflector::pluralize($data->name),
             'object_column' => $data->package . '_' . $data->name . '_id',
             'translator'    => 'com:activities.activity.translator',
             'objects'       => array('actor', 'action', 'object', 'target', 'generator', 'provider')
