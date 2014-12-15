@@ -261,19 +261,19 @@ class Date extends Object implements DateInterface
         switch ($matches[0])
         {
             case 'D':
-                $replacement = $translator(strtoupper($this->_date->format('D')));
+                $replacement = $translator($this->_date->format('D'));
                 break;
 
             case 'l':
-                $replacement = $translator(strtoupper($this->_date->format('l')));
+                $replacement = $translator($this->_date->format('l'));
                 break;
 
             case 'F':
-                $replacement = $translator(strtoupper($this->_date->format('F')));
+                $replacement = $translator($this->_date->format('F'));
                 break;
 
             case 'M':
-                $replacement = $translator(strtoupper($this->_date->format('F').' short'));
+                $replacement = $translator($this->_date->format('F').' short');
                 break;
         }
 
