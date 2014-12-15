@@ -22,7 +22,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
         $config->append(array(
             'formats'   => array('rss'),
             'toolbars'  => array('article'),
-            'behaviors' => array('editable', 'searchable'))
+            'behaviors' => array('editable', 'searchable', 'com:activities.controller.behavior.loggable'))
         );
 
         parent::_initialize($config);
