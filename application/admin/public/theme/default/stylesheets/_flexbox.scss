@@ -1,3 +1,7 @@
+* {
+    min-height: 0; // http://stackoverflow.com/questions/26895349/how-can-i-get-ff-33-x-flexbox-behavior-in-ff-35-x
+}
+
 html {
     @include flex;
     height: 100%;
@@ -198,6 +202,7 @@ body {
             #activities-list {
                 @include box-scrollable(scrollable);
                 @include flex-direction(column);
+                @include flex-grow(1);
 
                 .activity {
                     @include flex();

@@ -4354,6 +4354,11 @@ disabled look for disabled choices in the results dropdown
   }
 }
 /* line 1, _flexbox.scss */
+* {
+  min-height: 0;
+}
+
+/* line 5, _flexbox.scss */
 html {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4362,7 +4367,7 @@ html {
   overflow: hidden;
 }
 
-/* line 7, _flexbox.scss */
+/* line 11, _flexbox.scss */
 body {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4377,7 +4382,7 @@ body {
   overflow: hidden;
 }
 
-/* line 14, _flexbox.scss */
+/* line 18, _flexbox.scss */
 .navigation {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4390,13 +4395,13 @@ body {
   flex-direction: column;
   overflow-y: scroll;
 }
-/* line 20, _flexbox.scss */
+/* line 24, _flexbox.scss */
 .navigation h4 {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
   flex-shrink: 0;
 }
-/* line 24, _flexbox.scss */
+/* line 28, _flexbox.scss */
 .navigation li {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4405,7 +4410,7 @@ body {
   -moz-flex-shrink: 0;
   flex-shrink: 0;
 }
-/* line 29, _flexbox.scss */
+/* line 33, _flexbox.scss */
 .navigation a {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4420,14 +4425,14 @@ body {
   -moz-justify-content: space-between;
   justify-content: space-between;
 }
-/* line 35, _flexbox.scss */
+/* line 39, _flexbox.scss */
 .navigation a .navigation__badge {
   -webkit-flex-grow: 0;
   -moz-flex-grow: 0;
   flex-grow: 0;
 }
 
-/* line 41, _flexbox.scss */
+/* line 45, _flexbox.scss */
 #panel-wrapper {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4440,7 +4445,7 @@ body {
   flex-direction: column;
 }
 
-/* line 46, _flexbox.scss */
+/* line 50, _flexbox.scss */
 #panel-header {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4453,7 +4458,7 @@ body {
   justify-content: space-between;
 }
 
-/* line 52, _flexbox.scss */
+/* line 56, _flexbox.scss */
 #panel-tabbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4463,7 +4468,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 57, _flexbox.scss */
+/* line 61, _flexbox.scss */
 #panel-toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4475,14 +4480,14 @@ body {
   -moz-justify-content: space-between;
   justify-content: space-between;
 }
-/* line 62, _flexbox.scss */
+/* line 66, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
 
-/* line 68, _flexbox.scss */
+/* line 72, _flexbox.scss */
 #panel-component {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4492,7 +4497,7 @@ body {
   flex: 1 1 auto;
 }
 
-/* line 72, _flexbox.scss */
+/* line 76, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
@@ -4506,7 +4511,7 @@ body {
   flex-direction: column;
   width: 200px;
 }
-/* line 78, _flexbox.scss */
+/* line 82, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
   -webkit-flex-shrink: 0;
@@ -4514,7 +4519,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 83, _flexbox.scss */
+/* line 87, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4523,7 +4528,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 86, _flexbox.scss */
+/* line 90, _flexbox.scss */
 #panel-content .-koowa-grid {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4535,7 +4540,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 91, _flexbox.scss */
+/* line 95, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4544,7 +4549,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 94, _flexbox.scss */
+/* line 98, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4556,7 +4561,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 98, _flexbox.scss */
+/* line 102, _flexbox.scss */
 #panel-content .-koowa-form .main .title {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4568,17 +4573,17 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 102, _flexbox.scss */
+/* line 106, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 107, _flexbox.scss */
+/* line 111, _flexbox.scss */
 #panel-content .-koowa-form .sidebar:not(.no--scrollbar) {
   overflow-y: scroll;
 }
-/* line 110, _flexbox.scss */
+/* line 114, _flexbox.scss */
 #panel-content .-koowa-form .sidebar.no--scrollbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4588,7 +4593,7 @@ body {
   flex-direction: column;
 }
 
-/* line 117, _flexbox.scss */
+/* line 121, _flexbox.scss */
 .scrollable, #files-app #files-canvas #files-grid, #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4597,12 +4602,12 @@ body {
   flex-grow: 1;
 }
 
-/* line 122, _flexbox.scss */
+/* line 126, _flexbox.scss */
 .cke_chrome iframe {
   min-height: 100px;
 }
 
-/* line 126, _flexbox.scss */
+/* line 130, _flexbox.scss */
 .cke_chrome,
 .cke_chrome > .cke_inner,
 .cke_chrome > .cke_inner > .cke_contents,
@@ -4622,26 +4627,26 @@ body {
   flex-direction: column;
 }
 
-/* line 144, _flexbox.scss */
+/* line 148, _flexbox.scss */
 .image_dialog .cke_dialog_contents_body {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 147, _flexbox.scss */
+/* line 151, _flexbox.scss */
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 150, _flexbox.scss */
+/* line 154, _flexbox.scss */
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table {
   margin: 0;
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 154, _flexbox.scss */
+/* line 158, _flexbox.scss */
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody,
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
 .image_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td,
@@ -4658,20 +4663,20 @@ body {
 }
 
 /* @group Scope Bar */
-/* line 167, _flexbox.scss */
+/* line 171, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 170, _flexbox.scss */
+/* line 174, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 174, _flexbox.scss */
+/* line 178, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4681,7 +4686,7 @@ body {
   flex: 1;
 }
 
-/* line 181, _flexbox.scss */
+/* line 185, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4692,7 +4697,7 @@ body {
   flex-direction: column;
 }
 
-/* line 188, _flexbox.scss */
+/* line 192, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4701,7 +4706,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 191, _flexbox.scss */
+/* line 195, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4710,7 +4715,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 194, _flexbox.scss */
+/* line 198, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4722,27 +4727,30 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 198, _flexbox.scss */
+/* line 202, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
 }
-/* line 202, _flexbox.scss */
+/* line 207, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list .activity {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 205, _flexbox.scss */
+/* line 210, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list .activity .activity__text {
   -webkit-flex-grow: 1;
   -moz-flex-grow: 1;
   flex-grow: 1;
 }
-/* line 209, _flexbox.scss */
+/* line 214, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list .activity .activity__info {
   white-space: nowrap;
   overflow: hidden;
@@ -4751,7 +4759,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 220, _flexbox.scss */
+/* line 225, _flexbox.scss */
 #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4763,7 +4771,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 224, _flexbox.scss */
+/* line 229, _flexbox.scss */
 #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4776,12 +4784,12 @@ body {
   flex-direction: column;
 }
 
-/* line 233, _flexbox.scss */
+/* line 238, _flexbox.scss */
 #files-paginator {
   height: 26px;
 }
 
-/* line 241, _flexbox.scss */
+/* line 246, _flexbox.scss */
 #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4791,13 +4799,13 @@ body {
   flex: 1;
 }
 
-/* line 245, _flexbox.scss */
+/* line 250, _flexbox.scss */
 #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 248, _flexbox.scss */
+/* line 253, _flexbox.scss */
 #files-insert #files-tree-container,
 #files-insert #files-grid {
   display: -webkit-flex;
@@ -4807,7 +4815,7 @@ body {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 253, _flexbox.scss */
+/* line 258, _flexbox.scss */
 #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4819,7 +4827,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 257, _flexbox.scss */
+/* line 262, _flexbox.scss */
 #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4828,7 +4836,7 @@ body {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 261, _flexbox.scss */
+/* line 266, _flexbox.scss */
 #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
