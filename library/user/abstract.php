@@ -127,7 +127,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getRoles()
     {
-        return $this->getData()->roles;
+        return ObjectConfig::unbox($this->getData()->roles);
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class UserAbstract extends Object implements UserInterface
     public function hasRoles($roles)
     {
         $roles = (array) $roles;
-        return count(array_intersect($this->getRoles(), $roles)) === count($roles);
+        return count(array_intersect(array_unique($this->getRoles()), $roles)) === count($roles);
     }
 
     /**
@@ -161,7 +161,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getGroups()
     {
-        return $this->getData()->groups;
+        return ObjectConfig::unbox($this->getData()->groups);
     }
 
     /**

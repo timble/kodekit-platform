@@ -42,7 +42,7 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
         $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
 
-    public function setDefaultAttachment(Library\CommandContext $context)
+    public function setDefaultAttachment(Library\ControllerContext $context)
     {
         if($this->isAttachable()) 
         {
