@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Csrf Dispatcher Authenticator
  *
+ * @link http://www.adambarth.com/papers/2008/barth-jackson-mitchell-b.pdf
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
