@@ -133,25 +133,13 @@ abstract class UserAbstract extends Object implements UserInterface
     /**
      * Checks if the user has a role.
      *
-     * @param  mixed|array $roles A role name or an array containing role identifiers.
+     * @param  mixed|array $role A role name or an array containing role names.
      * @return bool True if the user has at least one of the provided roles, false otherwise.
      */
-    public function hasRole($roles)
+    public function hasRole($role)
     {
-        $roles = (array) $roles;
+        $roles = (array) $role;
         return (bool) array_intersect($this->getRoles(), $roles);
-    }
-
-    /**
-     * Checks if the user has a set of roles.
-     *
-     * @param  array $roles An array containing role identifiers.
-     * @return bool True if the user has all of the provided roles, false otherwise.
-     */
-    public function hasRoles($roles)
-    {
-        $roles = (array) $roles;
-        return count(array_intersect(array_unique($this->getRoles()), $roles)) === count($roles);
     }
 
     /**
