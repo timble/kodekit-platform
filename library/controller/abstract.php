@@ -101,7 +101,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
             'dispatched'       => false,
             'request'          => 'lib:controller.request',
             'response'         => 'lib:controller.response',
-            'user'             => 'lib:user',
+            'user'             => 'user',
             'behaviors'        => array('permissible'),
         ));
 
