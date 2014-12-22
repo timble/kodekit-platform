@@ -273,8 +273,8 @@ class DispatcherResponseTransportStream extends DispatcherResponseTransportHttp
                     }
                 }
             }
-
-            return parent::send($response);
         }
+
+        return parent::send($response);
     }
 }
