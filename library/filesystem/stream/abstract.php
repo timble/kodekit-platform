@@ -591,7 +591,14 @@ abstract class FilesystemStreamAbstract extends Object implements FilesystemStre
             throw new \BadMethodCallException('The stream "'.self::getName().'" does not support info.');
         }
 
-        return fstat($this->_resource);
+        if($this->isLocal()) {
+            $info = fstat($this->_resource);
+        }
+        else {
+            $info = @stat($this->getPath());
+        }
+
+        return $info;
     }
 
     /**
