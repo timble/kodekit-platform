@@ -11,6 +11,7 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>">
 <?= import('page_head.html') ?>
+<ktml:style src="assets://application/stylesheets/error.css" />
 
 <body>
 <ktml:content>
