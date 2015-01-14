@@ -12,18 +12,32 @@ namespace Nooku\Component\Activities;
 use Nooku\Library;
 
 /**
- * Activities Database Table
+ * Activities Database Table.
  *
- * @author  Israel Canasa <http://github.com/raeldc>
+ * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Activities
  */
 class DatabaseTableActivities extends Library\DatabaseTableAbstract
 {
+    /**
+     * Initializes the options for the object.
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param Library\ObjectConfig $config Configuration options.
+     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'name'      => 'activities',
-            'behaviors' => array('creatable', 'identifiable')
+            'behaviors' => array(
+                'creatable',
+                'identifiable',
+                'parameterizable' => array('column' => 'metadata')
+            ),
+            'filters'   => array(
+                'metadata' => 'json'
+            )
         ));
 
         parent::_initialize($config);

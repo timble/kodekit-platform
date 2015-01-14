@@ -12,19 +12,24 @@ namespace Nooku\Component\Activities;
 use Nooku\Library;
 
 /**
- * Bootstrapper
+ * Activities Entity.
  *
- * @author  Johan Janssens <http://github.com/johanjanssens>
+ * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Activities
  */
-class Bootstrapper extends Library\ObjectBootstrapperComponent
+class ModelEntityActivities extends Library\ModelEntityRowset
 {
+    /**
+     * Initializes the options for the object.
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
+     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'aliases'  => array(
-                'com:activities.database.behavior.creatable' => 'com:users.database.behavior.creatable',
-            ),
+            'prototypable' => false
         ));
 
         parent::_initialize($config);

@@ -15,7 +15,7 @@
         /* Reset the filter values to blank */
         document.id('activities-filter').addEvent('reset', function (e) {
             e.target.getElements('input').each(function (el) {
-                if (['days_back', 'start_date', 'user'].contains(el.name)) {
+                if (['day_range', 'end_date', 'user'].contains(el.name)) {
                     el.value = '';
                 }
             });
@@ -27,12 +27,17 @@
 
 <h3><?= translate('Extensions') ?></h3>
 <ul class="navigation">
-    <a class="<?= empty(parameters()->package) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
-        <?= translate('All extensions') ?>
-    </a>
+    <li>
+        <a class="<?= empty(parameters()->package) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
+            <?= translate('All extensions') ?>
+        </a>
+    </li>
     <? foreach ($packages as $package): ?>
-        <a <?= $package->id == parameters()->package ? 'class="active"' : '' ?>
-            href="<?= route('package=' . $package->id) ?>"><?= ucfirst($package->package) ?></a>
+        <li>
+            <a <?= $package == parameters()->package ? 'class="active"' : '' ?> href="<?= route('package=' . $package) ?>">
+                <?= ucfirst($package) ?>
+            </a>
+        </li>
     <? endforeach ?>
 </ul>
 
@@ -40,12 +45,12 @@
 <form action="" method="get" id="activities-filter">
     <fieldset>
         <div class="input-prepend">
-            <span class="add-on">Start</span>
-            <input type="date" name="start_date" value="<?= parameters()->start_date ?>"/>
+            <span class="add-on"><?=translate('Show activities until')?></span>
+            <input type="date" name="end_date" value="<?= parameters()->end_date ?>"/>
         </div>
         <div class="input-prepend">
-            <span class="add-on">Days back</span>
-            <input type="text" name="days_back" value="<?= (parameters()->days_back) ? parameters()->days_back : '' ?>"/>
+            <span class="add-on"><?=translate('Going back')?></span>
+            <input type="text" name="day_range" value="<?= (parameters()->day_range) ? parameters()->day_range : '' ?>"/>
         </div>
         <div class="input-prepend">
             <span class="add-on">User</span>

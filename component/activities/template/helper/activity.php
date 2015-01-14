@@ -12,59 +12,109 @@ namespace Nooku\Component\Activities;
 use Nooku\Library;
 
 /**
- * Activity Template Helper
+ * Activity Template Helper.
  *
- * @author  Israel Canasa <http://github.com/raeldc>
+ * @author  Arunas Mazeika <https://github.com/amazeika>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Library\TemplateHelperAbstract implements Library\ObjectInstantiable
+class TemplateHelperActivity extends Library\TemplateHelperAbstract implements Library\ObjectMultiton, ActivityRendererInterface
 {
-	/**
-     * Check for overrides of the helper
+    /**
+     * Renders an activity.
      *
-     * @param   Library\ObjectConfig         	        $config  An optional Library\ObjectConfig object with configuration options
-     * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
-     * @return  TemplateHelperActivity
+     * Wraps around {@link render()} to easily render activities on layouts.
+     *
+     * @param array $config An optional configuration array.
+     * @return string The rendered activity.
      */
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    public function activity($config = array())
     {
-        $identifier = $config->object_identifier->toArray();
-        $identifier['package'] = $config->entity->package;
-       
-        $identifier = $manager->getIdentifier($identifier);
+        $config = new Library\ObjectConfig($config);
 
-        if($manager->getClass($identifier, false)) {
-            $class = $manager->getClass($identifier);
-        } else {
-            $class = $manager->getClass($config->object_identifier);
+        $output = '';
+
+        if ($activity = $config->entity) {
+            $output = $this->render($activity, $config);
         }
-        
-        $instance  = new $class($config);
-        return $instance;
+
+        return $output;
     }
-    
-    public function message($config = array())
-	{
-	    $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'entity'      => ''
-		));
-	
-		$entity  = $config->entity;
-		$item = $this->getTemplate()->route('component='.$entity->package.'&view='.$entity->name.'&id='.$entity->row);
-		$user = $this->getTemplate()->route('component=users&view=user&id='.$entity->created_by);
-		
-		$message   = '<a href="'.$user.'">'.$entity->getAuthor()->getName().'</a> ';
-		$message  .= $entity->status;
-       
-		if ($entity->status != 'trashed') {
-			$message .= ' <a href="'.$item.'">'.$entity->title.'</a>';
-		} else {
-			$message .= ' <span class="trashed">'.$entity->title.'</span>';
-		}
-		
-		$message .= ' '.$entity->name;
-		
-		return $message;
-	}
+
+    /**
+     * Renders an activity.
+     *
+     * @param ActivityInterface $activity The activity object.
+     * @param array             $config   An optional configuration array.
+     * @return string The rendered activity.
+     */
+    public function render(ActivityInterface $activity, $config = array())
+    {
+        $config = new Library\ObjectConfig($config);
+
+        $output = $activity->getActivityFormat();
+
+        if (preg_match_all('/{(.*?)}/', $output, $labels))
+        {
+            $tokens = $activity->tokens;
+
+            foreach ($labels[1] as $label)
+            {
+                $parts = explode(':', $label);
+
+                if (isset($tokens[$parts[0]]))
+                {
+                    $object = $tokens[$parts[0]];
+
+                    // Deal with context translations.
+                    if (isset($parts[1]))
+                    {
+                        $object = clone $object;
+                        $object->setDisplayName($parts[1]);
+                    }
+
+                    if ($object = $this->_renderObject($object, $config)) {
+                        $output = str_replace('{' . $label . '}', $object, $output);
+                    }
+                }
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Renders an activity object.
+     *
+     * @param ActivityObjectInterface $object The activity object.
+     * @param Library\ObjectConfig    $config The configuration object.
+     * @return string The rendered object.
+     */
+    protected function _renderObject(ActivityObjectInterface $object, Library\ObjectConfig $config)
+    {
+        $config->append(array('html' => true, 'escaped_urls' => true, 'fqr' => false));
+
+        if ($output = $object->getDisplayName())
+        {
+            if ($config->html)
+            {
+                $output  = $object->getDisplayName();
+                $attribs = $object->getAttributes() ? $this->buildAttributes($object->getAttributes()) : '';
+
+                if ($url = $object->getUrl())
+                {
+                    // Make sure we have a fully qualified route.
+                    if ($config->fqr && !$url->getHost()) {
+                        $url->setUrl($this->getTemplate()->url()->toString(Library\HttpUrl::AUTHORITY));
+                    }
+
+                    $url    = $url->toString(Library\HttpUrl::FULL, $config->escaped_urls);
+                    $output = "<a {$attribs} href=\"{$url}\">{$output}</a>";
+                }
+                else $output = "<span {$attribs}>{$output}</span>";
+            }
+        }
+        else $output = '';
+
+        return $output;
+    }
 }
