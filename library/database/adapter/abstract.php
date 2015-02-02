@@ -282,10 +282,12 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             {
                 switch ($context->mode)
                 {
+                    case Database::FETCH_ROW         :
                     case Database::FETCH_ARRAY       :
                         $context->result = $this->_fetchArray($result);
                         break;
 
+                    case Database::FETCH_ROWSET      :
                     case Database::FETCH_ARRAY_LIST  :
                         $context->result = $this->_fetchArrayList($result, $key);
                         break;

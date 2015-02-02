@@ -302,7 +302,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         $result = null;
 
-        if (is_array($data))
+        if (is_array($data) || is_object($data))
         {
             $result = array();
 
@@ -324,6 +324,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 }
 
                 $result[$column] = $value;
+
+                if (is_object($data)) {
+                    $result = (object) $result;
+                }
             }
         }
 
@@ -539,7 +543,9 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         {
             if ($context->query)
             {
-                if($context->mode == Database::FETCH_ARRAY_LIST || $context->mode == Database::FETCH_OBJECT_LIST) {
+                if($context->mode == Database::FETCH_ARRAY_LIST || $context->mode == Database::FETCH_OBJECT_LIST
+                    || $context->mode == Database::FETCH_ROWSET
+                ) {
                     $key = $this->getIdentityColumn();
                 } else {
                     $key = null;
