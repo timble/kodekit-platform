@@ -54,6 +54,13 @@ interface FilterInterface extends ObjectHandlable
     public function getErrors();
 
     /**
+     * Resets any generated errors for the filter, allowing re-use
+     *
+     * @return void
+     */
+    public function resetErrors();
+
+    /**
      * Get the priority of the filter
      *
      * @return  integer The priority level
