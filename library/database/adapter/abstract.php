@@ -462,7 +462,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $spec = trim($spec);
 
         // Quote all the lower case parts
-        $spec = preg_replace_callback('/(?:\b|#)+(?<![`:@])([-a-zA-Z0-9.#_]*[a-z][-a-zA-Z0-9.#_]*)(?!`)\b/', array($this, '_quoteIdentifier'), $spec);
+        $spec = preg_replace_callback('/(?:\b|#)+(?<![`:@%])([-a-zA-Z0-9.#_]*[a-z][-a-zA-Z0-9.#_]*)(?!`)\b/', array($this, '_quoteIdentifier'), $spec);
 
         return $spec;
     }
