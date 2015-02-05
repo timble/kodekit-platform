@@ -149,7 +149,7 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
      *
      * @param $message
      */
-    protected function _error($message)
+    public function addError($message)
     {
         $this->_errors[] = $message;
         return false;
