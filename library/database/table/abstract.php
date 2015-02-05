@@ -431,6 +431,24 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
+     * Set a default value for a column
+     *
+     * @param string   $column The name of the column
+     * @param string   $value The value for the column
+     * @return DatabaseTableAbstract
+     */
+    public function setDefault($column, $value)
+    {
+        $defaults = $this->getDefaults();
+
+        if(isset($defaults[$column])) {
+            $this->_defaults[$column] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
      * Get an instance of a row object for this table
      *
      * @param array $options An optional associative array of configuration settings.
