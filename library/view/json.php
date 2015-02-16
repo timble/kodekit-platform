@@ -218,6 +218,13 @@ class ViewJson extends ViewAbstract
             $data = $entity->toArray();
         }
 
+        foreach(array_keys($data) as $key)
+        {
+            if (substr($key, 0, 1) === '_') {
+                unset($data[$key]);
+            }
+        }
+
         if (!empty($this->_fields)) {
             $data = array_intersect_key($data, array_flip($this->_fields));
         }
