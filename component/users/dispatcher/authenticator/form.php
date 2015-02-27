@@ -17,58 +17,55 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstract
+class DispatcherAuthenticatorForm extends DispatcherAuthenticatorBasic
 {
     /**
-     * Constructor.
+     * Initializes the options for the object
      *
-     * @param Library\ObjectConfig $config Configuration options
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
      */
-    public function __construct(Library\ObjectConfig $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        parent::__construct($config);
+        $config->append(array(
+            'action' => 'post'
+        ));
 
-        $this->addCommandCallback('before.post', 'authenticateRequest');
-
+        parent::_initialize($config);
     }
 
     /**
-     * Authenticate using email and password credentials
+     * Authenticate using the cookie session id
      *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     * If a session cookie is found and the session session is not active it will be auto-started.
+     *
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     public function authenticateRequest(Library\DispatcherContextInterface $context)
     {
-        if ($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic())
+        if ($context->getSubject()->getController()->getIdentifier()->name == 'session' && !$context->getUser()->isAuthentic())
         {
-            $password = $context->request->data->get('password', 'string');
-            $email    = $context->request->data->get('email', 'email');
+            $password   = $context->getRequest()->getData()->get('password', 'string');
+            $email      = $context->getRequest()->getData()->get('email', 'email');
 
-            $user = $this->getObject('com:users.model.users')->email($email)->fetch();
+            //Ensure we have an email set
+            if(!$email) throw new Library\ControllerExceptionRequestNotAuthenticated('Email is required');
 
-            if ($user->id)
-            {
-                //Check user password
-                if (!$user->getPassword()->verifyPassword($password)) {
-                    throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
-                }
+            //Set the auth request headers
+            $context->getRequest()->getHeaders()->set('php-auth-user', $email);
+            $context->getRequest()->getHeaders()->set('php-auth-pw', $password);
 
-                //Check user enabled
-                if (!$user->enabled) {
-                    throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
-                }
+            //Authenticate the user
+            parent::authenticateRequest($context, $email, $password);
 
-                //Start the session (if not started already)
-                $context->user->getSession()->start();
+            //If the user wasn't authenticated, do not create session
+            if(!$context->getUser()->isAuthentic()) return;
 
-                //Set user data in context
-                $data  = $this->getObject('user.provider')->load($user->id)->toArray();
-                $data['authentic'] = true;
-
-                $context->user->setData($data);
-            }
-            else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
+            //Start the session (if not started already)
+            $context->getUser()->getSession()->start();
         }
     }
 }
