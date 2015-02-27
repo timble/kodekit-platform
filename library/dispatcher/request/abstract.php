@@ -489,6 +489,26 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Get the request username from the request headers
+     *
+     * @return string
+     */
+    public function getUser()
+    {
+        return $this->getHeaders()->get('php-auth-user');
+    }
+
+    /**
+     * Get the request password from the request headers
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->getHeaders()->get('php-auth-pw');
+    }
+
+    /**
      * Return the Url of the request regardless of the server
      *
      * @return  HttpUrl A HttpUrl object
@@ -751,29 +771,33 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         {
             if(!$this->query->has('format'))
             {
-                $format = 'html';
+                $format = pathinfo($this->getUrl()->getPath(), PATHINFO_EXTENSION);
 
-                if($this->_headers->has('Accept'))
+                if(empty($format))
                 {
-                    $accept  = $this->_headers->get('Accept');
-                    $formats = $this->_parseAccept($accept);
+                    $format = 'html'; //define html default
 
-                    /**
-                     * If the browser is requested text/html serve it at all times
-                     *
-                     * @hotfix #409 : Android 2.3 requesting application/xml
-                     */
-                    if(!isset($formats['text/html']))
+                    if ($this->_headers->has('Accept'))
                     {
-                        //Get the highest quality format
-                        $mime_type = key($formats);
+                        $accept  = $this->_headers->get('Accept');
+                        $formats = $this->_parseAccept($accept);
 
-                        foreach (static::$_formats as $value => $mime_types)
+                        /**
+                         * If the browser is requested text/html serve it at all times
+                         *
+                         * @hotfix #409 : Android 2.3 requesting application/xml
+                         */
+                        if (!isset($formats['text/html']))
                         {
-                            if (in_array($mime_type, (array) $mime_types))
+                            //Get the highest quality format
+                            $mime_type = key($formats);
+
+                            foreach (static::$_formats as $value => $mime_types)
                             {
-                                $format = $value;
-                                break;
+                                if (in_array($mime_type, (array)$mime_types)) {
+                                    $format = $value;
+                                    break;
+                                }
                             }
                         }
                     }

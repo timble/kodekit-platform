@@ -93,6 +93,20 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     public function getPort();
 
     /**
+     * Get the request username from the request headers
+     *
+     * @return string
+     */
+    public function getUser();
+
+    /**
+     * Get the request password from the request headers
+     *
+     * @return string
+     */
+    public function getPassword();
+
+    /**
      * Returns the HTTP referrer.
      *
      * 'referer' a commonly used misspelling word for 'referrer'
