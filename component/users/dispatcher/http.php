@@ -30,7 +30,7 @@ class DispatcherHttp extends Library\DispatcherHttp
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'authenticators' => array('form'),
+            'authenticators' => array('basic','form'),
         ));
 
         parent::_initialize($config);
