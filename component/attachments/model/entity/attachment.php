@@ -51,9 +51,12 @@ class ModelEntityAttachment extends Library\ModelEntityRow
 
             if (!file_exists($this->thumbnail_fullpath))
             {
-                $thumbnail->setThumbnailSize(4 / 3)
-                    ->generateThumbnail()
-                    ->save($this->thumbnail_fullpath);
+                if($this->thumbnail_size){
+                    $thumbnail->setThumbnailSize($this->thumbnail_size);
+                }
+
+                $thumbnail->generateThumbnail()
+                          ->save($this->thumbnail_fullpath);
             }
 
             if (isset($this->x1) && isset($this->x2))

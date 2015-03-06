@@ -116,12 +116,13 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
         // Save attachment
         $this->getObject('com:attachments.controller.attachment')->add(array(
-            'name'      => $attachment['name'],
-            'path'      => $name,
-            'container' => $this->_container,
-            'hash'      => $hash,
-            'row'       => $entity->id,
-            'table'     => $entity->getTable()->getBase()
+            'name'           => $attachment['name'],
+            'path'           => $name,
+            'container'      => $this->_container,
+            'hash'           => $hash,
+            'row'            => $entity->id,
+            'table'          => $entity->getTable()->getBase(),
+            'thumbnail_size' => Library\ObjectConfig::unbox($this->getConfig()->thumbnail_size)
         ));
 
         return true;
