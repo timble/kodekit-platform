@@ -36,9 +36,9 @@ class ModelNodes extends ModelAbstract
         $entity = parent::_actionCreate($context);
 
         $entity->setProperties(array(
-            'container' => $context->entity->container,
-            'folder'    => $context->entity->folder,
-            'name'      => $context->entity->name
+            'container' => $context->getState()->container,
+            'folder'    => $context->getEntity()->folder,
+            'name'      => $context->getEntity()->name
         ));
 
         return $entity;
