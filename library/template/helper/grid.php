@@ -66,8 +66,8 @@ class TemplateHelperGrid extends TemplateHelperAbstract implements TemplateHelpe
         $translator = $this->getObject('translator');
 
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->getTemplate()->escape($config->search).'" />';
-        $html .= '<button class="button">'.$translator('Go').'</button>';
-		$html .= '<button class="button" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.$translator('Reset').'</button>';
+        $html .= '<button onclick="$$(\'.-koowa-grid-checkbox\').set(\'checked\',false);" class="button">'.$translator('Go').'</button>';
+		$html .= '<button class="button" onclick="$$(\'.-koowa-grid-checkbox\').set(\'checked\',false); document.getElementById(\'search\').value=\'\';this.form.submit();">'.$translator('Reset').'</button>';
 
 	    return $html;
 	}
