@@ -572,6 +572,27 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
+     * Return an associative array of the data
+     *
+     * Skip the properties that start with an underscore as they are considered private
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        foreach(array_keys($data) as $key)
+        {
+            if (substr($key, 0, 1) === '_') {
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Set a property
      *
      * @param   string  $property   The property name.
