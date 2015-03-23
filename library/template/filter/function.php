@@ -25,16 +25,16 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
      * @var array
      */
     protected $_functions = array(
-        'helper('    => '$this->renderHelper(',
-    	'object('    => '$this->getObject(',
-        'date('      => '$this->renderHelper(\'date.format\',',
-        'overlay('   => '$this->renderHelper(\'behavior.overlay\', ',
-        'translate(' => '$this->translate(',
-        'import('    => '$this->loadFile(',
-        'route('     => '$this->getView()->getRoute(',
-        'escape('    => '$this->escape(',
-        'url('       => '$this->getView()->getUrl()->toString(',
-        'title('     => '$this->getView()->getTitle('
+        'helper'    => '$this->renderHelper(',
+    	'object'    => '$this->getObject(',
+        'date'      => '$this->renderHelper(\'date.format\',',
+        'overlay'   => '$this->renderHelper(\'behavior.overlay\', ',
+        'translate' => '$this->translate(',
+        'import'    => '$this->loadFile(',
+        'route'     => '$this->getView()->getRoute(',
+        'escape'    => '$this->escape(',
+        'url'       => '$this->getView()->getUrl()->toString(',
+        'title'     => '$this->getView()->getTitle('
     );
 
     /**
@@ -46,7 +46,7 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
      */
     public function addFunction($name, $rewrite)
     {
-        $this->_functions[$name.'('] = $rewrite;
+        $this->_functions[$name] = $rewrite;
         return $this;
     }
 
@@ -58,9 +58,45 @@ class TemplateFilterFunction extends TemplateFilterAbstract implements TemplateF
      */
     public function compile(&$text)
     {
-        $text = str_replace(
-            array_keys($this->_functions),
-            array_values($this->_functions),
-            $text);
+        //Compile to valid PHP
+        $tokens   = token_get_all($text);
+
+        $result = '';
+        for ($i = 0; $i < sizeof($tokens); $i++)
+        {
+            if(is_array($tokens[$i]))
+            {
+                list($token, $content) = $tokens[$i];
+
+                switch ($token)
+                {
+                    //Convert registered functions to full function syntax
+                    case T_STRING :
+
+                        //Ensure function exists. Old style function names included (, catering for BC here
+                        if(isset($this->_functions[$content]) || isset($this->_functions[$content.'(']) )
+                        {
+                            $prev = (array) $tokens[$i-1];
+                            $next = (array) $tokens[$i+1];
+
+                            if($next[0] == '(' && $prev[0] !== T_OBJECT_OPERATOR) {
+                                $result .= isset($this->_functions[$content]) ? $this->_functions[$content] : $this->_functions[$content.'('];
+                                $tokens[$i+1] = ''; //Remove the opening parentheses
+                                break;
+                            }
+                        }
+
+                        $result .= $content;
+                        break;
+
+                    default:
+                        $result .= $content;
+                        break;
+                }
+            }
+            else $result .= $tokens[$i] ;
+        }
+
+        $text = $result;
     }
 }
