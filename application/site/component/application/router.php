@@ -76,7 +76,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Find the site
         $url->query['site']  = $this->getObject('application')->getSite();
 
-        $route = str_replace($url->query['site'], '', $route);
+        $route = preg_replace('/^'.preg_quote($url->query['site']).'/', '', $route);
         $url->path = ltrim($route, '/');
 
         return true;
