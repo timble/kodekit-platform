@@ -26,7 +26,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
             $positions[] = $module->position;
         }
 
-        $this->positions = array_unique($positions);
+        $context->data->positions = array_unique($positions);
 
         return parent::_actionRender($context);
 	}
