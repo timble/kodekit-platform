@@ -19,7 +19,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
 {
     public function canRead()
     {
-        $layout = $this->getView()->getLayout();
+        $layout = $this->getView() instanceof Library\ViewTemplate ? $this->getView()->getLayout() : null;
 
         if (in_array($layout, array('reset', 'password', 'register'))) {
             $result = true;
