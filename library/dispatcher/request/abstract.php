@@ -211,7 +211,12 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         {
             if(in_array($this->getMethod(), array('POST', 'PUT', 'DELETE', 'PATCH')))
             {
-                $data = json_decode($this->getContent(), true);
+                $data = array();
+
+                if ($content = $this->getContent()) {
+                    $data = json_decode($content, true);
+                }
+
                 $this->data->add($data);
             }
         }
