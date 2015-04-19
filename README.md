@@ -1,6 +1,8 @@
 Nooku Platform
 ==============
 
+[ ![Codacy Badge](https://www.codacy.com/project/badge/f517d6945b4f463caf734b08bb43b0b9) ](https://www.codacy.com/app/timble/nooku-platform)
+
 What is Nooku Platform ?
 -----------------------
 
