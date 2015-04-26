@@ -148,6 +148,7 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     /**
      * Add an error message
      *
+     * @param string $message The error message
      * @return FilterAbstract
      */
     public function addError($message)

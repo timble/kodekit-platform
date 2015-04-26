@@ -103,6 +103,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     /**
      * Add an error message
      *
+     * @param string $message The error message
      * @return FilterIterator
      */
     public function addError($message)

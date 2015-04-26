@@ -115,6 +115,20 @@ class FilterChain extends Object implements FilterInterface
     }
 
     /**
+     * Resets any generated errors for the filter
+     *
+     * @return FilterChain
+     */
+    public function reset()
+    {
+        foreach($this->_queue as $filter) {
+            $filter->reset();
+        }
+
+        return $this;
+    }
+
+    /**
      * Add a filter to the queue based on priority
      *
      * @param FilterInterface 	$filter A Filter
@@ -135,7 +149,7 @@ class FilterChain extends Object implements FilterInterface
     }
 
     /**
-     * Get a list of error that occurred during sanitize or validate
+     * Get a list of errors that occurred during sanitize or validate
      *
      * @return array
      */
@@ -147,6 +161,18 @@ class FilterChain extends Object implements FilterInterface
         }
 
         return $errors;
+    }
+
+    /**
+     * Add an error message to the top filter in the queue
+     *
+     * @param string $message The error message to add
+     * @return FilterChain
+     */
+    public function addError($message)
+    {
+        $this->_queue->top()->addError($message);
+        return $this;
     }
 
     /**

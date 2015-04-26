@@ -63,7 +63,8 @@ interface FilterInterface extends ObjectHandlable
     /**
      * Add an error message
      *
-     * @param FilterInterface
+     * @param string $message The error message
+     * @return FilterInterface
      */
     public function addError($message);
 
