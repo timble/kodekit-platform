@@ -115,6 +115,17 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     }
 
     /**
+     * Resets any generated errors for the filter
+     *
+     * @return FilterAbstract
+     */
+    public function reset()
+    {
+        $this->_errors = array();
+        return $this;
+    }
+
+    /**
      * Get the priority of the filter
      *
      * @return  integer The priority level
@@ -135,23 +146,13 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     }
 
     /**
-     * Resets any generated errors for the filter, allowing re-use
-     *
-     * @return void
-     */
-    public function resetErrors()
-    {
-        $this->_errors = array();
-    }
-
-    /**
      * Add an error message
      *
-     * @param $message
+     * @return FilterAbstract
      */
     public function addError($message)
     {
         $this->_errors[] = $message;
-        return false;
+        return $this;
     }
 }
