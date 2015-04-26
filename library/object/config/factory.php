@@ -86,7 +86,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
         if(!isset($this->__prototypes[$name]))
         {
             $class = $this->_formats[$name];
-            $instance = new $class($options);
+            $instance = new $class();
 
             if(!$instance instanceof ObjectConfigSerializable)
             {
@@ -100,6 +100,8 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
 
         //Clone the object
         $result = clone $this->__prototypes[$name];
+        $result->merge($options);
+        
         return $result;
     }
 
