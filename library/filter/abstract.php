@@ -135,11 +135,21 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     }
 
     /**
+     * Resets any generated errors for the filter, allowing re-use
+     *
+     * @return void
+     */
+    public function resetErrors()
+    {
+        $this->_errors = array();
+    }
+
+    /**
      * Add an error message
      *
      * @param $message
      */
-    protected function _error($message)
+    public function addError($message)
     {
         $this->_errors[] = $message;
         return false;
