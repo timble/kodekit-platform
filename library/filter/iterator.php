@@ -70,6 +70,17 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     }
 
     /**
+     * Resets any generated errors for the filter
+     *
+     * @return FilterIterator
+     */
+    public function reset()
+    {
+        $this->getDelegate()->reset();
+        return $this;
+    }
+
+    /**
      * Get the priority of the filter
      *
      * @return  integer The priority level
@@ -87,6 +98,17 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     public function getErrors()
     {
         return $this->getDelegate()->getErrors();
+    }
+
+    /**
+     * Add an error message
+     *
+     * @return FilterIterator
+     */
+    public function addError($message)
+    {
+        $this->getDelegate()->addError($message);
+        return $this;
     }
 
     /**
