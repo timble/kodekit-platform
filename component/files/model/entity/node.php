@@ -170,6 +170,10 @@ class ModelEntityNode extends Library\ModelEntityAbstract
     {
         parent::setProperty($name, $value, $modified);
 
+        if($name == 'container'){
+            $this->_container = null; //Clear cached container
+        }
+
         if (in_array($name, array('container', 'folder', 'name'))) {
             $this->setAdapter();
         }
