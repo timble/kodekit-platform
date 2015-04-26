@@ -313,7 +313,8 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function setDebug($debug)
     {
-        return $this->_debug = (bool) $debug;
+        $this->_debug = (bool) $debug;
+        return $this;
     }
 
     /**
