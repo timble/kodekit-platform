@@ -61,16 +61,19 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
                 $session->getContainer('message')->add($messages);
             }
 
-            if($response->getRequest()->getFormat() == 'json'){
+            //Set the redirect into the response
+            $format = $response->getRequest()->getFormat();
+            if($format == 'json')
+            {
+                array_unshift($messages, sprintf('Redirecting to %1$s', $response->getHeaders()->get('Location')));
 
-                array_unshift($messages, sprintf('Redirecting to %1$s', $response->headers->get('Location')));
-
-                //Set the redirect into the response
                 $response->setContent(json_encode(array(
                     'messages' => $messages
                 )), 'application/json');
-            }else{
-                //Set the redirect into the response
+            }
+
+            if($format == 'html')
+            {
                 $response->setContent(sprintf(
                     '<!DOCTYPE html>
                         <html>
@@ -83,7 +86,7 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
                                 Redirecting to <a href="%1$s">%1$s</a>.
                             </body>
                         </html>'
-                    , htmlspecialchars($response->headers->get('Location'), ENT_QUOTES, 'UTF-8')
+                    , htmlspecialchars($response->getHeaders()->get('Location'), ENT_QUOTES, 'UTF-8')
                 ), 'text/html');
             }
 
