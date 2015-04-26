@@ -41,7 +41,8 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
         //Add the behaviors in FIFO order
         $behaviors = (array)ObjectConfig::unbox($config->behaviors);
 
-        foreach ($behaviors as $key => $value) {
+        foreach ($behaviors as $key => $value)
+        {
             if (is_numeric($key)) {
                 $this->addBehavior($value);
             } else {
