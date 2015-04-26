@@ -88,7 +88,7 @@ abstract class ObjectDecorator extends ObjectDecoratorAbstract implements Object
      */
     public function setDelegate($delegate)
     {
-        if (!$delegate instanceof Object) {
+        if (!$delegate instanceof ObjectInterface) {
             throw new \InvalidArgumentException('Delegate needs to extend from Object');
         }
 
