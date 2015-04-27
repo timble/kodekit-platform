@@ -33,7 +33,7 @@ class TemplateFilterScript extends TemplateFilterTag
         $tags = '';
 
         $matches = array();
-        // <script src="" />
+        // <ktml:script src="" />
         if(preg_match_all('#<ktml:script(?!\s+data\-inline\s*)\s+src="([^"]+)"(.*)/>#siU', $text, $matches))
         {
             foreach(array_unique($matches[1]) as $key => $match)
