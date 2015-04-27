@@ -98,6 +98,16 @@ class EventException extends Event implements Exception
     }
 
     /**
+     * Returns previous Exception
+     *
+     * @return \Exception Returns the previous \Exception if available or NULL otherwise.
+     */
+    public function getPrevious()
+    {
+        return $this->exception->getPrevious();
+    }
+
+    /**
      * Format the error for display
      *
      * @return string

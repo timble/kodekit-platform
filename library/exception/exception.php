@@ -58,4 +58,11 @@ interface Exception
      * @return string
      */
     public function getTraceAsString();
+
+    /**
+     * Returns previous Exception
+     *
+     * @return \Exception Returns the previous \Exception if available or NULL otherwise.
+     */
+    public function getPrevious();
 }
