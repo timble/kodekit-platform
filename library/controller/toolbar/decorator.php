@@ -56,7 +56,9 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
 
         if ($controller->inherits('Nooku\Library\ControllerToolbarMixin'))
         {
-            if($controller->hasToolbar($delegate->getType()))
+            $type = $delegate->getType();
+
+            if($controller->hasToolbar($type))
             {
                 $controller->removeToolbar($delegate);
                 $controller->addToolbar($this);
@@ -85,6 +87,10 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
      */
     public function addCommand($command, $config = array())
     {
+        if (!($command instanceof  ControllerToolbarCommand)) {
+            $command = $this->getCommand($command, $config);
+        }
+
         return $this->getDelegate()->addCommand($command, $config);
     }
 
