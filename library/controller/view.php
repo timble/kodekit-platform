@@ -133,7 +133,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 
             //Create the view
             $config = array(
-                'url'	     => $this->getObject('request')->getUrl(),
+                'url'	     => clone $this->getObject('request')->getUrl(),
                 'layout'     => $this->getRequest()->getQuery()->get('layout', 'identifier'),
                 'auto_fetch' => $this instanceof ControllerModellable
             );
