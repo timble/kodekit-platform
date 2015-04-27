@@ -25,6 +25,20 @@ class Nooku
     const VERSION = '1.0-alpha';
 
     /**
+     * Debug state
+     *
+     * @var boolean
+     */
+    protected $_debug;
+
+    /**
+     * Cache state
+     *
+     * @var boolean
+     */
+    protected $_cache;
+
+    /**
      * The root path
      *
      * @var string
@@ -54,6 +68,20 @@ class Nooku
      */
     final private function __construct($config = array())
     {
+        //Initialize the debug state
+        if(isset($config['debug'])) {
+            $this->_debug = $config['debug'];
+        } else {
+            $this->_debug = false;
+        }
+
+        //Initialize the debug state
+        if(isset($config['cache'])) {
+            $this->_cache = $config['cache'];
+        } else {
+            $this->_cache = false;
+        }
+
         //Initialize the root path
         if(isset($config['root_path'])) {
             $this->_root_path = $config['root_path'];
@@ -174,5 +202,47 @@ class Nooku
     public function getBasePath()
     {
         return $this->_base_path;
+    }
+
+    /**
+     * Enable or disable debug
+     *
+     * @param bool $debug True or false.
+     * @return Nooku
+     */
+    public function setDebug($debug)
+    {
+        return $this->_debug = (bool) $debug;
+    }
+
+    /**
+     * Check if debug is enabled
+     *
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->_debug;
+    }
+
+    /**
+     * Enable or disable the cache
+     *
+     * @param bool $cache True or false.
+     * @return Nooku
+     */
+    public function setCache($cache)
+    {
+        return $this->_cache = (bool) $cache;
+    }
+
+    /**
+     * Check if caching is enabled
+     *
+     * @return bool
+     */
+    public function isCache()
+    {
+        return $this->_cache;
     }
 }

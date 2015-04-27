@@ -57,8 +57,8 @@ class TemplateEngineFactory extends Object implements ObjectSingleton
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'debug'      => false,
-            'cache'      => false,
+            'debug'      => \Nooku::getInstance()->isDebug(),
+            'cache'      => \Nooku::getInstance()->isCache(),
             'cache_path' => '',
             'engines'    => array(
                 'lib:template.engine.nooku'

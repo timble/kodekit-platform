@@ -86,7 +86,7 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
                 'helper'     => array($this, 'invoke'),
                 'parameters' => array($this, 'getParameters')
             ),
-            'cache'           => false,
+            'cache'           => \Nooku::getInstance()->isCache(),
             'cache_namespace' => 'nooku',
         ));
 

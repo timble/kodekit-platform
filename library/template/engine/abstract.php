@@ -87,8 +87,8 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'debug'        => false,
-            'cache'        => false,
+            'debug'        => \Nooku::getInstance()->isDebug(),
+            'cache'        => \Nooku::getInstance()->isCache(),
             'cache_path'   => '',
             'cache_reload' => true,
             'template'     => 'default',

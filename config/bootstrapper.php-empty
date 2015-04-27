@@ -46,7 +46,6 @@ return array(
         'translator'            => [
 
             //Cache Settings
-            'cache'           => false,
             'cache_namespace' => APPLICATION_NAME,
 
         ],
@@ -84,8 +83,6 @@ return array(
         'template.engine.factory'   => [
 
             //Cache Settings
-            'debug'        => false,
-            'cache'        => false,
             'cache_path'   => APPLICATION_BASE.'/cache',
             'cache_reload' => false,
             'engines'      => [

@@ -75,7 +75,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
         $config->append(array(
             'locale'          => 'en-GB',
             'locale_fallback' => 'en-GB',
-            'cache'           => false,
+            'cache'           => \Nooku::getInstance()->isCache(),
             'cache_namespace' => 'nooku',
             'catalogue'       => 'default',
         ));
@@ -108,12 +108,12 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
 
         return $instance;
     }
-    
+
     /**
      * Translates a string and handles parameter replacements
      *
      * Parameters are wrapped in curly braces. So {foo} would be replaced with bar given that $parameters['foo'] = 'bar'
-     * 
+     *
      * @param string $string String to translate
      * @param array  $parameters An array of parameters
      * @return string Translated string
