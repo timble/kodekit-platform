@@ -425,8 +425,6 @@ class HttpToken extends Object implements HttpTokenInterface
      * Decode from JWT string
      *
      * @param string      $token  A serialised token
-     * @param string|null $key    The secret key
-     * @param bool        $verify Don't skip verification process
      * @return HttpTokenInterface
      * @throws \InvalidArgumentException If the token is invalid
      */

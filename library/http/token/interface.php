@@ -199,8 +199,6 @@ interface HttpTokenInterface
      * Decode from JWT string
      *
      * @param string      $token  A serialised token
-     * @param string|null $key    The secret to be used to verify the HMAC signature bytes of the JWT token
-     * @param bool        $verify Don't skip verification process
      * @return HttpTokenInterface
      * @throws \InvalidArgumentException If the token is invalid
      */
