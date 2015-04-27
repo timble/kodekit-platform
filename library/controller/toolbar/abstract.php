@@ -22,7 +22,7 @@ abstract class ControllerToolbarAbstract extends CommandHandlerAbstract implemen
      *
      * @var     array
      */
-    protected $_controller;
+    private $__controller;
 
     /**
      * The commands
@@ -102,7 +102,7 @@ abstract class ControllerToolbarAbstract extends CommandHandlerAbstract implemen
      */
     public function getController()
     {
-        return $this->_controller;
+        return $this->__controller;
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class ControllerToolbarAbstract extends CommandHandlerAbstract implemen
      */
     public function setController(ControllerInterface $controller)
     {
-        $this->_controller = $controller;
+        $this->__controller = $controller;
         return $this;
     }
 
