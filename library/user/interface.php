@@ -54,14 +54,6 @@ interface UserInterface extends ObjectEquatable
     public function hasRole($roles);
 
     /**
-     * Checks if the user has a set of roles.
-     *
-     * @param  array $roles An array containing role identifiers.
-     * @return bool True if the user has all of the provided roles, false otherwise.
-     */
-    public function hasRoles($roles);
-
-    /**
      * Returns the groups the user is part of
      *
      * @return array An array of group id's

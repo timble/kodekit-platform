@@ -143,18 +143,6 @@ abstract class UserAbstract extends Object implements UserInterface
     }
 
     /**
-     * Checks if the user has a set of roles.
-     *
-     * @param  array $roles An array containing role identifiers.
-     * @return bool True if the user has all of the provided roles, false otherwise.
-     */
-    public function hasRoles($roles)
-    {
-        $roles = (array) $roles;
-        return count(array_intersect(array_unique($this->getRoles()), $roles)) === count($roles);
-    }
-
-    /**
      * Returns the groups the user is part of
      *
      * @return array An array of group id's
