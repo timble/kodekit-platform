@@ -56,16 +56,16 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     const NO_CONTENT                    = 204;
     const RESET_CONTENT                 = 205;
     const PARTIAL_CONTENT               = 206;
-    
-    // [Redirection 3xx]  
+
+    // [Redirection 3xx]
     const MOVED_PERMANENTLY             = 301;
     const FOUND                         = 302;
     const SEE_OTHER                     = 303;
     const NOT_MODIFIED                  = 304;
     const USE_PROXY                     = 305;
     const TEMPORARY_REDIRECT            = 307;
-    
-    // [Client Error 4xx]  
+
+    // [Client Error 4xx]
     const BAD_REQUEST                   = 400;
     const UNAUTHORIZED                  = 401;
     const FORBIDDEN                     = 403;
@@ -82,13 +82,13 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     const UNSUPPORTED_MEDIA_TYPE        = 415;
     const REQUESTED_RANGE_NOT_SATISFIED = 416;
     const EXPECTATION_FAILED            = 417;
-    
-    // [Server Error 5xx]  
-    const INTERNAL_SERVER_ERROR     = 500;  
-    const NOT_IMPLEMENTED           = 501;  
-    const BAD_GATEWAY               = 502;  
-    const SERVICE_UNAVAILABLE       = 503;  
-    const GATEWAY_TIMEOUT           = 504;  
+
+    // [Server Error 5xx]
+    const INTERNAL_SERVER_ERROR     = 500;
+    const NOT_IMPLEMENTED           = 501;
+    const BAD_GATEWAY               = 502;
+    const SERVICE_UNAVAILABLE       = 503;
+    const GATEWAY_TIMEOUT           = 504;
     const VERSION_NOT_SUPPORTED     = 505;
 
     /**
@@ -105,47 +105,47 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     public static $status_messages = array(
 
         // [Successful 2xx]
-        200 => 'OK',  
-        201 => 'Created',  
-        202 => 'Accepted', 
-        204 => 'No Content',  
-        205 => 'Reset Content',  
-        206 => 'Partial Content',  
+        200 => 'OK',
+        201 => 'Created',
+        202 => 'Accepted',
+        204 => 'No Content',
+        205 => 'Reset Content',
+        206 => 'Partial Content',
 
-        // [Redirection 3xx]  
-        300 => 'Multiple Choices',  
-        301 => 'Moved Permanently',  
-        302 => 'Found',  
-        303 => 'See Other',  
-        304 => 'Not Modified',  
-        305 => 'Use Proxy',  
-        307 => 'Temporary Redirect',  
-        
-        // [Client Error 4xx]  
-        400 => 'Bad Request',  
-        401 => 'Unauthorized',  
-        403 => 'Forbidden',  
-        404 => 'Not Found',  
-        405 => 'Method Not Allowed',  
-        406 => 'Not Acceptable',  
-        408 => 'Request Timeout',  
-        409 => 'Conflict',  
-        410 => 'Gone',  
-        411 => 'Length Required',  
-        412 => 'Precondition Failed',  
-        413 => 'Request Entity Too Large',  
-        414 => 'Request-URI Too Long',  
-        415 => 'Unsupported Media Type',  
-        416 => 'Requested Range Not Satisfiable',  
-        417 => 'Expectation Failed',  
-        
-        // [Server Error 5xx]  
-        500 => 'Internal Server Error',  
-        501 => 'Not Implemented',  
-        502 => 'Bad Gateway',  
+        // [Redirection 3xx]
+        300 => 'Multiple Choices',
+        301 => 'Moved Permanently',
+        302 => 'Found',
+        303 => 'See Other',
+        304 => 'Not Modified',
+        305 => 'Use Proxy',
+        307 => 'Temporary Redirect',
+
+        // [Client Error 4xx]
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        405 => 'Method Not Allowed',
+        406 => 'Not Acceptable',
+        408 => 'Request Timeout',
+        409 => 'Conflict',
+        410 => 'Gone',
+        411 => 'Length Required',
+        412 => 'Precondition Failed',
+        413 => 'Request Entity Too Large',
+        414 => 'Request-URI Too Long',
+        415 => 'Unsupported Media Type',
+        416 => 'Requested Range Not Satisfiable',
+        417 => 'Expectation Failed',
+
+        // [Server Error 5xx]
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+        502 => 'Bad Gateway',
         503 => 'Object Unavailable',
-        504 => 'Gateway Timeout',  
-        505 => 'HTTP Version Not Supported'  
+        504 => 'Gateway Timeout',
+        505 => 'HTTP Version Not Supported'
     );
 
     /**
@@ -262,7 +262,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     public function setContentType($type)
     {
         $this->_content_type = $type;
-        $this->_headers->set('Content-Type', array($type, 'charset' => 'utf-8'));
+        $this->_headers->set('Content-Type', $type.'; charset=utf-8');
 
         return $this;
     }
@@ -566,6 +566,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
         if (!in_array($this->_status_code, array(200, 203, 300, 301, 302, 404, 410))) {
             return false;
         }
+
 
         $cache_control = (array) $this->_headers->get('Cache-Control', null, false);
         if (isset($cache_control['no-store']) || isset($cache_control['no-cache'])) {
