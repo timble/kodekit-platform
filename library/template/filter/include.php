@@ -29,7 +29,7 @@ class TemplateFilterInclude extends TemplateFilterTag
     {
         $matches = array();
         $results = array();
-        if(preg_match_all('#<ktml:include\s+src="([^"]+)"(.*)\/>#iU', $text, $matches))
+        if(preg_match_all('#<ktml:include\s+src="([^"]+)"(.*)>#iU', $text, $matches))
         {
             foreach(array_unique($matches[1]) as $key => $match)
             {
@@ -60,16 +60,12 @@ class TemplateFilterInclude extends TemplateFilterTag
 
         if($link)
         {
-            $url  = $this->getObject('lib:http.url', array('url' => $link));
+            $url        = $this->getObject('lib:http.url', array('url' => $link));
+            $identifier = $this->getIdentifier($url->toString(HttpUrl::BASE));
 
-            $query      = $url->getQuery(true);
-            $identifier = $url->toString(HttpUrl::BASE);
-
-            //Render the component
-            $controller = $this->getObject($identifier);
-            $controller->getRequest()->getQuery()->add($query);
-
-            $html = $controller->render();
+            //Include the component
+            $html = $this->getObject('com:'.$identifier->package.'.dispatcher.fragment')
+                         ->include($url);
         }
 
         return $html;
