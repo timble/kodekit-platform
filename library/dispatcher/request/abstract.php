@@ -136,30 +136,9 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             }
          }
 
-        //Set the authorization
-        if (!isset($_SERVER['PHP_AUTH_USER']))
-        {
-            /*
-             * If you are running PHP as CGI. Apache does not pass HTTP Basic user/pass to PHP by default.
-             * To fix this add these lines to your .htaccess file:
-             *
-             * RewriteCond %{HTTP:Authorization} ^(.+)$
-             * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-             */
-
-            //When using PHP-FPM HTTP_AUTHORIZATION is called REDIRECT_HTTP_AUTHORIZATION
-            if(isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
-                $_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
-            }
-
-            // Decode AUTHORIZATION header into PHP_AUTH_USER and PHP_AUTH_PW when authorization header is basic
-            if (isset($_SERVER['HTTP_AUTHORIZATION']) && stripos($_SERVER['HTTP_AUTHORIZATION'], 'basic') === 0)
-            {
-                $exploded = explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'] , 6)));
-                if (count($exploded) == 2) {
-                    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = $exploded;
-                }
-            }
+        //When using PHP-FPM HTTP_AUTHORIZATION is called REDIRECT_HTTP_AUTHORIZATION
+        if(isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            $_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
         }
 
         //Set the headers
@@ -182,12 +161,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
 
                 $headers[$name] = $value;
             }
-        }
-
-        if(isset($_SERVER['PHP_AUTH_USER']))
-        {
-            $headers['PHP_AUTH_USER'] = $_SERVER['PHP_AUTH_USER'];
-            $headers['PHP_AUTH_PW']   = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
         }
 
         $this->_headers->add($headers);
