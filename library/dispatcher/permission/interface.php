@@ -18,13 +18,6 @@ namespace Nooku\Library;
 interface DispatcherPermissionInterface
 {
     /**
-     * Permission handler for forward actions
-     *
-     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
-     */
-    public function canForward();
-
-    /**
      * Permission handler for dispatch actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
