@@ -154,7 +154,9 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
         }
 
         //Cast to a string
-        $this->_content = (string) $content;
+        if(isset($content)) {
+            $this->_content = (string) $content;
+        }
 
         if(isset($type)) {
             $this->setContentType($type);
