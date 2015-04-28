@@ -202,7 +202,7 @@ class HttpMessageHeaders extends ObjectArray
                     $results[] = $key.'='.$value;
                 }
 
-                $value = implode($results, '; ');
+                $value = implode($results, ', ');
             }
 
             $content .= sprintf("%s %s\r\n", $name.':', $value);
