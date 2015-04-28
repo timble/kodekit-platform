@@ -20,7 +20,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
+class DispatcherBehaviorResettable extends DispatcherBehaviorAbstract
 {
     /**
      * Check if the behavior is supported

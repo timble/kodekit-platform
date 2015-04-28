@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherBehaviorPermissible extends ControllerBehaviorAbstract
+class DispatcherBehaviorPermissible extends DispatcherBehaviorAbstract
 {
     /**
      * The permission object
