@@ -35,9 +35,6 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
 
         //Set the supported methods
         $this->_methods = ObjectConfig::unbox($config->methods);
-
-        //Load the dispatcher translations
-        $this->addCommandCallback('before.dispatch', '_loadTranslations');
     }
 
     /**
@@ -54,7 +51,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             'methods'        => array('get', 'head', 'post', 'put', 'delete', 'options'),
             'behaviors'      => array('resettable'),
             'authenticators' => array('csrf'),
-            'limit'          => array('max' => 1000, 'default' => 20)
+            'limit'          => array('max' => 1000, 'default' => 20),
          ));
 
         parent::_initialize($config);
@@ -83,23 +80,23 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
     }
 
     /**
-     * Load the controller translations
+     * Resolve the request
      *
-     * @param ControllerContextInterface $context
-     * @return void
+     * @param DispatcherContextInterface $context A dispatcher context object
+     * @throw DispatcherExceptionMethodNotAllowed If the HTTP request method is not allowed.
      */
-    protected function _loadTranslations(ControllerContextInterface $context)
+    protected function _resolveRequest(DispatcherContextInterface $context)
     {
-        $package = $this->getIdentifier()->package;
-        $domain  = $this->getIdentifier()->domain;
+        parent::_resolveRequest($context);
 
-        if($domain) {
-            $identifier = 'com://'.$domain.'/'.$package;
-        } else {
-            $identifier = 'com:'.$package;
+        //Resolve the controller action
+        $method = strtolower($context->request->getMethod());
+
+        if (!in_array($method, $this->getHttpMethods())) {
+            throw new DispatcherExceptionMethodNotAllowed('Method not allowed');
         }
 
-        $this->getObject('translator')->load($identifier);
+        $this->setControllerAction($method);
     }
 
     /**
@@ -117,48 +114,20 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
         if(!$context->request->query->has('view'))
         {
             $url = clone($context->request->getUrl());
-            $url->query['view'] = $this->getController()->getView()->getName();
+            $url->query['view'] = $this->getConfig()->controller;
 
-            $this->redirect($url);
-        }
-        else
-        {
-            $method = strtolower($context->request->getMethod());
-
-            if (!in_array($method, $this->getHttpMethods())) {
-                throw new DispatcherExceptionMethodNotAllowed('Method not allowed');
-            }
-
-            $view = $this->getRequest()->query->get('view', 'cmd');
-
-            //Set the controller based on the view and pass the view
-            $this->setController($view, array('view' => $view));
-
-            //Execute the component method
-            $this->execute($method, $context);
+            return $this->redirect($url);
         }
 
-        return parent::_actionDispatch($context);
+        //Get the action
+        $action = $this->getControllerAction();
+
+        //Execute the component method
+        $this->execute($action, $context);
+
+        //Send the response
+        return $this->send($context);
 	}
-
-    /**
-     * Redirect
-     *
-     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
-     * redirect the dispatcher to another URL after a GET request.
-     *
-     * @param DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _actionRedirect(DispatcherContextInterface $context)
-    {
-        $url = $context->param;
-
-        $context->response->setStatus(DispatcherResponse::MOVED_PERMANENTLY);
-        $context->response->setRedirect($url);
-        $this->send();
-
-        return false;
-    }
 
     /**
      * Get method
@@ -257,7 +226,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             $result = $controller->execute($action, $context);
         }
         else throw new DispatcherExceptionMethodNotAllowed('Method POST not allowed');
-        
+
         return $result;
     }
 
@@ -419,16 +388,18 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
             else
             {
                 //Add an Allow header to the reponse
-                if($response->getStatusCode() === HttpResponse::METHOD_NOT_ALLOWED) {
+                if($response->getStatusCode() === HttpResponse::METHOD_NOT_ALLOWED)
+                {
                     try {
                         $this->_actionOptions($context);
+                    } catch (\Exception $e) {
+                        //do nothing
                     }
-                    catch (\Exception $e) {}
                 }
             }
         }
 
-        parent::_actionSend($context);
+        return parent::_actionSend($context);
     }
 
     /**

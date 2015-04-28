@@ -25,14 +25,11 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected $_controller;
 
     /**
-     * List of authenticators
+     * Controller action
      *
-     * Associative array of authenticators, where key holds the authenticator identifier string
-     * and the value is an identifier object.
-     *
-     * @var array
+     * @var	string
      */
-    private $__authenticators;
+    protected $_controller_action;
 
     /**
      * Constructor.
@@ -46,17 +43,17 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         //Set the controller
         $this->_controller = $config->controller;
 
-        //Add the authenticators
-        $authenticators = (array) ObjectConfig::unbox($config->authenticators);
+        //Set the controller action
+        $this->_controller_action = $config->controller_action;
 
-        foreach ($authenticators as $key => $value)
-        {
-            if (is_numeric($key)) {
-                $this->addAuthenticator($value);
-            } else {
-                $this->addAuthenticator($key, $value);
-            }
-        }
+        //Resolve the request
+        $this->addCommandCallback('before.dispatch', '_resolveRequest');
+
+        //Load the dispatcher translations
+        $this->addCommandCallback('before.dispatch', '_loadTranslations');
+
+        //Register the default exception handler
+        $this->addEventListener('onException', array($this, 'fail'));
     }
 
     /**
@@ -70,11 +67,14 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'controller'     => $this->getIdentifier()->package,
+            'controller'        => $this->getIdentifier()->package,
+            'controller_action' => 'render',
             'request'        => 'dispatcher.request',
             'response'       => 'dispatcher.response',
             'authenticators' => array()
-         ));
+         ))->append(array(
+            'behaviors'     => array('authenticatable' => array('authenticators' => $config->authenticators)),
+        ));
 
         parent::_initialize($config);
     }
@@ -203,6 +203,27 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
+     * Method to get a controller action to be executed
+     *
+     * @return	string
+     */
+    public function getControllerAction()
+    {
+        return $this->_controller_action;
+    }
+
+    /**
+     * Method to set the controller action to be executed
+     *
+     * @return	DispatcherAbstract
+     */
+    public function setControllerAction($action)
+    {
+        $this->_controller_action = $action;
+        return $this;
+    }
+
+    /**
      * Get the controller context
      *
      * @return  Command
@@ -220,94 +241,81 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
-     * Attach an authenticator
+     * Load the dispatcher translations
      *
-     * @param  mixed $authenticator An object that implements DispatcherAuthenticatorInterface, an ObjectIdentifier
-     *                              or valid identifier string
-     * @param  array  $config  An optional associative array of configuration options
-     * @return DispatcherAbstract
+     * @param ControllerContextInterface $context
+     * @return void
      */
-    public function addAuthenticator($authenticator, $config = array())
+    protected function _loadTranslations(ControllerContextInterface $context)
     {
-        //Create the complete identifier if a partial identifier was passed
-        if (is_string($authenticator) && strpos($authenticator, '.') === false)
-        {
-            $identifier = $this->getIdentifier()->toArray();
-            $identifier['path'] = array('dispatcher', 'authenticator');
-            $identifier['name'] = $authenticator;
+        $package = $this->getIdentifier()->package;
+        $domain  = $this->getIdentifier()->domain;
 
-            $identifier = $this->getIdentifier($identifier);
-        }
-        else $identifier = $this->getIdentifier($authenticator);
-
-        if (!isset($this->__authenticators[(string)$identifier]))
-        {
-            if(!$authenticator instanceof DispatcherAuthenticatorInterface) {
-                $authenticator = $this->getObject($identifier, $config);
-            }
-
-            if (!($authenticator instanceof DispatcherAuthenticatorInterface))
-            {
-                throw new \UnexpectedValueException(
-                    "Authenticator $identifier does not implement DispatcherAuthenticatorInterface"
-                );
-            }
-
-            $this->addBehavior($authenticator);
-
-            //Store the authenticator to allow for named lookups
-            $this->__authenticators[(string)$identifier] = $authenticator;
+        if($domain) {
+            $identifier = 'com://'.$domain.'/'.$package;
+        } else {
+            $identifier = 'com:'.$package;
         }
 
-        return $this;
+        $this->getObject('translator')->load($identifier);
     }
 
     /**
-     * Gets the authenticators
+     * Resolve the request
      *
-     * @return array An array of authenticators
+     * @param DispatcherContextInterface $context A dispatcher context object
      */
-    public function getAuthenticators()
+    protected function _resolveRequest(DispatcherContextInterface $context)
     {
-        return $this->__authenticators;
+        //Resolve the controller
+        if($context->request->query->has('view')) {
+            $this->setController($context->request->query->get('view', 'cmd'));
+        }
+
+        //Resolve the controller action
+        if($context->request->query->has('action')) {
+            $this->setControllerAction($context->request->query->get('action', 'cmd'));
+        }
     }
 
     /**
-     * Forward the request
+     * Dispatch the request
      *
-     * Forward to another dispatcher internally. Method makes an internal sub-request, calling the specified
-     * dispatcher and passing along the context.
+     * Dispatch to a controller internally or forward to another component.  Functions makes an internal sub-request,
+     * based on the information in the request and passing along the context.
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
-     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     * @return	mixed
      */
-    protected function _actionForward(DispatcherContextInterface $context)
+    protected function _actionDispatch(DispatcherContextInterface $context)
     {
-        //Get the dispatcher identifier
-        if(is_string($context->param) && strpos($context->param, '.') === false )
-        {
-            $identifier			   = $this->getIdentifier()->toArray();
-            $identifier['package'] = $context->param;
-        }
-        else $identifier = $this->getIdentifier($context->param);
+        $controller = $this->getController();
+        $action     = $this->getControllerAction();
 
-        //Create the dispatcher
-        $config = array(
-            'request' 	 => $context->request,
-            'response'   => $context->response,
-            'user'       => $context->user,
-        );
+        //Execute the component and pass along the context
+        $controller->execute($action, $context);
 
-        $dispatcher = $this->getObject($identifier, $config);
+        //Send the response
+        return $this->send($context);
+    }
 
-        if(!$dispatcher instanceof DispatcherInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Dispatcher: '.get_class($dispatcher).' does not implement DispatcherInterface'
-            );
-        }
+    /**
+     * Redirect
+     *
+     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
+     * redirect the dispatcher to another URL after a GET request.
+     *
+     * @param DispatcherContextInterface $context	A dispatcher context object
+     */
+    protected function _actionRedirect(DispatcherContextInterface $context)
+    {
+        $url = $context->param;
 
-        $dispatcher->dispatch($context);
+        $context->response->setStatus(DispatcherResponse::MOVED_PERMANENTLY);
+        $context->response->setRedirect($url);
+
+        //Send the response
+        return $this->send($context);
     }
 
     /**
@@ -340,34 +348,26 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         }
 
         //Get the error message
-        $message = HttpResponse::$status_messages[$code];
+        $message = $exception->getMessage();
+        if(empty($message)) {
+            $message = HttpResponse::$status_messages[$code];
+        }
+
+        //Store the exception in the context
+        $context->exception = $exception;
 
         //Set the response status
         $context->response->setStatus($code , $message);
 
         //Send the response
-        $this->send($context);
-    }
-
-    /**
-     * Dispatch the request
-     *
-     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
-     * the request and passing along the context.
-     *
-     * @param DispatcherContextInterface $context	A dispatcher context object
-     * @return	mixed
-     */
-    protected function _actionDispatch(DispatcherContextInterface $context)
-    {
-        //Send the response
-        $this->send($context);
+        return $this->send($context);
     }
 
     /**
      * Send the response
      *
      * @param DispatcherContextInterface $context	A dispatcher context object
+     * @return mixed
      */
     protected function _actionSend(DispatcherContextInterface $context)
     {
