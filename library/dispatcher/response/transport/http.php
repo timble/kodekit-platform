@@ -78,6 +78,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      * conservative value
      *
      * @link http://tools.ietf.org/html/rfc2616
+     * @link http://tools.ietf.org/html/rfc7235
      *
      * @param DispatcherResponseInterface $response
      * @return boolean  Returns true if the response has been send, otherwise FALSE
@@ -101,7 +102,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         }
 
         // IIS does not like it when you have a Location header in a non-redirect request
-        // http://stackoverflow.com/questions/12074730/w7-pro-iis-7-5-overwrites-php-location-header-solved
+        // @link : http://stackoverflow.com/questions/12074730/w7-pro-iis-7-5-overwrites-php-location-header-solved
         if ($response->headers->has('Location') && !$response->isRedirect())
         {
             $server = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE');
@@ -138,8 +139,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
             {
                 if (preg_match('/(?i)MSIE [4-8]/i', $user_agent)) {
                     $disposition['filename'] = '"'.$encoded_name.'"';
-                }
-                elseif (!stripos($user_agent, 'AppleWebkit')) {
+                } elseif (!stripos($user_agent, 'AppleWebkit')) {
                     $disposition['filename*'] = 'UTF-8\'\''.$encoded_name;
                 }
             }
@@ -196,6 +196,17 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
             }
         }
 
+        //Modifies the response so that it conforms to the rules defined for a 401 status code.
+        if($response->getStatusCode() == HttpResponse::UNAUTHORIZED)
+        {
+            //The response MUST include a WWW-Authenticate header field, use 'unknown' scheme.
+            //@link : http://tools.ietf.org/html/rfc7235 (updated spec)
+            //@link : http://greenbytes.de/tech/tc/httpauth/
+            if (!$response->headers->has('WWW-Authenticate')) {
+                $response->headers->set('WWW-Authenticate', 'unknown');
+            }
+        }
+
         //Calculates or modifies the cache-control header to a sensible, conservative value.
         $cache_control = (array) $response->headers->get('Cache-Control', null, false);
 
@@ -209,7 +220,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         }
 
         // Prevent caching: Cache-control needs to be empty for IE on SSL.
-        // See: http://support.microsoft.com/default.aspx?scid=KB;EN-US;q316431
+        // @link : http://support.microsoft.com/default.aspx?scid=KB;EN-US;q316431
         if ($request->isSecure() && preg_match('#(?:MSIE |Internet Explorer/)(?:[0-9.]+)#', $request->getAgent())) {
             header('Cache-Control: ');
         }
