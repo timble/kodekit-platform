@@ -18,11 +18,6 @@ use Nooku\Component\Application;
  */
 class ApplicationControllerPage extends Application\ControllerPage
 {
-    /**
-     * Constructor.
-     *
-     * @param  Library\ObjectConfig $config  An optional Library\ObjectConfig object with configuration options.
-     */
     protected function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
