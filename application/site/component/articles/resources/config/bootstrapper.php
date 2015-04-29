@@ -13,12 +13,4 @@ return array(
         'com:articles.model.categories' => 'com:categories.model.categories',
     ),
 
-	'identifiers' => array(
-
-		'com:articles.dispatcher.http'  => array(
-			'event_subscribers' => array('com:varnish.event.subscriber.notfound'),
-			'behaviors'        => array('com:varnish.dispatcher.behavior.cacheable'),
-		),
-	)
-
 );
