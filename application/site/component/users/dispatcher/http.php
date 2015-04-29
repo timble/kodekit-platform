@@ -8,7 +8,6 @@
  */
 
 use Nooku\Library;
-use Nooku\Component\Users;
 
 /**
  * Http Dispatcher
@@ -16,12 +15,12 @@ use Nooku\Component\Users;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
-class UsersDispatcherHttp extends Users\DispatcherHttp
+class UsersDispatcherHttp extends Library\DispatcherHttp
 {
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
-	{        	
+	{
         if($context->user->isAuthentic())
-        {  
+        {
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
@@ -32,7 +31,7 @@ class UsersDispatcherHttp extends Users\DispatcherHttp
         }
 
         if(!$context->user->isAuthentic())
-        {  
+        {
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
@@ -40,8 +39,8 @@ class UsersDispatcherHttp extends Users\DispatcherHttp
                 //@TODO : Fix the redirect
                 //$this->getObject('application')->redirect('?Itemid='.$menu->id, 'You are already logged out!');
             }
-        } 
-               
+        }
+
         return parent::_actionDispatch($context);
 	}
 }
