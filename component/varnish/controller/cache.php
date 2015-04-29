@@ -25,7 +25,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Varnish
  */
-class ControllerCache extends Library\ControllerAbstract
+class ControllerCache extends Library\ControllerAbstract implements Library\ObjectMultiton
 {
     const SOCKET_TIMEOUT = 5;
 
