@@ -50,6 +50,9 @@ class CommandMixin extends CommandCallbackAbstract implements CommandMixinInterf
         //Create a command chain object
         $this->__command_chain = $config->command_chain;
 
+        //Set the command priority
+        $this->_priority = $config->priority;
+
         //Add the command handlers
         $handlers = (array) ObjectConfig::unbox($config->command_handlers);
 

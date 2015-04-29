@@ -33,7 +33,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Parse site route
         $url->query['site'] = $this->getObject('application')->getSite();
 
-        $path = str_replace($url->query['site'], '', $path);
+        $path = preg_replace('/^'.preg_quote($url->query['site']).'/', '', $path);
         $path = ltrim($path, '/');
 
         //Parse component route

@@ -38,6 +38,21 @@ class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
     }
 
     /**
+     * Returns a key based on the context to persist state values
+     *
+     * @param 	ControllerContextInterface $context The active controller context
+     * @return  string
+     */
+    protected function _getStateKey(ControllerContextInterface $context)
+    {
+        $view   = $this->getView()->getIdentifier();
+        $layout = $this->getView()->getLayout();
+        $model  = $this->getModel()->getIdentifier();
+
+        return $view.'.'.$layout.'.'.$model.'.'.$context->action;
+    }
+
+    /**
 	 * Load the model state from the request and persist it.
 	 *
 	 * This functions merges the request information with any model state information that was saved in the session
@@ -48,13 +63,11 @@ class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
 	 */
 	protected function _beforeBrowse(ControllerContextInterface $context)
 	{
-        $model      = $this->getModel();
-        $query      = $context->getRequest()->query;
-        $identifier = $model->getIdentifier().'.'.$context->action;
+        $query = $context->getRequest()->query;
 
-        $query->add((array) $context->user->get($identifier));
+        $query->add((array) $context->user->get($this->_getStateKey($context)));
 
-        $model->getState()->setValues($query->toArray());
+        $this->getModel()->getState()->setValues($query->toArray());
 	}
 
 	/**
@@ -65,8 +78,7 @@ class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
 	 */
 	protected function _afterBrowse(ControllerContextInterface $context)
 	{
-        $model  = $this->getModel();
-        $state  = $model->getState();
+        $state  = $this->getModel()->getState();
 
         $vars = array();
         foreach($state->toArray() as $var)
@@ -76,7 +88,6 @@ class ControllerBehaviorPersistable extends ControllerBehaviorAbstract
             }
         }
 
-        $identifier = $model->getIdentifier().'.'.$context->action;
-        $context->user->set($identifier, $vars);
+        $context->user->set($this->_getStateKey($context), $vars);
 	}
 }

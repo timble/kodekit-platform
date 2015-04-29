@@ -26,11 +26,11 @@ class FilterFolderName extends Library\FilterAbstract
         $translator = $this->getObject('translator');
 
 		if (strpos($value, '/') !== false) {
-			return $this->_error($translator('Folder names cannot contain slashes'));
+			return $this->addError($translator('Folder names cannot contain slashes'));
 		}
 
 		if ($this->sanitize($value) == '') {
-			return $this->_error($translator('Invalid folder name'));
+			return $this->addError($translator('Invalid folder name'));
 		}
 	}
 

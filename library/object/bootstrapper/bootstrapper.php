@@ -415,7 +415,7 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
      */
     public function getComponents()
     {
-        return array_values($this->_components);
+        return array_keys($this->_components);
     }
 
     /**

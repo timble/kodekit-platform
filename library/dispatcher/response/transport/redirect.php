@@ -62,20 +62,33 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportHtt
             }
 
             //Set the redirect into the response
-            $response->setContent(sprintf(
-                '<!DOCTYPE html>
-                    <html>
-                        <head>
-                            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                            <meta http-equiv="refresh" content="1;url=%1$s" />
-                            <title>Redirecting to %1$s</title>
-                        </head>
-                        <body>
-                            Redirecting to <a href="%1$s">%1$s</a>.
-                        </body>
-                    </html>'
-                , htmlspecialchars($response->headers->get('Location'), ENT_QUOTES, 'UTF-8')
-            ), 'text/html');
+            $format = $response->getRequest()->getFormat();
+            if($format == 'json')
+            {
+                array_unshift($messages, sprintf('Redirecting to %1$s', $response->getHeaders()->get('Location')));
+
+                $response->setContent(json_encode(array(
+                    'messages' => $messages
+                )), 'application/json');
+            }
+
+            if($format == 'html')
+            {
+                $response->setContent(sprintf(
+                    '<!DOCTYPE html>
+                        <html>
+                            <head>
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                <meta http-equiv="refresh" content="1;url=%1$s" />
+                                <title>Redirecting to %1$s</title>
+                            </head>
+                            <body>
+                                Redirecting to <a href="%1$s">%1$s</a>.
+                            </body>
+                        </html>'
+                    , htmlspecialchars($response->getHeaders()->get('Location'), ENT_QUOTES, 'UTF-8')
+                ), 'text/html');
+            }
 
             return parent::send($response);
         }

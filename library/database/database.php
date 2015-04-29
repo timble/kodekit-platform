@@ -26,8 +26,6 @@ class Database
 	/**
 	 * Database fetch mode
 	 */
-	const FETCH_ROW         = 0;
-	const FETCH_ROWSET      = 1;
 
 	const FETCH_ARRAY       = 0;
 	const FETCH_ARRAY_LIST  = 1;
@@ -35,6 +33,9 @@ class Database
 	const FETCH_FIELD_LIST  = 3;
 	const FETCH_OBJECT      = 4;
 	const FETCH_OBJECT_LIST = 5;
+
+	const FETCH_ROW         = 6;
+	const FETCH_ROWSET      = 7;
 
 	/**
 	 * Row states

@@ -141,38 +141,48 @@ class TemplateFilterForm extends TemplateFilterAbstract
 
         // GET : Add query params
         $matches = array();
-        if (preg_match_all('#<form.*action=".*\?(.*)".*method="get".*>#iU', $text, $matches))
+        if (preg_match_all('#<form.*action="[^"]*\?(.*)".*method="get".*>(.*)</form>#isU', $text, $matches))
         {
             foreach ($matches[1] as $key => $query)
             {
                 parse_str(str_replace('&amp;', '&', $query), $query);
 
-                $input = $this->_renderQuery($query);
-                $text = str_replace($matches[0][$key], $matches[0][$key] . $input, $text);
+                $input = '';
+
+                foreach ($query as $name => $value)
+                {
+                    if (is_array($value)) {
+                        $name = $name . '[]';
+                    }
+
+                    if (strpos($matches[2][$key], 'name="' . $name . '"') !== false) {
+                        continue;
+                    }
+
+                    $name =  $this->getTemplate()->escape($name);
+
+                    if (is_array($value))
+                    {
+                        foreach ($value as $k => $v)
+                        {
+                            if (!is_scalar($v) || !is_numeric($k)) {
+                                continue;
+                            }
+
+                            $v = $this->getTemplate()->escape($v);
+
+                            $input .= PHP_EOL.'<input type="hidden" name="'.$name.'" value="'.$v.'" />';
+                        }
+                    }
+                    else
+                    {
+                        $value  = $this->getTemplate()->escape($value);
+                        $input .= PHP_EOL.'<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+                    }
+                }
+
+                $text = str_replace($matches[2][$key], $matches[2][$key] . $input, $text);
             }
         }
-    }
-
-    /**
-     * Recursive function that transforms the query array into a string of input elements
-     *
-     * @param  array    $query Associative array of query information
-     * @param  string   $key The name of the current input element
-     * @return string String of the html input elements
-     */
-    protected function _renderQuery($query, $key = '')
-    {
-        $input = '';
-        foreach ($query as $name => $value)
-        {
-            $name = $key ? $key . '[' . $name . ']' : $name;
-            if (is_array($value)) {
-                $input .= $this->_renderQuery($value, $name);
-            } else {
-                $input .= PHP_EOL . '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
-            }
-        }
-
-        return $input;
     }
 }

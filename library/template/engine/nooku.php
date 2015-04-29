@@ -285,7 +285,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
             // convert "<?" to "<?php"
             $find = '/\<\?(?:php)?\s*(.*?)/';
             $replace = "<?php \$1";
-            $content = preg_replace($find, $replace, $source);
+            $source = preg_replace($find, $replace, $source);
         }
 
         //Compile to valid PHP

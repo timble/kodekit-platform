@@ -11,19 +11,21 @@
 <div id="activities-list">
     <? if(count($activities)) : ?>
     <? foreach ($activities as $activity) : ?>
-       <? $list[substr($activity->created_on, 0, 10)][] = $activity; ?>
+       <?$list[substr($activity->created_on, 0, 10)][] = $activity; ?>
     <? endforeach; ?>
 
+    <? $now = object('lib:date')->format('Y-m-d') ?>
+
     <? foreach($list as $date => $activities) : ?>
-        <h4><?= helper('date.humanize', array('date' => $date)) ?></h4>
+        <h4><?= $date == $now ? translate('Today') : helper('date.humanize', array('date' => $date)) ?></h4>
         <? foreach($activities as $activity) : ?>
         <div class="activity">
             <div class="activity__text">
-                <i class="icon-<?= $activity->action ?>"></i>
-                <?= helper('activity.message', array('entity' => $activity)) ?>
+                <i class="icon-<?= $activity->image ?>"></i>
+                <?= helper('activity.activity', array('entity' => $activity)) ?>
             </div>
             <div class="activity__info">
-                <?= $activity->package.' - '.$activity->name ?> | <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>
+                <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>
             </div>
         </div>
         <? endforeach ?>
