@@ -12,12 +12,12 @@
 <h3><?= $module->title ?></h3>
 <? endif ?>
 
-<?php foreach ($articles as $article): ?>
-<?php echo helper('com:articles.article.render',
+<? foreach ($articles as $article): ?>
+<?= helper('com:articles.article.render',
     array(
         'entity'              => $article,
         'show_create_date' => false,
         'show_modify_date' => false,
         'show_images'      => false,
         'title_heading'    => 3));?>
-<?php endforeach; ?>
+<? endforeach; ?>
