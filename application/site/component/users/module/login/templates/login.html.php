@@ -36,7 +36,4 @@
 		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
 	</div>
 	</fieldset>
-
-    <esi:include src="<?= route('component=articles&view=article&id=2') ?>" />
-    <!--	<ktml:include src="com:articles.controller.article?id=2" />-->
 </form>
