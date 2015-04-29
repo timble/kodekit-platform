@@ -17,5 +17,12 @@ return array(
         'lib:template.locator.component'    => 'com:application.template.locator.component',
         'lib:template.locator.file'         => 'com:application.template.locator.file',
         'com:pages.template.locator.module' => 'com:application.template.locator.module',
+    ),
+
+    'identifiers' => array(
+
+        'dispatcher' => array(
+            'behaviors' => array('com:application.dispatcher.behavior.layoutable')
+        )
     )
 );
