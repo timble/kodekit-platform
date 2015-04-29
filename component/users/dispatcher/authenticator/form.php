@@ -17,58 +17,85 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorAbstract
+class DispatcherAuthenticatorForm extends DispatcherAuthenticatorCookie
 {
-    /**
-     * Constructor.
-     *
-     * @param Library\ObjectConfig $config Configuration options
-     */
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->addCommandCallback('before.post', 'authenticateRequest');
-
-    }
-
     /**
      * Authenticate using email and password credentials
      *
      * @param Library\DispatcherContextInterface $context A dispatcher context object
-     * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
+     * @return  boolean Returns TRUE if the authentication explicitly succeeded.
      */
     public function authenticateRequest(Library\DispatcherContextInterface $context)
     {
-        if ($context->subject->getController()->getIdentifier()->name == 'session' && !$context->user->isAuthentic())
+        if($context->request->isPost() )
         {
-            $password = $context->request->data->get('password', 'string');
-            $email    = $context->request->data->get('email', 'email');
+            $controller = $context->subject->getController()->getIdentifier()->name;
 
-            $user = $this->getObject('com:users.model.users')->email($email)->fetch();
-
-            if ($user->id)
+            if ($context->request->data->has('email') && $controller == 'session')
             {
-                //Check user password
-                if (!$user->getPassword()->verifyPassword($password)) {
-                    throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
+                $password = $context->request->data->get('password', 'string');
+                $email    = $context->request->data->get('email'   , 'email');
+
+                if($email)
+                {
+                    $user = $this->getObject('com:users.model.users')->email($email)->fetch();
+
+                    if ($user->id)
+                    {
+                        //Check user password
+                        if (!$user->getPassword()->verifyPassword($password)) {
+                            throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
+                        }
+
+                        //Check user enabled
+                        if (!$user->enabled) {
+                            throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
+                        }
+
+                        //Login the user
+                        $this->loginUser($user->id);
+
+                        //Perform Cookie authentication
+                        parent::authenticateRequest($context);
+
+                        return true;
+                    }
+                    else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
                 }
-
-                //Check user enabled
-                if (!$user->enabled) {
-                    throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
-                }
-
-                //Start the session (if not started already)
-                $context->user->getSession()->start();
-
-                //Set user data in context
-                $data  = $this->getObject('user.provider')->load($user->id)->toArray();
-                $data['authentic'] = true;
-
-                $context->user->setData($data);
+                else throw new Library\ControllerExceptionRequestNotAuthenticated('Invalid email');
             }
-            else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong email');
+        }
+    }
+
+    /**
+     * Render the login form
+     *
+     * @param 	Library\DispatcherContextInterface $context The active command context
+     * @return 	void
+     */
+    public function challengeResponse(Library\DispatcherContextInterface $context)
+    {
+        $response = $context->getResponse();
+        $request  = $context->getRequest();
+
+        if($response->getStatusCode() == Library\HttpResponse::UNAUTHORIZED)
+        {
+            if($request->getFormat() == 'html' && !$response->isDownloadable())
+            {
+                if($request->isSafe())
+                {
+                    $config = array(
+                        'response'  => $response,
+                    );
+
+                    $this->getObject('com:users.controller.session', $config)
+                        ->view('session')
+                        ->render();
+                }
+                else $response->setRedirect($request->getReferrer(), $response->getStatusMessage(), 'error');
+            }
+
+            parent::challengeResponse($context);
         }
     }
 }

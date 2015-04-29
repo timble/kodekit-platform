@@ -17,19 +17,40 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstract
+class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorCsrf
 {
     /**
      * Constructor.
      *
-     * @param Library\ObjectConfig $config Configuration options
+     * @param  Library\ObjectConfig $config Configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->addCommandCallback('before.dispatch', 'authenticateRequest');
+        //Setup the session cookie
+        $session = $this->getObject('user')->getSession();
 
+        //Set session cookie name
+        $session->setName($this->getCookieName());
+
+        //Set session cookie path and domain
+        $session->setOptions(array(
+            'cookie_path'   => (string) $this->getObject('request')->getBaseUrl()->getPath() ?: '/',
+            'cookie_domain' => (string) $this->getObject('request')->getBaseUrl()->getHost()
+        ));
+    }
+
+    /**
+     * Return the cookie name
+     *
+     * @return string
+     */
+    public function getCookieName()
+    {
+        $request = $this->getObject('request');
+
+        return md5($request->getBasePath());
     }
 
     /**
@@ -38,32 +59,58 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorAbstr
      * If a session cookie is found and the session session is not active it will be auto-started.
      *
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
+     * @return  boolean Returns TRUE if the authentication explicitly succeeded.
      */
     public function authenticateRequest(Library\DispatcherContextInterface $context)
     {
         $session = $context->getUser()->getSession();
         $request = $context->getRequest();
 
-        //Auto-start the session if a cookie is found
         if(!$session->isActive())
         {
-            //Set Session Name
-            $session->setName(md5($request->getBasePath()));
-
-            //Set Session Options
-            $session->setOptions(array(
-                'cookie_path'   => (string) $request->getBaseUrl()->getPath() ?: '/',
-                'cookie_domain' => (string) $request->getBaseUrl()->getHost()
-            ));
-
-            if ($request->getCookies()->has($session->getName()))
+            if ($request->getCookies()->has($this->getCookieName()))
             {
-                $session->start();
+                //Logging the user by auto-start the session
+                $this->loginUser();
 
-                $messages = $context->user->getSession()->getContainer('message')->all();
-                $context->response->setMessages($messages);
+                //Perform CSRF authentication
+                parent::authenticateRequest($context);
+
+                return true;
             }
         }
+    }
+
+    /**
+     * Log the user in
+     *
+     * @param mixed  $user A user key or name, an array of user data or a UserInterface object. Default NULL
+     * @param array  $data Optional user data
+     * @return bool
+     */
+    public function loginUser($user = null, $data = array())
+    {
+        if($this->_login_user)
+        {
+            $session  = $this->getObject('user')->getSession();
+            $response = $this->getObject('response');
+
+            //Start the session
+            $session->start();
+
+            //Set the messsages into the response
+            $messages = $session->getContainer('message')->all();
+            $response->setMessages($messages);
+
+            if($user) {
+                $result = parent::loginUser($user, $data);
+            } else {
+                $result = $this->getObject('user')->isAuthentic();
+            }
+
+            return $result;
+        }
+
+        return false;
     }
 }
