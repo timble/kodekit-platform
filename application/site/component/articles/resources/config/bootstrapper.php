@@ -13,4 +13,11 @@ return array(
         'com:articles.model.categories' => 'com:categories.model.categories',
     ),
 
+    'identifiers' => array(
+
+        'com:articles.controller.article'  => array(
+            'behaviors'  => array('com:varnish.controller.behavior.taggable'),
+        ),
+    )
+
 );

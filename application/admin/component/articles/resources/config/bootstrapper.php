@@ -18,7 +18,7 @@ return array(
 	'identifiers' => array(
 
 		'com:articles.controller.article'  => array(
-			'behaviors'        => array('com:varnish.controller.behavior.cacheable'),
+			'behaviors'  => array('com:varnish.controller.behavior.taggable'),
 		),
 	)
 );
