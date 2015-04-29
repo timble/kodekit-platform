@@ -18,33 +18,6 @@ use Nooku\Library;
 abstract class ApplicationControllerPermissionAbstract extends Library\ControllerPermissionAbstract
 {
     /**
-     * Authorize handler for render actions
-     *
-     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
-     */
-    public function canRender()
-    {
-        if(parent::canRender())
-        {
-            $application = $this->getObject('application');
-            $user        = $this->getUser();
-            $request     = $this->getRequest();
-
-            $page = $request->query->get('Itemid', 'int');
-
-            if($this->isDispatched())
-            {
-                if($this->getObject('application.pages')->isAuthorized($page, $user)) {
-                    return true;
-                }
-            }
-            else return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Authorize handler for add actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.

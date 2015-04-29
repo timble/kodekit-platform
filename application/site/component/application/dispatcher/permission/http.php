@@ -24,6 +24,16 @@ class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAb
      */
     public function canDispatch()
     {
-        return true;
+        $application = $this->getObject('application');
+        $user        = $this->getUser();
+        $request     = $this->getRequest();
+
+        $page = $request->query->get('Itemid', 'int');
+
+        if($this->getObject('application.pages')->isAuthorized($page, $user)) {
+            return true;
+        }
+
+        return false;
     }
 }
