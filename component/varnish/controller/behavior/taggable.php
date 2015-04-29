@@ -12,34 +12,39 @@ namespace Nooku\Component\Varnish;
 use Nooku\Library;
 
 /**
- * Dispatcher Varnishable Behavior
+ * Controller Taggable Behavior
  *
  * @author  Dave Li <http://github.com/daveli>
  * @package Component\Varnish
  */
-class ControllerBehaviorCacheable extends Library\BehaviorAbstract
+class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 {
-    private $__varnish;
-
-    public function getVarnish()
+    protected function _afterRender(Library\ControllerContextInterface $context)
     {
-        if(!isset($this->__varnish))
-        {
-            $this->__varnish = $this->getObject('com:varnish.model.sockets');
-            $this->__varnish->connect();
-        }
+        $controller = $context->getSubject();
+        $model      = $controller->getModel();
+        $varnish    = $this->getObject('com:varnish.controller.cache');
 
-        return $this->__varnish;
+        if ($model->getState()->isUnique())
+        {
+            $entities = $model->fetch();
+            $key      = $entities->getIdentityKey();
+            $value    = $entities->getProperty($key);
+
+            $varnish->tag((string) $controller->getIdentifier().'#'.$value);
+        }
+        else  $varnish->tag((string) $controller->getIdentifier());
     }
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {
         if($context->response->getStatusCode() == Library\HttpResponse::CREATED)
         {
+            $varnish    = $this->getObject('com:varnish.controller.cache');
             $entity     = $context->result;
             $controller = $context->getSubject();
 
-            $this->getVarnish()->ban('obj.http.x-entities == '. $controller->getIdentifier());
+            $varnish->ban($controller->getIdentifier());
         }
     }
 
@@ -47,25 +52,7 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
     {
         if($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT)
         {
-            $entities  = $context->result;
-            $controller = $context->getSubject();
-
-            foreach($entities as $entity)
-            {
-                $key   = $entity->getIdentityKey();
-                $value = $entity->getProperty($key);
-
-                $this->getVarnish()->ban('obj.http.x-entities ~ '. $controller->getIdentifier().'#'.$value);
-            }
-
-            $this->getVarnish()->ban('obj.http.x-entities == '. $controller->getIdentifier());
-        }
-    }
-
-    protected function _afterDelete(Library\ControllerContextInterface $context)
-    {
-        if($context->response->getStatusCode() == Library\HttpResponse::NO_CONTENT)
-        {
+            $varnish    = $this->getObject('com:varnish.controller.cache');
             $entities   = $context->result;
             $controller = $context->getSubject();
 
@@ -74,10 +61,30 @@ class ControllerBehaviorCacheable extends Library\BehaviorAbstract
                 $key   = $entity->getIdentityKey();
                 $value = $entity->getProperty($key);
 
-                $this->getVarnish()->ban('obj.http.x-entities ~ '. $controller->getIdentifier().'#'.$value);
+                $varnish->ban($controller->getIdentifier().'#'.$value);
             }
 
-            $this->getVarnish()->ban('obj.http.x-entities == '. $controller->getIdentifier());
+            $varnish->ban($controller->getIdentifier());
+        }
+    }
+
+    protected function _afterDelete(Library\ControllerContextInterface $context)
+    {
+        if($context->response->getStatusCode() == Library\HttpResponse::NO_CONTENT)
+        {
+            $varnish    = $this->getObject('com:varnish.controller.cache');
+            $entities   = $context->result;
+            $controller = $context->getSubject();
+
+            foreach($entities as $entity)
+            {
+                $key   = $entity->getIdentityKey();
+                $value = $entity->getProperty($key);
+
+                $varnish->ban($controller->getIdentifier().'#'.$value);
+            }
+
+            $varnish->ban($controller->getIdentifier());
         }
     }
 }
