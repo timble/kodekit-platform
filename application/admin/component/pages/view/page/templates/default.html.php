@@ -62,7 +62,6 @@
                 <h3><?= translate('Other') ?></h3>
                 <a href="<?= route('menu='.parameters()->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Page link') ?></a>
                 <a href="<?= route('menu='.parameters()->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('External link') ?></a>
-                <a href="<?= route('menu='.parameters()->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Redirect') ?></a>
                 <a href="<?= route('menu='.parameters()->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Separator') ?></a>
             <? endif ?>
         </div>

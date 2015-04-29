@@ -114,11 +114,6 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
                     $result .= $page->title;
                     $result .= '</a>';
                     break;
-
-                case 'redirect':
-                    $result .= '<a href="'.$page->route.'">';
-                    $result .= $page->title;
-                    $result .= '</a>';
             }
 
             //$result .= $level;
