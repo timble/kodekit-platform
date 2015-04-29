@@ -31,6 +31,6 @@ class DispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
             return true;
         }
 
-        return true;
+        return false;
     }
 }
