@@ -16,11 +16,6 @@
 
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <header>
-	    <? if (object('dispatcher')->getController()->canEdit()) : ?>
-        <div class="btn-toolbar">
-            <ktml:toolbar type="actionbar">
-        </div>
-	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
 	    <?= helper('date.timestamp', array('entity' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
