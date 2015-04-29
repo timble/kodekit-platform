@@ -7,24 +7,22 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Revisions;
+namespace Nooku\Component\Varnish;
 
 use Nooku\Library;
 
 /**
- * Bootstrapper
+ * Html Fragment View
  *
- * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Revisions
+ * @author      Johan Janssens <http://github.com/johanjanssens>
+ * @package Nooku\Component\Varnish
  */
-class Bootstrapper extends Library\ObjectBootstrapperComponent
+class ViewFragmentHtml extends Library\ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'aliases'  => array(
-                'com:revisions.database.behavior.creatable' => 'com:users.database.behavior.creatable',
-            ),
+            'template_filters'	=> array('style', 'link', 'meta', 'script', 'title'),
         ));
 
         parent::_initialize($config);
