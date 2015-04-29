@@ -11,13 +11,16 @@ return array(
 
     'identifiers' => array(
 
-        'dispatcher.response'       => array(
-            'transports' => array('com:varnish.dispatcher.response.transport.esi')
+        'dispatcher.fragment' => array(
+            'behaviors' => array(
+                'com:varnish.dispatcher.behavior.includable'
+            )
         ),
 
-        'com:varnish.model.sockets' => array(
+        'com:varnish.controller.cache' => array(
+            'debug'  => true,
+            'esi'    => true,
             'secret' => 'c19f50ae-a113-46dd-9baa-c728060b0d3a',
         ),
     )
-
 );
