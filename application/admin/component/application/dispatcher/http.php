@@ -41,7 +41,14 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $this->_site = $config->site;
         }
 
-        $this->addCommandCallback('before.run', 'setLanguage');
+        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
+
+        // Set timezone to user's setting, falling back to global configuration.
+        $timezone = new \DateTimeZone($this->getUser()->get('timezone', $this->getConfig()->timezone));
+        date_default_timezone_set($timezone->getName());
+
+        $this->addCommandCallback('before.dispatch', 'setLanguage');
+
     }
 
     /**
@@ -56,49 +63,13 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'base_url' => '/administrator',
-            'site'     => null,
-            'language' => 'en-GB',
+            'component' => 'dashboard',
+            'base_url'  => '/administrator',
+            'site'      => null,
+            'language'  => 'en-GB',
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Run the application
-     *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
-     */
-    protected function _actionRun(Library\DispatcherContextInterface $context)
-    {
-        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
-
-        // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getConfig()->timezone));
-        date_default_timezone_set($timezone->getName());
-
-        //Route the request
-        $this->route();
-    }
-
-    /**
-     * Route the request
-     *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
-     */
-    protected function _actionRoute(Library\DispatcherContextInterface $context)
-    {
-        $url = clone $context->request->getUrl();
-
-        //Parse the route
-        $this->getRouter()->parse($url);
-
-        //Set the request
-        $context->request->query->add($url->query);
-
-        //Forward the request
-        $component = $context->request->query->get('component', 'cmd', 'dashboard');
-        $this->forward($component);
     }
 
     /**
@@ -156,18 +127,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Get the application router.
-     *
-     * @param  array $options An optional associative array of configuration options.
-     *
-     * @return    \ApplicationRouter
-     */
-    public function getRouter(array $options = array())
-    {
-        return $this->getObject('com:application.router', $options);
-    }
-
-    /**
      * Gets the name of site
      *
      * This function tries to get the site name based on the information present in the request. If no site can be found
@@ -207,5 +166,25 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return $this->_site;
+    }
+
+    /**
+     * Dispatch the application
+     *
+     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     */
+    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    {
+        //Redirect if no view information can be found in the request
+        if(!$context->request->query->has('component'))
+        {
+            $url = clone($context->request->getUrl());
+            $url->query['component'] = $this->getConfig()->component;
+
+            $this->getRouter()->build($url);
+            return $this->redirect((string) $url);
+        }
+
+        parent::_actionDispatch($context);
     }
 }

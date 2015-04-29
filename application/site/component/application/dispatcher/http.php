@@ -41,7 +41,13 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             $this->_site = $config->site;
         }
 
-        $this->addCommandCallback('before.run', 'setLanguage');
+        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
+
+        // Set timezone to user's setting, falling back to global configuration.
+        $timezone = new \DateTimeZone($this->getUser()->get('timezone', $this->getConfig()->timezone));
+        date_default_timezone_set($timezone->getName());
+
+        $this->addCommandCallback('before.dispatch', 'setLanguage');
     }
 
     /**
@@ -63,34 +69,12 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     }
 
     /**
-     * Run the application
+     * Dispatch the application
      *
      * @param Library\DispatcherContextInterface $context	A dispatcher context object
      */
-    protected function _actionRun(Library\DispatcherContextInterface $context)
+    protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
-        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
-
-        // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getConfig()->timezone));
-        date_default_timezone_set($timezone->getName());
-
-        //Route the request
-        $this->route();
-    }
-
-    /**
-     * Route the request
-     *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     */
-    protected function _actionRoute(Library\DispatcherContextInterface $context)
-    {
-        $url = clone $context->request->getUrl();
-
-        //Parse the route
-        $this->getRouter()->parse($url);
-
         $pages = $this->getObject('application.pages');
 
         //Redirect the default page
@@ -98,7 +82,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         {
             // Get the route based on the path
             $search = array($context->request->getBasePath(), $this->getSite());
-            $route  = trim(str_replace($search, '', $url->getPath()), '/');
+            $route  = trim(str_replace($search, '', $context->request->getUrl()->getPath()), '/');
 
             //Redirect to the default menu item if the route is empty
             if(strpos($route, $pages->getHome()->route) === 0 && $context->request->getFormat() == 'html')
@@ -112,28 +96,7 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
             }
         }
 
-        // Redirect if page type is redirect.
-        if(($page = $pages->getActive()) && $page->type == 'redirect')
-        {
-            if($page->link_id)
-            {
-                $redirect = $pages->getPage($page->link_id);
-                $url      = $redirect->type == 'url' ? $redirect->link_url : $redirect->route;
-            }
-            else $url = $page->link_url;
-
-            return $this->redirect($url);
-        }
-
-        //Set the request
-        $context->request->query->add($url->query);
-
-        //Set the controller to dispatch
-        if($context->request->query->has('component'))
-        {
-            $component = $context->request->query->get('component', 'cmd');
-            $this->forward($component);
-        }
+        parent::_actionDispatch($context);
     }
 
     /**
@@ -188,17 +151,6 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return parent::getUser();
-    }
-
-    /**
-     * Get the application router.
-     *
-     * @param  array $options 	An optional associative array of configuration options.
-     * @return	\ApplicationRouter
-     */
-    public function getRouter(array $options = array())
-    {
-        return $this->getObject('com:application.router', $options);
     }
 
     /**

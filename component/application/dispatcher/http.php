@@ -20,6 +20,13 @@ use Nooku\Library;
 class DispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
+     * Component name or identifier
+     *
+     * @var	string|object
+     */
+    protected $_component;
+
+    /**
      * Constructor.
      *
      * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
@@ -28,14 +35,11 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
     {
         parent::__construct($config);
 
+        //Set the component
+        $this->_component = $config->component;
+
         //Set the base url in the request
         $this->getRequest()->setBaseUrl($config->base_url);
-
-        //Render an exception before sending the response
-        $this->addCommandCallback('before.fail', '_renderError');
-
-        //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'fail'), Library\Event::PRIORITY_LOW);
     }
 
     /**
@@ -49,11 +53,11 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'response'          => 'com:application.dispatcher.response',
-            'controller'        => 'page',
-            'base_url'          => '/',
-            'event_subscribers' => array('unauthorized'),
-            'title'             => 'Application',
+            'dispatched'  => true,
+            'controller'  => 'page',
+            'component'   => '',
+            'base_url'    => '/',
+            'title'       => 'Application',
         ));
 
         parent::_initialize($config);
@@ -93,44 +97,149 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
     }
 
     /**
-     * Render an error
+     * Get the application router.
      *
-     * @throws \InvalidArgumentException If the action parameter is not an instance of Library\Exception
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param  array $options 	An optional associative array of configuration options.
+     * @return	DispatcherHttp
      */
-    protected function _renderError(Library\DispatcherContextInterface $context)
+    public function getRouter(array $options = array())
     {
-        $request   = $context->request;
-        $response  = $context->response;
+        return $this->getObject('com:application.router', $options);
+    }
 
-        if(in_array($request->getFormat(), array('json', 'html')))
+    /**
+     * Method to get a component dispatcher object
+     *
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     * @return	Library\DispatcherInterface
+     */
+    public function getComponent()
+    {
+        if(!($this->_component instanceof Library\DispatcherInterface))
         {
-            //Check an exception was passed
-            if(!isset($context->param) && !$context->param instanceof Library\Exception)
-            {
-                throw new \InvalidArgumentException(
-                    "Action parameter 'exception' [Library\Exception] is required"
-                );
-            }
-
-            //Get the exception object
-            if($context->param instanceof Library\EventException) {
-                $exception = $context->param->getException();
-            } else {
-                $exception = $context->param;
+            //Make sure we have a controller identifier
+            if(!($this->_component instanceof Library\ObjectIdentifier)) {
+                $this->setComponent($this->_component);
             }
 
             $config = array(
-                'request'  => $this->getRequest(),
-                'response' => $this->getResponse()
+                'request' 	 => $this->getRequest(),
+                'user'       => $this->getUser(),
+                'response'   => $this->getResponse(),
+                'dispatched' => true
             );
 
-            $this->getObject('com:application.controller.error',  $config)
-                ->layout('default')
-                ->render($context->param->getException());
+            $this->_component = $this->getObject($this->_component, $config);
 
-            //User the 'error' application template
-            $context->request->query->set('tmpl', 'error');
+            //Make sure the controller implements ControllerInterface
+            if(!$this->_component instanceof Library\DispatcherInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Dispatcher: '.get_class($this->_controller).' does not implement DispatcherInterface'
+                );
+            }
         }
+
+        return $this->_component;
+    }
+
+    /**
+     * Method to set a component object attached to the dispatcher
+     *
+     * @param	mixed	$component An object that implements DispatcherInterface, ObjectIdentifier object
+     * 					            or valid identifier string
+     * @param  array  $config  An optional associative array of configuration options
+     * @return DispatcherHttp
+     */
+    public function setComponent($component, $config = array())
+    {
+        if(!($component instanceof Library\DispatcherInterface))
+        {
+            if(is_string($component) && strpos($component, '.') === false )
+            {
+                $identifier			   = $this->getIdentifier()->toArray();
+                $identifier['package'] = $component;
+
+                $identifier = $this->getIdentifier($identifier);
+            }
+            else $identifier = $this->getIdentifier($component);
+
+            //Set the configuration
+            $identifier->getConfig()->append($config);
+
+            $component = $identifier;
+        }
+
+        $this->_component = $component;
+
+        return $this;
+    }
+
+    /**
+     * Resolve the request
+     *
+     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     */
+    protected function _resolveRequest(Library\DispatcherContextInterface $context)
+    {
+        parent::_resolveRequest($context);
+
+        $url = clone $context->request->getUrl();
+
+        //Parse the route
+        $this->getRouter()->parse($url);
+
+        //Set the request
+        $context->request->query->add($url->query);
+
+        //Resolve the controller
+        if($context->request->query->has('component')) {
+            $this->setComponent($context->request->query->get('component', 'cmd'));
+        }
+    }
+
+    /**
+     * Forward to the component
+     *
+     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     */
+    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    {
+        $component = $this->getComponent();
+
+        //Execute the component and pass along the context
+        $component->dispatch($context);
+    }
+
+    /**
+     * Forward to the component
+     *
+     * @throws \InvalidArgumentException If the action parameter is not an instance of Exception or ExceptionError
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     */
+    protected function _actionFail(Library\DispatcherContextInterface $context)
+    {
+        //Forward to the component
+        $component = $this->getComponent();
+
+        //Execute the component and pass along the context
+        $component->fail($context);
+    }
+
+    /**
+     * Forward to the component
+     *
+     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
+     * redirect the dispatcher to another URL after a GET request.
+     *
+     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     */
+    protected function _actionRedirect(Library\DispatcherContextInterface $context)
+    {
+        //Forward to the component
+        $component = $this->getComponent();
+
+        //Execute the component and pass along the context
+        $component->redirect($context);
     }
 }
