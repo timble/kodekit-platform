@@ -13,9 +13,9 @@
 <? endif ?>
 
 <ul>
-    <?php foreach ($articles as $article): ?>
+    <? foreach ($articles as $article): ?>
     <li>
-        <a href="<?php echo helper('com:articles.route.article', array('entity' => $article)) ?>"><?php echo escape($article->title) ?></a>
+        <a href="<?= helper('com:articles.route.article', array('entity' => $article)) ?>"><?= escape($article->title) ?></a>
     </li>
-    <?php endforeach; ?>
+    <? endforeach; ?>
 </ul>
