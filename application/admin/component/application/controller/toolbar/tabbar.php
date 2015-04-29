@@ -33,10 +33,10 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
 
         parent::_initialize($config);
     }
- 	
+
  	/**
      * Add a command
-     * 
+     *
      * Disable the tabbar only for singular views that are editable.
      *
      * @param   string	$name The command name
@@ -46,13 +46,13 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
     public function addCommand($name, $config = array())
     {
         $command = parent::addCommand($name, $config);
-        
+
         $controller = $this->getController();
-        
+
         if($controller->isEditable() && Library\StringInflector::isSingular($controller->getView()->getName())) {
             $command->disabled = true;
         }
-        
+
         return $command;
     }
 
@@ -70,10 +70,10 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             ->fetch()
             ->find(array('slug' => 'menubar'));
 
-        if(count($menu))
+        if(count($menu) && $this->getObject('manager')->isRegistered('dispatcher'))
         {
             $package    = $this->getObject('dispatcher')->getIdentifier()->package;
-            $view       = $this->getObject('dispatcher')->getController()->getIdentifier()->name;
+            $view       = $this->getObject('request')->query->get('view', 'cmd');
             $groups     = $this->getObject('user')->getGroups();
             $translator = $this->getObject('translator');
 
@@ -93,12 +93,12 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
                 {
                     $this->addCommand($translator($page->title), array(
                         'href'   => (string) $page->link_url,
-                        'active' => (string) $view == Library\StringInflector::singularize($page->getLink()->query['view'])
+                        'active' => (string) $view == $page->getLink()->query['view']
                     ));
                 }
             }
         }
 
-	    return parent::getCommands();   
+	    return parent::getCommands();
 	}
 }
