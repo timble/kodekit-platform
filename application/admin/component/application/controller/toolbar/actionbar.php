@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * Toolbar Controller Toolbar
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarActionbar
+class ApplicationControllerToolbarActionbar extends Users\ControllerToolbarSession
 {
     public function getCommands()
     {
@@ -23,29 +24,5 @@ class ApplicationControllerToolbarActionbar extends Library\ControllerToolbarAct
         $this->addCommand('logout');
 
         return parent::getCommands();
-    }
-
-    protected function _commandProfile(Library\ControllerToolbarCommand $command)
-    {
-        $command->href = 'component=users&view=user&id='.$this->getController()->getUser()->getId();
-    }
-
-    protected function _commandLogout(Library\ControllerToolbarCommand $command)
-    {
-        $controller = $this->getController();
-        $session    = $controller->getUser()->getSession();
-
-        $url = 'component=users&view=session&id='.$session->getId();
-        $url = $controller->getView()->getRoute($url);
-
-        //Form configuration
-        $config = "{method:'post', url:'".$url."', params:{_action:'delete', csrf_token:'".$session->getToken()."'}}";
-
-        $command->append(array(
-            'attribs' => array(
-                'onclick'    => 'new Koowa.Form('.$config.').submit();',
-                'data-action' => 'delete',
-            )
-        ));
     }
 }
