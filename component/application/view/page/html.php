@@ -22,19 +22,24 @@ class ViewPageHtml extends ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters'	=> array('module', 'style', 'link', 'meta', 'script', 'title', 'message'),
+            'template_filters'	=> array('style', 'link', 'meta', 'script', 'title', 'message', 'module'),
         ));
 
         parent::_initialize($config);
     }
 
+    public function getTitle()
+    {
+        return $this->getObject('application')->getTitle();
+    }
+
     protected function _fetchData(Library\ViewContext $context)
     {
         //Set the component and layout information
-        if($this->getObject('manager')->isRegistered('dispatcher'))
-        {
+        if($this->getObject('manager')->isRegistered('dispatcher')) {
             $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
-            $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
+        } else {
+            $context->data->component = '';
         }
 
         parent::_fetchData($context);

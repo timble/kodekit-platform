@@ -18,30 +18,5 @@ use Nooku\Component\Application;
  */
 class ApplicationViewPageHtml extends Application\ViewPageHtml
 {
-    /**
-     * Get the title
-     *
-     * @return 	string 	The title of the view
-     */
-    public function getTitle()
-    {
-        return $this->getObject('application')->getTitle();
-    }
 
-    protected function _fetchData(Library\ViewContext $context)
-    {
-        //Set the component and layout information
-        if($this->getObject('manager')->isRegistered('dispatcher'))
-        {
-            $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
-            $context->data->layout    = $this->getObject('dispatcher')->getController()->getView()->getLayout();
-        }
-        else
-        {
-            $context->data->component = '';
-            $context->data->layout    = '';
-        }
-
-        parent::_fetchData($context);
-    }
 }
