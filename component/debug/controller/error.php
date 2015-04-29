@@ -7,15 +7,15 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Application;
+namespace Nooku\Component\Debug;
 
 use Nooku\Library;
 
 /**
  * Error Controller
- *   
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Application
+ * @package Nooku\Component\Debug
  */
 class ControllerError extends Library\ControllerView
 {
@@ -120,9 +120,6 @@ class ControllerError extends Library\ControllerView
         $this->getView()->info     = $info;
         $this->getView()->trace    = $traces;
         $this->getView()->level    = $exception instanceof Library\ExceptionError ? $exception->getSeverityMessage() : false;
-
-        //Make sure the buffers are cleared
-        while(@ob_get_clean());
 
         //Render the exception
         $result = parent::_actionRender($context);

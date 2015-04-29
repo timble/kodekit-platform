@@ -7,7 +7,7 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Application;
+namespace Nooku\Component\Debug;
 
 use Nooku\Library;
 
@@ -15,7 +15,7 @@ use Nooku\Library;
  * Error Json View
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Application
+ * @package Nooku\Component\Debug
  */
 class ViewErrorJson extends Library\ViewJson
 {
