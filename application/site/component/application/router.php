@@ -57,6 +57,8 @@ class ApplicationRouter extends Library\DispatcherRouter
 
         //Build the route
         $url->path = $this->getObject('request')->getBaseUrl()->getPath().'/'.$route;
+
+
 		return $result;
 	}
 
@@ -100,7 +102,7 @@ class ApplicationRouter extends Library\DispatcherRouter
                 $tmp     = $pages->getPage($tmp['id']);
                 $length = strlen($tmp->route);
 
-                if($length > 0 && strpos($route.'/', $tmp->route.'/') === 0 && $tmp->type != 'pagelink')
+                if($length > 0 && strpos($route.'/', $tmp->route.'/') === 0)
                 {
                     $page      = $tmp; //Set the page
                     $url->path = ltrim(substr($route, $length), '/');
@@ -109,12 +111,8 @@ class ApplicationRouter extends Library\DispatcherRouter
             }
         }
 
-        //Set the page information in the route
-        if($page->type != 'redirect')
-        {
-            $url->setQuery($page->getLink()->query, true);
-            $url->query['Itemid'] = $page->id;
-        }
+        $url->setQuery($page->getLink()->query, true);
+        $url->query['Itemid'] = $page->id;
 
         $pages->setActive($page->id);
 
@@ -161,10 +159,6 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Set the path
         $url->path = array_filter($segments);
 
-        // Removed unused query variables
-        unset($url->query['Itemid']);
-        unset($url->query['component']);
-
         return true;
 	}
 
@@ -176,7 +170,9 @@ class ApplicationRouter extends Library\DispatcherRouter
         $identifier = 'com:'.$url->query['component'].'.router';
 
         //Build the view route
-        $segments = $this->getObject($identifier)->build($url);
+        if($this->getObject('manager')->getClass($identifier)) {
+            $segments = $this->getObject($identifier)->build($url);
+        }
 
         return $segments;
     }
@@ -201,6 +197,9 @@ class ApplicationRouter extends Library\DispatcherRouter
                 $segments = explode('/', $page->route);
             }
         }
+
+        unset($url->query['Itemid']);
+        //unset($url->query['component']);
 
         return $segments;
     }
