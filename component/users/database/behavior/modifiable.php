@@ -31,7 +31,7 @@ class DatabaseBehaviorModifiable extends Library\DatabaseBehaviorModifiable
 
         if($this->hasProperty('modified_by') && !empty($this->modified_by))
         {
-            if($this->_editor_id && !$provider->isLoaded($this->modified_by))
+            if($this->_editor_id && $this->_editor_id == $this->modified_by && !$provider->isLoaded($this->modified_by))
             {
                 $data = array(
                     'id'         => $this->_editor_id,
@@ -43,10 +43,11 @@ class DatabaseBehaviorModifiable extends Library\DatabaseBehaviorModifiable
                     'attributes' => json_decode($this->_editor_params)
                 );
 
-                $user = $provider->store($data);
+                $user = $provider->store($this->_editor_id, $data);
             }
             else $user = $provider->load($this->modified_by);
         }
+        else $user = $provider->load(0);
 
         return $user;
     }

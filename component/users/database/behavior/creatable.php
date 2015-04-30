@@ -31,7 +31,7 @@ class DatabaseBehaviorCreatable extends Library\DatabaseBehaviorCreatable
 
         if($this->hasProperty('created_by') && !empty($this->created_by))
         {
-            if($this->_author_id && !$provider->isLoaded($this->created_by))
+            if($this->_author_id && $this->_author_id == $this->created_by && !$provider->isLoaded($this->created_by))
             {
                 $data = array(
                     'id'         => $this->_author_id,
@@ -43,10 +43,11 @@ class DatabaseBehaviorCreatable extends Library\DatabaseBehaviorCreatable
                     'attributes' => json_decode($this->_author_params)
                 );
 
-                $user = $provider->store($data);
+                $$user = $provider->store($this->_author_id, $data);
             }
             else $user = $provider->load($this->created_by);
         }
+        else $user = $provider->load(0);
 
         return $user;
     }

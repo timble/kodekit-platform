@@ -31,7 +31,7 @@ class DatabaseBehaviorLockable extends Library\DatabaseBehaviorLockable
 
         if($this->hasProperty('locked_by') && !empty($this->locked_by))
         {
-            if($this->_owner_id && !$provider->isLoaded($this->locked_by))
+            if($this->_owner_id && $this->_owner_id == $this->locked_by && !$provider->isLoaded($this->locked_by))
             {
                 $data = array(
                     'id'         => $this->_owner_id,
@@ -43,10 +43,11 @@ class DatabaseBehaviorLockable extends Library\DatabaseBehaviorLockable
                     'attributes' => json_decode($this->_owner_params)
                 );
 
-                $user = $this->getObject('user.provider')->store($data);
+                $user = $provider->store($this->_owner_id, $data);
             }
-            else $user = $this->getObject('user.provider')->load($this->locked_by);
+            else $user = $provider->load($this->locked_by);
         }
+        else $user = $provider->load(0);
 
         return $user;
     }
