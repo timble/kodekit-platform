@@ -9,18 +9,10 @@
 
 return array(
 
-    'aliases'  => array(
-        'com:pages.database.behavior.creatable'  => 'com:users.database.behavior.creatable',
-        'com:pages.database.behavior.modifiable' => 'com:users.database.behavior.modifiable',
-        'com:pages.database.behavior.lockable'   => 'com:users.database.behavior.lockable',
-    ),
-
     'identifiers' => array(
 
         'template.locator.factory' => array(
-
             'locators' => array('com:pages.template.locator.module')
-
         )
     )
 
