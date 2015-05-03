@@ -10,7 +10,7 @@
 return array(
 
     'aliases'  => array(
-        'application'                    => 'com:application.dispatcher.http',
+        'application'                    => 'com:application.dispatcher',
         'translator'                     => 'com:application.translator',
         'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
 

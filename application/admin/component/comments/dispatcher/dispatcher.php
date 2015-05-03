@@ -10,18 +10,13 @@
 use Nooku\Library;
 
 /**
- * Default Dispatcher Permission
+ * Default Dispatcher
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
-class LanguagesDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
+class CommentsDispatcher extends Library\Dispatcher
 {
-    /**
-     * Permission handler for dispatch actions
-     *
-     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
-     */
     public function canDispatch()
     {
         return true;

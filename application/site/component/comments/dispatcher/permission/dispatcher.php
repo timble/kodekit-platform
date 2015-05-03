@@ -13,9 +13,9 @@ use Nooku\Library;
  * Default Dispatcher Permission
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Component\Comments
  */
-class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
+class CommentsDispatcherPermissionDispatcher extends Library\DispatcherPermissionAbstract
 {
     /**
      * Permission handler for dispatch actions
@@ -24,16 +24,6 @@ class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAb
      */
     public function canDispatch()
     {
-        $application = $this->getObject('application');
-        $user        = $this->getUser();
-        $request     = $this->getRequest();
-
-        $page = $request->query->get('Itemid', 'int');
-
-        if($this->getObject('application.pages')->isAuthorized($page, $user)) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }

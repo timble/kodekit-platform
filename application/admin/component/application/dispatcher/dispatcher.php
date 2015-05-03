@@ -1,22 +1,22 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 use Nooku\Library;
 use Nooku\Component\Application;
 
 /**
- * Application Http Dispatcher
+ * Dispatcher
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcherHttp extends Application\DispatcherHttp
+class ApplicationDispatcher extends Application\Dispatcher
 {
     /**
      * The site identifier.
@@ -28,14 +28,14 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
     /**
      * Constructor.
      *
-     * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
+     * @param Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
      */
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         //Set the site name
-        if(empty($config->site)) {
+        if (empty($config->site)) {
             $this->_site = $this->getSite();
         } else {
             $this->_site = $config->site;
@@ -55,48 +55,30 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
-     * @return 	void
+     * @param    Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
+     *
+     * @return    void
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'site'     => null,
-            'language' => 'en-GB',
+            'component' => 'dashboard',
+            'base_url'  => '/administrator',
+            'site'      => null,
+            'language'  => 'en-GB',
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Dispatch the application
+     * Permission handler for dispatch actions
      *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    public function canDispatch()
     {
-        $pages = $this->getObject('application.pages');
-
-        //Redirect the default page
-        if(!$context->request->isAjax())
-        {
-            // Get the route based on the path
-            $search = array($context->request->getBasePath(), $this->getSite());
-            $route  = trim(str_replace($search, '', $context->request->getUrl()->getPath()), '/');
-
-            //Redirect to the default menu item if the route is empty
-            if(strpos($route, $pages->getHome()->route) === 0 && $context->request->getFormat() == 'html')
-            {
-                $url = $pages->getHome()->getLink();
-                $url->query['Itemid'] = $pages->getHome()->id;
-
-                $this->getRouter()->build($url);
-
-                return $this->redirect($url);
-            }
-        }
-
-        parent::_actionDispatch($context);
+        return true;
     }
 
     /**
@@ -135,13 +117,13 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      */
     public function getUser()
     {
-        if(!$this->_user instanceof Library\UserInterface)
+        if (!$this->_user instanceof Library\UserInterface)
         {
-            $user    =  parent::getUser();
-            $session =  $user->getSession();
+            $user    = parent::getUser();
+            $session = $user->getSession();
 
             //Re-create the session if we changed sites
-            if($user->isAuthentic() && ($session->site != $this->getSite()))
+            if ($user->isAuthentic() && ($session->site != $this->getSite()))
             {
                 //@TODO : Fix this
                 //if(!$this->getObject('com:users.controller.session')->add()) {
@@ -160,29 +142,30 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
      * it will return 'default'.
      *
      * @param  boolean $reparse Reparse the site name from the request url
+     *
      * @return string  The site name
      */
     public function getSite($reparse = false)
     {
-        if(!$this->_site || $reparse)
+        if (!$this->_site || $reparse)
         {
             // Check URL host
-            $uri  = clone($this->getRequest()->getUrl());
+            $uri = clone($this->getRequest()->getUrl());
 
             $host = $uri->getHost();
-            if(!$this->getObject('com:sites.model.sites')->fetch()->find($host))
+            if (!$this->getObject('com:sites.model.sites')->fetch()->find($host))
             {
                 // Check folder
                 $base = $this->getRequest()->getBaseUrl()->getPath();
                 $path = trim(str_replace($base, '', $uri->getPath()), '/');
-                if(!empty($path)) {
+                if (!empty($path)) {
                     $site = array_shift(explode('/', $path));
                 } else {
                     $site = 'default';
                 }
 
                 //Check if the site can be found, otherwise use 'default'
-                if(!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
+                if (!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
                     $site = 'default';
                 }
 
@@ -192,5 +175,25 @@ class ApplicationDispatcherHttp extends Application\DispatcherHttp
         }
 
         return $this->_site;
+    }
+
+    /**
+     * Dispatch the application
+     *
+     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     */
+    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    {
+        //Redirect if no view information can be found in the request
+        if(!$context->request->query->has('component'))
+        {
+            $url = clone($context->request->getUrl());
+            $url->query['component'] = $this->getConfig()->component;
+
+            $this->getRouter()->build($url);
+            return $this->redirect((string) $url);
+        }
+
+        parent::_actionDispatch($context);
     }
 }

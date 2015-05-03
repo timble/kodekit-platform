@@ -36,4 +36,6 @@
 		<a href="<?= helper('route.user', array('layout' => 'register', 'access' => 0)); ?>"><?= translate('Sign up'); ?></a>
 	</div>
 	</fieldset>
+
+    <ktml:include src="com:articles.controller.article?id=2" />
 </form>

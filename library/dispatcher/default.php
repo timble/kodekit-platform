@@ -16,4 +16,4 @@ namespace Nooku\Library;
  * @package Nooku\Library\Dispatcher
  */
 
-final class DispatcherDefault extends DispatcherHttp { }
+final class DispatcherDefault extends Dispatcher { }

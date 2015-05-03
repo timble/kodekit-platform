@@ -10,13 +10,18 @@
 use Nooku\Library;
 
 /**
- * Http  Dispatcher
+ * Dispatcher
  *
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
-class PagesDispatcherHttp extends Library\DispatcherHttp
+class PagesDispatcher extends Library\Dispatcher
 {
+    public function canDispatch()
+    {
+        return true;
+    }
+
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
         $view = $context->request->query->get('view', 'cmd', $this->_controller);

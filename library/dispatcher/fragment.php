@@ -54,7 +54,7 @@ class DispatcherFragment extends DispatcherAbstract implements ObjectInstantiabl
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  DispatcherHttp
+     * @return  DispatcherFragment
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {

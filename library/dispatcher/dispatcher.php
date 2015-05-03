@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Http Dispatcher
+ * Resource Dispatcher
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
+class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, ObjectMultiton
 {
     /**
      * List of methods supported by the dispatcher
@@ -62,7 +62,7 @@ class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable, O
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  DispatcherHttp
+     * @return  Dispatcher
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {

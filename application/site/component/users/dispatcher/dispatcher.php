@@ -10,13 +10,18 @@
 use Nooku\Library;
 
 /**
- * Http Dispatcher
+ * Dispatcher
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
-class UsersDispatcherHttp extends Library\DispatcherHttp
+class UsersDispatcher extends Library\Dispatcher
 {
+    public function canDispatch()
+    {
+        return true;
+    }
+
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
 	{
         if($context->user->isAuthentic())

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class DispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
+class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
      * Component name or identifier
@@ -68,7 +68,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
      *
      * @param 	Library\ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	Library\ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  DispatcherHttp
+     * @return  Dispatcher
      */
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
@@ -100,7 +100,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
      * Get the application router.
      *
      * @param  array $options 	An optional associative array of configuration options.
-     * @return	DispatcherHttp
+     * @return	Dispatcher
      */
     public function getRouter(array $options = array())
     {
@@ -149,7 +149,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
      * @param	mixed	$component An object that implements DispatcherInterface, ObjectIdentifier object
      * 					            or valid identifier string
      * @param  array  $config  An optional associative array of configuration options
-     * @return DispatcherHttp
+     * @return Dispatcher
      */
     public function setComponent($component, $config = array())
     {
@@ -157,7 +157,7 @@ class DispatcherHttp extends Library\DispatcherAbstract implements Library\Objec
         {
             if(is_string($component) && strpos($component, '.') === false )
             {
-                $identifier			   = $this->getIdentifier()->toArray();
+                $identifier			   = $this->getIdentifier()->toArray();!
                 $identifier['package'] = $component;
 
                 $identifier = $this->getIdentifier($identifier);

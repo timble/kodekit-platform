@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Component\Files
  */
-class FilesDispatcherHttp extends Library\DispatcherHttp
+class FilesDispatcher extends Library\Dispatcher
 {
     public function __construct(Library\ObjectConfig $config)
     {
@@ -26,6 +26,11 @@ class FilesDispatcherHttp extends Library\DispatcherHttp
 
         // Return correct status code for plupload
         $this->addCommandCallback('before.send', '_beforeSend');
+    }
+
+    public function canDispatch()
+    {
+        return true;
     }
 
     protected function _afterPost(Library\DispatcherContextInterface $context)

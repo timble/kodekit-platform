@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Varnish
  */
-class DispatcherHttp extends Library\DispatcherAbstract
+class Dispatcher extends Library\DispatcherAbstract
 {
     /**
      * Initializes the options for the object

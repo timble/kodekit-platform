@@ -83,8 +83,14 @@ class BehaviorMixin extends CommandMixin implements BehaviorMixinInterface
         //Create the complete identifier if a partial identifier was passed
         if (is_string($behavior) && strpos($behavior, '.') === false)
         {
-            $identifier         = $this->getIdentifier()->toArray();
-            $identifier['path'] = array($identifier['path'][0], 'behavior');
+            $identifier = $this->getIdentifier()->toArray();
+
+            if($identifier['path']) {
+                $identifier['path'] = array($identifier['path'][0], 'behavior');
+            } else {
+                $identifier['path'] = array($identifier['name'], 'behavior');
+            }
+
             $identifier['name'] = $behavior;
 
             $identifier = $this->getIdentifier($identifier);
