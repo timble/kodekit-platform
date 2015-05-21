@@ -290,7 +290,7 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
             $message  = "<p><strong>%s</strong> : '%s' thrown in <strong>%s</strong> on line <strong>%s</strong></p>";
             $message .= "<p>while handling exception</p>";
             $message .= "<p><strong>%s</strong> : '%s' throw in <strong>%s</strong> on line <strong>%s</strong></p>";
-            $message .= "<h3>Stacktrace</h3>%s";
+            $message .= "<h3>Stacktrace</h3><pre>%s</pre>";
 
             $message = sprintf($message,
                 get_class($e),
