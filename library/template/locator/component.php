@@ -67,7 +67,7 @@ class TemplateLocatorComponent extends TemplateLocatorIdentifier
                 foreach($results as $file)
                 {
                     if($result = $this->realPath($file)) {
-                        break;
+                        break(2);
                     }
                 }
             }
