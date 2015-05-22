@@ -82,8 +82,6 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
     {
         parent::__construct($config);
 
-        parent::__construct($config);
-
         $this->_bootstrapped = false;
 
         //Force a reload if cache is enabled and we have already bootstrapped
