@@ -111,11 +111,39 @@ class ViewJson extends ViewAbstract
                 $this->_content = new \ArrayObject();
             }
 
+            //Convert array values to utf8 else json_encode fails
+            $this->_content = array_map(array($this, 'utf8encode'), $this->_content);
+
             // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
             $this->_content = json_encode($this->_content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         }
 
         return parent::_actionRender($context);
+    }
+
+    /**
+     * UTF8 encodes values of strings, arrays and objects
+     *
+     * @param $value string|array|object
+     * @return array|string
+     */
+    protected function utf8encode($value)
+    {
+        if (is_string($value)) {
+            return utf8_encode($value);
+        }
+
+        if (is_array($value)) {
+            return array_map(array($this, 'utf8encode'), $value);
+        }
+
+        if (is_object($value)) {
+            foreach(get_object_vars($value) as $key => $var) {
+                $value->$key = $this->utf8encode($var);
+            }
+        }
+
+        return $value;
     }
 
     /**
