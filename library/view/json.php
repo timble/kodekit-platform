@@ -112,7 +112,7 @@ class ViewJson extends ViewAbstract
             }
 
             //Convert array values to utf8 else json_encode fails
-            $this->_content = array_map(array($this, 'utf8encode'), $this->_content);
+            $this->_content = $this->_utf8encode($this->_content);
 
             // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
             $this->_content = json_encode($this->_content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
@@ -127,19 +127,20 @@ class ViewJson extends ViewAbstract
      * @param $value string|array|object
      * @return array|string
      */
-    protected function utf8encode($value)
+    protected function _utf8encode($value)
     {
-        if (is_string($value)) {
-            return utf8_encode($value);
+        if(is_string($value)){
+            $encoding = mb_detect_encoding($value);
+            return $encoding != 'UTF8' ? mb_convert_encoding($value, 'UTF-8', $encoding) : $value;
         }
 
-        if (is_array($value)) {
-            return array_map(array($this, 'utf8encode'), $value);
+        if(is_array($value)){
+            return array_map(array($this, '_utf8encode'), $value);
         }
 
-        if (is_object($value)) {
-            foreach(get_object_vars($value) as $key => $var) {
-                $value->$key = $this->utf8encode($var);
+        if(is_object($value)){
+            foreach(get_object_vars($value) as $key => $var){
+                $value->$key = $this->_utf8encode($var);
             }
         }
 
