@@ -129,17 +129,17 @@ class ViewJson extends ViewAbstract
      */
     protected function _utf8encode($value)
     {
-        if(is_string($value)){
+        if (is_string($value)) {
             $encoding = mb_detect_encoding($value);
             return $encoding != 'UTF8' ? mb_convert_encoding($value, 'UTF-8', $encoding) : $value;
         }
 
-        if(is_array($value)){
+        if (is_array($value)) {
             return array_map(array($this, '_utf8encode'), $value);
         }
 
-        if(is_object($value)){
-            foreach(get_object_vars($value) as $key => $var){
+        if (is_object($value)) {
+            foreach(get_object_vars($value) as $key => $var) {
                 $value->$key = $this->_utf8encode($var);
             }
         }
