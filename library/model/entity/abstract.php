@@ -465,6 +465,15 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     {
         $data = parent::toArray();
 
+        foreach ($this->getComputedProperties() as $property)
+        {
+            if ($this->{$property} instanceof ModelEntityInterface) {
+                $data[$property] = array_values($this->{$property}->toArray());
+            } else {
+                $data[$property] = $this->{$property};
+            }
+        }
+
         foreach(array_keys($data) as $key)
         {
             if (substr($key, 0, 1) === '_') {

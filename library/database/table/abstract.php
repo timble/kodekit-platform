@@ -105,7 +105,9 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (!empty($config->filters))
         {
             foreach ($config->filters as $column => $filter) {
-                $this->getColumn($column, true)->filter = ObjectConfig::unbox($filter);
+                if($column = $this->getColumn($column, true)){
+                    $column->filter = ObjectConfig::unbox($filter);
+                }
             }
         }
 

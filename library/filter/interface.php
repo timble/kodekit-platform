@@ -47,11 +47,26 @@ interface FilterInterface extends ObjectHandlable
     public function sanitize($value);
 
     /**
+     * Resets any generated errors for the filter
+     *
+     * @return FilterInterface
+     */
+    public function reset();
+
+    /**
      * Get a list of error that occurred during sanitize or validate
      *
      * @return array
      */
     public function getErrors();
+
+    /**
+     * Add an error message
+     *
+     * @param string $message The error message
+     * @return FilterInterface
+     */
+    public function addError($message);
 
     /**
      * Get the priority of the filter

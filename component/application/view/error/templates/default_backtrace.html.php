@@ -25,7 +25,7 @@
         <? if( isset( $trace[$i]['class'])) : ?>
         <td><?= $trace[$i]['class'].$trace[$i]['type'].$trace[$i]['function'].'()' ?></td>
         <? else : ?>
-        <td><?= $trace[$i]['function'].'()' ?></td>
+        <td><?= isset($trace[$i]['function']) ? $trace[$i]['function'].'()' : '' ?></td>
         <? endif; ?>
 
         <? if( isset( $trace[$i]['file'])) : ?>
