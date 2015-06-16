@@ -271,11 +271,10 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      * Executes queries
      *
      * @param  string  $query  The query to run. Data inside the query should be properly escaped.
-     * @param  integer $mode   The result mode, either the constant Database::RESULT_USE or Database::RESULT_STORE
-     *                         depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
-     *                         use Database::RESULT_USE all subsequent calls will return error Commands out of sync
-     *                         unless you free the result first.
-     *
+     * @param  integer     $mode  The result made, either the constant KDatabase::RESULT_USE, KDatabase::RESULT_STORE
+     *                     or KDatabase::MULTI_QUERY depending on the desired behavior.
+     *                     By default, KDatabase::RESULT_STORE is used. If you use KDatabase::RESULT_USE all subsequent
+     *                     calls will return error Commands out of sync unless you free the result first.
      * @throws \RuntimeException If the query could not be executed
      * @return object|boolean  For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
      *                         For other successful queries return TRUE.
@@ -283,7 +282,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function execute($query, $mode = Database::RESULT_STORE)
     {
         $dbh    = $this->getConnection();
-        $result = $dbh->query((string) $query, $mode);
+        $result = $this->_executeQuery($query, $mode);
 
         if($result === false)
         {
@@ -399,6 +398,38 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     {
         return $this->getConnection()->inTransaction();
     }
+
+    /**
+     * Execute a query
+     *
+     * @param  string      $query The query to run. Data inside the query should be properly escaped.
+     * @param  integer     $mode  The result made, either the constant KDatabase::RESULT_USE, KDatabase::RESULT_STORE
+     *                            or KDatabase::MULTI_QUERY depending on the desired behavior.
+     * @return mixed       For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
+     *                     For other successful queries  return TRUE.
+     */
+    protected function _executeQuery($query, $mode = Database::RESULT_STORE)
+    {
+        if ($mode === Database::MULTI_QUERY)
+        {
+            $connection = $this->getConnection();
+            $result     = $connection->multi_query((string)$query);
+
+            if ($result)
+            {
+                // Clear results to make subsequent queries work.
+                // See: http://php.net/manual/en/mysqli.multi-query.php#102837
+                do {
+                    $connection->use_result();
+                }
+                while ($connection->more_results() && $connection->next_result());
+            }
+        }
+        else $result = $this->getConnection()->query((string)$query, $mode);
+
+        return $result;
+    }
+
 
     /**
      * Retrieves the table schema information about the given tables
