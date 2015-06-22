@@ -132,7 +132,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
                 $config = new ObjectConfig($config);
             }
 
-            $instance = new self($config);
+            $instance = new static($config);
         }
 
         return $instance;
