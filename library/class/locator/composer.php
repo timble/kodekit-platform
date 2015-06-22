@@ -46,7 +46,7 @@ class ClassLocatorComposer extends ClassLocatorAbstract
         }
 
         //Let Nooku proxy class loading
-        $this->_loader = require $config['vendor_path'].'/autoload.php';
+        $this->_loader = require_once $config['vendor_path'].'/autoload.php';
     }
 
     /**
