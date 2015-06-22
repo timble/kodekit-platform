@@ -40,14 +40,13 @@ class ClassLocatorComposer extends ClassLocatorAbstract
      */
     public function __construct($config = array())
     {
-        if(isset($config['vendor_path']))
+        if(!isset($config['vendor_path']) || !file_exists($config['vendor_path'].'/autoload.php'))
         {
-            if(file_exists($config['vendor_path'].'/autoload.php'))
-            {
-                //Let Nooku proxy class loading
-                $this->_loader = require $config['vendor_path'].'/autoload.php';
-            }
+            throw new \InvalidArgumentException('ClassLocatorComposer requires "vendor_path" config parameter');
         }
+
+        //Let Nooku proxy class loading
+        $this->_loader = require $config['vendor_path'].'/autoload.php';
     }
 
     /**
