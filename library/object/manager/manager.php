@@ -233,17 +233,17 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         //Get the identifier
         if(isset($identifier))
         {
-            if(!$identifier instanceof ObjectIdentifierInterface)
-            {
-                if ($identifier instanceof ObjectInterface) {
-                    $identifier = $identifier->getIdentifier();
-                } else {
-                    $identifier = new ObjectIdentifier($identifier);
-                }
+            if ($identifier instanceof ObjectInterface) {
+                $identifier = $identifier->getIdentifier();
             }
 
             //Get the identifier object
             if (!$result = $this->__registry->find($identifier)) {
+
+                if(!$identifier instanceof ObjectIdentifierInterface) {
+                    $identifier = new ObjectIdentifier($identifier);
+                }
+
                 $result = $this->__registry->set($identifier);
             }
         }
