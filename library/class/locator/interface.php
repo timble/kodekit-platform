@@ -34,15 +34,6 @@ interface ClassLocatorInterface
     public function locate($class, $basepath);
 
     /**
-     * Register a namespace
-     *
-     * @param  string $namespace
-     * @param  string $path The location of the namespace
-     * @return ClassLocatorInterface
-     */
-    public function registerNamespace($namespace, $paths);
-
-    /**
      * Get the namespace path
      *
      * @param string $namespace The namespace
