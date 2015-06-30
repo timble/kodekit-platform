@@ -48,6 +48,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     protected $_column_map = array();
 
     /**
+     * Array of mapped columns
+     *
+     * @var array
+     */
+    protected $_columns = array();
+
+    /**
      * Database adapter
      *
      * @var DatabaseAdapterInterface
@@ -83,7 +90,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         // Set the identity column
         if (!isset($config->identity_column))
         {
-            foreach ($this->getColumns(true) as $column)
+            foreach ($this->getColumns(true, false) as $column)
             {
                 //Find auto increment or none-composite primary column
                 if ($column->autoinc || ($column->primary && empty($column->related)))
@@ -276,17 +283,28 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * Gets the columns for the table
      *
      * @param   boolean  $base If TRUE, get the column information from the base table.
+     * @param   boolean  $cached If TRUE, the column data will be loaded from cache or cached
      * @return  array    Associative array of DatabaseSchemaColumn objects
      */
-    public function getColumns($base = false)
+    public function getColumns($base = false, $cached = true)
     {
         //Get the table name
         $name = $base ? $this->getBase() : $this->getName();
 
-        //Get the columns from the schema
-        $columns = $this->getSchema($name)->columns;
+        //Check if columns already mapped
+        if (isset($this->_columns[$name]) && $cached) {
+            return $this->_columns[$name];
+        }
 
-        return $this->mapColumns($columns, true);
+        //Get the columns from the schema & map
+        $columns = $this->mapColumns($this->getSchema($name)->columns, true);
+
+        //Cache the columns
+        if ($cached) {
+            $this->_columns[$name] = $columns;
+        }
+
+        return $columns;
     }
 
     /**
@@ -602,7 +620,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
                 case Database::FETCH_ROWSET :
                 {
-                    if (isset($data) && !empty($data)) 
+                    if (isset($data) && !empty($data))
                     {
                         $options['data']   = $data;
                         $options['status'] = Database::STATUS_FETCHED;
