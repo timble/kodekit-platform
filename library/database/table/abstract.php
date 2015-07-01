@@ -326,10 +326,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 }
 
                 $result[$column] = $value;
+            }
 
-                if (is_object($data)) {
-                    $result = (object) $result;
-                }
+            if (is_object($data)) {
+                $result = (object) $result;
             }
         }
 
