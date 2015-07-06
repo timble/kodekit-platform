@@ -51,26 +51,27 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
      * Get a fully qualified path based on a class name
      *
      * @param  string $class    The class name
+     * @param  string $namespace The namespace/prefix the class was matched against
      * @param  string $basepath The basepath to use to find the class
      * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $basepath)
-    {
+    public function locate($class, $namespace, $basepath)
+	{
         //Remove the namespace from the class name
-        $classname = ltrim(substr($class, strlen($class)), '\\');
+        $class = ltrim(substr($class, strlen($namespace)), '\\');
 
         /*
          * Exception rule for Exception classes
          *
          * Transform class to lower case to always load the exception class from the /exception/ folder.
          */
-        if($pos = strpos($classname, 'Exception'))
+        if($pos = strpos($class, 'Exception'))
         {
-            $filename  = substr($classname, $pos + strlen('Exception'));
-            $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
+            $filename  = substr($class, $pos + strlen('Exception'));
+            $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
         }
 
-        $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname));
+        $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $class));
         $path  = strtolower(implode('/', $parts));
 
         if(count($parts) == 1) {

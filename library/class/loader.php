@@ -42,7 +42,7 @@ class ClassLoader implements ClassLoaderInterface
     /**
      * @var array
      */
-    protected $_namespaces = array('*' => array());
+    protected $_namespaces = array();
 
     /**
      * The loader basepath
@@ -194,16 +194,23 @@ class ClassLoader implements ClassLoaderInterface
         //Switch the namespace
         if(!$this->__registry->has($key))
         {
-            //Locate the class
-            $locators = $this->getLocatorsForClass($class);
-
-            foreach($locators as $name => $path)
+            foreach($this->getLocatorsForClass($class) as $namespace => $locators)
             {
-                $locator = $this->getLocator($name);
+                // * is a special catch all, extract the namespace from the class
+                if($namespace == '*'){
+                    $namespace = explode('\\', $class);
+                    array_pop($namespace);
+                    $namespace = implode('\\', $namespace);
+                }
 
-                if(false !== $result = $locator->locate($class, $path ?: $base)) {
-                    break;
-                };
+                foreach($locators as $locator => $path){
+
+                    $locator = $this->getLocator($locator);
+
+                    if(false !== $result = $locator->locate($class, $namespace, $path ?: $base)) {
+                        break(2);
+                    };
+                }
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
@@ -238,7 +245,7 @@ class ClassLoader implements ClassLoaderInterface
                 }
             }
 
-            $matched_locators = array_merge_recursive($matched_locators, $locators);
+            $matched_locators[$namespace] = $locators;
         }
 
         return $matched_locators;
@@ -316,16 +323,11 @@ class ClassLoader implements ClassLoaderInterface
             throw new \InvalidArgumentException('The locator '.$name.' passed to '.__CLASS__.'::'.__FUNCTION__.' is not registered. Please call registerLocator() instead');
         }
 
-        //No namespaces are catch all
-        if (empty($namespaces)) {
-            $namespaces = array('*' => null);
-        }
-
         foreach($namespaces as $namespace => $path) {
 
             $namespace = trim($namespace, '\\');
 
-            if( !isset($this->_namespaces[$namespace])) {
+            if(!isset($this->_namespaces[$namespace])) {
                 $this->_namespaces[$namespace] = array();
             }
 

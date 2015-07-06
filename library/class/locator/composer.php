@@ -40,6 +40,9 @@ class ClassLocatorComposer extends ClassLocatorAbstract
      */
     public function __construct($config = array())
     {
+        $config['namespaces'] = array('*' => null);
+        parent::__construct($config);
+
         if(isset($config['vendor_path']))
         {
             if(file_exists($config['vendor_path'].'/autoload.php'))
@@ -57,7 +60,7 @@ class ClassLocatorComposer extends ClassLocatorAbstract
      * @param  string $basepath The basepath to use to find the class
      * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $basepath)
+    public function locate($class, $namespace, $basepath)
 	{
         $path = false;
 
