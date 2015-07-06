@@ -70,6 +70,23 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
     }
 
     /**
+    * Register a namespace
+    *
+    * @param  string $namespace
+    * @param  string $path The location of the namespace
+    * @return ClassLocatorInterface
+    */
+    private function registerNamespace($namespace, $path)
+    {
+        $namespace = trim($namespace, '\\');
+        $this->_namespaces[$namespace] = $path;
+
+        krsort($this->_namespaces, SORT_STRING);
+
+        return $this;
+    }
+
+    /**
      * Get locator name
      *
      * @return string
