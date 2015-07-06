@@ -9,13 +9,13 @@
 
 namespace Nooku\Library;
 
-require_once dirname(__FILE__) . '/interface.php';
-require_once dirname(__FILE__) . '/locator/interface.php';
-require_once dirname(__FILE__) . '/locator/abstract.php';
-require_once dirname(__FILE__) . '/locator/library.php';
-require_once dirname(__FILE__) . '/registry/interface.php';
-require_once dirname(__FILE__) . '/registry/registry.php';
-require_once dirname(__FILE__) . '/registry/cache.php';
+require_once dirname(__FILE__).'/interface.php';
+require_once dirname(__FILE__).'/locator/interface.php';
+require_once dirname(__FILE__).'/locator/abstract.php';
+require_once dirname(__FILE__).'/locator/library.php';
+require_once dirname(__FILE__).'/registry/interface.php';
+require_once dirname(__FILE__).'/registry/registry.php';
+require_once dirname(__FILE__).'/registry/cache.php';
 
 /**
  * Class Loader
