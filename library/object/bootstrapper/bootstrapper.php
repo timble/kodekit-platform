@@ -158,7 +158,7 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
              * Locators are always setup as the  cannot be cached in the registry objects.
              */
             foreach($this->_namespaces as $namespace => $path) {
-                $manager->getClassLoader()->getLocator('component')->registerNamespace($namespace, $path);
+                $manager->getClassLoader()->registerLocatorNamespaces('component', array($namespace => $path));
             }
 
             /*

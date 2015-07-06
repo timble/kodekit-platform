@@ -85,7 +85,7 @@ class ClassLoader implements ClassLoaderInterface
         $this->registerLocator(new ClassLocatorLibrary($config));
 
         //Register the Nooku\Library namesoace
-        $this->registerLocatorNamespaces( 'library', [__NAMESPACE__ => dirname(dirname(__FILE__))]);
+        $this->registerLocatorNamespaces( 'library', array(__NAMESPACE__ => dirname(dirname(__FILE__))));
 
         //Register the loader with the PHP autoloader
         $this->register();
