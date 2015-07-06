@@ -57,49 +57,35 @@ class ClassLocatorComponent extends ClassLocatorAbstract
      */
     public function locate($class, $basepath)
 	{
-        //Find the class
-        foreach($this->getNamespaces() as $namespace => $basepath)
+        $classname = str_replace(array($class, '\\'), '', '\\'.$class);
+
+        /*
+         * Exception rule for Exception classes
+         *
+         * Transform class to lower case to always load the exception class from the /exception/ folder.
+         */
+        if($pos = strpos($classname, 'Exception'))
         {
-            if(empty($namespace) && strpos($class, '\\')) {
-                continue;
-            }
-
-            if(strpos('\\'.$class, '\\'.$namespace) !== 0) {
-                continue;
-            }
-
-            $class = str_replace(array($namespace, '\\'), '', '\\'.$class);
-
-            /*
-             * Exception rule for Exception classes
-             *
-             * Transform class to lower case to always load the exception class from the /exception/ folder.
-             */
-            if($pos = strpos($class, 'Exception'))
-            {
-                $filename  = substr($class, $pos + strlen('Exception'));
-                $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
-            }
-
-            $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class)));
-
-            $file  = array_pop($parts);
-
-            if(count($parts)){
-                $path = implode('/', $parts) . '/' . $file;
-            } else {
-                $path = $file . '/' . $file;
-            }
-
-            $result = $basepath . '/' . $path . '.php';
-
-            if (!is_file($result) && count($parts)) {
-                $result = $basepath . '/' . $path . '/' . $file . '.php';
-            }
-
-            return $result;
+            $filename  = substr($classname, $pos + strlen('Exception'));
+            $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
         }
 
-		return false;
+        $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname)));
+
+        $file  = array_pop($parts);
+
+        if(count($parts)){
+            $path = implode('/', $parts) . '/' . $file;
+        } else {
+            $path = $file . '/' . $file;
+        }
+
+        $result = $basepath . '/' . $path . '.php';
+
+        if (!is_file($result) && count($parts)) {
+            $result = $basepath . '/' . $path . '/' . $file . '.php';
+        }
+
+        return $result;
 	}
 }

@@ -55,46 +55,33 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
      * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
     public function locate($class, $basepath)
-	{
-        foreach($this->getNamespaces() as $namespace => $basepath)
+    {
+        //Remove the namespace from the class name
+        $classname = ltrim(substr($class, strlen($class)), '\\');
+
+        /*
+         * Exception rule for Exception classes
+         *
+         * Transform class to lower case to always load the exception class from the /exception/ folder.
+         */
+        if($pos = strpos($classname, 'Exception'))
         {
-            if(empty($namespace) && strpos($class, '\\')) {
-                continue;
-            }
-
-            if(strpos('\\'.$class, '\\'.$namespace) !== 0) {
-                continue;
-            }
-
-            //Remove the namespace from the class name
-            $class = ltrim(substr($class, strlen($namespace)), '\\');
-
-            /*
-             * Exception rule for Exception classes
-             *
-             * Transform class to lower case to always load the exception class from the /exception/ folder.
-             */
-            if($pos = strpos($class, 'Exception'))
-            {
-                $filename  = substr($class, $pos + strlen('Exception'));
-                $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
-            }
-
-            $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $class));
-            $path  = strtolower(implode('/', $parts));
-
-            if(count($parts) == 1) {
-                $path = $path.'/'.$path;
-            }
-
-            $file = $basepath.'/'.$path.'.php';
-            if(!is_file($file)) {
-                $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
-            }
-
-            return $file;
+            $filename  = substr($classname, $pos + strlen('Exception'));
+            $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
         }
 
-		return false;
+        $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname));
+        $path  = strtolower(implode('/', $parts));
+
+        if(count($parts) == 1) {
+            $path = $path.'/'.$path;
+        }
+
+        $file = $basepath.'/'.$path.'.php';
+        if(!is_file($file)) {
+            $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
+        }
+
+        return $file;
 	}
 }
