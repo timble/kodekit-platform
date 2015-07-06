@@ -199,7 +199,7 @@ class ClassLoader implements ClassLoaderInterface
 
             foreach($locators as $name => $path)
             {
-                $locator = $this->_locators[$name];
+                $locator = $this->getLocator($name);
 
                 if(false !== $result = $locator->locate($class, $path ?: $base)) {
                     break;
@@ -312,7 +312,7 @@ class ClassLoader implements ClassLoaderInterface
         $name = $locator->getName();
 
         //Ensure locator is register already
-        if (!isset($this->_locators[$name])) {
+        if (!$this->getLocator($name)) {
             throw new \InvalidArgumentException('The locator '.$name.' passed to '.__CLASS__.'::'.__FUNCTION__.' is not registered. Please call registerLocator() instead');
         }
 
