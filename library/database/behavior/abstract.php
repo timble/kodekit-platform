@@ -28,8 +28,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        $class     = $manager->getClass($config->object_identifier);
-        $instance  = new $class($config);
+        $instance  = new static($config);
 
         //Lazy mix behavior into related row objects. A supported behavior always has one is[Behaviorable] method.
         if ($instance->isSupported() && $instance->getMixer() && count($instance->getMixableMethods()) > 1)
