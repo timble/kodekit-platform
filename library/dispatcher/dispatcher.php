@@ -73,8 +73,7 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
         $config->append($manager->getIdentifier('dispatcher')->getConfig());
 
         //Instantiate the class
-        $class     = $manager->getClass($config->object_identifier);
-        $instance  = new $class($config);
+        $instance  = new static($config);
 
         return $instance;
     }
