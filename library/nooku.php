@@ -140,14 +140,7 @@ class Nooku
         $manager->getObject('lib:filesystem.stream.factory');
     }
 
-	/**
-     * Clone
-     *
-     * Prevent creating clones of this class
-     */
-    final private function __clone() { }
-
-	/**
+    /**
      * Singleton instance
      *
      * @param  array  $config An optional array with configuration options.
@@ -244,5 +237,28 @@ class Nooku
     public function isCache()
     {
         return $this->_cache;
+    }
+
+    /**
+     * Clone
+     *
+     * Prevent creating clones of this class
+     */
+    final private function __clone()
+    {
+        throw new \Exception("An instance of ".get_called_class()." cannot be cloned.");
+    }
+
+    /**
+     * Forward static method calls to the object instance
+     *
+     * @param  string   $method    The function name
+     * @param  array    $arguments The function arguments
+     * @return mixed
+     */
+    final public static function __callStatic($method, $arguments)
+    {
+        $instance = static::getInstance();
+        return call_user_func_array(array($instance, $method), $arguments);
     }
 }
