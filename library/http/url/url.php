@@ -531,7 +531,7 @@ class HttpUrl extends Object implements HttpUrlInterface
             );
         }
 
-        $url = self::fromArray(parse_url((string) $url));
+        $url = static::fromArray(parse_url((string) $url));
         return $url;
     }
 
