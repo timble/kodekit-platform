@@ -830,8 +830,8 @@ abstract class FilesystemStreamAbstract extends Object implements FilesystemStre
 
                 if(array_key_exists(__NAMESPACE__.'\FilesystemStreamFilterInterface', class_implements($class)))
                 {
-                    $filter::register();
-                    $filter = $filter::getName();
+                    $class::register();
+                    $filter = $class::getName();
                 }
             }
 
