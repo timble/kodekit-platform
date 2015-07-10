@@ -176,7 +176,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public static function fromArray(array $data)
     {
-        return new self(new ObjectConfig(array('data' => $data)));
+        return new static(new ObjectConfig(array('data' => $data)));
     }
 
     /**
