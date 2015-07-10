@@ -64,10 +64,10 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
     public static function register()
     {
         $result = false;
-        $name   = self::getName();
+        $name   = static::getName();
 
         if (!empty($name) && !in_array($name, stream_get_filters())) {
-            $result = stream_filter_register(self::getName(), get_called_class());
+            $result = stream_filter_register(static::getName(), get_called_class());
         }
 
         return $result;
@@ -116,7 +116,7 @@ abstract class FilesystemStreamFilterAbstract extends \php_user_filter implement
     public static function isRegistered()
     {
         $result = false;
-        if($name = self::getName()) {
+        if($name = static::getName()) {
             $result = in_array($name, stream_get_wrappers());
         }
 
