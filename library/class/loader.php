@@ -87,16 +87,6 @@ class ClassLoader implements ClassLoaderInterface
     }
 
     /**
-     * Clone
-     *
-     * Prevent creating clones of this class
-     */
-    final private function __clone()
-    {
-        throw new \Exception("An instance of ".get_called_class()." cannot be cloned.");
-    }
-
-    /**
      * Force creation of a singleton
      *
      * @param  array  $config An optional array with configuration options.
@@ -338,5 +328,28 @@ class ClassLoader implements ClassLoaderInterface
         return class_exists($class, false)
             || interface_exists($class, false)
             || (function_exists('trait_exists') && trait_exists($class, false));
+    }
+
+    /**
+     * Clone
+     *
+     * Prevent creating clones of this class
+     */
+    final private function __clone()
+    {
+        throw new \Exception("An instance of ".get_called_class()." cannot be cloned.");
+    }
+
+    /**
+     * Forward static method calls to the object instance
+     *
+     * @param  string   $method    The function name
+     * @param  array    $arguments The function arguments
+     * @return mixed
+     */
+    final public static function __callStatic($method, $arguments)
+    {
+        $instance = static::getInstance();
+        return call_user_func_array(array($instance, $method), $arguments);
     }
 }
