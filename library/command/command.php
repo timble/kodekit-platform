@@ -156,11 +156,12 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Get a new instance
      *
+     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig
      */
-    final public function getInstance()
+    final public static function getInstance($readonly = false)
     {
-        $instance = new ObjectConfig(array(), $this->_readonly);
+        $instance = new ObjectConfig(array(), $readonly);
         return $instance;
     }
 

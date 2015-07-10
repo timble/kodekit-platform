@@ -48,6 +48,18 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
+     * Get a new instance
+     *
+     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
+     * @return ObjectConfigInterface
+     */
+    public static function getInstance($readonly = false)
+    {
+        $instance = new static(array(), $readonly);
+        return $instance;
+    }
+
+    /**
      * Retrieve a configuration option
      *
      * If the option does not exist return the default.
@@ -79,7 +91,7 @@ class ObjectConfig implements ObjectConfigInterface
         if (!$this->isReadOnly())
         {
             if (is_array($value)) {
-                $this->__options[$name] = $this->getInstance()->merge($value);
+                $this->__options[$name] = static::merge($value);
             } else {
                 $this->__options[$name] = $value;
             }
@@ -239,17 +251,6 @@ class ObjectConfig implements ObjectConfigInterface
     public static function unbox($data)
     {
         return ($data instanceof ObjectConfig) ? $data->toArray() : $data;
-    }
-
-    /**
-     * Get a new instance
-     *
-     * @return ObjectConfigInterface
-     */
-    public function getInstance()
-    {
-        $instance = new static(array(), $this->_readonly);
-        return $instance;
     }
 
     /**
@@ -445,5 +446,18 @@ class ObjectConfig implements ObjectConfigInterface
         }
 
         $this->__options = $array;
+    }
+
+    /**
+     * Forward static method calls to the object instance
+     *
+     * @param  string   $method    The function name
+     * @param  array    $arguments The function arguments
+     * @return mixed
+     */
+    public static function __callStatic($method, $arguments)
+    {
+        $instance = static::getInstance();
+        return call_user_func_array(array($instance, $method), $arguments);
     }
 }

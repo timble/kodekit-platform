@@ -21,6 +21,14 @@ namespace Nooku\Library;
 interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
 {
     /**
+     * Get a new instance
+     *
+     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
+     * @return ObjectConfigInterface
+     */
+    public static function getInstance($readonly = false);
+
+    /**
      * Retrieve a configuration option
      *
      * If the option does not exist return the default.
@@ -128,11 +136,4 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * @return bool
      */
     public function isReadOnly();
-
-    /**
-     * Get a new instance
-     *
-     * @return ObjectConfigInterface
-     */
-    public function getInstance();
 }
