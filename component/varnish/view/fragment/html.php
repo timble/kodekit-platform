@@ -22,7 +22,7 @@ class ViewFragmentHtml extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters'	=> array('style', 'link', 'meta', 'script', 'title'),
+            'template_filters'	=> array('asset', 'style', 'link', 'meta', 'script', 'title'),
         ));
 
         parent::_initialize($config);
