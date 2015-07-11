@@ -158,7 +158,7 @@ class ModelEntityNode extends Library\ModelEntityAbstract
 
     public function getPropertyDestinationFullpath()
     {
-        return $this->container->path . '/' . $this->destination_path;
+        return $this->_container->path . '/' . $this->destination_path;
     }
 
     public function getPropertyAdapter()
