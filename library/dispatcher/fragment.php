@@ -65,8 +65,7 @@ class DispatcherFragment extends DispatcherAbstract implements ObjectInstantiabl
         $config->append($manager->getIdentifier('dispatcher.fragment')->getConfig());
 
         //Instantiate the class
-        $class     = $manager->getClass($config->object_identifier );
-        $instance  = new $class($config);
+        $instance  = new static($config);
 
         return $instance;
     }
