@@ -24,27 +24,26 @@ class JElementFolders extends JElement
 		$el_name = $control_name ? $control_name.'['.$name.']' : $name;
 		$show_root = $node->attributes('show_root');
 
-        $manager    = Library\ObjectManager::getInstance();
-        $translator = $manager->getObject('translator');
+        $translator = Library\ObjectManager::getObject('translator');
 
-		$tree =  $manager->getObject('com:files.controller.folder')
+		$tree =  Library\ObjectManager::getObject('com:files.controller.folder')
 			->container('files-files')
 			->tree(1)
 			->limit(0)
 			->browse();
 
 		$options = array();
-		
+
 		if ($show_root) {
 		    $options[] = array('label' => $translator('Root Folder'), 'value' => '');
 		}
-		
+
 		foreach ($tree as $folder) {
 			$this->_addFolder($folder, $options);
 		}
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
+        $template = Library\ObjectManager::getObject('com:pages.view.page')->getTemplate();
+		return  Library\ObjectManager::getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
 			'name'    => $el_name,
 			'options' => $options,
 			'showroot' => false,

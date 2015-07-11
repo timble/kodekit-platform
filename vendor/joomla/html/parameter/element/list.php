@@ -34,10 +34,10 @@ class JElementList extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+        $template = Library\ObjectManager::getObject('com:pages.view.page')->getTemplate();
 
         $class  = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
-        $helper = Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template));
+        $helper = Nooku\Library\ObjectManager::getObject('lib:template.helper.select', array('template' => $template));
 
         $options = array ();
         foreach ($node->children() as $option)
@@ -56,6 +56,6 @@ class JElementList extends JElement
         );
 
 
-        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
+        return Nooku\Library\ObjectManager::getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
 	}
 }

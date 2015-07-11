@@ -27,8 +27,8 @@ class JElementMenu extends JElement
             'deselect' => false
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        $html = Library\ObjectManager::getInstance()->getObject('com:pages.template.helper.listbox', array('template' => $template))->menus($config);
+        $template = Library\ObjectManager::getObject('com:pages.view.page')->getTemplate();
+        $html = Library\ObjectManager::getObject('com:pages.template.helper.listbox', array('template' => $template))->menus($config);
         return $html;
     }
 }

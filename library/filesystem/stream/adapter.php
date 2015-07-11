@@ -50,8 +50,7 @@ final class FilesystemStreamAdapter
     {
         try
         {
-            $this->__stream = ObjectManager::getInstance()
-                ->getObject('filesystem.stream.factory')
+            $this->__stream = ObjectManager::getObject('filesystem.stream.factory')
                 ->createStream($url, $mode, $this->context);
         }
         catch(Exception $e)

@@ -48,7 +48,7 @@ class JElementRadio extends JElement
             'selected' => $value,
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
+        $template = Library\ObjectManager::getObject('com:pages.view.page')->getTemplate();
+        return Nooku\Library\ObjectManager::getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
 	}
 }

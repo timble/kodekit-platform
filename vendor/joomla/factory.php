@@ -81,7 +81,7 @@ class JFactory
     {
         jimport('joomla.mail.mail');
 
-        $conf = Nooku\Library\ObjectManager::getInstance()->getObject('application')->getConfig();
+        $conf = Nooku\Library\ObjectManager::getObject('application')->getConfig();
 
         $sendmail = $conf->sendmail;
         $smtpauth = $conf->smtpauth;

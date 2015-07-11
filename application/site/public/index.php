@@ -8,4 +8,4 @@
  */
 
 require_once(__DIR__.'/bootstrap.php' );
-Nooku\Library\ObjectManager::getInstance()->getObject('application')->dispatch();
+Nooku\Library\ObjectManager::getObject('application')->dispatch();
