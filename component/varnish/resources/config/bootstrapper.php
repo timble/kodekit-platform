@@ -13,7 +13,9 @@ return array(
 
         'dispatcher.fragment' => array(
             'behaviors' => array(
-                'com:varnish.dispatcher.behavior.includable'
+                'com:varnish.dispatcher.behavior.includable' => array (
+                    'secret' => 'c19f50ae-a113-46dd-9baa-c728060b0d3a',
+                )
             )
         ),
 
