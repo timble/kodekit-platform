@@ -32,6 +32,15 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     private $__template;
 
     /**
+     * Template stack
+     *
+     * Used to track recursive load calls during template evaluation
+     *
+     * @var array
+     */
+    protected $_stack;
+
+    /**
      * Debug
      *
      * @var boolean
@@ -196,9 +205,7 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     }
 
     /**
-     * Enable or disable class loading
-     *
-     * If debug is enabled the class loader will throw an exception if a file is found but does not declare the class.
+     * Enable or disable debug
      *
      * @param bool $debug True or false.
      * @return TemplateEngineAbstract
@@ -210,7 +217,7 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
     }
 
     /**
-     * Check if the loader is running in debug mode
+     * Check if the template engine is running in debug mode
      *
      * @return bool
      */
@@ -244,5 +251,30 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
         }
 
         return $result;
+    }
+
+    /**
+     * Render debug information
+     *
+     * @param  string  $source  The template source
+     * @return string The rendered template source
+     */
+    public function _debug($source)
+    {
+        //Render debug comments
+        if($this->isDebug())
+        {
+            $template = end($this->_stack);
+            $path     = trim(str_replace(\Noowa::getInstance()->getRootPath(), '', $template['file']), '/');
+            $type     = $this->getIdentifier()->getName();
+
+            $format  = PHP_EOL.'<!--BEGIN '.$type.':render '.$path.' -->'.PHP_EOL;
+            $format .= '%s';
+            $format .= PHP_EOL.'<!--END '.$type.':render '.$path.' -->'.PHP_EOL;
+
+            $source = sprintf($format, trim($source));
+        }
+
+        return $source;
     }
 }

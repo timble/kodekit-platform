@@ -27,15 +27,6 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
     protected static $_file_types = array('twig');
 
     /**
-     * Template stack
-     *
-     * Used to track recursive load calls during template evaluation
-     *
-     * @var array
-     */
-    protected $_stack;
-
-    /**
      * The twig environment
      *
      * @var callable
@@ -105,8 +96,8 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
      * Load a template by path
      *
      * @param   string  $url      The template url
-     * @throws  InvalidArgumentException If the template could not be located
-     * @throws  RuntimeException         If the template could not be loaded
+     * @throws  \InvalidArgumentException If the template could not be located
+     * @throws  \RuntimeException         If the template could not be loaded
      * @return TemplateEngineTwig|string Returns a string when called by Twig.
      */
     public function loadFile($url)
@@ -141,7 +132,7 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
      * Render a template
      *
      * @param  array   $data   The data to pass to the template
-     * @throws RuntimeException If the template could not be evaluated
+     * @throws \RuntimeException If the template could not be evaluated
      * @return string The rendered template source
      */
     public function render(array $data = array())
@@ -149,11 +140,14 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
         parent::render();
 
         if(!$this->_twig_template instanceof \Twig_Template) {
-            throw new RuntimeException(sprintf('The template cannot be rendered'));
+            throw new \RuntimeException(sprintf('The template cannot be rendered'));
         }
 
         //Render the template
         $content = $this->_twig_template->render($data);
+
+        //Render the debug information
+        $content = $this->_debug($content);
 
         //Remove the template from the stack
         array_pop($this->_stack);
@@ -184,7 +178,7 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
      * Load the template source
      *
      * @param  string  $url The template url
-     * @throws RuntimeException         If the template could not be loaded
+     * @throws \RuntimeException         If the template could not be loaded
      * @return string   The template source
      */
     protected function _load($url)
@@ -195,7 +189,7 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
         if(in_array($type, $this->getFileTypes()))
         {
             if(!$this->_source = file_get_contents($file)) {
-                throw new RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
+                throw new \RuntimeException(sprintf('The template "%s" cannot be loaded.', $file));
             }
         }
         else $this->_source = $this->getTemplate()->loadFile($file)->render($this->getData());
@@ -207,7 +201,7 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
      * Locate the template
      *
      * @param   string  $url The template url
-     * @throws InvalidArgumentException If the template could not be located
+     * @throws \InvalidArgumentException If the template could not be located
      * @return string   The template real path
      */
     protected function _locate($url)
@@ -229,7 +223,7 @@ class TemplateEngineTwig extends TemplateEngineAbstract implements \Twig_LoaderI
 
         //Locate the template
         if (!$file = $locator->setBasePath($base)->locate($url)) {
-            throw new InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
+            throw new \InvalidArgumentException(sprintf('The template "%s" cannot be located.', $url));
         }
 
         return $file;

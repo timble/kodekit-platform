@@ -27,15 +27,6 @@ class TemplateEngineMustache extends TemplateEngineAbstract implements \Mustache
     protected static $_file_types = array('mustache');
 
     /**
-     * Template stack
-     *
-     * Used to track recursive load calls during template evaluation
-     *
-     * @var array
-     */
-    protected $_stack;
-
-    /**
      * The mustache engine
      *
      * @var callable
@@ -145,6 +136,9 @@ class TemplateEngineMustache extends TemplateEngineAbstract implements \Mustache
 
         //Render the template
         $content = $this->_mustache_template->render($data);
+
+        //Render the debug information
+        $content = $this->_debug($content);
 
         //Remove the template from the stack
         array_pop($this->_stack);

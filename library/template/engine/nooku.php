@@ -25,15 +25,6 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     protected static $_file_types = array('php');
 
     /**
-     * Template stack
-     *
-     * Used to track recursive load calls during template evaluation
-     *
-     * @var array
-     */
-    protected $_stack;
-
-    /**
      * The template buffer
      *
      * @var FilesystemStreamBuffer
@@ -141,6 +132,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
 
         //Push the template on the stack
         array_push($this->_stack, array('url' => '', 'file' => $file));
+
         return $this;
     }
 
@@ -163,6 +155,9 @@ class TemplateEngineNooku extends TemplateEngineAbstract
             throw new \RuntimeException(sprintf('The template "%s" cannot be evaluated.', $this->_source));
         }
 
+        //Render the debug information
+        $content = $this->_debug($content);
+
         //Remove the template from the stack
         array_pop($this->_stack);
 
@@ -173,7 +168,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      * Cache the compiled template source
      *
      * Write the template content to a file buffer. If cache is enabled the file will be buffer using cache settings
-     * If caching is not enabled the file will be written to the temp path using a buffer://temp stream.
+     * If caching is not enabled the file will be written to the temp path using a nooku-buffer://temp stream.
      *
      * @param  string $name     The file name
      * @param  string $content  The template source to cache
@@ -372,10 +367,10 @@ class TemplateEngineNooku extends TemplateEngineAbstract
 
         if(in_array($type, $this->getFileTypes()) && $this->loadFile($url))
         {
-            $data = array_merge((array) $this->getData(), $data);
+            $data   = array_merge((array) $this->getData(), $data);
             $result = $this->render($data);
         }
-        else  $result = $this->getTemplate()->loadFile($file)->render($data);
+        else $result = $this->getTemplate()->loadFile($file)->render($data);
 
         return $result;
     }

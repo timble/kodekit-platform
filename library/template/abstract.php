@@ -39,6 +39,13 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_source;
 
     /**
+     * Debug
+     *
+     * @var boolean
+     */
+    protected $_debug;
+
+    /**
      * Constructor
      *
      * Prevent creating instances of this class by making the constructor private
@@ -54,6 +61,9 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
 
         //Reset the content
         $this->_source = null;
+
+        //Set debug
+        $this->_debug  = $config->debug;
 
         //Register the functions
         $functions = (array)ObjectConfig::unbox($config->functions);
@@ -74,6 +84,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
+            'debug'      => \Nooku::getInstance()->isDebug(),
             'functions' => array()
         ));
 
@@ -147,7 +158,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Get the template data
      *
-     * @return  array   The view data
+     * @return  array   The template data
      */
     public function getData()
     {
@@ -180,6 +191,28 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Enable or disable debug
+     *
+     * @param bool $debug True or false.
+     * @return TemplateAbstract
+     */
+    public function setDebug($debug)
+    {
+        $this->_debug = (bool) $debug;
+        return $this;
+    }
+
+    /**
+     * Check if the template is running in debug mode
+     *
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->_debug;
     }
 
     /**

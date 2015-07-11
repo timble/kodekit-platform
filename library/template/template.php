@@ -31,7 +31,6 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
      */
     private $__filters;
 
-
     /**
      * Filter queue
      *
@@ -138,7 +137,8 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
         //Create the template engine
         $config = array(
             'template'  => $this,
-            'functions' => $this->_functions
+            'functions' => $this->_functions,
+            'debug'     => $this->isDebug()
         );
 
         $this->_source = $this->getObject('template.engine.factory')
@@ -151,7 +151,7 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
     /**
      * Set the template content from a string
      *
-     * Overrides TemplateInterface::setContent() and allows to define the type of content. If a type is set
+     * Overrides TemplateInterface::loadString() and allows to define the type of content. If a type is set
      * an engine for the type will be created. If no type is set we will assumed the content has already been
      * rendered.
      *
@@ -166,7 +166,8 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
             //Create the template engine
             $config = array(
                 'template'  => $this,
-                'functions' => $this->_functions
+                'functions' => $this->_functions,
+                'debug'     => $this->isDebug()
             );
 
             $this->_source = $this->getObject('template.engine.factory')
