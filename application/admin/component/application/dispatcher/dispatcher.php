@@ -41,8 +41,6 @@ class ApplicationDispatcher extends Application\Dispatcher
             $this->_site = $config->site;
         }
 
-        define('JPATH_FILES',  APPLICATION_ROOT.'/sites/'. $this->getSite() . '/files');
-
         // Set timezone to user's setting, falling back to global configuration.
         $timezone = new \DateTimeZone($this->getUser()->get('timezone', $this->getConfig()->timezone));
         date_default_timezone_set($timezone->getName());
@@ -141,13 +139,11 @@ class ApplicationDispatcher extends Application\Dispatcher
      * This function tries to get the site name based on the information present in the request. If no site can be found
      * it will return 'default'.
      *
-     * @param  boolean $reparse Reparse the site name from the request url
-     *
      * @return string  The site name
      */
-    public function getSite($reparse = false)
+    public function getSite()
     {
-        if (!$this->_site || $reparse)
+        if (!$this->_site)
         {
             // Check URL host
             $uri = clone($this->getRequest()->getUrl());

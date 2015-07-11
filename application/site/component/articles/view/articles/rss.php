@@ -39,7 +39,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
         {
-            $path = JPATH_FILES.'/'.$container->path.'/'.$category->image;
+            $path = $container->getBasePath().'/'.$container->path.'/'.$category->image;
             $size = getimagesize($path);
 
             $category->image = (object) array(

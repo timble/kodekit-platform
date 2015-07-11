@@ -21,18 +21,26 @@ class ModelEntityContainer extends Library\ModelEntityRow
 {
     public function setPropertyPath($value)
     {
-        // Prepend with site root if it is a relative path
+        // Prepend with base path if it is a relative path
         if (!preg_match('#^(?:[a-z]\:|~*/)#i', $value)) {
-            $value = JPATH_FILES . '/' . $value;
+            $value = $this->base_path . '/' . $value;
         }
 
         return rtrim(str_replace('\\', '/', $value), '\\');
     }
 
+    public function getPropertyBasePath()
+    {
+        $site = $this->getObject('application')->getSite();
+        $path = APPLICATION_ROOT.'/sites/'. $site . '/files';
+
+        return $path;
+    }
+
     public function getPropertyRelativePath()
     {
         $path = $this->path;
-        $root = str_replace('\\', '/', JPATH_FILES);
+        $root = str_replace('\\', '/', $this->base_path);
 
         return str_replace($root.'/', '', $path);
     }
@@ -50,6 +58,4 @@ class ModelEntityContainer extends Library\ModelEntityRow
 
         return $data;
     }
-
-
 }
