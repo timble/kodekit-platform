@@ -54,7 +54,7 @@ class TemplateHelperDebug extends TemplateHelperAbstract
         $config = new ObjectConfigJson($config);
         $config->append(array(
             'file'  => '',
-            'root'  => \Nooku::getInstance()->getRootPath()
+            'root'  => \Nooku::getRootPath()
         ));
 
         $html = $config->file;

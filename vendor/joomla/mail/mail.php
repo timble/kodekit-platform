@@ -32,7 +32,7 @@ class JMail extends PHPMailer
 	function JMail()
 	{
 		 // phpmailer has an issue using the relative path for it's language files
-		 $this->SetLanguage('joomla', \Nooku::getInstance()->getVendorPath().DS.'phpmailer'.DS.'language'.DS);
+		 $this->SetLanguage('joomla', \Nooku::getVendorPath().DS.'phpmailer'.DS.'language'.DS);
 	}
 
 	/**

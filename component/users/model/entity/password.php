@@ -34,7 +34,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
         $this->_length = (int) $config->length;
 
         // TODO Remove when PHP 5.5 becomes a requirement.
-        require_once \Nooku::getInstance()->getRootPath().'/component/users/legacy/password.php';
+        require_once \Nooku::getRootPath().'/component/users/legacy/password.php';
     }
 
     /**
