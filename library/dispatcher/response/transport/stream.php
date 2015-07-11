@@ -13,15 +13,15 @@ namespace Nooku\Library;
  * Stream Dispatcher Response Transport
  *
  * Streaming is a data transfer mechanism in version HTTP 1.1 in which a web server serves content in a series of chunks.
- * Two mechanism exist to do this : range serving and chunk serving.
+ * Two mechanism exist to do this : byte serving and chunk serving.
  *
- * -- Range Serving
+ * -- Byte Serving
  *
- * This mechanism is the process of sending only a portion of the data from a server to a client. Range-serving uses
+ * This mechanism is the process of sending only a portion of the data from a server to a client. Byte-serving uses
  * the Range HTTP request header and the Accept-Ranges and Content-Range HTTP response headers.
  *
  * Clients which request range-serving might do so in cases in which a large file has been only partially delivered and
- * a limited portion of the file is needed in a particular range. Range Serving is therefore a method of bandwidth
+ * a limited portion of the file is needed in a particular range. Byte Serving is therefore a method of bandwidth
  * optimization
  *
  * -- Chunk Serving
