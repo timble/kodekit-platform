@@ -32,8 +32,9 @@ class DispatcherAuthenticatorJwt extends Library\DispatcherAuthenticatorJwt
         $config->append(array(
             'priority'   => self::PRIORITY_HIGHEST,
             'secret'     => '',
-            'max_age'    => 30,
-            'check_user' => false,
+            'check_user'   => false,
+            'check_expire' => false,
+            'check_age'    => false,
         ));
 
         parent::_initialize($config);
