@@ -18,5 +18,12 @@ use Nooku\Component\Application;
  */
 class ApplicationViewPageHtml extends Application\ViewPageHtml
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'template_filters'	=> array('module'),
+        ));
 
+        parent::_initialize($config);
+    }
 }

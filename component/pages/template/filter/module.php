@@ -56,7 +56,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract
     {
         $config->append(array(
             'modules'  => null,
-            'priority' => self::PRIORITY_LOW,
+            'priority' => self::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);
