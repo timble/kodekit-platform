@@ -50,6 +50,12 @@ return array(
 
         ],
 
+        'response'              => [
+
+            //Enable sendfile
+            'transports' => array('sendfile'),
+        ],
+
         'exception.handler'     => [
 
             /*
