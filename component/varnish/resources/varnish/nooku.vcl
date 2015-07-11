@@ -1,37 +1,42 @@
 vcl 4.0;
-
 # Based on: https://github.com/mattiasgeniar/varnish-4.0-configuration-templates/blob/master/default.vcl
-# Corrected & improved for 4.0.2 by jnerin@gmail.com
 
 import std;
 import directors;
 
-# Backend definitions
+probe health
+{
+    #.url = "/varnish-enabled";
+    # We prefer to only do a HEAD /
+    .request =
+        "HEAD /varnish-enabled HTTP/1.1"
+        "Host: localhost"
+        "Connection: close";
+    .interval = 5s;   # check the health of each backend every 5 seconds
+    .timeout = 1s;    # timing out after 1 second.
+    # If 3 out of the last 5 polls succeeded the backend is considered healthy, otherwise it will be marked as sick
+    .window = 5;
+    .threshold = 3;
+    .expected_response = 200;
+}
+
 backend default
 {
     .host = "127.0.0.1";        # IP or Hostname of backend
     .port = "8080";             # Port Apache or whatever is listening
     .max_connections = 300;     # That's it
-    .probe = {
-        #.url = "/varnish-enabled";
-        # We prefer to only do a HEAD /
-        .request =
-            "HEAD /varnish-enabled HTTP/1.1"
-            "Host: localhost"
-            "Connection: close";
-      .interval = 5s;   # check the health of each backend every 5 seconds
-      .timeout = 1s;    # timing out after 1 second.
-       # If 3 out of the last 5 polls succeeded the backend is considered healthy, otherwise it will be marked as sick
-      .window = 5;
-      .threshold = 3;
-    }
-
-    .connect_timeout = 600s;        # How long to wait before we receive a first byte from our backend?
-    .first_byte_timeout = 600s;     # How long to wait for a backend connection?
-    .between_bytes_timeout = 600s;  # How long to wait between bytes received from our backend?
+    .probe = health;
+    .connect_timeout            = 600s;  # How long to wait before we receive a first byte from our backend?
+    .first_byte_timeout         = 600s;  # How long to wait for a backend connection?
+    .between_bytes_timeout      = 600s;  # How long to wait between bytes received from our backend?
 }
 
-# Acl definitions
+backend passthrough
+{
+    .host = "127.0.0.1";        # IP or Hostname of backend
+    .port = "8080";             # Port Apache or whatever is listening
+}
+
 acl localhost
 {
     "localhost";
@@ -39,25 +44,25 @@ acl localhost
     "::1";
 }
 
-# Called when VCL is loaded, before any requests pass through it. Typically used to initialize VMODs.
 sub vcl_init
 {
+    # Called when VCL is loaded, before any requests pass through it.
+    # Typically used to initialize VMODs.
+
     new vdir = directors.round_robin();
     vdir.add_backend(default);
     # vdir.add_backend(server...);
     # vdir.add_backend(servern);
 }
 
-# Called at the beginning of a request, after the complete request has been received and parsed. Its purpose is to
-# decide whether or not to serve the request, how to do it, and, if applicable, which backend to use also used to
-# modify the request
 sub vcl_recv
 {
-    # Add a Surrogate-Capability header to announce ESI support.
-    set req.http.Surrogate-Capability = "varnish=ESI/1.0";
+    # Called at the beginning of a request, after the complete request has been received and parsed.
+    # Its purpose is to decide whether or not to serve the request, how to do it, and, if applicable,
+    # which backend to use and if needed to modify the request.
 
     # Send all traffic to the vdir director
-    set req.backend_hint = vdir.backend(); # send all traffic to the vdir director
+    set req.backend_hint = vdir.backend();
 
     if (req.restarts == 0)
     {
@@ -83,10 +88,18 @@ sub vcl_recv
     {
         # purge is the ACL defined at the begining
         if (!client.ip ~ localhost) {
-          return (synth(405, "This IP is not allowed to send PURGE requests."));
+            return (synth(405, "This IP is not allowed to send PURGE requests."));
         }
 
+        # If you got this stage (and didn't error out above), purge the cached result
         return (purge);
+    }
+
+    # Check if we've still enabled Varnish, if not, passthrough every request
+    if (! std.healthy(req.backend_hint))
+    {
+        set req.backend_hint = passthrough;
+        return (pass);
     }
 
     # Only deal with "normal" types
@@ -109,21 +122,6 @@ sub vcl_recv
 
     # Only cache GET or HEAD requests. This makes sure the POST requests are always passed.
     if (req.method != "GET" && req.method != "HEAD") {
-        return (pass);
-    }
-
-    # Send Surrogate-Capability headers to announce ESI support to backend
-    set req.http.Surrogate-Capability = "key=ESI/1.0";
-    if (req.http.Authorization)
-    {
-        # Not cacheable by default
-        return (pass);
-    }
-
-    # Check if we've still enabled Varnish, if not, passthrough every request
-    if (! std.healthy(req.backend_hint))
-    {
-        set req.backend_hint = default;
         return (pass);
     }
 
@@ -203,10 +201,23 @@ sub vcl_recv
             unset req.http.cookie;
         }
 
-    # We do not support SPDY or HTTP/2.0
-    if (req.method == "PRI") {
-        return (synth(405));
-    }
+        # Large static files are delivered directly to the end-user without waiting for Varnish to fully read the file first.
+        # Varnish 4 supports Streaming, so set do_stream in vcl_backend_response()
+        if (req.url ~ "^[^?]*\.(mp[34]|rar|tar|tgz|gz|wav|zip|bz2|xz|7z|avi|mov|og[gvaxm]|mpe?g|mk[av])(\?.*)?$") {
+            unset req.http.Cookie;
+            return (hash);
+        }
+
+        # Remove all cookies for static files
+        # Before you blindly enable this read: https://ma.ttias.be/stop-caching-static-files/
+        #if (req.method == "GET")
+        #{
+        #    # Cache files with these extensions and remove cookie
+        #    if (req.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|pdf|png|rtf|swf|txt|woff|xml)(\?.*)?$") {
+        #        unset req.http.Cookie;
+        #        return (hash);
+        #    }
+        #}
 
     # Normalize Accept-Encoding header
     # straight from the manual: https://www.varnish-cache.org/docs/3.0/tutorial/vary.html
@@ -216,15 +227,15 @@ sub vcl_recv
     if (req.http.Accept-Encoding)
     {
         if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)$") {
-          # No point in compressing these
-          unset req.http.Accept-Encoding;
+            # No point in compressing these
+            unset req.http.Accept-Encoding;
         } elsif (req.http.Accept-Encoding ~ "gzip") {
-          set req.http.Accept-Encoding = "gzip";
+            set req.http.Accept-Encoding = "gzip";
         } elsif (req.http.Accept-Encoding ~ "deflate") {
-          set req.http.Accept-Encoding = "deflate";
+            set req.http.Accept-Encoding = "deflate";
         } else {
-          # unkown algorithm
-          unset req.http.Accept-Encoding;
+            # unkown algorithm
+            unset req.http.Accept-Encoding;
         }
     }
 
@@ -235,30 +246,25 @@ sub vcl_recv
         # like msnbot that send no-cache with every request.
         if (! (req.http.Via || req.http.User-Agent ~ "(?i)bot" || req.http.X-Purge))
         {
-             # Doesn't seems to refresh the object in the cache
-             set req.hash_always_miss = true;
+            # Doesn't seems to refresh the object in the cache
+            set req.hash_always_miss = true;
 
-             # Couple this with restart in vcl_purge and X-Purge header to avoid loops
-             return(purge);
+            # Couple this with restart in vcl_purge and X-Purge header to avoid loops
+            return(purge);
         }
     }
 
-    # Large static files are delivered directly to the end-user without waiting for Varnish to fully read the file first.
-    # Varnish 4 fully supports Streaming, so set do_stream in vcl_backend_response()
-    if (req.url ~ "^[^?]*\.(mp[34]|rar|tar|tgz|gz|wav|zip|bz2|xz|7z|avi|mov|ogm|mpe?g|mk[av])(\?.*)?$") {
-        unset req.http.Cookie;
-        return (hash);
+    # Send Surrogate-Capability headers to announce ESI support to backend
+    set req.http.Surrogate-Capability = "varnish=ESI/1.0";
+
+    # Requests that require authorization are not cacheable by default
+    if (req.http.Authorization) {
+        return (pass);
     }
 
-    # Remove all cookies for static files
-    # Before you blindly enable this, have a read here: https://ma.ttias.be/stop-caching-static-files/
-    if (req.method == "GET")
-    {
-        # Cache files with these extensions and remove cookie
-        if (req.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|pdf|png|rtf|swf|txt|woff|xml)(\?.*)?$") {
-            unset req.http.Cookie;
-            return (hash);
-        }
+    # We do not support SPDY or HTTP/2.0
+    if (req.method == "PRI") {
+        return (synth(405));
     }
 
     return (hash);
@@ -382,30 +388,50 @@ sub vcl_backend_response
     }
 
     # Store the csrf_token cookie temporarily if the response is cacheabale
-    if (beresp.http.Set-Cookie && beresp.uncacheable )
+    if (beresp.http.Set-Cookie && !beresp.uncacheable)
     {
         set beresp.http.X-Varnish-Cookie = beresp.http.Set-Cookie;
         unset beresp.http.Set-Cookie;
     }
 
-    # Enable cache for all static files
-    # Before you blindly enable this, have a read here: https://ma.ttias.be/stop-caching-static-files/
+    # Cache handling all static files
     if (bereq.method == "GET")
     {
-        if (bereq.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|mp[34]|pdf|png|rar|rtf|swf|tar|tgz|txt|wav|woff|xml|zip)(\?.*)?$") {
-            unset beresp.http.Set-Cookie;
-        }
-    }
+        # Before you blindly enable this, read: https://ma.ttias.be/stop-caching-static-files/
+        #if (bereq.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|mp[34]|pdf|png|rar|rtf|swf|tar|tgz|txt|wav|woff|xml|zip)(\?.*)?$") {
+        #    unset beresp.http.Set-Cookie;
+        #}
 
-    # Large static files are delivered directly to the end-user without waiting for Varnish to fully read the file first.
-    # Varnish 4 fully supports Streaming, so use streaming here to avoid locking.
-    if (bereq.url ~ "^[^?]*\.(mp[34]|rar|tar|tgz|gz|wav|zip|bz2|xz|7z|avi|mov|ogm|mpe?g|mk[av])(\?.*)?$")
-    {
-        unset beresp.http.Set-Cookie;
-        set beresp.do_stream = true;
-        # Check memory usage it'll grow in fetch_chunksize blocks (128k by default) if
-        # the backend doesn't send a Content-Length header, so only enable it for big objects
-        set beresp.do_gzip = false; # Don't try to compress it for storage
+        # Large static files are delivered directly to the end-user without waiting for Varnish to fully read the
+        # file first. Check memory usage it'll grow in fetch_chunksize blocks (128k by default) if the backend
+        # doesn't send a Content-Length header. Only enable it for large files
+        if (bereq.url ~ "^[^?]*\.(mp[34]|rar|tar|tgz|gz|wav|zip|bz2|xz|7z|avi|mov|og[gvaxm]|mpe?g|mk[av])(\?.*)?$")
+        {
+            unset beresp.http.Set-Cookie;
+
+            # Use streaming to avoid locking
+            set beresp.do_stream = true;
+
+            # Don't try to compress it for storage
+            set beresp.do_gzip = false;
+
+            # Disable Transfer-encoding chunked when serving HTML5 video
+            # See : http://stackoverflow.com/questions/23643233/how-do-i-disable-transfer-encoding-chunked-encoding-in-varnish
+            # See : https://www.varnish-cache.org/trac/ticket/1506
+            if(beresp.http.Content-Type ~ "video") {
+                set beresp.do_stream = true;
+                set beresp.do_esi    = true;
+            }
+        }
+
+        # Set 2min cache if unset for static files
+        if (beresp.ttl <= 0s || beresp.http.Set-Cookie || beresp.http.Vary == "*")
+        {
+            set beresp.ttl         = 120s; # Important, you shouldn't rely on this, SET YOUR HEADERS in the backend
+            set beresp.uncacheable = true;
+
+            return (deliver);
+        }
     }
 
     # Sometimes, a 301 or 302 redirect formed via Apache's mod_rewrite can mess with the HTTP port that is being passed along.
@@ -416,15 +442,6 @@ sub vcl_backend_response
     # To prevent accidental replace, we only filter the 301/302 redirects for now.
     if (beresp.status == 301 || beresp.status == 302) {
         set beresp.http.Location = regsub(beresp.http.Location, ":[0-9]+", "");
-    }
-
-    # Set 2min cache if unset for static files
-    if (beresp.ttl <= 0s || beresp.http.Set-Cookie || beresp.http.Vary == "*")
-    {
-        set beresp.ttl = 120s; # Important, you shouldn't rely on this, SET YOUR HEADERS in the backend
-        set beresp.uncacheable = true;
-
-        return (deliver);
     }
 
     # Do not cache errors from the backend
@@ -514,7 +531,7 @@ sub vcl_purge
     if (req.method != "PURGE" && server.ip ~ localhost)
     {
         set req.http.X-Varnish-Purge = "Yes";
-        return(restart);
+        return (restart);
     }
 }
 
@@ -524,8 +541,8 @@ sub vcl_synth
     {
         # We use this special error status 720 to force redirects with 301 (permanent) redirects
         # To use this, call the following from anywhere in vcl_recv: return (synth(720, "http://host/new.html"));
-        set resp.status = 301;
         set resp.http.Location = resp.reason;
+        set resp.status = 301;
 
         return (deliver);
     }
@@ -534,8 +551,8 @@ sub vcl_synth
         # And we use error status 721 to force redirects with a 302 (temporary) redirect
         # To use this, call the following from anywhere in vcl_recv: return (synth(720, "http://host/new.html"));
 
-        set resp.status = 302;
         set resp.http.Location = resp.reason;
+         set resp.status = 302;
 
         return (deliver);
     }
