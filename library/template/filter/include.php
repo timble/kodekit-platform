@@ -55,8 +55,8 @@ class TemplateFilterInclude extends TemplateFilterTag
      */
     protected function _renderTag($attribs = array(), $content = null)
     {
-        $html = '';
-        $link = isset($attribs['src']) ? $attribs['src'] : false;
+        $result = '';
+        $link   = isset($attribs['src']) ? $attribs['src'] : false;
 
         if($link)
         {
@@ -64,10 +64,19 @@ class TemplateFilterInclude extends TemplateFilterTag
             $identifier = $this->getIdentifier($url->toString(HttpUrl::BASE));
 
             //Include the component
-            $html = $this->getObject('com:'.$identifier->package.'.dispatcher.fragment')
+            $result = $this->getObject('com:'.$identifier->package.'.dispatcher.fragment')
                          ->include($url);
+
+            if($this->getTemplate()->isDebug())
+            {
+                $format  = PHP_EOL.'<!--BEGIN ktml:include '.$url.' -->'.PHP_EOL;
+                $format .= '%s';
+                $format .= PHP_EOL.'<!--END ktml:include '.$url.' -->'.PHP_EOL;
+
+                $result = sprintf($format, trim($result));
+            }
         }
 
-        return $html;
+        return $result;
     }
 }
