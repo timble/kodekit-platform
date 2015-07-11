@@ -10,7 +10,7 @@
 use Nooku\Library;
 
 /**
- * Modules Database Rowset
+ * Modules Model Entity
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application

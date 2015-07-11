@@ -10,7 +10,7 @@
 use Nooku\Library;
 
 /**
- * Extensions Database Rowset
+ * Languages Model Entity
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application

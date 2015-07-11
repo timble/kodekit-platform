@@ -11,7 +11,7 @@ use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
- * Pages Database Rowset
+ * Pages Model Entity
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
