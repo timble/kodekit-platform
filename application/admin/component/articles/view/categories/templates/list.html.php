@@ -15,7 +15,7 @@
         </a>
 	</li>
 	<li>
-        <a class="<?= parameters()->category == '0' ? 'active' : ''; ?>" href="<?= route('&category=0' ) ?>">
+        <a class="<?= parameters()->category == '0' ? 'active' : ''; ?>" href="<?= route('category=0' ) ?>">
             <?= translate('Uncategorised') ?>
         </a>
 	</li>

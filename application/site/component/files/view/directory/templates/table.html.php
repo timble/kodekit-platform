@@ -30,7 +30,7 @@
 		<tr>
 			<td colspan="3">
 				<i class="icon-folder-close"></i>
-				<a href="<?= route('&view=folder&folder='.$folder->path);?>">
+				<a href="<?= route('view=folder&folder='.$folder->path);?>">
 					<?=escape($folder->display_name)?>
 				</a>
 			</td>
@@ -44,7 +44,7 @@
 			<td>
 				<i class="icon-file"></i>
 				<a class="files-download" data-path="<?= escape($file->path); ?>"
-					href="<?= route('&view=file&folder='.parameters()->folder.'&name='.$file->name);?>">
+					href="<?= route('view=file&folder='.$file->folder.'&name='.$file->name);?>">
 					<?=escape($file->display_name)?>
 				</a>
 			</td>

@@ -36,7 +36,7 @@ jQuery(function($) {
     <ul>
     <? foreach($folders as $folder): ?>
 	<li class="gallery-folder">
-	    <a href="<?= route('&view=folder&folder='.$folder->path) ?>">
+	    <a href="<?= route('view=folder&folder='.$folder->path) ?>">
 	        <?= escape($folder->display_name) ?>
 	    </a>
 	</li>
@@ -50,7 +50,7 @@ jQuery(function($) {
     	<? if (!empty($file->thumbnail)): ?>
         <li class="span3">
     		<a class="thumbnail text-center" data-path="<?= escape($file->path); ?>"
-    			href="<?= route('&view=file&folder='.parameters()->folder.'&name='.$file->name) ?>"
+    			href="<?= route('view=file&folder='.$file->folder.'&name='.$file->name) ?>"
     		    title="<?= escape($file->display_name) ?>"
     		    style="min-height:<?= $thumbnail_size['y'] ?>px"
             >
