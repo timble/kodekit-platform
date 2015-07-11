@@ -95,6 +95,9 @@ class HttpMessageHeaders extends ObjectArray
     /**
      * Sets a header by name.
      *
+     * If $values is an array values with a numeric key are considered header values, values using a none numeric key
+     * are considered header parameters.
+     *
      * @param string       $key     The key
      * @param string|array $values  The value or an array of values
      * @param boolean      $replace Whether to replace the actual value of not (true by default)
@@ -189,23 +192,29 @@ class HttpMessageHeaders extends ObjectArray
 
         ksort($headers);
 
-        foreach ($headers as $name => $values)
+        foreach ($headers as $name => $attributes)
         {
-            $name    = implode('-', array_map('ucfirst', explode('-', $name)));
-            $results = array();
+            $name   = implode('-', array_map('ucfirst', explode('-', $name)));
+            $values = array();
+            $params = array();
 
-            foreach ($values as $key => $value)
+            /*
+             * Attributes which have a numeric key are considered header values,
+             * attributes who have a none numeric key are considered header parameters.
+             */
+            foreach ($attributes as $key => $value)
             {
                 if(is_numeric($key)) {
-                    $results[] = $value;
+                    $values[] = $value;
                 } else {
-                    $results[] = $key.'='.$value;
+                    $params[] = $key.'='.$value;
                 }
-
-                $value = implode($results, ', ');
             }
 
-            $content .= sprintf("%s %s\r\n", $name.':', $value);
+            $value = !empty($values) ? ': '.implode($values, ', ') : '';
+            $param = !empty($params) ? '; '.implode($params, '; ') : '';
+
+            $content .= sprintf("%s%s%s\r\n", $name, $value, $param);
         }
 
 
