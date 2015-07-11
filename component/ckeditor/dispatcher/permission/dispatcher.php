@@ -7,16 +7,23 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Ckeditor;
+
 use Nooku\Library;
 
 /**
- * Default Dispatcher
+ * Default Dispatcher Permission
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Ckeditor
+ * @package Component\Articles
  */
-class CkeditorDispatcher extends Library\Dispatcher
+class DispatcherPermissionDispatcher extends Library\DispatcherPermissionAbstract
 {
+    /**
+     * Permission handler for dispatch actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
     public function canDispatch()
     {
         return true;
