@@ -468,6 +468,17 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     }
 
     /**
+     * Execute a query
+     *
+     * @param  string      $query The query to run. Data inside the query should be properly escaped.
+     * @param  integer     $mode  The result made, either the constant KDatabase::RESULT_USE, KDatabase::RESULT_STORE
+     *                            or KDatabase::MULTI_QUERY depending on the desired behavior.
+     * @return mixed       For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
+     *                     For other successful queries  return TRUE.
+     */
+    abstract protected function _executeQuery($query, $mode = Database::RESULT_STORE);
+
+    /**
      * Fetch the first field of the first row
      *
      * @param  \mysqli_result   $result The result object. A result set identifier returned by the select() function
