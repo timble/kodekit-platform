@@ -36,7 +36,7 @@ class DispatcherAuthenticatorBasic extends Library\DispatcherAuthenticatorAbstra
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => self::PRIORITY_HIGHEST,
+            'priority' => self::PRIORITY_HIGH,
         ));
 
         parent::_initialize($config);
