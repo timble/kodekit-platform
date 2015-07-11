@@ -33,17 +33,17 @@ class FilesRouter extends Library\DispatcherRouter
 		if (isset($query['view']) && $query['view'] === 'file') {
 			$segments[] = 'file';
 		}
-		
+
 		if (isset($query['layout']) && isset($menu_query['layout']) && $query['layout'] === $menu_query['layout']) {
 			unset($query['layout']);
 		}
-		
+
 		if (isset($query['folder']))
 		{
 			if (empty($menu_query['folder'])) {
 				$segments[] = str_replace('%2F', '/', $query['folder']);
 			}
-			else if ($query['folder'] == $menu_query['folder']) { 
+			else if ($query['folder'] == $menu_query['folder']) {
 				// do nothing
 			}
 			else if (strpos($query['folder'], $menu_query['folder']) === 0) {
@@ -70,13 +70,13 @@ class FilesRouter extends Library\DispatcherRouter
 
 		$page  = $this->getObject('application.pages')->getActive();
 		$query = $page->getLink()->query;
-		
+
 		if ($path[0] === 'file')
 		{ // file view
 			$vars['view']    = array_shift($path);
 			$vars['name']    = array_pop($path);
-			$vars['folder']  = $query['folder'] ? $query['folder'].'/' : '';
-			$vars['folder'] .= implode('/', $path);
+			$vars['folder']  = $query['folder'] ? $query['folder'] : '';
+			$vars['folder'] .= !empty($path) ? '/'.implode('/', $path) : '';
 		}
 		else
 		{ // directory view
