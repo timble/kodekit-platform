@@ -65,6 +65,20 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
     protected $_check_user;
 
     /**
+     * Check if the token is too old
+     *
+     * @var boolean
+     */
+    protected $_check_age;
+
+    /**
+     * Check if the token is expired
+     *
+     * @var boolean
+     */
+    protected $_check_expire;
+
+    /**
      * Constructor.
      *
      * @param   ObjectConfig $config Configuration options
@@ -75,7 +89,10 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
 
         $this->_secret     = $config->secret;
         $this->_max_age    = $config->max_age;
-        $this->_check_user = $config->check_user;
+
+        $this->_check_user   = $config->check_user;
+        $this->_check_age    = $config->check_age;
+        $this->_check_expire = $config->check_expire;
     }
 
     /**
@@ -92,7 +109,9 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
             'priority'   => self::PRIORITY_HIGH,
             'secret'     => '',
             'max_age'    => 900,
-            'check_user' => true,
+            'check_user'   => true,
+            'check_age'    => true,
+            'check_expire' => true,
         ));
 
         parent::_initialize($config);
@@ -190,13 +209,19 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
                 $data = (array) $token->getClaim('user');
 
                 //Ensure the token is not expired
-                if(!$token->getExpireTime() || $token->isExpired()) {
-                    throw new ControllerExceptionRequestNotAuthenticated('Token Expired');
+                if($this->_check_expire)
+                {
+                    if(!$token->getExpireTime() || $token->isExpired()) {
+                        throw new ControllerExceptionRequestNotAuthenticated('Token Expired');
+                    }
                 }
 
                 //Ensure the token is not too old
-                if(!$token->getIssueTime() || $token->getAge() > $this->_max_age) {
-                    throw new ControllerExceptionRequestNotAuthenticated('Token Expired');
+                if($this->_check_age)
+                {
+                    if (!$token->getIssueTime() || $token->getAge() > $this->_max_age) {
+                        throw new ControllerExceptionRequestNotAuthenticated('Token Expired');
+                    }
                 }
 
                 //Ensure the user exists
