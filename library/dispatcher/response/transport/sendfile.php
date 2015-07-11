@@ -55,51 +55,41 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
     /**
      * Send HTTP response
      *
-     * Send the specific X-Sendfile HTTP headers for internal processing by the server. For Nginx and Lighttpd 1.4
-     * remove the X-Sendfile header and use the specific header instead.
+     * Send the specific X-Sendfile HTTP headers for internal processing by the server.
      *
-     * If the X-Sendfile header is 1 or TRUE, the response path will be used instead of the path supplied in the
-     * header. If X-Sendfile header is  0 or FALSE the header is ignored and removed.
-     *
-     * - Apache    : X-Sendfile
-     * - Nginx     : X-Accel-Redirect
-     * - Lightttpd : X-LIGHTTPD-send-file (v1.4) or X-Sendfile (v1.5)
+     * - Apache : X-Sendfile
+     * - Nginx  : X-Accel-Redirect
      *
      * @param DispatcherResponseInterface $response
      * @return boolean
      */
     public function send(DispatcherResponseInterface $response)
     {
-        if($response->headers->has('X-Sendfile'))
+        if($response->isDownloadable())
         {
-            $path = $response->headers->get('X-Sendfile');
+            $server = strtolower($_SERVER['SERVER_SOFTWARE']);
 
-            if($path === true || $path === 1) {
-                $path = $response->getStream()->getPath();
+            //Apache
+            if(strpos($server, 'apache') !== FALSE)
+            {
+                if(in_array('mod_xsendfile', apache_get_modules()))
+                {
+                    $path = $response->getStream()->getPath();
+
+                    $response->headers->set('X-Sendfile', $path);
+                    return parent::send($response);
+                }
             }
 
-            if(is_file($path))
+            //Nginx
+            if(strpos($server, 'nginx') !== FALSE)
             {
-                $server = strtolower($_SERVER['SERVER_SOFTWARE']);
+                $path = $response->getStream()->getPath();
+                $path = preg_replace('/'.preg_quote(\Nooku::getInstance()->getRootPath(), '/').'/', '', $path, 1);
 
-                //Nginx uses X-Accel-Redirect header
-                if(strpos($server, 'nginx') !== FALSE)
-                {
-                    $path = preg_replace('/'.preg_quote(\Nooku::getInstance()->getRootPath(), '/').'/', '', $path, 1);
-                    $response->headers->set('X-Accel-Redirect', $path);
-                    $response->headers->remove('X-Sendfile');
-                }
-
-                //Lighttpd 1.4 uses X-LIGHTTPD-send-file header
-                if(strpos($server, 'lightttpd/1.4') !== FALSE)
-                {
-                    $response->headers->set('X-LIGHTTPD-send-file', $path);
-                    $response->headers->remove('X-Sendfile');
-                }
-
+                $response->headers->set('X-Accel-Redirect' , $path);
                 return parent::send($response);
             }
-            else $response->headers->remove('X-Sendfile');
         }
     }
 }
