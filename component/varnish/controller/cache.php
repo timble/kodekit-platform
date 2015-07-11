@@ -154,6 +154,9 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
         //Use the dispatcher response in the context
         $config->response = 'dispatcher.response';
 
+        //Use the dispatcher response in the context
+        $config->request  = 'dispatcher.request';
+
         parent::_initialize($config);
     }
 
@@ -209,6 +212,25 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
         }
 
         return $this;
+    }
+
+    /**
+     * Check if esi processing is enabled
+     *
+     * @return bool
+     */
+    public function canEsi()
+    {
+        if($this->getRequest()->getHeaders()->has('Surrogate-Capability'))
+        {
+            $surrogate = $this->getRequest()->getHeaders()->get('Surrogate-Capability');
+
+            if(strpos($surrogate, 'varnish=ESI/1.0') !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
