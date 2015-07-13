@@ -140,7 +140,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         $data['_path']       = $this->_path;
         $data['_name']       = $this->_name;
         $data['_identifier'] = $this->_identifier;
-        $data['__config']    = $this->__config;
+        $data['__config']    = ObjectConfig::unbox($this->getConfig());
 
         return serialize($data);
     }
