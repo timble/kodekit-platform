@@ -265,7 +265,7 @@ abstract class TemplateEngineAbstract extends TemplateAbstract implements Templa
         if($this->isDebug())
         {
             $template = end($this->_stack);
-            $path     = trim(str_replace(\Noowa::getInstance()->getRootPath(), '', $template['file']), '/');
+            $path     = str_replace(rtrim(\Nooku::getInstance()->getRootPath(), '/').'/', '', $template['file']);
             $type     = $this->getIdentifier()->getName();
 
             $format  = PHP_EOL.'<!--BEGIN '.$type.':render '.$path.' -->'.PHP_EOL;
