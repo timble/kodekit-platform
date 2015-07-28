@@ -75,7 +75,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
         $config->append(array(
             'locale'          => 'en-GB',
             'locale_fallback' => 'en-GB',
-            'cache'           => \Nooku::isCache(),
+            'cache'           => \Nooku::getInstance()->isCache(),
             'cache_namespace' => 'nooku',
             'catalogue'       => 'default',
         ));

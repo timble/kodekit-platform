@@ -85,7 +85,7 @@ class DispatcherResponseTransportSendfile extends DispatcherResponseTransportHtt
             if(strpos($server, 'nginx') !== FALSE)
             {
                 $path = $response->getStream()->getPath();
-                $path = preg_replace('/'.preg_quote(\Nooku::getRootPath(), '/').'/', '', $path, 1);
+                $path = preg_replace('/'.preg_quote(\Nooku::getInstance()->getRootPath(), '/').'/', '', $path, 1);
 
                 $response->headers->set('X-Accel-Redirect' , $path);
                 return parent::send($response);

@@ -147,7 +147,7 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
             'secret'   => '',
             'esi'      => false,
             'header'   => 'X-Varnish-Tag',
-            'debug'    => \Nooku::isDebug(),
+            'debug'    => \Nooku::getInstance()->isDebug(),
             'auto_connect' => true,
         ));
 

@@ -84,7 +84,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'debug'      => \Nooku::isDebug(),
+            'debug'      => \Nooku::getInstance()->isDebug(),
             'functions' => array()
         ));
 
