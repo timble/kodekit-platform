@@ -69,7 +69,7 @@ class DispatcherBehaviorIncludable extends Library\DispatcherBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'cache'        => \Nooku::isCache(),
+            'cache'        => \Nooku::getInstance()->isCache(),
             'cache_path'   => '',
             'passthrough_filters' => array('script', 'style', 'meta', 'link', 'title')
         ));
