@@ -29,8 +29,8 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = Library\ObjectManager::getObject('com:pages.view.page')->getTemplate();
-        $html     = Library\ObjectManager::getObject('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+        $html     = Library\ObjectManager::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;
     }

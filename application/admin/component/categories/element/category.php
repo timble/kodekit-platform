@@ -28,8 +28,8 @@ class JElementCategory extends JElement
             'attribs'  => array('class' => 'inputbox'),
         );
 
-        $template = Library\ObjectManager::getObject('com:pages.view.page')->getTemplate();
-        $html = Library\ObjectManager::getObject('com:categories.template.helper.listbox',  array('template' => $template))->categories($config);
+        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+        $html = Library\ObjectManager::getInstance()->getObject('com:categories.template.helper.listbox',  array('template' => $template))->categories($config);
         return $html;
     }
 }

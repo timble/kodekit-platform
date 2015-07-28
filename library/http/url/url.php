@@ -26,7 +26,7 @@ namespace Nooku\Library;
  *     // Create a url object;
  *
  *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
- *     $url = ObjectManager::getObject('lib:http.url', array('url' => $url) );
+ *     $url = ObjectManager::getInstance()->getObject('lib:http.url', array('url' => $url) );
  *
  *     // the $ur properties are ...
  *     //
