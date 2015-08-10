@@ -91,7 +91,7 @@ class ObjectConfig implements ObjectConfigInterface
         if (!$this->isReadOnly())
         {
             if (is_array($value)) {
-                $this->__options[$name] = static::merge($value);
+                $this->__options[$name] = $this->getInstance()->merge($value);
             } else {
                 $this->__options[$name] = $value;
             }
@@ -446,18 +446,5 @@ class ObjectConfig implements ObjectConfigInterface
         }
 
         $this->__options = $array;
-    }
-
-    /**
-     * Forward static method calls to the object instance
-     *
-     * @param  string   $method    The function name
-     * @param  array    $arguments The function arguments
-     * @return mixed
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        $instance = static::getInstance();
-        return call_user_func_array(array($instance, $method), $arguments);
     }
 }
