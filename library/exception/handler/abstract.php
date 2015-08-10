@@ -65,6 +65,13 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
     protected $_last_unhandled_error;
 
     /**
+     * Flag to determine if the shutdown handler was registered, avoids over-registering
+     *
+     * @var bool
+     */
+    protected $_shutdown_registered = false;
+
+    /**
      * Constructor.
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
@@ -137,7 +144,11 @@ class ExceptionHandlerAbstract extends Object implements ExceptionHandlerInterfa
 
         if($type & self::TYPE_FAILURE && !($this->_exception_type & self::TYPE_FAILURE))
         {
-            register_shutdown_function(array($this, '_handleFailure'));
+            if (!$this->_shutdown_registered)
+            {
+                register_shutdown_function(array($this, '_handleFailure'));
+                $this->_shutdown_registered = true;
+            }
             $this->_exception_type |= self::TYPE_FAILURE;
         }
 
