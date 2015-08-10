@@ -7,23 +7,20 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Application;
+
 use Nooku\Library;
-use Nooku\Component\Application;
 
 /**
- * Page Controller
+ * Document Json View
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Component\Application
  */
-class ApplicationControllerPage extends Application\ControllerPage
+class ViewDocumentJson extends ViewHtml
 {
-    protected function  _initialize(Library\ObjectConfig $config)
+    protected function _actionRender(Library\ViewContext $context)
     {
-        $config->append(array(
-            'toolbars'  => array('menubar', 'tabbar', 'actionbar'),
-        ));
-
-        parent::_initialize($config);
+        return $this->content;
     }
 }

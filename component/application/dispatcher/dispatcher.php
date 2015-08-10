@@ -54,7 +54,7 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     {
         $config->append(array(
             'dispatched'  => true,
-            'controller'  => 'page',
+            'controller'  => 'document',
             'component'   => '',
             'base_url'    => '/',
             'title'       => 'Application',

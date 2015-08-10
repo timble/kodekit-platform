@@ -10,9 +10,13 @@
 
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>">
-<?= import('page_head.html') ?>
 
-<body>
-<ktml:content>
+<?= import('document_head.html') ?>
+
+<body class="login">
+    <div class="container">
+        <ktml:messages>
+        <ktml:content>
+    </div>
 </body>
 </html>

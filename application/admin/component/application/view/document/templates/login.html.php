@@ -11,12 +11,13 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>">
 
-<?= import('page_head.html') ?>
+<?= import('document_head.html') ?>
 
 <body class="login">
-    <div class="container">
-        <ktml:messages>
+    <ktml:messages>
+    <div class="login-box">
         <ktml:content>
-    </div>
+	</div>
 </body>
+
 </html>

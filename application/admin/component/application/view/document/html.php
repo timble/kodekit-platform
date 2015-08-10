@@ -7,17 +7,23 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Application;
-
 use Nooku\Library;
+use Nooku\Component\Application;
 
 /**
- * Page Controller
- *   
+ * Html Document View
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Application
+ * @package Component\Application
  */
-class ControllerPage extends Library\ControllerView
+class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'template_filters'	=> array('module'),
+        ));
 
+        parent::_initialize($config);
+    }
 }

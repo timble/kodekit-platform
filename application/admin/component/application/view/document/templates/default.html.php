@@ -11,7 +11,7 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>">
 
-<?= import('page_head.html') ?>
+<?= import('document_head.html') ?>
 
 <body class="com_<?= $component ?>">
 <div id="panel-wrapper">

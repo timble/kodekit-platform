@@ -11,9 +11,10 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>">
 
-<?= import('page_head.html') ?>
+<?= import('document_head.html') ?>
 
-<body id="tmpl-overlay" class="com_<?= $component ?>">
+<body id="tmpl-dialog" class="com_<?= $component ?>">
+    <ktml:messages>
     <ktml:content>
 </body>
 

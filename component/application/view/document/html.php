@@ -12,12 +12,12 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Html Page View
+ * Html Document View
  *
  * @author      Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ViewPageHtml extends ViewHtml
+class ViewDocumentHtml extends ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

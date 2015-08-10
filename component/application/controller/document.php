@@ -12,15 +12,12 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Page Controller Permission
+ * Document Controller
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ControllerPermissionPage extends Library\ControllerPermissionAbstract
+class ControllerDocument extends Library\ControllerView
 {
-    public function canRender()
-    {
-        return true;
-    }
+
 }

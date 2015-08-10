@@ -7,23 +7,20 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Application;
+
 use Nooku\Library;
-use Nooku\Component\Application;
 
 /**
- * Html Page View
+ * Document Controller Permission
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Component\Application
  */
-class ApplicationViewPageHtml extends Application\ViewPageHtml
+class ControllerPermissionDocument extends Library\ControllerPermissionAbstract
 {
-    protected function _initialize(Library\ObjectConfig $config)
+    public function canRender()
     {
-        $config->append(array(
-            'template_filters'	=> array('module'),
-        ));
-
-        parent::_initialize($config);
+        return true;
     }
 }

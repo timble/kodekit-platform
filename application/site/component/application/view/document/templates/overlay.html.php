@@ -11,13 +11,10 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>">
 
-<?= import('page_head.html') ?>
+<?= import('document_head.html') ?>
 
-<body class="login">
-    <ktml:messages>
-    <div class="login-box">
-        <ktml:content>
-	</div>
+<body id="tmpl-overlay" class="com_<?= $component ?>">
+    <ktml:content>
 </body>
 
 </html>

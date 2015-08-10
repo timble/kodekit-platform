@@ -11,12 +11,12 @@ use Nooku\Library;
 use Nooku\Component\Application;
 
 /**
- * Html Page View
+ * Html Document View
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationViewPageHtml extends Application\ViewPageHtml
+class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
 {
     /**
      * Initializes the config for the object
