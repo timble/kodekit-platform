@@ -238,9 +238,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
                 }
 
                 //Login the user
-                $this->loginUser($user, $data);
-
-                return true;
+                return $this->loginUser($user, $data);
             }
             else throw new ControllerExceptionRequestNotAuthenticated('Invalid Token');
         }

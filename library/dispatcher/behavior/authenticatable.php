@@ -161,10 +161,14 @@ class DispatcherBehaviorAuthenticatable extends DispatcherBehaviorAbstract
      */
     protected function _beforeDispatch(DispatcherContextInterface $context)
     {
-        foreach($this->__authenticator_queue as $authenticator)
+        // Check if the user has been explicitly authenticated for this request
+        if (!$this->getUser()->isAuthentic(true))
         {
-            if($authenticator->authenticateRequest($context) === true) {
-                break;
+            foreach ($this->__authenticator_queue as $authenticator)
+            {
+                if ($authenticator->authenticateRequest($context) === true) {
+                    break;
+                }
             }
         }
     }

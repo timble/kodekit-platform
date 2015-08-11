@@ -154,9 +154,9 @@ abstract class DispatcherAuthenticatorAbstract extends Object implements Dispatc
 
             //Set the user data
             $data = array_merge($data, (array) $user);
-            $data['authentic'] = true;
 
             $this->getObject('user')->setData($data);
+            $this->getObject('user')->setAuthentic(true);
 
             return true;
         }

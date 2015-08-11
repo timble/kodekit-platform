@@ -180,9 +180,10 @@ abstract class UserAbstract extends Object implements UserInterface
     /**
      * The user has been successfully authenticated
      *
+     * @param  boolean $strict If true, checks if the user has been authenticated for this request explicitly
      * @return Boolean
      */
-    public function isAuthentic()
+    public function isAuthentic($strict = false)
     {
         return $this->getData()->authentic;
     }
@@ -205,6 +206,18 @@ abstract class UserAbstract extends Object implements UserInterface
     public function isExpired()
     {
         return $this->getData()->expired;
+    }
+
+    /**
+     * Sets the user as authenticated for the request
+     *
+     * @return $this
+     */
+    public function setAuthentic()
+    {
+        $this->getData()->authentic = true;
+
+        return $this;
     }
 
     /**

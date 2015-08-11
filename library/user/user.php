@@ -22,6 +22,13 @@ namespace Nooku\Library;
 class User extends UserAbstract implements ObjectSingleton
 {
     /**
+     * User authentication status for this request
+     *
+     * @var bool
+     */
+    protected $_authentic = false;
+
+    /**
      * Returns the id of the user
      *
      * @return int The id
@@ -99,11 +106,18 @@ class User extends UserAbstract implements ObjectSingleton
     /**
      * Checks whether the user is not logged in
      *
-     * @return Boolean true if the user is not logged in, false otherwise
+     * @param  boolean $strict If true, checks if the user has been authenticated for this request explicitly
+     * @return boolean True if the user is not logged in, false otherwise
      */
-    public function isAuthentic()
+    public function isAuthentic($strict = false)
     {
-        return $this->getSession()->get('user.authentic');
+        $result = $this->getSession()->get('user.authentic');
+
+        if ($strict) {
+            $result = $result && $this->_authentic;
+        }
+
+        return $result;
     }
 
     /**
@@ -124,6 +138,20 @@ class User extends UserAbstract implements ObjectSingleton
     public function isExpired()
     {
         return $this->getSession()->get('user.expired');
+    }
+
+    /**
+     * Sets the user as authenticated for the request
+     *
+     * @return $this
+     */
+    public function setAuthentic()
+    {
+        $this->_authentic = true;
+
+        $this->getSession()->set('user.authentic', true);
+
+        return $this;
     }
 
     /**
