@@ -49,9 +49,8 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
     {
     	$config->append(array(
             'methods'        => array('get', 'head', 'post', 'put', 'delete', 'options'),
-            'behaviors'      => array('resettable'),
-            'authenticators' => array('csrf'),
-            'limit'          => array('max' => 1000, 'default' => 20),
+            'behaviors'      => array('routable', 'limitable', 'resettable'),
+            'authenticators' => array('csrf')
          ));
 
         parent::_initialize($config);
@@ -109,20 +108,8 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
 	protected function _actionDispatch(DispatcherContextInterface $context)
 	{
-        //Redirect if no view information can be found in the request
-        if(!$context->request->query->has('view'))
-        {
-            $url = clone($context->request->getUrl());
-            $url->query['view'] = $this->getConfig()->controller;
-
-            return $this->redirect($url);
-        }
-
-        //Get the action
-        $action = $this->getControllerAction();
-
-        //Execute the component method
-        $this->execute($action, $context);
+        //Execute the request method
+        $this->execute(strtolower($context->request->getMethod()), $context);
 
         //Send the response
         return $this->send($context);
@@ -139,30 +126,7 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
     protected function _actionGet(DispatcherContextInterface $context)
     {
-        $controller = $this->getController();
-
-        if($controller instanceof ControllerModellable)
-        {
-            $controller->getModel()->getState()->setProperty('limit', 'default', $this->getConfig()->limit->default);
-
-            $limit = $this->getRequest()->query->get('limit', 'int');
-
-            // Set to default if there is no limit. This is done for both unique and non-unique states
-            // so that limit can be transparently used on unique state requests rendering lists.
-            if(empty($limit)) {
-                $limit = $this->getConfig()->limit->default;
-            }
-
-            //Force the maximum limit
-            if($this->getConfig()->limit->max && $limit > $this->getConfig()->limit->max) {
-                $limit = $this->getConfig()->limit->max;
-            }
-
-            $this->getRequest()->query->limit = $limit;
-            $controller->getModel()->getState()->limit = $limit;
-        }
-
-        return $controller->execute('render', $context);
+        return $this->getController()->execute('render', $context);
     }
 
     /**
