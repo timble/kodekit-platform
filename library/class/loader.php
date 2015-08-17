@@ -152,6 +152,8 @@ class ClassLoader implements ClassLoaderInterface
         {
             if (!in_array($path, get_included_files()) && file_exists($path))
             {
+                $result = true;
+
                 require $path;
 
                 if($this->_debug)
@@ -166,7 +168,6 @@ class ClassLoader implements ClassLoaderInterface
                     }
                 }
             }
-            else $result = false;
         }
 
         return $result;
