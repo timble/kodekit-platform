@@ -43,7 +43,8 @@ abstract class EventPublisherAbstract extends Object implements EventPublisherIn
         parent::__construct($config);
 
         $this->__listeners = array();
-        $this->__enabled   = (boolean) $config->enabled;
+
+        $this->setEnabled($config->enabled);
     }
 
     /**
@@ -61,28 +62,6 @@ abstract class EventPublisherAbstract extends Object implements EventPublisherIn
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Enable the publisher
-     *
-     * @return  EventPublisherAbstract
-     */
-    public function enable()
-    {
-        $this->__enabled = true;
-        return $this;
-    }
-
-    /**
-     * Disable the publisher
-     *
-     * @return  EventPublisherAbstract
-     */
-    public function disable()
-    {
-        $this->__enabled = false;
-        return $this;
     }
 
     /**
@@ -331,6 +310,17 @@ abstract class EventPublisherAbstract extends Object implements EventPublisherIn
         }
 
         return $result;
+    }
+
+    /**
+     * Enable the profiler
+     *
+     * @return  EventPublisherAbstract
+     */
+    public function setEnabled($enabled)
+    {
+        $this->__enabled = (bool) $enabled;
+        return $this;
     }
 
     /**

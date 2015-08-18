@@ -20,20 +20,6 @@ namespace Nooku\Library;
 interface EventPublisherInterface
 {
     /**
-     * Enable the publisher
-     *
-     * @return  EventPublisherInterface
-     */
-    public function enable();
-
-    /**
-     * Disable the publisher
-     *
-     * @return  EventPublisherInterface
-     */
-    public function disable();
-
-    /**
      * Publish an event by calling all listeners that have registered to receive it.
      *
      * @param  string|EventInterface              $event      The event name or a KEventInterface object
@@ -100,6 +86,13 @@ interface EventPublisherInterface
      * @return integer|false The event priority or FALSE if the event isn't listened for.
      */
     public function getListenerPriority($event, $listener);
+
+    /**
+     * Enable the profiler
+     *
+     * @return  EventPublisherInterface
+     */
+    public function setEnabled($enabled);
 
     /**
      * Check of the publisher is enabled

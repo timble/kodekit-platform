@@ -32,28 +32,6 @@ class EventPublisherProfiler extends ObjectDecorator implements EventPublisherIn
     private $__profiles;
 
     /**
-     * Enable the profiler
-     *
-     * @return EventPublisherProfiler
-     */
-    public function enable()
-    {
-        $this->__enabled = true;
-        return $this;
-    }
-
-    /**
-     * Disable the profiler
-     *
-     * @return EventPublisherProfiler
-     */
-    public function disable()
-    {
-        $this->__enabled = false;
-        return $this;
-    }
-
-    /**
      * Publish an event by calling all listeners that have registered to receive it.
      *
      * @param  string|EventInterface  $event     The event name or a KEventInterface object
@@ -275,6 +253,17 @@ class EventPublisherProfiler extends ObjectDecorator implements EventPublisherIn
         }
 
         return $info;
+    }
+
+    /**
+     * Enable the profiler
+     *
+     * @return  EventPublisherProfiler
+     */
+    public function setEnabled($enabled)
+    {
+        $this->__enabled = (bool) $enabled;
+        return $this;
     }
 
     /**

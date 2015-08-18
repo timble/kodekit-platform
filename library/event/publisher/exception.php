@@ -39,7 +39,7 @@ class EventPublisherException extends EventPublisherAbstract
         $this->__exception_handler = $config->exception_handler;
 
         if($this->isEnabled()) {
-            $this->enable();
+            $this->setEnabled(true);
         }
     }
 
@@ -58,28 +58,6 @@ class EventPublisherException extends EventPublisherAbstract
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Enable the publisher
-     *
-     * @return  EventPublisherException
-     */
-    public function enable()
-    {
-        $this->getExceptionHandler()->addHandler(array($this, 'publishException'));
-        return parent::enable();
-    }
-
-    /**
-     * Disable the publisher
-     *
-     * @return  EventPublisherException
-     */
-    public function disable()
-    {
-        $this->getExceptionHandler()->removeHandler(array($this, 'publishException'));
-        return parent::enable();
     }
 
     /**
@@ -135,10 +113,28 @@ class EventPublisherException extends EventPublisherAbstract
         //Re-enable the exception handler
         if($this->isEnabled())
         {
-            $this->disable();
-            $this->enable();
+            $this->setEnabled(false);
+            $this->setEnabled(true);
         }
 
         return $this;
+    }
+
+    /**
+     * Enable the profiler
+     *
+     * @return  EventPublisherAbstract
+     */
+    public function setEnabled($enabled)
+    {
+        $result = parent::setEnabled($enabled);
+
+        if($this->isEnabled()) {
+            $this->getExceptionHandler()->addExceptionCallback(array($this, 'publishException'));
+        } else {
+            $this->getExceptionHandler()->removeExceptionCallback(array($this, 'publishException'));
+        }
+
+        return $result;
     }
 }
