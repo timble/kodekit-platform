@@ -19,11 +19,20 @@ use Nooku\Library;
  */
 class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 {
+    /**
+     *  Get the varnish cache controller
+     *
+     * @return ControllerCache
+     */
+    public function getCache()
+    {
+        return $this->getObject('com:varnish.controller.cache');
+    }
+
     protected function _afterRender(Library\ControllerContextInterface $context)
     {
         $controller = $context->getSubject();
         $model      = $controller->getModel();
-        $varnish    = $this->getObject('com:varnish.controller.cache');
 
         if ($model->getState()->isUnique())
         {
@@ -31,16 +40,16 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
             $key      = $entities->getIdentityKey();
             $value    = $entities->getProperty($key);
 
-            $varnish->tag((string) $controller->getIdentifier().'#'.$value);
+            $this->getCache()->tag((string) $controller->getIdentifier().'#'.$value);
         }
-        else  $varnish->tag((string) $controller->getIdentifier());
+        else  $this->getCache()->tag((string) $controller->getIdentifier());
     }
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {
         if($context->response->getStatusCode() == Library\HttpResponse::CREATED)
         {
-            $varnish    = $this->getObject('com:varnish.controller.cache');
+            $varnish    = $this->getCache();
             $entity     = $context->result;
             $controller = $context->getSubject();
 
@@ -52,7 +61,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
     {
         if($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT)
         {
-            $varnish    = $this->getObject('com:varnish.controller.cache');
+            $varnish    = $this->getCache();
             $entities   = $context->result;
             $controller = $context->getSubject();
 
@@ -61,10 +70,10 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $key   = $entity->getIdentityKey();
                 $value = $entity->getProperty($key);
 
-                $varnish->ban($controller->getIdentifier().'#'.$value);
+                $this->getCache()->ban($controller->getIdentifier().'#'.$value);
             }
 
-            $varnish->ban($controller->getIdentifier());
+            $this->getCache()->ban($controller->getIdentifier());
         }
     }
 
@@ -72,7 +81,6 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
     {
         if($context->response->getStatusCode() == Library\HttpResponse::NO_CONTENT)
         {
-            $varnish    = $this->getObject('com:varnish.controller.cache');
             $entities   = $context->result;
             $controller = $context->getSubject();
 
@@ -81,10 +89,10 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $key   = $entity->getIdentityKey();
                 $value = $entity->getProperty($key);
 
-                $varnish->ban($controller->getIdentifier().'#'.$value);
+                $this->getCache()->ban($controller->getIdentifier().'#'.$value);
             }
 
-            $varnish->ban($controller->getIdentifier());
+            $this->getCache()->ban($controller->getIdentifier());
         }
     }
 }

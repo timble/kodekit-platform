@@ -94,6 +94,13 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
     private $__connection;
 
     /**
+     * Enabled status of the cache
+     *
+     * @var boolean
+     */
+    private $__enabled;
+
+    /**
      * Constructor.
      *
      * @param string $host The host name/IP address of the Varnish server to connect to
@@ -113,6 +120,9 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
         if($config->auto_connect) {
             $this->connect();
         }
+
+        //Set the cache enabled state
+        $this->setEnabled($config->enabled);
 
         //Set the debug state
         $this->setDebug($config->debug);
@@ -148,6 +158,7 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
             'esi'      => false,
             'header'   => 'X-Varnish-Tag',
             'debug'    => \Nooku::getInstance()->isDebug(),
+            'enabled'  => true,
             'auto_connect' => true,
         ));
 
@@ -158,6 +169,27 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
         $config->request  = 'dispatcher.request';
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Enable the cache
+     *
+     * @return ControllerCache
+     */
+    public function setEnabled($enabled)
+    {
+        $this->__enabled = (bool) $enabled;
+        return $this;
+    }
+
+    /**
+     * Check of the cache is enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->__enabled;
     }
 
     /**
@@ -324,33 +356,46 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
      * Tag the response
      *
      * @param  Library\ControllerContextInterface	$context    A controller context object
-     * @return string The server's response
+     * @return bool TRUE if tagging was succesful or FALSE of the cache is disabled
      */
     protected function _actionTag($context)
     {
-        $name  = $this->_header;
-        $value = Library\ControllerContext::unbox($context->param);
+        if($this->isEnabled())
+        {
+            $name  = $this->_header;
+            $value = Library\ControllerContext::unbox($context->param);
 
-        $context->response->headers->set($name, $value);
+            //Add the tag and do not replace the header.
+            $context->response->headers->set($name, $value, false);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Ban cached objects by tag
      *
      * @param  Library\ControllerContextInterface	$context    A controller context object
-     * @return string The server's response
+     * @return string|false The server's response or FALSE of the cache is disabled
      */
     protected function _actionBan($context)
     {
-        $status    = null;
-        $parameter = sprintf('obj.http.'.strtolower($this->_header).' == %s', Library\ControllerContext::unbox($context->param));
+        if($this->isEnabled())
+        {
+            $status    = null;
+            $parameter = sprintf('obj.http.'.strtolower($this->_header).' == %s', Library\ControllerContext::unbox($context->param));
 
-        $response = $this->_command('ban', $parameter, $status);
-        if( $status !== self::CLIS_OK ) {
-            throw new \RuntimeException(sprintf('VarnishAdm failed to ban condition "%s" (status: %d).', $parameter, $status));
+            $response = $this->_command('ban', $parameter, $status);
+            if( $status !== self::CLIS_OK ) {
+                throw new \RuntimeException(sprintf('VarnishAdm failed to ban condition "%s" (status: %d).', $parameter, $status));
+            }
+
+            return $response;
         }
 
-        return $response;
+        return false;
     }
 
 

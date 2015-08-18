@@ -77,10 +77,28 @@ class DispatcherBehaviorIncludable extends Library\DispatcherBehaviorAbstract
         parent::_initialize($config);
     }
 
+    /**
+     *  Get the varnish cache controller
+     *
+     * @return ControllerCache
+     */
+    public function getCache()
+    {
+        return $this->getObject('com:varnish.controller.cache');
+    }
+
+    protected function _beforeInclude(Library\DispatcherContextInterface $context)
+    {
+        if($this->getCache()->canEsi())
+        {
+            //Prevent caching esi includes
+            $this->getCache()->setEnabled(false);
+        }
+    }
+
     protected function _afterInclude(Library\DispatcherContextInterface $context)
     {
-        $varnish = $this->getObject('com:varnish.controller.cache');
-        if($varnish->canEsi())
+        if($this->getCache()->canEsi())
         {
             $html   = '';
             $result =  $context->result;
@@ -104,7 +122,7 @@ class DispatcherBehaviorIncludable extends Library\DispatcherBehaviorAbstract
             $route  = $this->getController()->getView()->getRoute($query, true);
             $result = '<esi:include src="'.$route.'" />'.PHP_EOL;
 
-            if($varnish->isDebug())
+            if($this->getCache()->isDebug())
             {
                 $format  = PHP_EOL.'<!--BEGIN esi:include '.$context->param.' -->'.PHP_EOL;
                 $format .= '%s';
@@ -114,6 +132,9 @@ class DispatcherBehaviorIncludable extends Library\DispatcherBehaviorAbstract
             }
 
             $context->result = $result;
+
+            //Enable the cache again
+            $this->getCache()->setEnabled(true);
         }
     }
 }
