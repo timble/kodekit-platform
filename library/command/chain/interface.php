@@ -21,22 +21,6 @@ namespace Nooku\Library;
 interface CommandChainInterface
 {
     /**
-     * Enable the chain
-     *
-     * @return  $this
-     */
-    public function enable();
-
-    /**
-     * Disable the chain
-     *
-     * If the chain is disabled running the chain will always return TRUE
-     *
-     * @return  $this
-     */
-    public function disable();
-
-    /**
      * Execute a command by executing all registered handlers
      *
      * If a command handler returns the 'break condition' the executing is halted. If no break condition is specified the
@@ -103,6 +87,13 @@ interface CommandChainInterface
      * @return mixed|null   Returns the break condition, or NULL if not break condition is set.
      */
     public function getBreakCondition();
+
+    /**
+     * Enable the chain
+     *
+     * @return  CommandChainInterface
+     */
+    public function setEnabled($enabled);
 
     /**
      * Check of the command chain is enabled

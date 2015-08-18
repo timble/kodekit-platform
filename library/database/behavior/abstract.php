@@ -73,9 +73,9 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         //Clone the mixer to prevent status changes
         $mixer = clone $this->getMixer();
 
-        $mixer->getTable()->getCommandChain()->disable();
+        $mixer->getTable()->getCommandChain()->setEnabled(false);
         $mixer->save();
-        $mixer->getTable()->getCommandChain()->enable();
+        $mixer->getTable()->getCommandChain()->setEnabled(true);
 
         return $this->getMixer();
     }
@@ -93,9 +93,9 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
         //Clone the mixer to prevent status changes
         $mixer = clone $this->getMixer();
 
-        $mixer->getTable()->getCommandChain()->disable();
+        $mixer->getTable()->getCommandChain()->setEnabled(false);
         $mixer->delete();
-        $mixer->getTable()->getCommandChain()->enable();
+        $mixer->getTable()->getCommandChain()->setEnabled(true);
 
         return $this->getMixer();
     }

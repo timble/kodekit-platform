@@ -61,7 +61,7 @@ class CommandChain extends Object implements CommandChainInterface
         parent::__construct($config);
 
         //Set the chain enabled state
-        $this->__enabled = (boolean) $config->enabled;
+        $this->setEnabled($config->enabled);
 
         //Set the chain break condition
         $this->_break_condition = $config->break_condition;
@@ -86,30 +86,6 @@ class CommandChain extends Object implements CommandChainInterface
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Enable the chain
-     *
-     * @return  $this
-     */
-    public function enable()
-    {
-        $this->__enabled = true;
-        return $this;
-    }
-
-    /**
-     * Disable the chain
-     *
-     * If the chain is disabled running the chain will always return TRUE
-     *
-     * @return  $this
-     */
-    public function disable()
-    {
-        $this->__enabled = false;
-        return $this;
     }
 
     /**
@@ -237,6 +213,17 @@ class CommandChain extends Object implements CommandChainInterface
     public function getBreakCondition()
     {
         return $this->_break_condition;
+    }
+
+    /**
+     * Enable the chain
+     *
+     * @return  CommandChain
+     */
+    public function setEnabled($enabled)
+    {
+        $this->__enabled = (bool) $enabled;
+        return $this;
     }
 
     /**
