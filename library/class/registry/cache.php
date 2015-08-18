@@ -124,7 +124,10 @@ class ClassRegistryCache extends ClassRegistry
     public function offsetUnset($offset)
     {
         apc_delete($this->getNamespace().'-class_'.$offset);
-        parent::offsetUnset($offset);
+        
+        if(parent::offsetExists($offset)){
+            parent::offsetUnset($offset);
+        }
     }
 
     /**
