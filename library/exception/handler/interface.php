@@ -47,30 +47,30 @@ interface ExceptionHandlerInterface
     public function disable($type = self::TYPE_ALL);
 
     /**
-     * Add an exception handler
+     * Add an exception callback
      *
      * @param  callable $callback
-     * @param  bool $prepend If true, the handler will be prepended instead of appended.
+     * @param  bool $prepend If true, the callback will be prepended instead of appended.
      * @throws \InvalidArgumentException If the callback is not a callable
      * @return ExceptionHandlerInterface
      */
-    public function addHandler($callback, $prepend = false );
+    public function addExceptionCallback($callback, $prepend = false );
 
     /**
-     * Remove an exception handler
+     * Remove an exception callback
      *
      * @param  callable $callback
      * @throws \InvalidArgumentException If the callback is not a callable
      * @return ExceptionHandlerInterface
      */
-    public function removeHandler($callback);
+    public function removeExceptionCallback($callback);
 
     /**
-     * Get the registered handlers
+     * Get the registered exception callbacks
      *
      * @return array An array of callables
      */
-    public function getHandlers();
+    public function getExceptionCallbacks();
 
     /**
      * Get the handled exception stack
