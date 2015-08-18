@@ -44,7 +44,7 @@ abstract class EventPublisherAbstract extends Object implements EventPublisherIn
 
         $this->__listeners = array();
 
-        $this->setEnabled($config->enabled);
+        $this->__enabled = $config->enabled;
     }
 
     /**
