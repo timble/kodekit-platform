@@ -154,7 +154,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
             {
                 //Restore the row
                 $table = clone $context->getSubject();
-                $table->getCommandChain()->disable();
+                $table->getCommandChain()->setEnabled(false);
                 $table->createRow()->setProperties($this->getProperties())->save();
 
                 //Set the status
