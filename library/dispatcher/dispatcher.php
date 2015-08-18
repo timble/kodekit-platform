@@ -91,7 +91,7 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
         $method = strtolower($context->request->getMethod());
 
         if (!in_array($method, $this->getHttpMethods())) {
-            throw new DispatcherExceptionMethodNotAllowed('Method not allowed');
+            throw new DispatcherExceptionMethodNotAllowed('Method '.strtoupper($method).' not allowed');
         }
 
         $this->setControllerAction($method);
@@ -108,8 +108,20 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
 	protected function _actionDispatch(DispatcherContextInterface $context)
 	{
-        //Execute the request method
-        $this->execute(strtolower($context->request->getMethod()), $context);
+        $controller = $this->getController();
+
+        if(!$controller instanceof ControllerViewable && !$controller instanceof ControllerModellable)
+        {
+            $action = strtolower($context->request->query->get('_action', 'alpha'));
+
+            //Throw exception if no action could be determined from the request
+            if(!$action) {
+                throw new ControllerExceptionRequestInvalid('Action not found');
+            }
+
+            $result = $controller->execute($action, $context);
+        }
+        else $this->execute(strtolower($context->request->getMethod()), $context);
 
         //Send the response
         return $this->send($context);
@@ -126,7 +138,15 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
     protected function _actionGet(DispatcherContextInterface $context)
     {
-        return $this->getController()->execute('render', $context);
+        $controller = $this->getController();
+
+        if($controller instanceof ControllerViewable) {
+            $result = $this->getController()->execute('render', $context);
+        } else {
+            throw new DispatcherExceptionMethodNotAllowed('Method GET not allowed');
+        }
+
+        return $result;
     }
 
     /**
@@ -137,7 +157,15 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
     protected function _actionHead(DispatcherContextInterface $context)
     {
-        return $this->execute('get', $context);
+        $controller = $this->getController();
+
+        if($controller instanceof ControllerViewable) {
+            $result =  $this->execute('get', $context);
+        } else {
+            throw new DispatcherExceptionMethodNotAllowed('Method HEAD not allowed');
+        }
+
+        return $result;
     }
 
     /**
