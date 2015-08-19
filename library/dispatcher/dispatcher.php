@@ -119,7 +119,7 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
                 throw new ControllerExceptionRequestInvalid('Action not found');
             }
 
-            $result = $controller->execute($action, $context);
+            $controller->execute($action, $context);
         }
         else $this->execute(strtolower($context->request->getMethod()), $context);
 
@@ -186,7 +186,6 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
     protected function _actionPost(DispatcherContextInterface $context)
     {
-        $result     = false;
         $action     = null;
         $controller = $this->getController();
 
@@ -236,7 +235,6 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
     protected function _actionPut(DispatcherContextInterface $context)
     {
-        $result     = false;
         $action     = null;
         $controller = $this->getController();
 
@@ -283,7 +281,6 @@ class Dispatcher extends DispatcherAbstract implements ObjectInstantiable, Objec
      */
     protected function _actionDelete(DispatcherContextInterface $context)
     {
-        $result     = false;
         $controller = $this->getController();
 
         if($controller instanceof ControllerModellable) {
