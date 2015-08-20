@@ -121,7 +121,7 @@ class TemplateFilterForm extends TemplateFilterAbstract
 
         // POST : Add token
         $matches = array();
-        preg_match_all('/(<form.*method="post".*>)/i', $text, $matches, PREG_SET_ORDER);
+        preg_match_all('/(<form.*method="post"[^>]*>)/i', $text, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match)
         {
