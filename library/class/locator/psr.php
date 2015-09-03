@@ -28,6 +28,35 @@ class ClassLocatorPsr extends ClassLocatorAbstract
     protected static $_name = 'psr';
 
     /**
+     * @var array First letter prefixes to namespaces, improves performance rather than searching entire array
+     */
+    protected $_namespace_prefixes = array();
+
+    /**
+     * Register a namespace
+     *
+     * @param  string $namespace
+     * @param  string $path The location of the namespace
+     * @return ClassLocatorPsr
+     */
+    public function registerNamespace($namespace, $path)
+    {
+        // PSR namespaces can be registered to multiple paths
+        parent::registerNamespace($namespace, (array) $path);
+
+        // Extract first letter for index
+        $namespace = trim($namespace, '\\');
+        $first = substr($namespace, 0, 1);
+        if (!isset($this->_namespace_prefixes[$first])) {
+            $this->_namespace_prefixes[$first] = array();
+        }
+
+        $this->_namespace_prefixes[$first][$namespace] = strlen($namespace);
+
+        return $this;
+    }
+
+    /**
      * Get the path based on a class name
      *
      * @param  string $class     The class name
@@ -36,22 +65,39 @@ class ClassLocatorPsr extends ClassLocatorAbstract
      */
     public function locate($class, $basepath = null)
     {
-        //Find the class
-        foreach($this->getNamespaces() as $prefix => $basepath)
-        {
-            if(strpos('\\'.$class, '\\'.$prefix) !== 0) {
+        if (strpos($class, '\\') === false) {
+            return false;
+        }
+
+        // Ensure we have namespaces matching the first letter
+        $first = $class[0];
+        if (!isset($this->_namespace_prefixes[$first])) {
+            return false;
+        }
+
+        foreach ($this->_namespace_prefixes[$first] as $prefix => $length) {
+
+            // Ensure whole namespace prefix matches
+            if (0 !== strpos($class, $prefix)) {
                 continue;
             }
 
-            if (strpos($class, $prefix) === 0) {
-                $class = trim(substr($class, strlen($prefix)), '\\');
-            }
+            foreach ($this->_namespaces[$prefix] as $basepath) {
 
-            $path = str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $class) . '.php';
+                if (strpos('\\' . $class, '\\' . $prefix) !== 0) {
+                    continue;
+                }
 
-            $file = $basepath.'/'.$path;
-            if (is_file($file)) {
-                return $file;
+                if (strpos($class, $prefix) === 0) {
+                    $class = trim(substr($class, $length), '\\');
+                }
+
+                $path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+
+                $file = $basepath . '/' . $path;
+                if (is_file($file)) {
+                    return $file;
+                }
             }
         }
 
