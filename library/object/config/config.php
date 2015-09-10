@@ -12,8 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Config
  *
- * ObjectConfig provides a property based interface to an array. Data is can be modified unless the object is marked
- * as readonly.
+ * ObjectConfig provides a property based interface to an array.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
@@ -28,22 +27,12 @@ class ObjectConfig implements ObjectConfigInterface
     private $__options = array();
 
     /**
-     * Is the config data readonly
-     *
-     * @var bool
-     */
-    protected $_readonly;
-
-    /**
      * Constructor.
      *
      * @param  array|ObjectConfig $options An associative array of configuration options or a ObjectConfig instance.
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      */
-    public function __construct( $options = array(), $readonly = false)
+    public function __construct( $options = array())
     {
-        $this->_readonly = (bool) $readonly;
-
         $this->merge($options);
     }
 
@@ -76,15 +65,11 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function set($name, $value)
     {
-        if (!$this->isReadOnly())
-        {
-            if (is_array($value)) {
-                $this->__options[$name] = $this->getInstance()->merge($value);
-            } else {
-                $this->__options[$name] = $value;
-            }
+        if (is_array($value)) {
+            $this->__options[$name] = $this->getInstance()->merge($value);
+        } else {
+            $this->__options[$name] = $value;
         }
-        else throw new \RuntimeException('Config is read only');
 
         return $this;
     }
@@ -109,11 +94,7 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function remove( $name )
     {
-        if (!$this->isReadOnly()) {
-            unset($this->__options[$name]);
-        } else {
-            throw new \RuntimeException('Config is read only');
-        }
+        unset($this->__options[$name]);
 
         return $this;
     }
@@ -135,18 +116,14 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function merge($options)
     {
-        if (!$this->isReadOnly())
-        {
-            $options = self::unbox($options);
+        $options = self::unbox($options);
 
-            if (is_array($options) || $options instanceof \Traversable)
-            {
-                foreach ($options as $key => $value) {
-                    $this->set($key, $value);
-                }
+        if (is_array($options) || $options instanceof \Traversable)
+        {
+            foreach ($options as $key => $value) {
+                $this->set($key, $value);
             }
         }
-        else throw new \RuntimeException('Config is read only');
 
         return $this;
     }
@@ -162,37 +139,33 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function append($options)
     {
-        if (!$this->isReadOnly())
-        {
-            $options = self::unbox($options);
+        $options = self::unbox($options);
 
-            if(is_array($options) || $options instanceof \Traversable)
+        if(is_array($options) || $options instanceof \Traversable)
+        {
+            if(!is_numeric(key($options)))
             {
-                if(!is_numeric(key($options)))
+                foreach($options as $key => $value)
                 {
-                    foreach($options as $key => $value)
+                    if(array_key_exists($key, $this->__options))
                     {
-                        if(array_key_exists($key, $this->__options))
-                        {
-                            if(!empty($value) && ($this->__options[$key] instanceof ObjectConfig)) {
-                                $this->__options[$key] = $this->__options[$key]->append($value);
-                            }
+                        if(!empty($value) && ($this->__options[$key] instanceof ObjectConfig)) {
+                            $this->__options[$key] = $this->__options[$key]->append($value);
                         }
-                        else $this->set($key, $value);
                     }
+                    else $this->set($key, $value);
                 }
-                else
+            }
+            else
+            {
+                foreach($options as $value)
                 {
-                    foreach($options as $value)
-                    {
-                        if (!in_array($value, $this->__options, true)) {
-                            $this->__options[] = $value;
-                        }
+                    if (!in_array($value, $this->__options, true)) {
+                        $this->__options[] = $value;
                     }
                 }
             }
         }
-        else throw new \RuntimeException('Config is read only');
 
         return $this;
     }
@@ -248,7 +221,7 @@ class ObjectConfig implements ObjectConfigInterface
      */
     public function getInstance()
     {
-        $instance = new static(array(), $this->_readonly);
+        $instance = new static(array());
         return $instance;
     }
 
@@ -342,44 +315,11 @@ class ObjectConfig implements ObjectConfigInterface
      * Return a ObjectConfig object from an array
      *
      * @param  array $array
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig Returns a ObjectConfig object
      */
-    public static function fromArray(array $array, $readonly = false)
+    public static function fromArray(array $array)
     {
-        return new static($array, $readonly);
-    }
-
-    /**
-     * Prevent any more modifications being made to this instance.
-     *
-     * Useful after merge() has been used to merge multiple Config objects into one object which should then not be
-     * modified again.
-     *
-     * @return ObjectConfigInterface
-     */
-    public function setReadOnly()
-    {
-        $this->_readonly = true;
-
-        foreach ($this->__options as $value)
-        {
-            if ($value instanceof ObjectConfig) {
-                $value->setReadOnly();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Returns whether this Config object is read only or not.
-     *
-     * @return bool
-     */
-    public function isReadOnly()
-    {
-        return $this->_readonly;
+        return new static($array);
     }
 
     /**

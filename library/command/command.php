@@ -160,7 +160,7 @@ class Command extends ObjectConfig implements CommandInterface
      */
     final public function getInstance()
     {
-        $instance = new ObjectConfig(array(), $this->_readonly);
+        $instance = new ObjectConfig(array());
         return $instance;
     }
 
