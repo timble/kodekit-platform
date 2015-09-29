@@ -25,18 +25,18 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     private $__computed_properties;
 
     /**
+     * List of modified properties
+     *
+     * @var array
+     */
+    private $__modified_properties;
+
+    /**
      * Tracks if row data is new
      *
      * @var bool
      */
     private $__new = true;
-
-    /**
-     * List of modified properties
-     *
-     * @var array
-     */
-    protected $_modified = array();
 
     /**
      * The status
@@ -130,6 +130,8 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      * Saves the row to the database.
      *
      * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
+     * Save prevent subsequent database updates if the entity was already updated previously and it was not
+     * modified since.
      *
      * @return boolean If successful return TRUE, otherwise FALSE
      */
@@ -140,18 +142,11 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         if ($this->isConnected())
         {
             if (!$this->isNew()) {
-                $result = $this->getTable()->update($this);
-            } else {
-                $result = $this->getTable()->insert($this);
-            }
-
-            //Reset the modified array
-            if ($result !== false)
-            {
-                if (((integer) $result) > 0) {
-                    $this->_modified = array();
+                if($this->getStatus() !== Database::STATUS_UPDATED) {
+                    $result = $this->getTable()->update($this);
                 }
             }
+            else $result = $this->getTable()->insert($this);
         }
 
         return (bool) $result;
@@ -183,8 +178,9 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     public function reset()
     {
-        $this->_data     = array();
-        $this->_modified = array();
+        $this->_data                 = array();
+        $this->__modified_properties = array();
+        $this->setStatus(NULL);
 
         if ($this->isConnected()) {
             $this->_data = $this->getTable()->getDefaults();
@@ -258,7 +254,8 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
 
                 //Mark the property as modified
                 if($modified || $this->isNew()) {
-                    $this->_modified[$name] = $name;
+                    $this->__modified_properties[$name] = $name;
+                    $this->setStatus(Database::STATUS_MODIFIED);
                 }
             }
         }
@@ -297,7 +294,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
             else
             {
                 parent::offsetUnset($name);
-                unset($this->_modified[$name]);
+                unset($this->__modified_properties[$name]);
             }
         }
 
@@ -315,7 +312,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         $properties = $this->_data;
 
         if ($modified) {
-            $properties = array_intersect_key($properties, $this->_modified);
+            $properties = array_intersect_key($properties, $this->__modified_properties);
         }
 
         return $properties;
@@ -331,7 +328,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     public function setProperties($properties, $modified = true)
     {
         if ($properties instanceof DatabaseRowInterface) {
-            $properties = $properties->getProperties(false);
+            $properties = $properties->getProperties();
         } else {
             $properties = (array) $properties;
         }
@@ -552,7 +549,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
 
         if($property)
         {
-            if (isset($this->_modified[$property]) && $this->_modified[$property]) {
+            if (isset($this->__modified_properties[$property]) && $this->__modified_properties[$property]) {
                 $result = true;
             }
         }
