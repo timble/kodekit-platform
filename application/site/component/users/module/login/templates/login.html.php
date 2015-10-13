@@ -12,8 +12,8 @@
 <?= helper('behavior.validator')?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
-    <? if($module->getParameters()->get('show_title', false)) : ?>
-        <h3><?= $module->title ?></h3>
+    <? if(parameters()->show_title) : ?>
+        <h3><?= title() ?></h3>
     <? endif ?>
 
 	<fieldset class="input">

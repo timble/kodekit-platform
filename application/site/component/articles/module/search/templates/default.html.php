@@ -8,8 +8,8 @@
  */
 ?>
 
-<? if ($module->getParameters()->get('item_id', null)): ?>
-    <form action="<?= route('component=articles&view=articles&Itemid=' . $module->getParameters()->get('item_id')) ?>" method="get" class="navbar-form pull-right">
+<? if (is_numeric(parameters()->item_id)): ?>
+    <form action="<?= route('component=articles&view=articles&Itemid=' . parameters()->item_id) ?>" method="get" class="navbar-form pull-right">
         <div class="form-group">
             <input id="search" name="search" class="form-control" type="text" value="" placeholder="<?= translate('Search articles') ?>"/>
         </div>
