@@ -13,29 +13,12 @@ use Nooku\Library;
 
 /**
  * Taggable Database Behavior
- *   
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Tags
  */
 class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 {
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  Library\ObjectConfig $config A ObjectConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'auto_mixin' => true
-        ));
-
-        parent::_initialize($config);
-    }
-
     /**
 	 * Get a list of tags
 	 *
@@ -55,10 +38,10 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 
         return $tags;
 	}
-        
+
     /**
 	 * Modify the select query
-	 * 
+	 *
 	 * If the query's where information includes a tag property, auto-join the tags tables with the query and select
      * all the rows that are tagged with a term.
 	 */
