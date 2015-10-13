@@ -7,7 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Activities;
+use Nooku\Library;
+use Nooku\Component\Activities;
 
 /**
  * Activity Model Entity.
@@ -15,7 +16,7 @@ use Nooku\Library, Nooku\Component\Activities;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Activities
  */
-class ActivitiesModelEntityActivity extends Activities\ModelEntityActivity implements \Nooku\Library\ObjectInstantiable
+class ActivitiesModelEntityActivity extends Activities\ModelEntityActivity implements Library\ObjectInstantiable
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
