@@ -25,10 +25,10 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     		'value'	=> 'id',
     		'label'	=> 'title'
     	));
-    
+
     	return parent::_render($config);
     }
-    
+
     public function authors($config = array())
     {
         $config = new Library\ObjectConfig($config);
@@ -80,12 +80,17 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->fetch();
+        $pages = $this->getObject('com:pages.model.pages')
+            ->application('site')
+            ->type('component')
+            ->published(true)
+            ->fetch();
+
         $pages = $pages->find(array(
-            'link_url' => 'component=articles&view=articles&layout=search'));
+            'link_url' => 'component=articles&view=articles&layout=search'
+        ));
 
         $options = array();
-
         foreach($pages as $page) {
             $options[] =  $this->option(array('label' => $page->title, 'value' => $page->id));
         }
