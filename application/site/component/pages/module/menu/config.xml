@@ -13,11 +13,4 @@
 			<option value="always">Always</option>
 		</param>
 	</params>
-	<params group="advanced">
-		<param name="class" type="text" default="0" label="HTML class" description="" />
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-	</params>
 </config>
