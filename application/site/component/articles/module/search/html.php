@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Search Module Html View
@@ -15,7 +16,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesModuleSearchHtml extends PagesModuleDefaultHtml
+class ArticlesModuleSearchHtml extends Pages\ModuleAbstract
 {
 
 }
