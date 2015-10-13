@@ -367,7 +367,8 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             {
                 $closure = $this->_mixed_methods[$method];
 
-                switch (count($arguments)) {
+                switch (count($arguments))
+                {
                     case 0 :
                         $result = $closure();
                         break;
