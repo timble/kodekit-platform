@@ -7,7 +7,7 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Sites;
+namespace Nooku\Component\Application;
 
 use Nooku\Library;
 
@@ -15,9 +15,9 @@ use Nooku\Library;
  * Sites Model
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Sites
+ * @package Nooku\Component\Application
  */
-class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
+class ModelSites extends Library\ModelAbstract
 {
     public function __construct(Library\ObjectConfig $config)
     {
@@ -79,7 +79,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectMultiton
         $entity = parent::_actionFetch($context);
 
         foreach($sites as $site) {
-            $entity->create($site);
+            $entity->insert($site);
         }
 
         return $entity;

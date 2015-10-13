@@ -27,7 +27,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'deselect' => true,
             'prompt'   => '- Select -',
         ));
-        
+
         $options = array();
         if($config->deselect) {
             $options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
@@ -37,9 +37,23 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         foreach($applications as $name) {
             $options[] = $this->option(array('label' => $name, 'value' => $name));
         }
-        
+
         $config->options = $options;
-        
+
         return $this->optionlist($config);
+    }
+
+    public function sites( $config = array() )
+    {
+        $config = new Library\ObjectConfig($config);
+        $config->append(array(
+            'model'    => 'sites',
+            'name'     => 'site',
+            'value'    => 'name',
+            'label'    => 'name',
+            'deselect' => false
+        ));
+
+        return parent::_listbox($config);
     }
 }

@@ -7,7 +7,7 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Sites;
+namespace Nooku\Component\Application;
 
 use Nooku\Library;
 
@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ModelEntitySites extends Library\ModelEntityComposite
-{       
+class ModelEntitySite extends Library\ModelEntityAbstract
+{
 
 }

@@ -10,10 +10,11 @@
 return array(
 
     'aliases'  => array(
-        'application'                    => 'com:application.dispatcher',
-        'translator'                     => 'com:application.translator',
-        'lib:dispatcher.router.route'    => 'com:application.dispatcher.router.route',
+        'application'       => 'com:application.dispatcher',
+        'application.sites' => 'com:application.model.sites',
+        'translator'        => 'com:application.translator',
 
+        'lib:dispatcher.router.route'       => 'com:application.dispatcher.router.route',
         'lib:template.locator.component'    => 'com:application.template.locator.component',
         'lib:template.locator.file'         => 'com:application.template.locator.file',
         'com:pages.template.locator.module' => 'com:application.template.locator.module',
@@ -23,6 +24,10 @@ return array(
 
         'dispatcher' => array(
             'behaviors' => array('com:application.dispatcher.behavior.layoutable')
+        ),
+
+        'application.sites' => array(
+            'decorators' => array('model.composite')
         )
     )
 );
