@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * system (via form login, or any method). The user provider that is configured with that authentication method is
  * asked to fetch the UserInterface object for the given identifier.
  *
- * Internally, a user provider can load users from any source (databases, configuration, web service). This is
+ * Internally, a user provider can load users from any data store (databases, configuration, web service). This is
  * totally independent of how the authentication information is submitted or what the UserInterface object looks
  * like.
  *
@@ -37,7 +37,7 @@ interface UserProviderInterface
     public function load($identifier, $refresh = false);
 
     /**
-     * Fetch the user for the given user identifier from the backend
+     * Fetch the user for the given user identifier from the data store
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
