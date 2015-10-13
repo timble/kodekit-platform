@@ -107,7 +107,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
      * @param mixed $logger An object that implements ObjectInterface, ObjectIdentifier object or valid identifier
      *                      string.
      * @param array $config An optional associative array of configuration settings.
-     * @throws UnexpectedValueException if the logger does not implement ComActivitiesActivityLoggerInterface.
+     * @throws \UnexpectedValueException if the logger does not implement ComActivitiesActivityLoggerInterface.
      * @return ControllerBehaviorLoggable
      */
     public function attachLogger($logger, $config = array())
@@ -120,7 +120,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
             if (!($logger instanceof ActivityLoggerInterface))
             {
-                throw new UnexpectedValueException(
+                throw new \UnexpectedValueException(
                     "Logger $identifier does not implement ComActivitiesActivityLoggerInterface"
                 );
             }
