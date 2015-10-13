@@ -32,7 +32,8 @@ class ModelModules extends Library\ModelDatabase
             ->insert('installed', 'boolean', false)
             ->insert('access', 'int')
             ->insert('page', 'int')
-            ->insert('name', 'cmd');
+            ->insert('name', 'cmd')
+            ->insert('params', 'cmd');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -182,7 +183,7 @@ class ModelModules extends Library\ModelDatabase
             $rowset = $this->getTable()->createRowset();
 
             foreach($modules as $module) {
-                $rowset->create($module);
+                $rowset->insert($module);
             }
         }
         else
