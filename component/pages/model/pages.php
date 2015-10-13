@@ -48,7 +48,8 @@ class ModelPages extends Library\ModelDatabase
         $entity = parent::_actionCreate($context);
 
         //Set the page properties based on the model state information
-        if (isset($context->state->type) && $context->state->type) {
+        if (isset($context->state->type) && $context->state->type)
+        {
             $entity->type     = $context->state->type['name'];
 
             //Unsetting the type. We don't need it anymore
