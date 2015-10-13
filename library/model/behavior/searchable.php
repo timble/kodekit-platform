@@ -83,21 +83,25 @@ class ModelBehaviorSearchable extends ModelBehaviorAbstract
     {
         $model = $context->getSubject();
 
-        if ($model instanceof ModelDatabase && !$context->state->isUnique()) {
+        if ($model instanceof ModelDatabase && !$context->state->isUnique())
+        {
             $state  = $context->state;
             $search = $state->search;
 
-            if ($search) {
+            if ($search)
+            {
                 $columns    = array_keys($this->getTable()->getColumns());
                 $conditions = array();
 
-                foreach ($this->_columns as $column) {
+                foreach ($this->_columns as $column)
+                {
                     if (in_array($column, $columns)) {
                         $conditions[] = 'tbl.' . $column . ' LIKE :search';
                     }
                 }
 
-                if ($conditions) {
+                if ($conditions)
+                {
                     $context->query->where('(' . implode(' OR ', $conditions) . ')')
                                    ->bind(array('search' => '%' . $search . '%'));
                 }
