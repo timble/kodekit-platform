@@ -81,7 +81,7 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     }
 
     /**
-     * Fetch the user for the given user identifier from the backend
+     * Fetch the user for the given user identifier from the data store
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
