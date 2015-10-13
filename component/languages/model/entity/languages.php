@@ -7,31 +7,31 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Languages;
+
 use Nooku\Library;
 
 /**
  * Languages Model Entity
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Component\Languages
  */
-class ApplicationModelEntityLanguages extends Library\ModelEntityComposite implements Library\ObjectMultiton
+class ModelEntityLanguages extends Library\ModelEntityRowset
 {
+    /**
+     * The active language
+     *
+     * @var ModelEntityLanguage
+     */
     protected $_active;
+
+    /**
+     * The primary language
+     *
+     * @var ModelEntityLanguage
+     */
     protected $_primary;
-
-    public function __construct(Library\ObjectConfig $config )
-    {
-        parent::__construct($config);
-
-        //TODO : Inject raw data using $config->data
-        $languages = $this->getObject('com:languages.model.languages')
-            ->enabled(true)
-            ->application('site')
-            ->fetch();
-
-        $this->merge($languages);
-    }
 
     public function setActive($active)
     {
@@ -42,13 +42,29 @@ class ApplicationModelEntityLanguages extends Library\ModelEntityComposite imple
         }
 
         //Set the translator locale
-        $this->getObject('translator')->setLocale($this->_active->iso_code);
+        $this->getObject('translator')->setLanguage($this->_active->iso_code);
 
         return $this;
     }
 
     public function getActive()
     {
+        if(!isset($this->_active))
+        {
+            //Ensure we have a proper language tag
+            $locale   = locale_get_default();
+            $language = strtolower(locale_get_primary_language($locale));
+            $region   = strtoupper(locale_get_region($locale));
+
+            $language = $this->find(array('iso_code' => $language.'-'.$region));
+
+            if(!$language) {
+                $language = $this->getPrimary();
+            }
+
+            $this->_active = $language;
+        }
+
         return $this->_active;
     }
 
