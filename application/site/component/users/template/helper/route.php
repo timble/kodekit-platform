@@ -67,7 +67,7 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
             $needles['access'] = $config->access;
         }
 
-        if ($page = $this->getObject('application.pages')->find($needles)) {
+        if ($page = $this->getObject('pages')->find($needles)) {
             $route['Itemid'] = $page->id;
         }
 

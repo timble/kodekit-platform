@@ -34,7 +34,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         {
             if (!$entity->activation)
             {
-                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url = $this->getObject('pages')->getPrimary()->getLink();
                 $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
 
                 $context->response->setRedirect($url, 'Invalid request', 'error');
@@ -51,7 +51,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
         if (!parent::_beforeActivate($context))
         {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $url = $this->getObject('pages')->getPrimary()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
             $context->response->setRedirect($url, 'Wrong activation token', 'error');
@@ -97,7 +97,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         $url = null;
 
         $user = $this->getModel()->fetch();
-        $page = $this->getObject('application.pages')->find(array(
+        $page = $this->getObject('pages')->find(array(
             'component' => 'users',
             'access'    => 0,
             'published' => 1,
@@ -118,7 +118,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
     protected function _afterActivate(Library\ControllerContextInterface $context)
     {
-        $page = $this->getObject('application.pages')->find(array(
+        $page = $this->getObject('pages')->find(array(
             'component' => 'users',
             'published' => 1,
             'access'    => 0,
@@ -127,7 +127,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         if ($page) {
             $url = $page->getLink();
         } else {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $url = $this->getObject('pages')->getPrimary()->getLink();
         }
 
         $this->getObject('application')->getRouter()->build($url);

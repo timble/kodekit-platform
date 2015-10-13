@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Breadcrumbs Module Html View
@@ -15,12 +16,12 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
+class PagesModuleBreadcrumbsHtml extends Pages\ModuleAbstract
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $list      = $this->getObject('com:pages.pathway');
-        $params     = $this->module->getParameters();
+        $list       = $this->getObject('com:pages.pathway');
+        $params     = $context->data->module->getParameters();
         $translator = $this->getObject('translator');
 
         if($params->get('homeText'))
@@ -28,7 +29,7 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
             $item = new \stdClass();
             $item->name = $params->get('homeText', $translator('Home'));
 
-            $home = $this->getObject('application.pages')->getHome();
+            $home = $this->getObject('pages')->getPrimary();
             $item->link = $this->getRoute($home->getLink()->getQuery().'&Itemid='.$home->id);
 
             array_unshift($list, $item);
@@ -38,4 +39,4 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
 
         parent::_fetchData($context);
     }
-} 
+}

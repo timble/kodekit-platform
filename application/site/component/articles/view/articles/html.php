@@ -31,13 +31,13 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
     protected function _fetchData(Library\ViewContext $context)
     {
         //Get the parameters
-        $params = $this->getObject('application.pages')->getActive()->getParams('page');
+        $params = $this->getObject('pages')->getActive()->getParams('page');
 
         //Get the category
         $category = $this->getCategory();
 
         //Set the pathway
-        $page = $this->getObject('application.pages')->getActive();
+        $page = $this->getObject('pages')->getActive();
         if ($page->getLink()->query['view'] == 'categories') {
             $this->getObject('com:pages.pathway')->addItem($category->title, '');
         }

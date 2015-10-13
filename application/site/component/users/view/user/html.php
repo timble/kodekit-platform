@@ -19,7 +19,7 @@ class UsersViewUserHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $page = $this->getObject('application.pages')->getActive();
+        $page = $this->getObject('pages')->getActive();
 
         $context->data->page            = $page;
         $context->data->password_length = $this->getObject('com:users.model.entity.password')->getLength();

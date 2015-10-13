@@ -48,7 +48,7 @@ class UsersControllerSession extends Users\ControllerSession
 
             if ($password->expired())
             {
-                $pages  = $this->getObject('application.pages');
+                $pages  = $this->getObject('pages');
 
                 $page = $pages->find(array(
                     'component' => 'users',
@@ -77,7 +77,7 @@ class UsersControllerSession extends Users\ControllerSession
         {
             $context->user->getSession()->site = $this->getObject('application')->getSite();
 
-            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $url = $this->getObject('pages')->getPrimary()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
             $context->response->setRedirect($url);

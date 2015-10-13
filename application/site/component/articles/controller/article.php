@@ -51,7 +51,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
                     'order'  => array('ordering' => 'ASC'));
 
                 // Get the parameters
-                $page   = $this->getObject('application.pages')->getActive();
+                $page   = $this->getObject('pages')->getActive();
                 $params = $page->getParams('page');
 
                 // Force some request vars based on setting parameters.

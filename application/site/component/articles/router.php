@@ -23,9 +23,9 @@ class ArticlesRouter extends Library\DispatcherRouter
         $query    = &$url->query;
 
         if(isset($query['Itemid'])) {
-            $page = $this->getObject('application.pages')->getPage($query['Itemid']);
+            $page = $this->getObject('pages')->getPage($query['Itemid']);
         } else {
-            $page = $this->getObject('application.pages')->getActive();
+            $page = $this->getObject('pages')->getActive();
         }
 
         $view = $page->getLink()->query['view'];
@@ -75,7 +75,7 @@ class ArticlesRouter extends Library\DispatcherRouter
         $vars = array();
         $path = &$url->path;
 
-        $page = $this->getObject('application.pages')->getActive();
+        $page = $this->getObject('pages')->getActive();
 
         $view  = $page->getLink()->query['view'];
         $count = count($path);

@@ -50,7 +50,7 @@ class UsersControllerUser extends Users\ControllerUser
 
         if ($user->getStatus() == $user::STATUS_CREATED)
         {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $url = $this->getObject('pages')->getPrimary()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
             $context->response->setRedirect($url, 'User account successfully created');

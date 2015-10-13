@@ -76,7 +76,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     public function getLanguages()
     {
-        return $this->getObject('application.languages');
+        return $this->getObject('languages');
     }
 
     public function getTranslations()
@@ -94,7 +94,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         if ($query = $context->query)
         {
             $table     = $this->_tables->find(array('name' => $context->table))->top();
-            $languages = $this->getObject('application.languages');
+            $languages = $this->getObject('languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
 
@@ -139,7 +139,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         if ($context->affected)
         {
-            $languages = $this->getObject('application.languages');
+            $languages = $this->getObject('languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
 
@@ -189,7 +189,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     protected function _beforeUpdate(Library\DatabaseContext $context)
     {
-        $languages = $this->getObject('application.languages');
+        $languages = $this->getObject('languages');
         $active    = $languages->getActive();
         $primary   = $languages->getPrimary();
 
@@ -200,7 +200,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     protected function _afterUpdate(Library\DatabaseContext $context)
     {
-        $languages = $this->getObject('application.languages');
+        $languages = $this->getObject('languages');
         $primary   = $languages->getPrimary();
         $active    = $languages->getActive();
 
@@ -258,7 +258,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
     protected function _beforeDelete(Library\DatabaseContext $context)
     {
-        $languages = $this->getObject('application.languages');
+        $languages = $this->getObject('languages');
         $active    = $languages->getActive();
         $primary   = $languages->getPrimary();
 
@@ -271,7 +271,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         if ($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
-            $languages = $this->getObject('application.languages');
+            $languages = $this->getObject('languages');
             $primary   = $languages->getPrimary();
             $active    = $languages->getActive();
 

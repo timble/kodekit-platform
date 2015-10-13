@@ -23,11 +23,11 @@ class ModelEntityTable extends Library\ModelEntityRow
     {
         $modified = $this->isModified('enabled');
         $result   = parent::save();
-        
+
         if($this->getStatus() == self::STATUS_UPDATED && $modified && $this->enabled)
         {
             $database  = $this->getTable()->getAdapter();
-            $languages = $this->getObject('application.languages');
+            $languages = $this->getObject('languages');
             $primary   = $languages->getPrimary();
 
             foreach($languages as $language)
@@ -35,28 +35,27 @@ class ModelEntityTable extends Library\ModelEntityRow
                 if($language->id != $primary->id)
                 {
                     $table = strtolower($language->iso_code).'_'.$this->name;
-                    
+
                     // Create language specific table.
                     $query = 'CREATE TABLE '.$database->quoteIdentifier($table).
                         ' LIKE '.$database->quoteIdentifier($this->name);
                     $database->execute($query);
-                    
+
                     // Copy content of original table into the language specific one.
                     $query = $this->getObject('lib:atabase.query.insert')
                         ->table($table)
                         ->values($this->getObject('lib:database.query.select')->table($this->name));
                     $database->execute($query);
-                    
+
                     $status   = ModelEntityTranslation::STATUS_MISSING;
                     $original = 0;
-                            
                 }
                 else
                 {
                     $status   = ModelEntityTranslation::STATUS_COMPLETED;
                     $original = 1;
                 }
-                
+
                 // Add items to the translations table.
                 $select = $this->getObject('lib:database.query.select')
                     ->columns(array(
@@ -73,16 +72,16 @@ class ModelEntityTable extends Library\ModelEntityRow
                         'status'    => $status,
                         'original'  => $original
                     ));
-                
+
                 $query = $this->getObject('lib:database.query.insert')
                     ->table('languages_translations')
                     ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
                     ->values($select);
-                
+
                 $database->execute($query);
             }
         }
-        
+
         return $result;
     }
 }

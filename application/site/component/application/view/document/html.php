@@ -29,7 +29,7 @@ class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters' => array('module', 'com:files.template.filter.files', 'com:attachments.template.filter.attachments'),
+            'template_filters' => array('com:pages.template.filter.block', 'com:files.template.filter.files', 'com:attachments.template.filter.attachments'),
         ));
 
         parent::_initialize($config);
@@ -43,6 +43,6 @@ class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
     public function getTitle()
     {
         //Get the parameters of the active menu item
-        return $this->getObject('application.pages')->getActive()->title;
+        return $this->getObject('pages')->getActive()->title;
     }
 }

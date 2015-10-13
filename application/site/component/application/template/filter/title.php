@@ -24,7 +24,7 @@ class ApplicationTemplateFilterTitle extends Application\TemplateFilterTitle
 
         //Get the parameters of the active menu item
         $title = '';
-        if($page = $this->getObject('application.pages')->getActive())
+        if($page = $this->getObject('pages')->getActive())
         {
             $params = $page->getParams('page');
             $title  = htmlspecialchars_decode($this->getObject('application')->getTitle());

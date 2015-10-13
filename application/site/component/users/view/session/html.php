@@ -32,10 +32,10 @@ class UsersViewSessionHtml extends Library\ViewHtml
 
         parent::_fetchData($context);
     }
-    
+
     public function getParameters()
     {
-        $page       = $this->getObject('application.pages')->getActive();
+        $page       = $this->getObject('pages')->getActive();
         $parameters = $page->getParams('page');
 
         $parameters->def('registration', true);

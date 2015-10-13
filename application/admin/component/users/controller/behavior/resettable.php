@@ -38,7 +38,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $page = $this->getObject('application.pages')->find(array(
+            $page = $this->getObject('pages')->find(array(
                 'component' => 'users',
                 'access'    => 0,
                 'link'      => array(array('view' => 'user'))));

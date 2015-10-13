@@ -23,9 +23,9 @@ class FilesRouter extends Library\DispatcherRouter
         $query    = &$url->query;
 
 		if (isset($query['Itemid'])) {
-			$page = $this->getObject('application.pages')->getPage($query['Itemid']);
+			$page = $this->getObject('pages')->getPage($query['Itemid']);
 		} else {
-			$page = $this->getObject('application.pages')->getActive();
+			$page = $this->getObject('pages')->getActive();
 		}
 
 		$menu_query = $page->getLink()->query;
@@ -68,7 +68,7 @@ class FilesRouter extends Library\DispatcherRouter
         $vars = array();
         $path = &$url->path;
 
-		$page  = $this->getObject('application.pages')->getActive();
+		$page  = $this->getObject('pages')->getActive();
 		$query = $page->getLink()->query;
 
 		if ($path[0] === 'file')

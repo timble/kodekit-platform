@@ -26,7 +26,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
     protected function _fetchData(Library\ViewContext $context)
     {
-        $page   = $this->getObject('application.pages')->getActive();
+        $page   = $this->getObject('pages')->getActive();
         $params = $page->getParams('page');
 
         $folders       = $this->_getFolders();
@@ -61,7 +61,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
     protected function _getFolders()
     {
-        $page   = $this->getObject('application.pages')->getActive();
+        $page   = $this->getObject('pages')->getActive();
         $params = $page->getParams('page');
 
         if ($params->get('show_folders', 1))
@@ -94,7 +94,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
     protected function _getFiles()
     {
-        $page   = $this->getObject('application.pages')->getActive();
+        $page   = $this->getObject('pages')->getActive();
         $params = $page->getParams('page');
 
         $state = $this->getModel()->getState();

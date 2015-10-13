@@ -21,7 +21,7 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
     {
         $config = new Library\ObjectConfig($config);
 
-        $params     = $this->getObject('application.pages')->getActive()->getParams('page');
+        $params     = $this->getObject('pages')->getActive()->getParams('page');
         $translator = $this->getObject('translator');
 
         $config->append(array('params' => $params))
@@ -50,7 +50,7 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
                 )
             );
         }
-        
+
         if ($config->show_create_date) {
             $html[] = '</span>';
         }

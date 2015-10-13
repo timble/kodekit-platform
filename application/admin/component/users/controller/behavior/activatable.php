@@ -50,7 +50,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         $url = null;
 
         $user = $this->getModel()->fetch();
-        $page = $this->getObject('application.pages')->find(array(
+        $page = $this->getObject('pages')->find(array(
             'component' => 'users',
             'access'    => 0,
             'link'      => array(array('view' => 'user'))));

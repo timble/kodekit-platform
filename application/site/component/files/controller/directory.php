@@ -26,7 +26,7 @@ class FilesControllerDirectory extends Library\ControllerModel
 
         if ($request->query->get('view', 'cmd') == 'directory')
         {
-            $page = $this->getObject('application.pages')->getActive();
+            $page = $this->getObject('pages')->getActive();
 
             $params = $page->getParams('page');
             if (isset($params->limit) && $params->limit > 0) {

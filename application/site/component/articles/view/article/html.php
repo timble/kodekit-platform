@@ -22,7 +22,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         $article = $this->getModel()->fetch();
 
         //Set the breadcrumbs
-        $page = $this->getObject('application.pages')->getActive();
+        $page = $this->getObject('pages')->getActive();
         if ($page->getLink()->query['view'] == 'categories')
         {
             $category = $article->getCategory();
@@ -41,7 +41,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
 
     protected function _fetchData(Library\ViewContext $context)
     {
-        $context->data->params = $this->getObject('application.pages')->getActive()->getParams('page');
+        $context->data->params = $this->getObject('pages')->getActive()->getParams('page');
 
         parent::_fetchData($context);
     }

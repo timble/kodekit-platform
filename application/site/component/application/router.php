@@ -58,7 +58,6 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Build the route
         $url->path = $this->getObject('request')->getBaseUrl()->getPath().'/'.$route;
 
-
 		return $result;
 	}
 
@@ -86,12 +85,12 @@ class ApplicationRouter extends Library\DispatcherRouter
 
     protected function _parsePageRoute($url)
     {
-        $route = $url->getPath();
-        $pages   = $this->getObject('application.pages');
+        $route   = $url->getPath();
+        $pages   = $this->getObject('pages');
         $reverse = array_reverse($pages->toArray());
 
         //Set the default
-        $page = $pages->getHome();
+        $page = $pages->getPrimary();
 
         //Find the page
         if(!empty($route))
@@ -184,11 +183,11 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Find the page
         if(!isset($url->query['Itemid']))
         {
-            $page = $this->getObject('application.pages')->getActive();
+            $page = $this->getObject('pages')->getActive();
             $url->query['Itemid'] = $page->id;
         }
 
-        $page = $this->getObject('application.pages')->getPage($url->query['Itemid']);
+        $page = $this->getObject('pages')->getPage($url->query['Itemid']);
 
         //Set the page route in the url
         if(!$page->home)

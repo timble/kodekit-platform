@@ -29,7 +29,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             // Only passwords from enabled users can be reset.
             if (!$user->enabled)
             {
-                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url = $this->getObject('pages')->getPrimary()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
 
                 $translator = $this->getObject('translator');
@@ -57,7 +57,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
         if (!parent::_beforeReset($context))
         {
-            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $url = $this->getObject('pages')->getPrimary()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
             $context->response->setRedirect($url, $this->getObject('translator')->translate('Invalid request'), 'error');
@@ -85,7 +85,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     {
         if ($context->result)
         {
-            $page = $this->getObject('application.pages')->find(array(
+            $page = $this->getObject('pages')->find(array(
                 'component' => 'users',
                 'published' => 1,
                 'access'    => 0,
@@ -122,7 +122,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                         'type' => 'notice');
                 }
 
-                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url = $this->getObject('pages')->getPrimary()->getLink();
                 $this->getObject('application')->getRouter()->build($url);
 
                 $context->response->setRedirect($url, $message['text'], $message['type']);
@@ -136,7 +136,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
         if ($context->result)
         {
             $message = array('text' => $this->getObject('translator')->translate('Your password has been reset'), 'type' => 'success');
-            $url     = $this->getObject('application.pages')->getHome()->getLink();
+            $url     = $this->getObject('pages')->getPrimary()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
         }
