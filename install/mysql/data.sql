@@ -126,34 +126,34 @@ VALUES
 -- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
+INSERT INTO `pages_modules` (`pages_module_id`, `title`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
 VALUES
-	(1, 'Main Menu', '', 2, 'user3', 1, NULL, NULL, NULL, NULL, NULL, 1, 'menu', 0, 'menu_id=1\nshow_title=0\nclass=nav navbar-nav\nend_level=1', 'pages', 'site', UUID());
+	(1, 'Main Menu', 2, 'user3', 1, NULL, NULL, NULL, NULL, NULL, 1, 'menu', 0, 'menu_id=1\nshow_title=0\nclass=nav navbar-nav\nend_level=1', 'pages', 'site', UUID());
 
 --
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`, `uuid`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`, `uuid`)
 VALUES
-	(1, 1, NULL, 'Home', 'home', 'component=articles&view=articles', NULL, 'component', 1, 0, 1, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(2, 2, NULL, 'Dashboard', 'dashboard', 'component=dashboard&view=dashboard', NULL, 'component', 1, 0, 0, 'dashboard', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(3, 2, NULL, 'Pages', 'pages', 'component=pages&view=pages', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(4, 2, NULL, 'Content', 'content', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(5, 2, NULL, 'Files', 'files', 'component=files&view=files', NULL, 'component', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(6, 2, NULL, 'Users', 'users', 'component=users&view=users', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(9, 2, NULL, 'Tools', 'tools', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'component=activities&view=activities', NULL, 'component', 1, 0, 0, 'activities', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(12, 2, NULL, 'Articles', 'articles', 'component=articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(14, 2, NULL, 'Languages', 'languages', 'component=languages&view=languages', NULL, 'component', 1, 0, 0, 'languages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(15, 2, NULL, 'Articles', 'articles', 'component=articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(16, 2, NULL, 'Categories', 'categories', 'component=articles&view=categories', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(21, 2, NULL, 'Pages', 'pages', 'component=pages&view=pages', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(22, 2, NULL, 'Menus', 'menus', 'component=pages&view=menus', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(23, 2, NULL, 'Modules', 'modules', 'component=pages&view=modules', NULL, 'component', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(24, 2, NULL, 'Users', 'users', 'component=users&view=users', NULL, 'component', 1, 0, 0,'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(25, 2, NULL, 'Groups', 'groups', 'component=users&view=groups', NULL, 'component', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
-	(28, 2, NULL, 'Tags', 'tags', 'component=articles&view=tags', NULL, 'component', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID());
+	(1, 1, NULL, 'Home', 'home', 'component=articles&view=articles', 1, 0, 1, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(2, 2, NULL, 'Dashboard', 'dashboard', 'component=dashboard&view=dashboard', 1, 0, 1, 'dashboard', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(3, 2, NULL, 'Pages', 'pages', 'component=pages&view=pages', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(4, 2, NULL, 'Content', 'content', NULL, 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(5, 2, NULL, 'Files', 'files', 'component=files&view=files', 1, 0, 0, 'files', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(6, 2, NULL, 'Users', 'users', 'component=users&view=users', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(9, 2, NULL, 'Tools', 'tools', NULL, 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(10, 2, NULL, 'Activity Logs', 'activity-logs', 'component=activities&view=activities', 1, 0, 0, 'activities', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(12, 2, NULL, 'Articles', 'articles', 'component=articles&view=articles', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(14, 2, NULL, 'Languages', 'languages', 'component=languages&view=languages', 1, 0, 0, 'languages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(15, 2, NULL, 'Articles', 'articles', 'component=articles&view=articles', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(16, 2, NULL, 'Categories', 'categories', 'component=articles&view=categories', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(21, 2, NULL, 'Pages', 'pages', 'component=pages&view=pages', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(22, 2, NULL, 'Menus', 'menus', 'component=pages&view=menus', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(23, 2, NULL, 'Modules', 'modules', 'component=pages&view=modules', 1, 0, 0, 'pages', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(24, 2, NULL, 'Users', 'users', 'component=users&view=users', 1, 0, 0,'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(25, 2, NULL, 'Groups', 'groups', 'component=users&view=groups', 1, 0, 0, 'users', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID()),
+	(28, 2, NULL, 'Tags', 'tags', 'component=articles&view=tags', 1, 0, 0, 'articles', 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, UUID());
 
 
 --

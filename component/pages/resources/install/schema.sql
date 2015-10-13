@@ -11,7 +11,6 @@ CREATE TABLE `pages` (
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
   `link_url` TEXT,
-  `link_id` INT(11) UNSIGNED,
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
