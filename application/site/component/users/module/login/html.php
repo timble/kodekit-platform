@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Module Login Html View
@@ -15,13 +16,11 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
-class UsersModuleLoginHtml extends PagesModuleDefaultHtml
+class UsersModuleLoginHtml extends Pages\ModuleAbstract
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array(
-            'layout' => $this->getObject('user')->isAuthentic() ? 'logout' : 'login'
-        ));
+        $config->layout = $this->getObject('user')->isAuthentic() ? 'logout' : 'login';
 
         parent::_initialize($config);
     }
