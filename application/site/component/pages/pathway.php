@@ -27,11 +27,11 @@ class PagesPathway extends Library\ObjectArray implements Library\ObjectSingleto
     {
         parent::__construct($config);
 
-        $pages = $this->getObject('application.pages');
+        $pages = $this->getObject('pages');
 
         if($active = $pages->getActive())
         {
-            $home = $pages->getHome();
+            $home = $pages->getPrimary();
             if($active->id != $home->id)
             {
                 foreach(explode('/', $active->path) as $id)
@@ -39,15 +39,6 @@ class PagesPathway extends Library\ObjectArray implements Library\ObjectSingleto
                     $page = $pages->getPage($id);
                     switch($page->type)
                     {
-                        case 'pagelink':
-                        case 'url' :
-                            $url = $page->getLink();
-                            break;
-
-                        case 'separator':
-                            $url = null;
-                            break;
-
                         default:
                             $url = $page->getLink();
                             $url->query['Itemid'] = $page->id;
@@ -55,6 +46,7 @@ class PagesPathway extends Library\ObjectArray implements Library\ObjectSingleto
                             break;
                     }
 
+                    $this->getObject('application')->getRouter()->build($url);
                     $this->addItem($page->title, $url);
                 }
             }
