@@ -44,12 +44,19 @@ class ControllerActivity extends Library\ControllerModel
                     'path' => array('model'),
                     'name' => Library\StringInflector::pluralize($this->getIdentifier()->getName())
                 ),
+
                 'com:activities.controller.behavior.purgeable'  => array(
                     'path' => array('controller', 'behavior'),
                     'name' => 'purgeable'
                 ),
-                'com:activities.controller.permission.activity' => array('path' => array('controller', 'permission')),
-                'com:activities.controller.toolbar.activity'    => array('path' => array('controller', 'toolbar'))
+
+                'com:activities.controller.permission.activity' => array(
+                    'path' => array('controller', 'permission')
+                ),
+
+                'com:activities.controller.toolbar.activity'    => array(
+                    'path' => array('controller', 'toolbar')
+                )
             );
 
             foreach ($aliases as $identifier => $alias)
