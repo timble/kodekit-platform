@@ -58,17 +58,21 @@ class ModelBehaviorPaginatable extends ModelBehaviorAbstract
     {
         $model = $context->getSubject();
 
-        if ($model instanceof ModelDatabase && !$context->state->isUnique()) {
+        if ($model instanceof ModelDatabase && !$context->state->isUnique())
+        {
             $state = $context->state;
             $limit = $state->limit;
 
-            if ($limit) {
+            if ($limit)
+            {
                 $offset = $state->offset;
                 $total  = $this->count();
 
                 //If the offset is higher than the total recalculate the offset
-                if ($offset !== 0 && $total !== 0) {
-                    if ($offset >= $total) {
+                if ($offset !== 0 && $total !== 0)
+                {
+                    if ($offset >= $total)
+                    {
                         $offset        = floor(($total - 1) / $limit) * $limit;
                         $state->offset = $offset;
                     }
