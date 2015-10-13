@@ -110,7 +110,7 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
     {
         // Activities are immutable.
         if (!$this->isNew()) {
-            throw new RuntimeException('Activities cannot be modified.');
+            throw new \RuntimeException('Activities cannot be modified.');
         }
 
         if (!$this->status)
@@ -439,7 +439,7 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
     public function setPropertyPackage($value)
     {
         if ($this->package && $this->package != $value) {
-            throw new RuntimeException('Entity package cannot be modified.');
+            throw new \RuntimeException('Entity package cannot be modified.');
         }
 
         return $value;
@@ -450,13 +450,13 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
      *
      * @param string $name The property name.
      *
-     * @throws RuntimeException When attempting to remove the package property.
+     * @throws \RuntimeException When attempting to remove the package property.
      * @return Library\DatabaseRowAbstract
      */
     public function removeProperty($name)
     {
         if ($name == 'package') {
-            throw new RuntimeException('Entity package property cannot be removed.');
+            throw new \RuntimeException('Entity package property cannot be removed.');
         }
 
         return parent::removeProperty($name);
@@ -654,7 +654,7 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
     /**
      * Set the generator config.
      *
-     * @param KObjectConfig $config The generator config.
+     * @param ObjectConfig $config The generator config.
      */
     protected function _providerConfig(Library\ObjectConfig $config)
     {
@@ -746,7 +746,7 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
         // Need to catch exceptions here as table may not longer exist.
         try {
             $result = $db->select($query, Library\Database::FETCH_FIELD);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = 0;
         }
 
@@ -769,11 +769,13 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
      * Route getter.
      *
      * @param string $url The URL to route.
-     * @return KHttpUrl The routed URL object.
+     * @return HttpUrl The routed URL object.
      */
     protected function _getRoute($url)
     {
-        if (!is_string($url)) throw new InvalidArgumentException('The URL must be a query string');
+        if (!is_string($url)) {
+            throw new \InvalidArgumentException('The URL must be a query string');
+        }
 
         return $this->getObject('lib:dispatcher.router.route', array('url' => array('query' => $url)));
     }
