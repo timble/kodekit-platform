@@ -14,7 +14,8 @@ use Nooku\Library;
 /**
  * User Provider
  *
- * The user provider will load users by their email address.
+ * The user provider will load users by their email address or user id from a data store. Once a user object is
+ * loaded it is cached in memory.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Users
@@ -63,7 +64,7 @@ class UserProvider extends Library\UserProvider
     }
 
     /**
-     * Fetch the user for the given user identifier from the backend
+     * Fetch the user for the given user identifier from the data store
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @return Library\UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
