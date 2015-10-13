@@ -41,7 +41,7 @@ class ViewActivitiesJson extends Library\ViewJson
     /**
      * Constructor.
      *
-     * @param KObjectConfig $config Configuration options.
+     * @param ObjectConfig $config Configuration options.
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -114,7 +114,7 @@ class ViewActivitiesJson extends Library\ViewJson
     /**
      * Get the activity renderer.
      *
-     * @throws UnexpectedValueException if renderer has the wrong type.
+     * @throws \UnexpectedValueException if renderer has the wrong type.
      * @return ActivityRendererInterface The activity renderer.
      */
     public function getRenderer()
@@ -130,7 +130,7 @@ class ViewActivitiesJson extends Library\ViewJson
 
             if(!$this->_renderer instanceof ActivityRendererInterface)
             {
-                throw new UnexpectedValueException(
+                throw new \UnexpectedValueException(
                     'Renderer: '.get_class($this->_renderer).' does not implement ActivityRendererInterface'
                 );
             }
