@@ -173,7 +173,7 @@ class ActivityLogger extends Library\Object implements ActivityLoggerInterface
 
         // Commands may change the original status of an action.
         if ($action == 'after.add' && $status == Library\ModelEntityInterface::STATUS_UPDATED) {
-            $status = KModelEntityInterface::STATUS_CREATED;
+            $status = ModelEntityInterface::STATUS_CREATED;
         }
 
         // Ignore non-changing edits.
