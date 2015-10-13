@@ -27,29 +27,28 @@ class DatabaseTableModules extends Library\DatabaseTableAbstract
                 'com:pages.database.behavior.orderable' => array('strategy' => 'flat')
             ),
             'filters' => array(
-                'content' => array('html', 'tidy'),
                 'parameters'  => 'ini'
             ),
             'column_map' => array(
                 'parameters' => 'params',
             )
         ));
-     
+
         parent::_initialize($config);
     }
 
 	/**
 	 * Get default values for all columns
 	 *
-	 * This method is specialized in order to set the default module position 
+	 * This method is specialized in order to set the default module position
 	 * and published state
-	 * 
+	 *
 	 * @return  array
 	 */
 	public function getDefaults()
 	{
 		$defaults = parent::getDefaults();
-		
+
 		$defaults['position']    = 'left';
 		$defaults['published']	 = 1;
 
