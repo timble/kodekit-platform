@@ -17,7 +17,4 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-interface DatabaseBehaviorOrderableInterface
-{
-	
-}
+interface DatabaseBehaviorOrderableInterface {}
