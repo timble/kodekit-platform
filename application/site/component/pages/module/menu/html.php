@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Menu Module Html View
@@ -15,38 +16,42 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
-class PagesModuleMenuHtml extends PagesModuleDefaultHtml
+class PagesModuleMenuHtml extends Pages\ModuleAbstract
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $params = $this->module->getParameters();
+        $params = $context->data->module->getParameters();
 
         $start    = $params->get('start_level');
         $end      = $params->get('end_level');
         $children = $params->get('show_children', 'active');
-        $pages    = $this->getObject('application.pages');
+        $pages    = $this->getObject('pages');
         $groups   = $this->getObject('user')->getGroups();
 
         // Make sure that pages without an assigned group are also included.
         $groups[] = 0;
 
         $context->data->active = $pages->getActive();
-        $context->data->pages  = $pages->find(array('pages_menu_id' => $params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
+        $context->data->pages  = $pages->find(array(
+                'pages_menu_id'  => $params->get('menu_id'),
+                'hidden'         => 0,
+                'users_group_id' => $groups)
+        );
 
         foreach(clone $context->data->pages as $page)
         {
             $extract = false;
-            
+
             // Extract if level is lower than start.
             if($page->level < $start) {
                 $extract = true;
             }
-            
+
             // Extract if level is higher than end.
             if(!$extract && $end > $start && $page->level > $end) {
                 $extract = true;
             }
-            
+
             // Extract if path is not in the active branch.
             if(!$extract && $children == 'active' && $page->level > 1)
             {
@@ -54,7 +59,7 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
                     $extract = true;
                 }
             }
-            
+
             if($extract) {
                 $context->data->pages->remove($page);
             }
