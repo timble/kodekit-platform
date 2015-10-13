@@ -22,7 +22,7 @@ class ModelActivities extends Library\ModelDatabase
     /**
      * Constructor.
      *
-     * @param KObjectConfig $config Configuration options.
+     * @param ObjectConfig $config Configuration options.
      */
     public function __construct(Library\ObjectConfig $config)
     {
