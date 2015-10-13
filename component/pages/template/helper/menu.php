@@ -12,14 +12,14 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * List Template Helper
+ * Pages Template Helper
  *
  * @author   Tom Janssens <http://github.com/tomjanssens>
  * @package  Nooku\Component\Pages
  */
-class TemplateHelperList extends Library\TemplateHelperAbstract
+class TemplateHelperMenu extends Library\TemplateHelperAbstract
 {
-    public function pages($config = array())
+    public function render($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -35,13 +35,13 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
         $pages = clone $config->pages;
 
         // We use a CachingIterator to peek ahead to the next item so that we can properly close elements
-        $collection = new \CachingIterator($pages->getIterator(), \CachingIterator::TOSTRING_USE_KEY);
+        $iterator = new \CachingIterator($pages->getIterator(), \CachingIterator::TOSTRING_USE_KEY);
 
-        foreach($collection as $page)
+        foreach($iterator as $page)
         {
             $next_page = null;
-            if ($collection->hasNext()) {
-                $next_page = $collection->getInnerIterator()->current();
+            if ($iterator->hasNext()) {
+                $next_page = $iterator->getInnerIterator()->current();
             }
 
             $next_level = is_object($next_page) ? count(explode('/', $next_page->path)) : false;
@@ -54,8 +54,7 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
                 $result .= "<ul$attributes>";
 
                 // Used to put the title in the menu
-                if($first && $config->title)
-                {
+                if($first && $config->title) {
                     $result .= '<li class="nav-header">'.$config->title."</li>";
                 }
 
@@ -83,37 +82,20 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
                 }
             }
 
-            if($page->type == 'separator') {
-                $classes[] = 'nav-header';
-            }
-
             $result .= '<li'.($classes ? ' class="'.implode(' ', $classes).'"' : '').">";
 
-            switch($page->type)
+            if($page->link_url)
             {
-                case 'component':
-                    $link = $this->getTemplate()->route($page->getLink()->getQuery());
-                    $result .= '<a href="'.(string) $link.'">';
-                    $result .= $page->title;
-                    $result .= '</a>';
-                    break;
-
-                case 'menulink':
-                    $page_linked = $this->getObject('application.pages')->getPage($page->getLink()->query['Itemid']);
-                    $result .= '<a href="'.$page_linked->getLink().'">';
-                    $result .= $page->title;
-                    $result .= '</a>';
-                    break;
-
-                case 'separator':
-                    $result .= '<span class="separator '.($config->disabled ? 'nolink' : '').'">'.$page->title.'</span>';
-                    break;
-
-                case 'url':
-                    $result .= '<a href="'.$page->getLink().'">';
-                    $result .= $page->title;
-                    $result .= '</a>';
-                    break;
+                $link = $this->getTemplate()->route($page->getLink()->getQuery());
+                $result .= '<a href="'.(string) $link.'">';
+                $result .= $page->title;
+                $result .= '</a>';
+            }
+            else
+            {
+                $result .= '<span class="separator '.($config->disabled ? 'nolink' : '').'">';
+                $result .= $page->title;
+                $result .= '</span>';
             }
 
             //$result .= $level;
@@ -123,11 +105,13 @@ class TemplateHelperList extends Library\TemplateHelperAbstract
             elseif ($level === $next_level) {
                 $result .= "</li>";
             }
-            elseif ($next_level === false || $level > $next_level) {
+            elseif ($next_level === false || $level > $next_level)
+            {
                 // Last one of the level
                 $result .= "</li>";
 
-                for($i = 0; $i < $level - $next_level; ++$i){
+                for($i = 0; $i < $level - $next_level; ++$i)
+                {
                     if($next_level === false) {
                         $result .= "</ul>";
                     } else {

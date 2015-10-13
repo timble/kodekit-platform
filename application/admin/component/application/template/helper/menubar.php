@@ -17,7 +17,7 @@ use Nooku\Component\Pages;
  * @package Component\Application
  */
 
-class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
+class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperMenu
 {
  	/**
      * Render the menubar
@@ -37,20 +37,22 @@ class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
         // Make sure that pages without an assigned group are also included.
         $groups[] = 0;
 
-        $result = '';
+        $html = '';
 
-        $menus = $this->getObject('com:pages.model.menus')
-            ->application('admin')
-            ->fetch();
-
-        $menu = $menus->find(array('slug' => 'menubar'));
+        $menu = $this->getObject('pages.menus')
+            ->find(array('slug' => 'menubar'));
 
         if(count($menu))
         {
-            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->id, 'hidden' => 0, 'users_group_id' => $groups));
-            $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
+            $pages  = $this->getObject('pages')->find(array(
+                'pages_menu_id'  => $menu->id,
+                'hidden'         => 0,
+                'users_group_id' => $groups)
+            );
+
+            $html = parent::render(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 
-        return $result;
+        return $html;
     }
 }
