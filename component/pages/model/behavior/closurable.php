@@ -23,7 +23,8 @@ class ModelBehaviorClosurable extends Library\ModelBehaviorAbstract
     {
         $model = $context->getSubject();
 
-        if ($model instanceof Library\ModelDatabase && $model->getTable()->isClosurable()) {
+        if ($model instanceof Library\ModelDatabase && $model->getTable()->isClosurable())
+        {
             $state = $context->state;
 
             if (!isset($state->parent)) {
@@ -34,7 +35,8 @@ class ModelBehaviorClosurable extends Library\ModelBehaviorAbstract
                 $state->insert('level', 'int');
             }
 
-            if (!$state->isUnique()) {
+            if (!$state->isUnique())
+            {
                 if ($state->sort) {
                     $context->query->bind(array('sort' => $state->sort));
                 }
