@@ -12,29 +12,59 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Default Module Html View
+ * Abstract Module View
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class ModuleDefaultHtml extends Library\ViewHtml
+abstract class ModuleAbstract extends Library\ViewHtml
 {
+    /**
+     * Get the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function getTitle()
+    {
+        //return $this->getData()->module->title;
+    }
+
+    /**
+     *  A module is never a collection
+     *
+     * @return bool
+     */
+    public function isCollection()
+    {
+        return false;
+    }
+
+    /**
+     * Fetch the view data
+     *
+     * This function will always fetch the model state. Model data will only be fetched if the auto_fetch property is
+     * set to TRUE.
+     *
+     * @param Library\ViewContext	$context A view context object
+     * @return void
+     */
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        //Set the module parameter1
+        $context->parameters->append($context->data->module->getParameters()->toArray());
+
+        //Set the layout and view in the parameters.
+        $context->parameters->layout = $context->layout;
+        $context->parameters->view   = $this->getName();
+    }
+
     /**
      * Renders and echo's the views output
      *
-     * @return ModuleDefaultHtml
+     * @return ModuleAbstract
      */
     protected function _actionRender(Library\ViewContext $context)
     {
-        //Dynamically attach the chrome filter
-        if(!empty($this->module->chrome))
-        {
-            $this->getTemplate()->addFilter('com:pages.template.filter.chrome', array(
-                'module' => $this->getIdentifier(),
-                'styles' => $this->module->chrome
-            ));
-        }
-
         //Force layout type to 'mod' to force using the module locator for partial layouts
         $layout = $context->layout;
 
