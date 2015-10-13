@@ -59,15 +59,11 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
     /**
 	 * Get the list of commands
 	 *
-	 * Will attempt to use information from the xml manifest if possible
-	 *
 	 * @return  array
 	 */
 	public function getCommands()
 	{
-        $menu = $this->getObject('com:pages.model.menus')
-            ->application('admin')
-            ->fetch()
+        $menu = $this->getObject('pages.menus')
             ->find(array('slug' => 'menubar'));
 
         if(count($menu) && $this->getObject('manager')->isRegistered('dispatcher'))
@@ -80,7 +76,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             // Make sure that pages without an assigned group are also included.
             $groups[] = 0;
 
-            $pages     = $this->getObject('application.pages')->find(array(
+            $pages     = $this->getObject('pages')->find(array(
                 'pages_menu_id'     => $menu->top()->id,
                 'component'         => $package,
                 'hidden'            => 0,

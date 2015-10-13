@@ -10,24 +10,12 @@
 return array(
 
     'aliases'  => array(
-        'pages'       => 'com:pages.model.pages',
-        'pages.menus' => 'com:pages.model.menus',
+        'languages' => 'com:languages.model.languages',
     ),
 
     'identifiers' => array(
 
-        'template.locator.factory' => array(
-            'locators' => array('com:pages.template.locator.module')
-        ),
-
-        'pages' => array(
-            'decorators' => array('model.composite'),
-            'state_defaults' => array(
-                'enabled'       => true,
-                'application'   => APPLICATION_NAME,
-            )
-        ),
-        'pages.menus' => array(
+        'languages' => array(
             'decorators' => array('model.composite'),
             'state_defaults' => array(
                 'enabled'       => true,

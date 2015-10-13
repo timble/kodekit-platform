@@ -9,12 +9,6 @@
 
 return array(
 
-    'aliases'  => array(
-        'application.languages'       => 'com:application.model.entity.languages',
-        'application.pages'           => 'com:application.model.entity.pages',
-        'application.modules'         => 'com:application.model.entity.modules',
-    ),
-
     'identifiers' => array(
 
         'com:application.template.locator.component'  => array(
