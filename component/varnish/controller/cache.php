@@ -324,7 +324,9 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
     {
         if(is_resource($this->__connection))
         {
-            $this->_command('quit', null);
+            $status = null;
+
+            $this->_command('quit', null, $status);
             fclose($this->__connection);
         }
 
@@ -385,7 +387,7 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
         if($this->isEnabled())
         {
             $status    = null;
-            $parameter = sprintf('obj.http.'.strtolower($this->_header).' == %s', Library\ControllerContext::unbox($context->param));
+            $parameter = sprintf('obj.http.'.strtolower($this->_header).' ~ %s', Library\ControllerContext::unbox($context->param));
 
             $response = $this->_command('ban', $parameter, $status);
             if( $status !== self::CLIS_OK ) {
