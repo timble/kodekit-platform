@@ -154,7 +154,7 @@ class ActivityObject extends Library\ObjectArray implements ActivityObjectInterf
     public function setAuthor($author)
     {
         if (!is_null($author) && !$author instanceof ActivityObjectInterface) {
-            throw new InvalidArgumentException('Invalid author type.');
+            throw new \InvalidArgumentException('Invalid author type.');
         }
 
         $this->author = $author;
@@ -278,7 +278,7 @@ class ActivityObject extends Library\ObjectArray implements ActivityObjectInterf
     public function setImage($image)
     {
         if (!is_null($image) && !$image instanceof ActivityMedialinkInterface) {
-            throw new InvalidArgumentException('Invalid image type.');
+            throw new \InvalidArgumentException('Invalid image type.');
         }
 
         $this->image = $image;
@@ -338,7 +338,7 @@ class ActivityObject extends Library\ObjectArray implements ActivityObjectInterf
     public function setPublished($date)
     {
         if (!is_null($date) && !$date instanceof Library\Date) {
-            throw new InvalidArgumentException('Invalid date type.');
+            throw new \InvalidArgumentException('Invalid date type.');
         }
 
         $this->published = $date;
@@ -398,7 +398,7 @@ class ActivityObject extends Library\ObjectArray implements ActivityObjectInterf
     public function setUpdated($date)
     {
         if (!is_null($date) && !$date instanceof Library\Date) {
-            throw new InvalidArgumentException('Invalid date type.');
+            throw new \InvalidArgumentException('Invalid date type.');
         }
 
         $this->updated = $date;
@@ -461,7 +461,7 @@ class ActivityObject extends Library\ObjectArray implements ActivityObjectInterf
     public function setUrl($url)
     {
         if (!is_null($url) && !$url instanceof Library\HttpUrl) {
-            throw new InvalidArgumentException('Invalid url type.');
+            throw new \InvalidArgumentException('Invalid url type.');
         }
 
         $this->url = $url;
