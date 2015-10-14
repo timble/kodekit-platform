@@ -44,11 +44,11 @@ interface ModelEntityInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     public function delete();
 
     /**
-     * Resets to the entity to it's default properties
+     * Clear the entity data
      *
      * @return ModelEntityInterface
      */
-    public function reset();
+    public function clear();
 
     /**
      * Get the entity key
@@ -125,7 +125,7 @@ interface ModelEntityInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * @return string The status value.
      */
     public function getStatus();
-    
+
     /**
      * Set the status
      *
@@ -133,14 +133,14 @@ interface ModelEntityInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * @return  ModelEntityInterface
      */
     public function setStatus($status);
-    
+
     /**
      * Returns the status message
      *
      * @return string The status message
      */
-    public function getStatusMessage();  
-    
+    public function getStatusMessage();
+
     /**
      * Set the status message
      *

@@ -73,8 +73,8 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
 
         $this->_identity_key = $config->identity_key;
 
-        // Reset the entity
-        $this->reset();
+        // Clear the entity
+        $this->clear();
 
         //Set the status
         if (isset($config->status)) {
@@ -141,11 +141,11 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     }
 
     /**
-     * Resets to the default properties
+     * Clear the entity data
      *
      * @return ModelEntityAbstract
      */
-    public function reset()
+    public function clear()
     {
         $this->_data     = array();
         $this->_modified = array();
@@ -289,8 +289,6 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     {
         if ($properties instanceof ModelEntityInterface) {
             $properties = $properties->getProperties(false);
-        } else {
-            $properties = (array) $properties;
         }
 
         foreach ($properties as $property => $value) {
@@ -392,9 +390,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     public function getHandle()
     {
-        if (isset($this->_identity_key)) {
-            $handle = $this->getProperty($this->_identity_key);
-        } else {
+        if(!$handle = $this->getProperty($this->getIdentityKey())) {
             $handle = parent::getHandle();
         }
 
