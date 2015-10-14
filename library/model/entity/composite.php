@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
-class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, ModelEntityComposable
+class ModelEntityComposite extends ObjectSet implements ModelEntityComposable
 {
     /**
      * Name of the identity key in the collection
@@ -52,13 +52,13 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
         $this->_identity_key = $config->identity_key;
 
         // Reset the collection
-        $this->reset();
+        $this->clear();
 
         // Insert the data, if exists
         if (!empty($config->data))
         {
             foreach($config->data->toArray() as $properties) {
-                $this->create($properties, $config->status);
+                $this->insert($properties, $config->status);
             }
         }
     }
@@ -83,74 +83,50 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
     }
 
     /**
-     * Insert an entity into the collection
+     * Insert a new entity
      *
-     * The entity will be stored by it's identity_key if set or otherwise by it's object handle.
+     * This function will either clone a entity prototype or create a new instance of the entity object for each
+     * entity being inserted. By default the entity will be cloned. The entity will be stored by it's identity_key
+     * if set or otherwise by it's object handle.
      *
-     * @param  ModelEntityInterface $entity
-     * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
-     * @return boolean    TRUE on success FALSE on failure
-     */
-    public function insert(ObjectHandlable $entity)
-    {
-        if (!$entity instanceof ModelEntityInterface) {
-            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
-        }
-
-        $this->offsetSet($entity);
-
-        return true;
-    }
-
-    /**
-     * Removes an entity from the collection
-     *
-     * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
-     *
-     * @param  ModelEntityInterface $entity
-     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
-     * @return ModelEntityComposite
-     */
-    public function remove(ObjectHandlable $entity)
-    {
-        if (!$entity instanceof ModelEntityInterface) {
-            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
-        }
-
-        return parent::remove($entity);
-    }
-
-    /**
-     * Checks if the collection contains a specific entity
-     *
-     * @param   ModelEntityInterface $entity
-     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
-     * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
-     */
-    public function contains(ObjectHandlable $entity)
-    {
-        if (!$entity instanceof ModelEntityInterface) {
-            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
-        }
-
-        return parent::contains($entity);
-    }
-
-    /**
-     * Create a new entity and insert it
-     *
-     * This function will either clone the entity object, or create a new instance of the entity object for each entity
-     * being inserted. By default the entity will be cloned.
-     *
-     * @param   array   $properties The entity properties
+     * @param   ModelEntityInterface|array $entity  A ModelEntityInterface object or an array of entity properties
      * @param   string  $status     The entity status
      * @return  ModelEntityComposite
      */
-    public function create(array $properties = array(), $status = null)
+    public function insert($entity, $status = null)
     {
-        if($this->_prototypable)
+        if(!$entity instanceof ModelEntityInterface)
         {
-            if(!$this->_prototype instanceof ModelEntityInterface)
+            if (!is_array($entity) && !$entity instanceof \Traversable)
+            {
+                throw new \InvalidArgumentException(
+                    'Entity must be an array or an object implementing the Traversable interface; received "%s"', gettype($entity)
+                );
+            }
+
+            if($this->_prototypable)
+            {
+                if(!$this->_prototype instanceof ModelEntityInterface)
+                {
+                    $identifier = $this->getIdentifier()->toArray();
+                    $identifier['path'] = array('model', 'entity');
+                    $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
+
+                    //The entity default options
+                    $options = array(
+                        'identity_key' => $this->getIdentityKey()
+                    );
+
+                    $this->_prototype = $this->getObject($identifier, $options);
+                }
+
+                $prototype = clone $this->_prototype;
+                $prototype->setStatus($status);
+                $prototype->setProperties($entity, $prototype->isNew());
+
+                $entity = $prototype;
+            }
+            else
             {
                 $identifier = $this->getIdentifier()->toArray();
                 $identifier['path'] = array('model', 'entity');
@@ -158,37 +134,19 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
 
                 //The entity default options
                 $options = array(
+                    'data'         => $entity,
+                    'status'       => $status,
                     'identity_key' => $this->getIdentityKey()
                 );
 
-                $this->_prototype = $this->getObject($identifier, $options);
+                $entity = $this->getObject($identifier, $options);
             }
-
-            $entity = clone $this->_prototype;
-
-            $entity->setStatus($status);
-            $entity->setProperties($properties, $entity->isNew());
-        }
-        else
-        {
-            $identifier = $this->getIdentifier()->toArray();
-            $identifier['path'] = array('model', 'entity');
-            $identifier['name'] = StringInflector::singularize($this->getIdentifier()->name);
-
-            //The entity default options
-            $options = array(
-                'data'         => $properties,
-                'status'       => $status,
-                'identity_key' => $this->getIdentityKey()
-            );
-
-            $entity = $this->getObject($identifier, $options);
         }
 
         //Insert the entity into the collection
-        $this->insert($entity);
+        parent::insert($entity);
 
-        return $entity;
+        return $this;
     }
 
     /**
@@ -223,6 +181,40 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
         }
 
         return $result;
+    }
+
+    /**
+     * Removes an entity from the collection
+     *
+     * The entity will be removed based on it's identity_key if set or otherwise by it's object handle.
+     *
+     * @param  ModelEntityInterface $entity
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
+     * @return ModelEntityComposite
+     */
+    public function remove(ObjectHandlable $entity)
+    {
+        if (!$entity instanceof ModelEntityInterface) {
+            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
+        }
+
+        return parent::remove($entity);
+    }
+
+    /**
+     * Checks if the collection contains a specific entity
+     *
+     * @param   ModelEntityInterface $entity
+     * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
+     * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
+     */
+    public function contains(ObjectHandlable $entity)
+    {
+        if (!$entity instanceof ModelEntityInterface) {
+            throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
+        }
+
+        return parent::contains($entity);
     }
 
     /**
@@ -280,11 +272,11 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityInterface, Mo
     }
 
     /**
-     * Reset the collection
+     * Clear the collection
      *
      * @return  ModelEntityComposite
      */
-    public function reset()
+    public function clear()
     {
         $this->_data = array();
         return $this;
