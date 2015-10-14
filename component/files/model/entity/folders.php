@@ -49,7 +49,7 @@ class ModelEntityFolders extends ModelEntityNodes
      * @return boolean    TRUE on success FALSE on failure
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
      */
-    public function insert(Library\ObjectHandlable $entity)
+    public function insert($entity, $status = null)
     {
         if(isset($entity->hierarchy) && !empty($entity->hierarchy))
         {

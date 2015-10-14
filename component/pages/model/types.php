@@ -103,7 +103,7 @@ class ModelTypes extends Library\ModelAbstract
         $entity = parent::_actionFetch($context);
 
         foreach($components as $component) {
-            $entity->create($component);
+            $entity->insert($component);
         }
 
         return $entity;

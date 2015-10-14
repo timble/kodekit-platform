@@ -25,11 +25,12 @@ class ModelEntityNodes extends Library\ModelEntityRowset
      * This function requires each entity to contain a an enumerated 'path' array containing the node id's from root to
      * the node. If no path exists or the path is empty the entity will be added to the root node.
      *
-     * @param  Library\ModelEntityInterface $entity
+     * @param  ModelEntityInterface|array $entity  A ModelEntityInterface object or an array of entity properties
      * @return boolean    TRUE on success FALSE on failure
+     * @param  string  $status     The entity status
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntity
      */
-    public function insert(Library\ObjectHandlable $entity)
+    public function insert($entity, $status = null)
     {
         if(isset($entity->path) && !empty($entity->path))
         {
@@ -42,7 +43,7 @@ class ModelEntityNodes extends Library\ModelEntityRowset
        			if($node) {
 					$nodes = $node->getChildren();
 				}
-					
+
        			$node = $nodes->find($parent);
 			}
 
