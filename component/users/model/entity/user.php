@@ -131,9 +131,9 @@ class ModelEntityUser extends Library\ModelEntityRow
         return parent::save();
     }
 
-    public function reset()
+    public function clear()
     {
-        $result = parent::reset();
+        $result = parent::clear();
 
         // Clear cache
         $this->_role   = null;
