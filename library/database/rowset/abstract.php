@@ -66,13 +66,13 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         }
 
         // Reset the rowset
-        $this->reset();
+        $this->clear();
 
         // Insert the data, if exists
         if (!empty($config->data))
         {
             foreach($config->data->toArray() as $properties) {
-                $this->create($properties, $config->status);
+                $this->insert($properties, $config->status);
             }
         }
 
@@ -100,26 +100,6 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Insert a row into the rowset
-     *
-     * The row will be stored by it's identity_column if set or otherwise by it's object handle.
-     *
-     * @param  DatabaseRowInterface $row
-     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
-     * @return boolean    TRUE on success FALSE on failure
-     */
-    public function insert(ObjectHandlable $row)
-    {
-        if (!$row instanceof DatabaseRowInterface) {
-            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
-        }
-
-        $this->offsetSet($row);
-
-        return true;
     }
 
     /**
@@ -157,42 +137,54 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Create a new row and insert it
+     * Insert a new row
      *
      * This function will either clone the row prototype, or create a new instance of the row object for each row
-     * being inserted. By default the prototype will be cloned.
+     * being inserted. By default the prototype will be cloned. The row will be stored by it's identity_column if
+     * set or otherwise by it's object handle.
      *
-     * @param   array   $properties The entity properties
-     * @param   string  $status     The entity status
-     * @return  ModelEntityComposite
+     * @param   DatabaseRowInterface|array $row  A DatabaseRowInterface object or an array of row properties
+     * @param   string  $status     The row status
+     * @return  DatabaseRowsetAbstract
      */
-    public function create(array $properties = array(), $status = null)
+    public function insert($row, $status = null)
     {
-        if($this->_prototypable)
+        if(!$row instanceof DatabaseRowInterface)
         {
-            if(!$this->_prototype instanceof DatabaseRowInterface) {
-                $this->_prototype = $this->getTable()->createRow();
+            if (!is_array($row) && !$row instanceof \Traversable)
+            {
+                throw new \InvalidArgumentException(
+                    'Row must be an array or an object implementing the Traversable interface; received "%s"', gettype($row)
+                );
             }
 
-            $row = clone $this->_prototype;
+            if($this->_prototypable)
+            {
+                if(!$this->_prototype instanceof DatabaseRowInterface) {
+                    $this->_prototype = $this->getTable()->createRow();
+                }
 
-            $row->setStatus($status);
-            $row->setProperties($properties, $row->isNew());
-        }
-        else
-        {
-            $config = array(
-                'data'   => $properties,
-                'status' => $status,
-            );
+                $prototype = clone $this->_prototype;
+                $prototype->setStatus($status);
+                $prototype->setProperties($row, $prototype->isNew());
 
-            $row = $this->getTable()->createRow($config);
+                $row = $prototype;
+            }
+            else
+            {
+                $config = array(
+                    'data'   => $row,
+                    'status' => $status,
+                );
+
+                $row = $this->getTable()->createRow($config);
+            }
         }
 
         //Insert the row into the rowset
-        $this->insert($row);
+        parent::insert($row);
 
-        return $row;
+        return $this;
     }
 
     /**
@@ -284,11 +276,11 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Reset the rowset
+     * Clear the rowset
      *
-     * @return  DatabaseRowInterface
+     * @return KDatabaseRowInterface
      */
-    public function reset()
+    public function clear()
     {
         $this->_data = array();
         return $this;

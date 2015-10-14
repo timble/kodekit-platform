@@ -28,27 +28,17 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
     public function find($needle);
 
     /**
-     * Create a new row and insert it
+     * Insert a new row
      *
      * This function will either clone the row prototype, or create a new instance of the row object for each row
-     * being inserted. By default the prototype will be cloned.
+     * being inserted. By default the prototype will be cloned. The row will be stored by it's identity_column if
+     * set or otherwise by it's object handle.
      *
-     * @param   array   $properties The entity properties
-     * @param   string  $status     The entity status
-     * @return  ModelEntityComposite
+     * @param   DatabaseRowInterface|array $row  A DatabaseRowInterface object or an array of row properties
+     * @param   string  $status     The row status
+     * @return  DatabaseRowsetInterface
      */
-    public function create(array $properties = array(), $status = null);
-
-    /**
-     * Insert an row into the collection
-     *
-     * The row will be stored by it's identity_column if set or otherwise by it's object handle.
-     *
-     * @param  DatabaseRowInterface $row
-     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
-     * @return boolean    TRUE on success FALSE on failure
-     */
-    public function insert(ObjectHandlable $row);
+    public function insert($row, $status = null);
 
     /**
      * Removes a row from the rowset
