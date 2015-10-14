@@ -80,6 +80,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
         $config->append(array(
             'identity_key'     => null,
             'state'            => 'lib:model.state',
+            'state_defaults'   => array(),
             'command_chain'    => 'lib:command.chain',
             'command_handlers' => array('lib:command.handler.event'),
         ));
@@ -112,7 +113,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     }
 
     /**
-     * Create a new entity for the data source
+     * Create a new entity for the data store
      *
      * @param  array $properties Array of entity properties
      * @return  ModelEntityInterface
@@ -210,7 +211,10 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     {
         if(!$this->__state instanceof ModelStateInterface)
         {
-            $this->__state = $this->getObject($this->__state, array('model' => $this));
+            $this->__state = $this->getObject($this->__state, array(
+                'model'    => $this,
+                'defaults' => $this->getConfig()->state_defaults
+            ));
 
             if(!$this->__state instanceof ModelStateInterface)
             {
@@ -239,7 +243,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     }
 
     /**
-     * Create a new entity for the data source
+     * Create a new entity for the data store
      *
      * @param ModelContext $context A model context object
      * @return  ModelEntityInterface The entity
@@ -268,7 +272,7 @@ abstract class ModelAbstract extends Object implements ModelInterface, CommandCa
     }
 
     /**
-     * Fetch a new entity from the data source
+     * Fetch a new entity from the data store
      *
      * @param ModelContext $context A model context object
      * @return ModelEntityInterface The entity
