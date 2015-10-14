@@ -15,25 +15,25 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
-interface ModelInterface
+interface ModelInterface extends \Countable
 {
     /**
-     * Create a new entity for the data source
+     * Create a new entity for the data store
      *
      * @param  array $properties Array of entity properties
-     * @return  ModelEntityInterface
+     * @return  ModelEntityComposite
      */
     public function create(array $properties = array());
 
     /**
-     * Fetch an entity from the datasource on the model state
+     * Fetch an entity from the data store using the model state
      *
-     * @return ModelEntityInterface
+     * @return ModelEntityComposite
      */
     public function fetch();
 
     /**
-     * Get the total amount of items
+     * Get the total amount of entities from the data store using the model state
      *
      * @return  int
      */
