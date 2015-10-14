@@ -78,15 +78,19 @@ class ModelDatabase extends ModelAbstract
     }
 
     /**
-     * Create a new entity for the data source
+     * Create a new entity for the data store
      *
      * @param ModelContext $context A model context object
-     * @return  ModelEntityInterface The entity
+     * @return  ModelEntityComposite The model entity
      */
     protected function _actionCreate(ModelContext $context)
     {
         //Get the data
         $data = ModelContext::unbox($context->entity);
+
+        if(!is_numeric(key($data))) {
+            $data = array($data);
+        }
 
         //Entity options
         $options = array(
@@ -94,20 +98,14 @@ class ModelDatabase extends ModelAbstract
             'identity_column' => $context->getIdentityKey()
         );
 
-        if(!is_numeric(key($data))) {
-            $entity = $this->getTable()->createRow($options);
-        } else {
-            $entity = $this->getTable()->createRowset($options);
-        }
-
-        return $entity;
+        return $this->getTable()->createRowset($options);
     }
 
     /**
-     * Fetch a new entity from the data source
+     * Fetch a new entity from the data store
      *
      * @param ModelContext $context A model context object
-     * @return ModelEntityInterface The entity
+     * @return ModelEntityComposite The entity
      */
     protected function _actionFetch(ModelContext $context)
     {
