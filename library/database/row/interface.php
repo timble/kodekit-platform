@@ -39,7 +39,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      *
      * @return DatabaseRowInterface
      */
-    public function reset();
+    public function clear();
 
     /**
      * Gets the identity column
@@ -115,7 +115,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * @return string The status value.
      */
     public function getStatus();
-    
+
     /**
      * Set the status
      *
@@ -123,14 +123,14 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * @return  DatabaseRowAbstract
      */
     public function setStatus($status);
-    
+
     /**
      * Returns the status message
      *
      * @return string The status message
      */
-    public function getStatusMessage();  
-    
+    public function getStatusMessage();
+
     /**
      * Set the status message
      *

@@ -87,7 +87,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         }
 
         // Reset the row
-        $this->reset();
+        $this->clear();
 
         //Set the status
         if (isset($config->status)) {
@@ -177,11 +177,11 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Reset the row data using the defaults
+     * Clear the row data using the defaults
      *
      * @return DatabaseRowInterface
      */
-    public function reset()
+    public function clear()
     {
         $this->_data     = array();
         $this->_modified = array();
@@ -332,8 +332,6 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     {
         if ($properties instanceof DatabaseRowInterface) {
             $properties = $properties->getProperties(false);
-        } else {
-            $properties = (array) $properties;
         }
 
         foreach ($properties as $property => $value) {
@@ -445,9 +443,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     public function getHandle()
     {
-        if (isset($this->_identity_column)) {
-            $handle = $this->getProperty($this->_identity_column);
-        } else {
+        if(!$handle = $this->getProperty($this->getIdentityColumn())) {
             $handle = parent::getHandle();
         }
 
