@@ -67,11 +67,11 @@ final class ModelEntityImmutable extends ModelEntityAbstract
     }
 
     /**
-     * Resets to the default properties
+     * Clear the entity data
      *
-     * @return ModelEntityAbstract
+     * @return ModelEntityImmutable
      */
-    public function reset()
+    public function clear()
     {
         return $this;
     }
@@ -86,7 +86,7 @@ final class ModelEntityImmutable extends ModelEntityAbstract
      * @param   mixed   $value      The property value.
      * @param   boolean $modified   If TRUE, update the modified information for the property
      *
-     * @return  ModelEntityAbstract
+     * @return  ModelEntityImmutable
      */
     public function setProperty($name, $value, $modified = true)
     {
@@ -97,7 +97,7 @@ final class ModelEntityImmutable extends ModelEntityAbstract
      * Remove a property
      *
      * @param   string  $name The property name.
-     * @return  ModelEntityAbstract
+     * @return  ModelEntityImmutable
      */
     public function removeProperty($name)
     {
@@ -109,7 +109,7 @@ final class ModelEntityImmutable extends ModelEntityAbstract
      *
      * @param   mixed   $data        Either and associative array, an object or a ModelEntityInterface
      * @param   boolean $modified If TRUE, update the modified information for each property being set.
-     * @return  ModelEntityAbstract
+     * @return  ModelEntityImmutable
      */
     public function setProperties($properties, $modified = true)
     {
@@ -120,7 +120,7 @@ final class ModelEntityImmutable extends ModelEntityAbstract
      * Set the status
      *
      * @param   string|null  $status The status value or NULL to reset the status
-     * @return  ModelEntityAbstract
+     * @return  ModelEntityImmutable
      */
     public function setStatus($status)
     {
@@ -141,7 +141,7 @@ final class ModelEntityImmutable extends ModelEntityAbstract
      * Set the status message
      *
      * @param   string $message The status message
-     * @return  ModelEntityAbstract
+     * @return  ModelEntityImmutable
      */
     public function setStatusMessage($message)
     {
