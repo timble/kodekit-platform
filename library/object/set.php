@@ -74,7 +74,7 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
 
         if ($handle = $object->getHandle())
         {
-            $this->offsetSet($object);
+            $this->offsetSet(null, $object);
             $result = true;
         }
 
@@ -141,7 +141,7 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
 
         return isset($this->_data[$object->getHandle()]);
     }
-    
+
     /**
      * Returns the object from the set
      *
@@ -165,11 +165,11 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
      *
      * Required by interface ArrayAccess
      *
+     * @param   mixed            $offset The array offset [unused]
      * @param   ObjectHandlable  $object
-     * @param   mixed            $data The data to associate with the object [UNUSED]
      * @return  ObjectSet
      */
-    public function offsetSet($object, $data = null)
+    public function offsetSet($offset, $object)
     {
         if (!$object instanceof ObjectHandlable) {
             throw new \InvalidArgumentException('Object needs to implement ObjectHandlable');
