@@ -6,25 +6,26 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
-use Nooku\Library;
+
+namespace Nooku\Library;
 
 /**
  * Tabbar Template Helper
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Library\Template
  */
-class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
+class TemplateHelperTabbar extends TemplateHelperAbstract
 {
  	/**
-     * Render the menubar
+     * Render the tabbar
      *
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function render($config = array())
     {
-        $config = new Library\ObjectConfig($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
         	'toolbar' => null,
             'attribs' => array(),
@@ -56,14 +57,14 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
     }
 
     /**
-     * Render a menubar command
+     * Render a tabbar command
      *
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function command($config = array())
     {
-        $config = new Library\ObjectConfig($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
         	'command' => null
         ));
