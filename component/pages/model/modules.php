@@ -19,6 +19,9 @@ use Nooku\Library;
  */
 class ModelModules extends Library\ModelDatabase
 {
+    const ACTIVE  = -1;
+    const PRIMARY = -2;
+
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
@@ -79,15 +82,23 @@ class ModelModules extends Library\ModelDatabase
                 $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
             }
 
-            if (is_numeric($state->page)) {
-                $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($state->page, 0)));
+            if (is_numeric($state->page))
+            {
+                $page = $state->page;
+
+                if($page == self::ACTIVE) {
+                    $page = $this->getObject('pages')->getActive()->id;
+                }
+
+                if($page == self::PRIMARY) {
+                    $page = $this->getObject('pages')->getPrimary()->id;
+                }
+
+                if($page) {
+                    $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($page, 0)));
+                }
             }
         }
-    }
-
-    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
-    {
-
     }
 
     /**
