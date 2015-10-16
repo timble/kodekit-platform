@@ -21,7 +21,7 @@ class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters'	=> array('module'),
+            'template_filters'	=> array('block'),
         ));
 
         parent::_initialize($config);
