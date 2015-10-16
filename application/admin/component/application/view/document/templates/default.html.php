@@ -24,19 +24,19 @@
 
     <ktml:toolbar type="tabbar">
 
-    <ktml:modules position="actionbar">
+    <ktml:block name="actionbar">
     <div id="panel-toolbar">
-        <ktml:modules:content>
+        <ktml:block:content>
         <ktml:messages>
     </div>
-    </ktml:modules>
+    </ktml:block>
 
     <div id="panel-component">
-        <ktml:modules position="sidebar">
+        <ktml:block name="sidebar">
         <div id="panel-sidebar">
-            <ktml:modules:content>
+            <ktml:block:content>
         </div>
-        </ktml:modules>
+        </ktml:block>
 
         <div id="panel-content">
             <ktml:content>

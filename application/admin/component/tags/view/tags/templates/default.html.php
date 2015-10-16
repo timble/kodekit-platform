@@ -8,9 +8,9 @@
  */
 ?>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <form action="" method="post" class="-koowa-grid">
     <?= import('default_scopebar.html'); ?>
@@ -28,7 +28,7 @@
                 </th>
             </tr>
         </thead>
-        
+
         <tfoot>
             <tr>
                 <td colspan="4">
@@ -36,8 +36,8 @@
                 </td>
             </tr>
         </tfoot>
-        
-        <tbody>        
+
+        <tbody>
             <? foreach ($tags as $tag) : ?>
             <tr>
                 <td align="center">
@@ -52,7 +52,7 @@
                     <?= escape($tag->count); ?>
                 </td>
             </tr>
-            <? endforeach; ?>	
+            <? endforeach; ?>
             <? if (!count($tags)) : ?>
             <tr>
                 <td colspan="4" align="center">

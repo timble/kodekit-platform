@@ -14,13 +14,13 @@
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
 <?= helper('behavior.sortable', array('url' => '?format=json&application='.parameters()->application)) ?>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
-<ktml:module position="sidebar">
-	<?= import('default_sidebar.html'); ?>
-</ktml:module>
+<ktml:block prepend="sidebar">
+    <?= import('default_sidebar.html'); ?>
+</ktml:block>
 
 <form action="" method="get" class="-koowa-grid">
 	<?= import('default_scopebar.html'); ?>

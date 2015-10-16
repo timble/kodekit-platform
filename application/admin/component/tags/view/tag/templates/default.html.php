@@ -11,9 +11,9 @@
 <ktml:script src="assets://js/koowa.js" />
 <ktml:style src="assets://css/koowa.css" />
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <form action="" method="post" class="-koowa-form" id="tag-form">
     <div class="main">

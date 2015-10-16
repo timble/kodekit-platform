@@ -19,15 +19,14 @@
     window.addEvent('domready', function(){
         $$('.widget').widget({cookie: 'widgets-page'});
 
-        new Pages.Page(<?= json_encode(array('active' => parameters()->type['name'] == 'component' ? parameters()->type['component'] : '', 'type' => parameters()->type['name'])) ?>);
+        new Pages.Page(<?= json_encode(array('active' => parameters()->type['component'], 'type' => parameters()->type['name'])) ?>);
     });
 </script>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
-
-<? if(parameters()->type['name'] == 'component') {
+</ktml:block>
+<?
     $query = array(
         'component' => parameters()->type['component'],
         'view'      => parameters()->type['view']
@@ -36,7 +35,7 @@
     if(!empty(parameters()->type['layout']) && parameters()->layout != 'default') {
         $query['layout'] = parameters()->layout;
     }
-} ?>
+?>
 
 <form action="" method="post" class="-koowa-form" id="page-form">
     <input type="hidden" name="pages_menu_id" value="<?= parameters()->menu ?>" />
@@ -44,9 +43,7 @@
     <input type="hidden" name="access" value="0" />
     <input type="hidden" name="published" value="0" />
     <input type="hidden" name="hidden" value="0" />
-    <? if(parameters()->type['name'] == 'component') : ?>
     <input type="hidden" name="link_url" value="<?= http_build_query($query) ?>" />
-    <? endif ?>
 
     <div id="components">
         <div class="scrollable">
@@ -54,16 +51,10 @@
             <div id="components-inner">
                 <? foreach($components as $component) : ?>
                     <? if(!empty($component->views)) : ?>
-                        <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= (parameters()->type['name'] == 'component' && parameters()->type['component'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
+                        <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= (parameters()->type['component'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= translate($component->title) ?></a>
                     <? endif ?>
                 <? endforeach ?>
             </div>
-            <? if($menu->application == 'site') : ?>
-                <h3><?= translate('Other') ?></h3>
-                <a href="<?= route('menu='.parameters()->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Page link') ?></a>
-                <a href="<?= route('menu='.parameters()->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('External link') ?></a>
-                <a href="<?= route('menu='.parameters()->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= translate('Separator') ?></a>
-            <? endif ?>
         </div>
     </div>
 
@@ -77,7 +68,7 @@
                     <div class="view">
                         <h4><?= translate($view->title) ?></h4>
                         <? foreach($view->layouts as $layout) : ?>
-                        <a class="<?= (parameters()->type['name'] == 'component' && parameters()->type['view'] == $view->name && parameters()->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.$menu->id.'&type[name]=component&type[component]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                        <a class="<?= (parameters()->type['view'] == $view->name && parameters()->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(route('menu='.$menu->id.'&type[component]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
                             <?= translate($layout->title) ?>
                             <br />
                             <small><?= translate($layout->description) ?></small>
@@ -92,7 +83,6 @@
         </div>
     </div>
 
-    <? if(parameters()->type) : ?>
     <div class="main">
         <div class="title">
             <input class="required" type="text" name="title" placeholder="<?= translate('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
@@ -111,7 +101,7 @@
                     </fieldset>
                 </div>
             </div>
-            <? if($menu->application == 'site' && (parameters()->type['name'] == 'component' || parameters()->type['name'] == 'redirect' || parameters()->type['name'] == 'pagelink')) : ?>
+            <? if($menu->application == 'site') : ?>
             <div class="tab">
                 <input type="radio" id="tab-2" name="tab-group-1">
                 <label for="tab-2"><?= translate('Page') ?></label>
@@ -122,7 +112,7 @@
                 </div>
             </div>
             <? endif ?>
-            <? if($menu->application == 'site' && parameters()->type['name'] == 'component') : ?>
+            <? if($menu->application == 'site') : ?>
                 <div class="tab">
                     <input type="radio" id="tab-3" name="tab-group-1">
                     <label for="tab-3"><?= translate('Modules') ?></label>
@@ -135,5 +125,4 @@
             <? endif ?>
         </div>
     </div>
-    <? endif ?>
 </form>

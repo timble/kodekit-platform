@@ -13,14 +13,14 @@
 
 <ktml:script src="assets://js/koowa.js" />
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <form action="" method="post" class="-koowa-form">
     <input type="hidden" name="enabled" value="0" />
     <input type="hidden" name="primary" value="0" />
-    
+
     <div class="form-content">
         <div class="grid_8">
     		<fieldset>

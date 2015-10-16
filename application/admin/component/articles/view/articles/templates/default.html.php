@@ -13,19 +13,19 @@
 
 <?= helper('behavior.sortable') ?>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <? if($articles->isTranslatable()) : ?>
-    <ktml:module position="actionbar" content="append">
+    <ktml:block extend="actionbar">
         <?= helper('com:languages.listbox.languages') ?>
-    </ktml:module>
+    </ktml:block>
 <? endif ?>
 
-<ktml:module position="sidebar">
+<ktml:block prepend="sidebar">
     <?= import('default_sidebar.html'); ?>
-</ktml:module>
+</ktml:block>
 
 <form action="" method="get" class="-koowa-grid">
     <?= import('default_scopebar.html'); ?>

@@ -151,17 +151,17 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <div id="files-app">
 	<?= import('templates_icons.html'); ?>
 	<?= import('templates_details.html'); ?>
 
-	<ktml:module position="sidebar">
+	<ktml:block prepend="sidebar">
 		<div id="files-tree"></div>
-	</ktml:module>
+	</ktml:block>
 
 	<div id="files-canvas">
 	    <div class="scopebar">

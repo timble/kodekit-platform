@@ -13,13 +13,13 @@
 
 <?= helper('behavior.sortable', array('options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
-<ktml:module position="sidebar">
-    <?= import('default_sidebar.html') ?>
-</ktml:module>
+<ktml:block prepend="sidebar">
+    <?= import('default_sidebar.html'); ?>
+</ktml:block>
 
 <form id="pages-form" action="" method="get" class="-koowa-grid">
     <?= import('default_scopebar.html') ?>
@@ -70,12 +70,8 @@
                 </td>
                 <td>
                     <?
-                    $link = 'type[name]=' . $page->type;
-                    if ($page->type == 'component') {
-                        $link .= '&type[component]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
-                        $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
-                    }
-
+                    $link  = '&type[component]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
+                    $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
                     $link .= '&view=page&menu=' . parameters()->menu . '&id=' . $page->id;
                     ?>
                     <a href="<?= urldecode(route($link)) ?>">

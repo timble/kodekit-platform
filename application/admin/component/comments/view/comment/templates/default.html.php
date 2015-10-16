@@ -14,9 +14,9 @@
 <ktml:script src="assets://js/koowa.js" />
 <ktml:style src="assets://css/koowa.css" />
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <form action="" method="post" id="comment-form" class="-koowa-form">
     <?= object('com:ckeditor.controller.editor')->render(array('name' => 'text', 'toolbar' => 'basic', 'text' => $comment->text)) ?>

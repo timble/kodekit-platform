@@ -17,19 +17,19 @@
     <nav class="navbar navbar-default">
         <a class="navbar-brand" href="/"><?= escape(object('application')->getTitle()) ?></a>
         <div>
-            <ktml:modules position="user3">
+            <ktml:block name="user3">
         </div>
-        <ktml:modules position="user4">
+        <ktml:block name="user4">
     </nav>
 </header>
 
 <div class="container">
     <div class="row">
         <aside class="sidebar col-md-3">
-            <ktml:modules position="left" chrome="wrapped">
+            <ktml:block name="left" layout="wrapped">
         </aside>
         <div class="col-md-9">
-            <ktml:modules position="breadcrumb">
+            <ktml:block name="breadcrumb">
             <ktml:messages>
             <section>
                 <ktml:content>

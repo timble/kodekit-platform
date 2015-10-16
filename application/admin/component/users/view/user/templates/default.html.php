@@ -20,9 +20,9 @@
     });
 </script>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<input type="hidden" name="enabled" value="<?= object('user')->getId() == $user->id ? 1 : 0 ?>" />

@@ -11,9 +11,9 @@
 <ktml:script src="assets://js/koowa.js" />
 <ktml:style src="assets://css/koowa.css" />
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <form action="" method="get" class="-koowa-grid">
     <?= import('default_scopebar.html') ?>

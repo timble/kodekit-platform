@@ -24,14 +24,14 @@
     }
 </script>
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
 <? if($article->isTranslatable()) : ?>
-    <ktml:module position="actionbar" content="append">
+    <ktml:block extend="actionbar">
         <?= helper('com:languages.listbox.languages') ?>
-    </ktml:module>
+    </ktml:block>
 <? endif ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">

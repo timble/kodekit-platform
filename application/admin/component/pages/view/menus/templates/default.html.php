@@ -11,13 +11,13 @@
 <ktml:script src="assets://js/koowa.js" />
 <ktml:style src="assets://css/koowa.css" />
 
-<ktml:module position="actionbar">
+<ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
-</ktml:module>
+</ktml:block>
 
-<ktml:module position="sidebar">
-	<?= import('default_sidebar.html') ?>
-</ktml:module>
+<ktml:block prepend="sidebar">
+    <?= import('default_sidebar.html'); ?>
+</ktml:block>
 
 <form id="menus-form" action="<?= route() ?>" method="get" class="-koowa-grid">
     <table>
