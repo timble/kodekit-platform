@@ -66,7 +66,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $this->_debug  = $config->debug;
 
         //Register the functions
-        $functions = (array)ObjectConfig::unbox($config->functions);
+        $functions = ObjectConfig::unbox($config->functions);
 
         foreach ($functions as $name => $callback) {
             $this->registerFunction($name, $callback);
