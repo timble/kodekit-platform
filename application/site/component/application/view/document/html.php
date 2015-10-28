@@ -29,7 +29,11 @@ class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'template_filters' => array('com:pages.template.filter.block', 'com:files.template.filter.files', 'com:attachments.template.filter.attachments'),
+            'template_filters' => array(
+                'com:pages.template.filter.block',
+                'com:files.template.filter.files',
+                'com:attachments.template.filter.attachments'
+            ),
         ));
 
         parent::_initialize($config);

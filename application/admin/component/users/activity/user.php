@@ -19,7 +19,9 @@ class UsersActivityUser extends ActivitiesModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('format' => null));
+        $config->append(array(
+            'format' => null
+        ));
 
         parent::_initialize($config);
     }
@@ -30,8 +32,9 @@ class UsersActivityUser extends ActivitiesModelEntityActivity
         {
             if ($this->_isEditOwn()) {
                 $format = '{actor} {action} own {object.subtype} {object.type}';
+            } else {
+                $format = '{actor} {action} {object.type} name {object}';
             }
-            else $format = '{actor} {action} {object.type} name {object}';
 
             $this->_format = $format;
         }
