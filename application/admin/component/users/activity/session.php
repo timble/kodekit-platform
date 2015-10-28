@@ -19,7 +19,11 @@ class UsersActivitySession extends ActivitiesModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('format' => '{actor} {action} {application}', 'objects' => array('application')));
+        $config->append(array(
+            'format' => '{actor} {action} {application}',
+            'objects' => array('application')
+        ));
+
         parent::_initialize($config);
     }
 
@@ -34,8 +38,9 @@ class UsersActivitySession extends ActivitiesModelEntityActivity
 
         if (isset($images[$this->action])) {
             $image = $images[$this->action];
+        } else {
+            $image = parent::getPropertyImage();
         }
-        else $image = parent::getPropertyImage();
 
         return $image;
     }
