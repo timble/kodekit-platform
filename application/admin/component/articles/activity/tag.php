@@ -19,7 +19,11 @@ class ArticlesActivityTag extends ActivitiesModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('object_table' => 'tags', 'object_column' => 'tags_tag_id'));
+        $config->append(array(
+            'object_table' => 'tags',
+            'object_column' => 'tags_tag_id'
+        ));
+
         parent::_initialize($config);
     }
 }

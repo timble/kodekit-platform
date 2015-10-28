@@ -19,7 +19,11 @@ class ArticlesActivityCategory extends ActivitiesModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('object_table' => 'categories', 'object_column' => 'categories_category_id'));
+        $config->append(array(
+            'object_table'  => 'categories',
+            'object_column' => 'categories_category_id'
+        ));
+
         parent::_initialize($config);
     }
 }
