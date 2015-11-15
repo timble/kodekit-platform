@@ -315,8 +315,14 @@ class TemplateFilterBlock extends TemplateFilterDecorator
             }
         }
 
-        $str = 'return ' . implode(' ', $words) . ';';
-        $result = eval($str);
+        //Use the stream buffer to evaluate the condition
+        $str = '<?php return ' . implode(' ', $words) .';';
+
+        $buffer = $this->getObject('filesystem.stream.factory')->createStream('nooku-buffer://temp', 'w+b');
+        $buffer->truncate(0);
+        $buffer->write($str);
+
+        $result = include $buffer->getPath();
 
         return $result;
     }
