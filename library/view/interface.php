@@ -52,6 +52,13 @@ interface ViewInterface
     public function has($property);
 
     /**
+     * Get the view data
+     *
+     * @return  array   The view data
+     */
+    public function getData();
+
+    /**
      * Sets the view data
      *
      * @param   array $data The view data
@@ -60,32 +67,18 @@ interface ViewInterface
     public function setData($data);
 
     /**
-     * Get the view data
-     *
-     * @return  array   The view data
-     */
-    public function getData();
-
-    /**
-	 * Get the name
-	 *
-	 * @return 	string 	The name of the object
-	 */
-	public function getName();
-
-    /**
      * Get the title
      *
      * @return 	string 	The title of the view
      */
     public function getTitle();
 
-	/**
-	 * Get the format
-	 *
-	 * @return 	string 	The format of the view
-	 */
-	public function getFormat();
+    /**
+     * Set the title
+     *
+     * @return 	string 	The title of the view
+     */
+    public function setTitle($title);
 
     /**
      * Get the content
@@ -157,6 +150,20 @@ interface ViewInterface
      * @return  ViewContext
      */
     public function getContext();
+
+    /**
+     * Get the name
+     *
+     * @return 	string 	The name of the object
+     */
+    public function getName();
+
+    /**
+     * Get the format
+     *
+     * @return 	string 	The format of the view
+     */
+    public function getFormat();
 
     /**
      * Returns the views output

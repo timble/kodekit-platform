@@ -39,6 +39,13 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     protected $_content;
 
     /**
+     * The title of the view
+     *
+     * @var string
+     */
+    protected $_title;
+
+    /**
      * The view data
      *
      * @var boolean
@@ -65,6 +72,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         $this->_data = ObjectConfig::unbox($config->data);
 
         $this->setUrl($config->url);
+        $this->setTitle($config->title);
         $this->setContent($config->contents);
         $this->mimetype = $config->mimetype;
 
@@ -100,7 +108,8 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
             'model'            => 'lib:model.empty',
             'contents'         => '',
             'mimetype'         => '',
-            'url'              => $this->getObject('lib:http.url')
+            'url'              => $this->getObject('lib:http.url'),
+            'title'            => ucfirst($this->getName())
         ));
 
         parent::_initialize($config);
@@ -109,15 +118,14 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     /**
      * Execute an action by triggering a method in the derived class.
      *
-     * @param   array $data The view data
+     * @param   array $data       The view data
      * @return  string  The output of the view
      */
     final public function render($data = array())
     {
         $context = $this->getContext();
-        $context->data       = array_merge($this->getData(), $data);
-        $context->action     = 'render';
-        $context->parameters = array();
+        $context->data   = array_merge($this->getData(), $data);
+        $context->action = 'render';
 
         if ($this->invokeCommand('before.render', $context) !== false)
         {
@@ -221,6 +229,16 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     }
 
     /**
+     * Get the view data
+     *
+     * @return  array   The view data
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+
+    /**
      * Sets the view data
      *
      * @param   array $data The view data
@@ -236,44 +254,24 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     }
 
     /**
-     * Get the view data
-     *
-     * @return  array   The view data
-     */
-    public function getData()
-    {
-        return $this->_data;
-    }
-
-    /**
-     * Get the name
-     *
-     * @return  string  The name of the object
-     */
-    public function getName()
-    {
-        $total = count($this->getIdentifier()->path);
-        return $this->getIdentifier()->path[$total - 1];
-    }
-
-    /**
      * Get the title
      *
      * @return 	string 	The title of the view
      */
     public function getTitle()
     {
-        return ucfirst($this->getName());
+        return $this->_title;
     }
 
     /**
-     * Get the format
+     * Set the title
      *
-     * @return string   The format of the view
+     * @return 	string 	The title of the view
      */
-    public function getFormat()
+    public function setTitle($title)
     {
-        return $this->getIdentifier()->name;
+        $this->_title = $title;
+        return $this;
     }
 
     /**
@@ -466,6 +464,27 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         $context->setData($this->_data);
 
         return $context;
+    }
+
+    /**
+     * Get the name
+     *
+     * @return  string  The name of the object
+     */
+    public function getName()
+    {
+        $total = count($this->getIdentifier()->path);
+        return $this->getIdentifier()->path[$total - 1];
+    }
+
+    /**
+     * Get the format
+     *
+     * @return string   The format of the view
+     */
+    public function getFormat()
+    {
+        return $this->getIdentifier()->name;
     }
 
     /**
