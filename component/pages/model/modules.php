@@ -82,7 +82,7 @@ class ModelModules extends Library\ModelDatabase
                 $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
             }
 
-            /*if (is_numeric($state->page))
+            if (is_numeric($state->page))
             {
                 $page = $state->page;
 
@@ -97,7 +97,7 @@ class ModelModules extends Library\ModelDatabase
                 if($page) {
                     $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($page, 0)));
                 }
-            }*/
+            }
         }
     }
 
