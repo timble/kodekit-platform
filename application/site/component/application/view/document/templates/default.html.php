@@ -26,7 +26,7 @@
 <div class="container">
     <div class="row">
         <aside class="sidebar col-md-3">
-            <ktml:block name="left" layout="wrapped">
+            <ktml:block name="left" decorator="wrapped">
         </aside>
         <div class="col-md-9">
             <ktml:block name="breadcrumb">
