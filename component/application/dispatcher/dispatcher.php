@@ -40,6 +40,22 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
 
         //Set the base url in the request
         $this->getRequest()->setBaseUrl($config->base_url);
+
+        //Set the default timezone
+        if(isset($config->timezone)) {
+            date_default_timezone_set($config->timezone);
+        }
+
+        //Set the default locale
+        if(isset($config->language)) {
+            locale_set_default($config->language);
+        }
+
+        // Set timezone to user's settings
+        date_default_timezone_set($this->getUser()->getTimezone());
+
+        // Set language to user's settings
+        locale_set_default($this->getUser()->getLanguage());
     }
 
     /**
@@ -58,6 +74,8 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
             'component'   => '',
             'base_url'    => '/',
             'title'       => 'Application',
+            'language'    => null,
+            'timezone'    => null
         ));
 
         parent::_initialize($config);
