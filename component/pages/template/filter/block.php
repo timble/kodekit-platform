@@ -64,7 +64,7 @@ class TemplateFilterBlock extends Library\TemplateFilterBlock
         if($block instanceof ModelEntityModule)
         {
             $result = $this->getObject('com:pages.controller.module')
-                ->params($block['attribs'])
+                ->params($block->attribs)
                 ->layout('module')
                 ->id($block->id)
                 ->render();

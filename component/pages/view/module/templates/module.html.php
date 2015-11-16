@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
@@ -6,16 +6,9 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
+?>
 
-use Nooku\Library;
-
-/**
- * Custom Module Html View
- *
- * @author  Tom Janssens <http://github.com/tomjanssens>
- * @package Component\Pages
- */
-class PagesModuleCustomHtml extends PagesModuleDefaultHtml
-{
-
-} 
+<?= object($module->identifier, array(
+        'title' => $module->title,
+        'data'  => array('module' => $module)
+    ))->render(); ?>

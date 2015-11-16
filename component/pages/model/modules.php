@@ -36,7 +36,7 @@ class ModelModules extends Library\ModelDatabase
             ->insert('access', 'int')
             ->insert('page', 'int')
             ->insert('name', 'cmd')
-            ->insert('params', 'cmd');
+            ->insert('params', 'string');
     }
 
     protected function _initialize(Library\ObjectConfig $config)

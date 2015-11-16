@@ -20,13 +20,20 @@ use Nooku\Library;
 abstract class ModuleAbstract extends Library\ViewHtml
 {
     /**
-     * Get the title
+     * Initializes the config for the object
      *
-     * @return 	string 	The title of the view
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return  void
      */
-    public function getTitle()
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        //return $this->getData()->module->title;
+        $config->append(array(
+            'behaviors' => array('com:pages.module.behavior.decoratable')
+        ));
+
+        parent::_initialize($config);
     }
 
     /**
