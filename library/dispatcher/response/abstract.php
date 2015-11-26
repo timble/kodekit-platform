@@ -234,11 +234,12 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     /**
      * Check if the response is streamable
      *
-     * A response is considered streamable, if the Accept-Ranges does not have value 'none' or if the Transfer-Encoding
-     * is set the chunked.
+     * A response is considered streamable, if the Accept-Ranges does not have value 'none' or if the
+     * Transfer-Encoding is set the chunked.
      *
-     * If the request is made by a IE user agent for a PDF file that is not attached the response will not be streamable.
-     * The build in IE PDF viewer cannot handle inline rendering of PDF files when the file is streamed.
+     * If the request is made for a PDF file that is not attached the response will not be streamable.
+     * The build in PDF viewer in IE and Chrome cannot handle inline rendering of PDF files when the
+     * file is streamed.
      *
      * @link http://tools.ietf.org/html/rfc2616#section-14.5
      * @return bool
@@ -247,22 +248,18 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
     {
         $request = $this->getRequest();
 
-        $isIE       = (bool) preg_match('#(MSIE|Trident)#', $request->getAgent());
-        $isPDF      = (bool) $this->getContentType() == 'application/pdf';
-        $isInline   = (bool) !$request->isDownload();
-        $isSeekable = (bool) $this->getStream()->isSeekable();
-
-        if(!($isIE && $isPDF && $isInline) && $isSeekable)
+        $isPDF        = (bool) $this->getContentType() == 'application/pdf';
+        $isInline     = (bool) !$request->isDownload();
+        $isSeekable   = (bool) $this->getStream()->isSeekable();
+        if(!($isPDF && $isInline) && $isSeekable)
         {
             if($this->_headers->get('Transfer-Encoding') == 'chunked') {
                 return true;
             }
-
             if($this->_headers->get('Accept-Ranges', null) !== 'none') {
                 return true;
             };
         }
-
         return false;
     }
 
@@ -271,8 +268,11 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
      *
      * A response is attachable if the request is downloadable or the content type is 'application/octet-stream'
      *
-     * If the request is made by an Ipad, iPod or iPhone user agent the response will never be attachable. iOS browsers
-     * cannot handle files send as disposition : attachment.
+     * If the request is made by an Ipad, iPod or iPhone user agent the response will never be attachable. iOS
+     * browserscannot handle files send as disposition : attachment.
+     *
+     * If the request is made by MS Edge for a pdf file always force the response to be attachable to prevent
+     * 'Couldn't open PDF file' errors in Edge.
      *
      * @return bool
      */
@@ -283,6 +283,13 @@ class DispatcherResponseAbstract extends ControllerResponse implements Dispatche
         if(!preg_match('#(iPad|iPod|iPhone)#', $request->getAgent()))
         {
             if($request->isDownload() || $this->getContentType() == 'application/octet-stream') {
+                return true;
+            }
+        }
+
+        if((preg_match('#(Edge)#', $request->getAgent())) )
+        {
+            if($this->getContentType() == 'application/pdf') {
                 return true;
             }
         }
