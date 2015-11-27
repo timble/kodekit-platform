@@ -19,10 +19,10 @@ class JElementSearchpages extends JElement
 {
     var $_name = 'Searchpages';
 
-    public function fetchElement($name, $value, &$node, $control_name)
+    public function fetchElement($name, $value, $param, $group)
     {
         $config = array(
-            'name'     => $control_name . '[' . $name . ']',
+            'name'     => $group . '[' . $name . ']',
             'selected' => $value,
             'deselect' => false,
         );

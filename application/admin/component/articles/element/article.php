@@ -19,12 +19,12 @@ class JElementArticle extends JElement
 {
     var $_name = 'Article';
 
-    public function fetchElement($name, $value, &$node, $control_name)
+    public function fetchElement($name, $value, $param, $group)
     {
         $config = array(
-            'name'     => $control_name . '[' . $name . ']',
+            'name'     => $group . '[' . $name . ']',
             'selected' => $value,
-            'table'    => $node->attributes('table'),
+            'table'    => (string) $param->attributes()->table,
             'attribs'  => array('class' => 'inputbox'),
             'autocomplete' => true,
         );

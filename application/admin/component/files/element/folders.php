@@ -19,10 +19,10 @@ class JElementFolders extends JElement
 {
 	public $_name = 'Folders';
 
-	function fetchElement($name, $value, &$node = null, $control_name = null, $show_root = true)
+	function fetchElement($name, $value, $param = null, $group = null)
 	{
-		$el_name = $control_name ? $control_name.'['.$name.']' : $name;
-		$show_root = $node->attributes('show_root');
+		$el_name   = $group ? $group.'['.$name.']' : $name;
+		$show_root = (bool) $param->attributes()->show_root;
 
         $manager    = Library\ObjectManager::getInstance();
         $translator = $manager->getObject('translator');
@@ -34,11 +34,11 @@ class JElementFolders extends JElement
 			->browse();
 
 		$options = array();
-		
+
 		if ($show_root) {
 		    $options[] = array('label' => $translator('Root Folder'), 'value' => '');
 		}
-		
+
 		foreach ($tree as $folder) {
 			$this->_addFolder($folder, $options);
 		}
