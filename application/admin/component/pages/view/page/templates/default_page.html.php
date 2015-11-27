@@ -10,8 +10,8 @@
 
 <?= $page->getParams('url')->render('urlparams') ?>
 
-<? if($rendered_params = $page->getParams('layout')->render('params')) : ?>
-    <?= $rendered_params ?>
+<? if($html = $page->getParams('layout')->render('params')) : ?>
+    <?= $html ?>
 <? endif ?>
 
 <?= $page->getParams('page')->render('params'); ?>
