@@ -11,7 +11,7 @@ use Nooku\Library;
 
 /**
  * Modules Html View
- *   
+ *
  * @author  Stian Didriksen <http://github.com/stipsan>
  * @package Component\Pages
  */
@@ -19,14 +19,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
 	{
-        //Load a unique list of module positions
-        $positions = array();
-        $modules = $this->getObject('com:pages.model.modules')->application('site')->fetch();
-        foreach($modules as $module) {
-            $positions[] = $module->position;
-        }
-
-        $context->data->positions = array_unique($positions);
+        $context->data->positions = $this->getModel()->fetch()->getPositions();
 
         return parent::_actionRender($context);
 	}
