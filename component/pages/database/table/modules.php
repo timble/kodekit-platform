@@ -27,7 +27,7 @@ class DatabaseTableModules extends Library\DatabaseTableAbstract
                 'com:pages.database.behavior.orderable' => array('strategy' => 'flat')
             ),
             'filters' => array(
-                'parameters'  => 'ini'
+                'parameters'  => 'json'
             ),
             'column_map' => array(
                 'parameters' => 'params',

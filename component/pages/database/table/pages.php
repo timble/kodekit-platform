@@ -35,7 +35,10 @@ class DatabaseTablePages extends Library\DatabaseTableAbstract
                 )
             ),
             'filters' => array(
-                'params' => 'ini'
+                'params' => 'json'
+            ),
+            'column_map' => array(
+                'parameters' => 'params',
             )
         ));
 

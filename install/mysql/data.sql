@@ -128,7 +128,7 @@ VALUES
 
 INSERT INTO `pages_modules` (`pages_module_id`, `title`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
 VALUES
-	(1, 'Main Menu', 2, 'user3', 1, NULL, NULL, NULL, NULL, NULL, 1, 'menu', 0, 'menu_id=1\nshow_title=0\nclass=nav navbar-nav\nend_level=1', 'pages', 'site', UUID());
+	(1, 'Main Menu', 2, 'user3', 1, NULL, NULL, NULL, NULL, NULL, 1, 'menu', 0, '["menu_id":"1","show_title":"0","class":"nav navbar-nav","end_level":"1"]', 'pages', 'site', UUID());
 
 --
 -- Dumping data for table `pages`
@@ -163,7 +163,7 @@ VALUES
 INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`, `uuid`)
 VALUES
     (NULL, 'files-files', 'Files', 'files', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}', UUID()),
-	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": false,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}', UUID());
+	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{"thumbnails": false,"maximum_size":"10485760,allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "sql", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"]}', UUID());
 --
 -- Dumping data for table `users`
 --

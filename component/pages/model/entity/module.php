@@ -89,7 +89,7 @@ class ModelEntityModule extends Library\ModelEntityRow
             $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
             $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/config.xml';
 
-            $this->_parameters = new \JParameter( $this->parameters, $file, 'module' );
+            $this->_parameters = new \JParameter(json_decode($this->parameters, true), $file);
         }
 
         return $this->_parameters;
@@ -109,11 +109,11 @@ class ModelEntityModule extends Library\ModelEntityRow
 		if($this->isModified('pages'))
 		{
 		    $table = $this->getObject('com:pages.database.table.modules');
-		
+
 		    //Clean up existing assignemnts
 		    $table->select(array('pages_module_id' => $this->id))->delete();
 
-		    if(is_array($this->pages)) 
+		    if(is_array($this->pages))
 		    {
                 foreach($this->pages as $page)
 			    {
@@ -124,8 +124,8 @@ class ModelEntityModule extends Library\ModelEntityRow
 				    	   ))->save();
 			    }
 
-		    } 
-		    elseif($this->pages == 'all') 
+		    }
+		    elseif($this->pages == 'all')
 		    {
                 $table->select(null, Library\Database::FETCH_ROW)
 				       ->setProperties(array(
@@ -134,7 +134,7 @@ class ModelEntityModule extends Library\ModelEntityRow
 			    	    ))->save();
 		    }
 		}
-													
+
 		return $result;
     }
 
