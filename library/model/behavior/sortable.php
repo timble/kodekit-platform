@@ -32,11 +32,23 @@ class ModelBehaviorSortable extends ModelBehaviorAbstract
     }
 
     /**
+     * Split the sort if format is [column,ASC|DESC]
+     *
+     * @param   ModelContextInterface $context A model context object
+     * @return  void
+     */
+    protected function _afterReset(ModelContextInterface $context)
+    {
+        if($context->modified == 'sort' && strpos($context->state->sort, ',') !== false)  {
+            list($context->state->sort, $context->state->direction) = explode(',', $context->state->sort);
+        }
+    }
+
+    /**
      * Add order query
      *
      * @param   ModelContextInterface $context A model context object
-     *
-     * @return    void
+     * @return  void
      */
     protected function _beforeFetch(ModelContextInterface $context)
     {
@@ -46,17 +58,14 @@ class ModelBehaviorSortable extends ModelBehaviorAbstract
         {
             $state = $context->state;
 
-            $sort      = $state->sort;
-            $direction = strtoupper($state->direction);
+            $sort      = trim($state->sort);
+            $direction = strtoupper(trim($state->direction));
             $columns   = array_keys($this->getTable()->getColumns());
 
             if ($sort)
             {
                 $column = $this->getTable()->mapColumns($sort);
-
-                //if(in_array($column, $columns)) {
                 $context->query->order($column, $direction);
-                //}
             }
 
             if ($sort != 'ordering' && in_array('ordering', $columns)) {
