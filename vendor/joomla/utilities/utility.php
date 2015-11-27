@@ -41,7 +41,7 @@ class JUtility
 	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
 	{
 	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
+		$mail = JFactory::getMailer();
 
 		$mail->setSender(array($from, $fromname));
 		$mail->setSubject($subject);
@@ -58,7 +58,8 @@ class JUtility
 		$mail->addAttachment($attachment);
 
 		// Take care of reply email addresses
-		if( is_array( $replyto ) ) {
+		if( is_array( $replyto ) )
+        {
 			$numReplyTo = count($replyto);
 			for ( $i=0; $i < $numReplyTo; $i++){
 				$mail->addReplyTo( array($replyto[$i], $replytoname[$i]) );
