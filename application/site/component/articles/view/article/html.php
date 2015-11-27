@@ -22,18 +22,24 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         $article = $this->getModel()->fetch();
 
         //Set the breadcrumbs
-        $page = $this->getObject('pages')->getActive();
+        $page    = $this->getObject('pages')->getActive();
+        $pathway = $this->getObject('pages')->getPathway();
+
         if ($page->getLink()->query['view'] == 'categories')
         {
             $category = $article->getCategory();
             $url      = $this->getTemplate()->createHelper('route')->category(array('entity' => $category));
 
-            $this->getObject('com:pages.pathway')->addItem($category->title, $url);
-            $this->getObject('com:pages.pathway')->addItem($article->title, '');
+            $pathway[] = array(
+                'title' => $category->title,
+                'link'  => $url,
+            );
+
+            $pathway[] = array('title' => $article->title);
         }
 
         if ($page->getLink()->query['view'] == 'articles') {
-            $this->getObject('com:pages.pathway')->addItem($article->title, '');
+            $pathway[] = array('title' => $article->title);
         }
 
         return parent::_actionRender($context);

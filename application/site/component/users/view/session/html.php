@@ -19,8 +19,8 @@ class UsersViewSessionHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {
-        $title = $this->getObject('translator')->translate('Login');
-        $this->getObject('com:pages.pathway')->addItem($title);
+        $pathway   = $this->getObject('pages')->getPatwhay();
+        $pathway[] = array('title' => $this->getObject('translator')->translate('Login'));
 
         return parent::_actionRender($context);
     }

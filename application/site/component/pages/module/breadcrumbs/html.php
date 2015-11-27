@@ -20,23 +20,42 @@ class PagesModuleBreadcrumbsHtml extends Pages\ModuleAbstract
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $list       = $this->getObject('com:pages.pathway');
-        $params     = $context->data->module->getParameters();
-        $translator = $this->getObject('translator');
+        $pathway = $this->getObject('pages')->getPathway()->getArrayCopy();
 
-        if($params->get('homeText'))
+        if($context->parameters->get('homeText'))
         {
-            $item = new \stdClass();
-            $item->name = $params->get('homeText', $translator('Home'));
+            $home       = $this->getObject('pages')->getPrimary();
+            $translator = $this->getObject('translator');
 
-            $home = $this->getObject('pages')->getPrimary();
-            $item->link = $this->getRoute($home->getLink()->getQuery().'&Itemid='.$home->id);
-
-            array_unshift($list, $item);
+            array_unshift($pathway, array(
+                'title' => $context->parameters->get('homeText', $translator('Home')),
+                'link'  => $home->getLink()->getQuery()
+            ));
         }
 
-        $context->data->list = $list;
+        $context->data->pathway = $pathway;
 
         parent::_fetchData($context);
+    }
+
+    /**
+     * Renders and echo's the module output
+     *
+     * @return string  The output of the module
+     */
+    protected function _actionRender(Library\ViewContext $context)
+    {
+        $result = '';
+        $pages = $this->getObject('pages');
+
+        if($active = $pages->getActive())
+        {
+            $home = $pages->getPrimary();
+            if ($active->id != $home->id) {
+                $result  = parent::_actionRender($context);
+            }
+        }
+
+        return $result;
     }
 }

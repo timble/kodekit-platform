@@ -33,6 +33,13 @@ class ModelEntityPages extends Library\ModelEntityRowset
      */
     protected $_primary;
 
+    /**
+     * The pathway
+     *
+     * @var array
+     */
+    protected $_pathway;
+
     public function __construct(Library\ObjectConfig $config )
     {
         parent::__construct($config);
@@ -92,6 +99,35 @@ class ModelEntityPages extends Library\ModelEntityRowset
         return $page;
     }
 
+    public function getPrimary()
+    {
+        if(!isset($this->_primary)) {
+            $this->_primary = $this->find(array('home' => 1));
+        }
+
+        return $this->_primary;
+    }
+
+    public function getPathway()
+    {
+        if(!isset($this->_pathway))
+        {
+            $this->_pathway = new \ArrayObject();
+
+            foreach(explode('/', $this->getActive()->path) as $id)
+            {
+                $page = $this->getPage($id);
+
+                $this->_pathway[] = array(
+                    'title' => $page->title,
+                    'link'  => $page->getLink()
+                );
+            }
+        }
+
+        return $this->_pathway;
+    }
+
     public function setActive($active)
     {
         if(is_numeric($active)) {
@@ -106,15 +142,6 @@ class ModelEntityPages extends Library\ModelEntityRowset
     public function getActive()
     {
         return $this->_active;
-    }
-
-    public function getPrimary()
-    {
-        if(!isset($this->_primary)) {
-            $this->_primary = $this->find(array('home' => 1));
-        }
-
-        return $this->_primary;
     }
 
     public function isAuthorized($id, Library\UserInterface $user)

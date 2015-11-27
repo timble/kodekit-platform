@@ -154,7 +154,11 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
                 }
                 else $link = '';
 
-                $this->getObject('com:pages.pathway')->addItem($part, $link);
+                $pathway = $this->getObject('pages')->getPathway();
+                $pathway[] = array(
+                    'title' => $parts,
+                    'link'  => $link,
+                );
             }
         }
     }

@@ -9,17 +9,17 @@
 ?>
 
 <ul class="breadcrumb">
-	<? foreach($list as $item) : ?>
+	<? foreach($pathway as $item) : ?>
 		<? // If not the last item in the breadcrumbs add the separator ?>
-        <? if($item !== end($list)) : ?>
-			<? if(!empty($item->link)) : ?>
-				<li><a href="<?= $item->link ?>" class="pathway"><?= escape($item->name) ?></a></li>
+        <? if($item !== end($pathway)) : ?>
+			<? if(isset($item['link'])) : ?>
+				<li><a href="<?= route($item['link']) ?>" class="pathway"><?= escape($item['title']) ?></a></li>
 			<? else : ?>
-				<li><?= escape($item->name) ?></li>
+				<li><?= escape($item['title']) ?></li>
 			<? endif ?>
 			<span class="divider">&rsaquo;</span>
 		<? else : ?>
-		    <li><?= escape($item->name) ?></li>
+		    <li><?= escape($item['title']) ?></li>
 		<? endif ?>
 	<? endforeach ?>
 </ul>
