@@ -43,33 +43,12 @@
 				</div>
 			</fieldset>
 
-            <? if($params_rendered = $params->render('params')) : ?>
+            <? if($html = $params->render('params')) : ?>
             <fieldset>
-				<legend><?= translate('Default Parameters'); ?></legend>
-                <?= $params_rendered; ?>
+				<legend><?= translate('Parameters'); ?></legend>
+                <?= $html; ?>
 			</fieldset>
             <? endif ?>
-
-            <? if($params_rendered = $params->render('params', 'advanced')) : ?>
-			<fieldset>
-				<legend><?= translate('Advanced Parameters'); ?></legend>
-                <?= $params_rendered; ?>
-			</fieldset>
-			<? endif ?>
-
-            <? if($params_rendered = $params->render('params', 'other')) : ?>
-			<fieldset>
-				<legend><?= translate('Other Parameters'); ?></legend>
-                <?= $params_rendered; ?>
-			</fieldset>
-			<? endif ?>
-
-			<? if($module->name == 'mod_custom') : ?>
-			<fieldset>
-				<legend><?= translate('Custom Output') ?></legend>
-				<?= object('com:ckeditor.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
-			</fieldset>
-			<? endif ?>
 		</div>
 	</div>
 
