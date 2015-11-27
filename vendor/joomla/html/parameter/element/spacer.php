@@ -17,7 +17,6 @@
  *
  * @package 	Joomla.Framework
  * @subpackage		Parameter
- * @since		1.5
  */
 
 class JElementSpacer extends JElement
@@ -30,11 +29,12 @@ class JElementSpacer extends JElement
 	*/
 	var	$_name = 'Spacer';
 
-	function fetchTooltip($label, $description, &$node, $control_name, $name) {
+	function fetchTooltip($label, $description, $param, $group, $name)
+    {
 		return '&nbsp;';
 	}
 
-	function fetchElement($name, $value, &$node, $control_name)
+	function fetchElement($name, $value, $param, $group)
 	{
 		if ($value) {
 			return $value;

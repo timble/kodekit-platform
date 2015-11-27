@@ -17,7 +17,6 @@
  *
  * @package 	Joomla.Framework
  * @subpackage		Parameter
- * @since		1.5
  */
 
 class JElementHidden extends JElement
@@ -30,14 +29,14 @@ class JElementHidden extends JElement
 	*/
 	var	$_name = 'Hidden';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	function fetchElement($name, $value, $param, $group)
 	{
-		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );
-
-		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
+		$class = ( $param->attributes()->class ? 'class="'.$param->attributes()->class.'"' : 'class="text_area"' );
+		return '<input type="hidden" name="'.$group.'['.$name.']" id="'.$group.$name.'" value="'.$value.'" '.$class.' />';
 	}
 
-	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') {
+	function fetchTooltip($label, $description, $param, $group='', $name='')
+    {
 		return false;
 	}
 }

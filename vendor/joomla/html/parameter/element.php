@@ -20,7 +20,6 @@
  * @abstract
  * @package 	Joomla.Framework
  * @subpackage		Parameter
- * @since		1.5
  */
 class JElement extends JObject
 {
@@ -48,7 +47,8 @@ class JElement extends JObject
 	 *
 	 * @access protected
 	 */
-	function __construct($parent = null) {
+	function __construct($parent = null)
+    {
 		$this->_parent = $parent;
 	}
 
@@ -58,19 +58,21 @@ class JElement extends JObject
 	* @access	public
 	* @return	string	type of the parameter
 	*/
-	function getName() {
+	function getName()
+    {
 		return $this->_name;
 	}
 
-	function render(&$xmlElement, $value, $control_name = 'params')
+	function render($param, $value, $group = 'params')
 	{
-		$name	= $xmlElement->attributes('name');
-		$label	= $xmlElement->attributes('label');
-		$descr	= $xmlElement->attributes('description');
+		$name	= (string) $param->attributes()->name;
+		$label	= (string) $param->attributes()->label;
+		$descr	= (string) $param->attributes()->description;
+
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
-		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
-		$result[1] = $this->fetchElement($name, $value, $xmlElement, $control_name);
+		$result[0] = $this->fetchTooltip($label, $descr, $param, $group, $name);
+		$result[1] = $this->fetchElement($name, $value, $param, $group);
 		$result[2] = $descr;
 		$result[3] = $label;
 		$result[4] = $value;
@@ -79,14 +81,14 @@ class JElement extends JObject
 		return $result;
 	}
 
-	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
+	function fetchTooltip($label, $description, $param, $group='', $name='')
 	{
-		$output = '<label for="'.$control_name.$name.'" class="control-label">'. $label .'</label>';
-
+		$output = '<label for="'.$group.'['.$name.']'.'" class="control-label">'. $label .'</label>';
 		return $output;
 	}
 
-	function fetchElement($name, $value, &$xmlElement, $control_name) {
+	function fetchElement($name, $value, $param, $group)
+    {
 		return;
 	}
 }

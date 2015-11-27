@@ -19,7 +19,6 @@ use Nooku\Library;
  *
  * @package 	Joomla.Framework
  * @subpackage		Parameter
- * @since		1.5
  */
 
 class JElementRadio extends JElement
@@ -32,19 +31,19 @@ class JElementRadio extends JElement
 	*/
 	var	$_name = 'Radio';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	function fetchElement($name, $value, $param, $group)
 	{
 		$options = array ();
-		foreach ($node->children() as $option)
+		foreach ($param->children() as $option)
 		{
-			$val	= $option->attributes('value');
-			$text	= $option->data();
+			$val	= (string) $option->attributes()->value;
+			$text	= (string) $option->attributes()->data;
 			$options[] = (object) array('id' => $val, 'value' => $val, 'label' => $text);
 		}
 
         $config = array(
             'options'     => (object) $options,
-            'name'     => $control_name.'['.$name.']',
+            'name'     => $group.'['.$name.']',
             'selected' => $value,
         );
 

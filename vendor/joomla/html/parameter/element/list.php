@@ -19,7 +19,6 @@ use Nooku\Library;
  *
  * @package 	Joomla.Framework
  * @subpackage		Parameter
- * @since		1.5
  */
 
 class JElementList extends JElement
@@ -32,29 +31,28 @@ class JElementList extends JElement
 	*/
 	var	$_name = 'List';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	function fetchElement($name, $value, $param, $group)
 	{
         $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
 
-        $class  = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
+        $class  = $param->attributes()->class ? $param->attributes()->class : 'inputbox';
         $helper = Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template));
 
         $options = array ();
-        foreach ($node->children() as $option)
+        foreach ($param->children() as $option)
         {
             $options[] =  $helper->option(array(
-                'value' => $option->attributes('value'),
-                'text'  => $option->data()
+                'value' => (string) $option->attributes()->value,
+                'text'  => (string) $option->attributes()->data,
             ));
         }
 
         $config = array(
             'options'  => $options,
-            'name'     => $control_name.'['.$name.']',
+            'name'     => $group.'['.$name.']',
             'selected' => $value,
             'attribs'  => array('class' => array($class))
         );
-
 
         return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
 	}

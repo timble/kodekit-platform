@@ -12,9 +12,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-jimport( 'joomla.registry.registry' );
-
-//Register the element class with the loader
+//Register the element class with the loade
 JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');
 
 /**
@@ -22,424 +20,398 @@ JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php')
  *
  * @package 	Joomla.Framework
  * @subpackage		Parameter
- * @since		1.5
  */
-class JParameter extends JRegistry
+class JParameter extends JObject
 {
-	/**
-	 * The raw params string
+    /**
+     * The parameter data
+     *
+     * @var array
+     */
+    protected $_data;
+
+    /**
+	 * The parameters
 	 *
-	 * @access	private
-	 * @var		string
-	 * @since	1.5
+     * @var SimpleXmlElement
 	 */
-	var $_raw = null;
+	protected $_params;
 
 	/**
-	 * The xml params element
+ 	 * The elements
 	 *
-	 * @access	private
-	 * @var		object
-	 * @since	1.5
+     * @var array
 	 */
-	var $_xml = null;
+	protected $_elements;
 
 	/**
-	* loaded elements
+	* Paths to look for elements
 	*
-	* @access	private
-	* @var		array
-	* @since	1.5
+	* @var array
 	*/
-	var $_elements = array();
-
-	/**
-	* directories, where element types can be stored
-	*
-	* @access	private
-	* @var		array
-	* @since	1.5
-	*/
-	var $_elementPath = array();
+	protected $_paths;
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
-	 * @param	string The raw parms text
-	 * @param	string Path to the xml setup file
-	 * @since	1.5
+	 * @param	string $data The parameters
+	 * @param	string $path Path to the xml setup file
 	 */
-	function __construct($data, $path = '')
+	public function __construct($data = array(), $path = '')
 	{
-		parent::__construct('_default');
+		$this->_data     = array();
+        $this->_paths    = array();
+        $this->_elements = array();
 
 		// Set base path
-		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
+		$this->addElementPath(dirname( __FILE__ ).DS.'parameter'.DS.'element');
 
-		if (is_string($data)) {
-			$this->loadINI(trim( $data ));
-		}
+		// Set the data
+        if(is_array($data)) {
+            $this->setData($data);
+        }
 
-		if ($path) {
-			$this->loadSetupFile($path);
-		}
-
-		$this->_raw = $data;
+        // Load the parameters
+        if(is_file($path)) {
+            $this->loadParams($path);
+        }
 	}
 
 	/**
 	 * Set a value
 	 *
-	 * @access	public
-	 * @param	string The name of the param
-	 * @param	string The value of the parameter
-	 * @return	string The set value
-	 * @since	1.5
+	 * @param	string $key   The name of the param
+	 * @param	string $value The value of the parameter
+     * @param	string	$group
+	 * @return	JParameter
 	 */
-	function set($key, $value = '', $group = '_default')
+	public function set($key, $value = '', $group = '_default')
 	{
-		return $this->setValue($group.'.'.$key, (string) $value);
+        if(!isset($this->_data[$group])) {
+            $this->_data[$group] = array();
+        }
+
+        $this->_data[$group][$key] = $value;
+
+        return $this;
 	}
 
 	/**
 	 * Get a value
 	 *
-	 * @access	public
-	 * @param	string The name of the param
-	 * @param	mixed The default value if not found
+	 * @param	string $key  The name of the param
+	 * @param	mixed $value The default value if not found
 	 * @return	string
-	 * @since	1.5
 	 */
-	function get($key, $default = '', $group = '_default')
+	public function get($key, $default = '', $group = '_default')
 	{
-		$value = $this->getValue($group.'.'.$key);
-		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
+        $result = $default;
+
+        if(isset($this->_data[$group]))
+        {
+            if(isset($this->_data[$group][$key])) {
+                $result = $this->_data[$group][$key];
+            }
+        }
+
 		return $result;
 	}
 
 	/**
 	 * Sets a default value if not alreay assigned
 	 *
-	 * @access	public
-	 * @param	string	The name of the param
-	 * @param	string	The value of the parameter
-	 * @param	string	The parameter group to modify
+	 * @param	string	$key   The name of the param
+	 * @param	string	$value The value of the parameter
+	 * @param	string	$group The parameter group to modify
 	 * @return	string	The set value
-	 * @since	1.5
 	 */
-	function def($key, $default = '', $group = '_default') {
-		$value = $this->get($key, (string) $default, $group);
+	public function def($key, $default = '', $group = '_default')
+    {
+		$value = $this->get($key, $default, $group);
 		return $this->set($key, $value);
 	}
 
-	/**
-	 * Sets the XML object from custom xml files
-	 *
-	 * @access	public
-	 * @param	object	An XML object
-	 * @since	1.5
-	 */
-	function setXML( &$xml )
-	{
-		if (is_object( $xml ))
-		{
-			if ($group = $xml->attributes( 'group' )) {
-				$this->_xml[$group] = $xml;
-			} else {
-				$this->_xml['_default'] = $xml;
-			}
-			if ($dir = $xml->attributes( 'addpath' )) {
-				$this->addElementPath( APPLICATION_ROOT . str_replace('/', DS, $dir) );
-			}
-		}
-	}
+    /**
+     * Set the parameters data
+     *
+     * @param	array	$data
+     * @return	boolean True on success
+     */
+    public function setData($data, $group = '_default')
+    {
+        foreach ($data as $key => $value) {
+            $this->set($key, $value, $group);
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the parameters data
+     *
+     * @return	array	An associative array holding data
+     */
+    public function getData($group = '_default')
+    {
+        $result = array();
+
+        if(isset($this->_data[$group])) {
+            $result = $this->_data[$group];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the number of params in each group
+     *
+     * @return	array	Array of all group names as key and param count as value
+     */
+    public function getGroups()
+    {
+        if (is_array($this->_params))
+        {
+            $results = array();
+            foreach ($this->_params as $name => $group)  {
+                $results[$name] = $this->countParams($name);
+            }
+
+            return $results;
+        }
+
+
+        return false;
+    }
 
 	/**
-	 * Bind data to the parameter
+	 * Render the parameters
 	 *
-	 * @param	mixed	$data Array or Object
-	 * @return	boolean	True if the data was successfully bound
-	 * @access	public
-	 * @since	1.5
-	 */
-	function bind($data, $group = '_default')
-	{
-		if ( is_array($data) ) {
-			return $this->loadArray($data, $group);
-		} elseif ( is_object($data) ) {
-			return $this->loadObject($data, $group);
-		} else {
-			return $this->loadINI($data, $group);
-		}
-	}
-
-	/**
-	 * Render
-	 *
-	 * @access	public
-	 * @param	string	The name of the control, or the default text area if a setup file is not found
+	 * @param	string	$name The name of the control, or the default text area if a setup file is not found
+     * @param	string	$group
 	 * @return	string	HTML
-	 * @since	1.5
 	 */
-	function render($name = 'params', $group = '_default')
+	public function render($name = 'params', $group = '_default')
 	{
-		if (!isset($this->_xml[$group])) {
-			return false;
+        $html = array();
+
+        if (isset($this->_params[$group]))
+        {
+            if ($description = $this->_params[$group]->attributes()->description) {
+                $html[]	= $description;
+            }
+
+            foreach ($this->_params[$group]->children() as $param)
+            {
+                $param = $this->renderParam($param, $name);
+
+                $html[] = '<div>';
+                $html[] = $param[0];
+                $html[] = '<div>';
+                $html[] = $param[1];
+                $html[] = isset($param[2]) ? '<p class="help-block">'.$param[2].'</p>' : '';
+                $html[] = '</div>';
+                $html[] = '</div>';
+            }
 		}
 
-		$params = $this->getParams($name, $group);
-		$html = array ();
-
-		if ($description = $this->_xml[$group]->attributes('description')) {
-			// add the params description to the display
-			$desc	= $description;
-			$html[]	= $desc;
-		}
-
-		foreach ($params as $param)
-		{
-			$html[] = '<div>';
-			$html[] = $param[0];
-			$html[] = '<div>';
-			$html[] = $param[1];
-			$html[] = $param[2] ? '<p class="help-block">'.$param[2].'</p>' : '';
-			$html[] = '</div>';
-			$html[] = '</div>';
-		}
-
-		if (count($params) < 1) {
-			return false;
-		}
-
-		return implode("\n", $html);
+        return implode("\n", $html);
 	}
 
-	/**
-	 * Render all parameters to an array
-	 *
-	 * @access	public
-	 * @param	string	The name of the control, or the default text area if a setup file is not found
-	 * @return	array	Array of all parameters, each as array Any array of the label, the form element and the tooltip
-	 * @since	1.5
-	 */
-	function renderToArray($name = 'params', $group = '_default')
-	{
-		if (!isset($this->_xml[$group])) {
-			return false;
-		}
-		$results = array();
-		foreach ($this->_xml[$group]->children() as $param)  {
-			$result = $this->getParam($param, $name);
-			$results[$result[5]] = $result;
-		}
-		return $results;
-	}
+    /**
+     * Render a parameter type
+     *
+     * @param	SimpleXMLElement	$param  A param
+     * @param	string	$string The control name
+     * @return	array	Any array of the label, the form element and the tooltip
+     */
+    public function renderParam(SimpleXMLElement $param, $name = 'params', $group = '_default')
+    {
+        $type    = $param->attributes()->type;
+        $element = $this->loadElement($type);
 
-	/**
-	 * Return number of params to render
-	 *
-	 * @access	public
-	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
-	 * @since	1.5
-	 */
-	function getNumParams($group = '_default')
-	{
-		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
-			return false;
-		} else {
-			return count($this->_xml[$group]->children());
-		}
-	}
+        if ($element === false)
+        {
+            $result = array();
+            $result[0] = $param->attributes()->name;
+            $result[1] = 'Element not defined for type = '.$type;
+            $result[5] = $result[0];
 
-	/**
-	 * Get the number of params in each group
-	 *
-	 * @access	public
-	 * @return	array	Array of all group names as key and param count as value
-	 * @since	1.5
-	 */
-	function getGroups()
-	{
-		if (!is_array($this->_xml)) {
-			return false;
-		}
-		$results = array();
-		foreach ($this->_xml as $name => $group)  {
-			$results[$name] = $this->getNumParams($name);
-		}
-		return $results;
-	}
+            return $result;
+        }
 
-	/**
-	 * Render all parameters
-	 *
-	 * @access	public
-	 * @param	string	The name of the control, or the default text area if a setup file is not found
-	 * @return	array	Aarray of all parameters, each as array Any array of the label, the form element and the tooltip
-	 * @since	1.5
-	 */
-	function getParams($name = 'params', $group = '_default')
-	{
-		if (!isset($this->_xml[$group])) {
-			return false;
-		}
-		$results = array();
-		foreach ($this->_xml[$group]->children() as $param)  {
-			$results[] = $this->getParam($param, $name);
-		}
-		return $results;
-	}
+        $value = $this->get((string) $param->attributes()->name, (string) $param->attributes()->default, $group);
 
-	/**
-	 * Render a parameter type
-	 *
-	 * @param	object	A param tag node
-	 * @param	string	The control name
-	 * @return	array	Any array of the label, the form element and the tooltip
-	 * @since	1.5
-	 */
-	function getParam(&$node, $control_name = 'params', $group = '_default')
-	{
-		//get the type of the parameter
-		$type = $node->attributes('type');
+        return $element->render($param, $value, $name);
+    }
 
-		//remove any occurance of a mos_ prefix
-		$type = str_replace('mos_', '', $type);
+    /**
+     * Return number of params
+     *
+     *  @param	string	$group
+     * @return	SimpleXMLElement|null
+     */
+    public function getParams($group = '_default')
+    {
+        if (isset($this->_params[$group])) {
+            return $this->_params[$group];
+        }
 
-		$element =& $this->loadElement($type);
+        return false;
+    }
 
-		// error happened
-		if ($element === false)
-		{
-			$result = array();
-			$result[0] = $node->attributes('name');
-			$result[1] = 'Element not defined for type = '.$type;
-			$result[5] = $result[0];
-			return $result;
-		}
+    /**
+     * Return number of params
+     *
+     * @param   array  $params
+     * @param	string $group
+     * @return	JParameter
+     */
+    public function setParams($params, $group = '_default')
+    {
+        $this->_params[$group] = $params;
+        return $this;
+    }
 
-		//get value
-		$value = $this->get($node->attributes('name'), $node->attributes('default'), $group);
+    /**
+     * Return number of params
+     *
+     *  @param	string	$group
+     * @return	mixed	Boolean false if no params exist or integer number of params that exist
+     */
+    public function countParams($group = '_default')
+    {
+        if (isset($this->_params[$group])) {
+            return count($this->_params[$group]->children());
+        }
 
-		return $element->render($node, $value, $control_name);
-	}
+        return false;
+    }
 
 	/**
 	 * Loads an xml setup file and parses it
 	 *
-	 * @access	public
-	 * @param	string	path to xml setup file
-	 * @return	object
-	 * @since	1.5
+	 * @param	string	$path path to xml setup file
 	 */
-	function loadSetupFile($path)
+	public function loadParams($path)
 	{
-		$result = false;
+        if ($xml = simplexml_load_file($path))
+        {
+            if ($params = $xml->params)
+            {
+                foreach ($params as $param)
+                {
+                    if ($group = $params->attributes()->group) {
+                        $this->_params[$group] = $params;
+                    } else {
+                        $this->_params['_default'] = $params;
+                    }
 
-		if ($path)
-		{
-			$xml = & JFactory::getXMLParser('Simple');
+                    if ($dir = (string) $params->attributes()->path) {
+                        $this->addElementPath( APPLICATION_ROOT . str_replace('/', DS, $dir) );
+                    }
 
-			if ($xml->loadFile($path))
-			{
-				if ($params = & $xml->document->params) {
-					foreach ($params as $param)
-					{
-						$this->setXML( $param );
-						$result = true;
-					}
-				}
-			}
-		}
-		else
-		{
-			$result = true;
-		}
+                    return $this;
+                }
+            }
 
-		return $result;
+            return true;
+        }
+
+		return false;
 	}
 
 	/**
 	 * Loads a element type
 	 *
-	 * @access	public
-	 * @param	string	elementType
-	 * @return	object
-	 * @since	1.5
+	 * @param	string	$type elementType
+	 * @return	object|null
 	 */
-	function &loadElement( $type, $new = false )
+	public function loadElement( $type )
 	{
-		$false = false;
-		$signature = md5( $type  );
+		$result = null;
+        $class  = 'JElement'.strtoupper($type);
 
-		if( (isset( $this->_elements[$signature] ) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false ) {
-			return	$this->_elements[$signature];
-		}
+        if( (!isset( $this->_elements[$class] )))
+        {
+            if( !class_exists( $class ) )
+            {
+                $file = str_replace('_', '/', $type).'.php';
 
-		$elementClass	=	'JElement'.$type;
-		if( !class_exists( $elementClass ) )
-		{
-			if( isset( $this->_elementPath ) ) {
-				$dirs = $this->_elementPath;
-			} else {
-				$dirs = array();
-			}
+                foreach ($this->_paths as $path)
+                {
+                    if($result = $this->realPath($path.'/'.$file))
+                    {
+                        include_once $result;
+                        break;
+                    }
+                }
+            }
 
-			$file = str_replace('_', DS, $type).'.php';
+            if( class_exists( $class ) ) {
+                $this->_elements[$class] = new $class($this);
+            }
+        }
 
-			jimport('joomla.filesystem.path');
-			if ($elementFile = JPath::find($dirs, $file)) {
-				include_once $elementFile;
-			} else {
-				return $false;
-			}
-		}
+        if(isset($this->_elements[$class])) {
+            $result = $this->_elements[$class];
+        }
 
-		if( !class_exists( $elementClass ) ) {
-			return $false;
-		}
-
-		$this->_elements[$signature] = new $elementClass($this);
-
-		return $this->_elements[$signature];
+		return $result;
 	}
 
 	/**
-	 * Add a directory where JParameter should search for element types
+	 * Add a directory to search for elements
 	 *
-	 * You may either pass a string or an array of directories.
-	 *
-	 * JParameter will be searching for a element type in the same
-	 * order you added them. If the parameter type cannot be found in
-	 * the custom folders, it will look in
-	 * JParameter/types.
-	 *
-	 * @access	public
-	 * @param	string|array	directory or directories to search.
-	 * @since	1.5
+	 * @param	string|array $path	Directory or directories to search.
+     * @return JParameter
 	 */
-	function addElementPath( $path )
+	public function addElementPath( $path )
 	{
-		// just force path to array
 		settype( $path, 'array' );
 
-		// loop through the path directories
 		foreach ( $path as $dir )
 		{
-			// no surrounding spaces allowed!
 			$dir = trim( $dir );
 
-			// add trailing separators as needed
-			if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR ) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
+			if ( substr( $dir, -1 ) != '/' ) {
+				$dir .= '/';
 			}
 
-			// add to the top of the search dirs
-			array_unshift( $this->_elementPath, $dir );
+			array_unshift( $this->_paths, $dir );
 		}
 
-
+        return $this;
 	}
+
+    /**
+     * Get a path from an file
+     *
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $file The file path
+     * @return string The real file path
+     */
+    final public function realPath($file)
+    {
+        $result = false;
+        $path   = dirname($file);
+
+        // Is the path based on a stream?
+        if (strpos($path, '://') === false)
+        {
+            // Not a stream, so do a realpath() to avoid directory traversal attempts on the local file system.
+            $path = realpath($path); // needed for substr() later
+            $file = realpath($file);
+        }
+
+        // The substr() check added to make sure that the realpath() results in a directory registered so that
+        // non-registered directories are not accessible via directory traversal attempts.
+        if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
+            $result = $file;
+        }
+
+        return $result;
+    }
+
+
 }
