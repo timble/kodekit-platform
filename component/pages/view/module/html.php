@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Abstract Module View
+ * Html Module View
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
@@ -31,8 +31,7 @@ class ViewModuleHtml extends Library\ViewHtml
     {
         parent::_fetchData($context);
 
-        //Set the module parameter
         $params = $this->getModel()->getState()->get('params');
-        $context->data->module->getParameters()->bind($params);
+        $context->data->module->getParameters()->setData($params);
     }
 }
