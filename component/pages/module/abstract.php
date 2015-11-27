@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Abstract Module View
+ * Abstract Module
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
@@ -57,9 +57,6 @@ abstract class ModuleAbstract extends Library\ViewHtml
      */
     protected function _fetchData(Library\ViewContext $context)
     {
-        //Set the module parameter1
-        $context->parameters->append($context->data->module->getParameters()->toArray());
-
         //Set the layout and view in the parameters.
         $context->parameters->layout = $context->layout;
         $context->parameters->view   = $this->getName();
@@ -68,7 +65,7 @@ abstract class ModuleAbstract extends Library\ViewHtml
     /**
      * Renders and echo's the views output
      *
-     * @return ModuleAbstract
+     * @return string  The output of the module
      */
     protected function _actionRender(Library\ViewContext $context)
     {
