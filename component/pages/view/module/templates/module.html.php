@@ -9,6 +9,7 @@
 ?>
 
 <?= object($module->identifier, array(
-        'title' => $module->title,
-        'data'  => array('module' => $module)
+        'title'      => $module->title,
+        'data'       => array('module' => $module),
+        'parameters' => $module->getParameters()->getData()
     ))->render(); ?>
