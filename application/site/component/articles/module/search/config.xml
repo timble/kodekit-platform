@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params addpath="/application/admin/component/articles/element">
+	<params path="/application/admin/component/articles/element">
         <param name="item_id" type="searchpages" default="" label="Search page" description="The page where the search results will be rendered"/>
-	</params>
+    </params>
 </config>

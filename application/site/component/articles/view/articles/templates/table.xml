@@ -8,7 +8,7 @@
     <state>
         <name>Articles Table Layout</name>
         <description>ARTICLES TABLE LAYOUT DESC</description>
-        <url addpath="/application/admin/component/categories/element">
+        <url path="/application/admin/component/categories/element">
             <param name="category" type="category" table="articles" label="Category"/>
         </url>
         <params>
