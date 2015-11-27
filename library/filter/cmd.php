@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Command Filter
  *
- * A 'command' is a string containing only the characters [A-Za-z0-9.-_]. Used for names of views, controllers, etc
+ * A 'command' is a string containing only the characters [A-Za-z0-9.-_,].
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Filter
@@ -28,7 +28,7 @@ class FilterCmd extends FilterAbstract implements FilterTraversable
     public function validate($value)
     {
         $value = trim($value);
-        $pattern = '/^[A-Za-z0-9.\-_]*$/';
+        $pattern = '/^[A-Za-z0-9.,\-_]*$/';
 
         return (is_string($value) && (preg_match($pattern, $value)) == 1);
     }
