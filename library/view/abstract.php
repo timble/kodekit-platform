@@ -103,6 +103,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     {
         $config->append(array(
             'data'             => array(),
+            'parameters'       => array(),
             'command_chain'    => 'lib:command.chain',
             'command_handlers' => array('lib:command.handler.event'),
             'model'            => 'lib:model.empty',
@@ -462,6 +463,7 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
         $context = new ViewContext();
         $context->setSubject($this);
         $context->setData($this->_data);
+        $context->setParameters($this->getConfig()->parameters);
 
         return $context;
     }

@@ -37,25 +37,4 @@ class ViewContextTemplate extends ViewContext
     {
         return ObjectConfig::get('layout');
     }
-
-    /**
-     * Set the view parameters
-     *
-     * @param array $parameters
-     * @return ViewContextTemplate
-     */
-    public function setParameters($parameters)
-    {
-        return ObjectConfig::set('parameters', $parameters);
-    }
-
-    /**
-     * Get the view parameters
-     *
-     * @return array
-     */
-    public function getParameters()
-    {
-        return ObjectConfig::get('parameters');
-    }
 }

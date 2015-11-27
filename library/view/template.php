@@ -78,7 +78,6 @@ abstract class ViewTemplate extends ViewAbstract
                 'title'   => array($this, 'getTitle'),
                 'content' => array($this, 'getContent'),
             ),
-            'template_parameters' => array()
         ));
 
         parent::_initialize($config);
@@ -291,7 +290,6 @@ abstract class ViewTemplate extends ViewAbstract
         $context->setSubject($this);
         $context->setData($this->getData());
         $context->setLayout($this->getLayout());
-        $context->setParameters($this->getConfig()->template_parameters);
 
         return $context;
     }
