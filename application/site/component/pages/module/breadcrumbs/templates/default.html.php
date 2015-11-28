@@ -8,6 +8,10 @@
  */
 ?>
 
+<? if(parameters()->show_title) : ?>
+    <h3><?= title() ?></h3>
+<? endif ?>
+
 <ul class="breadcrumb">
 	<? foreach($pathway as $item) : ?>
 		<? // If not the last item in the breadcrumbs add the separator ?>

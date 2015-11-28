@@ -5,5 +5,9 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+        <param name="show_title" type="radio" default="0" label="Module title" description="">
+            <option value="1">Show</option>
+            <option value="0">Hide</option>
+        </param>
 	</params>
 </config>

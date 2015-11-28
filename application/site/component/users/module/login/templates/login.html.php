@@ -11,6 +11,10 @@
 <?= helper('behavior.mootools')?>
 <?= helper('behavior.validator')?>
 
+<? if(parameters()->show_title) : ?>
+    <h3><?= title() ?></h3>
+<? endif ?>
+
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
     <? if(parameters()->show_title) : ?>
         <h3><?= title() ?></h3>

@@ -8,6 +8,10 @@
  */
 ?>
 
+<? if(parameters()->show_title) : ?>
+    <h3><?= title() ?></h3>
+<? endif ?>
+
 <? if(object('user')->getSession()->isActive()) : ?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login">

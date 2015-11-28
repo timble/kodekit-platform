@@ -2,5 +2,9 @@
 <config>
 	<params path="/application/admin/component/articles/element">
         <param name="item_id" type="searchpages" default="" label="Search page" description="The page where the search results will be rendered"/>
+        <param name="show_title" type="radio" default="0" label="Module title" description="">
+            <option value="1">Show</option>
+            <option value="0">Hide</option>
+        </param>
     </params>
 </config>
