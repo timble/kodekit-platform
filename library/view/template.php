@@ -289,6 +289,7 @@ abstract class ViewTemplate extends ViewAbstract
         $context = new ViewContextTemplate();
         $context->setSubject($this);
         $context->setData($this->getData());
+        $context->setParameters($this->getConfig()->parameters);
         $context->setLayout($this->getLayout());
 
         return $context;
