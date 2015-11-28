@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <params>
-        <param name="count" type="text" default="5" label="Number of articles" description="" />
-        <param name="sort_by" type="list" default="newest" label="Sort by" description="">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="order">Ordering</option>
+        <param name="limit" type="text" default="5" label="Number of articles" description="" />
+        <param name="sort" type="list" default="created_on,DESC" label="Sort by" description="">
+            <option value="created_on,DESC">Newest First</option>
+            <option value="created_on,ASC">Oldest First</option>
+            <option value="ordering,ASC">Ordering</option>
         </param>
+        <param name="category" type="text" default="" label="Category ID" description="" />
         <param name="show_title" type="radio" default="0" label="Module title" description="">
         	<option value="1">Show</option>
         	<option value="0">Hide</option>
         </param>
-        <param name="category" type="text" default="" label="Category ID" description="" />
     </params>
 </config>
