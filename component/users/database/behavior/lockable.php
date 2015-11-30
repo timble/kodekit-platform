@@ -61,15 +61,18 @@ class DatabaseBehaviorLockable extends Library\DatabaseBehaviorLockable
      */
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        $context->query
-            ->columns(array('_owner_id'         => '_owner.users_user_id'))
-            ->columns(array('_owner_name'       => '_owner.name'))
-            ->columns(array('_owner_email'      => '_owner.email'))
-            ->columns(array('_owner_params'     => '_owner.params'))
-            ->columns(array('_owner_enabled'    => '_owner.enabled'))
-            ->columns(array('_owner_activation' => '_owner.activation'))
-            ->columns(array('locked_by_name'    => '_owner.name'))
-            ->join(array('_owner' => 'users'), 'tbl.locked_by = _owner.users_user_id');
+        if (!$context->query->isCountQuery())
+        {
+            $context->query
+                ->columns(array('_owner_id'         => '_owner.users_user_id'))
+                ->columns(array('_owner_name'       => '_owner.name'))
+                ->columns(array('_owner_email'      => '_owner.email'))
+                ->columns(array('_owner_params'     => '_owner.params'))
+                ->columns(array('_owner_enabled'    => '_owner.enabled'))
+                ->columns(array('_owner_activation' => '_owner.activation'))
+                ->columns(array('locked_by_name'    => '_owner.name'))
+                ->join(array('_owner' => 'users'), 'tbl.locked_by = _owner.users_user_id');
+        }
     }
 }
 

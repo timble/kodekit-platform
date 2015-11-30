@@ -61,14 +61,17 @@ class DatabaseBehaviorCreatable extends Library\DatabaseBehaviorCreatable
      */
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        $context->query
-            ->columns(array('_author_id'         => '_author.users_user_id'))
-            ->columns(array('_author_name'       => '_author.name'))
-            ->columns(array('_author_email'      => '_author.email'))
-            ->columns(array('_author_params'     => '_author.params'))
-            ->columns(array('_author_enabled'    => '_author.enabled'))
-            ->columns(array('_author_activation' => '_author.activation'))
-            ->columns(array('created_by_name'    => '_author.name'))
-            ->join(array('_author' => 'users'), 'tbl.created_by = _author.users_user_id');
+        if (!$context->query->isCountQuery())
+        {
+            $context->query
+                ->columns(array('_author_id'         => '_author.users_user_id'))
+                ->columns(array('_author_name'       => '_author.name'))
+                ->columns(array('_author_email'      => '_author.email'))
+                ->columns(array('_author_params'     => '_author.params'))
+                ->columns(array('_author_enabled'    => '_author.enabled'))
+                ->columns(array('_author_activation' => '_author.activation'))
+                ->columns(array('created_by_name'    => '_author.name'))
+                ->join(array('_author' => 'users'), 'tbl.created_by = _author.users_user_id');
+        }
     }
 }

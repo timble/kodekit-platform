@@ -61,15 +61,18 @@ class DatabaseBehaviorModifiable extends Library\DatabaseBehaviorModifiable
      */
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        $context->query
-            ->columns(array('_editor_id'         => '_editor.users_user_id'))
-            ->columns(array('_editor_name'       => '_editor.name'))
-            ->columns(array('_editor_email'      => '_editor.email'))
-            ->columns(array('_editor_params'     => '_editor.params'))
-            ->columns(array('_editor_enabled'    => '_editor.enabled'))
-            ->columns(array('_editor_activation' => '_editor.activation'))
-            ->columns(array('modified_by_name'   => '_editor.name'))
-            ->join(array('_editor' => 'users'), 'tbl.modified_by = _editor.users_user_id');
+        if (!$context->query->isCountQuery())
+        {
+            $context->query
+                ->columns(array('_editor_id'         => '_editor.users_user_id'))
+                ->columns(array('_editor_name'       => '_editor.name'))
+                ->columns(array('_editor_email'      => '_editor.email'))
+                ->columns(array('_editor_params'     => '_editor.params'))
+                ->columns(array('_editor_enabled'    => '_editor.enabled'))
+                ->columns(array('_editor_activation' => '_editor.activation'))
+                ->columns(array('modified_by_name'   => '_editor.name'))
+                ->join(array('_editor' => 'users'), 'tbl.modified_by = _editor.users_user_id');
+        }
     }
 }
 
