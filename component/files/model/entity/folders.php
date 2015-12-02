@@ -20,26 +20,6 @@ use Nooku\Library;
 class ModelEntityFolders extends ModelEntityNodes
 {
     /**
-     * Returns if an iterator can be created for the current entry.
-     *
-     * @return	boolean
-     */
-	public function hasChildren()
-	{
-		return current($this->_data)->hasChildren();
-	}
-
-	/**
-     * Returns an iterator for the current entry.
-     *
-     * @return	\RecursiveIterator
-     */
-	public function getChildren()
-	{
-		return $this->current()->getChildren();
-	}
-
-    /**
      * Insert a entity in an hierarchical tree of nodes.
      *
      * This function requires each entity to contain a an enumerated 'path' array containing the node id's from root to
@@ -72,5 +52,15 @@ class ModelEntityFolders extends ModelEntityNodes
         else parent::insert($entity);
 
 		return true;
+    }
+
+    /**
+     * Defined by IteratorAggregate
+     *
+     * @return \RecursiveArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \RecursiveArrayIterator($this->_data);
     }
 }

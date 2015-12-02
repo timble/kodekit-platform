@@ -33,6 +33,29 @@ class ModelEntityFolder extends ModelEntityNode
      */
     protected $_parent = null;
 
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        if(isset($config->parent)) {
+            $this->setParent($config->parent);
+        }
+
+        foreach($config->children as $child) {
+            $this->insertChild($child);
+        }
+    }
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'children'  => array(),
+            'parent'	=> null,
+        ));
+
+        parent::_initialize($config);
+    }
+
     public function save()
     {
         $context         = $this->getContext();
@@ -61,17 +84,6 @@ class ModelEntityFolder extends ModelEntityNode
     public function getPropertyChildren()
     {
         return $this->getObject('com:files.model.entity.folders');
-    }
-
-    public function toArray()
-    {
-        $data = parent::toArray();
-
-        if ($this->hasChildren()) {
-            $data['children'] = $this->getChildren()->toArray();
-        }
-
-        return $data;
     }
 
     public function getProperties($modified = false)
@@ -144,5 +156,16 @@ class ModelEntityFolder extends ModelEntityNode
     {
         $this->_parent = $node;
         return $this;
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        if ($this->hasChildren()) {
+            $data['children'] = $this->getChildren()->toArray();
+        }
+
+        return $data;
     }
 }
