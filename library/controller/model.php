@@ -35,14 +35,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
         // Set the model identifier
         $this->_model = $config->model;
-
-        // Set the controller state
-        foreach($config->state as $name => $value)
-        {
-            if($this->getModel()->getState()->has($name)) {
-                $this->$name($value);
-            }
-        }
     }
 
     /**
@@ -63,7 +55,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         $config->append(array(
             'toolbars' => $toolbars,
             'model'    => $this->getIdentifier()->name,
-            'state'    => array(),
         ));
 
         parent::_initialize($config);

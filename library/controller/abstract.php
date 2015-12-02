@@ -99,23 +99,13 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
             'command_chain'    => 'lib:command.chain',
             'command_handlers' => array('lib:command.handler.event'),
             'dispatched'       => false,
-            'request'          => 'lib:controller.request',
-            'response'         => 'lib:controller.response',
-            'user'             => 'user',
+            'request'          => array(),
+            'response'         => array(),
+            'user'             => array(),
             'behaviors'        => array('permissible'),
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Has the controller been dispatched
-     *
-     * @return  boolean    Returns true if the controller has been dispatched
-     */
-    public function isDispatched()
-    {
-        return $this->_dispatched;
     }
 
     /**
@@ -253,9 +243,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
     {
         if(!$this->_request instanceof ControllerRequestInterface)
         {
-            $this->_request = $this->getObject($this->_request,  array(
-                'url'  => $this->getIdentifier(),
-            ));
+            //Setup the request
+            $this->_request->url  = $this->getIdentifier();
+            $this->_request->user = $this->getUser();
+
+            $this->_request = $this->getObject('lib:controller.request', ObjectConfig::unbox($this->_request));
 
             if(!$this->_request instanceof ControllerRequestInterface)
             {
@@ -290,10 +282,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
     {
         if(!$this->_response instanceof ControllerResponseInterface)
         {
-            $this->_response = $this->getObject($this->_response, array(
-                'request' => $this->getRequest(),
-                'user'    => $this->getUser(),
-            ));
+            //Setup the response
+            $this->_response->request  = $this->getRequest();
+            $this->_response->user     = $this->getUser();
+
+            $this->_response = $this->getObject('lib:controller.response', ObjectConfig::unbox($this->_response));
 
             if(!$this->_response instanceof ControllerResponseInterface)
             {
@@ -328,9 +321,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
     {
         if(!$this->_user instanceof UserInterface)
         {
-            $this->_user = $this->getObject($this->_user, array(
-                'request' => $this->getRequest(),
-            ));
+            $this->_user = $this->getObject('user', ObjectConfig::unbox($this->_user));
 
             if(!$this->_user instanceof UserInterface)
             {
@@ -358,6 +349,16 @@ abstract class ControllerAbstract extends Object implements ControllerInterface,
         $context->user     = $this->getUser();
 
         return $context;
+    }
+
+    /**
+     * Has the controller been dispatched
+     *
+     * @return  boolean    Returns true if the controller has been dispatched
+     */
+    public function isDispatched()
+    {
+        return $this->_dispatched;
     }
 
     /**
