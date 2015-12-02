@@ -50,7 +50,7 @@ class ModelEntityNode extends Library\ModelEntityRow
 
         parent::_initialize($config);
     }
-    
+
     /**
      * Insert a child row
      *
@@ -66,7 +66,7 @@ class ModelEntityNode extends Library\ModelEntityRow
 
  		//Insert the row in the rowset
  		$this->getChildren()->insert($node);
- 		
+
  		return $this;
  	}
 
@@ -92,12 +92,12 @@ class ModelEntityNode extends Library\ModelEntityRow
             $identifier         = $this->getIdentifier()->toArray();
             $identifier['path'] = array('model', 'entity');
             $identifier['name'] = Library\StringInflector::pluralize($this->getIdentifier()->name);
-            
+
             //The row default options
             $options  = array(
                 'identity_column' => $this->getIdentityKey()
             );
-               
+
             $this->_children = $this->getObject($identifier, $options);
         }
 
@@ -125,4 +125,22 @@ class ModelEntityNode extends Library\ModelEntityRow
 		$this->_parent = $node;
 		return $this;
 	}
+
+    /**
+     * Return an associative array of the data
+     *
+     * Add the children to a 'children' property
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        if ($this->hasChildren()) {
+            $data['children'] = array_values($this->getChildren()->toArray());
+        }
+
+        return $data;
+    }
 }
