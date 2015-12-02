@@ -34,7 +34,7 @@ abstract class ModuleEntity extends ModuleAbstract
             $context->layout = $this->getIdentifier($identifier);
         }
 
-        $config  = array('state' => $context->parameters->toArray());
+        $config  = array('request' => array('query' => $context->parameters->toArray()));
         $package = $this->getIdentifier()->package;
         $name    = $this->getName();
 
