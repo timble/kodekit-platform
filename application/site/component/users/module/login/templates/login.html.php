@@ -16,10 +16,6 @@
 <? endif ?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
-    <? if(parameters()->show_title) : ?>
-        <h3><?= title() ?></h3>
-    <? endif ?>
-
 	<fieldset class="input">
 	<div class="form-group">
 		<label for="modlgn_email"><?= translate('Email') ?>:</label>
