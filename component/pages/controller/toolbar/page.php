@@ -19,11 +19,6 @@ use Nooku\Library;
  */
 class ControllerToolbarPage extends Library\ControllerToolbarActionbar
 {
-    /**
-     * Add default toolbar commands
-     * .
-     * @param	Library\ControllerContextInterface	$context A controller context object
-     */
     protected function _afterBrowse(Library\ControllerContextInterface $context)
     {
         parent::_afterBrowse($context);
@@ -55,7 +50,7 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
             )
         ));
     }
-    
+
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $menu = $this->getController()->getModel()->getState()->menu;
