@@ -18,15 +18,6 @@ use Nooku\Component\Application;
  */
 class ApplicationDispatcher extends Application\Dispatcher
 {
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param    Library\ObjectConfig $config An optional Library\ObjectConfig object with configuration options.
-     *
-     * @return    void
-     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -39,46 +30,11 @@ class ApplicationDispatcher extends Application\Dispatcher
         parent::_initialize($config);
     }
 
-    /**
-     * Permission handler for dispatch actions
-     *
-     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
-     */
     public function canDispatch()
     {
         return true;
     }
 
-    /**
-     * Re-create the session if site has changed
-     *
-     * @return Library\UserInterface
-     */
-    public function getUser()
-    {
-        if (!$this->_user instanceof Library\UserInterface)
-        {
-            $user    = parent::getUser();
-            $session = $user->getSession();
-
-            //Re-create the session if we changed sites
-            if ($user->isAuthentic() && ($session->site != $this->getSite()))
-            {
-                //@TODO : Fix this
-                //if(!$this->getObject('com:users.controller.session')->add()) {
-                //    $session->destroy();
-                //}
-            }
-        }
-
-        return parent::getUser();
-    }
-
-    /**
-     * Dispatch the application
-     *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
-     */
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
         //Redirect if no view information can be found in the request

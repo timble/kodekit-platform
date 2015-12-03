@@ -153,6 +153,31 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     }
 
     /**
+     * Re-create the session if site has changed
+     *
+     * @return Library\UserInterface
+     */
+    public function getUser()
+    {
+        if(!$this->_user instanceof Library\UserInterface)
+        {
+            $user    =  parent::getUser();
+            $session =  $user->getSession();
+
+            //Re-create the session if we changed sites
+            if($user->isAuthentic() && ($session->site != $this->getSite()))
+            {
+                //@TODO : Fix this
+                //if(!$this->getObject('com:users.controller.session')->add()) {
+                //    $session->destroy();
+                //}
+            }
+        }
+
+        return parent::getUser();
+    }
+
+    /**
      * Method to get a component dispatcher object
      *
      * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface

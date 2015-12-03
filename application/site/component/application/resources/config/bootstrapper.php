@@ -11,6 +11,10 @@ return array(
 
     'identifiers' => array(
 
+        'dispatcher'  => array(
+            'behaviors' => 'com:pages.dispatcher.behavior.accessible'
+        ),
+
         'com:application.template.locator.component'  => array(
             'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/views'
         ),

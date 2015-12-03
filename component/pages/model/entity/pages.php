@@ -144,30 +144,4 @@ class ModelEntityPages extends Library\ModelEntityRowset
         return $this->_active;
     }
 
-    public function isAuthorized($id, Library\UserInterface $user)
-    {
-        $result = true;
-        $page   = $this->find($id);
-
-        // Return false if page not found.
-        if(!is_null($page))
-        {
-            if($page->access || $page->users_group_id > 0)
-            {
-                // Return false if page has access set, but user is a guest.
-                if($user->isAuthentic())
-                {
-                    // Return false if page has group set, but user is not in that group.
-                    if($page->users_group_id && !in_array($page->users_group_id, $user->getGroups()))
-                    {
-                        $result = false;
-                    }
-                }
-                else $result = false;
-            }
-        }
-        else $result = false;
-
-        return $result;
-    }
 }
