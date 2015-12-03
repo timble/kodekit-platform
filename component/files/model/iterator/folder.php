@@ -34,4 +34,3 @@ class ModelIteratorFolder extends \RecursiveIteratorIterator
         return $this->current()->hasChildren();
     }
 }
-}
