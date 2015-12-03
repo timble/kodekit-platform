@@ -12,13 +12,20 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Http Dispatcher
+ * Application Dispatcher
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
 class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
+    /**
+     * The site identifier.
+     *
+     * @var string
+     */
+    private $__site;
+
     /**
      * Component name or identifier
      *
@@ -103,6 +110,46 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     public function getRouter(array $options = array())
     {
         return $this->getObject('com:application.router', $options);
+    }
+
+    /**
+     * Gets the name of site
+     *
+     * This function tries to get the site name based on the information present in the request.
+     * If no site can be found it will return 'default'.
+     *
+     * @return string  The site name
+     */
+    public function getSite()
+    {
+        if (!$this->__site)
+        {
+            // Check URL host
+            $uri = clone($this->getRequest()->getUrl());
+
+            $host = $uri->getHost();
+            if (!$this->getObject('application.sites')->find($host))
+            {
+                // Check folder
+                $base = $this->getRequest()->getBaseUrl()->getPath();
+                $path = trim(str_replace($base, '', $uri->getPath()), '/');
+                if (!empty($path)) {
+                    $site = array_shift(explode('/', $path));
+                } else {
+                    $site = 'default';
+                }
+
+                //Check if the site can be found, otherwise use 'default'
+                if (!$this->getObject('application.sites')->find($site)) {
+                    $site = 'default';
+                }
+
+            } else $site = $host;
+
+            $this->__site = $site;
+        }
+
+        return $this->__site;
     }
 
     /**

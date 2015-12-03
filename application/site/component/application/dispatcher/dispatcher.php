@@ -20,47 +20,6 @@ use Nooku\Component\Application;
 class ApplicationDispatcher extends Application\Dispatcher
 {
     /**
-     * The site identifier.
-     *
-     * @var string
-     */
-    protected $_site;
-
-    /**
-     * Constructor.
-     *
-     * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
-     */
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        //Set the site name
-        if(empty($config->site)) {
-            $this->_site = $this->getSite();
-        } else {
-            $this->_site = $config->site;
-        }
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
-     * @return 	void
-     */
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'site'  => null,
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
      * Permission handler for dispatch actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
@@ -133,45 +92,5 @@ class ApplicationDispatcher extends Application\Dispatcher
         }
 
         return parent::getUser();
-    }
-
-    /**
-     * Gets the name of site
-     *
-     * This function tries to get the site name based on the information present in the request. If no site can be found
-     * it will return 'default'.
-     *
-     * @return string  The site name
-     */
-    public function getSite()
-    {
-        if(!$this->_site)
-        {
-            // Check URL host
-            $uri  = clone($this->getRequest()->getUrl());
-
-            $host = $uri->getHost();
-            if(!$this->getObject('application.sites')->find($host))
-            {
-                // Check folder
-                $base = $this->getRequest()->getBaseUrl()->getPath();
-                $path = trim(str_replace($base, '', $uri->getPath()), '/');
-                if(!empty($path)) {
-                    $site = array_shift(explode('/', $path));
-                } else {
-                    $site = 'default';
-                }
-
-                //Check if the site can be found, otherwise use 'default'
-                if(!$this->getObject('application.sites')->find($site)) {
-                    $site = 'default';
-                }
-
-            } else $site = $host;
-
-            $this->_site = $site;
-        }
-
-        return $this->_site;
     }
 }
