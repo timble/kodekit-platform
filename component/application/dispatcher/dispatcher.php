@@ -37,9 +37,6 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
 
         //Set the component
         $this->_component = $config->component;
-
-        //Set the base url in the request
-        $this->getRequest()->setBaseUrl($config->base_url);
     }
 
     /**
@@ -53,11 +50,13 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'dispatched'  => true,
-            'controller'  => 'document',
-            'component'   => '',
-            'base_url'    => '/',
-            'title'       => 'Application',
+            'dispatched' => true,
+            'controller' => 'document',
+            'component'  => '',
+            'request'    => array('
+                base_url'   => '/'
+            ),
+            'title'      => 'Application',
         ));
 
         parent::_initialize($config);

@@ -129,6 +129,12 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
 
         //Set the esi state
         $this->setEsi($config->esi);
+
+        //Use the dispatcher response in the context
+        $this->setResponse($this->getObject('dispatcher.response'));
+
+        //Use the dispatcher response in the context
+        $this->setRequest($this->getObject('dispatcher.request'));
     }
 
     /**
@@ -161,12 +167,6 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
             'enabled'  => true,
             'auto_connect' => true,
         ));
-
-        //Use the dispatcher response in the context
-        $config->response = 'dispatcher.response';
-
-        //Use the dispatcher response in the context
-        $config->request  = 'dispatcher.request';
 
         parent::_initialize($config);
     }

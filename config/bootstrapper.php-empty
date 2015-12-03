@@ -26,10 +26,12 @@ return array(
 
         'application'           => [
 
-            // Site Settings
+            // Request Settings
             'title'    => 'Nooku Platform',
-            'timezone' => 'UTC',
-            'language' => 'en-GB',
+            'request'  => [
+                'timezone' => 'UTC',
+                'language' => 'en-GB'
+            ],
 
             // Mail Settings
             'mailer'    => 'mail',
