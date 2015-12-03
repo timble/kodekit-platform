@@ -21,7 +21,7 @@ class ViewEditorHtml extends Library\ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $locale = $this->getObject('translator')->getLocale();
+        $locale = $this->getObject('translator')->getLanguage();
 
         $config->append(array(
             'options' => array(

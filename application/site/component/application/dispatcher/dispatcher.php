@@ -41,12 +41,6 @@ class ApplicationDispatcher extends Application\Dispatcher
         } else {
             $this->_site = $config->site;
         }
-
-        // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new \DateTimeZone($this->getUser()->get('timezone', $this->getConfig()->timezone));
-        date_default_timezone_set($timezone->getName());
-
-        $this->addCommandCallback('before.dispatch', 'setLanguage');
     }
 
     /**
@@ -60,8 +54,7 @@ class ApplicationDispatcher extends Application\Dispatcher
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'site'     => null,
-            'language' => 'en-GB',
+            'site'  => null,
         ));
 
         parent::_initialize($config);
@@ -79,7 +72,7 @@ class ApplicationDispatcher extends Application\Dispatcher
 
         $page = $request->query->get('Itemid', 'int');
 
-        if($this->getObject('application.pages')->isAuthorized($page, $user)) {
+        if($this->getObject('pages')->isAuthorized($page, $user)) {
             return true;
         }
 
@@ -93,7 +86,7 @@ class ApplicationDispatcher extends Application\Dispatcher
      */
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
-        $pages = $this->getObject('application.pages');
+        $pages = $this->getObject('pages');
 
         //Redirect the default page
         if(!$context->request->isAjax())
@@ -103,10 +96,10 @@ class ApplicationDispatcher extends Application\Dispatcher
             $route  = trim(str_replace($search, '', $context->request->getUrl()->getPath()), '/');
 
             //Redirect to the default menu item if the route is empty
-            if(strpos($route, $pages->getHome()->route) === 0 && $context->request->getFormat() == 'html')
+            if(strpos($route, $pages->getPrimary()->route) === 0 && $context->request->getFormat() == 'html')
             {
-                $url = $pages->getHome()->getLink();
-                $url->query['Itemid'] = $pages->getHome()->id;
+                $url = $pages->getPrimary()->getLink();
+                $url->query['Itemid'] = $pages->getPrimary()->id;
 
                 $this->getRouter()->build($url);
 
@@ -115,35 +108,6 @@ class ApplicationDispatcher extends Application\Dispatcher
         }
 
         parent::_actionDispatch($context);
-    }
-
-    /**
-     * Set the application language
-     *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     * @return	void
-     */
-    public function setLanguage(Library\DispatcherContextInterface $context)
-    {
-        $languages = $this->getObject('application.languages');
-        $language  = null;
-
-        // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language')) {
-            $language = $languages->find(array('iso_code' => $iso_code));
-        }
-
-        // If no user language specified, use application
-        if($iso_code = $this->getConfig()->language) {
-            $language = $languages->find(array('iso_code' => $iso_code));
-        }
-
-        // If language still not set, use the primary.
-        if(!$language) {
-            $language = $languages->getPrimary();
-        }
-
-        $languages->setActive($language);
     }
 
     /**
@@ -187,7 +151,7 @@ class ApplicationDispatcher extends Application\Dispatcher
             $uri  = clone($this->getRequest()->getUrl());
 
             $host = $uri->getHost();
-            if(!$this->getObject('com:sites.model.sites')->fetch()->find($host))
+            if(!$this->getObject('application.sites')->find($host))
             {
                 // Check folder
                 $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -199,7 +163,7 @@ class ApplicationDispatcher extends Application\Dispatcher
                 }
 
                 //Check if the site can be found, otherwise use 'default'
-                if(!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
+                if(!$this->getObject('application.sites')->find($site)) {
                     $site = 'default';
                 }
 

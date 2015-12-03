@@ -40,12 +40,6 @@ class ApplicationDispatcher extends Application\Dispatcher
         } else {
             $this->_site = $config->site;
         }
-
-        // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new \DateTimeZone($this->getUser()->get('timezone', $this->getConfig()->timezone));
-        date_default_timezone_set($timezone->getName());
-
-        $this->addCommandCallback('before.dispatch', 'setLanguage');
     }
 
     /**
@@ -61,9 +55,10 @@ class ApplicationDispatcher extends Application\Dispatcher
     {
         $config->append(array(
             'component' => 'dashboard',
-            'base_url'  => '/administrator',
+            'request' => array(
+                'base_url'  => '/administrator',
+            ),
             'site'      => null,
-            'language'  => 'en-GB',
         ));
 
         parent::_initialize($config);
@@ -77,35 +72,6 @@ class ApplicationDispatcher extends Application\Dispatcher
     public function canDispatch()
     {
         return true;
-    }
-
-    /**
-     * Set the application language
-     *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
-     * @return	void
-     */
-    public function setLanguage(Library\DispatcherContextInterface $context)
-    {
-        $languages = $this->getObject('application.languages');
-        $language  = null;
-
-        // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language')) {
-            $language = $languages->find(array('iso_code' => $iso_code));
-        }
-
-        // If no user language specified, use application
-        if($iso_code = $this->getConfig()->language) {
-            $language = $languages->find(array('iso_code' => $iso_code));
-        }
-
-        // If language still not set, use the primary.
-        if(!$language) {
-            $language = $languages->getPrimary();
-        }
-
-        $languages->setActive($language);
     }
 
     /**
@@ -149,7 +115,7 @@ class ApplicationDispatcher extends Application\Dispatcher
             $uri = clone($this->getRequest()->getUrl());
 
             $host = $uri->getHost();
-            if (!$this->getObject('com:sites.model.sites')->fetch()->find($host))
+            if (!$this->getObject('application.sites')->find($host))
             {
                 // Check folder
                 $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -161,7 +127,7 @@ class ApplicationDispatcher extends Application\Dispatcher
                 }
 
                 //Check if the site can be found, otherwise use 'default'
-                if (!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
+                if (!$this->getObject('application.sites')->find($site)) {
                     $site = 'default';
                 }
 
