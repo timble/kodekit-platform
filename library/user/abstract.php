@@ -53,6 +53,8 @@ abstract class UserAbstract extends Object implements UserInterface
                 'id'         => 0,
                 'email'      => '',
                 'name'       => '',
+                'language'   => '',
+                'timezone'   => '',
                 'roles'      => array(),
                 'groups'     => array(),
                 'password'   => '',
@@ -118,6 +120,30 @@ abstract class UserAbstract extends Object implements UserInterface
     public function getName()
     {
         return $this->getData()->name;
+    }
+
+    /**
+     * Returns the user language tag
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->getData()->language;
+    }
+
+    /**
+     * Returns the user timezone
+     *
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->getData()->timezone;
     }
 
     /**

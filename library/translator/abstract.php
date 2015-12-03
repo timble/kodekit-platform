@@ -19,18 +19,18 @@ namespace Nooku\Library;
 abstract class TranslatorAbstract extends Object implements TranslatorInterface, ObjectInstantiable
 {
     /**
-     * Locale
+     * Language
      *
      * @var string
      */
-    protected $_locale;
+    protected $_language;
 
     /**
-     * Locale Fallback
+     * Language Fallback
      *
      * @var string
      */
-    protected $_locale_fallback;
+    protected $_language_fallback;
 
     /**
      * The translator catalogue.
@@ -58,8 +58,8 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
         $this->_catalogue = $config->catalogue;
         $this->_loaded   = array();
 
-        $this->setLocale($config->locale);
-        $this->setLocaleFallback($this->_locale_fallback);
+        $this->setLanguage($config->language);
+        $this->setLanguageFallback($this->_language_fallback);
     }
 
     /**
@@ -73,8 +73,8 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'locale'          => 'en-GB',
-            'locale_fallback' => 'en-GB',
+            'language'          => 'en-GB',
+            'language_fallback' => 'en-GB',
             'cache'           => \Nooku::getInstance()->isCache(),
             'cache_namespace' => 'nooku',
             'catalogue'       => 'default',
@@ -150,7 +150,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
             throw new \InvalidArgumentException('Choose method requires at least 2 strings to choose from');
         }
 
-        $choice = TranslatorInflector::getPluralPosition($number, $this->getLocale());
+        $choice = TranslatorInflector::getPluralPosition($number, $this->getLanguage());
 
         if ($choice !== 0)
         {
@@ -213,38 +213,43 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
      */
     public function find($url)
     {
-        $locale   = $this->getLocale();
-        $fallback = $this->getLocaleFallback();
+        $language = $this->getLanguage();
+        $fallback = $this->getLanguageFallback();
         $locator  = $this->getObject('translator.locator.factory')->createLocator($url);
 
-        //Find translation based on the locale
-        $result = $locator->setLocale($locale)->locate($url);
+        //Find translation based on the language
+        $result = $locator->setLanguage($language)->locate($url);
 
-        //If no translations found, try using the fallback locale
-        if(empty($result) && $fallback && $fallback != $locale) {
-            $result = $locator->setLocale($fallback)->locate($url);
+        //If no translations found, try using the fallback language
+        if(empty($result) && $fallback && $fallback != $language) {
+            $result = $locator->setLanguage($fallback)->locate($url);
         }
 
         return $result;
     }
 
     /**
-     * Sets the locale
+     * Sets the language
      *
-     * @param string $locale
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     * @see $language
+     *
+     * @param string $language  The language tag
      * @return TranslatorAbstract
      */
-    public function setLocale($locale)
+    public function setLanguage($language)
     {
-        if($this->_locale != $locale)
+        if($this->_language != $language)
         {
-            $this->_locale = $locale;
+            $this->_language = $language;
 
-            //Set locale information for date and time formatting
-            setlocale(LC_TIME, $locale);
+            //Set runtime locale information for date and time formatting
+            setlocale(LC_TIME, $language);
 
             //Sets the default runtime locale
-            locale_set_default($locale);
+            locale_set_default($language);
 
             //Clear the catalogue
             $this->getCatalogue()->clear();
@@ -257,35 +262,48 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
     }
 
     /**
-     * Gets the locale
+     * Gets the language
      *
-     * @return string|null
+     * Should return a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string|null The language tag
      */
-    public function getLocale()
+    public function getLanguage()
     {
-        return $this->_locale;
+        return $this->_language;
     }
 
     /**
-     * Set the fallback locale
+     * Set the fallback language
      *
-     * @param string $locale The fallback locale
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     * @see $language
+     *
+     * @param string $language The fallback language tag
      * @return TranslatorAbstract
      */
-    public function setLocaleFallback($locale)
+    public function setLanguageFallback($language)
     {
-        $this->_fallback_locale = $locale;
+        $this->_labguage_fallback = $language;
         return $this;
     }
 
     /**
-     * Set the fallback locale
+     * Get the fallback language
      *
-     * @return string
+     * Should return a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string The language tag
      */
-    public function getLocaleFallback()
+    public function getLanguageFallback()
     {
-        return $this->_locale_fallback;
+        return $this->_language_fallback;
     }
 
     /**

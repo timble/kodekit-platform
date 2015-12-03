@@ -10,8 +10,8 @@
 namespace Nooku\Library;
 
 /**
- * Returns the plural rules for a given locale.
- * 
+ * Returns the plural rules for a given language.
+ *
  * This class is based on Symfony 2 class Symfony\Component\Translation\PluralizationRules and subject to MIT license
  * Copyright (c) Fabien Potencier <fabien@symfony.com>
  *
@@ -23,26 +23,26 @@ class TranslatorInflector extends StringInflector implements TranslatorInflector
     protected static $_position_rules = array();
 
     /**
-     * Returns the plural position to use for the given locale and number.
+     * Returns the plural position to use for the given language and number.
      *
      * @param integer $number The number
-     * @param string  $locale The locale
+     * @param string  $language The language
      * @return integer The plural position
      */
-    public static function getPluralPosition($number, $locale)
+    public static function getPluralPosition($number, $language)
     {
-        //Temporary set a locale for brazilian
-        if ("pt-BR" == $locale) {
-            $locale = "xbr";
+        //Temporary set a language for brazilian
+        if ("pt-BR" == $language) {
+            $language = "xbr";
         }
 
-        if (strlen($locale) > 3) {
-            $locale = substr($locale, 0, -strlen(strrchr($locale, '-')));
+        if (strlen($language) > 3) {
+            $language = substr($language, 0, -strlen(strrchr($language, '-')));
         }
 
-        if (isset(self::$_position_rules[$locale]))
+        if (isset(self::$_position_rules[$language]))
         {
-            $return = call_user_func(self::$_position_rules[$locale], $number);
+            $return = call_user_func(self::$_position_rules[$language], $number);
 
             if (!is_int($return) || $return < 0) {
                 return 0;
@@ -56,7 +56,8 @@ class TranslatorInflector extends StringInflector implements TranslatorInflector
          * which is subject to the new BSD license (http://framework.zend.com/license/new-bsd).
          * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
          */
-        switch ($locale) {
+        switch ($language)
+        {
             case 'bo':
             case 'dz':
             case 'id':
@@ -189,24 +190,24 @@ class TranslatorInflector extends StringInflector implements TranslatorInflector
     }
 
     /**
-     * Overrides the default plural rule for a given locale.
+     * Overrides the default plural rule for a given language.
      *
      * @param callable $rule    A PHP callable
-     * @param string $locale    The locale
+     * @param string $language  The language
      * @throws \LogicException
      * @return void
      */
-    public static function setPluralRule(callable $rule, $locale)
+    public static function setPluralRule(callable $rule, $language)
     {
-        // temporary set a locale for brazilian
-        if ("pt_BR" == $locale) {
-            $locale = "xbr";
-        }
-        
-        if (strlen($locale) > 3) {
-            $locale = substr($locale, 0, -strlen(strrchr($locale, '_')));
+        // temporary set a language for brazilian
+        if ("pt-BR" == $language) {
+            $language = "xbr";
         }
 
-        self::$_position_rules[$locale] = $rule;
+        if (strlen($language) > 3) {
+            $language = substr($language, 0, -strlen(strrchr($language, '_')));
+        }
+
+        self::$_position_rules[$language] = $rule;
     }
 }

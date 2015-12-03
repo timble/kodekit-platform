@@ -28,11 +28,11 @@ abstract class TranslatorLocatorIdentifier extends TranslatorLocatorAbstract
         $identifier = $this->getIdentifier($url);
 
         $info   = array(
-            'url'     => $url,
-            'locale'  => $this->getLocale(),
-            'path'    => '',
-            'domain'  => $identifier->getDomain(),
-            'package' => $identifier->getPackage(),
+            'url'      => $url,
+            'language' => $this->getLanguage(),
+            'path'     => '',
+            'domain'   => $identifier->getDomain(),
+            'package'  => $identifier->getPackage(),
         );
 
         return $this->find($info);

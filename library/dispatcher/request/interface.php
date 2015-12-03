@@ -18,6 +18,33 @@ namespace Nooku\Library;
 interface DispatcherRequestInterface extends ControllerRequestInterface
 {
     /**
+     * Receive the request by passing it through transports
+     *
+     * @return DispatcherRequestTransportInterface
+     */
+    public function receive();
+
+    /**
+     * Get a transport handler by identifier
+     *
+     * @param   mixed    $transport    An object that implements ObjectInterface, ObjectIdentifier object
+     *                                 or valid identifier string
+     * @param   array    $config    An optional associative array of configuration settings
+     * @return DispatcherResponseInterface
+     */
+    public function getTransport($transport, $config = array());
+
+    /**
+     * Attach a transport handler
+     *
+     * @param   mixed  $transport An object that implements ObjectInterface, ObjectIdentifier object
+     *                            or valid identifier string
+     * @param   array $config  An optional associative array of configuration settings
+     * @return DispatcherResponseInterface
+     */
+    public function attachTransport($transport, $config = array());
+
+    /**
      * Sets a list of trusted proxies.
      *
      * You should only list the reverse proxies that you manage directly.
@@ -187,11 +214,18 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     public function addFormat($format, $mime_types);
 
     /**
-     * Gets a list of languages acceptable by the client browser.
+     * Gets a list of languages acceptable by the client
      *
      * @return array Languages ordered in the user browser preferences
      */
     public function getLanguages();
+
+    /**
+     * Get a list of timezones acceptable by the client
+     *
+     * @return array|false
+     */
+    public function getTimezones();
 
     /**
      * Gets a list of charsets acceptable by the client browser.
@@ -203,7 +237,7 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     /**
      * Gets the request ranges
      *
-     *  @link : http://tools.ietf.org/html/rfc2616#section-14.35
+     * @link : http://tools.ietf.org/html/rfc2616#section-14.35
      *
      * @throws HttpExceptionRangeNotSatisfied If the range info is not valid or if the start offset is large then the end offset
      * @return array List of request ranges

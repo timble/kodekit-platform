@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class DispatcherRequestAbstract extends ControllerRequest implements DispatcherRequestInterface
 {
     /**
+     * Mimetype to format mappings
+     *
+     * @var array
+     */
+    protected static $_formats;
+
+    /**
      * The request cookies
      *
      * @var HttpMessageParameters
@@ -88,13 +95,6 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     protected $_ranges;
 
     /**
-     * Mimetype to format mappings
-     *
-     * @var array
-     */
-    protected static $_formats;
-
-    /**
      * The transport queue
      *
      * @var	ObjectQueue
@@ -107,6 +107,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
      * @var array
      */
     protected $_transports;
+
 
     /**
      * Constructor
@@ -152,7 +153,15 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             $this->addFormat($format, $mimetypes);
         }
 
+        //Receive the request
         $this->receive();
+
+        // Set timezone to user's settings
+        date_default_timezone_set($this->getTimezone());
+
+        // Set language to user's settings
+        locale_set_default($this->getLanguage());
+
     }
 
     /**
@@ -188,7 +197,8 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             'data'    => $_POST,
             'cookies' => $_COOKIE,
             'files'   => $_FILES,
-            'proxies' => array()
+            'proxies' => array(),
+
         ));
 
         parent::_initialize($config);
@@ -196,6 +206,8 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
 
     /**
      * Receive the request by passing it through transports
+     *
+     * @return DispatcherRequestTransportInterface
      */
     public function receive()
     {
@@ -205,6 +217,8 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
                 $transport->receive($this);
             }
         }
+
+        return $this;
     }
 
     /**
@@ -777,7 +791,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
                     if ($this->_headers->has('Accept'))
                     {
                         $accept  = $this->_headers->get('Accept');
-                        $formats = $this->_parseAccept($accept);
+                        $formats = $this->__parseAccept($accept);
 
                         /**
                          * If the browser is requested text/html serve it at all times
@@ -823,7 +837,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
-     * Gets a list of languages acceptable by the client browser.
+     * Gets a list of languages acceptable by the client.
      *
      * @return array Languages ordered in the user browser preferences
      */
@@ -836,7 +850,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             if($this->_headers->has('Accept-Language'))
             {
                 $accept    = $this->_headers->get('Accept-Language');
-                $languages = $this->_parseAccept($accept);
+                $languages = $this->__parseAccept($accept);
 
                 foreach (array_keys($languages) as $lang)
                 {
@@ -874,6 +888,64 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Returns the request language tag
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        if(!$language = $this->getUser()->getLanguage())
+        {
+            if ($this->_headers->has('Accept-Language')) {
+                $language = locale_accept_from_http($this->_headers->get('Accept-Language'));
+            } else {
+                $language = $this->getConfig()->language;
+            }
+        }
+
+        return $language;
+    }
+
+    /**
+     * Get a list of timezones acceptable by the client
+     *
+     * @return array|false
+     */
+    public function getTimezones()
+    {
+        $country   = locale_get_region($this->getLanguage());
+        $timezones = timezone_identifiers_list(\DateTimeZone::PER_COUNTRY, $country);
+
+        return $timezones;
+    }
+
+    /**
+     * Returns the request timezone
+     *
+     * This function will return the first timezone it can find based on the country information
+     * of the language tag. If the country has multiple timezones the result will not be accurate.
+     *
+     * @return string
+     */
+    public function getTimezone()
+    {
+        if(!$timezone = $this->getUser()->getTimezone())
+        {
+            if($timezones = $this->getTimezones()) {
+                $timezone = $timezones[0];
+            } else {
+                $timezone = $this->getConfig()->timezone;
+            }
+        }
+
+        return $timezone;
+    }
+
+    /**
      * Gets a list of charsets acceptable by the client browser.
      *
      * @return array List of charsets in preferable order
@@ -887,7 +959,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
             if($this->_headers->has('Accept-Charset'))
             {
                 $accept   = $this->_headers->get('Accept-Charset');
-                $charsets = $this->_parseAccept($accept);
+                $charsets = $this->__parseAccept($accept);
 
                 $this->_charsets = array_keys($charsets);
             }
@@ -1017,7 +1089,7 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         if($this->headers->has('Accept'))
         {
             $accept = $this->headers->get('Accept');
-            $types  = $this->_parseAccept($accept);
+            $types  = $this->__parseAccept($accept);
 
             //Get the highest quality format
             $type = key($types);
@@ -1063,13 +1135,26 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
     }
 
     /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        $this->_cookies = clone $this->_cookies;
+        $this->_files   = clone $this->_files;
+    }
+
+    /**
      * Parses an accept header and returns an array (type => quality) of the accepted types, ordered by quality.
      *
      * @param string    $accept     The header to parse
      * @param array     $default    The default values
      * @return array
      */
-    protected function _parseAccept( $accept, array $defaults = NULL)
+    private function __parseAccept( $accept, array $defaults = NULL)
     {
         if (!empty($accept))
         {
@@ -1116,18 +1201,5 @@ class DispatcherRequestAbstract extends ControllerRequest implements DispatcherR
         arsort($accepts);
 
         return $accepts;
-    }
-
-    /**
-     * Deep clone of this instance
-     *
-     * @return void
-     */
-    public function __clone()
-    {
-        parent::__clone();
-
-        $this->_cookies = clone $this->_cookies;
-        $this->_files   = clone $this->_files;
     }
 }

@@ -47,7 +47,10 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
     {
         parent::__construct($config);
 
+        //Set the request
         $this->setRequest($config->request);
+
+        //Set the user
         $this->setUser($config->user);
 
         //Set the messages
@@ -156,7 +159,7 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
         }
 
         //Set the location header.
-        $this->_headers->set('Location', (string) $location);
+        $this->getHeaders()->set('Location', (string) $location);
 
         return $this;
     }

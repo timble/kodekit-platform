@@ -21,7 +21,7 @@ interface TranslatorInterface
      * Translates a string and handles parameter replacements
      *
      * Parameters are wrapped in curly braces. So {foo} would be replaced with bar given that $parameters['foo'] = 'bar'
-     * 
+     *
      * @param string $string String to translate
      * @param array  $parameters An array of parameters
      * @return string Translated string
@@ -57,34 +57,52 @@ interface TranslatorInterface
     public function find($url);
 
     /**
-     * Sets the locale
+     * Sets the language
      *
-     * @param string $locale
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     * @see $language
+     *
+     * @param string $language The language tag
      * @return TranslatorInterface
      */
-    public function setLocale($locale);
+    public function setLanguage($language);
 
     /**
-     * Gets the locale
+     * Gets the language
      *
-     * @return string|null
+     * Should return a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string|null The language tag
      */
-    public function getLocale();
+    public function getLanguage();
 
     /**
-     * Set the fallback locale
+     * Set the fallback language
      *
-     * @param string $locale The fallback locale.
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     * @see $language
+     *
+     * @param string $language The fallback language tag
      * @return TranslatorInterface
      */
-    public function setLocaleFallback($locale);
+    public function setLanguageFallback($language);
 
     /**
-     * Get the fallback locale
+     * Get the fallback language
      *
-     * @return string The fallback locale.
+     * Should return a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string The language tag
      */
-    public function getLocaleFallback();
+    public function getLanguageFallback();
 
     /**
      * Get the catalogue

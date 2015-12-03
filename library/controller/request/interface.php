@@ -61,4 +61,37 @@ interface ControllerRequestInterface extends HttpRequestInterface
      * @return  string  The request format or NULL if no format could be found
      */
     public function getFormat();
+
+    /**
+     * Set the user object
+     *
+     * @param UserInterface $user A request object
+     * @return ControllerRequest
+     */
+    public function setUser(UserInterface $user);
+
+    /**
+     * Get the user object
+     *
+     * @return UserInterface
+     */
+    public function getUser();
+
+    /**
+     * Returns the request language tag
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string
+     */
+    public function getLanguage();
+
+    /**
+     * Returns the request timezone
+     *
+     * @return string
+     */
+    public function getTimezone();
 }

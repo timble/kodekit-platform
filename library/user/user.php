@@ -59,6 +59,30 @@ class User extends UserAbstract implements ObjectSingleton
     }
 
     /**
+     * Returns the user language tag
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->getSession()->get('user.language');
+    }
+
+    /**
+     * Returns the user timezone
+     *
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->getSession()->get('user.timezone');
+    }
+
+    /**
      * Returns the roles of the user
      *
      * @return array The role ids

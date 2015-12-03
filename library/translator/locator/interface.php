@@ -25,19 +25,27 @@ interface TranslatorLocatorInterface
     public static function getName();
 
     /**
-     * Sets the locale
+     * Sets the language
      *
-     * @param string $locale
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @param string $language
      * @return TranslatorLocatorInterface
      */
-    public function setLocale($locale);
+    public function setLanguage($language);
 
     /**
-     * Gets the locale
+     * Gets the language
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
      *
      * @return string|null
      */
-    public function getLocale();
+    public function getLanguage();
 
     /**
      * Locate the translation based on a physical path

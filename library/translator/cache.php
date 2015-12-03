@@ -74,7 +74,7 @@ class TranslatorCache extends ObjectDecorator implements TranslatorInterface
      * Translates a string and handles parameter replacements
      *
      * Parameters are wrapped in curly braces. So {foo} would be replaced with bar given that $parameters['foo'] = 'bar'
-     * 
+     *
      * @param string $string String to translate
      * @param array  $parameters An array of parameters
      * @return string Translated string
@@ -110,7 +110,7 @@ class TranslatorCache extends ObjectDecorator implements TranslatorInterface
         if (!$this->isLoaded($url))
         {
             $translations = array();
-            $prefix       = $this->getNamespace().'-translator-'.$this->getLocale();
+            $prefix       = $this->getNamespace().'-translator-'.$this->getLanguage();
 
             if(!apc_exists($prefix.'_'.$url))
             {
@@ -150,47 +150,61 @@ class TranslatorCache extends ObjectDecorator implements TranslatorInterface
     }
 
     /**
-     * Sets the locale
+     * Sets the language
      *
-     * @param string $locale
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     * @see $language
+     *
+     * @param string $language
      * @return TranslatorCache
      */
-    public function setLocale($locale)
+    public function setLanguage($language)
     {
-        $this->getDelegate()->setLocale($locale);
+        $this->getDelegate()->setLanguage($language);
         return $this;
     }
 
     /**
-     * Gets the locale
+     * Gets the language
      *
-     * @return string|null
+     * Should return a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string|null The language tag
      */
-    public function getLocale()
+    public function getLanguage()
     {
-        return $this->getDelegate()->getLocale();
+        return $this->getDelegate()->getLanguage();
     }
 
     /**
-     * Set the fallback locale
+     * Set the fallback language
      *
-     * @param string $locale The fallback locale
+     * The language should be a properly formatted language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     * @see $language
+     *
+     * @param string $language The fallback language
      * @return TranslatorCache
      */
-    public function setLocaleFallback($locale)
+    public function setLanguageFallback($language)
     {
-        $this->getDelegate()->setLocaleFallback($locale);
+        $this->getDelegate()->setLanguageFallback($language);
         return $this;
     }
 
     /**
-     * Set the fallback locale
+     * Set the fallback language
      *
      * @return string
      */
-    public function getLocaleFallback()
+    public function getLanguageFallback()
     {
-        return $this->getDelegate()->getLocaleFallback();
+        return $this->getDelegate()->getLanguageFallback();
     }
 
     /**

@@ -39,6 +39,24 @@ interface UserInterface extends ObjectEquatable
     public function getName();
 
     /**
+     * Returns the users language
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string The language tag
+     */
+    public function getLanguage();
+
+    /**
+     * Returns the users timezone
+     *
+     * @return string
+     */
+    public function getTimezone();
+
+    /**
      * Returns the roles of the user
      *
      * @return array The role ids
