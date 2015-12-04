@@ -183,6 +183,14 @@ interface ObjectManagerInterface
     public function setClassLoader(ClassLoaderInterface $loader);
 
     /**
+     * Check if the identifier is an alias
+     *
+     * @param  mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @return boolean Returns TRUE if the identifiers is an alias FALSE otherwise
+     */
+    public function isAlias($identifier);
+
+    /**
      * Check if an object instance was registered for the identifier
      *
      * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string

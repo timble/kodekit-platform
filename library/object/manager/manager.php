@@ -208,8 +208,8 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      * object that implements ObjectInterface, or a ObjectIdentifier object, or valid identifier
      * string. Function recursively resolves identifier aliases and returns the aliased identifier.
      *
-     * If the identifier does not have a type set default type to 'lib'. Eg, event.publisher is the same as
-     * lib:event.publisher.
+     * If the identifier does not have a type set and it's not an alias the type will default to 'lib'.
+     * Eg, event.publisher is the same as lib:event.publisher.
      *
      * If no identifier is passed the object identifier of this object will be returned.
      *
@@ -467,7 +467,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     public function getAliases($identifier)
     {
-        return array_search((string) $identifier, $this->__registry->getAliases());
+        return array_keys($this->__registry->getAliases(), (string) $identifier);
     }
 
     /**
@@ -490,6 +490,17 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     {
         $this->__loader = $loader;
         return $this;
+    }
+
+    /**
+     * Check if the identifier is an alias
+     *
+     * @param  mixed $identifier An KObjectIdentifier, identifier string or object implementing KObjectInterface
+     * @return boolean Returns TRUE if the identifiers is an alias FALSE otherwise
+     */
+    public function isAlias($identifier)
+    {
+        return array_key_exists ($this->__registry->getAliases(), (string) $identifier);
     }
 
     /**
