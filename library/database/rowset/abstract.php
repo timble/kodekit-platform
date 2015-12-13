@@ -278,7 +278,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Clear the rowset
      *
-     * @return KDatabaseRowInterface
+     * @return DatabaseRowsetAbstract
      */
     public function clear()
     {
