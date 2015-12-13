@@ -7,15 +7,17 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Nooku\Component\Pages;
+
+use Nooku\Library;
 
 /**
  * Tabbar Template Helper
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Template
+ * @package Nooku\Component\Application
  */
-class TemplateHelperTabbar extends TemplateHelperAbstract
+class TemplateHelperTabbar extends Library\TemplateHelperAbstract
 {
  	/**
      * Render the tabbar
@@ -25,7 +27,7 @@ class TemplateHelperTabbar extends TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new ObjectConfig($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'toolbar' => null,
             'attribs' => array(),
@@ -64,7 +66,7 @@ class TemplateHelperTabbar extends TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new ObjectConfig($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'command' => null
         ));
