@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Model Row Entity
+ * Row Model Entity
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model

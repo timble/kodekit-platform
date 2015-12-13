@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Model Entity Composite
+ * Entity Model Composite
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
