@@ -39,8 +39,18 @@ class ModelBehaviorSortable extends ModelBehaviorAbstract
      */
     protected function _afterReset(ModelContextInterface $context)
     {
-        if($context->modified == 'sort' && strpos($context->state->sort, ',') !== false)  {
-            list($context->state->sort, $context->state->direction) = explode(',', $context->state->sort);
+        if($context->modified == 'sort' && strpos($context->state->sort, ',') !== false)
+        {
+            $context->state->sort = explode(',', $context->state->sort);
+
+            foreach($context->state->sort as $key => $value)
+            {
+                if(strtoupper($value) == 'DESC' || strtoupper($value) == 'ASC')
+                {
+                    unset($context->state->sort[$key]);
+                    $context->state->direction = $value;
+                }
+            }
         }
     }
 
@@ -58,8 +68,8 @@ class ModelBehaviorSortable extends ModelBehaviorAbstract
         {
             $state = $context->state;
 
-            $sort      = trim($state->sort);
-            $direction = strtoupper(trim($state->direction));
+            $sort      = $state->sort;
+            $direction = strtoupper($state->direction);
             $columns   = array_keys($this->getTable()->getColumns());
 
             if ($sort)
