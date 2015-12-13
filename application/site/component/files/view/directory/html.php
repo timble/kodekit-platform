@@ -19,7 +19,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {
-        $this->setPathway();
+        $this->_setPathway();
 
         return parent::_actionRender($context);
     }
@@ -99,24 +99,24 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
         $state = $this->getModel()->getState();
 
-        $request = $this->getObject('lib:controller.request');
+        $query = array(
+            'thumbnails' => true,
+            'sort'       => $params->get('sort'),
+            'direction'  => $params->get('direction'),
+            'offset'     => $state->offset,
+            'folder'     => $state->folder,
+            'container'  => $state->container,
+            'limit'      => $state->limit,
+        );
 
         if ($this->getLayout() == 'gallery') {
-            $request->query->set('types', array('image'));
+            $query['type'] = array('image');
         }
-
-        $request->query->set('thumbnails', true);
-        $request->query->set('sort', $params->get('sort'));
-        $request->query->set('direction', $params->get('direction'));
-        $request->query->set('offset', $state->offset);
-        $request->query->set('folder', $state->folder);
-        $request->query->set('container', $state->container);
-        $request->query->set('limit', $state->limit);
 
         $identifier         = $this->getIdentifier()->toArray();
         $identifier['path'] = array('controller');
         $identifier['name'] = 'file';
-        $controller         = $this->getObject($identifier, array('request' => $request));
+        $controller         = $this->getObject($identifier, array('request' => array('query' => $query)));
 
         $files = $controller->browse();
         $total = $controller->getModel()->count();
@@ -131,7 +131,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         return array('items' => $files, 'total' => $total);
     }
 
-    public function setPathway()
+    protected function _setPathway()
     {
         if ($this->parent !== null)
         {
@@ -143,16 +143,17 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
                 $path = substr($path, strlen($query['folder'])+1, strlen($path));
             }
+
             $parts = explode('/', $path);
 
             foreach ($parts as $i => $part)
             {
+                $link = '';
                 if ($part !== $folder->name)
                 {
                     $path = implode('/', array_slice($parts, 0, $i+1));
-                    $link = $this->getRoute('&view=directory&folder='.$path);
+                    $link = 'view=directory&folder='.$path;
                 }
-                else $link = '';
 
                 $pathway = $this->getObject('pages')->getPathway();
                 $pathway[] = array(
