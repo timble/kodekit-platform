@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Model Rowset Entity
+ * Rowset Model Entity
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Model
  */
-class ModelEntityRowset extends DatabaseRowsetAbstract implements ModelEntityInterface
+class ModelEntityRowset extends DatabaseRowsetAbstract implements ModelEntityComposable
 {
     /**
      * Get the entity key
