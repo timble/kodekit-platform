@@ -17,7 +17,7 @@
 		<? // If not the last item in the breadcrumbs add the separator ?>
         <? if($item !== end($pathway)) : ?>
 			<? if(isset($item['link'])) : ?>
-				<li><a href="<?= route($item['link']) ?>" class="pathway"><?= escape($item['title']) ?></a></li>
+				<li><a href="<?= route((string) $item['link']) ?>" class="pathway"><?= escape($item['title']) ?></a></li>
 			<? else : ?>
 				<li><?= escape($item['title']) ?></li>
 			<? endif ?>
