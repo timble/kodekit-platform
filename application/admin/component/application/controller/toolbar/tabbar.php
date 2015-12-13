@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Tabbar Controller Toolbar
@@ -15,86 +16,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstract
+class ApplicationControllerToolbarTabbar extends Pages\ControllerToolbarTabbar
 {
-    /**
-     * Initializes the config for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   Library\ObjectConfig $config Configuration options
-     * @return  void
-     */
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'type'  => 'tabbar',
-        ));
 
-        parent::_initialize($config);
-    }
-
- 	/**
-     * Add a command
-     *
-     * Disable the tabbar only for singular views that are editable.
-     *
-     * @param   string	$name The command name
-     * @param	mixed	$config Parameters to be passed to the command
-     * @return  Library\ControllerToolbarCommand
-     */
-    public function addCommand($name, $config = array())
-    {
-        $command = parent::addCommand($name, $config);
-
-        $controller = $this->getController();
-
-        if($controller->isEditable() && Library\StringInflector::isSingular($controller->getView()->getName())) {
-            $command->disabled = true;
-        }
-
-        return $command;
-    }
-
-    /**
-	 * Get the list of commands
-	 *
-	 * @return  array
-	 */
-	public function getCommands()
-	{
-        $menu = $this->getObject('pages.menus')
-            ->find(array('slug' => 'menubar'));
-
-        if(count($menu) && $this->getObject('manager')->isRegistered('dispatcher'))
-        {
-            $package    = $this->getObject('dispatcher')->getIdentifier()->package;
-            $view       = $this->getObject('request')->query->get('view', 'cmd');
-            $groups     = $this->getObject('user')->getGroups();
-            $translator = $this->getObject('translator');
-
-            // Make sure that pages without an assigned group are also included.
-            $groups[] = 0;
-
-            $pages     = $this->getObject('pages')->find(array(
-                'pages_menu_id'     => $menu->top()->id,
-                'component'         => $package,
-                'hidden'            => 0,
-                'users_group_id'    => $groups
-            ));
-
-            foreach($pages as $page)
-            {
-                if($page->level > 2)
-                {
-                    $this->addCommand($translator($page->title), array(
-                        'href'   => (string) $page->link_url,
-                        'active' => (string) $view == $page->getLink()->query['view']
-                    ));
-                }
-            }
-        }
-
-	    return parent::getCommands();
-	}
 }
