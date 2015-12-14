@@ -30,7 +30,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * Constructor
      *
      * @param  Library\ObjectConfig $config A Library\ObjectConfig object with configuration options.
-     *
      * @return void
      */
     public function __construct(Library\ObjectConfig $config)
@@ -47,8 +46,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  object   A Library\ObjectConfig object with configuration options.
-     *
+     * @param  object $config  A Library\ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -59,31 +57,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Get parent id
-     *
-     * @return int|null The parent id if row has a parent, null otherwise.
-     */
-    public function getParentId()
-    {
-        $id = $this->level > 1 ? end(array_values($this->getParentIds())) : null;
-
-        return $id;
-    }
-
-    /**
-     * Get parent ids
-     *
-     * @return array The parent ids.
-     */
-    public function getParentIds()
-    {
-        $ids = array_map('intval', explode('/', $this->path));
-        array_pop($ids);
-
-        return $ids;
     }
 
     /**
@@ -98,6 +71,30 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         }
 
         return $this->_table;
+    }
+
+    /**
+     * Get parent id
+     *
+     * @return int|null The parent id if row has a parent, null otherwise.
+     */
+    public function getParentId()
+    {
+        $id = $this->level > 1 ? end(array_values($this->getParentIds())) : null;
+        return $id;
+    }
+
+    /**
+     * Get parent ids
+     *
+     * @return array The parent ids.
+     */
+    public function getParentIds()
+    {
+        $ids = array_map('intval', explode('/', $this->path));
+        array_pop($ids);
+
+        return $ids;
     }
 
     /**
@@ -191,7 +188,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * Checks if the current row is a descendant of the given one
      *
      * @param  Library\DatabaseRowAbstract $row
-     *
      * @return boolean
      */
     public function isDescendantOf(Library\DatabaseRowAbstract $row)
@@ -203,7 +199,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * Checks if the current row is an ancestor of the given one
      *
      * @param  Library\DatabaseRowAbstract $row
-     *
      * @return boolean
      */
     public function isAncestorOf(Library\DatabaseRowAbstract $row)
@@ -214,8 +209,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Add level and path columns to the query
      *
-     * @param  Library\DatabaseContext $context A database context object.
-     *
+     * @param  Library\DatabaseContext $context A database context object
      * @return boolean True on success, false on failure.
      */
     protected function _beforeSelect(Library\DatabaseContext $context)
@@ -250,8 +244,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Insert relations into the relation table
      *
-     * @param  Library\DatabaseContext $context A database context object.
-     *
+     * @param  Library\DatabaseContext $context A database context object
      * @return boolean True on success, false on failure.
      */
     protected function _afterInsert(Library\DatabaseContext $context)
@@ -270,7 +263,8 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
             $table->getAdapter()->insert($query);
 
             // Set path and level for the current row.
-            if ($data->parent_id) {
+            if ($data->parent_id)
+            {
                 $parent = $table->select($data->parent_id, Library\Database::FETCH_ROW);
                 $data->setProperties(array('level' => $parent->level + 1, 'path' => $parent->path . '/' . $data->id), false);
 
@@ -298,7 +292,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * @link http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
      *
      * @param  Library\DatabaseContext $context A database context object.
-     *
      * @return boolean True on success, false on failure.
      */
     protected function _afterUpdate(Library\DatabaseContext $context)
@@ -360,7 +353,6 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      * Delete the row and its children
      *
      * @param  Library\DatabaseContext $context A database context object.
-     *
      * @return boolean True on success, false on failure.
      */
     protected function _beforeDelete(Library\DatabaseContext $context)

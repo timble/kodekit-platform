@@ -32,25 +32,33 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
 
     public function __construct( Library\ObjectConfig $config)
     {
-        $config->append(array('parent_column' => null));
         $this->_parent_column = $config->parent_column;
-        
+
         parent::__construct($config);
+    }
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+                'parent_column' => null)
+        );
+
+        parent::_initialize($config);
     }
 
     public function _buildQueryWhere($query)
     {
         parent::_buildQueryWhere($query);
-        
+
         if($this->_parent_column)
         {
-            $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};   
+            $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};
             $query->where($this->getTable()->mapColumns($this->_parent_column).' = :parent')->bind(array('parent' => $parent));
         }
 
         $query->where('table = :table')->bind(array('table' => $this->table));
     }
-    
+
     /**
      * Changes the rows ordering if the virtual order field is set. Order is relative to the row's current position.
      * Order is to be only set if section unchanged. Inserts space in order sequence of new section if section c
@@ -65,18 +73,18 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
         {
             if (isset($this->order))
             {
-                unset($this->old_parent);        
+                unset($this->old_parent);
                 $this->order($this->order);
-            } 
-            elseif (isset($this->old_parent)) 
+            }
+            elseif (isset($this->old_parent))
             {
                 $max = $this->getMaxOrdering();
-                
+
                 if ($this->ordering <= 0) {
                     $this->ordering = $max + 1;
                 } elseif ($this->ordering <= $max ) {
                     $this->reorder($this->ordering);
-                }                
+                }
             }
         }
     }
@@ -95,7 +103,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
             $this->reorder();
         }
     }
-    
+
 
     /**
      * Modify the select query
@@ -117,10 +125,10 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
                                  ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
                                  ->table($table->getBase())
                                  ->group($parent_column);
-                
+
                 $query->columns('orderable.order_total')
                       ->join(array('orderable' => $subquery), 'orderable.'.$parent_column.' = tbl.'.$parent_column);
             }
         }
-    }  
+    }
 }

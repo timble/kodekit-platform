@@ -48,8 +48,10 @@ class ModelCategories extends Library\ModelDatabase
         $state = $this->getState();
 
         //Exclude joins if counting records
-        if (!$query->isCountQuery()) {
-            if ($state->table) {
+        if (!$query->isCountQuery())
+        {
+            if ($state->table)
+            {
                 $query->columns(array('count'));
 
                 $subquery = $this->getObject('lib:database.query.select')
@@ -82,7 +84,8 @@ class ModelCategories extends Library\ModelDatabase
             $query->where('tbl.parent_id ' . (is_array($state->category) ? 'IN' : '=') . ' :parent')->bind(array('parent' => $state->category));
         }
 
-        if (is_bool($state->published)) {
+        if (is_bool($state->published))
+        {
             $query->where('tbl.published = :published');
 
             if ($state->table) {
@@ -100,9 +103,11 @@ class ModelCategories extends Library\ModelDatabase
     protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
-        if ($state->distinct) {
+        if ($state->distinct)
+        {
             $query->distinct();
             $query->group($state->distinct);
-        } else $query->group('tbl.categories_category_id');
+        }
+        else $query->group('tbl.categories_category_id');
     }
 }
