@@ -79,7 +79,6 @@ class UserProvider extends Library\UserProvider
         }
 
         $groups = array();
-
         foreach ($user->getGroups() as $group) {
             $groups[] = $group->id;
         }
