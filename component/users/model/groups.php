@@ -30,8 +30,7 @@ class ModelGroups extends Library\ModelDatabase
     {
         $state = $this->getState();
 
-        if ($user = $state->user)
-        {
+        if ($user = $state->user) {
             $query->join(array('users' => 'users_groups_users'), 'users.users_group_id = tbl.users_group_id', 'INNER');
         }
 
@@ -42,8 +41,7 @@ class ModelGroups extends Library\ModelDatabase
     {
         $state = $this->getState();
 
-        if ($user = $state->user)
-        {
+        if ($user = $state->user) {
             $query->where('users.users_user_id = :user')->bind(array('user' => $user));
         }
 
