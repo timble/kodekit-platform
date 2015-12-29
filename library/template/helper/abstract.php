@@ -94,7 +94,12 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
         {
             foreach($array as $key => $item)
             {
-                if(is_array($item)) {
+                if(is_array($item))
+                {
+                    if(empty($item)) {
+                        continue;
+                    }
+
                     $item = implode(' ', $item);
                 }
 

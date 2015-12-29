@@ -140,7 +140,12 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
         {
             foreach ($array as $key => $item)
             {
-                if (is_array($item)) {
+                if(is_array($item))
+                {
+                    if(empty($item)) {
+                        continue;
+                    }
+
                     $item = implode(' ', $item);
                 }
 
