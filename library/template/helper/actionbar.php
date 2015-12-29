@@ -39,7 +39,7 @@ class TemplateHelperActionbar extends TemplateHelperAbstract
 
             $html  = '<div '.$this->buildAttributes($config->attribs).'>';
             $html .= '<div class="button__group">';
-            foreach ($config->toolbar->getCommands() as $command)
+            foreach ($config->toolbar as $command)
             {
                 $name = $command->getName();
 
