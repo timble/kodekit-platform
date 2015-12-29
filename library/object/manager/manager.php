@@ -84,8 +84,8 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         $this->registerLocator(new ObjectLocatorLibrary($config));
 
         //Register self and set a 'manager' alias
-        $this->setObject('object.manager', $this);
-        $this->registerAlias('object.manager', 'manager');
+        $this->setObject('lib:object.manager', $this);
+        $this->registerAlias('lib:object.manager', 'manager');
     }
 
     /**
@@ -154,7 +154,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             //Instantiate the identifier
             $instance = $this->_instantiate($identifier, $config);
 
-            //Mixins's are early mixed in KObject::_construct()
+            //Mixins's are early mixed in Object::_construct()
             //$instance = $this->_mixin($identifier, $instance);
 
             //Decorate the object
