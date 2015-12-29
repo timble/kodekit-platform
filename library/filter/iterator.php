@@ -129,7 +129,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface, FilterT
     }
 
     /**
-     * Set the decorated object
+     * Get the decorated filter
      *
      * @return FilterInterface
      */
