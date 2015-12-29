@@ -18,6 +18,16 @@ namespace Nooku\Library;
 class ControllerContext extends Command implements ControllerContextInterface
 {
     /**
+     * Constructor.
+     *
+     * @param  array|\Traversable  $attributes An associative array or a Traversable object instance
+     */
+    public function __construct($attributes = array())
+    {
+        ObjectConfig::__construct($attributes);
+    }
+
+    /**
      * Get the request object
      *
      * @return ControllerRequestInterface
