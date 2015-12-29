@@ -18,6 +18,16 @@ namespace Nooku\Library;
 class ModelContext extends Command implements ModelContextInterface
 {
     /**
+     * Constructor.
+     *
+     * @param  array|\Traversable  $attributes An associative array or a Traversable object instance
+     */
+    public function __construct($attributes = array())
+    {
+        ObjectConfig::__construct($attributes);
+    }
+
+    /**
      * Set the model state
      *
      * @param ModelState $state
