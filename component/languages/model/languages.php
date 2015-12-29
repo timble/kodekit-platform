@@ -24,7 +24,7 @@ class ModelLanguages extends Library\ModelDatabase
         parent::__construct($config);
 
         $this->getState()
-            ->insert('primary', 'boolean')
+            ->insert('default', 'boolean')
             ->insert('enabled', 'boolean')
             ->insert('application', 'word', 'admin', true, array('iso_code'))
             ->insert('iso_code', 'com:languages.filter.iso', null, true, array('application'));
@@ -38,8 +38,8 @@ class ModelLanguages extends Library\ModelDatabase
 
         if(!$state->isUnique())
         {
-            if(!is_null($state->primary)) {
-                $query->where('tbl.primary = :primary')->bind(array('primary' => (int) $state->primary));
+            if(!is_null($state->default)) {
+                $query->where('tbl.default = :default')->bind(array('default' => (int) $state->default));
             }
 
             if(!is_null($state->enabled)) {

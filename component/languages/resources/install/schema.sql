@@ -12,7 +12,7 @@ CREATE TABLE `languages` (
     `iso_code` VARCHAR(8) NOT NULL,
     `slug` VARCHAR(50) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    `primary` BOOLEAN NOT NULL DEFAULT 0,
+    `default` BOOLEAN NOT NULL DEFAULT 0,
     `uuid` char(36) NOT NULL,
     PRIMARY KEY (`languages_language_id`),
     UNIQUE KEY `uuid` (`uuid`)

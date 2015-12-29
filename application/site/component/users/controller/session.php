@@ -77,7 +77,7 @@ class UsersControllerSession extends Users\ControllerSession
         {
             $context->user->getSession()->site = $this->getObject('application')->getSite();
 
-            $url = $this->getObject('pages')->getPrimary()->getLink();
+            $url = $this->getObject('pages')->getDefault()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
             $context->response->setRedirect($url);

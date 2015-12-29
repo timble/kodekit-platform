@@ -96,7 +96,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $table     = $this->_tables->find(array('name' => $context->table))->top();
             $languages = $this->getObject('languages');
             $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
+            $default   = $languages->getDefault();
 
             // Join translation to add status to rows.
             $params = $context->query->params;
@@ -128,8 +128,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 }
             }
 
-            // Modify table in the query if active language is not the primary.
-            if ($active->iso_code != $primary->iso_code) {
+            // Modify table in the query if active language is not the default
+            if ($active->iso_code != $default->iso_code) {
                 $context->query->table[key($query->table)] = strtolower($active->iso_code) . '_' . $table->name;
             }
         }
@@ -141,7 +141,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         {
             $languages = $this->getObject('languages');
             $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
+            $default   = $languages->getDefault();
 
             $translation = array(
                 'iso_code' => $active->iso_code,
@@ -161,7 +161,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
             foreach ($languages as $language)
             {
-                if ($language->iso_code != $primary->iso_code) {
+                if ($language->iso_code != $default->iso_code) {
                     $query = clone $context->query;
                     $query->table(strtolower($language->iso_code) . '_' . $query->table);
 
@@ -191,9 +191,9 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         $languages = $this->getObject('languages');
         $active    = $languages->getActive();
-        $primary   = $languages->getPrimary();
+        $default   = $languages->getDefault();
 
-        if ($active->iso_code != $primary->iso_code) {
+        if ($active->iso_code != $default->iso_code) {
             $context->query->table(strtolower($active->iso_code) . '_' . $context->query->table);
         }
     }
@@ -201,7 +201,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     protected function _afterUpdate(Library\DatabaseContext $context)
     {
         $languages = $this->getObject('languages');
-        $primary   = $languages->getPrimary();
+        $default   = $languages->getDefault();
         $active    = $languages->getActive();
 
         // Update item in the translations table.
@@ -238,7 +238,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
         // Copy the item's data to all missing translations.
         $database = $this->getTable()->getAdapter();
-        $prefix   = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code . '_') : '';
+        $prefix   = $active->iso_code != $default->iso_code ? strtolower($active->iso_code . '_') : '';
         $select   = $this->getObject('lib:database.query.select')
             ->table($prefix . $table->name)
             ->where($table->unique_column . ' = :unique')
@@ -250,7 +250,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 
         foreach ($translations as $translation)
         {
-            $prefix = $translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code . '_') : '';
+            $prefix = $translation->iso_code != $default->iso_code ? strtolower($translation->iso_code . '_') : '';
             $query  = 'REPLACE INTO ' . $database->quoteIdentifier($prefix . $table->name) . ' ' . $select;
             $database->execute($query);
         }
@@ -260,9 +260,9 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         $languages = $this->getObject('languages');
         $active    = $languages->getActive();
-        $primary   = $languages->getPrimary();
+        $default   = $languages->getDefault();
 
-        if ($active->iso_code != $primary->iso_code) {
+        if ($active->iso_code != $default->iso_code) {
             $context->query->table(strtolower($active->iso_code) . '_' . $context->table);
         }
     }
@@ -272,7 +272,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         if ($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
             $languages = $this->getObject('languages');
-            $primary   = $languages->getPrimary();
+            $default   = $languages->getDefault();
             $active    = $languages->getActive();
 
             // Remove item from other tables too.
@@ -283,7 +283,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             {
                 if ($language->iso_code != $active->iso_code)
                 {
-                    $prefix = $language->iso_code != $primary->iso_code ? strtolower($language->iso_code . '_') : '';
+                    $prefix = $language->iso_code != $default->iso_code ? strtolower($language->iso_code . '_') : '';
                     $query->table($prefix . $context->table);
                     $database->delete($query);
                 }

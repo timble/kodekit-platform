@@ -37,7 +37,7 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
         $command->append(array(
             'attribs' => array(
                 'data-action' => 'edit',
-                'data-data'   => '{home:1}'
+                'data-data'   => '{default:1}'
             )
         ));
     }

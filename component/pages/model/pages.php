@@ -28,7 +28,7 @@ class ModelPages extends Library\ModelDatabase
             ->insert('published', 'boolean')
             ->insert('menu', 'int')
             ->insert('type', 'cmd')
-            ->insert('home', 'boolean')
+            ->insert('default', 'boolean')
             ->insert('access', 'int')
             ->insert('hidden', 'boolean')
             ->insert('application', 'word');
@@ -56,7 +56,7 @@ class ModelPages extends Library\ModelDatabase
             $type = $context->state->type;
             unset($type['name']);
 
-            $entity->link_url = http_build_query($type, '');
+            $entity->state = http_build_query($type, '');
         }
 
         return $entity;
@@ -77,12 +77,12 @@ class ModelPages extends Library\ModelDatabase
         parent::_buildQueryWhere($query);
         $state = $this->getState();
 
-        if ($state->home) {
-            $query->where('tbl.home = :home')->bind(array('home' => (int)$state->home));
+        if ($state->default) {
+            $query->where('tbl.default = :default')->bind(array('default' => (int)$state->default));
         }
 
         if ($state->menu) {
-            $query->where('tbl.pages_menu_id = :menu_id')->bind(array('menu_id' => $state->menu));
+            $query->where('tbl.pages_menu_id = :menu')->bind(array('menu' => $state->menu));
         }
 
         if (is_bool($state->published)) {
@@ -95,10 +95,6 @@ class ModelPages extends Library\ModelDatabase
 
         if (is_bool($state->hidden)) {
             $query->where('tbl.hidden = :hidden')->bind(array('hidden' => (int)$state->hidden));
-        }
-
-        if (is_numeric($state->group_id)) {
-            $query->where('tbl.group_id', '=', $state->group_id);
         }
 
         if ($state->application) {

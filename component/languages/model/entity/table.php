@@ -28,11 +28,11 @@ class ModelEntityTable extends Library\ModelEntityRow
         {
             $database  = $this->getTable()->getAdapter();
             $languages = $this->getObject('languages');
-            $primary   = $languages->getPrimary();
+            $default   = $languages->getDefault();
 
             foreach($languages as $language)
             {
-                if($language->id != $primary->id)
+                if($language->id != $default->id)
                 {
                     $table = strtolower($language->iso_code).'_'.$this->name;
 
