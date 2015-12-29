@@ -53,6 +53,13 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     protected $_data;
 
     /**
+     * The view parameters
+     *
+     * @var boolean
+     */
+    protected $_parameters;
+
+    /**
      * The mimetype
      *
      * @var string
@@ -70,6 +77,9 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
 
         //Set the data
         $this->_data = ObjectConfig::unbox($config->data);
+
+        //Set the parameters
+        $this->_parameters = ObjectConfig::unbox($config->parameters);
 
         $this->setUrl($config->url);
         $this->setTitle($config->title);
@@ -251,6 +261,28 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
             $this->set($name, $value);
         }
 
+        return $this;
+    }
+
+    /**
+     * Get the view parameters
+     *
+     * @return  array   The view parameters
+     */
+    public function getParameters()
+    {
+        return $this->_parameters;
+    }
+
+    /**
+     * Sets the view parameters
+     *
+     * @param   array $parameters The view parameters
+     * @return  ViewAbstract
+     */
+    public function setParameters(array $parameters)
+    {
+        $this->_parameters = $parameters;
         return $this;
     }
 
@@ -462,8 +494,8 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     {
         $context = new ViewContext();
         $context->setSubject($this);
-        $context->setData($this->_data);
-        $context->setParameters($this->getConfig()->parameters);
+        $context->setData($this->getData());
+        $context->setParameters($this->getParameters());
 
         return $context;
     }
