@@ -81,7 +81,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         //Initialise the object
         $this->_initialize($config);
 
-        //Add the mixins
+        //Mix the mixins
         $mixins = (array) ObjectConfig::unbox($config->mixins);
 
         foreach ($mixins as $key => $value)
@@ -90,6 +90,18 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
                 $this->mixin($value);
             } else {
                 $this->mixin($key, $value);
+            }
+        }
+
+        //Register the decorators
+        $decorators = (array) ObjectConfig::unbox($config->decorators);
+
+        foreach ($decorators as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->getIdentifier()->getDecorators()->append(array($value));
+            } else {
+                $this->getIdentifier()->getDecorators()->append(array($key, $value));
             }
         }
 
