@@ -277,7 +277,7 @@ class EventPublisherProfiler extends ObjectDecorator implements EventPublisherIn
     }
 
     /**
-     * Set the decorated event dispatcher
+     * Set the decorated event publisher
      *
      * @param   EventPublisherInterface $delegate The decorated event publisher
      * @return  EventPublisherProfiler
@@ -293,7 +293,7 @@ class EventPublisherProfiler extends ObjectDecorator implements EventPublisherIn
     }
 
     /**
-     * Set the decorated object
+     * Get the decorated event publisher
      *
      * @return EventPublisherInterface
      */
