@@ -18,7 +18,7 @@ namespace Nooku\Library;
 class Command extends ObjectConfig implements CommandInterface
 {
     /**
-     * The event name
+     * The command name
      *
      * @var array
      */
@@ -47,9 +47,9 @@ class Command extends ObjectConfig implements CommandInterface
     }
 
     /**
-     * Get the event name
+     * Get the command name
      *
-     * @return string	The event name
+     * @return string	The command name
      */
     public function getName()
     {
@@ -57,9 +57,9 @@ class Command extends ObjectConfig implements CommandInterface
     }
 
     /**
-     * Set the event name
+     * Set the command name
      *
-     * @param string $name  The event name
+     * @param string $name  The command name
      * @return Command
      */
     public function setName($name)
@@ -168,7 +168,7 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Get an command property or attribute
      *
-     * If an event property exists the property will be returned, otherwise the attribute will be returned. If no
+     * If an command property exists the property will be returned, otherwise the attribute will be returned. If no
      * property or attribute can be found the method will return NULL.
      *
      * @param  string $name    The property name
@@ -190,7 +190,7 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Set a command property or attribute
      *
-     * If an event property exists the property will be set, otherwise an attribute will be added.
+     * If an command property exists the property will be set, otherwise an attribute will be added.
      *
      * @param  string $name
      * @param  mixed  $value
