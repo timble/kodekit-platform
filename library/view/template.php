@@ -142,16 +142,16 @@ abstract class ViewTemplate extends ViewAbstract
             //Set the parameters
             if($this->isCollection())
             {
-                $context->parameters = $model->getState()->getValues();
+                $context->parameters->merge($model->getState()->getValues());
                 $context->parameters->total = $model->count();
             }
             else
             {
-                $context->parameters = $entity->getProperties();
+                $context->parameters->merge($entity->getProperties());
                 $context->parameters->total = 1;
             }
         }
-        else $context->parameters = $model->getState()->getValues();
+        else $context->parameters->merge($model->getState()->getValues());
 
         //Set the layout and view in the parameters.
         $context->parameters->layout = $context->layout;
@@ -286,10 +286,7 @@ abstract class ViewTemplate extends ViewAbstract
      */
     public function getContext()
     {
-        $context = new ViewContextTemplate();
-        $context->setSubject($this);
-        $context->setData($this->getData());
-        $context->setParameters($this->getConfig()->parameters);
+        $context = new ViewContextTemplate(parent::getContext());
         $context->setLayout($this->getLayout());
 
         return $context;
