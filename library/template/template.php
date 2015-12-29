@@ -82,7 +82,7 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
             'filters'    => array(),
             'functions'  => array(
                 'escape'     => array($this, 'escape'),
-                'helper'     => array($this, 'invoke'),
+                'helper'     => array($this, 'invokeHelper'),
                 'parameters' => array($this, 'getParameters')
             ),
             'cache'           => \Nooku::getInstance()->isCache(),
@@ -268,7 +268,7 @@ class Template extends TemplateAbstract implements TemplateFilterable, TemplateH
      * @return   string   Helper output
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
-    public function invoke($identifier, $params = array())
+    public function invokeHelper($identifier, $params = array())
     {
         //Get the function and helper based on the identifier
         $parts      = explode('.', $identifier);

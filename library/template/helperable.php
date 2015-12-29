@@ -30,7 +30,7 @@ interface TemplateHelperable
      * @return   string   Helper output
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
-    public function invoke($identifier, $config = array());
+    public function invokeHelper($identifier, $config = array());
 
     /**
      * Create a template helper
