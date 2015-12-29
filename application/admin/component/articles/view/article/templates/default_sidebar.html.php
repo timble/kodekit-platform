@@ -40,10 +40,12 @@
         <input type="radio" id="tab-1" name="tab-group-1" checked="">
         <label for="tab-1"><?= translate('Classifications') ?></label>
         <div class="content">
+            <? if($article->isCategorizable()) : ?>
             <fieldset>
                 <legend><?= translate('Category') ?></legend>
                 <?= helper('com:categories.radiolist.categories', array('entity' => $article, 'uncategorised' => true)) ?>
             </fieldset>
+            <? endif ?>
             <? if($article->isTaggable()) : ?>
                 <fieldset>
                     <legend><?= translate('Tags') ?></legend>
