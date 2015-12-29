@@ -18,6 +18,16 @@ namespace Nooku\Library;
 class DatabaseContext extends Command implements DatabaseContextInterface
 {
     /**
+     * Constructor.
+     *
+     * @param  array|\Traversable  $attributes An associative array or a Traversable object instance
+     */
+    public function __construct($attributes = array())
+    {
+        ObjectConfig::__construct($attributes);
+    }
+
+    /**
      * Get the response object
      *
      * @return DatabaseQueryInterface|string
