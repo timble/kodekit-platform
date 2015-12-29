@@ -24,12 +24,12 @@ class PagesModuleBreadcrumbsHtml extends Pages\ModuleAbstract
 
         if($context->parameters->get('homeText'))
         {
-            $home       = $this->getObject('pages')->getPrimary();
+            $default    = $this->getObject('pages')->getDefault();
             $translator = $this->getObject('translator');
 
             array_unshift($pathway, array(
                 'title' => $context->parameters->get('homeText', $translator('Home')),
-                'link'  => $home->getLink()->getQuery()
+                'link'  => $default->getLink()->getQuery()
             ));
         }
 
@@ -50,8 +50,8 @@ class PagesModuleBreadcrumbsHtml extends Pages\ModuleAbstract
 
         if($active = $pages->getActive())
         {
-            $home = $pages->getPrimary();
-            if ($active->id != $home->id) {
+            $default = $pages->getDefault();
+            if ($active->id != $default->id) {
                 $result  = parent::_actionRender($context);
             }
         }

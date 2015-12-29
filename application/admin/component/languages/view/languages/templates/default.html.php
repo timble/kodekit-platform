@@ -37,7 +37,7 @@
 					<?= helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
 				</th>
                 <th width="1">
-                    <?= translate('Primary') ?>
+                    <?= translate('Default') ?>
                 </th>
 				<th width="1">
 					<?= helper('grid.sort', array('column' => 'slug')) ?>
@@ -70,7 +70,7 @@
 					<?= $language->iso_code ?>
 				</td>
                 <td align="center">
-                    <? if($language->primary): ?>
+                    <? if($language->default): ?>
                         <i class="icon-star"></i>
                     <? endif ?>
                 </td>
@@ -78,7 +78,7 @@
 					<?= $language->slug ?>
 				</td>
 				<td align="center">
-					<? if($language->primary) : ?>
+					<? if($language->default) : ?>
                 	 	<?= translate('n/a') ?>
                     <? else: ?>
                     	<?= helper('grid.enable', array('entity' => $language)) ?>

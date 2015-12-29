@@ -36,10 +36,10 @@ class ApplicationDispatcher extends Application\Dispatcher
             $route  = trim(str_replace($search, '', $context->request->getUrl()->getPath()), '/');
 
             //Redirect to the default menu item if the route is empty
-            if(strpos($route, $pages->getPrimary()->route) === 0 )
+            if(strpos($route, $pages->getDefault()->route) === 0 )
             {
-                $url = $pages->getPrimary()->getLink();
-                $url->query['Itemid'] = $pages->getPrimary()->id;
+                $url = $pages->getDefault()->getLink();
+                $url->query['Itemid'] = $pages->getDefault()->id;
 
                 $this->getRouter()->build($url);
 

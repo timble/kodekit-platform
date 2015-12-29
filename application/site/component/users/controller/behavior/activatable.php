@@ -34,7 +34,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         {
             if (!$entity->activation)
             {
-                $url = $this->getObject('pages')->getPrimary()->getLink();
+                $url = $this->getObject('pages')->getDefault()->getLink();
                 $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
 
                 $context->response->setRedirect($url, 'Invalid request', 'error');
@@ -51,7 +51,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
 
         if (!parent::_beforeActivate($context))
         {
-            $url = $this->getObject('pages')->getPrimary()->getLink();
+            $url = $this->getObject('pages')->getDefault()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
             $context->response->setRedirect($url, 'Wrong activation token', 'error');
@@ -127,7 +127,7 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
         if ($page) {
             $url = $page->getLink();
         } else {
-            $url = $this->getObject('pages')->getPrimary()->getLink();
+            $url = $this->getObject('pages')->getDefault()->getLink();
         }
 
         $this->getObject('application')->getRouter()->build($url);

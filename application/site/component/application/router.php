@@ -90,7 +90,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $reverse = array_reverse($pages->toArray());
 
         //Set the default
-        $page = $pages->getPrimary();
+        $page = $pages->getDefault();
 
         //Find the page
         if(!empty($route))
@@ -190,7 +190,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $page = $this->getObject('pages')->getPage($url->query['Itemid']);
 
         //Set the page route in the url
-        if(!$page->home)
+        if(!$page->default)
         {
             if($page->getLink()->query['component'] == $url->query['component']) {
                 $segments = explode('/', $page->route);

@@ -19,7 +19,7 @@
 
 <form action="" method="post" class="-koowa-form">
     <input type="hidden" name="enabled" value="0" />
-    <input type="hidden" name="primary" value="0" />
+    <input type="hidden" name="default" value="0" />
 
     <div class="form-content">
         <div class="grid_8">
@@ -56,9 +56,9 @@
     			    </div>
     			</div>
     			<div>
-    			    <label for="primary"><?= translate('Primary') ?></label>
+    			    <label for="default"><?= translate('Default') ?></label>
     			    <div>
-    			        <input type="checkbox" name="primary" value="1" <?= $language->primary ? 'checked="checked"' : '' ?> />
+    			        <input type="checkbox" name="default" value="1" <?= $language->default ? 'checked="checked"' : '' ?> />
     			    </div>
     			</div>
     		</fieldset>
