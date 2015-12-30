@@ -73,7 +73,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
             ->bind(array('level' => $row->level));
 
         if ($row->level > 1) {
-            $query->where('closures.ancestor_id = :ancestor_id')->bind(array('ancestor_id' => $row->getParentId()));
+            $query->where('closures.ancestor_id = :ancestor_id')->bind(array('ancestor_id' => $row->parent_id));
         }
 
         // Custom
