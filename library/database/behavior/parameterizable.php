@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Database Parameterizable Behavior
  *
+ * By default requires a 'parameters' table column. Column can be configured using the 'column' config option.
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
@@ -128,7 +130,7 @@ class DatabaseBehaviorParameterizable extends DatabaseBehaviorAbstract
     public function isSupported()
     {
         $table = $this->getMixer();
-        
+
         //Only check if we are connected with a table object, otherwise just return true.
         if($table instanceof DatabaseTableInterface)
         {
