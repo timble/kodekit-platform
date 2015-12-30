@@ -23,16 +23,16 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
      {
          $config = new Library\ObjectConfig($config);
          $config->append(array(
-             'name'          => 'order',
-             'state'         => null,
-             'attribs'       => array(),
-             'model'         => null,
-             'package'       => $this->getIdentifier()->package,
-             'selected'      => 0
+             'name'     => 'order',
+             'state'    => null,
+             'attribs'  => array(),
+             'model'    => null,
+             'package'  => $this->getIdentifier()->package,
+             'selected' => 0
         ));
-        
+
         //@TODO can be removed when name collisions fixed
-        $config->name = 'order'; 
+        $config->name = 'order';
 
         $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Library\StringInflector::pluralize($config->package));
 
@@ -42,13 +42,13 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         foreach($list as $item) {
 			$options[] =  $this->option(array('label' => $item->ordering, 'value' => $item->ordering - $config->ordering));
 		}
-		
+
         $list = $this->optionlist(array(
             'options'  => $options,
             'name'     => $config->name,
             'attribs'  => $config->attribs,
             'selected' => $config->selected
-        )); 
+        ));
         return $list;
      }
 
@@ -60,9 +60,15 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'deselect'  => true,
             'selected'  => $config->category,
             'prompt'	=> '- Select -',
-            'table'     => '',
-            'parent'    => '',
-            'max_depth' => 9,
+            'max_level' => 9,
+        ))->append(array(
+            'filter' 	=> array(
+                'sort'      => 'title',
+                'limit'     => 0,
+                'parent'    => null,
+                'published' => null,
+                'table'     => $config->entity->getTable()->getBase()
+            ),
         ));
 
         if($config->deselect) {
@@ -70,14 +76,10 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         }
 
         $categories = $this->getObject('com:categories.model.categories')
-                        ->table($config->table)
-                        ->parent($config->parent)
-                        ->sort('title')
+                        ->setState(Library\ObjectConfig::unbox($config->filter))
                         ->fetch();
 
-        $iterator = new ModelIteratorNode($categories);
-        $iterator->setMaxDepth($config->max_depth);
-
+        $iterator = $categories->getRecursiveIterator($config->max_level);
         foreach($iterator as $category)
         {
             $title =  substr('---------', 0, $iterator->getDepth()).$category->title;
