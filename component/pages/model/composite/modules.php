@@ -7,31 +7,28 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Pages;
+
 use Nooku\Library;
 
 /**
- * Menubar Controller Toolbar
+ * Modules Composite Model
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Component\Pages
  */
-class ApplicationControllerToolbarMenubar extends Library\ControllerToolbarAbstract
+class ModelCompositeModules extends ModelModules implements Library\ObjectSingleton
 {
-    /**
-     * Initializes the config for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   Library\ObjectConfig $config Configuration options
-     * @return  void
-     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'type'  => 'menubar',
+            'decorators'     => array('lib:model.composite.decorator'),
+            'state_defaults' => array(
+                'enabled'     => true,
+                'application' => APPLICATION_NAME,
+            )
         ));
 
         parent::_initialize($config);
     }
 }
-
