@@ -31,15 +31,10 @@ class DispatcherBehaviorAccessible extends Library\DispatcherBehaviorAbstract
     protected function _beforeDispatch(Library\DispatcherContextInterface $context)
     {
         $itemid = $context->getRequest()->getQuery()->get('Itemid', 'int');
-        $page   = $this->getObject('pages')->find($itemid);
 
-        if(!is_null($page))
+        if($page = $this->getObject('pages')->getPage($itemid))
         {
-            if($page->access > 0 && !$context->getUser()->isAuthentic()) {
-                throw new Library\ControllerExceptionRequestForbidden('Page Not Accessible');
-            }
-
-            if($page->users_group_id > 0 && !in_array($page->users_group_id, $context->getUser()->getGroups())) {
+            if($page->isAccessible() && !$page->canAccess()) {
                 throw new Library\ControllerExceptionRequestForbidden('Page Not Accessible');
             }
         }
