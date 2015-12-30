@@ -29,7 +29,7 @@
 <div>
     <label for="access"><?= translate('Group') ?></label>
     <div>
-        <?= helper('com:users.listbox.groups', array('selected' => $page->users_group_id, 'name' => 'users_group_id')) ?>
+        <?= helper('com:users.listbox.groups', array('selected' => $page->access_group, 'name' => 'access_group')) ?>
     </div>
 </div>
 <div>
