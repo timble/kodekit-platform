@@ -19,8 +19,6 @@ use Nooku\Library;
  */
 class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
 {
-    protected $_table;
-
     protected $_parent;
 
     /**
@@ -40,35 +38,51 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-                'parent_column' => null)
-        );
+            'parent_column' => 'parent_id'
+        ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Check if the behavior is supported
+     *
+     * @return  boolean  True on success, false otherwise
+     */
+    public function isSupported()
+    {
+        $row = $this->getMixer();
+
+        if($row instanceof Library\DatabaseRowInterface)
+        {
+            if($row->hasProperty($this->_parent_column))  {
+                return true;
+            }
+        }
+
+        return parent::isSupported();
     }
 
     public function _buildQueryWhere($query)
     {
         parent::_buildQueryWhere($query);
 
-        if($this->_parent_column)
-        {
-            $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};
-            $query->where($this->getTable()->mapColumns($this->_parent_column).' = :parent')->bind(array('parent' => $parent));
-        }
+        $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};
 
+        $query->where($this->getTable()->mapColumns($this->_parent_column).' = :parent')->bind(array('parent' => $parent));
         $query->where('table = :table')->bind(array('table' => $this->table));
     }
 
     /**
-     * Changes the rows ordering if the virtual order field is set. Order is relative to the row's current position.
-     * Order is to be only set if section unchanged. Inserts space in order sequence of new section if section c
-     * hanged.
+     * Changes the rows ordering if the virtual order field is set.
+     *
+     * Order is relative to the row's current position. Order is to be only set if category unchanged.
+     * Inserts space in order sequence of new category if category changed.
      *
      * @param   Library\DatabaseContext $context
      */
     protected function _beforeUpdate(Library\DatabaseContext $context)
     {
-        $this->_table = $context->getSubject();
         if(isset($this->ordering))
         {
             if (isset($this->order))
@@ -90,13 +104,12 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
     }
 
     /**
-     * Reorders the old section if record has changed sections
+     * Reorders the old category if record has changed categories
      *
      * @param   Library\DatabaseContext $context
      */
     protected function _afterUpdate(Library\DatabaseContext $context)
     {
-        $this->_table = $context->getSubject();
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
         {
             $this->_parent = $this->old_parent;
@@ -112,7 +125,6 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      */
     protected function _beforeSelect(Library\DatabaseContext $context)
     {
-        $this->_table = $context->getSubject();
         if($parent_column = $this->_parent_column)
         {
             $query = $context->query;
