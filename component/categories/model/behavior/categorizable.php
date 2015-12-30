@@ -37,20 +37,19 @@ class ModelBehaviorCategorizable extends Library\ModelBehaviorAbstract
         parent::onMixin($mixer);
 
         $mixer->getState()
-            ->insert('category', 'slug')
-            ->insert('category_recurse', 'boolean', false);
+            ->insert('category', 'slug');
     }
 
     protected function _buildQuery(Library\ModelContextInterface $context)
     {
         $model = $context->getSubject();
 
-        if ($model instanceof Library\ModelDatabase && $model->getTable()->isCategorizable()) {
+        if ($model instanceof Library\ModelDatabase && $model->getTable()->isCategorizable())
+        {
             $state = $context->state;
 
             $context->query->bind(array(
-                'category'         => $state->category,
-                'category_recurse' => $state->category_recurse
+                'category' => $state->category,
             ));
 
             //Order based on category title

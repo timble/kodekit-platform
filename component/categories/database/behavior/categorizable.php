@@ -60,13 +60,8 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
         //Filter based on the category
         if ($params->has('category') && is_numeric($params->get('category')))
         {
-            $query->where('tbl.categories_category_id IN :categories_category_id');
-
-            if ($params->has('category_recurse') && $params->get('category_recurse') === true) {
-                $query->where('tbl.categories.parent_id IN :categories_category_id', 'OR');
-            }
-
-            $query->bind(array('categories_category_id' => (array)$params->get('category')));
+            $query->where('tbl.categories_category_id IN :categories_category_id')
+                  ->bind(array('categories_category_id' => (array)$params->get('category')));
         }
     }
 }
