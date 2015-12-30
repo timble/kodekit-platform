@@ -29,29 +29,28 @@ class TemplateHelperTabbar extends Library\TemplateHelperAbstract
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'toolbar' => null,
-            'attribs' => array(),
+        	'toolbar'     => null,
+            'attribs'     => array(),
+            'show_hidden' => true,
         ));
 
         $html = '';
         if(isset($config->toolbar))
         {
-            $commands = $config->toolbar->getCommands();
-
-            if(count($commands))
+            foreach ($config->toolbar as $command)
             {
-                $html = '<div id="panel-tabbar">';
-                foreach ($commands as $command)
-                {
-                    $name = $command->getName();
-
-                    if(method_exists($this, $name)) {
-                        $html .= $this->$name(array('command' => $command));
-                    } else {
-                        $html .= $this->command(array('command' => $command));
-                    }
+                //Do not show hidden commands
+                if($command->hidden && !$config->show_hidden) {
+                    continue;
                 }
-                $html .= '</div>';
+
+                $name = $command->getName();
+
+                if(method_exists($this, $name)) {
+                    $html .= $this->$name(array('command' => $command));
+                } else {
+                    $html .= $this->command(array('command' => $command));
+                }
             }
         }
 
@@ -84,11 +83,11 @@ class TemplateHelperTabbar extends Library\TemplateHelperAbstract
         }
 
         //Create the href
-        if(!empty($command->href) && !$command->disabled) {
-            $command->attribs['href'] = $this->getTemplate()->route($command->href);
+        if($command->href instanceof Library\HttpUrl && !$command->disabled) {
+            $command->attribs->href = (string) $this->getTemplate()->route($command->href->getQuery());
         }
 
-        if ($command->disabled) {
+        if ($command->disabled || empty($command->href)) {
 			$html = '<span '.$this->buildAttributes($command->attribs).'>'.$translator($command->label).'</span>';
 		} else {
 			$html = '<a '.$this->buildAttributes($command->attribs).'>'.$translator($command->label).'</a>';
