@@ -19,21 +19,57 @@ use Nooku\Library;
  */
 class ModelEntityPage extends Library\ModelEntityRow
 {
-    protected $_title;
-
-    public function getTitle()
+    /**
+     * Saves the row to the database.
+     *
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
+     *
+     * @return boolean If successful return TRUE, otherwise FALSE
+     */
+    public function save()
     {
-        if(!isset($this->_type_title)) {
-            $this->_type_title = $this->getObject('translator')->translate('Component');
+        if ($this->isModified('state'))
+        {
+            // Set link.
+            parse_str($this->state, $query);
+
+            if ($this->urlparams) {
+                $query += $this->urlparams;
+            }
+
+            $this->state     = http_build_query($query);
+            $this->component = $query['component'];
         }
 
-        return $this->_title;
+        // Set default.
+        if ($this->isModified('default') && $this->default == 1)
+        {
+            $page = $this->getObject('com:pages.database.table.pages')
+                ->select(array('default' => 1), Library\Database::FETCH_ROW);
+
+            $page->default = 0;
+            $page->save();
+        }
+
+        // Update child pages if menu has been changed.
+        if ($this->isModified('pages_menu_id'))
+        {
+            $descendants = $this->getDescendants();
+
+            foreach ($descendants as $descendant) {
+                $descendant->setProperties(array('pages_menu_id' => $this->pages_menu_id))->save();
+            }
+        }
+
+
+        return parent::save();
     }
 
     public function getDescription()
     {
-        $query       = $this->getLink()->query;
-        $description = $this->component ? ucfirst($this->component) : substr($query['component']);
+        $link        = $this->getLink();
+        $query       = $link  ? $link->getQuery(true) : array();
+        $description = $this->component ? ucfirst($this->component) : ucfirst($query['component']);
 
         $translator = $this->getObject('translator');
 
@@ -50,126 +86,117 @@ class ModelEntityPage extends Library\ModelEntityRow
 
     public function getLink()
     {
-        $link                  = $this->getObject('lib:http.url', array('url' => '?' . $this->link_url));
-        $link->query['Itemid'] = $this->id;
+        $link = null;
+        if($this->state)
+        {
+            $link = $this->getObject('lib:http.url', array('url' => '?' . $this->state));
+            $link->query['Itemid']    = $this->id;
+            $link->query['component'] = $this->component;
+        }
 
         return $link;
     }
 
-    public function getParams($group)
+    public function getPropertyView()
     {
-        return $this->{'_get' . ucfirst($group) . 'Params'}();
+        $view = '';
+        $link = $this->getLink();
+        if($link && isset($link->query['view'])) {
+            $view = $link->query['view'];
+        }
+
+        return $view;
     }
 
-    protected function _getPageParams()
+    public function getPropertyLayout()
+    {
+        $layout = '';
+        $link   = $this->getLink();
+        if($link && isset($link->query['layout'])) {
+            $layout = $link->query['layout'];
+        }
+
+        return $layout;
+    }
+
+    public function getPropertyRoute()
+    {
+        $path = array();
+        foreach(explode('/', $this->path) as $id) {
+            $path[] = $this->getObject('pages')->find($id)->slug;
+        }
+
+        return implode('/', $path);
+    }
+
+    public function getParams($group)
+    {
+        $result = null;
+
+        if($link = $this->getLink())
+        {
+            $query = $link->getQuery(true);
+
+            $component = $query['component'];
+            $view      = $query['view'];
+            $layout    = isset($query['layout']) ? $query['layout'] : 'default';
+            $site      = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+
+            $path = $site . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
+
+            if (file_exists($path))
+            {
+                $xml = simplexml_load_file($path);
+                $result = $this->{'_getParams' . ucfirst($group)}($xml);
+            }
+        }
+
+        return $result;
+    }
+
+    protected function _getParamsPage($xml)
     {
         $file = __DIR__ . '/page.xml';
 
-        $xml = \JFactory::getXMLParser('simple');
-        $xml->loadFile($file);
+        $xml = simplexml_load_file($file);
 
-        $params = new \JParameter($this->params);
-        $params->setXML($xml->document->getElementByPath('state/params'));
-
-        return $params;
-    }
-
-    protected function _getUrlParams()
-    {
-        $state  = $this->_getPageXml()->document->getElementByPath('state');
-        $params = new \JParameter(null);
-
-        if ($state instanceof \JSimpleXMLElement)
-        {
-            $params->setXML($state->getElementByPath('url'));
-
-            if ($this->link_url) {
-                $params->loadArray($this->getLink()->query);
-            }
-        }
+        $params = new \JParameter($this->parameters, $file);
+        $params->setParams($xml->xpath('state/params'));
 
         return $params;
     }
 
-    protected function _getLayoutParams()
+    protected function _getParamsUrl($xml)
     {
-        $state  = $this->_getPageXml()->document->getElementByPath('state');
-        $params = new \JParameter(null);
+        $state = $xml->xpath('state/url');
+        $params = new \JParameter();
 
-        if ($state instanceof \JSimpleXMLElement)
+        if ($state instanceof \SimpleXMLElement)
         {
-            $params->setXML($state->getElementByPath('params'));
+            $params->setParams($state);
 
-            if ($this->link_url) {
-                $params->loadArray($this->getLink()->query);
+            if ($this->state) {
+                $params->setData($this->getLink()->query);
             }
         }
 
         return $params;
     }
 
-    protected function _getPageXml()
+    protected function _getParamsLayout($xml)
     {
-        $type  = $this->getLink();
-        $query = $type->getQuery(true);
+        $state  = $xml->xpath('state\params');
+        $params = new \JParameter();
 
-        $component = $query['component'];
-        $view      = $query['view'];
-        $layout    = isset($query['layout']) ? $query['layout'] : 'default';
-
-        $path = $this->getObject('object.bootstrapper')->getApplicationPath('site') . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
-
-        $xml = \JFactory::getXMLParser('simple');
-        if (file_exists($path)) {
-            $xml->loadFile($path);
-        }
-
-        return $xml;
-    }
-
-    /**
-     * Saves the row to the database.
-     *
-     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
-     *
-     * @return boolean If successful return TRUE, otherwise FALSE
-     */
-    public function save()
-    {
-        if ($this->isModified('link_url'))
+        if ($state instanceof \SimpleXMLElement)
         {
-            // Set link.
-            parse_str($this->link_url, $query);
+            $params->setParams($state);
 
-            if ($this->urlparams) {
-                $query += $this->urlparams;
-            }
-
-            $this->link_url  = http_build_query($query);
-            $this->component = $query['component'];
-        }
-
-        // Set home.
-        if ($this->isModified('home') && $this->home == 1)
-        {
-            $page = $this->getObject('com:pages.database.table.pages')
-                ->select(array('home' => 1), Library\Database::FETCH_ROW);
-
-            $page->home = 0;
-            $page->save();
-        }
-
-        // Update child pages if menu has been changed.
-        if ($this->isModified('pages_menu_id'))
-        {
-            $descendants = $this->getDescendants();
-
-            foreach ($descendants as $descendant) {
-                $descendant->setProperties(array('pages_menu_id' => $this->pages_menu_id))->save();
+            if ($this->state) {
+                $params->setData($this->getLink()->query);
             }
         }
 
-
-        return parent::save();
+        return $params;
     }
 }
