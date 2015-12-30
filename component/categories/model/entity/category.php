@@ -17,7 +17,23 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Categories
  */
-class ModelEntityCategory extends ModelEntityNode
+class ModelEntityCategory extends Library\ModelEntityRow
 {
+    /**
+     * Return an associative array of the data
+     *
+     * Add the children to a 'children' property
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
 
+        if($this->isRecursable() && $this->hasChildren())  {
+            $data['children'] = array_values($this->getChildren()->toArray());
+        }
+
+        return $data;
+    }
 }
