@@ -8,5 +8,5 @@
     <authorEmail>info@nooku.org</authorEmail>
     <authorUrl>www.nooku.org</authorUrl>
     <version>12.2</version>
-    <description>A module for displaying articles</description>
+    <description>A module for displaying a list of articles</description>
 </install>
