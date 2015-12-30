@@ -51,7 +51,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         $context->data->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->fetch();
 
         // Assign parent ID
-        $context->data->parent_id = $page->getParentId();
+        $context->data->parent_id = $page->parent_id;
 
         parent::_fetchData($context);
     }
