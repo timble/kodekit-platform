@@ -11,7 +11,7 @@ return array(
 
     'aliases'  => array(
         'application'       => 'com:application.dispatcher',
-        'application.sites' => 'com:application.model.sites',
+        'application.sites' => 'com:application.model.composite.sites',
         'translator'        => 'com:application.translator',
 
         'lib:dispatcher.router.route'       => 'com:application.dispatcher.router.route',
@@ -25,9 +25,5 @@ return array(
         'dispatcher' => array(
             'behaviors' => array('com:application.dispatcher.behavior.layoutable')
         ),
-
-        'application.sites' => array(
-            'decorators' => array('model.composite')
-        )
     )
 );
