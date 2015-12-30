@@ -7,14 +7,13 @@
 CREATE TABLE `pages` (
   `pages_page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
-  `users_group_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
-  `link_url` TEXT,
+  `component` VARCHAR(50),
+  `state` TEXT,
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
-  `home` BOOLEAN NOT NULL DEFAULT 0,
-  `component` VARCHAR(50),
+  `default` BOOLEAN NOT NULL DEFAULT 0,
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -22,15 +21,15 @@ CREATE TABLE `pages` (
   `locked_by` INT UNSIGNED,
   `locked_on` DATETIME,
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `access_group` INT UNSIGNED NOT NULL DEFAULT 0,
   `params` TEXT,
   `uuid` char(36) NOT NULL,
   PRIMARY KEY (`pages_page_id`),
   UNIQUE KEY `uuid` (`uuid`),
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
-  CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
   INDEX `ix_component` (`component`),
-  INDEX `ix_home` (`home`)
+  INDEX `ix_default` (`default`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
