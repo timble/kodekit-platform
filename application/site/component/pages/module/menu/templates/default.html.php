@@ -10,8 +10,9 @@
 
 <nav role="navigation">
     <?= helper('com:pages.menu.render', array(
-        'pages'   => $pages,
-        'active'  => $active,
-        'title'   => parameters()->show_title ? title() : null,
-        'attribs' => array('class' => $module->getParameters()->get('class', 'nav')))) ?>
+        'pages'       => $pages,
+        'max_level'   => parameters()->get('max_level', 9),
+        'active_only' => parameters()->get('active_only', false),
+        'title'       => parameters()->show_title ? title() : null,
+        'attribs'     => array('class' => parameters()->get('class', 'nav')))) ?>
 </nav>

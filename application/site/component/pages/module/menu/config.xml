@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params path="/application/admin/component/pages/element">
-		<param name="menu_id" type="menu" default="" label="Menu" description="" />
+		<param name="menu" type="menu" default="" label="Menu" description="" />
 		<param name="show_title" type="radio" default="0" label="Module title" description="">
 			<option value="1">Show</option>
 			<option value="0">Hide</option>
 		</param>
-		<param name="start_level" type="text" default="0" size="5" label="Start Level" description="Level to start rendering the menu at" />
-		<param name="end_level" type="text" default="0" size="5" label="End Level" description="Level to stop rendering the menu at." />
-		<param name="show_children" type="radio" default="active" label="Show submenu items" description="Display all sub-menu items regardless of whether or not parent is active.">
-			<option value="active">When parent is active</option>
-			<option value="always">Always</option>
+		<param name="max_level" type="text" default="9" size="5" label="Max Levels" description="Total sub-menu levels to show" />
+		<param name="active_only" type="radio" default="1" label="Show only the active sub-menu tree" description="Only display the sub-menu items of the active parent menu.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
 		</param>
 	</params>
 </config>
