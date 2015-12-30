@@ -25,18 +25,6 @@
         <a class="<?= parameters()->category == $category->id ? 'active' : ''; ?>" href="<?= route('category='.$category->id ) ?>">
             <?= escape($category->title) ?>
         </a>
-
-        <? if($category->hasChildren()) : ?>
-        <ul>
-            <? foreach($category->getChildren() as $child) : ?>
-            <li>
-                <a class="<?= parameters()->category == $child->id ? 'active' : ''; ?>" href="<?= route('sort=ordering&category='.$child->id ) ?>">
-                    <?= $child->title; ?>
-                </a>
-            </li>
-            <? endforeach ?>
-        </ul>
-        <? endif; ?>
     </li>
 
 	<? endforeach ?>
