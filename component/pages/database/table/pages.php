@@ -24,7 +24,7 @@ class DatabaseTablePages extends Library\DatabaseTableAbstract
         $config->append(array(
             'name' => 'pages',
             'behaviors'  => array(
-                'creatable', /*'modifiable',*/ 'lockable', 'sluggable', 'assignable', 'identifiable',
+                'creatable', 'modifiable', 'lockable', 'sluggable', 'assignable', 'identifiable', 'recursable', 'accessible',
                 'com:pages.database.behavior.orderable' => array(
                     'strategy' => 'closure',
                     'table'    => 'com:pages.database.table.orderings',
