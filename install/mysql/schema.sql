@@ -114,6 +114,8 @@ CREATE TABLE `attachments_relations` (
 CREATE TABLE `categories` (
   `categories_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
+  `path` varchar(255) NOT NULL,
+  `level` int(11) NOT NULL DEFAULT '0',
   `attachments_attachment_id` int(11) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
@@ -132,10 +134,10 @@ CREATE TABLE `categories` (
   `uuid` char(36) NOT NULL,
   PRIMARY KEY (`categories_category_id`),
   UNIQUE KEY `uuid` (`uuid`),
+  UNIQUE KEY `path` (`path`),
   KEY `cat_idx` (`table`,`published`,`access`),
-  KEY `idx_access` (`access`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+  KEY `access_idx` (`access`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 -- --------------------------------------------------------
 
 --
@@ -208,7 +210,7 @@ CREATE TABLE `languages` (
     `iso_code` VARCHAR(8) NOT NULL,
     `slug` VARCHAR(50) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    `primary` BOOLEAN NOT NULL DEFAULT 0,
+    `default` BOOLEAN NOT NULL DEFAULT 0,
     `uuid` char(36) NOT NULL,
     PRIMARY KEY (`languages_language_id`),
     UNIQUE KEY `uuid` (`uuid`)
@@ -260,14 +262,13 @@ CREATE TABLE `languages_tables` (
 CREATE TABLE `pages` (
   `pages_page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
-  `users_group_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
-  `link_url` TEXT,
+  `component` VARCHAR(50),
+  `state` TEXT,
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
-  `home` BOOLEAN NOT NULL DEFAULT 0,
-  `component` VARCHAR(50),
+  `default` BOOLEAN NOT NULL DEFAULT 0,
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -275,15 +276,15 @@ CREATE TABLE `pages` (
   `locked_by` INT UNSIGNED,
   `locked_on` DATETIME,
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `access_group` INT UNSIGNED NOT NULL DEFAULT 0,
   `params` TEXT,
   `uuid` char(36) NOT NULL,
   PRIMARY KEY (`pages_page_id`),
   UNIQUE KEY `uuid` (`uuid`),
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
-  CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
   INDEX `ix_component` (`component`),
-  INDEX `ix_home` (`home`)
+  INDEX `ix_default` (`default`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
