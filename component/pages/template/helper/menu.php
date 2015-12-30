@@ -12,7 +12,7 @@ namespace Nooku\Component\Pages;
 use Nooku\Library;
 
 /**
- * Pages Template Helper
+ * Menu Template Helper
  *
  * @author   Tom Janssens <http://github.com/tomjanssens>
  * @package  Nooku\Component\Pages
@@ -23,106 +23,84 @@ class TemplateHelperMenu extends Library\TemplateHelperAbstract
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'pages'   => array(),
-            'active'  => null,
-            'attribs' => array('class' => array('nav'))
+            'pages'       => null,
+            'title'       => null,
+            'attribs'     => array('class' => array('nav')),
+            'max_level'   => 9,
+            'active_only' => false,
         ));
 
-        $result     = '';
-        $first      = true;
-        $last_level = 0;
+        $html    = '';
+        $level   = 0;
+        $active  = $this->getObject('pages')->getActive();
 
-        $pages = clone $config->pages;
-
-        // We use a CachingIterator to peek ahead to the next item so that we can properly close elements
-        $iterator = new \CachingIterator($pages->getIterator(), \CachingIterator::TOSTRING_USE_KEY);
+        if($config->active_only) {
+            $iterator = $config->pages->getRecursiveIterator($config->max_level, array_shift($active->getPath()));
+        } else {
+            $iterator = $config->pages->getRecursiveIterator($config->max_level);
+        }
 
         foreach($iterator as $page)
         {
-            $next_page = null;
-            if ($iterator->hasNext()) {
-                $next_page = $iterator->getInnerIterator()->current();
-            }
-
-            $next_level = is_object($next_page) ? count(explode('/', $next_page->path)) : false;
-            $level = count(explode('/', $page->path));
-
-            // Start a new level
-            if($level > $last_level)
+            if($page->canAccess())
             {
-                $attributes = $first ? ' '.$this->buildAttributes($config->attribs) : '';
-                $result .= "<ul$attributes>";
-
-                // Used to put the title in the menu
-                if($first && $config->title) {
-                    $result .= '<li class="nav-header">'.$config->title."</li>";
-                }
-
-                $first = false;
-            }
-
-            $classes = array();
-            if($config->active)
-            {
-                if(in_array($page->id, array_merge($config->active->getParentIds(), (array) $config->active->id))) {
-                    $classes[] = 'active';
-                }
-
-                if($page->id == $config->active->id) {
-                    $classes[] = 'current';
-                }
-
-                foreach($config->pages as $value)
+                if($iterator->getLevel() > $level)
                 {
-                    if(strpos($value->path, $page->path.'/') === 0)
-                    {
-                        $classes[] = 'parent';
-                        break;
+                    $attributes = $iterator->getLevel() == 1 ? ' '.$this->buildAttributes($config->attribs) : '';
+                    $html .= "<ul$attributes>";
+
+                    // Add the title to the menu
+                    if($iterator->getLevel() == 1 && $config->title) {
+                        $html .= '<li class="nav-header">'.$config->title."</li>";
                     }
                 }
-            }
 
-            $result .= '<li'.($classes ? ' class="'.implode(' ', $classes).'"' : '').">";
-
-            if($page->link_url)
-            {
-                $link = $this->getTemplate()->route($page->getLink()->getQuery());
-                $result .= '<a href="'.(string) $link.'">';
-                $result .= $page->title;
-                $result .= '</a>';
-            }
-            else
-            {
-                $result .= '<span class="separator '.($config->disabled ? 'nolink' : '').'">';
-                $result .= $page->title;
-                $result .= '</span>';
-            }
-
-            //$result .= $level;
-            if ($level < $next_level) {
-                // don't close <li>
-            }
-            elseif ($level === $next_level) {
-                $result .= "</li>";
-            }
-            elseif ($next_level === false || $level > $next_level)
-            {
-                // Last one of the level
-                $result .= "</li>";
-
-                for($i = 0; $i < $level - $next_level; ++$i)
+                $class = array();
+                if($active)
                 {
-                    if($next_level === false) {
-                        $result .= "</ul>";
-                    } else {
-                        $result .= "</ul></li>";
+                    if(in_array($page->id, $active->getPath())) {
+                        $class[] = 'active';
+                    }
+
+                    if($page->id == $active->id) {
+                        $class[] = 'current';
+                    }
+
+                    if($page->hasChildren()) {
+                        $class[] = 'parent';
                     }
                 }
-            }
 
-            $last_level = $level;
+                $html .= '<li'.($class ? ' class="'.implode(' ', $class).'"' : '').">";
+
+                if($link = $page->getLink())
+                {
+                    $link = $this->getTemplate()->route($link->getQuery());
+                    $html .= '<a href="'.(string) $link.'">';
+                    $html .= $page->title;
+                    $html .= '</a>';
+                }
+                else
+                {
+                    $html .= '<span class="separator '.($config->disabled ? 'nolink' : '').'">';
+                    $html .= $page->title;
+                    $html .= '</span>';
+                }
+
+
+                if(!$page->hasChildren())
+                {
+                    $html .= "</li>";
+
+                    if(!$iterator->hasNext()) {
+                        $html .= "</ul>";
+                    }
+                }
+
+                $level = $iterator->getLevel();
+            }
         }
 
-        return $result;
+        return $html;
     }
 }
