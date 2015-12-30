@@ -110,7 +110,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
     /**
      * Make the query distinct
      *
-     * @return DatabaseQuery
+     * @return DatabaseQuerySelect
      */
     public function distinct()
     {
@@ -139,7 +139,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the from clause 
+     * Build the from clause
      *
      * @param  array|string The table string or array name.
      * @return DatabaseQuerySelect
@@ -219,7 +219,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the order clause 
+     * Build the order clause
      *
      * @param   array|string $columns   A string or array of ordering columns
      * @param   string       $direction Either DESC or ASC
@@ -239,7 +239,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the limit element 
+     * Build the limit element
      *
      * @param   integer $limit  Number of items to fetch.
      * @param   integer $offset Offset to start fetching at.
