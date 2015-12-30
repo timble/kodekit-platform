@@ -29,7 +29,7 @@ class UsersDispatcher extends Library\Dispatcher
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
-                $menu = $this->getObject('pages')->getPrimary();
+                $menu = $this->getObject('pages')->getDefault();
                 //@TODO : Fix the redirect
                 //$this->getObject('application')->redirect('?Itemid='.$menu->id, 'You are already logged in!');
             }
@@ -40,7 +40,7 @@ class UsersDispatcher extends Library\Dispatcher
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
-                $menu = $this->getObject('pages')->getPrimary();
+                $menu = $this->getObject('pages')->getDefault();
                 //@TODO : Fix the redirect
                 //$this->getObject('application')->redirect('?Itemid='.$menu->id, 'You are already logged out!');
             }
