@@ -14,48 +14,11 @@ use Nooku\Library;
 /**
  * Pages Model Entity
  *
- * @author  Gergo Erdosi <http://github.com/gergoerdosi>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
 class ModelEntityPages extends Library\ModelEntityRowset
 {
-    /**
-     * The active page
-     *
-     * @var ModelEntityPage
-     */
-    protected $_active;
-
-    /**
-     * The primary language
-     *
-     * @var ModelEntityPage
-     */
-    protected $_primary;
-
-    /**
-     * The pathway
-     *
-     * @var array
-     */
-    protected $_pathway;
-
-    public function __construct(Library\ObjectConfig $config )
-    {
-        parent::__construct($config);
-
-        //Calculate the page routes
-        foreach($this as $page)
-        {
-            $path = array();
-            foreach(explode('/', $page->path) as $id) {
-                $path[] = $this->find($id)->slug;
-            }
-
-            $page->route = implode('/', $path);
-        }
-    }
-
     public function find($needle)
     {
         $result = null;
@@ -92,56 +55,4 @@ class ModelEntityPages extends Library\ModelEntityRowset
 
         return $result;
     }
-
-    public function getPage($id)
-    {
-        $page = $this->find($id);
-        return $page;
-    }
-
-    public function getPrimary()
-    {
-        if(!isset($this->_primary)) {
-            $this->_primary = $this->find(array('home' => 1));
-        }
-
-        return $this->_primary;
-    }
-
-    public function getPathway()
-    {
-        if(!isset($this->_pathway))
-        {
-            $this->_pathway = new \ArrayObject();
-
-            foreach(explode('/', $this->getActive()->path) as $id)
-            {
-                $page = $this->getPage($id);
-
-                $this->_pathway[] = array(
-                    'title' => $page->title,
-                    'link'  => $page->getLink()
-                );
-            }
-        }
-
-        return $this->_pathway;
-    }
-
-    public function setActive($active)
-    {
-        if(is_numeric($active)) {
-            $this->_active = $this->find($active);
-        } else {
-            $this->_active = $active;
-        }
-
-        return $this;
-    }
-
-    public function getActive()
-    {
-        return $this->_active;
-    }
-
 }
