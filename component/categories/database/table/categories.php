@@ -24,8 +24,7 @@ class DatabaseTableCategories extends Library\DatabaseTableAbstract
         $config->append(array(
             'name'       => 'categories',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'sluggable', 'cascadable', 'nestable', 'identifiable',
-            	'orderable'  => array('parent_column' => 'parent_id'),
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'nestable', 'recursable', 'identifiable', 'orderable' ,
                 'com:attachments.database.behavior.attachable',
             ),
             'filters' => array(
