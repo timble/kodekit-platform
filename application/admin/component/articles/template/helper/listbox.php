@@ -87,7 +87,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
             ->fetch();
 
         $pages = $pages->find(array(
-            'link_url' => 'component=articles&view=articles&layout=search'
+            'state' => 'view=articles&layout=search'
         ));
 
         $options = array();
