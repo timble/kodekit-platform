@@ -26,21 +26,6 @@ interface ControllerToolbarCommandInterface extends ControllerToolbarInterface
     public function __construct( $name, $config = array());
 
     /**
-     * Get the parent command
-     *
-     * @return	ControllerToolbarCommandInterface
-     */
-    public function getParent();
-
-    /**
-     * Set the parent command
-     *
-     * @param ControllerToolbarCommandInterface $command The parent command
-     * @return ControllerToolbarCommandInterface
-     */
-    public function setParent(ControllerToolbarCommandInterface $command );
-
-    /**
      * Get the toolbar object
      *
      * @return ControllerToolbarInterface
@@ -48,9 +33,9 @@ interface ControllerToolbarCommandInterface extends ControllerToolbarInterface
     public function getToolbar();
 
     /**
-     * Set the parent node
+     * Set the parent toolbar
      *
-     * @param object $node The toolbar this command belongs too
+     * @param ControllerToolbarInterface $toolbar The toolbar this command belongs too
      * @return ControllerToolbarCommand
      */
     public function setToolbar(ControllerToolbarInterface $toolbar );

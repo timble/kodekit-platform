@@ -79,6 +79,16 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
     }
 
     /**
+     * Get the toolbar's title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getDelegate()->getTitle();
+    }
+
+    /**
      * Add a command
      *
      * @param   string    $command The command name
@@ -176,5 +186,31 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
     public function count()
     {
         return $this->getDelegate()->count();
+    }
+
+    /**
+     * Set the decorated model
+     *
+     * @param   ControllerToolbarInterface $delegate The decorated toolbar
+     * @return  ControllerToolbarDecorator
+     * @throws \InvalidArgumentException If the delegate is not a toolbar
+     */
+    public function setDelegate($delegate)
+    {
+        if (!$delegate instanceof ControllerToolbarInterface) {
+            throw new \InvalidArgumentException('Delegate: '.get_class($delegate).' does not implement ControllerToolbarInterface');
+        }
+
+        return parent::setDelegate($delegate);
+    }
+
+    /**
+     * Get the decorated toolbar
+     *
+     * @return ControllerToolbarInterface
+     */
+    public function getDelegate()
+    {
+        return parent::getDelegate();
     }
 }

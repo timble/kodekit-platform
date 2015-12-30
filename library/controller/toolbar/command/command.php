@@ -29,21 +29,14 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      *
      * @var string|object
      */
-    protected $_commands = null;
-
-    /**
-     * Toolbar command object
-     *
-     * @var object
-     */
-    protected $_parent = null;
+    private $__commands = null;
 
     /**
      * Toolbar object
      *
-     * @var object
+     * @var ControllerToolbarInterface
      */
-    protected $_toolbar = null;
+    private $__toolbar = null;
 
     /**
      * Constructor.
@@ -68,7 +61,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
         ));
 
         //Create the children array
-        $this->_commands = array();
+        $this->__commands = array();
 
         //Set the command name
         $this->_name = $name;
@@ -85,6 +78,16 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     }
 
     /**
+     * Get the toolbar's title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
      * Add a command
      *
      * @param   string	$command The command name
@@ -97,10 +100,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
             $command = $this->getCommand($command, $config);
         }
 
-        //Set the command parent
-        $command->setParent($this);
-
-        $this->_commands[$command->getName()] = $command;
+        $this->__commands[$command->getName()] = $command;
         return $command;
     }
 
@@ -124,17 +124,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      */
     public function hasCommand($name)
     {
-        return isset($this->_commands[$name]);
-    }
-
-    /**
-     * Get the list of commands
-     *
-     * @return  array
-     */
-    public function getCommands()
-    {
-        return $this->_commands;
+        return isset($this->__commands[$name]);
     }
 
     /**
@@ -144,7 +134,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      */
     public function getIterator()
     {
-        return new \RecursiveArrayIterator($this->getCommands());
+        return new \ArrayIterator($this->__commands);
     }
 
     /**
@@ -156,7 +146,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      */
     public function count()
     {
-        return count($this->_commands);
+        return count($this->__commands);
     }
 
     /**
@@ -176,35 +166,13 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     }
 
     /**
-     * Get the parent node
-     *
-     * @return	ControllerToolbarCommand
-     */
-    public function getParent()
-    {
-        return $this->_parent;
-    }
-
-    /**
-     * Set the parent command
-     *
-     * @param ControllerToolbarCommand $command The parent command
-     * @return ControllerToolbarCommand
-     */
-    public function setParent(ControllerToolbarCommandInterface $command )
-    {
-        $this->_parent = $command;
-        return $this;
-    }
-
-    /**
      * Get the toolbar object
      *
      * @return ControllerToolbarInterface
      */
     public function getToolbar()
     {
-        return $this->_toolbar;
+        return $this->__toolbar;
     }
 
     /**
@@ -215,7 +183,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      */
     public function setToolbar(ControllerToolbarInterface $toolbar )
     {
-        $this->_toolbar = $toolbar;
+        $this->__toolbar = $toolbar;
         return $this;
     }
 
@@ -237,7 +205,5 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
             $command = $this->addCommand(strtolower($parts[1]), $config);
             return $command;
         }
-
-        return parent::__call($method, $args);
     }
 }
