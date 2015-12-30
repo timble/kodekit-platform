@@ -154,6 +154,30 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     }
 
     /**
+     * Mixin an object
+     *
+     * Reset the computed_properties after a behavior has been mixed that has mixable methods
+     *
+     * @param   mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectMixableInterface
+     * @param  array $config  An optional associative array of configuration options
+     * @return  ObjectMixinInterface
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  \UnexpectedValueException If the mixin does not implement the ObjectMixinInterface
+     */
+    public function mixin($mixin, $config = array())
+    {
+        $mixin = parent::mixin($mixin, $config);
+
+        //Reset the computed properties array
+        $methods = $mixin->getMixableMethods();
+        if(!empty($methods)) {
+            $this->__computed_properties = null;
+        }
+
+        return $mixin;
+    }
+
+    /**
      * Gets the identity key
      *
      * @return string
@@ -175,7 +199,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     public function getProperty($name)
     {
         //Handle computed properties
-        if(!$this->hasProperty($name) && !empty($name))
+        if(!parent::offsetExists($name) && $this->hasProperty($name))
         {
             $getter = 'getProperty'.StringInflector::camelize($name);
             $methods = $this->getMethods();
@@ -244,7 +268,20 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     public function hasProperty($name)
     {
-        return parent::offsetExists($name);
+        $result = false;
+
+        //Handle computed properties
+        if(!parent::offsetExists($name) && !empty($name))
+        {
+            $properties = $this->getComputedProperties();
+
+            if(isset($properties[$name])) {
+                $result = true;
+            }
+        }
+        else $result = true;
+
+        return $result;
     }
 
     /**
