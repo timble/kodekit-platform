@@ -2,9 +2,9 @@
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
- * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Component\Categories;
@@ -19,140 +19,49 @@ use Nooku\Library;
  */
 class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 {
-    protected $_table;
-
-    public function __construct(Library\ObjectConfig $config)
+    /**
+     * Get the node path
+     *
+     * @return  array
+     */
+    public function getPath()
     {
-        parent::__construct($config);
-
-        $this->_table = $config->table;
+        return array_map('intval', explode('/', $this->path));
     }
 
-    protected function _initialize(Library\ObjectConfig $config)
+    /**
+     * Get the node level
+     *
+     * @return  int
+     */
+    public function getLevel()
     {
-        $config->append(
-            array('table' => null)
-        );
-
-        parent::_initialize($config);
+        return $this->level;
     }
 
-    protected function _beforeSelect(Library\DatabaseContext $context)
+    /**
+     * Get the node parent identifier
+     *
+     * @return int
+     */
+    public function getParent()
     {
-        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface)
-        {
-            $context->limit  = $context->query->limit;
-            $context->offset = $context->query->offset;
-
-            $context->query->limit(0);
-        }
-        else
-        {
-            if ($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
-            {
-                $this->_table = $context->getSubject();
-                $this->_table->getAdapter()->addCommandHandler($this);
-            }
-        }
+        return $this->parent_id;
     }
 
-    protected function _afterSelect(Library\DatabaseContext $context)
+    protected function _beforeDelete(Library\DatabaseContextInterface $context)
     {
-        if ($context->getSubject() instanceof Library\DatabaseAdapterInterface)
-        {
-            //Get the data
-            $rows = Library\ObjectConfig::unbox($context->result);
+        $result = true;
 
-            if (is_array($rows))
-            {
-                $children = array();
-                $result   = array();
+        $table      = $this->table;
+        $identifier = 'com:'.$table.'.database.table.'.$table;
 
-                /*
-                * Create the children array
-                */
-                foreach ($rows as $key => $row)
-                {
-                    $path   = array();
-                    $parent = $row['parent_id'];
+        $entity = $this->getObject($identifier)->select(array('categories_category_id' => $this->id));
 
-                    //Store node by parent
-                    if (!empty($parent) && isset($rows[$parent])) {
-                        $children[$parent][] = $key;
-                    }
-                }
-
-                /*
-                 * Create the result array
-                 */
-                foreach ($rows as $key => $row)
-                {
-                    if (empty($row['parent_id'])) {
-                        $result[$key] = $row;
-
-                        if (isset($children[$key])) {
-                            $this->_getChildren($rows, $children, $key, $result);
-                        }
-                    }
-                }
-
-                /*
-                 * If we have not been able to match all children to their parents don't perform
-                 * the path enumeration for the children.
-                 */
-                if (count($result) == count($rows))
-                {
-                    if ($context->limit) {
-                        $result = array_slice($result, $context->offset, $context->limit, true);
-                    }
-
-                    /*
-                      * Create the paths of each node
-                      */
-                    foreach ($result as $key => $row)
-                    {
-                        $path   = array();
-                        $parent = $row['parent_id'];
-
-                        if (!empty($parent)) {
-                            $table = $this->_table;
-
-                            //Create node path
-                            $path = $result[$parent]['path'];
-                            $id   = $result[$parent][$table->getIdentityColumn()];
-
-                            $path[] = $id;
-                        }
-
-                        //Set the node path
-                        $result[$key]['path'] = $path;
-                    }
-                }
-                else $result = $rows;
-
-                $context->result = $result;
-            }
+        if($entity->count()) {
+            $result = $entity->delete();
         }
-        else
-        {
-            if (isset($this->_table))
-            {
-                $this->_table->getAdapter()->removeCommandHandler($this);
-                $this->_table = null;
-            }
-        }
-    }
 
-    protected function _getChildren($rows, $children, $parent, &$result)
-    {
-        foreach ($children[$parent] as $child)
-        {
-            //Add the child to the rows
-            $result[$child] = $rows[$child];
-
-            if (isset($children[$child])) {
-                $this->_getChildren($rows, $children, $child, $result);
-            }
-        }
+        return $result;
     }
 }
