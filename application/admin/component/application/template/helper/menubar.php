@@ -17,42 +17,15 @@ use Nooku\Component\Pages;
  * @package Component\Application
  */
 
-class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperMenu
+class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperMenubar
 {
- 	/**
-     * Render the menubar
-     *
-     * @param   array   $config An optional array with configuration options
-     * @return  string  Html
-     */
     public function render($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'attribs' => array('class' => array())
+            'max_level' => 2,
         ));
 
-        $groups = $this->getObject('user')->getGroups();
-
-        // Make sure that pages without an assigned group are also included.
-        $groups[] = 0;
-
-        $html = '';
-
-        $menu = $this->getObject('pages.menus')
-            ->find(array('slug' => 'menubar'));
-
-        if(count($menu))
-        {
-            $pages  = $this->getObject('pages')->find(array(
-                'pages_menu_id'  => $menu->id,
-                'hidden'         => 0,
-                'users_group_id' => $groups)
-            );
-
-            $html = parent::render(array('pages' => $pages, 'attribs' => $config->attribs));
-        }
-
-        return $html;
+        return parent::render($config);
     }
 }
