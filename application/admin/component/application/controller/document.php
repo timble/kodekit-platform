@@ -21,7 +21,11 @@ class ApplicationControllerDocument extends Application\ControllerDocument
     protected function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'toolbars'  => array('menubar', 'tabbar', 'actionbar'),
+            'toolbars'  => array(
+                'actionbar',
+                'com:pages.controller.toolbar.menubar',
+                'com:pages.controller.toolbar.tabbar'
+            ),
         ));
 
         parent::_initialize($config);
