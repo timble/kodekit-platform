@@ -84,7 +84,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
                     $link = $page->getLink();
 
                     // Particular case ... all articles from all categories.
-                    if ($page->link_url == 'component=articles&view=articles') {
+                    if ($page->state == 'view=articles') {
                         $constraints['categories'][] = 0;
                     }
 
@@ -119,17 +119,9 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
     {
         if (!$this->_pages)
         {
-            $user = $this->_user;
-
-            $needles = array(
-                'users_group_id' => array_merge(array(0), $user->getGroups()),
-                'component_name' => $this->getMixer()->getIdentifier()->package);
-
-            if (!$user->isAuthentic()) {
-                $needles['access'] = 0;
-            }
-
-            $this->_pages = $this->getObject('pages')->find($needles);
+            $this->_pages = $this->getObject('pages')->find(array(
+                'component' => $this->getMixer()->getIdentifier()->package
+            ));
         }
 
         return $this->_pages;
@@ -163,7 +155,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 
             // Look for an un-filtered articles view page.
             if (is_null($page)) {
-                $page = $pages->find(array('link_url' => 'component=articles&view=articles'));
+                $page = $pages->find(array('state' => 'view=articles'));
             }
         }
 
