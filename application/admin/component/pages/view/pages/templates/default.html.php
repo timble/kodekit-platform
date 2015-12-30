@@ -54,8 +54,8 @@
         <tbody class="sortable">
         <? $tbody = null;
         foreach ($pages as $page) : ?>
-            <? if (!$page->getParentId() && $page->getParentId() != $tbody) $tbody = $page->getParentId(); ?>
-            <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>"
+            <? if (!$page->parent_id && $page->parent_id != $tbody) $tbody = $page->parent_id; ?>
+            <tr class="sortable" data-sortable-parent="<?= (int)$page->parent_id; ?>"
                 data-sortable-level="<?= (int)$page->level ?>">
                 <? if (parameters()->sort == 'custom' && parameters()->direction == 'asc') : ?>
                     <td class="handle">
@@ -80,7 +80,7 @@
                         <? endif ?>
                         <?= escape($page->title) ?>
                     </a>
-                    <? if ($page->home) : ?>
+                    <? if ($page->default) : ?>
                         <i class="icon-star"></i>
                     <? endif ?>
                     <? if ($page->access) : ?>
