@@ -12,12 +12,12 @@ namespace Nooku\Component\Languages;
 use Nooku\Library;
 
 /**
- * Languages Model Entity
+ * Languages Composite Model
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Languages
  */
-class ModelEntityLanguages extends Library\ModelEntityRowset
+class ModelCompositeLanguages extends ModelLanguages implements Library\ObjectSingleton
 {
     /**
      * The active language
@@ -27,16 +27,29 @@ class ModelEntityLanguages extends Library\ModelEntityRowset
     protected $_active;
 
     /**
-     * The primary language
+     * The default language
      *
      * @var ModelEntityLanguage
      */
-    protected $_primary;
+    protected $_default;
+
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'decorators'     => array('lib:model.composite'),
+            'state_defaults' => array(
+                'enabled'     => true,
+                'application' => APPLICATION_NAME,
+            )
+        ));
+
+        parent::_initialize($config);
+    }
 
     public function setActive($active)
     {
         if(is_numeric($active)) {
-            $this->_active = $this->find($active);
+            $this->_active = $this->fetch()->find($active);
         } else {
             $this->_active = $active;
         }
@@ -56,10 +69,10 @@ class ModelEntityLanguages extends Library\ModelEntityRowset
             $language = strtolower(locale_get_primary_language($locale));
             $region   = strtoupper(locale_get_region($locale));
 
-            $language = $this->find(array('iso_code' => $language.'-'.$region));
+            $language = $this->fetch()->find(array('iso_code' => $language.'-'.$region));
 
             if(!$language) {
-                $language = $this->getPrimary();
+                $language = $this->getDefault();
             }
 
             $this->_active = $language;
@@ -68,12 +81,12 @@ class ModelEntityLanguages extends Library\ModelEntityRowset
         return $this->_active;
     }
 
-    public function getPrimary()
+    public function getDefault()
     {
-        if(!isset($this->_primary)) {
-            $this->_primary = $this->find(array('primary' => 1));
+        if(!isset($this->_default)) {
+            $this->_default = $this->fetch()->find(array('default' => 1));
         }
 
-        return $this->_primary;
+        return $this->_default;
     }
 }

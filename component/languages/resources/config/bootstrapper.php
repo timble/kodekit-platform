@@ -10,17 +10,7 @@
 return array(
 
     'aliases'  => array(
-        'languages' => 'com:languages.model.languages',
+        'languages' => 'com:languages.model.composite.languages',
     ),
 
-    'identifiers' => array(
-
-        'languages' => array(
-            'decorators' => array('model.composite'),
-            'state_defaults' => array(
-                'enabled'       => true,
-                'application'   => APPLICATION_NAME,
-            )
-        )
-    )
 );
