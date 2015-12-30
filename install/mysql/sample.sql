@@ -2,7 +2,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00';
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
-UPDATE `pages` SET `link_url` = REPLACE(`link_url`, 'view=articles', 'view=articles&category=1') WHERE `pages_page_id` = 1;
+UPDATE `pages` SET `state` = REPLACE(`state`, 'view=articles', 'view=articles&category=1') WHERE `pages_page_id` = 1;
 
 --
 -- Dumping data for table `articles`
@@ -25,26 +25,26 @@ INSERT INTO `articles` (`articles_article_id`, `categories_category_id`, `attach
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`categories_category_id`, `parent_id`, `attachments_attachment_id`, `title`, `slug`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`, `uuid`)
+INSERT INTO `categories` (`categories_category_id`, `parent_id`, `path`, `level`, `attachments_attachment_id`, `title`, `slug`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`, `uuid`)
   VALUES
-  (1, 0, 0, 'Tristique', 'tristique', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 1, 0, '', UUID()),
-  (2, 0, 0, 'Tellus', 'tellus', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, '', UUID());
+  (1, 0, '1/', 1, 0,'Tristique', 'tristique', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 1, 0, '', UUID()),
+  (2, 0, '2/', 1, 0, 'Tellus', 'tellus', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, '', UUID());
 
 --
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `component`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`, `uuid`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `component`, `state`, `published`, `hidden`, `default`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `access_group`, `params`, `uuid`)
 VALUES
-  (29, 1, 0, 'Articles', 'articles', 'component=articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["show_create_date":"0","show_modify_date":"0","commentable":"0","page_title":""]', 'f8338fa3-d131-11e3-ab9f-080027880ca6'),
-  (30, 1, 0, 'Blog', 'blog', 'component=articles&view=articles&category=2', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["articles_per_page":"3","sort_by":"newest","show_create_date":"0","show_modify_date":"0","commentable":"0","page_title":""]', 'f833926e-d131-11e3-ab9f-080027880ca6'),
-  (31, 1, 0, 'Table', 'table', 'component=articles&view=articles&category=2&layout=table', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["articles_per_page":"10","sort_by":"newest","show_description":"0","show_description_image":"0","show_date":"0","show_create_date":"0","show_modify_date":"0","commentable":"0","page_title":""]', 'f833936c-d131-11e3-ab9f-080027880ca6'),
-  (37, 1, 0, 'Gallery', 'gallery', 'component=files&view=directory&folder=stories&layout=gallery', NULL, 'component', 1, 0, 0, 'files', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["show_folders":"1","humanize_filenames":"1","limit":"-1","sort":"name","direction":"asc","page_title":""]', 'f8339775-d131-11e3-ab9f-080027880ca6'),
-  (38, 1, 0, 'Table', 'table', 'component=files&view=directory&folder=stories&layout=table', NULL, 'component', 1, 0, 0, 'files', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["show_folders":"1","humanize_filenames":"1","limit":"-1","sort":"name","direction":"asc","page_title":""]', 'f8339841-d131-11e3-ab9f-080027880ca6'),
-  (39, 3, 0, 'Login', 'login', 'component=users&view=session', NULL, 'component', 1, 0, 0, 'users', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["description_login_text":"","page_title":""]', 'f8339905-d131-11e3-ab9f-080027880ca6'),
-  (40, 4, 0, 'Search', 'search', 'component=articles&view=articles', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '["page_title":""]', 'f83399ce-d131-11e3-ab9f-080027880ca6'),
-  (41, 3, 0, 'User', 'user', 'component=users&view=user', NULL, 'component', 1, 0, 0, 'users', NULL, NULL, NULL, NULL, NULL, NULL, 0, '[]', 'f8339a94-d131-11e3-ab9f-080027880ca6'),
-  (42, 1, 0, 'Files', 'files', 'component=articles&view=article&id=1', NULL, 'component', 1, 0, 0, 'articles', NULL, NULL, NULL, NULL, NULL, NULL, 0, '[]', '027d0f80-a509-4448-b35d-429ea5259895');
+  (29, 1, 'Articles', 'articles', 'articles', 'view=article&id=1', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["show_create_date":"0","show_modify_date":"0","commentable":"0","page_title":""]', UUID()),
+  (30, 1, 'Blog', 'blog', 'articles', 'view=articles&category=2', 1, 0, 0, , NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["articles_per_page":"3","sort_by":"newest","show_create_date":"0","show_modify_date":"0","commentable":"0","page_title":""]', UUID()),
+  (31, 1, 'Table', 'table', 'articles' 'view=articles&category=2&layout=table', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["articles_per_page":"10","sort_by":"newest","show_description":"0","show_description_image":"0","show_date":"0","show_create_date":"0","show_modify_date":"0","commentable":"0","page_title":""]', UUID()),
+  (37, 1, 'Gallery', 'gallery', 'files', 'view=directory&folder=stories&layout=gallery', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["show_folders":"1","humanize_filenames":"1","limit":"-1","sort":"name","direction":"asc","page_title":""]', UUID()),
+  (38, 1, 'Table', 'table', 'files', 'view=directory&folder=stories&layout=table', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["show_folders":"1","humanize_filenames":"1","limit":"-1","sort":"name","direction":"asc","page_title":""]', UUID()),
+  (39, 3, 'Login', 'login', 'users', 'view=session', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["description_login_text":"","page_title":""]', UUID()),
+  (40, 4, 'Search', 'search', 'articles', 'view=articles', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '["page_title":""]', UUID()),
+  (41, 3, 'User', 'user', 'users', 'view=user', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '[]', UUID()),
+  (42, 1, 'Files', 'files', 'articles', 'view=article&id=1', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '[]', UUID());
 
 --
 -- Dumping data for table `pages_orderings`
@@ -83,11 +83,11 @@ INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `des
 
 INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `component`, `application`, `uuid`)
 VALUES
-  (2, 'User Menu', '', 4, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'menu', 1, '["menu_id":"3","show_title":"1","class":"nav nav-list"]', 'pages', 'site', 'f833f4bc-d131-11e3-ab9f-080027880ca6'),
+  (2, 'User Menu', '', 4, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'menu', 1, '["menu":"3","show_title":"1","class":"nav nav-list"]', 'pages', 'site', 'f833f4bc-d131-11e3-ab9f-080027880ca6'),
   (3, 'Login Form', '', 5, 'left', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'login', 0, '["show_title":"1"]', 'users', 'site', 'f833f7cd-d131-11e3-ab9f-080027880ca6'),
   (4, 'Search', '', 3, 'user4', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'search', 0, '["form_class":"navbar-search form-search pull-right","input_class":"span2 search-query","item_id":"40"]', 'articles', 'site', 'f833f87d-d131-11e3-ab9f-080027880ca6'),
   (5, 'Breadcrumbs', '', 1, 'breadcrumb', 1, '2014-05-01 13:10:29', NULL, NULL, NULL, NULL, 1, 'breadcrumbs', 0, '["showHome":"1","homeText":"Home","showLast":"1"]', 'pages', 'site', 'f833f90b-d131-11e3-ab9f-080027880ca6'),
-  (6, 'Left Menu', '', 6, 'left', 1, '2014-05-01 14:47:37', NULL, NULL, NULL, NULL, 1, 'menu', 0, '["menu_id":"1","show_title":"0","class":"nav nav-pills nav-stacked","start_level":"2"]', 'pages', 'site', 'af9430dc-3bc8-41dc-8e26-ef370e869bbb');
+  (6, 'Left Menu', '', 6, 'left', 1, '2014-05-01 14:47:37', NULL, NULL, NULL, NULL, 1, 'menu', 0, '["menu":"1","show_title":"0","class":"nav nav-pills nav-stacked","start_level":"2"]', 'pages', 'site', 'af9430dc-3bc8-41dc-8e26-ef370e869bbb');
 
 --
 -- Dumping data for table `pages_modules`
