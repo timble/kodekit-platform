@@ -30,8 +30,11 @@ class TemplateFilterBlock extends Library\TemplateFilterBlock
         $blocks  = parent::getBlocks($name);
         $modules = $this->getObject('pages.modules')->find(array('position' => $name));
 
-        foreach($modules as $module) {
-            $blocks[] = $module;
+        foreach($modules as $module)
+        {
+            if($module->canAccess()) {
+                $blocks[] = $module;
+            }
         }
 
         return array_reverse($blocks);
@@ -45,10 +48,9 @@ class TemplateFilterBlock extends Library\TemplateFilterBlock
      */
     public function hasBlocks($name)
     {
-        $blocks  = parent::hasBlocks($name);
-        $modules = $this->getObject('pages.modules')->count(array('position' => $name));
+        $blocks = $this->getBlocks($name);
 
-        return (bool) ($blocks || $modules);
+        return (bool) count($blocks);
     }
 
     /**
