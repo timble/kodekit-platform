@@ -67,30 +67,26 @@ class ControllerToolbarTabbar extends Library\ControllerToolbarAbstract
     {
         $menu = $this->getObject('pages.menus')->find(array('slug' => 'menubar'));
 
-        if(count($menu) && $this->getObject('manager')->isRegistered('dispatcher'))
+        if(count($menu))
         {
-            $package    = $this->getObject('dispatcher')->getIdentifier()->package;
-            $view       = $this->getObject('request')->query->get('view', 'cmd');
-            $groups     = $this->getObject('user')->getGroups();
-            $translator = $this->getObject('translator');
-
-            // Make sure that pages without an assigned group are also included.
-            $groups[] = 0;
+            $component  = $this->getObject('dispatcher')->getIdentifier()->package;
+            $controller = $this->getObject('dispatcher')->getController()->getIdentifier()->name;
 
             $pages = $this->getObject('pages')->find(array(
-                'pages_menu_id'     => $menu->id,
-                'component'         => $package,
-                'hidden'            => 0,
-                'users_group_id'    => $groups
+                'pages_menu_id'  => $menu->id,
+                'component'      => $component,
             ));
 
             foreach($pages as $page)
             {
-                if($page->level > 2)
+                if($page->canAccess())
                 {
-                    $this->addCommand($translator($page->title), array(
-                        'href'   => (string) $page->link_url,
-                        'active' => (string) $view == $page->getLink()->query['view']
+                    $this->addCommand($page->title, array(
+                        'id'       => $page->id,
+                        'href'     => $page->getLink(),
+                        'active'   => (string) $controller == Library\StringInflector::singularize($page->getLink()->query['view']),
+                        'path'     => $page->getPath(),
+                        'hidden'   => $page->hidden,
                     ));
                 }
             }
