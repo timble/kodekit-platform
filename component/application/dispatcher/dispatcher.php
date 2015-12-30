@@ -84,7 +84,7 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
             $instance  = new static($config);
             $manager->setObject($config->object_identifier, $instance);
 
-            //Add the service alias to allow easy access to the singleton
+            //Add the object alias to allow easy access to the singleton
             $manager->registerAlias($config->object_identifier, 'application');
         }
 
