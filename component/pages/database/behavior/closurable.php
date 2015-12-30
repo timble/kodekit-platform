@@ -76,12 +76,22 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Get parent id
      *
-     * @return int|null The parent id if row has a parent, null otherwise.
+     * @return int The parent id if row has a parent, 0 otherwise.
      */
-    public function getParentId()
+    public function getPropertyParentId()
     {
         $id = $this->level > 1 ? end(array_values($this->getParentIds())) : null;
         return $id;
+    }
+
+    /**
+     * Get the node path
+     *
+     * @return array
+     */
+    public function getPath()
+    {
+        return array_map('intval', explode('/', $this->path));
     }
 
     /**
@@ -91,7 +101,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      */
     public function getParentIds()
     {
-        $ids = array_map('intval', explode('/', $this->path));
+        $ids = $this->getPath();
         array_pop($ids);
 
         return $ids;
@@ -113,7 +123,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
             ->bind(array('id' => $this->id, 'level' => $this->level));
 
         if ($this->level > 1) {
-            $query->where('closures.ancestor_id = :ancestor_id')->bind(array('ancestor_id' => $this->getParentId()));
+            $query->where('closures.ancestor_id = :ancestor_id')->bind(array('ancestor_id' => $this->parent_id));
         }
 
         $result = $table->select($query);
@@ -299,7 +309,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         if ($context->affected !== false)
         {
             $row = $context->data;
-            if ((int)$row->parent_id != (int)$row->getParentId())
+            if ($row->isModified('parent_id'))
             {
                 $table = $row->getTable();
 
