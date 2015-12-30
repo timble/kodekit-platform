@@ -24,14 +24,15 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
         $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'          => 'categories_category_id',
-            'entity'           => '',
+            'entity'        => '',
             'uncategorised' => false,
-            'max_depth'     => '9',
+            'max_level'     => '9',
         ))->append(array(
             'selected'      => $config->entity->{$config->name},
         ))->append(array(
             'filter' 	=> array(
                 'sort'      => 'title',
+                'limit'     => 0,
                 'parent'    => null,
                 'published' => null,
                 'table'     => $config->entity->getTable()->getBase()
@@ -42,11 +43,8 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
                         ->setState(Library\ObjectConfig::unbox($config->filter))
                         ->fetch();
 
-        $iterator = new ModelIteratorNode($categories);
-        $iterator->setMaxDepth($config->max_depth);
-
         $options = $this->options(array(
-            'entity' => $iterator,
+            'entity' =>  $categories->getRecursiveIterator($config->max_level),
             'value'  => 'id',
             'label'  => 'title',
         ));
