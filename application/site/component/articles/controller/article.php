@@ -61,9 +61,6 @@ class ArticlesControllerArticle extends Library\ControllerModel
                 $request->query->sort      = key($sort_by);
                 $request->query->direction = current($sort_by);
             }
-
-            //Always show child category articles
-            $request->query->category_recurse = false;
         }
 
         return $request;
