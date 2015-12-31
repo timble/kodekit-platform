@@ -66,6 +66,13 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      */
     public function sendContent(DispatcherResponseInterface $response)
     {
+        //Make sure the output buffers are cleared
+        $level = ob_get_level();
+        while($level > 0) {
+            ob_end_clean();
+            $level--;
+        };
+
         echo $response->getStream()->toString();
         return $this;
     }
@@ -226,8 +233,8 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         }
 
         //Send headers and content
-        $this->sendHeaders($response)
-             ->sendContent($response);
+        $this->sendHeaders($response);
+        $this->sendContent($response);
 
         return parent::send($response);
     }
