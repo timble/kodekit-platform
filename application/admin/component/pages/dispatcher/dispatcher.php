@@ -28,11 +28,9 @@ class PagesDispatcher extends Library\Dispatcher
 
         if($view == 'pages' && !$context->request->query->has('menu'))
         {
-            $page = $this->getObject('com:pages.database.table.pages')
-                          ->select(array('home' => 1), Library\Database::FETCH_ROW);
+            $page = $this->getObject('pages')->getDefault();
 
             $url = clone($context->request->getUrl());
-            $url->query['view'] = $view;
             $url->query['menu'] = $page->pages_menu_id;
 
             return $this->redirect($url);
