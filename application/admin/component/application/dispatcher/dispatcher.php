@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * Nooku Platform - http://www.nooku.org/platform
  *
