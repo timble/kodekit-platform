@@ -38,22 +38,24 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
      * Send HTTP headers
      *
      * @param DispatcherResponseInterface $response
+     * @throws \RuntimeException If the headers have already been send
      * @return DispatcherResponseTransportAbstract
      */
     public function sendHeaders(DispatcherResponseInterface $response)
     {
-        if (!headers_sent())
+        if(!headers_sent($file, $line))
         {
             //Send the status header
             header(sprintf('HTTP/%s %d %s', $response->getVersion(), $response->getStatusCode(), $response->getStatusMessage()));
 
             //Send the other headers
-            $headers = explode("\r\n", trim((string) $response->headers));
+            $headers = explode("\r\n", trim((string) $response->getHeaders()));
 
             foreach ($headers as $header) {
                 header($header, false);
             }
         }
+        else throw new \RuntimeException(sprintf('Headers already send (output started at %s:%s', $file, $line));
 
         return $this;
     }
