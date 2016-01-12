@@ -54,7 +54,7 @@ abstract class ControllerToolbarDecorator extends ObjectDecorator implements Con
     {
         $controller = $delegate->getController();
 
-        if ($controller->inherits('Nooku\Library\ControllerToolbarMixin'))
+        if ($controller->isCommandable())
         {
             $type = $delegate->getType();
 

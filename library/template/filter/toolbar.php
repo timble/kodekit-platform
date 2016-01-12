@@ -70,7 +70,7 @@ class TemplateFilterToolbar extends TemplateFilterAbstract
      * Set the toolbars to render
      *
      * @param array $toolbars
-     * @return $this
+     * @return TemplateFilterToolbar
      */
     public function setToolbars(array $toolbars)
     {
@@ -83,7 +83,7 @@ class TemplateFilterToolbar extends TemplateFilterAbstract
     }
 
     /**
-     * Returns the menu bar instance
+     * Get a toolbar by type
      *
      * @return ControllerToolbarInterface
      */
@@ -93,7 +93,7 @@ class TemplateFilterToolbar extends TemplateFilterAbstract
     }
 
     /**
-     * Sets the menu bar instance
+     * Sets a toolbar
      *
      * @param  ControllerToolbarInterface $toolbar
      * @return TemplateFilterToolbar

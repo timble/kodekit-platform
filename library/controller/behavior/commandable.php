@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Toolbar Mixin
+ * Commandable Controller Behavior
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Controller
  */
-class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerToolbarMixinInterface
+class ControllerBehaviorCommandable extends ControllerBehaviorAbstract
 {
     /**
      * List of toolbars
@@ -24,29 +24,7 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
      *
      * @var    array
      */
-    protected $__toolbars = array();
-
-    /**
-     * Constructor
-     *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options.
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        //Add the toolbars
-        $toolbars = (array)ObjectConfig::unbox($config->toolbars);
-
-        foreach ($toolbars as $key => $value)
-        {
-            if (is_numeric($key)) {
-                $this->addToolbar($value);
-            } else {
-                $this->addToolbar($key, $value);
-            }
-        }
-    }
+    private $__toolbars = array();
 
     /**
      * Initializes the default configuration for the object
@@ -63,6 +41,38 @@ class ControllerToolbarMixin extends ObjectMixinAbstract implements ControllerTo
         $config->append(array(
             'toolbars' => array(),
         ));
+    }
+
+    /**
+     * Add the toolbars to the controller
+     *
+     * @param  KControllerContextInterface $context A controller context object
+     * @return void
+     */
+    protected function _beforeRender(KControllerContext $context)
+    {
+        $controller = $context->getSubject();
+
+        // Add toolbars on authenticated requests only.
+        if ($controller->getUser()->isAuthentic())
+        {
+            //Add the toolbars
+            $toolbars = (array)ObjectConfig::unbox($this->getConfig()->toolbars);
+
+            foreach ($toolbars as $key => $value)
+            {
+                if (is_numeric($key)) {
+                    $this->addToolbar($value);
+                } else {
+                    $this->addToolbar($key, $value);
+                }
+            }
+        }
+
+        //Add the template filter and inject the toolbars
+        if($controller->getView() instanceof ViewTemplatable) {
+            $controller->getView()->getTemplate()->addFilter('toolbar', array('toolbars' => $this->getToolbars()));
+        }
     }
 
     /**
