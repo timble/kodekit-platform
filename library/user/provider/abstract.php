@@ -88,12 +88,12 @@ class UserProviderAbstract extends Object implements UserProviderInterface
      * Store user object in the provider
      *
      * @param UserInterface $user
-     * @return boolean
+     * @return UserProviderAbstract
      */
     public function setUser(UserInterface $user)
     {
         $this->_users[$user->getId()] = $user;
-        return true;
+        return $this;
     }
 
     /**

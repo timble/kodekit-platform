@@ -40,7 +40,7 @@ interface UserProviderInterface
      * Set a user in the provider
      *
      * @param UserInterface $user
-     * @return boolean
+     * @return UserProviderInterface
      */
     public function setUser(UserInterface $user);
 
