@@ -24,12 +24,12 @@ class JElementCategory extends JElement
         $config = array(
             'name'     => $group . '[' . $name . ']',
             'selected' => $value,
-            'table'    => (string) $param->attributes()->table,
+            'filter'   => array('table'    => (string) $param->attributes()->table),
             'attribs'  => array('class' => 'inputbox'),
         );
 
         $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        $html = Library\ObjectManager::getInstance()->getObject('com:categories.template.helper.listbox',  array('template' => $template))->categories($config);
+        $html     = Library\ObjectManager::getInstance()->getObject('com:categories.template.helper.listbox',  array('template' => $template))->categories($config);
         return $html;
     }
 }
