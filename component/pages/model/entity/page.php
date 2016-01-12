@@ -69,8 +69,7 @@ class ModelEntityPage extends Library\ModelEntityRow
     {
         $link        = $this->getLink();
         $query       = $link  ? $link->getQuery(true) : array();
-        $description = $this->component ? ucfirst($this->component) : ucfirst($query['component']);
-
+        $description = ucfirst($this->component);
         $translator = $this->getObject('translator');
 
         if(isset($query['view'])) {
@@ -144,6 +143,7 @@ class ModelEntityPage extends Library\ModelEntityRow
 
             $path = $site . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
 
+
             if (file_exists($path))
             {
                 $xml = simplexml_load_file($path);
@@ -157,23 +157,23 @@ class ModelEntityPage extends Library\ModelEntityRow
     protected function _getParamsPage($xml)
     {
         $file = __DIR__ . '/page.xml';
-
-        $xml = simplexml_load_file($file);
-
+        $xml   = simplexml_load_file($file);
         $params = new \JParameter($this->parameters, $file);
-        $params->setParams($xml->xpath('state/params'));
+
+        if ($state = $xml->xpath('state/params')) {
+            $params->setParams($state[0]);
+        }
 
         return $params;
     }
 
     protected function _getParamsUrl($xml)
     {
-        $state = $xml->xpath('state/url');
         $params = new \JParameter();
 
-        if ($state instanceof \SimpleXMLElement)
+        if ($state = $xml->xpath('state/url'))
         {
-            $params->setParams($state);
+            $params->setParams($state[0]);
 
             if ($this->state) {
                 $params->setData($this->getLink()->query);
@@ -185,12 +185,11 @@ class ModelEntityPage extends Library\ModelEntityRow
 
     protected function _getParamsLayout($xml)
     {
-        $state  = $xml->xpath('state\params');
         $params = new \JParameter();
 
-        if ($state instanceof \SimpleXMLElement)
+        if ($state = $xml->xpath('state/params'))
         {
-            $params->setParams($state);
+            $params->setParams($state[0]);
 
             if ($this->state) {
                 $params->setData($this->getLink()->query);
