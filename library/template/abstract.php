@@ -229,18 +229,24 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Call template functions
      *
+     * This method will not throw a BadMethodCallException as it"s parent does. Instead if the method is not callable
+     * it will return NULL
+     *
      * @param  string $method    The function name
      * @param  array  $arguments The function arguments
-     * @throws \BadMethodCallException   If method could not be found
-     * @return mixed The result of the function
+     * @return mixed|null   Return NULL If method could not be found
      */
     public function __call($method, $arguments)
     {
-        if(isset($this->_functions[$method])) {
-            $result = call_user_func_array($this->_functions[$method], $arguments);
-        } else {
-            $result = parent::__call($method, $arguments);
+        if(!isset($this->_functions[$method]))
+        {
+            if (is_callable(array($this, $method))) {
+                $result = parent::__call($method, $arguments);
+            } else {
+                $result = null;
+            }
         }
+        else $result = call_user_func_array($this->_functions[$method], $arguments);
 
         return $result;
     }
