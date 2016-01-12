@@ -25,10 +25,10 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
     		'value'	=> 'id',
     		'label'	=> 'name'
     	));
-    
+
     	return parent::_listbox($config);
     }
-    
+
     public function users($config = array())
     {
         $config = new Library\ObjectConfig($config);
@@ -36,15 +36,14 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 			'model'		=> 'users',
 			'name'		=> 'id',
 		    'filter'	=> array(
-		    	'group'      => 18,
-		    	'group_tree' => true
+		    	'group'  => 18,
 		    )
 		));
-		
+
 		//@TODO : Fix - Forcing config option because of name collisions
 		$config->text = 'name';
 		$config->sort = 'name';
-		
+
 		return parent::_render($config);
     }
 
