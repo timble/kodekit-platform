@@ -30,7 +30,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_user = $this->getObject('user.provider')->load($config->user);
+        $this->_user = $this->getObject('user.provider')->getUser($config->user);
     }
 
     protected function _beforeSelect(Library\DatabaseContext $context)

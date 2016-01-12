@@ -8,7 +8,7 @@
  */
 ?>
 
-<? if(object('com:comments.controller.comment')->canDelete()) : ?>
+<? if(can('delete')) : ?>
     <?= helper('behavior.mootools') ?>
     <ktml:script src="assets://application/js/jquery.js" />
     <ktml:script src="assets://comments/js/comments.js" />
@@ -27,7 +27,7 @@
     </script>
 <? endif ?>
 
-<? if(object('com:comments.controller.comment')->canAdd()) : ?>
+<? if(can('add')) : ?>
     <ktml:script src="assets://application/js/jquery.js" />
     <ktml:cript src="assets://ckeditor/ckeditor/ckeditor.js" />
 
@@ -61,7 +61,7 @@
     </script>
 <? endif ?>
 
-<? if(count($comments) || object('com:comments.controller.comment')->canAdd()) : ?>
+<? if(count($comments) || can('add')) : ?>
 <div id="comments" class="comments">
     <? foreach($comments as $comment) : ?>
         <div class="comment" id="comment-<?=$comment->id;?>">
@@ -77,12 +77,12 @@
                </span>
             </div>
 
-            <div class="comment__text" id="comment-<?=$comment->id;?>" contenteditable="<?= object('com:comments.controller.comment')->id($comment->id)->canEdit() == 1? "true" : "false"; ?>" >
+            <div class="comment__text" id="comment-<?=$comment->id;?>" contenteditable="<?= can('edit') ? "true" : "false"; ?>" >
                 <?=$comment->text?>
             </div>
         </div>
     <? endforeach ?>
-    <?if(object('com:comments.controller.comment')->canAdd()):?>
+    <?if(can('add')):?>
         <?= import('com:comments.comment.form.html'); ?>
     <?endif;?>
 </div>
