@@ -30,7 +30,9 @@ abstract class ModuleAbstract extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'behaviors' => array('com:pages.module.behavior.decoratable')
+            'behaviors' => array(
+                'com:pages.module.behavior.decoratable',
+            )
         ));
 
         parent::_initialize($config);
