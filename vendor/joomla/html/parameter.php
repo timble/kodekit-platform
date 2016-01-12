@@ -268,7 +268,13 @@ class JParameter extends JObject
      */
     public function setParams($params, $group = '_default')
     {
+        $group = $params->attributes()->group ?: $group;
         $this->_params[$group] = $params;
+
+        if ($dir = (string)$params->attributes()->path) {
+            $this->addElementPath(APPLICATION_ROOT . str_replace('/', DS, $dir));
+        }
+
         return $this;
     }
 
@@ -291,6 +297,7 @@ class JParameter extends JObject
 	 * Loads an xml setup file and parses it
 	 *
 	 * @param	string	$path path to xml setup file
+     * @return bool     Return true if the params have been successfully loaded.
 	 */
 	public function loadParams($path)
 	{
@@ -298,23 +305,9 @@ class JParameter extends JObject
         {
             if ($params = $xml->params)
             {
-                foreach ($params as $param)
-                {
-                    if ($group = $params->attributes()->group) {
-                        $this->_params[$group] = $params;
-                    } else {
-                        $this->_params['_default'] = $params;
-                    }
-
-                    if ($dir = (string) $params->attributes()->path) {
-                        $this->addElementPath( APPLICATION_ROOT . str_replace('/', DS, $dir) );
-                    }
-
-                    return $this;
-                }
+                $this->setParams($params);
+                return true;
             }
-
-            return true;
         }
 
 		return false;
