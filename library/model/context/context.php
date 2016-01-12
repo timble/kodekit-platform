@@ -25,6 +25,13 @@ class ModelContext extends Command implements ModelContextInterface
     public function __construct($attributes = array())
     {
         ObjectConfig::__construct($attributes);
+
+        //Set the subject and the name
+        if($attributes instanceof ModelContext)
+        {
+            $this->setSubject($attributes->getSubject());
+            $this->setName($attributes->getName());
+        }
     }
 
     /**

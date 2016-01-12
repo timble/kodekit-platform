@@ -25,6 +25,13 @@ class ControllerContext extends Command implements ControllerContextInterface
     public function __construct($attributes = array())
     {
         ObjectConfig::__construct($attributes);
+
+        //Set the subject and the name
+        if($attributes instanceof ControllerContext)
+        {
+            $this->setSubject($attributes->getSubject());
+            $this->setName($attributes->getName());
+        }
     }
 
     /**
