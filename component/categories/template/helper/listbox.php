@@ -67,7 +67,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
                 'limit'     => 0,
                 'parent'    => null,
                 'published' => null,
-                'table'     => $config->entity->getTable()->getBase()
+                'table'     => $this->getIdentifier()->getPackage()
             ),
         ));
 
