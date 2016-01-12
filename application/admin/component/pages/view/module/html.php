@@ -55,7 +55,7 @@ class PagesViewModuleHtml extends Library\ViewHtml
         parent::_fetchData($context);
     }
 
-    protected function _loadTranslations(Library\ViewContext $context)
+    protected function _beforeRender(Library\ViewContext $context)
     {
         $module = $this->getModel()->fetch();
 

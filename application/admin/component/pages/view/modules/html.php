@@ -24,7 +24,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
         return parent::_actionRender($context);
 	}
 
-    protected function _loadTranslations(Library\ViewContext $context)
+    protected function _beforeRender(Library\ViewContext $context)
     {
         //Load language files for each module
         if($this->getLayout() == 'list')
