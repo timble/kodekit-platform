@@ -25,6 +25,13 @@ class ViewContext extends Command implements ViewContextInterface
     public function __construct($attributes = array())
     {
         ObjectConfig::__construct($attributes);
+
+        //Set the subject and the name
+        if($attributes instanceof ViewContext)
+        {
+            $this->setSubject($attributes->getSubject());
+            $this->setName($attributes->getName());
+        }
     }
 
     /**

@@ -69,10 +69,10 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         //Make an exception for 'view' and 'module' types
         $type = !empty($path) ? array_shift($path) : '';
 
-        if(!in_array($type, array('view','module'))) {
-            $path = ucfirst($type).StringInflector::camelize(implode('_', $path));
-        } else {
+        if(in_array($type, array('view','module')) && !in_array('behavior', $path)) {
             $path = ucfirst($type);
+        } else {
+            $path = ucfirst($type).StringInflector::camelize(implode('_', $path));
         }
 
         //Allow locating default classes if $path is empty.

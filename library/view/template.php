@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\View
  */
-abstract class ViewTemplate extends ViewAbstract
+abstract class ViewTemplate extends ViewAbstract implements ViewTemplatable
 {
     /**
      * Template object or identifier
