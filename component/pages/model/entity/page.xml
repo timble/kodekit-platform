@@ -6,6 +6,5 @@
 		<params>
 			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PAGE TITLE DESC" />
 		</params>
-		<advanced />
 	</state>
 </metadata>
