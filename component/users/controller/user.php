@@ -36,7 +36,7 @@ class ControllerUser extends Library\ControllerModel
         {
             $provider = $this->getObject('user.provider');
 
-            $user = $provider->load($entity->id, true);
+            $user = $provider->getUser($entity->id, true);
 
             // Logged in user edited. Updated in memory/session user object.
             if($context->user->equals($user))
