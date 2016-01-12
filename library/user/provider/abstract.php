@@ -31,7 +31,6 @@ class UserProviderAbstract extends Object implements UserProviderInterface
      * 'password', 'enabled', and 'roles' etc. The user identifiers should be unique.
      *
      * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
-     *
      * @return UserProviderAbstract
      */
     public function __construct(ObjectConfig $config)
@@ -40,7 +39,7 @@ class UserProviderAbstract extends Object implements UserProviderInterface
 
         //Create the users
         foreach($config->users as $identifier => $data) {
-            $this->_users[$identifier] = $this->create($data);
+            $this->setUser($this->create($data));
         }
     }
 
@@ -62,56 +61,64 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     }
 
     /**
-     * Loads the user for the given user identifier
+     * Load the user for the given username or identifier, fetching it from data store if it doesn't exist yet.
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
-     * @return UserInterface  Returns a UserInterface object
+     * @return UserInterface Returns a UserInterface object.
      */
-    public function load($identifier, $refresh = false)
+    public function getUser($identifier, $refresh = false)
     {
+        $result = null;
+
         //Fetch a user from the backend
         if($refresh || !$this->isLoaded($identifier))
         {
-            $user = $this->fetch($identifier);
-            $this->_users[$identifier] = $user;
+            $this->fetch($identifier, $refresh);
+
+            if($this->isLoaded($identifier)) {
+                $result = $this->_users[$identifier];
+            }
         }
 
-        return  $this->_users[$identifier];
+        return  $result;
+    }
+
+    /**
+     * Store user object in the provider
+     *
+     * @param UserInterface $user
+     * @return boolean
+     */
+    public function setUser(UserInterface $user)
+    {
+        $this->_users[$user->getId()] = $user;
+        return true;
     }
 
     /**
      * Fetch the user for the given user identifier from the data store
      *
-     * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @param string|array $identifier A unique user identifier, (i.e a username or email address)
+     *                                 or an array of identifiers
+     * @param bool  $refresh     If TRUE and the user has already been fetched it will be re-fetched.
+     * @return boolean
      */
-    public function fetch($identifier)
+    public function fetch($identifier, $refresh = false)
     {
-        $data = array(
-            'id'         => $identifier,
-            'authentic'  => false
-        );
+        $identifiers = (array) $identifier;
 
-        return $this->create($data);
-    }
+        foreach($identifiers as $identifier)
+        {
+            $data = array(
+                'id'         => $identifier,
+                'authentic'  => false
+            );
 
-    /**
-     * Store a user object in the provider
-     *
-     * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @param array $data An associative array of user data
-     * @return UserInterface     Returns a UserInterface object
-     */
-    public function store($identifier, $data)
-    {
-        if(!$data instanceof UserInterface) {
-            $data = $this->create($data);
+            $this->setUser($this->create($data));
         }
 
-        $this->_users[$identifier] = $data;
-
-        return $data;
+        return true;
     }
 
     /**

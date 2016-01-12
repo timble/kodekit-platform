@@ -232,7 +232,7 @@ class DispatcherAuthenticatorJwt extends DispatcherAuthenticatorAbstract
                         throw new ControllerExceptionRequestNotAuthenticated('Invalid User');
                     }
 
-                    if($this->getObject('user.provider')->load($user)->getId() == 0) {
+                    if($this->getObject('user.provider')->getUser($user)->getId() == 0) {
                         throw new ControllerExceptionRequestNotAuthenticated('User Not Found');
                     }
                 }

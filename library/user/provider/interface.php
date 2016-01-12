@@ -28,30 +28,30 @@ namespace Nooku\Library;
 interface UserProviderInterface
 {
     /**
-     * Loads the user for the given username or identifier
+     * Get the user for the given username or identifier, fetching it from data store if it doesn't exist yet.
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
      * @return UserInterface Returns a UserInterface object.
      */
-    public function load($identifier, $refresh = false);
+    public function getUser($identifier, $refresh = false);
+
+    /**
+     * Set a user in the provider
+     *
+     * @param UserInterface $user
+     * @return boolean
+     */
+    public function setUser(UserInterface $user);
 
     /**
      * Fetch the user for the given user identifier from the data store
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @param bool  $refresh     If TRUE and the user has already been fetched it will be re-fetched.
+     * @return boolean
      */
-    public function fetch($identifier);
-
-    /**
-     * Store a user object in the provider
-     *
-     * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @param array $data An associative array of user data
-     * @return UserInterface     Returns a UserInterface object
-     */
-    public function store($identifier, $data);
+    public function fetch($identifier, $refresh = false);
 
     /**
      * Create a user object

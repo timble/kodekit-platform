@@ -148,7 +148,7 @@ abstract class DispatcherAuthenticatorAbstract extends Object implements Dispatc
                 if($user instanceof UserInterface) {
                     $user = $user->toArray();
                 } else {
-                    $user = $this->getObject('user.provider')->load($user)->toArray();
+                    $user = $this->getObject('user.provider')->getUser($user)->toArray();
                 }
             }
 

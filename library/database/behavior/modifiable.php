@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
+class DatabaseBehaviorModifiable extends DatabaseBehaviorCreatable
 {
 	/**
      * Initializes the options for the object
@@ -44,7 +44,9 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
         $user = null;
 
         if($this->hasProperty('modified_by') && !empty($this->modified_by)) {
-            $user = $this->getObject('user.provider')->fetch($this->modified_by);
+            $user = $this->_getUser($this->modified_by);
+        } else {
+            $user = parent::getAuthor();
         }
 
         return $user;
@@ -65,7 +67,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
         if($table instanceof DatabaseTableInterface)
         {
             if(!$table->hasColumn('modified_by') && !$table->hasColumn('modified_on')) {
-                return false;
+                return parent::isSupported();
             }
         }
 
@@ -96,4 +98,27 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 			}
 		}
 	}
+
+    /**
+     * Set created information
+     *
+     * Requires a 'created_by' column
+     *
+     * @param DatabaseContext	$context A database context object
+     * @return void
+     */
+    protected function _afterSelect(DatabaseContext $context)
+    {
+        $rowset = $context->data;
+
+        if($rowset instanceof DatabaseRowsetInterface)
+        {
+            foreach($rowset as $row)
+            {
+                if(!empty($row->modified_by)) {
+                    static::$_users[$row->modified_by] = $row->modified_by;
+                }
+            }
+        }
+    }
 }
