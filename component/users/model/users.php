@@ -31,7 +31,6 @@ class ModelUsers extends Library\ModelDatabase
         $this->getState()
              ->insert('group', 'int')
              ->insert('role', 'int')
-             ->insert('group_tree', 'boolean', false)
              ->insert('enabled', 'boolean')
              ->insert('visited', 'boolean')
              ->insert('authentic', 'boolean')
