@@ -23,13 +23,20 @@ use Nooku\Library;
 class UserProvider extends Library\UserProvider
 {
     /**
-     * Loads the user for the given identifier (email address or user id)
+     * The list of user emails
      *
-     * @param string $identifier A unique user identifier, (i.e a user id or email address)
-     * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
-     * @return Library\UserInterface Returns a UserInterface object
+     * @var array
      */
-    public function load($identifier, $refresh = false)
+    protected $_emails = array();
+
+    /**
+     * Get the user for the given username or identifier, fetching it from data store if it doesn't exist yet.
+     *
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
+     * @param bool  $refresh     If TRUE and the user has already been loaded it will be re-loaded.
+     * @return Library\UserInterface Returns a UserInterface object.
+     */
+    public function getUser($identifier, $refresh = false)
     {
         $user = $this->getObject('user');
 
@@ -43,9 +50,7 @@ class UserProvider extends Library\UserProvider
         // Fetch the user if not exists
         if ($current != $identifier)
         {
-            $user = parent::load($identifier, $refresh);
-
-            if (!$user instanceof Library\UserInterface)
+            if(!$user = parent::getUser($identifier, $refresh))
             {
                 if (!is_numeric($identifier)) {
                     $field = 'email';
@@ -64,47 +69,85 @@ class UserProvider extends Library\UserProvider
     }
 
     /**
+     * Set a user in the provider
+     *
+     * @param Library\UserInterface $user
+     * @return UserProvider
+     */
+    public function setUser(Library\UserInterface $user)
+    {
+        parent::setUser($user);
+
+        //Store the user by email
+        if($email = $user->getEmail()) {
+            $this->_emails[$email] = $user->getId();
+        }
+
+        return $this;
+    }
+
+    /**
      * Fetch the user for the given user identifier from the data store
      *
      * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return Library\UserInterface|null Returns a UserInterface object or NULL if the user could not be found.
+     * @param bool  $refresh     If TRUE and the user has already been fetched it will be re-fetched.
+     * @return boolean
      */
-    public function fetch($identifier)
+    public function fetch($identifier, $refresh = false)
     {
-        // Find session user identifier
-        if (!is_numeric($identifier)) {
-            $user = $this->getObject('com:users.model.users')->email($identifier)->fetch();
-        } else {
-            $user = $this->getObject('com:users.model.users')->id($identifier)->fetch();
-        }
+        $identifiers = (array) $identifier;
 
-        $groups = array();
-        foreach ($user->getGroups() as $group) {
-            $groups[] = $group->id;
-        }
-
-        //Load the user
-        if($user->id)
+        //Only fetch identifiers that haven't been loaded yet.
+        if(!$refresh)
         {
-            $data = array(
-                'id'         => $user->id,
-                'email'      => $user->email,
-                'name'       => $user->name,
-                'roles'      => array($user->getRole()->name),
-                'groups'     => $groups,
-                'password'   => $user->getPassword()->password,
-                'salt'       => $user->getPassword()->salt,
-                'enabled'    => $user->enabled,
-                'attributes' => $user->getParameters()->toArray(),
-                'expired'    => (bool) $user->activation,
-                'authentic'  => false
-            );
-
-            $user = $this->create($data);
+            foreach($identifiers as $key => $value)
+            {
+                if($this->isLoaded($value)) {
+                    unset($identifiers[$key]);
+                }
+            }
         }
-        else $user = null;
 
-        return $user;
+        if(!empty($identifier))
+        {
+            if (!is_numeric($identifier[0])) {
+                $users = $this->getObject('com:users.model.users')->email($identifiers)->fetch();
+            } else {
+                $users = $this->getObject('com:users.model.users')->id($identifiers)->fetch();
+            }
+
+            foreach($users as $user)
+            {
+                $groups = array();
+                foreach ($user->getGroups() as $group) {
+                    $groups[] = $group->id;
+                }
+
+                //Load the user
+                if($user->id)
+                {
+                    $data = array(
+                        'id'         => $user->id,
+                        'email'      => $user->email,
+                        'name'       => $user->name,
+                        'roles'      => array($user->getRole()->name),
+                        'groups'     => $groups,
+                        'password'   => $user->getPassword()->password,
+                        'salt'       => $user->getPassword()->salt,
+                        'enabled'    => $user->enabled,
+                        'attributes' => $user->getParameters()->toArray(),
+                        'expired'    => (bool) $user->activation,
+                        'authentic'  => false
+                    );
+
+                    $this->setUser($this->create($data));
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -125,11 +168,15 @@ class UserProvider extends Library\UserProvider
         }
 
         // Fetch the user if not exists
-        if ($current != $identifier) {
-            $result = isset($this->_users[$identifier]);
-        } else {
-            $result = true;
+        if ($current != $identifier)
+        {
+            if (is_numeric($identifier)) {
+                $result = isset($this->_users[$identifier]);
+            } else {
+                $result = isset($this->_emails[$identifier]);
+            }
         }
+        else $result = true;
 
         return $result;
     }
