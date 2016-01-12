@@ -41,14 +41,6 @@ class ModelEntityArticle extends Library\ModelEntityRow
 
     public function setProperty($name, $value, $modified = true)
     {
-        if($name == 'modified_on' && empty($value)) {
-            $value = $this->created_on;
-        }
-
-        if($name == 'modified_by' && empty($value)) {
-            $value = $this->created_by;
-        }
-
         //Set the introtext and the fulltext
         if($name == 'text')
         {
