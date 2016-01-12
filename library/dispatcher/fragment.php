@@ -44,6 +44,7 @@ class DispatcherFragment extends DispatcherAbstract implements ObjectInstantiabl
             'dispatched'        => false,
             'controller'        => '',
             'controller_action' => 'render',
+            'behaviors'         => array('localizable'),
         ));
 
         parent::_initialize($config);

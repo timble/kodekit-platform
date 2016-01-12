@@ -49,9 +49,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         //Resolve the request
         $this->addCommandCallback('before.dispatch', '_resolveRequest');
 
-        //Load the dispatcher translations
-        $this->addCommandCallback('before.dispatch', '_loadTranslations');
-
         //Register the default exception handler
         $this->addEventListener('onException', array($this, 'fail'));
     }
@@ -69,9 +66,11 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         $config->append(array(
             'controller'        => $this->getIdentifier()->package,
             'controller_action' => 'render',
-            'authenticators' => array()
+            'authenticators' => array(),
          ))->append(array(
-            'behaviors'     => array('authenticatable' => array('authenticators' => $config->authenticators)),
+            'behaviors'     => array(
+                'authenticatable' => array('authenticators' => $config->authenticators),
+            ),
         ));
 
         parent::_initialize($config);
@@ -240,26 +239,6 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         $context->setResponse($this->getResponse());
 
         return $context;
-    }
-
-    /**
-     * Load the dispatcher translations
-     *
-     * @param ControllerContextInterface $context
-     * @return void
-     */
-    protected function _loadTranslations(ControllerContextInterface $context)
-    {
-        $package = $this->getIdentifier()->package;
-        $domain  = $this->getIdentifier()->domain;
-
-        if($domain) {
-            $identifier = 'com://'.$domain.'/'.$package;
-        } else {
-            $identifier = 'com:'.$package;
-        }
-
-        $this->getObject('translator')->load($identifier);
     }
 
     /**
