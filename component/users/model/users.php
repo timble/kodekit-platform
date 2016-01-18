@@ -29,8 +29,8 @@ class ModelUsers extends Library\ModelDatabase
         parent::__construct($config);
 
         $this->getState()
-             ->insert('group', 'int')
-             ->insert('role', 'int')
+             ->insert('group', 'slug')
+             ->insert('role', 'slug')
              ->insert('enabled', 'boolean')
              ->insert('visited', 'boolean')
              ->insert('authentic', 'boolean')
@@ -59,7 +59,7 @@ class ModelUsers extends Library\ModelDatabase
 
         $query->columns(array(
             'authentic' => 'IF(sessions.users_session_id IS NOT NULL, 1, 0)',
-            'role'      => 'roles.name'
+            'role'      => 'roles.name',
         ));
 
 	    if($state->authentic)
@@ -108,11 +108,11 @@ class ModelUsers extends Library\ModelDatabase
         }
 
 		if ($state->group) {
-		    $query->where('groups.users_group_id IN :group_id')->bind(array('group_id' => (array) $state->group));
+		    $query->where('groups.users_group_name IN :group_name')->bind(array('group_name' => (array) $state->group));
 		}
 
 		if ($state->role) {
-		    $query->where('roles.users_role_id IN :role_id')->bind(array('role_id' => (array) $state->role));
+		    $query->where('roles.users_role_name IN :role_name')->bind(array('role_name' => (array) $state->role));
 		}
 
         if (is_bool($state->enabled)) {
