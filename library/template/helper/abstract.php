@@ -71,6 +71,13 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
             else $identifier = $this->getIdentifier($this->__template);
 
             $this->__template = $this->getObject($identifier);
+
+            if(!$this->__template instanceof TemplateInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Template: '.get_class($this->__template).' does not implement TemplateInterface'
+                );
+            }
         }
 
         return $this->__template;
