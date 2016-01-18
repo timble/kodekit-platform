@@ -15,9 +15,9 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
-class DatabaseBehaviorModifiable extends DatabaseBehaviorCreatable
+class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 {
-	/**
+    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -25,14 +25,14 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorCreatable
      * @param 	ObjectConfig $config 	An optional ObjectConfig object with configuration options
      * @return void
      */
-	protected function _initialize(ObjectConfig $config)
+    protected function _initialize(ObjectConfig $config)
     {
-    	$config->append(array(
-			'priority'  => self::PRIORITY_LOW,
-	  	));
+        $config->append(array(
+            'priority'  => self::PRIORITY_LOW,
+        ));
 
-    	parent::_initialize($config);
-   	}
+        parent::_initialize($config);
+    }
 
     /**
      * Get the user that last edited the resource
@@ -44,9 +44,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorCreatable
         $user = null;
 
         if($this->hasProperty('modified_by') && !empty($this->modified_by)) {
-            $user = $this->_getUser($this->modified_by);
-        } else {
-            $user = parent::getAuthor();
+            $user = $this->getObject('user.provider')->getUser($this->modified_by);
         }
 
         return $user;
@@ -67,37 +65,49 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorCreatable
         if($table instanceof DatabaseTableInterface)
         {
             if(!$table->hasColumn('modified_by') && !$table->hasColumn('modified_on')) {
-                return parent::isSupported();
+                return false;
             }
         }
 
         return true;
     }
 
-	/**
-	 * Set modified information
-	 *
-	 * Requires a 'modified_on' and 'modified_by' column
-	 *
+    /**
+     * Set modified information
+     *
+     * Requires an 'modified_on' and 'modified_by' column
+     *
      * @param DatabaseContext	$context A database context object
-	 * @return void
-	 */
-	protected function _beforeUpdate(DatabaseContext $context)
-	{
-		//Get the modified columns
-		$modified   = $this->getTable()->filter($this->getProperties(true));
+     * @return void
+     */
+    protected function _beforeInsert(DatabaseContext $context)
+    {
+        if($this->hasProperty('modified_by')) {
+            $this->modified_by = (int) $this->getObject('user')->getId();
+        }
 
-		if(!empty($modified))
-		{
-			if($this->hasProperty('modified_by')) {
-				$this->modified_by = (int) $this->getObject('user')->getId();
-			}
+        if($this->hasProperty('modified_on')) {
+            $this->modified_on = gmdate('Y-m-d H:i:s');
+        }
+    }
 
-			if($this->hasProperty('modified_on')) {
-				$this->modified_on = gmdate('Y-m-d H:i:s');
-			}
-		}
-	}
+    /**
+     * Set modified information
+     *
+     * Requires a 'modified_on' and 'modified_by' column
+     *
+     * @param DatabaseContext	$context A database context object
+     * @return void
+     */
+    protected function _beforeUpdate(DatabaseContext $context)
+    {
+        //Get the modified columns
+        $modified  = $this->getTable()->filter($this->getProperties(true));
+
+        if(!empty($modified)) {
+            $this->_beforeInsert($context);
+        }
+    }
 
     /**
      * Set created information
@@ -113,12 +123,17 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorCreatable
 
         if($rowset instanceof DatabaseRowsetInterface)
         {
+            $users = array();
+
             foreach($rowset as $row)
             {
                 if(!empty($row->modified_by)) {
-                    static::$_users[$row->modified_by] = $row->modified_by;
+                    $users[] = $row->modified_by;
                 }
             }
+
+            //Lazy load the users
+            $this->getObject('user.provider')->fetch($users, true);
         }
     }
 }
