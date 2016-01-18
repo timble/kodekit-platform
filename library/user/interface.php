@@ -59,7 +59,7 @@ interface UserInterface extends ObjectEquatable
     /**
      * Returns the roles of the user
      *
-     * @return array The role ids
+     * @return array An array of role identifiers
      */
     public function getRoles();
 
@@ -74,14 +74,14 @@ interface UserInterface extends ObjectEquatable
     /**
      * Returns the groups the user is part of
      *
-     * @return array An array of group id's
+     * @return array An array of group identifiers
      */
     public function getGroups();
 
     /**
-     * Returns the password used to authenticate the user.
+     * Returns the hashed password used to authenticate the user.
      *
-     * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
+     * This should be the hashed password. On authentication, a plain-text password will be salted, encoded, and
      * then compared to this value.
      *
      * @return string The password
@@ -89,13 +89,19 @@ interface UserInterface extends ObjectEquatable
     public function getPassword();
 
     /**
-     * Returns the salt that was originally used to encode the password.
+     * Verifies that a plain text password against the users hashed password
      *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string The salt
+     * @param string $password The plain-text password to verify
+     * @return bool Returns TRUE if the plain-text password and users hashed password match, or FALSE otherwise.
      */
-    public function getSalt();
+    public function verifyPassword($password);
+
+    /**
+     * Returns the user parameters
+     *
+     * @return array The parameters
+     */
+    public function getParameters();
 
     /**
      * The user has been successfully authenticated
@@ -127,38 +133,38 @@ interface UserInterface extends ObjectEquatable
     public function setAuthentic();
 
     /**
-     * Get an user attribute
+     * Get an user parameter
      *
-     * @param   string  $identifier Attribute identifier, eg .foo.bar
-     * @param   mixed   $default Default value when the attribute doesn't exist
+     * @param string $name The parameter name
+     * @param   mixed   $value      Default value when the parameter doesn't exist
      * @return  mixed   The value
      */
-    public function get($identifier, $default = null);
+    public function get($name, $default = null);
 
     /**
-     * Set an user attribute
+     * Set an user parameter
      *
-     * @param   mixed   $identifier Attribute identifier, eg foo.bar
-     * @param   mixed   $value      Attribute value
-     * @return User
+     * @param string $name The parameter name
+     * @param  mixed $value The parameter value
+     * @return UserInterface
      */
-    public function set($identifier, $value);
+    public function set($name, $value);
 
     /**
-     * Check if a user attribute exists
+     * Check if a user parameter exists
      *
-     * @param   string  $identifier Attribute identifier, eg foo.bar
+     * @param string $name The parameter name
      * @return  boolean
      */
-    public function has($identifier);
+    public function has($name);
 
     /**
-     * Removes an user attribute
+     * Removes an user parameter
      *
-     * @param string $identifier Attribute identifier, eg foo.bar
-     * @return User
+     * @param string $name The parameter name
+     * @return UserInterface
      */
-    public function remove($identifier);
+    public function remove($name);
 
     /**
      * Get the user data as an array
@@ -166,6 +172,4 @@ interface UserInterface extends ObjectEquatable
      * @return array An associative array of data
      */
     public function toArray();
-
-
 }

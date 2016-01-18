@@ -18,11 +18,11 @@ namespace Nooku\Library;
 abstract class UserAbstract extends Object implements UserInterface
 {
     /**
-     * The user data
+     * The user properties
      *
      * @var ObjectConfig
      */
-    private $__data;
+    private $__properties;
 
     /**
      * Constructor
@@ -34,8 +34,8 @@ abstract class UserAbstract extends Object implements UserInterface
     {
         parent::__construct($config);
 
-        //Set the user properties and attributes
-        $this->setData($config->data);
+        //Set the user properties
+        $this->setProperties($config->properties);
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class UserAbstract extends Object implements UserInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data' => array(
+            'properties' => array(
                 'id'         => 0,
                 'email'      => '',
                 'name'       => '',
@@ -62,7 +62,7 @@ abstract class UserAbstract extends Object implements UserInterface
                 'authentic'  => false,
                 'enabled'    => true,
                 'expired'    => false,
-                'attributes' => array(),
+                'parameters' => array(),
             )
         ));
 
@@ -70,26 +70,25 @@ abstract class UserAbstract extends Object implements UserInterface
     }
 
     /**
-     * Set the user data from an array
+     * Set the user properties from an array
      *
      * @param  array $data An associative array of data
      * @return UserAbstract
      */
-    public function setData($data)
+    public function setProperties($properties)
     {
-        $this->__data = new ObjectConfigJson($data);
+        $this->__properties = new ObjectConfigJson($properties);
         return $this;
     }
 
     /**
-     * Get the user data
+     * Get the user properties
      *
-     * @param  array $data An associative array of data
      * @return ObjectConfigJson
      */
-    public function getData()
+    public function getProperties()
     {
-        return $this->__data;
+        return $this->__properties;
     }
 
     /**
@@ -99,7 +98,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getId()
     {
-        return $this->getData()->id;
+        return $this->getProperties()->id;
     }
 
     /**
@@ -109,7 +108,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getEmail()
     {
-        return $this->getData()->email;
+        return $this->getProperties()->email;
     }
 
     /**
@@ -119,7 +118,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getName()
     {
-        return $this->getData()->name;
+        return $this->getProperties()->name;
     }
 
     /**
@@ -133,7 +132,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getLanguage()
     {
-        return $this->getData()->language;
+        return $this->getProperties()->language;
     }
 
     /**
@@ -143,17 +142,17 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getTimezone()
     {
-        return $this->getData()->timezone;
+        return $this->getProperties()->timezone;
     }
 
     /**
      * Returns the roles of the user
      *
-     * @return array An array of role id's
+     * @return array An array of role identifiers
      */
     public function getRoles()
     {
-        return ObjectConfig::unbox($this->getData()->roles);
+        return ObjectConfig::unbox($this->getProperties()->roles);
     }
 
     /**
@@ -171,24 +170,35 @@ abstract class UserAbstract extends Object implements UserInterface
     /**
      * Returns the groups the user is part of
      *
-     * @return array An array of group id's
+     * @return array An array of group identifiers
      */
     public function getGroups()
     {
-        return ObjectConfig::unbox($this->getData()->groups);
+        return ObjectConfig::unbox($this->getProperties()->groups);
     }
 
     /**
-     * Returns the password used to authenticate the user.
+     * Returns the hashed password used to authenticate the user.
      *
-     * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
+     * This should be the hashed password. On authentication, a plain-text password will be salted, encoded, and
      * then compared to this value.
      *
      * @return string The password
      */
     public function getPassword()
     {
-        return $this->getData()->password;
+        return $this->getProperties()->password;
+    }
+
+    /**
+     * Verifies that a plain text password matches the users hashed password
+     *
+     * @param string $password The plain-text password to verify
+     * @return bool Returns TRUE if the plain-text password and users hashed password, or FALSE otherwise.
+     */
+    public function verifyPassword($password)
+    {
+        return password_verify($password, $this->getPassword());
     }
 
     /**
@@ -200,7 +210,17 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function getSalt()
     {
-        return $this->getData()->salt;
+        return $this->getProperties()->salt;
+    }
+
+    /**
+     * Returns the user parameters
+     *
+     * @return array The parameters
+     */
+    public function getParameters()
+    {
+        return  ObjectConfig::unbox($this->getProperties()->parameters);
     }
 
     /**
@@ -211,7 +231,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function isAuthentic($strict = false)
     {
-        return $this->getData()->authentic;
+        return $this->getProperties()->authentic;
     }
 
     /**
@@ -221,7 +241,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function isEnabled()
     {
-        return $this->getData()->enabled;
+        return $this->getProperties()->enabled;
     }
 
     /**
@@ -231,7 +251,7 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function isExpired()
     {
-        return $this->getData()->expired;
+        return $this->getProperties()->expired;
     }
 
     /**
@@ -241,73 +261,57 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function setAuthentic()
     {
-        $this->getData()->authentic = true;
+        $this->getProperties()->authentic = true;
 
         return $this;
     }
 
     /**
-     * Get an user attribute
+     * Get an user parameter
      *
-     * @param   string  $identifier Attribute identifier, eg .foo.bar
-     * @param   mixed   $default Default value when the attribute doesn't exist
+     * @param   string  $name    Parameter name
+     * @param   mixed   $default Default value when the parameter doesn't exist
      * @return  mixed   The value
      */
-    public function get($identifier, $default = null)
+    public function get($name, $default = null)
     {
-        $attributes = $this->getData()->attributes;
-
-        $result = $default;
-        if(isset($attributes[$identifier])) {
-            $result = $attributes[$identifier];
-        }
-
+        $result = $this->getParameters()->get($name, $default);
         return $result;
     }
 
     /**
-     * Set an user attribute
+     * Set an user parameter
      *
-     * @param   mixed   $identifier Attribute identifier, eg foo.bar
-     * @param   mixed   $value      Attribute value
+     * @param   mixed   $name    Parameter name
+     * @param   mixed   $value   Parameter value
      * @return UserAbstract
      */
-    public function set($identifier, $value)
+    public function set($name, $value)
     {
-        $attributes = $this->getData()->attributes;
-        $attributes[$identifier] = $value;
-
+        $this->getParameters()->set($name, $value);
         return $this;
     }
 
     /**
-     * Check if a user attribute exists
+     * Check if a user parameter exists
      *
-     * @param   string  $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $name    Parameter name
      * @return  boolean
      */
-    public function has($identifier)
+    public function has($name)
     {
-        $attributes = $this->getData()->attributes;
-        if(isset($attributes[$identifier])) {
-            return true;
-        }
-
-        return false;
+        return $this->getParameters()->has($name);
     }
 
     /**
-     * Removes an user attribute
+     * Removes an user parameter
      *
-     * @param string $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $name    Parameter name
      * @return UserAbstract
      */
-    public function remove($identifier)
+    public function remove($name)
     {
-        if(isset($attributes[$identifier])) {
-            unset($attributes[$identifier]);
-        }
-
+        $this->getParameters()->remove($name);
         return $this;
     }
 
@@ -339,6 +343,6 @@ abstract class UserAbstract extends Object implements UserInterface
      */
     public function toArray()
     {
-        return ObjectConfig::unbox($this->getData());
+        return ObjectConfig::unbox($this->getProperties());
     }
 }
