@@ -7,24 +7,22 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Users;
-
-use Nooku\Library;
+namespace Nooku\Library;
 
 /**
- * Token Dispatcher Authenticator
+ * Cookie Dispatcher Authenticator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorCsrf
+class DispatcherAuthenticatorCookie extends DispatcherAuthenticatorCsrf
 {
     /**
      * Constructor.
      *
-     * @param  Library\ObjectConfig $config Configuration options
+     * @param  ObjectConfig $config Configuration options
      */
-    public function __construct(Library\ObjectConfig $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -32,25 +30,33 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorCsrf
         $session = $this->getObject('user')->getSession();
 
         //Set session cookie name
-        $session->setName($this->getCookieName());
+        $session->setName($config->cookie_name);
 
         //Set session cookie path and domain
         $session->setOptions(array(
-            'cookie_path'   => (string) $this->getObject('request')->getBaseUrl()->getPath() ?: '/',
-            'cookie_domain' => (string) $this->getObject('request')->getBaseUrl()->getHost()
+            'use_cookies'   => 1,
+            'cookie_path'   => $config->cookie_path,
+            'cookie_domain' => $config->cookie_domain,
         ));
     }
 
     /**
-     * Return the cookie name
+     * Initializes the options for the object
      *
-     * @return string
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
      */
-    public function getCookieName()
+    protected function _initialize(ObjectConfig $config)
     {
-        $request = $this->getObject('request');
+        $config->append(array(
+            'cookie_name'   => md5($this->getObject('request')->getBasePath()),
+            'cookie_path'   => (string) $this->getObject('request')->getBaseUrl()->getPath() ?: '/',
+            'cookie_domain' => (string) $this->getObject('request')->getBaseUrl()->getHost()
+        ));
 
-        return md5($request->getBasePath());
+        parent::_initialize($config);
     }
 
     /**
@@ -58,17 +64,17 @@ class DispatcherAuthenticatorCookie extends Library\DispatcherAuthenticatorCsrf
      *
      * If a session cookie is found and the session session is not active it will be auto-started.
      *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param DispatcherContextInterface $context	A dispatcher context object
      * @return  boolean Returns TRUE if the authentication explicitly succeeded.
      */
-    public function authenticateRequest(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(DispatcherContextInterface $context)
     {
         $session = $context->getUser()->getSession();
         $request = $context->getRequest();
 
         if(!$session->isActive())
         {
-            if ($request->getCookies()->has($this->getCookieName()))
+            if ($request->getCookies()->has($this->getConfig()->cookie_name))
             {
                 //Logging the user by auto-start the session
                 $this->loginUser();

@@ -135,10 +135,10 @@ abstract class DispatcherAuthenticatorAbstract extends Object implements Dispatc
      * Log the user in
      *
      * @param mixed  $user A user key or name, an array of user data or a UserInterface object. Default NULL
-     * @param array  $data Optional user data
+     * @param array  $properties Optional user properties
      * @return bool
      */
-    public function loginUser($user = null, $data = array())
+    public function loginUser($user = null, $properties = array())
     {
         if($this->_login_user && $user)
         {
@@ -152,11 +152,11 @@ abstract class DispatcherAuthenticatorAbstract extends Object implements Dispatc
                 }
             }
 
-            //Set the user data
-            $data = array_merge($data, (array) $user);
+            //Set the user properties
+            $properties = array_merge($properties, (array) $user);
 
-            $this->getObject('user')->setData($data);
-            $this->getObject('user')->setAuthentic(true);
+            $this->getObject('user')->setProperties($properties);
+            $this->getObject('user')->setAuthentic();
 
             return true;
         }

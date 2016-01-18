@@ -7,9 +7,7 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Users;
-
-use Nooku\Library;
+namespace Nooku\Library;
 
 /**
  * Form Dispatcher Authenticator
@@ -23,17 +21,17 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherAuthenticatorBasic extends Library\DispatcherAuthenticatorAbstract
+class DispatcherAuthenticatorBasic extends DispatcherAuthenticatorAbstract
 {
     /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Library\ObjectConfig $config An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Library\ObjectConfig $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'priority' => self::PRIORITY_HIGH,
@@ -45,10 +43,10 @@ class DispatcherAuthenticatorBasic extends Library\DispatcherAuthenticatorAbstra
     /**
      * Authenticate using email and password credentials
      *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     * @param DispatcherContextInterface $context A dispatcher context object
      * @return  boolean Returns TRUE if the authentication explicitly succeeded.
      */
-    public function authenticateRequest(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(DispatcherContextInterface $context)
     {
         $request = $context->request;
 
@@ -65,28 +63,28 @@ class DispatcherAuthenticatorBasic extends Library\DispatcherAuthenticatorAbstra
 
                 if($username)
                 {
-                    $user = $this->getObject('com:users.model.users')->email($username)->fetch();
+                    $user = $this->getObject('user.provider')->getUser($username);
 
-                    if ($user->id)
+                    if($user->getId())
                     {
                         //Check user password
-                        if (!$user->getPassword()->verifyPassword($password)) {
-                            throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
+                        if (!$user->verifyPassword($password)) {
+                            throw new ControllerExceptionRequestNotAuthenticated('Wrong password');
                         }
 
                         //Check user enabled
-                        if (!$user->enabled) {
-                            throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
+                        if (!$user->isEnabled()) {
+                            throw new ControllerExceptionRequestNotAuthenticated('Account disabled');
                         }
 
                         //Login the user
-                        $this->loginUser($user->id);
+                        $this->loginUser($user->getId());
 
                         return true;
                     }
-                    else throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong username');
+                    else throw new ControllerExceptionRequestNotAuthenticated('Wrong username');
                 }
-                else throw new Library\ControllerExceptionRequestNotAuthenticated('Invalid username');
+                else throw new ControllerExceptionRequestNotAuthenticated('Invalid username');
             }
         }
     }
