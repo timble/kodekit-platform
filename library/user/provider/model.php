@@ -4,32 +4,35 @@
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
 namespace Nooku\Library;
 
 /**
- * Abstract User Provider
+ * User Provider
+ *
+ * The user provider will load users by their email address or user id through a model. Once a user object is
+ * loaded it is cached in memory. The model entities need to implement the UserInterface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
-class UserProviderAbstract extends Object implements UserProviderInterface
+class UserProviderModel extends UserProviderAbstract
 {
     /**
-     * The list of users
+     * The list of user emails
      *
      * @var array
      */
-    private $__users = array();
+    protected $_emails = array();
 
     /**
-     * The list of users to fetch
+     * Model object or identifier
      *
-     * @var array
+     * @var    string|object
      */
-    protected $_fetch = array();
+    private $__model;
 
     /**
      * Constructor
@@ -44,15 +47,8 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     {
         parent::__construct($config);
 
-        //Create the users
-        foreach($config->users as $identifier => $user)
-        {
-            if(!$user instanceof UserInterface) {
-                $user = $this->create($user);
-            }
-
-            $this->setUser($user);
-        }
+        //Set the model
+        $this->__model = $config->model;
     }
 
     /**
@@ -66,48 +62,62 @@ class UserProviderAbstract extends Object implements UserProviderInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'users' => array($this->getObject('user')),
+            'model' => null,
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Load the user for the given username or identifier
+     * Get the user modem
      *
-     * If the user could not be loaded an anonymous user will be returned with a user 'id' off 0.
-     *
-     * @param string $identifier A unique user identifier, (i.e a username or email address)
-     * @return UserInterface Returns a UserInterface object.
+     * @throws	\UnexpectedValueException	If the model doesn't implement the ModelInterface
+     * @return	ModelInterface
      */
-    public function getUser($identifier)
+    public function getModel()
     {
-        //Fetch a user from the backend if not loaded yet
-        if(!$this->isLoaded($identifier)) {
-            $this->fetch($identifier);
-        }
-
-        //Create an anonymous user was not loaded
-        if(!$user = $this->findUser($identifier))
+        if(!$this->__model instanceof ModelInterface)
         {
-            $user  = $this->create(array(
-                'id'   => 0,
-                'name' => $this->getObject('translator')->translate('Anonymous')
-            ));
+            $this->__model = $this->getObject($this->__model);
+
+            if(!$this->__model instanceof ModelInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Model: '.get_class($this->__model).' does not implement ModelInterface'
+                );
+            }
         }
 
-        return $user;
+        return $this->__model;
     }
 
     /**
-     * Store user object in the provider
+     * Set the user model
+     *
+     * @param  ModelInterface  $model The user model
+     * @return UserProviderModel
+     */
+    public function setModel(ModelInterface $model)
+    {
+        $this->__model = $model;
+        return $this;
+    }
+
+    /**
+     * Set a user in the provider
      *
      * @param UserInterface $user
-     * @return UserProviderAbstract
+     * @return boolean
      */
     public function setUser(UserInterface $user)
     {
-        $this->__users[$user->getId()] = $user;
+        parent::setUser($user);
+
+        //Store the user by email
+        if($email = $user->getEmail()) {
+            $this->_emails[$email] = $user;
+        }
+
         return $this;
     }
 
@@ -119,14 +129,23 @@ class UserProviderAbstract extends Object implements UserProviderInterface
      */
     public function findUser($identifier)
     {
-        return $this->isLoaded($identifier) ? $this->__users[$identifier] : null;
+        $user = null;
+        if($this->isLoaded($identifier))
+        {
+            if (!is_numeric($identifier)) {
+                $user = $this->_emails[$identifier];
+            } else {
+                $user = parent::findUser($identifier);
+            }
+        }
+
+        return $user;
     }
 
     /**
      * Fetch the user for the given user identifier from the data store
      *
-     * @param string|array $identifier A unique user identifier, (i.e a username or email address)
-     *                                 or an array of identifiers
+     * @param string $identifier A unique user identifier, (i.e a username or email address)
      * @param bool   $lazyload  Lazyload the $identifier(s) on the following call to getUser()
      * @return boolean
      */
@@ -146,34 +165,25 @@ class UserProviderAbstract extends Object implements UserProviderInterface
         {
             if (!$lazyload)
             {
-                foreach ($identifiers as $identifier)
-                {
-                    $data = array(
-                        'id'        => $identifier,
-                        'authentic' => false
-                    );
-
-                    $this->setUser($this->create($data));
+                if (!is_numeric($identifiers[0])) {
+                    $users = $this->getModel()->email($identifiers)->fetch();
+                } else {
+                    $users = $this->getModel()->id($identifiers)->fetch();
                 }
 
-                return true;
+                if(count($users))
+                {
+                    foreach($users as $user) {
+                        $this->setUser($user);
+                    }
+
+                    return true;
+                }
             }
             else $this->_fetch = $identifiers;
         }
 
         return false;
-    }
-
-    /**
-     * Create a user object
-     *
-     * @param array $data An associative array of user data
-     * @return UserInterface     Returns a UserInterface object
-     */
-    public function create($data)
-    {
-        $user = $this->getObject('user.default', array('data' => $data));
-        return $user;
     }
 
     /**
@@ -184,6 +194,12 @@ class UserProviderAbstract extends Object implements UserProviderInterface
      */
     public function isLoaded($identifier)
     {
-        return isset($this->__users[$identifier]);
+        if (!is_numeric($identifier)) {
+            $result = isset($this->_emails[$identifier]);
+        } else {
+            $result = parent::isLoaded($identifier);
+        }
+
+        return $result;
     }
 }

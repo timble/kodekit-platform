@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\User
  */
-class UserProvider extends UserProviderAbstract implements ObjectSingleton
+class UserProvider extends UserProviderModel implements ObjectSingleton
 {
 
 }
