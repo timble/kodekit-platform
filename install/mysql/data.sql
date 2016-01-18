@@ -189,7 +189,7 @@ VALUES
 -- Dumping data for table `passwords`
 --
 
-INSERT INTO `users_passwords` (`email`, `expiration`, `hash`, `reset`) VALUES
+INSERT INTO `users_passwords` (`email`, `expiration`, `hash`, `token`) VALUES
 ('admin@localhost.home', NULL, '$2y$10$UT7uLipGnbJbTcjZ6D.OAeVByFn.2ZpPmd.thZ5e5xHLwKXAxdvNG', '');
 
 

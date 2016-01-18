@@ -104,7 +104,7 @@ CREATE TABLE `users_passwords` (
   `email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
-  `reset` varchar(100) NOT NULL DEFAULT '',
+  `token` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`email`),
   CONSTRAINT `users_password__email` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
