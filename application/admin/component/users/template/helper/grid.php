@@ -20,15 +20,16 @@ class UsersTemplateHelperGrid extends Library\TemplateHelperGrid
     public function groups($config = array())
     {
         $config = new Library\ObjectConfig($config);
-
-        $config->append(array('groups' => array()));
+        $config->append(array(
+            'groups' => array()
+        ));
 
         $output = array();
 
         foreach ($config->groups as $group)
         {
-            $href     = $this->getTemplate()->route('view=group&id=' . (int) $group->id);
-            $output[] = '<li><a href="' . $href . '">' . $this->getTemplate()->escape($group->name) . '</a></li>';
+            $href     = $this->getTemplate()->route('view=group&name=' . (int) $group);
+            $output[] = '<li><a href="' . $href . '">' . $this->getTemplate()->escape($group) . '</a></li>';
         }
 
         return '<ul>' . implode('', $output) . '</ul>';

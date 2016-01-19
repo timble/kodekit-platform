@@ -22,7 +22,7 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(
     		'model' => 'groups',
-    		'value'	=> 'id',
+    		'value'	=> 'name',
     		'label'	=> 'name'
     	));
 

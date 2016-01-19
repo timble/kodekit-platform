@@ -34,7 +34,7 @@
 
 	<? foreach($groups as $group) : ?>
     <li>
-        <a <?= parameters()->group == $group->id ? 'class="active"' : '' ?> href="<?= route('group='.$group->id) ?>">
+        <a <?= parameters()->group == $group->name ? 'class="active"' : '' ?> href="<?= route('group='.$group->name) ?>">
             <?= $group->name ?>
         </a>
     </li>
