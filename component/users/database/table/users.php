@@ -29,8 +29,9 @@ class DatabaseTableUsers extends Library\DatabaseTableAbstract
                 'lockable',
                 'identifiable',
                 'authenticatable',
-                'relatable',
-                'parameterizable'
+                'groupable',
+                'parameterizable',
+                'notifiable',
             ),
             'filters'    => array(
                 'parameters' => 'json'
@@ -41,7 +42,7 @@ class DatabaseTableUsers extends Library\DatabaseTableAbstract
                 'parameters' => 'params',
             )
         ));
-		
+
 		parent::_initialize($config);
 	}
 }

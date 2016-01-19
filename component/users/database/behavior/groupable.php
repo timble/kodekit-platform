@@ -12,24 +12,50 @@ namespace Nooku\Component\Users;
 use Nooku\Library;
 
 /**
- * Relatable Database Behavior
+ * Groupable Database Behavior
  *
  * Takes care of creating N:N relationships given an item value and a collection of values.
  *
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseBehaviorRelatable extends Library\DatabaseBehaviorAbstract
+class DatabaseBehaviorGroupable extends Library\DatabaseBehaviorAbstract
 {
+    /**
+     * The groups
+     *
+     * @param UsersEntityGroups
+     */
+    private $__groups;
+
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'table'   => 'users_groups_users',
-            'columns' => array('collection' => 'users_group_id', 'item' => 'users_user_id'),
+            'columns' => array(
+                'collection' => 'users_group_id',
+                'item'       => 'users_user_id'),
             'values'  => 'groups'
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Returns the groups the user is part of
+     *
+     * @return array An array of group identifiers
+     */
+    public function getGroups()
+    {
+        if (!$this->isNew() && !isset($this->__groups))
+        {
+            $this->__groups = $this->getObject('com:users.model.groups')
+                ->user($this->id)
+                ->fetch();
+        }
+
+        return $this->__groups;
     }
 
     protected function _afterUpdate(Library\DatabaseContextInterface $context)
@@ -49,7 +75,7 @@ class DatabaseBehaviorRelatable extends Library\DatabaseBehaviorAbstract
                 $this->_insertGroups($groups, $context);
             }
 
-            $this->_cleanup($groups, $context);
+            $this->_cleanupGroups($groups, $context);
 
             // Unset data for avoiding un-necessary queries on subsequent saves.
             unset($data->{$config->values});
@@ -76,7 +102,7 @@ class DatabaseBehaviorRelatable extends Library\DatabaseBehaviorAbstract
         $context->subject->getAdapter()->execute($query);
     }
 
-    protected function _cleanup($groups, Library\DatabaseContextInterface $context)
+    protected function _cleanupGroups($groups, Library\DatabaseContextInterface $context)
     {
         $groups = (array) $groups;
 

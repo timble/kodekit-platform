@@ -24,7 +24,7 @@ class DatabaseTableGroups extends Library\DatabaseTableAbstract
         $config->append(array(
             'behaviors' => array(
                 'identifiable',
-                'relatable' => array(
+                'groupable' => array(
                     'values'  => 'users',
                     'columns' => array(
                         'collection' => 'users_user_id',
