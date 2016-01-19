@@ -14,18 +14,11 @@ use Nooku\Library;
 /**
  * User Model Entity
  *
- * @author  Gergo Erdosi <http://github.com/gergoerdosi>
+ * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Users
  */
-class ModelEntityUser extends Library\ModelEntityRow
+class ModelEntityUser extends Library\ModelEntityRow implements Library\UserInterface
 {
-    /**
-     * The User Role
-     *
-     * @var Library\ModelEntityInterface
-     */
-    protected $_role;
-
     /**
      * The User Groups
      *
@@ -34,29 +27,245 @@ class ModelEntityUser extends Library\ModelEntityRow
     protected $_groups;
 
     /**
-     * User role getter.
+     * Returns the id of the user
      *
-     * @return Library\ModelEntityInterface The user's role row object.
+     * @return int The id
      */
-    public function getRole()
+    public function getId()
     {
-        if (!$this->_role)
-        {
-            $this->_role = $this->getObject('com:users.model.roles')
-                ->id($this->role_id)
-                ->fetch();
-        }
-
-        return $this->_role;
+        return $this->id;
     }
 
+    /**
+     * Returns the email of the user
+     *
+     * @return string The email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Returns the name of the user
+     *
+     * @return string The name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Returns the users language
+     *
+     * Should return a properly formatted IETF language tag, eg xx-XX
+     * @link https://en.wikipedia.org/wiki/IETF_language_tag
+     * @link https://tools.ietf.org/html/rfc5646
+     *
+     * @return string The language tag
+     */
+    public function getLanguage()
+    {
+        return $this->get('language');
+    }
+
+    /**
+     * Returns the users timezone
+     *
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->get('timezone');
+    }
+
+    /**
+     * Returns the roles of the user
+     *
+     * @return array The role names
+     */
+    public function getRoles()
+    {
+        return array($this->role);
+    }
+
+    /**
+     * Checks if the user has a role.
+     *
+     * @param  mixed|array $role A role name or an array containing role names.
+     * @return bool True if the user has at least one of the provided roles, false otherwise.
+     */
+    public function hasRole($role)
+    {
+        $roles = (array) $role;
+        return (bool) array_intersect($this->getRoles(), $roles);
+    }
+
+    /**
+     * Returns the groups the user is part of
+     *
+     * @return array An array of group identifiers
+     */
     public function getGroups()
     {
-        if(is_null($this->_groups) && !$this->isNew()) {
-            $this->_groups = $this->getObject('com:users.model.groups')->user($this->id)->fetch();
+        $groups = array();
+
+        if($this->isGroupable())
+        {
+            $entity = $this->getTable()->getBehavior('groupable')->getGroups();
+
+            $groups = array();
+            foreach ($entity as $group) {
+                $groups[] = $group->name;
+            }
         }
 
-        return $this->_groups;
+        return $groups;
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
+     * then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        $password = null;
+
+        if($this->isAuthenticatable()) {
+            $password = (string) $this->getTable()->getBehavior('authenticatable')->getPassword();
+        }
+
+        return $password;
+    }
+
+    /**
+     * Verify the password
+     *
+     * @param string $password The plain-text password to verify
+     * @return bool Returns TRUE if the plain-text password and users hashed password, or FALSE otherwise.
+     */
+    public function verifyPassword($password)
+    {
+        $result = false;
+
+        if($this->isAuthenticatable()) {
+            $result = $this->getTable()->getBehavior('authenticatable')->verifyPassword($password);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the user parameters
+     *
+     * @return array The parameters
+     */
+    public function getParameters()
+    {
+        $result = array();
+
+        if($this->isParameterizable()) {
+            $result = $this->getTable()->getBehavior('parameterizable')->getParameters();
+        }
+
+        return $result;
+    }
+
+    /**
+     * The user has been successfully authenticated
+     *
+     * @param  boolean $strict If true, checks if the user has been authenticated for this request explicitly
+     * @return boolean True if the user is not logged in, false otherwise
+     */
+    public function isAuthentic($strict = false)
+    {
+        return $strict ?: $this->authentic;
+    }
+
+    /**
+     * Checks whether the user account is enabled.
+     *
+     * @return Boolean
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Checks whether the user credentials have expired.
+     *
+     * @return Boolean
+     */
+    public function isExpired()
+    {
+        return (bool) $this->activation;
+    }
+
+    /**
+     * Sets the user as authenticated for the request
+     *
+     * @return $this
+     */
+    public function setAuthentic()
+    {
+        $this->authentic = true;
+        return $this;
+    }
+
+    /**
+     * Get an user parameter
+     *
+     * @param string $name The parameter name
+     * @param   mixed   $value      Default value when the parameter doesn't exist
+     * @return  mixed   The value
+     */
+    public function get($name, $default = null)
+    {
+        $result = $this->getParameters()->get($name, $default);
+        return $result;
+    }
+
+    /**
+     * Set an user parameter
+     *
+     * @param string $name The parameter name
+     * @param  mixed $value The parameter value
+     * @return ModelEntityUser
+     */
+    public function set($name, $value)
+    {
+        $this->getParameters()->set($name, $value);
+        return $this;
+    }
+
+    /**
+     * Check if a user parameter exists
+     *
+     * @param string $name The parameter name
+     * @return  boolean
+     */
+    public function has($name)
+    {
+        $result = $this->getParameters()->has($name);
+        return $result;
+    }
+
+    /**
+     * Removes an user parameter
+     *
+     * @param string $name The parameter name
+     * @return ModelEntityUser
+     */
+    public function remove($name)
+    {
+        $this->getParameters()->remove($name);
+        return $this;
     }
 
     public function save()
@@ -94,19 +303,6 @@ class ModelEntityUser extends Library\ModelEntityRow
             }
         }
 
-        // Check if the attached role exists
-        if ($this->isModified('role_id') && $this->getRole()->isNew())
-        {
-            $this->setStatus(self::STATUS_FAILED);
-            $this->setStatusMessage('Invalid role');
-            return false;
-        }
-
-        // Clear role cache
-        if ($this->isModified('role_id')) {
-            $this->_role = null;
-        }
-
         if (!$this->isNew())
         {
             // Load the current user row for checks.
@@ -136,10 +332,30 @@ class ModelEntityUser extends Library\ModelEntityRow
         $result = parent::clear();
 
         // Clear cache
-        $this->_role   = null;
         $this->_groups = null;
 
         return $result;
+    }
+
+    /**
+     * Check if the user is equal
+     *
+     * @param  Library\UserInterface $user
+     * @return Boolean
+     */
+    public function equals(Library\ObjectInterface $user)
+    {
+        if($user instanceof Library\UserInterface)
+        {
+            if($user->getEmail() == $this->getEmail())
+            {
+                if($user->getPassword() == $this->getPassword()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 	/**
@@ -150,32 +366,15 @@ class ModelEntityUser extends Library\ModelEntityRow
     public function toArray()
     {
         $data = parent::toArray();
+
+        $data['roles']      = $this->getRoles();
+        $data['groups']     = $this->getGroups();
+        $data['parameters'] = $this->getParameters()->toArray();
+        $data['expired']    = $this->isExpired();
+        $data['authentic']  = $this->isAuthentic();
+
         unset($data['activation']);
 
         return $data;
-    }
-
-    /**
-     * Sends a notification E-mail to the user.
-     *
-     * @param array $config Optional configuration array.
-     *
-     * @return bool
-     */
-    public function notify($config = array()) {
-
-        $config = new Library\ObjectConfig($config);
-
-        $application = $this->getObject('application');
-        $user        = $this->getObject('user');
-
-        $config->append(array(
-            'subject' => '',
-            'message' => '',
-            'from_email' => $application->getConfig()->mailfrom,
-            'from_name'  => $application->getConfig()->fromname))
-            ->append(array('from_email' => $user->getEmail(), 'from_name' => $user->getName()));
-
-        return \JUtility::sendMail($config->from_email, $config->from_name, $this->email, $config->subject, $config->message);
     }
 }
