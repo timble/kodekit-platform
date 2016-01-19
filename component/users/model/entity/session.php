@@ -35,17 +35,14 @@ class ModelEntitySession extends Library\ModelEntityRow
     {
         $result = false;
 
-        //@TODO : Implement automatic schema validation
         if(!empty($this->id))
         {
             if($result = parent::save())
             {
-                // Hit the user last visit field
-                $user = $this->getObject('com:users.model.users')
-                            ->email($this->email)
-                            ->fetch();
+                $user = $this->getObject('user.provider')->getUser($this->email);
 
-                if($user->id)
+                // Hit the user last visit field
+                if($user->getId())
                 {
                     $user->last_visited_on = gmdate('Y-m-d H:i:s');
                     $user->save();
