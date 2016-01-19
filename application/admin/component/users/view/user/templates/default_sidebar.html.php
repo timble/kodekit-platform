@@ -48,7 +48,7 @@
     <div>
         <div>
             <?= helper('listbox.groups', array(
-                'selected' => $user->isNew() ? null : $user->getGroups()->id,
+                'selected' => $user->isNew() ? null : $user->groups,
                 'name'     => 'groups[]',
                 'attribs'  => array('id' => 'groups', 'multiple' => 'multiple'),
                 'deselect' => false)) ?>
