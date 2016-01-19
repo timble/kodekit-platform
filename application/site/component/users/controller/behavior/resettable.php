@@ -112,11 +112,14 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $message = $translator('Password reset instructions E-mail',
                     array('name' => $entity->name, 'url' => $url));
 
-                if ($entity->notify(array('subject' => $subject, 'message' => $message))) {
+                if ($entity->isNotifable() && $entity->notify(array('subject' => $subject, 'message' => $message)))
+                {
                     $message = array(
                         'text' => $translator('A confirmation E-mail for resetting your password has been sent to the address you have provided'),
                         'type' => 'success');
-                } else {
+                }
+                else
+                {
                     $message = array(
                         'text' => $translator('The confirmation E-mail for resetting your password could not be sent'),
                         'type' => 'notice');
