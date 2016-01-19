@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Dispatcher
  */
-class DispatcherAuthenticatorForm extends DispatcherAuthenticatorCookie
+class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorCookie
 {
     /**
      * Authenticate using email and password credentials
@@ -38,22 +38,22 @@ class DispatcherAuthenticatorForm extends DispatcherAuthenticatorCookie
 
                 if($email)
                 {
-                    $user = $this->getObject('com:users.model.users')->email($email)->fetch();
+                    $user = $this->getObject('user.provider')->getUser($email);
 
-                    if ($user->id)
+                    if ($user->getId())
                     {
                         //Check user password
-                        if (!$user->getPassword()->verifyPassword($password)) {
+                        if (!$user->verifyPassword($password)) {
                             throw new Library\ControllerExceptionRequestNotAuthenticated('Wrong password');
                         }
 
                         //Check user enabled
-                        if (!$user->enabled) {
+                        if (!$user->isEnabled()) {
                             throw new Library\ControllerExceptionRequestNotAuthenticated('Account disabled');
                         }
 
                         //Login the user
-                        $this->loginUser($user->id);
+                        $this->loginUser($user->getId());
 
                         //Perform Cookie authentication
                         parent::authenticateRequest($context);
