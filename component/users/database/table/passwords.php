@@ -21,7 +21,10 @@ class DatabaseTablePasswords extends Library\DatabaseTableAbstract
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->append(array('behaviors' => array('expirable')));
+        $config->append(array(
+            'behaviors' => array('expirable')
+        ));
+
         parent::_initialize($config);
     }
 }
