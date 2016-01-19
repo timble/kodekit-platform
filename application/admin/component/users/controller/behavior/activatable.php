@@ -34,11 +34,13 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 $site = $this->getObject('application')->getTitle();
 
                 $subject = $translator('User Account Activation');
-                $message = $translator('User account activation E-mail',
-                    array('name' => $user->name, 'site' => $site, 'url' => $url));
+                $message = $translator('User account activation E-mail', array('name' => $user->name, 'site' => $site, 'url' => $url));
 
-                if (!$user->notify(array('subject' => $subject, 'message' => $message))) {
-                    $context->reponse->addMessage($translator('Failed to send activation E-mail'), 'error');
+                if ($user->isNotifable())
+                {
+                    if (!$user->notify(array('subject' => $subject, 'message' => $message))) {
+                        $context->reponse->addMessage($translator('Failed to send activation E-mail'), 'error');
+                    }
                 }
             }
             else $context->response->addMessage($translator('Unable to get a user account activation URL'), 'error');
