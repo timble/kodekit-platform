@@ -32,9 +32,6 @@ class ModelEntityPassword extends Library\ModelEntityRow
 
         //Set the minimum passowrd length
         $this->_length = (int) $config->length;
-
-        // TODO Remove when PHP 5.5 becomes a requirement.
-        require_once \Nooku::getInstance()->getRootPath().'/component/users/legacy/password.php';
     }
 
     /**
@@ -84,7 +81,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
             if (!$this->isNew())
             {
                 // Check if new and current hashes are the same.
-                if ($this->verifyPassword($password))
+                if (password_verify($password, $this->hash))
                 {
                     $this->setStatus(self::STATUS_FAILED);
                     $this->setStatusMessage($this->getObject('translator')
@@ -119,7 +116,7 @@ class ModelEntityPassword extends Library\ModelEntityRow
      */
     public function createHash($password)
     {
-        return password_hash($password, PASSWORD_BCRYPT);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
@@ -178,67 +175,6 @@ class ModelEntityPassword extends Library\ModelEntityRow
         return $return;
     }
 
-    /**
-     * Tests the current hash against a provided password.
-     *
-     * @param string $password The password to test.
-     * @param string $hash     An optional hash to compare to. If no hash is provided, the current password hash
-     *                         will be used instead.
-     *
-     * @return bool True if password matches the current hash, false otherwise.
-     */
-    public function verifyPassword($password, $hash = null)
-    {
-        $result = false;
-
-        if (is_null($hash))
-        {
-            // Use current password hash instead.
-            $hash = $this->hash;
-
-            if (!$this->isNew())
-            {
-                // Check for MD5 hashes.
-                if (strpos($hash, '$') === false)
-                {
-                    $parts = explode(':', $hash);
-                    if ($parts[0] === md5($password . @$parts[1]))
-                    {
-                        // Valid password on existing record. Migrate to BCrypt.
-                        $this->hash = $this->createHash($password);
-                        $this->save();
-                        $result = true;
-                    }
-                }
-            }
-        }
-
-        if (!$result) {
-            $result = password_verify($password, $hash);
-        }
-
-        return $result;
-    }
-
-    /**
-     *  Sets the password for reset.
-     *
-     * @return mixed The plain text reset token, null if row is new.
-     */
-    public function resetPassword()
-    {
-        $token = null;
-        if (!$this->isNew())
-        {
-            $token       = $this->createPassword(32);
-            $this->reset = $this->createHash($token);
-            $this->save();
-        }
-
-        return $token;
-    }
-
-
     public function toArray()
     {
         $password = parent::toArray();
@@ -248,5 +184,15 @@ class ModelEntityPassword extends Library\ModelEntityRow
         unset($password['reset']);
 
         return $password;
+    }
+
+    /**
+     * Return the hashed password
+     *
+     * @return  string  The query string.
+     */
+    final public function __toString()
+    {
+        return $this->hash;
     }
 }

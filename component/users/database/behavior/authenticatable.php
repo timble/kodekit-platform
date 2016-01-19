@@ -19,31 +19,39 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 {
+    /**
+     * The password
+     *
+     * @param UsersEntityPassword
+     */
+    private $__password;
+
     protected function _beforeInsert(Library\DatabaseContext $context)
     {
-        $data = $context->data;
+        $user = $context->data;
 
-        if(!$data->password)
-        {
-            // Generate a random password
-            $password       = $this->getObject('com:users.model.entity.password');
-            $data->password = $password->createPassword();
+        // Generate a random password
+        if(!$user->password) {
+            $user->password = $this->getObject('com:users.model.entity.password')->createPassword();
         }
     }
 
     protected function _beforeUpdate(Library\DatabaseContext $context)
     {
-        $data = $context->data;
+        $user = $context->data;
 
-        if($data->password)
+        if($user->password)
         {
-            // Update password record.
-            $password = $data->getPassword();
+            // Fetch the password entity
+            $password = $this->getPassword();
 
-            if (!$password->setProperties(array('password' => $data->password))->save())
+            // Update the password
+            $password->setProperties(array('password' => $user->password));
+
+            if (!$password->save())
             {
-                $data->setStatus(Library\Database::STATUS_FAILED);
-                $data->setStatusMessage($password->getStatusMessage());
+                $user->setStatus(Library\Database::STATUS_FAILED);
+                $user->setStatusMessage($password->getStatusMessage());
                 return false;
             }
         }
@@ -51,32 +59,90 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
     protected function _afterInsert(Library\DatabaseContext $context)
     {
-        $data = $context->data;
+        $user = $context->data;
 
-        if ($data->getStatus() == Library\Database::STATUS_CREATED)
+        if ($user->getStatus() == Library\Database::STATUS_CREATED)
         {
             // Create a password row for the user.
             $password = $this->getPassword();
 
-            $data = array('id' => $data->email, 'password' => $data->password);
+            $data = array(
+                'id'       => $user->email,
+                'password' => $user->password
+            );
 
             $password->isNew() ? $password->create($data) : $password->setProperties($data);
-
             $password->save();
         }
     }
 
     public function getPassword()
     {
-        $password = null;
-
-        if (!$this->isNew())
+        if (!$this->isNew() && !isset($this->__password))
         {
-            $password = $this->getObject('com:users.model.passwords')
+            $this->__password = $this->getObject('com:users.model.passwords')
                 ->id($this->email)
                 ->fetch();
         }
 
-        return $password;
+        return $this->__password;
+    }
+
+    /**
+     * Migrate passwords to BCrypt on the fly
+     *
+     * @param string $password The plain-text password to verify
+     * @return bool Returns TRUE if the plain-text password and users hashed password, or FALSE otherwise.
+     */
+    public function verifyPassword($password)
+    {
+        $result = false;
+        $entity = $this->getPassword();
+
+        if($hash = $entity->hash)
+        {
+            // Check for MD5 hashes.
+            if (strpos($hash, '$') === false)
+            {
+                $parts = explode(':', $hash);
+                if ($parts[0] === md5($password . @$parts[1]))
+                {
+                    // Valid password on existing record. Migrate to BCrypt.
+                    $entity->hash = $entity->createHash($password);
+                    $result = $entity->save();
+                }
+            }
+            else $result = password_verify($password, $hash);
+        }
+
+        return $result;
+    }
+
+    public function resetPassword()
+    {
+        if (!$this->isNew())
+        {
+            $entity = $this->getPassword();
+
+            $password = $entity->createPassword(32);
+            $token    = $entity->createHash($password);
+
+            $entity->token = $token;
+            $entity->save();
+        }
+
+        return true;
+    }
+
+    protected function verifyToken($token)
+    {
+        $result = false;
+
+        $hash = $this->getPassword()->token;
+        if ($hash && (password_verify($token, $hash))) {
+            $result = true;
+        }
+
+        return $result;
     }
 }
