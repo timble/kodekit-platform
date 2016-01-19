@@ -9,10 +9,6 @@
 
 return array(
 
-    'aliases'  => array(
-        'user.provider'  => 'com:users.user.provider',
-    ),
-
     'identifiers' => array(
 
         'dispatcher' => array(
@@ -24,6 +20,10 @@ return array(
 
         'user.session' => array(
             'handler' => 'database'
+        ),
+
+        'user.provider'  => array(
+           'model' => 'com:users.model.users',
         ),
 
         'lib:user.session.handler.database'  => array(
