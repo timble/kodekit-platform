@@ -26,24 +26,18 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
      */
     protected $_force;
 
-    /**
-     * @var string The filter to be used on activation tokens.
-     */
-    protected $_filter;
 
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_force  = $config->force;
-        $this->_filter = $config->filter;
     }
 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'force'  => true,
-            'filter' => 'alnum'
         ));
 
         parent::_initialize($config);
@@ -54,7 +48,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         $result = true;
         $row    = $this->getModel()->fetch();
 
-        $activation = $context->request->data->get('activation', $this->_filter);
+        $activation = $context->request->data->get('activation', 'alnum');
         $row        = $this->getModel()->fetch();
 
         if ($activation !== $row->activation) {
