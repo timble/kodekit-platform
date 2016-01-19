@@ -20,34 +20,15 @@ use Nooku\Library;
  */
 class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 {
-    /**
-     * @var string The token filter.
-     */
-    protected $_filter;
-
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_filter = $config->filter;
-    }
-
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array(
-            'filter' => 'alnum'
-        ));
-
-        parent::_initialize($config);
-    }
-
     protected function _beforeReset(Library\ControllerContextInterface $context)
     {
-        $result = true;
+        $result = false;
 
-        if ($this->getModel()->fetch()->isNew() || !$this->_isTokenValid($context))
-        {
-            $result = false;
+        $user   = $this->getModel()->fetch();
+        $token  = $context->request->data->get('token', 'alnum');
+
+        if (!$user->isNew() && $user->verifyToken($token)) {
+            $result = true;
         }
 
         return $result;
@@ -57,13 +38,13 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        $password           = $this->getModel()->fetch()->getPassword();
-        $password->password = $context->request->data->get('password', 'string');
-        $password->save();
+        $user = $this->getModel()->fetch();
+        $user->password = $context->request->data->get('password', 'string');
+        $user->save();
 
-        if ($password->getStatus() == $password::STATUS_FAILED)
+        if ($user->getStatus() == $user::STATUS_FAILED)
         {
-            $context->error = $password->getStatusMessage();
+            $context->error = $user->getStatusMessage();
             $result = false;
         }
 
@@ -73,30 +54,13 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     protected function _beforeToken(Library\ControllerContextInterface $context)
     {
         $result = false;
+        $email  = $context->request->data->get('email', 'email');
+        $user   = $this->getObject('user.provider')->getUser($email);
 
-        $entity = $this->getObject('com:users.model.users')
-                    ->email($context->request->data->get('email', 'email'))
-                    ->fetch();
-
-        if (!$entity->isNew())
+        if ($user->getId())
         {
-            $context->entity = $entity;
+            $context->entity = $user;
             $result          = true;
-        }
-
-        return $result;
-    }
-
-    protected function _isTokenValid(Library\ControllerContextInterface $context)
-    {
-        $result = false;
-
-        $password = $this->getModel()->fetch()->getPassword();
-        $hash     = $password->reset;
-        $token    = $context->request->data->get('token', $this->_filter);
-
-        if ($hash && ($password->verifyPassword($token, $hash))) {
-            $result = true;
         }
 
         return $result;
@@ -104,17 +68,6 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
     protected function _actionToken(Library\ControllerContextInterface $context)
     {
-        $result = false;
-
-        $entity = $context->entity;
-
-        // Set the password as resettable and keep a copy of the token for further use.
-        if ($token = $entity->getPassword()->resetPassword())
-        {
-            $context->token = $token;
-            $result         = true;
-        }
-
-        return $result;
+        return $this->getModel()->fetch()->resetPassword();
     }
 }
