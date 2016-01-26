@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
-interface KCommandCallbackInterface extends CommandCallbackDelegate
+interface CommandCallbackInterface extends CommandCallbackDelegate
 {
     /**
      * Invoke a command by calling all the registered callbacks
