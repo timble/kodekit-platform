@@ -41,19 +41,19 @@ interface DatabaseQueryInterface
     public function setParameters(array $parameters);
 
     /**
-     * Gets the database adapter
+     * Gets the database engine
      *
-     * @return DatabaseAdapterInterface
+     * @return DatabaseEngineInterface
      */
-    public function getAdapter();
-    
+    public function getEngine();
+
     /**
-     * Set the database adapter
+     * Set the database engine
      *
-     * @param  DatabaseAdapterInterface $adapter A DatabaseAdapterInterface object
+     * @param  DatabaseEngineInterface $engine A DatabaseEngineInterface object
      * @return DatabaseQueryInterface
      */
-    public function setAdapter(DatabaseAdapterInterface $adapter);
+    public function setEngine(DatabaseEngineInterface $engine);
 
     /**
      * Render the query to a string.

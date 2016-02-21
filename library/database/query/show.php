@@ -46,19 +46,19 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
     public $where = array();
 
     /**
-     * Build the show clause 
+     * Build the show clause
      *
      * @param   string $table The name of the table.
      * @return  DatabaseQueryShow
      */
-    public function show($table) 
+    public function show($table)
     {
         $this->show = $table;
         return $this;
     }
 
     /**
-     * Build the from clause 
+     * Build the from clause
      *
      * @param   string $form The name of the database or table.
      * @return  DatabaseQueryShow
@@ -70,7 +70,7 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the like clause 
+     * Build the like clause
      *
      * @param   string $pattern The pattern to match.
      * @return  DatabaseQueryShow
@@ -78,7 +78,7 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
     public function like($pattern)
     {
         $this->like = $pattern;
-    
+
         return $this;
     }
 
@@ -95,7 +95,7 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
             'condition'   => $condition,
             'combination' => count($this->where) ? $combination : ''
         );
-    
+
         return $this;
     }
 
@@ -106,30 +106,30 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $adapter = $this->getAdapter();
-        $query   = 'SHOW '.$this->show;
+        $engine = $this->getEngine();
+        $query  = 'SHOW '.$this->show;
 
         if($this->from)
         {
             $table  = $this->from;
-            $query .= ' FROM '.$adapter->quoteIdentifier($table);
+            $query .= ' FROM '.$engine->quoteIdentifier($table);
         }
 
         if($this->like) {
-            $query .= ' LIKE '.$adapter->quoteIdentifier($this->like);
+            $query .= ' LIKE '.$engine->quoteIdentifier($this->like);
         }
 
         if($this->where)
         {
             $query .= ' WHERE';
-            
+
             foreach($this->where as $where)
             {
                 if(!empty($where['combination'])) {
                     $query .= ' '.$where['combination'];
                 }
-            
-                $query .= ' '.$adapter->quoteIdentifier($where['condition']);
+
+                $query .= ' '.$engine->quoteIdentifier($where['condition']);
             }
         }
 
@@ -139,18 +139,18 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
 
         return $query;
     }
-    
+
     /**
      * Callback method for parameter replacement.
-     * 
+     *
      * @param  array  $matches Matches of preg_replace_callback.
      * @return string The replacement string.
      */
     protected function _replaceParametersCallback($matches)
     {
         $key         = substr($matches[0], 1);
-        $replacement = $this->getAdapter()->quoteValue($this->_parameters[$key]);
-        
+        $replacement = $this->getEngine()->quoteValue($this->_parameters[$key]);
+
         return is_array($this->_parameters[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

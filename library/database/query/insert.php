@@ -39,7 +39,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
     public $values = array();
 
     /**
-     * Build the table clause 
+     * Build the table clause
      *
      * @param  string $table The table name.
      * @return DatabaseQueryInsert
@@ -52,7 +52,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the columns clause 
+     * Build the columns clause
      *
      * @param  array $columns Array of column names.
      * @return DatabaseQueryInsert
@@ -65,7 +65,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the values clause 
+     * Build the values clause
      *
      * @param  array $values Array of values.
      * @return DatabaseQueryInsert
@@ -92,15 +92,15 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $adapter = $this->getAdapter();
-        $query   = 'INSERT';
+        $engine = $this->getEngine();
+        $query  = 'INSERT';
 
         if($this->table) {
-            $query .= ' INTO '.$adapter->quoteIdentifier($this->table);
+            $query .= ' INTO '.$engine->quoteIdentifier($this->table);
         }
 
         if($this->columns) {
-            $query .= '('.implode(', ', array_map(array($adapter, 'quoteIdentifier'), $this->columns)).')';
+            $query .= '('.implode(', ', array_map(array($engine, 'quoteIdentifier'), $this->columns)).')';
         }
 
         if($this->values)
@@ -114,7 +114,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
                 {
                     $data = array();
                     foreach($row as $column) {
-                        $data[] = $adapter->quoteValue(is_object($column) ? (string) $column : $column);
+                        $data[] = $engine->quoteValue(is_object($column) ? (string) $column : $column);
                     }
 
                     $values[] = '('.implode(', ', $data).')';

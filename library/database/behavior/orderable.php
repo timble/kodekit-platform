@@ -41,9 +41,9 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 
 	/**
 	 * Override to add a custom WHERE clause
-	 * 
-	 * <code>	
-	 * 	   $query->where('category_id = :category_id')->bind(array('category_id' => $this->id)); 
+	 *
+	 * <code>
+	 * 	   $query->where('category_id = :category_id')->bind(array('category_id' => $this->id));
 	 * </code>
 	 *
 	 * @param 	DatabaseQuerySelect $query
@@ -80,27 +80,27 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 			$table = $this->getTable();
 			$query = $this->getObject('lib:database.query.update')
 			    ->table($table->getBase());
-			
+
 			//Build the where query
 			$this->_buildQueryWhere($query);
 
-			if($change < 0) 
+			if($change < 0)
 			{
 			    $query->values('ordering = ordering + 1')
 			        ->where('ordering >= :new')
 			        ->where('ordering < :old')
 			        ->bind(array('new' => $new, 'old' => $old));
-			} 
-			else 
+			}
+			else
 			{
 			    $query->values('ordering = ordering - 1')
 			        ->where('ordering > :old')
 			        ->where('ordering <= :new')
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
-			
-			$table->getAdapter()->update($query);
-			
+
+			$table->getEngine()->update($query);
+
 			$this->ordering = $new;
 			$this->save();
 			$this->reorder();
@@ -111,7 +111,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 
 	/**
      * Resets the order of all rows
-     * 
+     *
      * Resetting starts at $base to allow creating space in sequence for later  record insertion.
      *
      * @param	integer $base Order at which to start resetting.
@@ -120,37 +120,37 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     public function reorder($base = 0)
     {
         settype($base, 'int');
-        
+
         $table = $this->getTable();
-        $db    = $table->getAdapter();
+        $db    = $table->getEngine();
         $db->execute('SET @order = '.$base);
-        
+
         $query = $this->getObject('lib:database.query.update')
             ->table($table->getBase())
             ->values('ordering = (@order := @order + 1)')
             ->order('ordering', 'ASC');
-        
+
         $this->_buildQueryWhere($query);
-        
+
         if($base) {
             $query->where('ordering >= :ordering')->bind(array('ordering' => $base));
         }
-        
+
         $db->update($query);
-        
+
         return $this;
     }
-    
+
     /**
      * Find the maximum ordering within this parent
-     * 
+     *
      * @return int
      */
-    protected function getMaxOrdering() 
+    protected function getMaxOrdering()
     {
         $table = $this->getTable();
-        $db    = $table->getAdapter();
-        
+        $db    = $table->getEngine();
+
         $query = $this->getObject('lib:database.query.select')
             ->columns('MAX(ordering)')
             ->table($table->getName());
@@ -158,7 +158,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
         $this->_buildQueryWhere($query);
 
         return (int) $db->select($query, Database::FETCH_FIELD);
-        
+
     }
 
  	/**
@@ -176,7 +176,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
                 $this->ordering = $this->getMaxOrdering() + 1;
             } else {
                 $this->reorder($this->ordering);
-            } 
+            }
         }
     }
 

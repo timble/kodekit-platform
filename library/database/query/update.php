@@ -23,7 +23,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
      * @var string
      */
     public $table;
-    
+
     /**
      * The join clause
      *
@@ -60,7 +60,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
     public $limit;
 
     /**
-     * Build the table clause 
+     * Build the table clause
      *
      * @param   string The name of the table to update.
      * @return  DatabaseQueryUpdate
@@ -71,7 +71,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
 
         return $this;
     }
-    
+
     /**
      * Build the join clause
      *
@@ -100,7 +100,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the set clause 
+     * Build the set clause
      *
      * @param   array|string $columns An array or string of columns to update.
      * @return  DatabaseQueryUpdate
@@ -167,13 +167,13 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $adapter = $this->getAdapter();
-        $query   = 'UPDATE ';
+        $engine = $this->getEngine();
+        $query  = 'UPDATE ';
 
         if($this->table) {
-            $query .= $adapter->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+            $query .= $engine->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
         }
-        
+
         if($this->join)
         {
             $joins = array();
@@ -186,13 +186,13 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
                 }
 
                 if($join['table'] instanceof DatabaseQuerySelect) {
-                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$engine->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$engine->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
-                    $tmp .= ' ON ('.$adapter->quoteIdentifier($join['condition']).')';
+                    $tmp .= ' ON ('.$engine->quoteIdentifier($join['condition']).')';
                 }
 
                 $joins[] = $tmp;
@@ -205,7 +205,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
         {
             $values = array();
             foreach($this->values as $value) {
-                $values[] = ' '. $adapter->quoteIdentifier($value);
+                $values[] = ' '. $engine->quoteIdentifier($value);
             }
 
             $query .= ' SET '.implode(', ', $values);
@@ -215,13 +215,13 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
         {
             $query .= ' WHERE';
 
-            foreach($this->where as $where) 
+            foreach($this->where as $where)
             {
                 if(!empty($where['combination'])) {
                     $query .= ' '.$where['combination'];
                 }
 
-                $query .= ' '.$adapter->quoteIdentifier($where['condition']);
+                $query .= ' '.$engine->quoteIdentifier($where['condition']);
             }
         }
 
@@ -231,7 +231,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
 
             $list = array();
             foreach($this->order as $order) {
-                $list[] = $adapter->quoteIdentifier($order['column']).' '.$order['direction'];
+                $list[] = $engine->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);

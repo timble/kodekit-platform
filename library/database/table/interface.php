@@ -18,24 +18,24 @@ namespace Nooku\Library;
 interface DatabaseTableInterface
 {
     /**
-     * Gets the database adapter
+     * Gets the database engine
      *
-     * @return DatabaseAdapterInterface
+     * @return DatabaseEngineInterface
      */
-    public function getAdapter();
+    public function getEngine();
 
     /**
-     * Set the database adapter
+     * Set the database engine
      *
-     * @param  DatabaseAdapterInterface $adapter A DatabaseAdapterInterface object
+     * @param  DatabaseEngineInterface $engine A DatabaseEngineInterface object
      * @return DatabaseQueryInterface
      */
-    public function setAdapter(DatabaseAdapterInterface $adapter);
+    public function setEngine(DatabaseEngineInterface $engine);
 
     /**
      * Test the connected status of the table
      *
-     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseAdapterAbstract object.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseEngineInterface.
      */
     public function isConnected();
 

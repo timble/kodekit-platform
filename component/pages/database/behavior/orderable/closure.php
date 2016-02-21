@@ -172,7 +172,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         $table = $row->getTable();
 
         // Create a select query which returns an ordered list of rows.
-        $table->getAdapter()->execute('SET @index := 0');
+        $table->getEngine()->execute('SET @index := 0');
 
         $sub_select = $this->_buildQuery($row)
             ->columns('tbl.' . $column)
@@ -191,7 +191,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
             ->values('tbl.' . $column . ' = ordering.index')
             ->where('tbl.' . $table->getIdentityColumn() . ' = ordering.' . $table->getIdentityColumn());
 
-        $table->getAdapter()->update($update);
+        $table->getEngine()->update($update);
     }
 
     protected function _reorderCustom(Library\DatabaseRowInterface $row, $column, $operation)
@@ -208,7 +208,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                     ->order('orderings.custom', 'DESC')
                     ->limit(1);
 
-                $max = (int)$table->getAdapter()->select($query, Library\Database::FETCH_FIELD);
+                $max = (int)$table->getEngine()->select($query, Library\Database::FETCH_FIELD);
                 $table->getOrderingTable()->select($row->id, Library\Database::FETCH_ROW)
                     ->setProperties(array('custom' => $max + 1))->save();
             }
@@ -247,14 +247,14 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                         ->values('tbl.' . $column . ' = ordering.index')
                         ->where('tbl.' . $table->getIdentityColumn() . ' = ordering.' . $table->getIdentityColumn());
 
-                    $table->getAdapter()->update($update);
+                    $table->getEngine()->update($update);
                 }
             }
                 break;
 
             case 'delete':
             {
-                $table->getAdapter()->execute('SET @index := 0');
+                $table->getEngine()->execute('SET @index := 0');
 
                 $select = $this->_buildQuery($row)
                     ->columns(array('index' => '@index := @index + 1'))
@@ -269,7 +269,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                     ->values('tbl.' . $column . ' = ordering.index')
                     ->where('tbl.' . $table->getIdentityColumn() . ' = ordering.' . $table->getIdentityColumn());
 
-                $table->getAdapter()->update($update);
+                $table->getEngine()->update($update);
             }
                 break;
         }

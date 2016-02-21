@@ -10,31 +10,31 @@
 namespace Nooku\Library;
 
 /**
- * Database Adapter Interface
+ * Database Engine Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Database\Adapter\Interface
+ * @package Nooku\Library\Database\Engine\Interface
  */
-interface DatabaseAdapterInterface
+interface DatabaseEngineInterface
 {
     /**
      * Connect to the db
      *
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineInterface
      */
     public function connect();
 
     /**
      * Reconnect to the db
      *
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineInterface
      */
     public function reconnect();
 
     /**
      * Disconnect from db
      *
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineInterface
      */
     public function disconnect();
 
@@ -76,7 +76,7 @@ interface DatabaseAdapterInterface
 
     /**
      * Preform a select query.
-     * 
+     *
      * @param   string  $query  A full SQL query to run. Data inside the query should be properly escaped.
      * @param   integer $mode   The result maode, either the constant Database::RESULT_USE or Database::RESULT_STORE
      *                          depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
@@ -91,7 +91,7 @@ interface DatabaseAdapterInterface
      * Insert a row of data into a table.
      *
      * @param DatabaseQueryInsert $query The query object.
-     * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if 
+     * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if
      *                       no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
     public function insert(DatabaseQueryInsert $query);
@@ -100,7 +100,7 @@ interface DatabaseAdapterInterface
      * Update a table with specified data.
      *
      * @param  DatabaseQueryUpdate $query The query object.
-     * @return integer  If the update query was executed returns the number of rows updated, or 0 if 
+     * @return integer  If the update query was executed returns the number of rows updated, or 0 if
      *                  no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
     public function update(DatabaseQueryUpdate $query);
@@ -141,7 +141,7 @@ interface DatabaseAdapterInterface
      * Set the connection
      *
      * @param   resource $resource The connection resource
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineInterface
      */
     public function setConnection($resource);
 
@@ -161,7 +161,7 @@ interface DatabaseAdapterInterface
     public function getTableSchema($table);
 
     /**
-     * Get the adapter context
+     * Get the engine context
      *
      * @return  Command
      */
@@ -177,13 +177,13 @@ interface DatabaseAdapterInterface
      * @return string An SQL-safe quoted value (or a string of separated and-quoted values).
      */
     public function quoteValue($value);
-    
+
     /**
      * Quotes a single identifier name (table, table alias, table column, index, sequence).  Ignores empty values.
-     * 
+     *
      * This function requires all SQL statements, operators and functions to be uppercased.
      *
-     * @param string|array The identifier name to quote.  If an array, quotes 
+     * @param string|array The identifier name to quote.  If an array, quotes
      *                      each element in the array as an identifier name.
      * @return string|array The quoted identifier name (or array of names).
      */

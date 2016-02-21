@@ -23,13 +23,13 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
     {
         $query = $this->getObject('lib:database.query.select')
             ->columns('MAX(tbl.ordering)');
-        
+
         $this->_buildQuery($query);
-        
+
         $max = (int) $context->getSubject()->select($query, Library\Database::FETCH_FIELD);
         $context->data->ordering = $max + 1;
     }
-    
+
     protected function _beforeUpdate(Library\DatabaseContext $context)
     {
         $row = $context->data;
@@ -51,7 +51,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
 			        ->where('ordering >= :new')
 			        ->where('ordering < :old')
 			        ->bind(array('new' => $new, 'old' => $old));
-			} 
+			}
 			else
 			{
 			    $query->values('ordering = ordering - 1')
@@ -60,25 +60,25 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
 
-			$table->getAdapter()->update($query);
+			$table->getEngine()->update($query);
 			$row->ordering = $new;
         }
     }
-    
+
     protected function _afterUpdate(Library\DatabaseContext $context)
     {
         if($context->affected === false) {
             $this->_reorder($context);
         }
     }
-    
+
     protected function _afterDelete(Library\DatabaseContext $context)
     {
         if($context->affected) {
             $this->_reorder($context);
         }
     }
-    
+
     protected function _buildQuery($query)
     {
         if(!$query instanceof Library\DatabaseQuerySelect && !$query instanceof Library\DatabaseQueryUpdate) {
@@ -90,19 +90,19 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
             $query->where('position = :position')->bind(array('position' => $this->position));
         }
     }
-    
+
     protected function _reorder(Library\DatabaseContext $context)
     {
         $table = $context->getSubject();
-        $table->getAdapter()->execute('SET @index = 0');
+        $table->getEngine()->execute('SET @index = 0');
 
         $query = $this->getObject('lib:database.query.update')
             ->table(array('tbl' => $table->getBase()))
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
-        
+
         $this->_buildQuery($query);
-        
-        $table->getAdapter()->update($query);
+
+        $table->getEngine()->update($query);
     }
 }

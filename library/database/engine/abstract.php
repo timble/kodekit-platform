@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Database Adapter
+ * Abstract Database Engine
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Database\Adapter\Abstract
+ * @package Nooku\Library\Database\Engine\Abstract
  */
-abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface, ObjectMultiton
+abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineInterface, ObjectMultiton
 {
     /**
      * Active state of the connection
@@ -72,10 +72,10 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * @var ObjectConfig
      */
     protected $_options = null;
-    
+
     /**
      * Character set used for connection
-     * 
+     *
      * @var string
      */
     protected $_charset;
@@ -144,7 +144,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Reconnect to the db
      *
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineAbstract
      */
     public function reconnect()
     {
@@ -157,7 +157,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Disconnect from db
      *
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineAbstract
      */
     public function disconnect()
     {
@@ -178,7 +178,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * Set the database name
      *
      * @param     string $database The database name
-     * @return  DatabaseAdapterAbstract
+     * @return DatabaseEngineAbstract
      */
     abstract function setDatabase($database);
 
@@ -199,34 +199,34 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      * Set the connection
      *
      * @param     resource     $resource The connection resource
-     * @return  DatabaseAdapterAbstract
+     * @return  DatabaseEngineAbstract
      */
     public function setConnection($resource)
     {
         $this->_connection = $resource;
         return $this;
     }
-    
+
     /**
      * Get character set
-     * 
+     *
      * @return string
      */
     public function getCharset()
     {
         return $this->_charset;
     }
-    
+
     /**
      * Set character set
-     * 
+     *
      * @param string $charset The character set.
-     * @return DatabaseAdapterAbstract
+     * @return DatabaseEngineAbstract
      */
     public function setCharset($charset)
     {
         $this->_charset = $charset;
-        
+
         return $this;
     }
 

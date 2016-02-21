@@ -22,9 +22,9 @@ class ActivitiesViewActivitiesHtml extends Library\ViewHtml
         if ($this->getLayout() == 'default')
 		{
 			$query = $this->getObject('lib:database.query.select')->table('activities')->columns('package')->distinct();
-			$context->data->packages = $this->getModel()->getTable()->getAdapter()->select($query, Library\Database::FETCH_FIELD_LIST);
+			$context->data->packages = $this->getModel()->getTable()->getEngine()->select($query, Library\Database::FETCH_FIELD_LIST);
 		}
-		
+
 		parent::_fetchData($context);
 	}
 }

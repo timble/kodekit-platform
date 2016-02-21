@@ -23,7 +23,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
      * @var array
      */
     public $table = array();
-    
+
     /**
      * The join element
      *
@@ -53,7 +53,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
     public $limit;
 
     /**
-     * Build the table clause 
+     * Build the table clause
      *
      * @param  array|string $table The table string or array name.
      * @return DatabaseQueryDelete
@@ -63,7 +63,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
         $this->table = (array) $table;
         return $this;
     }
-    
+
     /**
      * Build the join clause
      *
@@ -129,7 +129,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
     }
 
     /**
-     * Build the limit clause 
+     * Build the limit clause
      *
      * @param   integer $limit Number of items to update.
      * @return  DatabaseQueryDelete
@@ -147,17 +147,17 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $adapter = $this->getAdapter();
+        $engine  = $this->getEngine();
         $query   = 'DELETE';
-        
+
         if($this->table && $this->join) {
-            $query .= ' '.$adapter->quoteIdentifier(!is_numeric(key($this->table)) ? key($this->table) : current($this->table));
+            $query .= ' '.$engine->quoteIdentifier(!is_numeric(key($this->table)) ? key($this->table) : current($this->table));
         }
-        
+
         if($this->table) {
-            $query .= ' FROM '.$adapter->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+            $query .= ' FROM '.$engine->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
         }
-        
+
         if($this->join)
         {
             $joins = array();
@@ -170,13 +170,13 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
                 }
 
                 if($join['table'] instanceof DatabaseQuerySelect) {
-                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$engine->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$engine->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
-                    $tmp .= ' ON ('.$adapter->quoteIdentifier($join['condition']).')';
+                    $tmp .= ' ON ('.$engine->quoteIdentifier($join['condition']).')';
                 }
 
                 $joins[] = $tmp;
@@ -189,13 +189,13 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
         {
             $query .= ' WHERE';
 
-            foreach($this->where as $where) 
+            foreach($this->where as $where)
             {
                 if(!empty($where['combination'])) {
                     $query .= ' '.$where['combination'];
                 }
 
-                $query .= ' '.$adapter->quoteIdentifier($where['condition']);
+                $query .= ' '.$engine->quoteIdentifier($where['condition']);
             }
         }
 
@@ -205,7 +205,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
 
             $list = array();
             foreach($this->order as $order) {
-                $list[] = $adapter->quoteIdentifier($order['column']).' '.$order['direction'];
+                $list[] = $engine->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);

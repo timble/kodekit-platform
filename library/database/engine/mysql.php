@@ -10,13 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * MySQL Database Adapter
+ * MySQL Database Engine
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Library\Database
  */
-class DatabaseAdapterMysql extends DatabaseAdapterAbstract
+class DatabaseEngineMysql extends DatabaseEngineAbstract
 {
     /**
      * Quote for query identifiers
@@ -116,7 +116,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     /**
      * Connects to the database
      *
-     * @return DatabaseAdapterMysql
+     * @return DatabaseEngineMysql
      */
     public function connect()
     {
@@ -150,7 +150,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     /**
      * Disconnects from database
      *
-     * @return DatabaseAdapterMysql
+     * @return DatabaseEngineMysql
      */
     public function disconnect()
     {
@@ -302,7 +302,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      * @param   $connection  The connection object.
      *
      * @throws  \InvalidArgumentException If the resource is not a PDO instance.
-     * @return  DatabaseAdapterMysql
+     * @return  DatabaseEngineMysql
      */
     public function setConnection($connection)
     {
@@ -337,7 +337,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      *
      * @param   string $database  The database name.
      * @throws  \RuntimeException If the database could not be set
-     * @return  DatabaseAdapterMysql
+     * @return  DatabaseEngineMysql
      */
     public function setDatabase($database)
     {

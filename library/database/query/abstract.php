@@ -18,11 +18,11 @@ namespace Nooku\Library;
 abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInterface
 {
     /**
-     * Database adapter
+     * Database engine
      *
-     * @var     object
+     * @var DatabaseEngineInterface
      */
-    protected $_adapter;
+    protected $_engine;
 
     /**
      * Query parameters to bind
@@ -41,7 +41,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         parent::__construct($config);
 
-        $this->_adapter = $config->adapter;
+        $this->_engine = $config->engine;
         $this->setParameters(ObjectConfig::unbox($config->parameters));
     }
 
@@ -56,7 +56,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'adapter'     => 'lib:database.adapter.mysql',
+            'engine'     => 'lib:database.engine.mysql',
             'parameters'  => array()
         ));
     }
@@ -80,7 +80,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      * Set the query parameters
      *
      * @param  array $parameters
-     * @return DatabaseAdapterInterface
+     * @return DatabaseQueryAbstract
      */
     public function setParameters(array $parameters)
     {
@@ -99,37 +99,37 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     }
 
     /**
-     * Gets the database adapter
+     * Gets the database engine
      *
-     * @throws	\UnexpectedValueException	If the adapter doesn't implement DatabaseAdapterInterface
-     * @return DatabaseAdapterInterface
+     * @throws	\UnexpectedValueException	If the engine doesn't implement DatabaseEngineInterface
+     * @return DatabaseEngineInterface
      */
-    public function getAdapter()
+    public function getEngine()
     {
-        if(!$this->_adapter instanceof DatabaseAdapterInterface)
+        if(!$this->_engine instanceof DatabaseEngineInterface)
         {
-            $this->_adapter = $this->getObject($this->_adapter);
+            $this->_engine = $this->getObject($this->_engine);
 
-            if(!$this->_adapter instanceof DatabaseAdapterInterface)
+            if(!$this->_engine instanceof DatabaseEngineInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Adapter: '.get_class($this->_adapter).' does not implement DatabaseAdapterInterface'
+                    'Engine: '.get_class($this->_engine).' does not implement DatabaseEngineInterface'
                 );
             }
         }
 
-        return $this->_adapter;
+        return $this->_engine;
     }
 
     /**
-     * Set the database adapter
+     * Set the database engine
      *
-     * @param DatabaseAdapterInterface $adapter
+     * @param DatabaseEngineInterface $engine
      * @return DatabaseQueryInterface
      */
-    public function setAdapter(DatabaseAdapterInterface $adapter)
+    public function setEngine(DatabaseEngineInterface $engine)
     {
-        $this->_adapter = $adapter;
+        $this->_engine = $engine;
         return $this;
     }
 
@@ -158,7 +158,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
         if(!$value instanceof DatabaseQuerySelect)
         {
             $value = is_object($value) ? (string) $value : $value;
-            $replacement = $this->getAdapter()->quoteValue($value);
+            $replacement = $this->getEngine()->quoteValue($value);
         }
         else $replacement = '('.$value.')';
 

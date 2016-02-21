@@ -169,7 +169,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                         $query->values[0][$key] = $context->data->id;
                     }
 
-                    $this->getTable()->getAdapter()->insert($query);
+                    $this->getTable()->getEngine()->insert($query);
                 }
 
                 if ($language->iso_code != $active->iso_code)
@@ -237,7 +237,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         $translations->save();
 
         // Copy the item's data to all missing translations.
-        $database = $this->getTable()->getAdapter();
+        $database = $this->getTable()->getEngine();
         $prefix   = $active->iso_code != $default->iso_code ? strtolower($active->iso_code . '_') : '';
         $select   = $this->getObject('lib:database.query.select')
             ->table($prefix . $table->name)
@@ -276,7 +276,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $active    = $languages->getActive();
 
             // Remove item from other tables too.
-            $database = $this->getTable()->getAdapter();
+            $database = $this->getTable()->getEngine();
             $query    = clone $context->query;
 
             foreach ($languages as $language)

@@ -270,7 +270,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
 
-            $table->getAdapter()->insert($query);
+            $table->getEngine()->insert($query);
 
             // Set path and level for the current row.
             if ($data->parent_id)
@@ -290,7 +290,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
 
-                $table->getAdapter()->insert($query);
+                $table->getEngine()->insert($query);
             }
             else $data->setProperties(array('level' => 1, 'path' => $data->id), false);
         }
@@ -334,7 +334,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->where('x.ancestor_id IS NULL')
                     ->bind(array('ancestor_id' => $row->id));
 
-                $table->getAdapter()->delete($query);
+                $table->getEngine()->delete($query);
 
                 // Insert the subtree under its new location.
                 $select = $this->getObject('lib:database.query.select')
@@ -350,7 +350,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
 
-                $table->getAdapter()->insert($query);
+                $table->getEngine()->insert($query);
 
                 $row->path = ($row->parent_id ? $parent->path . '/' : '') . $row->id;
             }
@@ -382,7 +382,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
             ->where($id_column . ' IN :id')
             ->bind(array('id' => $select));
 
-        $table->getAdapter()->delete($query);
+        $table->getEngine()->delete($query);
 
         return true;
     }

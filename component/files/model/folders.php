@@ -30,7 +30,7 @@ class ModelFolders extends ModelNodes
     {
         $state = $context->state;
 
-        $folders = $this->getContainer()->getAdapter('iterator')->getFolders(array(
+        $folders = $this->getContainer()->getEngine('iterator')->getFolders(array(
             'path'    => $this->_getPath(),
             'recurse' => !!$state->tree,
             'filter'  => array($this, 'iteratorFilter'),

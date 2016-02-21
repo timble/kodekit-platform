@@ -48,7 +48,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
-        
+
         $this->_table = $config->table;
         $this->_date  = $this->getObject('lib:date', array('timezone' => 'GMT'));
     }
@@ -104,7 +104,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
                          'published' => 0,
                          'value'     => 1));
 
-        $this->getMixer()->getTable()->getAdapter()->update($query);
+        $this->getMixer()->getTable()->getEngine()->update($query);
     }
 
     /**
@@ -120,7 +120,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
                          'published' => 1,
                          'value'     => 0));
 
-        $this->getMixer()->getTable()->getAdapter()->update($query);
+        $this->getMixer()->getTable()->getEngine()->update($query);
     }
 
     /**

@@ -45,7 +45,7 @@ class ControllerBehaviorPurgeable extends Library\ControllerBehaviorAbstract
             $query->where('DATE(created_on) <= :end')->bind(array('end' => $end));
         }
 
-        if (!$this->getModel()->getTable()->getAdapter()->execute($query)) {
+        if (!$this->getModel()->getTable()->getEngine()->execute($query)) {
             throw new Library\ControllerExceptionActionFailed('Delete Action Failed');
         } else {
             $context->status = Library\HttpResponse::NO_CONTENT;

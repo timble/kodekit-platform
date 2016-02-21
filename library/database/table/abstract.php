@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Database
  */
-abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectMultiton
+abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectInstantiable
 {
     /**
      * Real name of the table in the db schema
@@ -48,11 +48,11 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     protected $_column_map = array();
 
     /**
-     * Database adapter
+     * Database engine
      *
-     * @var DatabaseAdapterInterface
+     * @var DatabaseEngineInterface
      */
-    protected $_adapter;
+    protected $_engine;
 
     /**
      * Default values for this table
@@ -73,7 +73,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         $this->_name = $config->name;
         $this->_base = $config->base;
-        $this->_adapter = $config->adapter;
+        $this->_engine = $config->engine;
 
         //Check if the table exists
         if (!$info = $this->getSchema()) {
@@ -129,7 +129,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $name = $this->getIdentifier()->name;
 
         $config->append(array(
-            'adapter'           => 'lib:database.adapter.mysql',
+            'engine'            => 'lib:database.engine.mysql',
             'name'              => empty($package) ? $name : $package . '_' . $name,
             'column_map'        => null,
             'filters'           => array(),
@@ -144,48 +144,76 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
-     * Gets the database adapter
+     * Instantiate the object
      *
-     * @throws	\UnexpectedValueException	If the adapter doesn't implement DatabaseAdapterInterface
-     * @return DatabaseAdapterInterface
+     * This method implements an object pool, and will store table objects based on their object
+     * identifier and table name, if a specific table name exist in the config.
+     *
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
+     * @return  DatabaseBehaviorAbstract
      */
-    public function getAdapter()
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if(!$this->_adapter instanceof DatabaseAdapterInterface)
-        {
-            $this->_adapter = $this->getObject($this->_adapter);
+        static $instances;
 
-            if(!$this->_adapter instanceof DatabaseAdapterInterface)
+        //Create object identifier
+        $identifier = (string) $config->object_identifier;
+        if(!empty($config->name)) {
+            $identifier .= '?name='.$config->name;
+        }
+
+        //Create object instance and store in the pool
+        if(!isset($instances[$identifier])) {
+            $instances[$identifier] = new static($config);
+        }
+
+        return $instances[$identifier];
+    }
+
+    /**
+     * Gets the database engine
+     *
+     * @throws	\UnexpectedValueException	If the engine doesn't implement DatabaseEngineInterface
+     * @return DatabaseEngineInterface
+     */
+    public function getEngine()
+    {
+        if(!$this->_engine instanceof DatabaseEngineInterface)
+        {
+            $this->_engine = $this->getObject($this->_engine);
+
+            if(!$this->_engine instanceof DatabaseEngineInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Adapter: '.get_class($this->_adapter).' does not implement DatabaseAdapterInterface'
+                    'Engine: '.get_class($this->_engine).' does not implement DatabaseEngineInterface'
                 );
             }
         }
 
-        return $this->_adapter;
+        return $this->_engine;
     }
 
     /**
-     * Set the database adapter
+     * Set the database engine
      *
-     * @param DatabaseAdapterInterface $adapter
+     * @param DatabaseEngineInterface $engine
      * @return DatabaseQueryInterface
      */
-    public function setAdapter(DatabaseAdapterInterface $adapter)
+    public function setEngine(DatabaseEngineInterface $engine)
     {
-        $this->_adapter = $adapter;
+        $this->_engine = $engine;
         return $this;
     }
 
     /**
      * Test the connected status of the table
      *
-     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseAdapterAbstract object.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseEngineInterface object.
      */
     public function isConnected()
     {
-        return (bool)$this->getAdapter();
+        return (bool)$this->getEngine();
     }
 
     /**
@@ -241,7 +269,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $result = null;
 
         if ($this->isConnected()){
-            $result = $this->getAdapter()->getTableSchema($this->getBase());
+            $result = $this->getEngine()->getTableSchema($this->getBase());
         }
 
         return $result;
@@ -571,7 +599,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                     $key = null;
                 }
 
-                $data = $this->getAdapter()->select($context->query, $context->mode, $key);
+                $data = $this->getEngine()->select($context->query, $context->mode, $key);
 
                 //Map the columns
                 if (($context->mode != Database::FETCH_FIELD) && ($context->mode != Database::FETCH_FIELD_LIST))
@@ -602,7 +630,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
                 case Database::FETCH_ROWSET :
                 {
-                    if (isset($data) && !empty($data)) 
+                    if (isset($data) && !empty($data))
                     {
                         $options['data']   = $data;
                         $options['status'] = Database::STATUS_FETCHED;
@@ -692,7 +720,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $context->query->values($this->mapColumns($data));
 
             // Execute the insert query.
-            $context->affected = $this->getAdapter()->insert($context->query);
+            $context->affected = $this->getEngine()->insert($context->query);
 
             // Set the status and data before calling the command chain
             if ($context->affected !== false)
@@ -700,7 +728,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 if ($context->affected)
                 {
                     if(($column = $this->getIdentityColumn()) && $this->getColumn($this->mapColumns($column, true), true)->autoinc) {
-                        $data[$this->getIdentityColumn()] = $this->getAdapter()->getInsertId();
+                        $data[$this->getIdentityColumn()] = $this->getEngine()->getInsertId();
                     }
 
                     $context->data->setProperties($this->mapColumns($data, true))->setStatus(Database::STATUS_CREATED);
@@ -749,7 +777,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
 
             // Execute the update query.
-            $context->affected = $this->getAdapter()->update($context->query);
+            $context->affected = $this->getEngine()->update($context->query);
 
             // Set the status and data before calling the command chain
             if ($context->affected !== false)
@@ -795,7 +823,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
 
             // Execute the delete query.
-            $context->affected = $this->getAdapter()->delete($context->query);
+            $context->affected = $this->getEngine()->delete($context->query);
 
             // Set the query in the context.
             if ($context->affected !== false) {
@@ -823,7 +851,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($this->invokeCommand('before.lock', $context) !== false)
         {
             if ($this->isConnected()) {
-                $context->result = $this->getAdapter()->lock($this->getBase());
+                $context->result = $this->getEngine()->lock($this->getBase());
             }
 
             $this->invokeCommand('after.lock', $context);
@@ -847,7 +875,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($this->invokeCommand('before.unlock', $context) !== false)
         {
             if ($this->isConnected()) {
-                $context->result = $this->getAdapter()->unlock();
+                $context->result = $this->getEngine()->unlock();
             }
 
             $this->invokeCommand('after.unlock', $context);
