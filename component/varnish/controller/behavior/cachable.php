@@ -12,12 +12,12 @@ namespace Nooku\Component\Varnish;
 use Nooku\Library;
 
 /**
- * Controller Taggable Behavior
+ * Controller Cachable Behavior
  *
  * @author  Dave Li <http://github.com/daveli>
  * @package Component\Varnish
  */
-class ControllerBehaviorTaggable extends Library\BehaviorAbstract
+class ControllerBehaviorCachable extends Library\BehaviorAbstract
 {
     /**
      *  Get the varnish cache controller
