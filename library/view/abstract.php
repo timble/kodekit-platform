@@ -317,10 +317,6 @@ abstract class ViewAbstract extends Object implements ViewInterface, CommandCall
     {
         if(!$this->_model instanceof ModelInterface)
         {
-            if(!($this->_model instanceof ObjectIdentifier)) {
-                $this->setModel($this->_model);
-            }
-
             $this->_model = $this->getObject($this->_model);
 
             if(!$this->_model instanceof ModelInterface)
