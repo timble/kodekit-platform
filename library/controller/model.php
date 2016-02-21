@@ -34,7 +34,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         parent::__construct($config);
 
         // Set the model identifier
-        $this->_model = $config->model;
+        $this->setModel($config->model);
     }
 
     /**
@@ -116,10 +116,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     {
         if(!$this->_model instanceof ModelInterface)
         {
-            if(!($this->_model instanceof ObjectIdentifier)) {
-                $this->setModel($this->_model);
-            }
-
             $this->_model = $this->getObject($this->_model);
 
             if(!$this->_model instanceof ModelInterface)
