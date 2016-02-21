@@ -203,8 +203,8 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	 *
 	 * The column used will be defined by the name -> value => column options in cascading order.
 	 *
-	 * If no 'model' name is specified the model identifier will be created using the helper identifier. The model name
-     * will be the pluralised package name.
+	 * If no 'model' name or object instance is specified the model identifier will be created using the helper
+     * identifier The model name will be the pluralised package name.
 	 *
 	 * If no 'value' option is specified the 'name' option will be used instead. If no 'text'  option is specified the
      * 'value' option will be used instead.
@@ -226,14 +226,34 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		))->append(array(
 			'value'		 => $config->name,
 			'selected'   => $config->{$config->name},
-		    'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model)
 		))->append(array(
 			'label'		=> $config->value,
 		))->append(array(
 		    'filter' 	=> array('sort' => $config->label),
 		));
 
-		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->fetch();
+        //Create the model
+        if(!$config->model instanceof ModelInterface)
+        {
+            if(is_string($config->model) && strpos($config->model, '.') === false) {
+                $identifier = 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model);
+            } else {
+                $identifier = $config->model;
+            }
+
+            $model  = $this->getObject($identifier);
+
+            if(!$model instanceof ModelInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Model: '.get_class($model).' does not implement ModelInterface'
+                );
+            }
+        }
+        else $model = $config->model;
+
+        //Fetch the entities
+		$list = $model->setState(ObjectConfig::unbox($config->filter))->fetch();
 
 		//Get the list of items
         $items = array();
@@ -291,7 +311,6 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		))->append(array(
 		    'value'		 => $config->name,
 		    'selected'   => $config->{$config->name},
-			'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model)
 		))->append(array(
 			'label'		=> $config->value,
 		))->append(array(
