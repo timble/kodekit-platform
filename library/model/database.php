@@ -35,7 +35,8 @@ class ModelDatabase extends ModelAbstract
     {
         parent::__construct($config);
 
-        $this->_table = $config->table;
+        //Set the table identifier
+        $this->setTable($config->table);
 
         //Calculate the aliases based on the location of the table
         $model = $database = $this->getTable()->getIdentifier()->toArray();
@@ -160,13 +161,7 @@ class ModelDatabase extends ModelAbstract
      */
     public function getTable()
     {
-        if(!($this->_table instanceof DatabaseTableInterface))
-		{
-            //Make sure we have a table identifier
-            if(!($this->_table instanceof ObjectIdentifier)) {
-                $this->setTable($this->_table);
-            }
-
+        if(!($this->_table instanceof DatabaseTableInterface)) {
             $this->_table = $this->getObject($this->_table);
         }
 
