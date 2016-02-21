@@ -12,7 +12,7 @@ return array(
     'identifiers' => array(
 
         'com:pages.controller.module'  => array(
-            'behaviors'  => array('com:varnish.controller.behavior.taggable'),
+            'behaviors'  => array('com:varnish.controller.behavior.cachable'),
         ),
     )
 );
