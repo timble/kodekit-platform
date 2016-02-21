@@ -16,8 +16,11 @@ return array(
     'identifiers' => array(
 
         'com:articles.controller.article'  => array(
-            'behaviors'  => array('com:varnish.controller.behavior.taggable'),
+            'behaviors'  => array(
+                'com:varnish.controller.behavior.cachable',
+                'com:activities.controller.behavior.loggable',
+                'com:tags.controller.behavior.taggable'
+            ),
         ),
     )
-
 );

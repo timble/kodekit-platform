@@ -10,7 +10,6 @@
 return array(
 
     'aliases'  => array(
-        'com:articles.model.tags'            => 'com:tags.model.tags',
         'com:articles.model.categories'      => 'com:categories.model.categories',
         'com:articles.controller.attachment' => 'com:attachments.controller.attachment',
     ),
@@ -18,8 +17,10 @@ return array(
 	'identifiers' => array(
 
 		'com:articles.controller.article'  => array(
-			'behaviors'  => array('com:varnish.controller.behavior.taggable'),
+			'behaviors'  => array(
+                'com:varnish.controller.behavior.cachable',
+                'com:tags.controller.behavior.taggable'
+            ),
 		),
 	)
 );
-
