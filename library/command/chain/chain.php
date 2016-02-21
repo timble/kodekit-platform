@@ -136,7 +136,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Attach a command to the chain
+     * Add a command handler to the chain
      *
      * @param  CommandHandlerInterface  $handler  The command handler
      * @return CommandChain
@@ -148,7 +148,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Removes a command from the chain
+     * Remove a command handler from the chain
      *
      * @param  CommandHandlerInterface  $handler  The command handler
      * @return CommandChain
@@ -160,7 +160,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Get the list of handlers enqueue in the chain
+     * Get the list of command handlers enqueued in the chain
      *
      * @return  ObjectQueue   An object queue containing the handlers
      */
@@ -170,7 +170,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Set the priority of a command
+     * Set the priority of a command handler
      *
      * @param  CommandHandlerInterface $handler   A command handler
      * @param integer                   $priority  The command priority
@@ -183,7 +183,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Get the priority of a command
+     * Get the priority of a command handler
      *
      * @param  CommandHandlerInterface $handler A command handler
      * @return integer The command priority
@@ -194,7 +194,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Set the break condition
+     * Set the break condition of the chain
      *
      * @param mixed|null $condition The break condition, or NULL to set reset the break condition
      * @return CommandChain
@@ -206,7 +206,7 @@ class CommandChain extends Object implements CommandChainInterface
     }
 
     /**
-     * Get the break condition
+     * Get the break condition of the chain
      *
      * @return mixed|null   Returns the break condition, or NULL if not break condition is set.
      */
