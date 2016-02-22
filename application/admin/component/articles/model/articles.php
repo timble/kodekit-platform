@@ -24,7 +24,6 @@ class ArticlesModelArticles extends Articles\ModelArticles
             'behaviors' => array(
                 'com:categories.model.behavior.categorizable',
                 'com:revisions.model.behavior.revisable',
-                'com:tags.model.behavior.taggable',
             ),
         ));
 

@@ -25,13 +25,9 @@ class DatabaseTableArticles extends Library\DatabaseTableAbstract
             'name'       => 'articles',
             'behaviors'  => array(
             	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable', 'parameterizable', 'identifiable',
-                'orderable' => array(
-                    'strategy' => 'flat'
-                ),
                 'com:languages.database.behavior.translatable',
                 'com:attachments.database.behavior.attachable',
                 'com:categories.database.behavior.categorizable',
-                'com:tags.database.behavior.taggable',
                 'com:comments.database.behavior.commentable'
             ),
             'filters' => array(
