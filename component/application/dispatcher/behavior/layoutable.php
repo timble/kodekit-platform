@@ -67,7 +67,7 @@ class DispatcherBehaviorLayoutable extends Library\DispatcherBehaviorAbstract
         {
             $layout = 'error';
             if($response->getStatusCode() == Library\HttpResponse::UNAUTHORIZED) {
-                $layout = 'login';
+                $layout = 'error_401';
             }
         }
         else $layout = $request->query->get('tmpl', 'cmd', 'default');
