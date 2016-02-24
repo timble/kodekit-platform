@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Tags;
+
 use Nooku\Library;
 
 /**
@@ -15,21 +17,24 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Tags
  */
-class TagsTemplateHelperListbox extends Library\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function tags($config = array())
     {
-    	$config = new Library\ObjectConfig($config);
+        $config = new Library\ObjectConfig($config);
     	$config->append(array(
-    		'model'  => 'tags',
-    		'value'	 => 'id',
-    		'label'	 => 'title',
-            'prompt' => false
+            'package' => $this->getTemplate()->getIdentifier()->package,
+    		'value'	  => 'title',
+    		'label'	  => 'title',
+            'prompt'   => false,
+            'deselect' => false,
+        ))->append(array(
+            'model'  => $this->getObject('com:tags.model.tags', array('table' => $config->package.'_tags')),
         ));
-        
+
         $config->label = 'title';
 		$config->sort  = 'title';
-    
+
     	return parent::_render($config);
     }
 }

@@ -18,13 +18,12 @@ use Nooku\Library;
  * @package Nooku\Component\Tags
  */
 class ControllerToolbarTag extends Library\ControllerToolbarActionbar
-{    
+{
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $component = $this->getController()->getIdentifier()->package;
 		$view	   = Library\StringInflector::singularize($this->getIdentifier()->name);
-		$table     = $this->getController()->getModel()->getState()->table;
-		
-        $command->href = 'component='.$component.'&view='.$view.'&table='.$table;
+
+        $command->href = 'component='.$component.'&view='.$view;
     }
 }

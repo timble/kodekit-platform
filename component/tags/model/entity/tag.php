@@ -19,34 +19,83 @@ use Nooku\Library;
  */
 class ModelEntityTag extends Library\ModelEntityRow
 {
-	/**
-	 * Deletes the tag form the database.
-	 *
-	 * If only one relationship exists in the actual tag will also be deleted. Otherwise only the relation will be
-     * removed.
-	 *
-	 * @return bool
-	 */
-	public function delete()
-	{
-		//Delete the tag
-		$relation = $this->getObject('com:tags.model.entity.relation');
-		$relation->tags_tag_id = $this->id;
+    /**
+     * Save the tag in the database.
+     *
+     * If the tag already exists, only add the relationship.
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        $result = true;
 
-		if($relation->count() <= 1) {
-			parent::delete();
-		}
+        if($this->row)
+        {
+            $tag = $this->getTable()->select(array('title' => $this->title), Library\Database::FETCH_ROW);
 
-		//Delete the relation
-		if($this->row && $this->table)
- 		{
-			$relation = $this->getObject('com:tags.model.entity.relation', array('status' => Database::STATUS_FETCHED));
-			$relation->tags_tag_id = $this->id;
-	   		$relation->row		   = $this->row;
-			$relation->table	   = $this->table;
-			$relation->delete();
- 		}
+            //Create the tag
+            if($this->isNew() && $tag->isNew())
+            {
+                //Unset the row property
+                $properties = $this->getProperties();
+                unset($properties['row']);
 
-		return true;
-	}
+                $result = $tag->setProperties($properties)->save();
+            }
+
+            //Create the tag relation
+            if($result && !$tag->isNew())
+            {
+                $data = array(
+                    'tag_id' => $tag->id,
+                    'row'    => $this->row,
+                );
+
+                $name     = $this->getTable()->getName().'_relations';
+                $table    = $this->getObject('com:tags.database.table.relations', array('name' => $name));
+                $relation = $table->createRow(array('data' => $data));
+
+                $result = $table->insert($relation);
+            }
+        }
+        else $result = parent::save();
+
+        return $result;
+    }
+
+    /**
+     * Deletes the tag and it's relations form the database.
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        $result = true;
+
+        $name   = $this->getTable()->getName().'_relations';
+        $table  = $this->getObject('com:tags.database.table.relations', array('name' => $name));
+
+        if($this->row) {
+            $query = array('tag_id' => $this->id, 'row' => $this->row);
+        } else {
+            $query = array('tag_id' => $this->id);
+        }
+
+        $rowset = $table->select($query);
+
+        if($rowset->count())
+        {
+            //Delete the relations
+            if($result = $rowset->delete())
+            {
+                //Delete the tag
+                if(!$this->row) {
+                    $result = parent::delete();
+                }
+            }
+        }
+
+        return $result;
+    }
 }

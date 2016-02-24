@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Tags
  */
-abstract class ControllerTag extends Library\ControllerModel
+class ControllerTag extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -32,6 +32,20 @@ abstract class ControllerTag extends Library\ControllerModel
         $this->getObject('manager')->registerAlias('com:tags.controller.permission.tag', $permission);
 
         parent::_initialize($config);
+    }
+
+    public function getModel()
+    {
+        if(!$this->_model instanceof Library\ModelInterface)
+        {
+            $package = $this->getIdentifier()->package;
+            $this->_model = $this->getObject($this->_model, array('table' => $package.'_tags'));
+
+            //Inject the request into the model state
+            $this->_model->setState($this->getRequest()->query->toArray());
+        }
+
+        return $this->_model;
     }
 
     protected function _actionRender(Library\ControllerContext $context)
@@ -51,16 +65,5 @@ abstract class ControllerTag extends Library\ControllerModel
         }
 
         return parent::_actionRender($context);
-    }
-
-    public function getRequest()
-    {
-        $request = parent::getRequest();
-
-        //Force set the 'table' in the request
-        $request->query->table  = $this->getIdentifier()->package;
-        $request->data->table   = $this->getIdentifier()->package;
-
-        return $request;
     }
 }

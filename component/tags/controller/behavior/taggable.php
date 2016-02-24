@@ -23,80 +23,60 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_container = $config->container;
-
-        $this->addCommandCallback('after.add'   , '_saveTags');
-        $this->addCommandCallback('after.edit'  , '_saveTags');
-        $this->addCommandCallback('after.delete', '_deleteTags');
+        $this->addCommandCallback('after.add'    , '_setTags');
+        $this->addCommandCallback('after.edit'   , '_setTags');
+        $this->addCommandCallback('after.delete' , '_removeTags');
     }
 
-    protected function _saveTags(Library\ControllerContextInterface $context)
+    protected function _setTags(Library\ControllerContextInterface $context)
     {
-		if (!$context->response->isError())
+        $entity = $context->result;
+
+        if ($entity->isIdentifiable() && !$context->response->isError())
         {
-            $entity = $context->result;
-            $table  = $entity->getTable()->getBase();
+            $tags   = $entity->getTags();
 
-            // Remove all existing relations
-            if($entity->id && $entity->getTable()->getBase())
-            {
-                $relations = $this->getObject('com:tags.model.relations')
-                    ->row($entity->id)
-                    ->table($table)
-                    ->fetch();
-
-                $relations->delete();
+            $package = $this->getMixer()->getIdentifier()->package;
+            if(!$this->getObject('com:'.$package.'.controller.tag')->canAdd()) {
+                $status  = Library\Database::STATUS_FETCHED;
+            } else {
+                $status = null;
             }
 
+            //Delete tags
+            if(count($tags))
+            {
+                $tags->delete();
+                $tags->clear();
+            }
+
+            //Create tags
             if($entity->tags)
             {
-                // Save tags as relations
                 foreach ($entity->tags as $tag)
                 {
                     $properties = array(
-                        'tags_tag_id' => $tag,
-                        'row'         => $entity->id,
-                        'table'       => $table
+                        'title' => $tag,
+                        'row'   => $entity->uuid,
                     );
 
-                    $relation = $this->getObject('com:tags.model.relations')
-                        ->setState($properties)
-                        ->fetch();
-
-                    if($relation->isNew())
-                    {
-                        $relation = $this->getObject('com:tags.model.relations')->create();
-
-                        $relation->setProperties($properties);
-                        $relation->save();
-                    }
+                    $tags->insert($properties, $status);
                 }
             }
 
+            $tags->save();
+
             return true;
-		}
+        }
 	}
-	
-	protected function _deleteTags(Library\ControllerContextInterface $context)
+
+	protected function _removeTags(Library\ControllerContextInterface $context)
     {
         $entity = $context->result;
         $status = $entity->getStatus();
 
-        if($status == $entity::STATUS_DELETED || $status == 'trashed')
-        {
-
-            $id    = $entity->{$entity->getIdentityKey()};
-            $table = $entity->getTable()->getBase();
-
-            if(!empty($id) && $id != 0)
-            {
-                $rows = $this->getObject('com:tags.model.relations')
-                    ->row($id)
-                    ->table($table)
-                    ->fetch();
-
-                $rows->delete();
-            }
+        if($entity->isIdentifiable() && $status == $entity::STATUS_DELETED) {
+            $entity->getTags()->delete();
         }
-	} 
+	}
 }
