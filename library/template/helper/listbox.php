@@ -209,7 +209,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	 * If no 'value' option is specified the 'name' option will be used instead. If no 'text'  option is specified the
      * 'value' option will be used instead.
 	 *
-	 * @param 	array 	$cofnig An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 * @see __call()
 	 */
