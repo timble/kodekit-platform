@@ -87,31 +87,34 @@ class FilterSlug extends FilterAbstract implements FilterTraversable
      * @param   scalar  $value Value to be sanitized
 	 * @return	scalar
 	 */
-    public function sanitize($value)
-	{
-		//remove any '-' from the string they will be used as concatonater
-		$value = str_replace($this->_separator, ' ', $value);
+    protected function _sanitize($value)
+    {
+        //remove any quotation and replace with whitespace
+        $value = preg_replace('/\"/', '', $value);
 
-		//convert to ascii characters
-		$value = $this->getObject('lib:filter.ascii')->sanitize($value);
+        //remove any '-' from the string they will be used as concatonater
+        $value = str_replace($this->_separator, ' ', $value);
 
-		//lowercase and trim
-		$value = trim(strtolower($value));
+        //convert to ascii characters
+        $value = $this->getObject('lib:filter.ascii')->sanitize($value);
 
-		//remove any duplicate whitespace, and ensure all characters are alphanumeric
-		$value = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array($this->_separator,''), $value);
+        //lowercase and trim
+        $value = trim(strtolower($value));
 
-		//remove repeated occurences of the separator
-		$value = preg_replace('/['.preg_quote($this->_separator, '/').']+/', $this->_separator, $value);
+        //remove any duplicate whitespace, and ensure all characters are alphanumeric
+        $value = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array($this->_separator,''), $value);
 
-        //remove trailing dash
+        //remove repeated occurrences of the separator
+        $value = preg_replace('/['.preg_quote($this->_separator, '/').']+/', $this->_separator, $value);
+
+        //limit length
+        if (strlen($value) > $this->_length) {
+            $value = substr($value, 0, $this->_length);
+        }
+
+        //remove unwanted separators from the ends
         $value = trim($value, $this->_separator);
 
-		//limit length
-		if (strlen($value) > $this->_length) {
-			$value = substr($value, 0, $this->_length);
-		}
-
-		return $value;
+        return $value;
 	}
 }
