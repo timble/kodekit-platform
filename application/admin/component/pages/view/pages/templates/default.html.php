@@ -52,9 +52,7 @@
         </tfoot>
 
         <tbody class="sortable">
-        <? $tbody = null;
-        foreach ($pages as $page) : ?>
-            <? if (!$page->parent_id && $page->parent_id != $tbody) $tbody = $page->parent_id; ?>
+        <? foreach ($pages as $page) : ?>
             <tr class="sortable" data-sortable-parent="<?= (int)$page->parent_id; ?>"
                 data-sortable-level="<?= (int)$page->level ?>">
                 <? if (parameters()->sort == 'custom' && parameters()->direction == 'asc') : ?>
@@ -69,12 +67,13 @@
                     <?= helper('grid.enable', array('entity' => $page, 'field' => 'published')) ?>
                 </td>
                 <td>
-                    <?
+                    <?/*
                     $link  = '&type[component]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
                     $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
                     $link .= '&view=page&menu=' . parameters()->menu . '&id=' . $page->id;
-                    ?>
-                    <a href="<?= urldecode(route($link)) ?>">
+                    */?>
+
+                    <a href="<?= route('view=page&menu='.parameters()->menu.'&id='.$page->id) ?>">
                         <? if ($page->level > 1) : ?>
                             <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - 1) ?><sup>|_</sup>&nbsp;
                         <? endif ?>
