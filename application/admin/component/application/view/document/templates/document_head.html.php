@@ -33,5 +33,6 @@
     <script>
         var $jQuery = jQuery.noConflict();
     </script>
-    <ktml:script src="assets://application/js/select2.js" />
+    <ktml:script src="assets://application/js/select2/select2.js" />
+    <ktml:style src="assets://application/js/select2/select2.css" />
 </head>
