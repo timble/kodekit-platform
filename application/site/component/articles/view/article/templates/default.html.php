@@ -41,7 +41,9 @@
     <?= $article->fulltext ?>
 
     <? if($article->isTaggable()) : ?>
-    <?= import('com:tags.tags.default.html', array('tags' => $article->getTags())) ?>
+        <? foreach($article->getTags() as $tag) : ?>
+            <span class="label"><?= $tag->title ?></span>
+        <? endforeach ?>
     <? endif; ?>
 
     <? if($article->isAttachable()) : ?>

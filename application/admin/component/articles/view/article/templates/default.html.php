@@ -53,4 +53,4 @@
     </div>
 </form>
 
-<script data-inline> $jQuery(".select-tags").select2(); </script>
+<script data-inline> $jQuery(".select-tags").select2({tags:true, tokenSeparators: [',', ' ']}); </script>

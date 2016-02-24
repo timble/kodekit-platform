@@ -22,5 +22,11 @@ return array(
                 'com:tags.controller.behavior.taggable'
             ),
 		),
+
+       'com:articles.model.articles'  => array(
+            'behaviors'  => array(
+                'com:tags.model.behavior.taggable'
+            ),
+        ),
 	)
 );

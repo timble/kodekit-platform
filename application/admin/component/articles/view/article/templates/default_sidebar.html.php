@@ -49,7 +49,7 @@
             <? if($article->isTaggable()) : ?>
                 <fieldset>
                     <legend><?= translate('Tags') ?></legend>
-                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags(), 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
+                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags(), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:100%'))) ?>
                 </fieldset>
             <? endif ?>
         </div>

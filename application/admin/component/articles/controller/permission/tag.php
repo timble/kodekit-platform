@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesControllerPermissionTag extends TagsControllerPermissionTag
+class ArticlesControllerPermissionTag extends ApplicationControllerPermissionAbstract
 {
 
 }

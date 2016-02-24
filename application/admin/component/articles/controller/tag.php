@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Tags;
 
 /**
  * Tag Controller
@@ -15,8 +16,20 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesControllerTag extends TagsControllerTag
-{ 
+class ArticlesControllerTag extends Tags\ControllerTag
+{
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array(
+                'editable', 'persistable',
+                'com:activities.controller.behavior.loggable'
+            ),
+        ));
 
-       
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:tags.controller.toolbar.tag');
+
+        parent::_initialize($config);
+    }
 }
