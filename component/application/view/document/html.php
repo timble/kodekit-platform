@@ -28,14 +28,8 @@ class ViewDocumentHtml extends ViewHtml
         parent::_initialize($config);
     }
 
-    public function getTitle()
-    {
-        return $this->getObject('application')->getTitle();
-    }
-
     protected function _fetchData(Library\ViewContext $context)
     {
-        //Set the component and layout information
         if($this->getObject('manager')->isRegistered('dispatcher')) {
             $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
         } else {
