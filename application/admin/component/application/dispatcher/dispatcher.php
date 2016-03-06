@@ -21,8 +21,8 @@ class ApplicationDispatcher extends Application\Dispatcher
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'component' => 'dashboard',
-            'request' => array(
+            'controller' => 'com:dashboard.dispatcher',
+            'request'    => array(
                 'base_url'  => '/administrator',
             ),
         ));
