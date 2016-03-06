@@ -24,13 +24,4 @@ interface ControllerModellable
      * @return	ModelInterface
      */
     public function getModel();
-
-    /**
-     * Set the controller model
-     *
-     * @param	mixed	$model An object that implements ObjectInterface, ObjectIdentifier object
-     * 					       or valid identifier string
-     * @return	ControllerInterface
-     */
-    public function setModel($model);
 }

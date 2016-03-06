@@ -26,15 +26,6 @@ interface ControllerViewable
     public function getView();
 
     /**
-     * Set the controller view
-     *
-     * @param	mixed	$view   An object that implements ObjectInterface, ObjectIdentifier object
-     * 					        or valid identifier string
-     * @return	ControllerInterface
-     */
-    public function setView($view);
-
-    /**
      * Get the supported formats
      *
      * @return array
