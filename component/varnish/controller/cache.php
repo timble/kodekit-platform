@@ -121,6 +121,12 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
             $this->connect();
         }
 
+        //Use the dispatcher response in the context
+        $this->setResponse($this->getObject('dispatcher.response'));
+
+        //Use the dispatcher response in the context
+        $this->setRequest($this->getObject('dispatcher.request'));
+
         //Set the cache enabled state
         $this->setEnabled($config->enabled);
 
@@ -129,12 +135,6 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
 
         //Set the esi state
         $this->setEsi($config->esi);
-
-        //Use the dispatcher response in the context
-        $this->setResponse($this->getObject('dispatcher.response'));
-
-        //Use the dispatcher response in the context
-        $this->setRequest($this->getObject('dispatcher.request'));
     }
 
     /**
@@ -358,7 +358,7 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
      * Tag the response
      *
      * @param  Library\ControllerContextInterface	$context    A controller context object
-     * @return bool TRUE if tagging was succesful or FALSE of the cache is disabled
+     * @return bool TRUE if tagging was successful or FALSE of the cache is disabled
      */
     protected function _actionTag($context)
     {
