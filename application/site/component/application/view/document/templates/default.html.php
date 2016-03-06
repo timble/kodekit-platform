@@ -13,30 +13,6 @@
 <?= import('document_head.html') ?>
 
 <body>
-<header class="container">
-    <nav class="navbar navbar-default">
-        <a class="navbar-brand" href="/"><?= escape(object('application')->getTitle()) ?></a>
-        <div>
-            <ktml:block name="user3">
-        </div>
-        <ktml:block name="user4">
-    </nav>
-</header>
-
-<div class="container">
-    <div class="row">
-        <aside class="sidebar col-md-3">
-            <ktml:block name="left" decorator="wrapper">
-        </aside>
-        <div class="col-md-9">
-            <ktml:block name="breadcrumb">
-            <ktml:messages>
-            <section>
-                <ktml:content>
-            </section>
-        </div>
-    </div>
-</div>
-
+<ktml:content>>
 </body>
 </html>
