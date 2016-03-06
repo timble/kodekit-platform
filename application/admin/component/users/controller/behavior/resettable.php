@@ -61,8 +61,6 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
                 $url = $context->request->getUrl()
                                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site = $this->getObject('application')->getTitle();
-
                 $subject = $translator('Reset your password');
                 $message = $translator('Password reset instructions E-mail',
                     array('name' => $entity->name, 'site' => $site, 'url' => $url));

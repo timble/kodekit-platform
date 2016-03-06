@@ -31,10 +31,8 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 $url = $context->request->getUrl()
                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site = $this->getObject('application')->getTitle();
-
                 $subject = $translator('User Account Activation');
-                $message = $translator('User account activation E-mail', array('name' => $user->name, 'site' => $site, 'url' => $url));
+                $message = $translator('User account activation E-mail', array('name' => $user->name, 'url' => $url));
 
                 if ($user->isNotifable())
                 {
