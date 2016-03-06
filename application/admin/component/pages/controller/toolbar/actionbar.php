@@ -16,7 +16,7 @@ use Nooku\Component\Users;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationControllerToolbarActionbar extends Users\ControllerToolbarSession
+class PagesControllerToolbarActionbar extends Users\ControllerToolbarSession
 {
     public function getCommands()
     {
