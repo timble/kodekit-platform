@@ -19,10 +19,6 @@ return array(
             'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/views'
         ),
 
-        'com:application.template.locator.module'  => array(
-            'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/modules'
-        ),
-
         'com:application.template.filter.asset'  => array(
             'schemes' => array('assets://application/' => '/theme/bootstrap/')
         ),
