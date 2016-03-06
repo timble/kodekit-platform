@@ -7,7 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Users;
+use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * Activatable Controller Behavior
@@ -74,11 +75,9 @@ class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivat
                 $url = $context->request->getUrl()
                         ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
-                $site = $this->getObject('application')->getTitle();
-
                 $subject = $translator('User Account Activation');
                 $message = $translator('User account activation E-mail',
-                    array('name' => $user->name, 'site' => $site, 'url' => $url));
+                    array('name' => $user->name, 'url' => $url));
 
                 if ($user->notify(array('subject' => $subject, 'message' => $message)))
                 {
