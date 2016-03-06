@@ -15,6 +15,10 @@ return array(
         'com:pages.controller.module'  => array(
             'behaviors'  => array('com:varnish.controller.behavior.cachable'),
         ),
+
+        'com:pages.controller.page'  => array(
+            'behaviors'  => array('com:varnish.controller.behavior.cachable'),
+        ),
     )
 );
 

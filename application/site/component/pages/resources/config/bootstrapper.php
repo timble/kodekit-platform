@@ -14,6 +14,14 @@ return array(
         'com:pages.controller.module'  => array(
             'behaviors'  => array('com:varnish.controller.behavior.cachable'),
         ),
+
+        'com:pages.controller.window'  => array(
+            'behaviors'  => array('com:varnish.controller.behavior.cachable'),
+        ),
+
+        'com:pages.template.locator.module'  => array(
+            'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/modules'
+        ),
     )
 );
 
