@@ -23,7 +23,7 @@ return array(
     'identifiers' => array(
 
         'dispatcher' => array(
-            'behaviors' => array('com:application.dispatcher.behavior.layoutable')
+            'behaviors' => array('com:application.dispatcher.behavior.documentable')
         ),
     )
 );

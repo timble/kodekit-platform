@@ -12,12 +12,12 @@ namespace Nooku\Component\Application;
 use Nooku\Library;
 
 /**
- * Layoutable Dispatcher Behavior
+ * Documentable Dispatcher Behavior
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Application
  */
-class DispatcherBehaviorLayoutable extends Library\DispatcherBehaviorAbstract
+class DispatcherBehaviorDocumentable extends Library\DispatcherBehaviorAbstract
 {
     /**
      * Initializes the options for the object
@@ -84,16 +84,19 @@ class DispatcherBehaviorLayoutable extends Library\DispatcherBehaviorAbstract
     protected function _beforeSend(Library\DispatcherContextInterface $context)
     {
         $response = $context->getResponse();
-        $request  = $context->getRequest();
 
         if(!$response->isDownloadable())
         {
-            $layout      = $this->getLayout();
-            $application = $this->getObject('application');
+            $layout = $this->getLayout();
+            $config = array('response' => array(
+                'content' => $response->getContent()
+            ));
 
-            $application->getController()
+            $result = $this->getObject('com:application.controller.document', $config)
                 ->layout($layout)
                 ->render();
+
+            $response->setContent($result);
         }
     }
 }
