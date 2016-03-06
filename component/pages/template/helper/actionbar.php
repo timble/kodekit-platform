@@ -7,7 +7,7 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-namespace Nooku\Component\Application;
+namespace Nooku\Component\Pages;
 
 use Nooku\Library;
 
