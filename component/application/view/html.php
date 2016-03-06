@@ -22,7 +22,7 @@ class ViewHtml extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_fetch'       => false,
+            'auto_fetch' => false,
         ));
 
         parent::_initialize($config);
