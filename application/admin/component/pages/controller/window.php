@@ -7,24 +7,24 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+use Nooku\Component\Pages;
 use Nooku\Library;
-use Nooku\Component\Application;
 
 /**
- * Document Controller
+ * Window Controller
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Component\Pages
  */
-class ApplicationControllerDocument extends Application\ControllerDocument
+class PagesControllerWindow extends Pages\ControllerWindow
 {
     protected function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'toolbars'  => array(
                 'actionbar',
-                'com:pages.controller.toolbar.menubar',
-                'com:pages.controller.toolbar.tabbar'
+                'menubar',
+                'tabbar'
             ),
         ));
 
