@@ -23,5 +23,8 @@ return array(
             'locators' => array('com:pages.template.locator.module')
         ),
 
+        'dispatcher' => array(
+            'behaviors' => array('com:pages.dispatcher.behavior.windowable')
+        ),
     )
 );

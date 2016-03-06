@@ -7,17 +7,20 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Component\Pages;
+
 use Nooku\Library;
-use Nooku\Component\Pages;
 
 /**
- * Tabbar Template Helper
+ * Document Controller Permission
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Nooku\Component\Pages
  */
-
-class ApplicationTemplateHelperTabbar extends Pages\TemplateHelperTabbar
+class ControllerPermissionWindow extends Library\ControllerPermissionAbstract
 {
-
+    public function canRender()
+    {
+        return true;
+    }
 }
