@@ -13,6 +13,6 @@
 <?= import('document_head.html') ?>
 
 <body>
-<ktml:content>>
+<ktml:content>
 </body>
 </html>

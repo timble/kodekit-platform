@@ -14,7 +14,7 @@
 <?= import('document_head.html') ?>
 
 <body class="com_<?= $component ?>">
-<ktml:content>>
+<ktml:content>
 </body>
 
 </html>
