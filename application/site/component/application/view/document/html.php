@@ -38,15 +38,4 @@ class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
 
         parent::_initialize($config);
     }
-
-    /**
-     * Get the title
-     *
-     * @return 	string 	The title of the view
-     */
-    public function getTitle()
-    {
-        //Get the parameters of the active menu item
-        return $this->getObject('pages')->getActive()->title;
-    }
 }
