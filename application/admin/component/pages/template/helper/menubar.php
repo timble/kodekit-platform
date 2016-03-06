@@ -14,10 +14,10 @@ use Nooku\Component\Pages;
  * Menubar Template Helper
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Component\Application
+ * @package Component\Pages
  */
 
-class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperMenubar
+class PagesTemplateHelperMenubar extends Pages\TemplateHelperMenubar
 {
     public function render($config = array())
     {
