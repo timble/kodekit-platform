@@ -32,28 +32,27 @@ class ControllerBehaviorCachable extends Library\BehaviorAbstract
     protected function _afterRender(Library\ControllerContextInterface $context)
     {
         $controller = $context->getSubject();
-        $model      = $controller->getModel();
 
-        if ($model->getState()->isUnique())
+        if($controller instanceof Library\ControllerModellable)
         {
-            $entities = $model->fetch();
-            $key      = $entities->getIdentityKey();
-            $value    = $entities->getProperty($key);
+            $model  = $controller->getModel();
+            $entity = $model->fetch();
 
-            $this->getCache()->tag((string) $controller->getIdentifier().'#'.$value);
+            if ($model->getState()->isUnique()) {
+                $this->getCache()->tag($this->_createTag($entity, true));
+            } else {
+                $this->getCache()->tag($this->_createTag($entity));
+            }
         }
-        else  $this->getCache()->tag((string) $controller->getIdentifier());
     }
 
     protected function _afterAdd(Library\ControllerContextInterface $context)
     {
         if($context->response->getStatusCode() == Library\HttpResponse::CREATED)
         {
-            $varnish    = $this->getCache();
-            $entity     = $context->result;
-            $controller = $context->getSubject();
+            $entity = $context->result;
 
-            $varnish->ban($controller->getIdentifier());
+            $this->getCache()->ban($this->_createTag($entity));
         }
     }
 
@@ -61,19 +60,13 @@ class ControllerBehaviorCachable extends Library\BehaviorAbstract
     {
         if($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT)
         {
-            $varnish    = $this->getCache();
-            $entities   = $context->result;
-            $controller = $context->getSubject();
+            $entities = $context->result;
 
-            foreach($entities as $entity)
-            {
-                $key   = $entity->getIdentityKey();
-                $value = $entity->getProperty($key);
-
-                $this->getCache()->ban($controller->getIdentifier().'#'.$value);
+            foreach($entities as $entity) {
+                $this->getCache()->ban($this->_createTag($entity, true));
             }
 
-            $this->getCache()->ban($controller->getIdentifier());
+            $this->getCache()->ban($this->_createTag($entity));
         }
     }
 
@@ -81,18 +74,29 @@ class ControllerBehaviorCachable extends Library\BehaviorAbstract
     {
         if($context->response->getStatusCode() == Library\HttpResponse::NO_CONTENT)
         {
-            $entities   = $context->result;
-            $controller = $context->getSubject();
+            $entities = $context->result;
 
-            foreach($entities as $entity)
-            {
-                $key   = $entity->getIdentityKey();
-                $value = $entity->getProperty($key);
-
-                $this->getCache()->ban($controller->getIdentifier().'#'.$value);
+            foreach($entities as $entity) {
+                $this->getCache()->ban($this->_createTag($entity, true));
             }
 
-            $this->getCache()->ban($controller->getIdentifier());
+            $this->getCache()->ban($this->_createTag($entity));
         }
+    }
+
+    protected function _createTag(Library\ModelEntityInterface $entity, $unique = false)
+    {
+        $package = $entity->getIdentifier()->package;
+        $name    = $entity->getIdentifier()->name;
+
+        $tag = 'com:'.$package.'.'.$name;
+
+        if($unique)
+        {
+            $key  = $entity->getIdentityKey();
+            $tag .= '#'.$entity->getProperty($key);
+        }
+
+        return $tag;
     }
 }
