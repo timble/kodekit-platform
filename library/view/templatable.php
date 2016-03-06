@@ -25,29 +25,10 @@ interface ViewTemplatable
     public function getLayout();
 
     /**
-     * Sets the layout name to use
-     *
-     * @param    string  $layout The template name.
-     * @return   ViewTemplatable
-     */
-    public function setLayout($layout);
-
-    /**
      * Get the template object attached to the view
      *
      *  @throws	\UnexpectedValueException	If the template doesn't implement the TemplateInterface
      * @return  TemplateInterface
      */
     public function getTemplate();
-
-    /**
-     * Method to set a template object attached to the view
-     *
-     * @param   mixed   $template An object that implements ObjectInterface, an object that implements
-     *                            ObjectIdentifierInterface or valid identifier string
-     * @throws  \UnexpectedValueException    If the identifier is not a table identifier
-     * @return  ViewTemplatable
-     */
-    public function setTemplate($template);
-
 }
