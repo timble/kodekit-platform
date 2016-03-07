@@ -27,7 +27,7 @@ namespace Nooku\Library;
  * if at least two blocks have been injected.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Pages
+ * @package Nooku\Library\Template
  */
 class TemplateFilterBlock extends TemplateFilterDecorator
 {
