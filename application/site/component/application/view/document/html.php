@@ -30,7 +30,6 @@ class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
     {
         $config->append(array(
             'template_filters' => array(
-                'com:pages.template.filter.block',
                 'com:files.template.filter.files',
                 'com:attachments.template.filter.attachments'
             ),

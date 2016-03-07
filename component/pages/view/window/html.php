@@ -22,7 +22,8 @@ class ViewHtml extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_fetch' => false,
+            'auto_fetch'       => false,
+            'template_filters' => array('block'),
         ));
 
         parent::_initialize($config);
