@@ -92,15 +92,15 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $engine = $this->getEngine();
+        $driver = $this->getDriver();
         $query  = 'INSERT';
 
         if($this->table) {
-            $query .= ' INTO '.$engine->quoteIdentifier($this->table);
+            $query .= ' INTO '.$driver->quoteIdentifier($this->table);
         }
 
         if($this->columns) {
-            $query .= '('.implode(', ', array_map(array($engine, 'quoteIdentifier'), $this->columns)).')';
+            $query .= '('.implode(', ', array_map(array($driver, 'quoteIdentifier'), $this->columns)).')';
         }
 
         if($this->values)
@@ -114,7 +114,7 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
                 {
                     $data = array();
                     foreach($row as $column) {
-                        $data[] = $engine->quoteValue(is_object($column) ? (string) $column : $column);
+                        $data[] = $driver->quoteValue(is_object($column) ? (string) $column : $column);
                     }
 
                     $values[] = '('.implode(', ', $data).')';

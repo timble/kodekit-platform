@@ -735,7 +735,7 @@ class ModelEntityActivity extends Library\ModelEntityRow implements ActivityInte
      */
     protected function _findActivityObject()
     {
-        $db     = $this->getTable()->getEngine();
+        $db     = $this->getTable()->getDriver();
         $table  = $this->_object_table;
         $column = $this->_object_column;
 

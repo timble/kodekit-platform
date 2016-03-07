@@ -99,7 +99,7 @@ class DatabaseBehaviorGroupable extends Library\DatabaseBehaviorAbstract
         // Just ignore duplicate entries.
         $query = str_replace('INSERT', 'INSERT IGNORE', (string) $query);
 
-        $context->subject->getEngine()->execute($query);
+        $context->subject->getDriver()->execute($query);
     }
 
     protected function _cleanupGroups($groups, Library\DatabaseContextInterface $context)
@@ -107,7 +107,7 @@ class DatabaseBehaviorGroupable extends Library\DatabaseBehaviorAbstract
         $groups = (array) $groups;
 
         $config = $this->getConfig();
-        $engine = $context->getSubject()->getEngine();
+        $driver = $context->getSubject()->getDriver();
 
         $query = $this->getObject('lib:database.query.select')
                       ->table($config->table)
@@ -115,7 +115,7 @@ class DatabaseBehaviorGroupable extends Library\DatabaseBehaviorAbstract
                       ->where("{$config->columns->item} = :item")
                       ->bind(array('item' => $this->_getItemValue($context)));
 
-        $current = $engine->select($query, Library\Database::FETCH_FIELD_LIST);
+        $current = $driver->select($query, Library\Database::FETCH_FIELD_LIST);
         $remove  = array_diff($current, $groups);
 
         if (count($remove))
@@ -126,7 +126,7 @@ class DatabaseBehaviorGroupable extends Library\DatabaseBehaviorAbstract
                            ->where("{$config->columns->item} = :item")
                            ->bind(array('groups' => $remove, 'item' => $this->_getItemValue($context)));
 
-            $engine->execute((string) $query);
+            $driver->execute((string) $query);
         }
     }
 

@@ -106,17 +106,17 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $engine = $this->getEngine();
+        $driver = $this->getDriver();
         $query  = 'SHOW '.$this->show;
 
         if($this->from)
         {
             $table  = $this->from;
-            $query .= ' FROM '.$engine->quoteIdentifier($table);
+            $query .= ' FROM '.$driver->quoteIdentifier($table);
         }
 
         if($this->like) {
-            $query .= ' LIKE '.$engine->quoteIdentifier($this->like);
+            $query .= ' LIKE '.$driver->quoteIdentifier($this->like);
         }
 
         if($this->where)
@@ -129,7 +129,7 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
                     $query .= ' '.$where['combination'];
                 }
 
-                $query .= ' '.$engine->quoteIdentifier($where['condition']);
+                $query .= ' '.$driver->quoteIdentifier($where['condition']);
             }
         }
 
@@ -149,7 +149,7 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
     protected function _replaceParametersCallback($matches)
     {
         $key         = substr($matches[0], 1);
-        $replacement = $this->getEngine()->quoteValue($this->_parameters[$key]);
+        $replacement = $this->getDriver()->quoteValue($this->_parameters[$key]);
 
         return is_array($this->_parameters[$key]) ? '('.$replacement.')' : $replacement;
     }

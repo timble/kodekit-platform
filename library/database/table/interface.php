@@ -18,24 +18,24 @@ namespace Nooku\Library;
 interface DatabaseTableInterface
 {
     /**
-     * Gets the database engine
+     * Gets the database driver
      *
-     * @return DatabaseEngineInterface
+     * @return DatabaseDriverInterface
      */
-    public function getEngine();
+    public function getDriver();
 
     /**
-     * Set the database engine
+     * Set the database driver
      *
-     * @param  DatabaseEngineInterface $engine A DatabaseEngineInterface object
+     * @param  DatabaseDriverInterface $driver A DatabaseDriverInterface object
      * @return DatabaseQueryInterface
      */
-    public function setEngine(DatabaseEngineInterface $engine);
+    public function setDriver(DatabaseDriverInterface $driver);
 
     /**
      * Test the connected status of the table
      *
-     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseEngineInterface.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseDriverInterface.
      */
     public function isConnected();
 

@@ -270,7 +270,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
 
-            $table->getEngine()->insert($query);
+            $table->getDriver()->insert($query);
 
             // Set path and level for the current row.
             if ($data->parent_id)
@@ -290,7 +290,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
 
-                $table->getEngine()->insert($query);
+                $table->getDriver()->insert($query);
             }
             else $data->setProperties(array('level' => 1, 'path' => $data->id), false);
         }
@@ -334,7 +334,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->where('x.ancestor_id IS NULL')
                     ->bind(array('ancestor_id' => $row->id));
 
-                $table->getEngine()->delete($query);
+                $table->getDriver()->delete($query);
 
                 // Insert the subtree under its new location.
                 $select = $this->getObject('lib:database.query.select')
@@ -350,7 +350,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
 
-                $table->getEngine()->insert($query);
+                $table->getDriver()->insert($query);
 
                 $row->path = ($row->parent_id ? $parent->path . '/' : '') . $row->id;
             }
@@ -382,7 +382,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
             ->where($id_column . ' IN :id')
             ->bind(array('id' => $select));
 
-        $table->getEngine()->delete($query);
+        $table->getDriver()->delete($query);
 
         return true;
     }

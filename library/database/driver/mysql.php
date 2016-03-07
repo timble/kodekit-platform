@@ -10,13 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * MySQL Database Engine
+ * MySQL Database Driver
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Nooku\Library\Database
  */
-class DatabaseEngineMysql extends DatabaseEngineAbstract
+class DatabaseDriverMysql extends DatabaseDriverAbstract
 {
     /**
      * Quote for query identifiers
@@ -116,7 +116,7 @@ class DatabaseEngineMysql extends DatabaseEngineAbstract
     /**
      * Connects to the database
      *
-     * @return DatabaseEngineMysql
+     * @return DatabaseDriverMysql
      */
     public function connect()
     {
@@ -150,7 +150,7 @@ class DatabaseEngineMysql extends DatabaseEngineAbstract
     /**
      * Disconnects from database
      *
-     * @return DatabaseEngineMysql
+     * @return DatabaseDriverMysql
      */
     public function disconnect()
     {
@@ -302,7 +302,7 @@ class DatabaseEngineMysql extends DatabaseEngineAbstract
      * @param   $connection  The connection object.
      *
      * @throws  \InvalidArgumentException If the resource is not a PDO instance.
-     * @return  DatabaseEngineMysql
+     * @return  DatabaseDriverMysql
      */
     public function setConnection($connection)
     {
@@ -337,7 +337,7 @@ class DatabaseEngineMysql extends DatabaseEngineAbstract
      *
      * @param   string $database  The database name.
      * @throws  \RuntimeException If the database could not be set
-     * @return  DatabaseEngineMysql
+     * @return  DatabaseDriverMysql
      */
     public function setDatabase($database)
     {

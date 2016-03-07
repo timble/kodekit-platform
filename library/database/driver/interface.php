@@ -10,31 +10,31 @@
 namespace Nooku\Library;
 
 /**
- * Database Engine Interface
+ * Database Driver Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Database\Engine\Interface
+ * @package Nooku\Library\Database\Driver\Interface
  */
-interface DatabaseEngineInterface
+interface DatabaseDriverInterface
 {
     /**
      * Connect to the db
      *
-     * @return  DatabaseEngineInterface
+     * @return  DatabaseDriverInterface
      */
     public function connect();
 
     /**
      * Reconnect to the db
      *
-     * @return  DatabaseEngineInterface
+     * @return  DatabaseDriverInterface
      */
     public function reconnect();
 
     /**
      * Disconnect from db
      *
-     * @return  DatabaseEngineInterface
+     * @return  DatabaseDriverInterface
      */
     public function disconnect();
 
@@ -141,7 +141,7 @@ interface DatabaseEngineInterface
      * Set the connection
      *
      * @param   resource $resource The connection resource
-     * @return  DatabaseEngineInterface
+     * @return  DatabaseDriverInterface
      */
     public function setConnection($resource);
 
@@ -161,7 +161,7 @@ interface DatabaseEngineInterface
     public function getTableSchema($table);
 
     /**
-     * Get the engine context
+     * Get the driver context
      *
      * @return  Command
      */

@@ -10,12 +10,12 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Database Engine
+ * Abstract Database Driver
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Database\Engine\Abstract
+ * @package Nooku\Library\Database\Driver\Abstract
  */
-abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineInterface, ObjectMultiton
+abstract class DatabaseDriverAbstract extends Object implements DatabaseDriverInterface, ObjectMultiton
 {
     /**
      * Active state of the connection
@@ -144,7 +144,7 @@ abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineIn
     /**
      * Reconnect to the db
      *
-     * @return  DatabaseEngineAbstract
+     * @return  DatabaseDriverAbstract
      */
     public function reconnect()
     {
@@ -157,7 +157,7 @@ abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineIn
     /**
      * Disconnect from db
      *
-     * @return  DatabaseEngineAbstract
+     * @return  DatabaseDriverAbstract
      */
     public function disconnect()
     {
@@ -178,7 +178,7 @@ abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineIn
      * Set the database name
      *
      * @param     string $database The database name
-     * @return DatabaseEngineAbstract
+     * @return DatabaseDriverAbstract
      */
     abstract function setDatabase($database);
 
@@ -199,7 +199,7 @@ abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineIn
      * Set the connection
      *
      * @param     resource     $resource The connection resource
-     * @return  DatabaseEngineAbstract
+     * @return  DatabaseDriverAbstract
      */
     public function setConnection($resource)
     {
@@ -221,7 +221,7 @@ abstract class DatabaseEngineAbstract extends Object implements DatabaseEngineIn
      * Set character set
      *
      * @param string $charset The character set.
-     * @return DatabaseEngineAbstract
+     * @return DatabaseDriverAbstract
      */
     public function setCharset($charset)
     {

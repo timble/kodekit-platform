@@ -27,7 +27,7 @@ class ModelEntityLanguage extends Library\ModelEntityRow
         if($this->getStatus() == self::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
             $tables   = $this->getObject('com:languages.model.tables')->fetch();
-            $database = $this->getTable()->getEngine();
+            $database = $this->getTable()->getDriver();
 
             foreach($tables as $table)
             {

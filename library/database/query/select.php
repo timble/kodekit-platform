@@ -260,7 +260,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $engine = $this->getEngine();
+        $driver = $this->getDriver();
         $query  = 'SELECT';
 
         if($this->columns)
@@ -273,9 +273,9 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
             foreach($this->columns as $alias => $column)
             {
                 if($column instanceof DatabaseQuerySelect) {
-                    $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$engine->quoteIdentifier($alias) : '');
+                    $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$driver->quoteIdentifier($alias) : '');
                 } else {
-                    $columns[] = $engine->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
+                    $columns[] = $driver->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
                 }
             }
 
@@ -286,9 +286,9 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
         if($this->table)
         {
             if(current($this->table) instanceof DatabaseQuerySelect) {
-                $table= '('.current($this->table).')'.(!is_numeric(key($this->table)) ? ' AS '.$engine->quoteIdentifier(key($this->table)) : '');
+                $table= '('.current($this->table).')'.(!is_numeric(key($this->table)) ? ' AS '.$driver->quoteIdentifier(key($this->table)) : '');
             } else {
-                $table = $engine->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+                $table = $driver->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
             }
 
             $query .= ' FROM '.$table;
@@ -306,13 +306,13 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
                 }
 
                 if($join['table'] instanceof DatabaseQuerySelect) {
-                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$engine->quoteIdentifier($alias) : '');
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$driver->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$engine->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$driver->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
-                    $tmp .= ' ON ('.$engine->quoteIdentifier($join['condition']).')';
+                    $tmp .= ' ON ('.$driver->quoteIdentifier($join['condition']).')';
                 }
 
                 $joins[] = $tmp;
@@ -331,7 +331,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
                     $query .= ' '.$where['combination'];
                 }
 
-                $query .= ' '. $engine->quoteIdentifier($where['condition']);
+                $query .= ' '. $driver->quoteIdentifier($where['condition']);
             }
         }
 
@@ -339,7 +339,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
         {
             $columns = array();
             foreach($this->group as $column) {
-                $columns[] = $engine->quoteIdentifier($column);
+                $columns[] = $driver->quoteIdentifier($column);
             }
 
             $query .= ' GROUP BY '.implode(' , ', $columns);
@@ -349,7 +349,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
         {
             $columns = array();
             foreach($this->having as $column) {
-                $columns[] = $engine->quoteIdentifier($column);
+                $columns[] = $driver->quoteIdentifier($column);
             }
 
             $query .= ' HAVING '.implode(' , ', $columns);
@@ -361,7 +361,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
 
             $list = array();
             foreach($this->order as $order) {
-                $list[] = $engine->quoteIdentifier($order['column']).' '.$order['direction'];
+                $list[] = $driver->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);

@@ -18,18 +18,18 @@ namespace Nooku\Library;
 abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInterface
 {
     /**
-     * Database engine
-     *
-     * @var DatabaseEngineInterface
-     */
-    protected $_engine;
-
-    /**
      * Query parameters to bind
      *
      * @var array
      */
     protected $_parameters;
+
+    /**
+     * Database driver
+     *
+     * @var DatabaseDriverInterface
+     */
+    private $__driver;
 
     /**
      * Constructor
@@ -41,7 +41,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         parent::__construct($config);
 
-        $this->_engine = $config->engine;
+        $this->__driver = $config->driver;
         $this->setParameters(ObjectConfig::unbox($config->parameters));
     }
 
@@ -56,8 +56,8 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'engine'     => 'lib:database.engine.mysql',
-            'parameters'  => array()
+            'driver'     => 'lib:database.driver.mysql',
+            'parameters' => array()
         ));
     }
 
@@ -99,37 +99,37 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     }
 
     /**
-     * Gets the database engine
+     * Gets the database driver
      *
-     * @throws	\UnexpectedValueException	If the engine doesn't implement DatabaseEngineInterface
-     * @return DatabaseEngineInterface
+     * @throws	\UnexpectedValueException	If the driver doesn't implement DatabaseDriverInterface
+     * @return DatabaseDriverInterface
      */
-    public function getEngine()
+    public function getDriver()
     {
-        if(!$this->_engine instanceof DatabaseEngineInterface)
+        if(!$this->__driver instanceof DatabaseDriverInterface)
         {
-            $this->_engine = $this->getObject($this->_engine);
+            $this->__driver = $this->getObject($this->__driver);
 
-            if(!$this->_engine instanceof DatabaseEngineInterface)
+            if(!$this->__driver instanceof DatabaseDriverInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Engine: '.get_class($this->_engine).' does not implement DatabaseEngineInterface'
+                    'Driver: '.get_class($this->__driver).' does not implement DatabaseDriverInterface'
                 );
             }
         }
 
-        return $this->_engine;
+        return $this->__driver;
     }
 
     /**
-     * Set the database engine
+     * Set the database driver
      *
-     * @param DatabaseEngineInterface $engine
+     * @param DatabaseDriverInterface $driver
      * @return DatabaseQueryInterface
      */
-    public function setEngine(DatabaseEngineInterface $engine)
+    public function setDriver(DatabaseDriverInterface $driver)
     {
-        $this->_engine = $engine;
+        $this->__driver = $driver;
         return $this;
     }
 
@@ -158,7 +158,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
         if(!$value instanceof DatabaseQuerySelect)
         {
             $value = is_object($value) ? (string) $value : $value;
-            $replacement = $this->getEngine()->quoteValue($value);
+            $replacement = $this->getDriver()->quoteValue($value);
         }
         else $replacement = '('.$value.')';
 
@@ -178,8 +178,6 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
         if($name = 'parameters') {
             return $this->getParameters();
         }
-
-        return parent::__get($name);
     }
 
     /**

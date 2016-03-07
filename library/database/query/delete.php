@@ -147,15 +147,15 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $engine  = $this->getEngine();
-        $query   = 'DELETE';
+        $driver = $this->getDriver();
+        $query  = 'DELETE';
 
         if($this->table && $this->join) {
-            $query .= ' '.$engine->quoteIdentifier(!is_numeric(key($this->table)) ? key($this->table) : current($this->table));
+            $query .= ' '.$driver->quoteIdentifier(!is_numeric(key($this->table)) ? key($this->table) : current($this->table));
         }
 
         if($this->table) {
-            $query .= ' FROM '.$engine->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+            $query .= ' FROM '.$driver->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
         }
 
         if($this->join)
@@ -170,13 +170,13 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
                 }
 
                 if($join['table'] instanceof DatabaseQuerySelect) {
-                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$engine->quoteIdentifier($alias) : '');
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$driver->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$engine->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$driver->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
-                    $tmp .= ' ON ('.$engine->quoteIdentifier($join['condition']).')';
+                    $tmp .= ' ON ('.$driver->quoteIdentifier($join['condition']).')';
                 }
 
                 $joins[] = $tmp;
@@ -195,7 +195,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
                     $query .= ' '.$where['combination'];
                 }
 
-                $query .= ' '.$engine->quoteIdentifier($where['condition']);
+                $query .= ' '.$driver->quoteIdentifier($where['condition']);
             }
         }
 
@@ -205,7 +205,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
 
             $list = array();
             foreach($this->order as $order) {
-                $list[] = $engine->quoteIdentifier($order['column']).' '.$order['direction'];
+                $list[] = $driver->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);

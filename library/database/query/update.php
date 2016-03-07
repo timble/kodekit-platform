@@ -167,11 +167,11 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
      */
     public function toString()
     {
-        $engine = $this->getEngine();
+        $driver = $this->getDriver();
         $query  = 'UPDATE ';
 
         if($this->table) {
-            $query .= $engine->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+            $query .= $driver->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
         }
 
         if($this->join)
@@ -186,13 +186,13 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
                 }
 
                 if($join['table'] instanceof DatabaseQuerySelect) {
-                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$engine->quoteIdentifier($alias) : '');
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$driver->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$engine->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$driver->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
-                    $tmp .= ' ON ('.$engine->quoteIdentifier($join['condition']).')';
+                    $tmp .= ' ON ('.$driver->quoteIdentifier($join['condition']).')';
                 }
 
                 $joins[] = $tmp;
@@ -205,7 +205,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
         {
             $values = array();
             foreach($this->values as $value) {
-                $values[] = ' '. $engine->quoteIdentifier($value);
+                $values[] = ' '. $driver->quoteIdentifier($value);
             }
 
             $query .= ' SET '.implode(', ', $values);
@@ -221,7 +221,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
                     $query .= ' '.$where['combination'];
                 }
 
-                $query .= ' '.$engine->quoteIdentifier($where['condition']);
+                $query .= ' '.$driver->quoteIdentifier($where['condition']);
             }
         }
 
@@ -231,7 +231,7 @@ class DatabaseQueryUpdate extends DatabaseQueryAbstract
 
             $list = array();
             foreach($this->order as $order) {
-                $list[] = $engine->quoteIdentifier($order['column']).' '.$order['direction'];
+                $list[] = $driver->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);

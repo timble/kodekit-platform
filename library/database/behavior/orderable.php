@@ -99,7 +99,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
 
-			$table->getEngine()->update($query);
+			$table->getDriver()->update($query);
 
 			$this->ordering = $new;
 			$this->save();
@@ -122,7 +122,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
         settype($base, 'int');
 
         $table = $this->getTable();
-        $db    = $table->getEngine();
+        $db    = $table->getDriver();
         $db->execute('SET @order = '.$base);
 
         $query = $this->getObject('lib:database.query.update')
@@ -149,7 +149,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     protected function getMaxOrdering()
     {
         $table = $this->getTable();
-        $db    = $table->getEngine();
+        $db    = $table->getDriver();
 
         $query = $this->getObject('lib:database.query.select')
             ->columns('MAX(ordering)')

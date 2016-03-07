@@ -60,7 +60,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
 
-			$table->getEngine()->update($query);
+			$table->getDriver()->update($query);
 			$row->ordering = $new;
         }
     }
@@ -94,7 +94,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
     protected function _reorder(Library\DatabaseContext $context)
     {
         $table = $context->getSubject();
-        $table->getEngine()->execute('SET @index = 0');
+        $table->getDriver()->execute('SET @index = 0');
 
         $query = $this->getObject('lib:database.query.update')
             ->table(array('tbl' => $table->getBase()))
@@ -103,6 +103,6 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
 
         $this->_buildQuery($query);
 
-        $table->getEngine()->update($query);
+        $table->getDriver()->update($query);
     }
 }

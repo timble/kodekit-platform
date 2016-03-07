@@ -48,18 +48,19 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     protected $_column_map = array();
 
     /**
-     * Database engine
-     *
-     * @var DatabaseEngineInterface
-     */
-    protected $_engine;
-
-    /**
      * Default values for this table
      *
      * @var array
      */
     protected $_defaults;
+
+    /**
+     * Database driver
+     *
+     * @var DatabaseDriverInterface
+     */
+    private $__driver;
+
 
     /**
      * Object constructor
@@ -73,7 +74,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
         $this->_name = $config->name;
         $this->_base = $config->base;
-        $this->_engine = $config->engine;
+        $this->__driver = $config->driver;
 
         //Check if the table exists
         if (!$info = $this->getSchema()) {
@@ -129,7 +130,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $name = $this->getIdentifier()->name;
 
         $config->append(array(
-            'engine'            => 'lib:database.engine.mysql',
+            'driver'            => 'lib:database.driver.mysql',
             'name'              => empty($package) ? $name : $package . '_' . $name,
             'column_map'        => null,
             'filters'           => array(),
@@ -172,48 +173,48 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     }
 
     /**
-     * Gets the database engine
+     * Gets the database driver
      *
-     * @throws	\UnexpectedValueException	If the engine doesn't implement DatabaseEngineInterface
-     * @return DatabaseEngineInterface
+     * @throws	\UnexpectedValueException	If the driver doesn't implement DatabaseDriverInterface
+     * @return DatabaseDriverInterface
      */
-    public function getEngine()
+    public function getDriver()
     {
-        if(!$this->_engine instanceof DatabaseEngineInterface)
+        if(!$this->__driver instanceof DatabaseDriverInterface)
         {
-            $this->_engine = $this->getObject($this->_engine);
+            $this->__driver = $this->getObject($this->__driver);
 
-            if(!$this->_engine instanceof DatabaseEngineInterface)
+            if(!$this->__driver instanceof DatabaseDriverInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Engine: '.get_class($this->_engine).' does not implement DatabaseEngineInterface'
+                    'Driver: '.get_class($this->__driver).' does not implement DatabaseDriverInterface'
                 );
             }
         }
 
-        return $this->_engine;
+        return $this->__driver;
     }
 
     /**
-     * Set the database engine
+     * Set the database driver
      *
-     * @param DatabaseEngineInterface $engine
+     * @param DatabaseDriverInterface $driver
      * @return DatabaseQueryInterface
      */
-    public function setEngine(DatabaseEngineInterface $engine)
+    public function setDriver(DatabaseDriverInterface $driver)
     {
-        $this->_engine = $engine;
+        $this->___driver = $driver;
         return $this;
     }
 
     /**
      * Test the connected status of the table
      *
-     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseEngineInterface object.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseDriverInterface object.
      */
     public function isConnected()
     {
-        return (bool)$this->getEngine();
+        return (bool)$this->getDriver();
     }
 
     /**
@@ -269,7 +270,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $result = null;
 
         if ($this->isConnected()){
-            $result = $this->getEngine()->getTableSchema($this->getBase());
+            $result = $this->getDriver()->getTableSchema($this->getBase());
         }
 
         return $result;
@@ -599,7 +600,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                     $key = null;
                 }
 
-                $data = $this->getEngine()->select($context->query, $context->mode, $key);
+                $data = $this->getDriver()->select($context->query, $context->mode, $key);
 
                 //Map the columns
                 if (($context->mode != Database::FETCH_FIELD) && ($context->mode != Database::FETCH_FIELD_LIST))
@@ -720,7 +721,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $context->query->values($this->mapColumns($data));
 
             // Execute the insert query.
-            $context->affected = $this->getEngine()->insert($context->query);
+            $context->affected = $this->getDriver()->insert($context->query);
 
             // Set the status and data before calling the command chain
             if ($context->affected !== false)
@@ -728,7 +729,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 if ($context->affected)
                 {
                     if(($column = $this->getIdentityColumn()) && $this->getColumn($this->mapColumns($column, true), true)->autoinc) {
-                        $data[$this->getIdentityColumn()] = $this->getEngine()->getInsertId();
+                        $data[$this->getIdentityColumn()] = $this->getDriver()->getInsertId();
                     }
 
                     $context->data->setProperties($this->mapColumns($data, true))->setStatus(Database::STATUS_CREATED);
@@ -777,7 +778,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
 
             // Execute the update query.
-            $context->affected = $this->getEngine()->update($context->query);
+            $context->affected = $this->getDriver()->update($context->query);
 
             // Set the status and data before calling the command chain
             if ($context->affected !== false)
@@ -823,7 +824,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
 
             // Execute the delete query.
-            $context->affected = $this->getEngine()->delete($context->query);
+            $context->affected = $this->getDriver()->delete($context->query);
 
             // Set the query in the context.
             if ($context->affected !== false) {
@@ -851,7 +852,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($this->invokeCommand('before.lock', $context) !== false)
         {
             if ($this->isConnected()) {
-                $context->result = $this->getEngine()->lock($this->getBase());
+                $context->result = $this->getDriver()->lock($this->getBase());
             }
 
             $this->invokeCommand('after.lock', $context);
@@ -875,7 +876,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($this->invokeCommand('before.unlock', $context) !== false)
         {
             if ($this->isConnected()) {
-                $context->result = $this->getEngine()->unlock();
+                $context->result = $this->getDriver()->unlock();
             }
 
             $this->invokeCommand('after.unlock', $context);
