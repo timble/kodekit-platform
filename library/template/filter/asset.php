@@ -53,6 +53,7 @@ class TemplateFilterAsset extends TemplateFilterAbstract
     {
         $config->append(array(
             'schemes' => array('assets://' => '/assets/'),
+            'priority' => self::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
