@@ -8,6 +8,8 @@
  */
 ?>
 
+<title><?= title().' - '.translate( 'Administration'); ?></title>
+
 <div id="panel-wrapper">
     <div id="panel-navbar">
         <div id="menu">

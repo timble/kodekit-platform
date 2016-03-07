@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class ViewHtml extends Library\ViewHtml
+class ViewWindowHtml extends Library\ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -27,5 +27,21 @@ class ViewHtml extends Library\ViewHtml
         ));
 
         parent::_initialize($config);
+    }
+
+    public function getTitle()
+    {
+        $title = '';
+        if($page = $this->getObject('pages')->getActive())
+        {
+            $params = $page->getParams('page');
+            $title  = htmlspecialchars_decode($page->title);
+
+            if($params->get('page_title')) {
+                $title = $params->get('page_title');
+            }
+        }
+
+        return $title;
     }
 }

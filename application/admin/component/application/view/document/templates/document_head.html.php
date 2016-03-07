@@ -10,8 +10,6 @@
 
 <head>
     <base href="<?= url(); ?>" />
-    <title><?= title().' - '. translate( 'Administration'); ?></title>
-
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta content="chrome=1" http-equiv="X-UA-Compatible" />
 

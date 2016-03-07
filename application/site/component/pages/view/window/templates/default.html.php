@@ -8,6 +8,8 @@
  */
 ?>
 
+<title><?= title() ?></title>
+
 <header class="container">
     <nav class="navbar navbar-default">
         <a class="navbar-brand" href="/"><?= escape(object('pages')->getActive()->title) ?></a>

@@ -8,4 +8,6 @@
  */
 ?>
 
+<title><?= title() ?></title>
+
 <ktml:content>
