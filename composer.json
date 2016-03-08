@@ -17,6 +17,8 @@
         }
     ],
     "require": {
+        "php": ">=5.5",
+        "ext-mbstring": "*",
         "swiftmailer/swiftmailer": "5.0.*",
         "imagine/imagine": "0.4.*",
         "symfony/yaml": "~2.6"
