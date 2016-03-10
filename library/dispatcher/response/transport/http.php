@@ -175,7 +175,7 @@ class DispatcherResponseTransportHttp extends DispatcherResponseTransportAbstrac
         }
 
         //Add Content-Length if not present
-        if(!$response->headers->has('Content-Length')) {
+        if(!$response->headers->has('Content-Length') && $response->getStream()->getSize()) {
             $response->headers->set('Content-Length', $response->getStream()->getSize());
         }
 
