@@ -73,7 +73,7 @@ abstract class TranslatorAbstract extends Object implements TranslatorInterface,
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'language'          => 'en-GB',
+            'language'          => locale_get_default(),
             'language_fallback' => 'en-GB',
             'cache'           => \Nooku::getInstance()->isCache(),
             'cache_namespace' => 'nooku',
