@@ -49,7 +49,7 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
      * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      * @return DatabaseRowsetAbstract
      */
-    public function remove(ObjectHandlable $row);
+    public function remove($row);
 
     /**
      * Checks if the collection contains a specific row
@@ -58,5 +58,5 @@ interface DatabaseRowsetInterface extends DatabaseRowInterface
      * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains(ObjectHandlable $row);
+    public function contains($row);
 }

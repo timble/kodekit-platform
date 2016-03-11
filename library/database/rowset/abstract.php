@@ -111,7 +111,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      * @return DatabaseRowsetAbstract
      */
-    public function remove(ObjectHandlable $row)
+    public function remove($row)
     {
         if (!$row instanceof DatabaseRowInterface) {
             throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
@@ -127,7 +127,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains(ObjectHandlable $row)
+    public function contains($row)
     {
         if (!$row instanceof DatabaseRowInterface) {
             throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');

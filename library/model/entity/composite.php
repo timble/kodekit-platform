@@ -192,7 +192,7 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityComposable
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      * @return ModelEntityComposite
      */
-    public function remove(ObjectHandlable $entity)
+    public function remove($entity)
     {
         if (!$entity instanceof ModelEntityInterface) {
             throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');
@@ -208,7 +208,7 @@ class ModelEntityComposite extends ObjectSet implements ModelEntityComposable
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains(ObjectHandlable $entity)
+    public function contains($entity)
     {
         if (!$entity instanceof ModelEntityInterface) {
             throw new \InvalidArgumentException('Entity needs to implement ModelEntityInterface');

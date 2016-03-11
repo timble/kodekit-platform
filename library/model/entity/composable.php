@@ -46,7 +46,7 @@ interface ModelEntityComposable extends ModelEntityInterface
      * @param   ModelEntityInterface $entity
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains(ObjectHandlable $entity);
+    public function contains($entity);
 
     /**
      * Removes an entity from the collection
@@ -57,6 +57,6 @@ interface ModelEntityComposable extends ModelEntityInterface
      * @return ModelEntityComposite
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      */
-    public function remove(ObjectHandlable $entity);
+    public function remove($entity);
 }
 

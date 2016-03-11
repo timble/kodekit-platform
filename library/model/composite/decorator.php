@@ -94,7 +94,7 @@ class ModelCompositeDecorator extends ObjectDecorator implements ModelInterface,
      * @param   ModelEntityInterface $entity
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains(ObjectHandlable $entity)
+    public function contains($entity)
     {
         return $this->fetch()->contains($entity);
     }
@@ -108,7 +108,7 @@ class ModelCompositeDecorator extends ObjectDecorator implements ModelInterface,
      * @return ModelEntityComposite
      * @throws \InvalidArgumentException if the object doesn't implement ModelEntityInterface
      */
-    public function remove(ObjectHandlable $entity)
+    public function remove($entity)
     {
         return $this->fetch()->remove($entity);
     }
