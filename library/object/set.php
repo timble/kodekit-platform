@@ -68,9 +68,13 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
      * @param   ObjectHandlable $object
      * @return  boolean TRUE on success FALSE on failure
      */
-    public function insert(ObjectHandlable $object)
+    public function insert($object)
     {
         $result = false;
+
+        if (!$object instanceof ObjectHandlable) {
+            throw new \InvalidArgumentException('Object needs to implement ObjectHandlable');
+        }
 
         if ($handle = $object->getHandle())
         {
@@ -89,8 +93,12 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
      * @param   ObjectHandlable $object
      * @return  ObjectSet
      */
-    public function remove(ObjectHandlable $object)
+    public function remove($object)
     {
+        if (!$object instanceof ObjectHandlable) {
+            throw new \InvalidArgumentException('Object needs to implement ObjectHandlable');
+        }
+
         if ($this->offsetExists($object)) {
             $this->offsetUnset($object);
         }
@@ -104,8 +112,12 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
      * @param   ObjectHandlable $object
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains(ObjectHandlable $object)
+    public function contains($object)
     {
+        if (!$object instanceof ObjectHandlable) {
+            throw new \InvalidArgumentException('Object needs to implement ObjectHandlable');
+        }
+
         return $this->offsetExists($object);
     }
 
