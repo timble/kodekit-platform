@@ -30,7 +30,7 @@ class TemplateLocatorModule extends Pages\TemplateLocatorModule
     /**
      * Constructor.
      *
-     * @param Library\ObjectConfig $config  An optional KObjectConfig object with configuration options
+     * @param Library\ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -44,7 +44,7 @@ class TemplateLocatorModule extends Pages\TemplateLocatorModule
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Library\ObjectConfig $config An optional KObjectConfig object with configuration options.
+     * @param  Library\ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)

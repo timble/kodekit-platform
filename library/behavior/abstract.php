@@ -170,7 +170,7 @@ abstract class BehaviorAbstract extends CommandCallbackAbstract implements Behav
      *
      * @param  	string          $command  The command name to register the handler for
      * @param 	string|\Closure $method   The name of the method or a Closure object
-     * @param   array|object    $params   An associative array of config parameters or a KObjectConfig object
+     * @param   array|object    $params   An associative array of config parameters or a ObjectConfig object
      * @throws  \InvalidArgumentException If the method does not exist
      * @return  CommandHandlerAbstract
      */
