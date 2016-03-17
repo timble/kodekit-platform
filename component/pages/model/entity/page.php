@@ -139,10 +139,9 @@ class ModelEntityPage extends Library\ModelEntityRow
             $component = $query['component'];
             $view      = $query['view'];
             $layout    = isset($query['layout']) ? $query['layout'] : 'default';
-            $site      = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+            $site      = \Nooku::getInstance()->getRootPath().'/application/site/component';
 
             $path = $site . '/' . $component . '/view/' . $view . '/templates/' . $layout . '.xml';
-
 
             if (file_exists($path))
             {

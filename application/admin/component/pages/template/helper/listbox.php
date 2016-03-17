@@ -29,7 +29,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
 		return $this->_listbox($config);
     }
-    
+
     public function pages($config = array())
     {
         $config = new Library\ObjectConfig($config);
@@ -123,8 +123,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
 
-        $path = $this->getObject('object.bootstrapper')->getApplicationPath('site');
-        $path = dirname($path).'/public/theme/bootstrap/config.xml';
+        $path  = \Nooku::getInstance()->getRootPath().'/application/site/';
+        $path .= '/public/theme/bootstrap/config.xml';
 
         if (file_exists($path))
         {

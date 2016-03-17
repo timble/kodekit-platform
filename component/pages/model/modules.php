@@ -131,7 +131,7 @@ class ModelModules extends Library\ModelDatabase
         if ($state->installed)
         {
             $modules  = array();
-            $app_path = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+            $app_path = \Nooku::getInstance()->getRootPath().'/application/site/component';
             $com_path = $app_path;
 
             foreach (new \DirectoryIterator($com_path) as $component)

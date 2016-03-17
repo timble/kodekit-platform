@@ -45,7 +45,7 @@ class ModelEntityModule extends Library\ModelEntityRow
 
     public function getPropertyManifest()
     {
-        $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+        $file  = \Nooku::getInstance()->getRootPath().'/application/site/component';
         $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/'.$this->name.'.xml';
 
         if(file_exists($file)) {
@@ -86,7 +86,7 @@ class ModelEntityModule extends Library\ModelEntityRow
     {
         if (empty($this->_parameters))
         {
-            $file  = $this->getObject('object.bootstrapper')->getApplicationPath('site');
+            $file  = \Nooku::getInstance()->getRootPath().'/application/site/component';
             $file .= '/'.$this->identifier->package.'/module/'.$this->name.'/config.xml';
 
             $this->_parameters = new \JParameter(json_decode($this->parameters, true), $file);
