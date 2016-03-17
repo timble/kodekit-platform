@@ -16,7 +16,14 @@ use Nooku\Component\Comments;
  * @author  Terry Visser <http://github.com/terryvisser>
  * @package Component\Comments
  */
-class CommentsControllerComment extends Comments\ControllerComment
+abstract class CommentsControllerComment extends Comments\ControllerComment
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('editable'),
+        ));
 
+        parent::_initialize($config);
+    }
 }
