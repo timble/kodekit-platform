@@ -81,7 +81,7 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
                 $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
             }
 
-            $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $class));
+            $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname));
             $path  = strtolower(implode('/', $parts));
 
             if(count($parts) == 1) {
