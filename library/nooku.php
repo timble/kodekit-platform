@@ -117,11 +117,7 @@ class Nooku
         $manager = Nooku\Library\ObjectManager::getInstance($config);
 
         //Register the component class locator
-        $manager->getClassLoader()->registerLocator(new Nooku\Library\ClassLocatorComponent(
-            array(
-                'namespaces' => array('\\' => $this->_base_path.'/component')
-            )
-        ));
+        $manager->getClassLoader()->registerLocator(new Nooku\Library\ClassLocatorComponent());
 
         //Register the component object locator
         $manager->registerLocator('lib:object.locator.component');
