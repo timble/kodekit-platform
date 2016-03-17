@@ -7,8 +7,6 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Component\Pages;
-
 return array(
 
     'aliases'  => array(
