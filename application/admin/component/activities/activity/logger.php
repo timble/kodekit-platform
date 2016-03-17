@@ -7,7 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Activities;
+use Nooku\Library;
+use Nooku\Component\Activities;
 
 /**
  * Activity Logger
