@@ -1,0 +1,6 @@
+{
+  "identifier": "com:application",
+  "namespace": "Application",
+  "extends": "Nooku\\Component\\Application"
+}
+
