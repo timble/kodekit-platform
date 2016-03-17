@@ -69,7 +69,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     public function find(array $info, $fallback = true)
     {
         $result = false;
+        $missed = array();
 
+        //Get the class templates
         if(!empty($info['domain'])) {
             $identifier = $this->getName().'://'.$info['domain'].'/'.$info['package'];
         } else {
@@ -87,7 +89,8 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
                 $template
             );
 
-            if(class_exists($class))
+            //Do not try to locate a class twice
+            if(!isset($missed[$class]) && class_exists($class))
             {
                 $result = $class;
                 break;
@@ -96,6 +99,9 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
             if(!$fallback) {
                 break;
             }
+
+            //Mark the class
+            $missed[$class] = false;
         }
 
         return $result;
