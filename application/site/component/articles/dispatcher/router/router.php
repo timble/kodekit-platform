@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author   Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesRouter extends Library\DispatcherRouter
+class ArticlesDispatcherRouter extends Library\DispatcherRouter
 {
     public function build(Library\HttpUrlInterface $url)
     {

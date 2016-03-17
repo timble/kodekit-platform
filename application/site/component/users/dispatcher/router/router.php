@@ -17,7 +17,7 @@ use Nooku\Library;
  * @subpackage  Users
  */
 
-class UsersRouter extends Library\DispatcherRouter
+class UsersDispatcherRouter extends Library\DispatcherRouter
 {
     public function build(Library\HttpUrlInterface $url)
     {

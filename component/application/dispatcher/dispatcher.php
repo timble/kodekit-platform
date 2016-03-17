@@ -77,7 +77,7 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
      */
     public function getRouter(array $options = array())
     {
-        return $this->getObject('com:application.router', $options);
+        return $this->getObject('com:application.dispatcher.router', $options);
     }
 
     /**
