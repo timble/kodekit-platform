@@ -42,9 +42,8 @@ class ClassLocatorComposer extends ClassLocatorAbstract
     {
         if(isset($config['vendor_path']))
         {
-            if(file_exists($config['vendor_path'].'/autoload.php'))
-            {
-                //Let Nooku proxy class loading
+            //Proxy class loading
+            if(file_exists($config['vendor_path'].'/autoload.php')) {
                 $this->_loader = require $config['vendor_path'].'/autoload.php';
             }
         }
@@ -54,10 +53,9 @@ class ClassLocatorComposer extends ClassLocatorAbstract
      * Get a fully qualified path based on a class name
      *
      * @param  string $class    The class name
-     * @param  string $basepath The basepath to use to find the class
      * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $basepath)
+    public function locate($class)
 	{
         $path = false;
 

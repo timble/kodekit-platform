@@ -40,13 +40,6 @@ class ClassLoader implements ClassLoaderInterface
     protected $_locators = array();
 
     /**
-     * The loader basepath
-     *
-     * @var  string
-     */
-    protected $_base_path;
-
-    /**
      * Debug
      *
      * @var boolean
@@ -136,7 +129,7 @@ class ClassLoader implements ClassLoaderInterface
         $result = false;
 
         //Get the path
-        $path = $this->getPath( $class, $this->_base_path);
+        $path = $this->getPath( $class );
 
         if ($path !== false)
         {
@@ -166,31 +159,26 @@ class ClassLoader implements ClassLoaderInterface
      * Get the path based on a class name
      *
      * @param string $class    The class name
-     * @param string $base     The base_path. If NULL the global base path will be used.
      * @return string|boolean  Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function getPath($class, $base = null)
+    public function getPath($class)
     {
-        $result = false;
+        $result   = false;
 
-        $base = $base ? $base : $this->_base_path;
-        $key  = $base ? $class.'-'.$base : $class;
-
-        //Switch the namespace
-        if(!$this->__registry->has($key))
+        if(!$this->__registry->has($class))
         {
             //Locate the class
             foreach($this->_locators as $locator)
             {
-                if(false !== $result = $locator->locate($class, $base)) {
+                if(false !== $result = $locator->locate($class)) {
                     break;
                 };
             }
 
             //Also store if the class could not be found to prevent repeated lookups.
-            $this->__registry->set($key, $result);
+            $this->__registry->set($class, $result);
 
-        } else $result = $this->__registry->get($key);
+        } else $result = $this->__registry->get($class);
 
         return $result;
     }
@@ -198,17 +186,13 @@ class ClassLoader implements ClassLoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param string $class     The class name
-     * @param string $path      The class path
-     * @param string $namespace The global namespace. If NULL the active global namespace will be used.
+     * @param string $class The class name
+     * @param string $path  The class path
      * @return void
      */
-    public function setPath($class, $path, $base = null)
+    public function setPath($class, $path)
     {
-        $base = $base ? $base : $this->_base_path;
-        $key  = $base ? $class.'-'.$base : $class;
-
-        $this->__registry->set($key, $path);
+        $this->__registry->set($class, $path);
     }
 
     /**
@@ -269,28 +253,6 @@ class ClassLoader implements ClassLoaderInterface
     public function getAliases($class)
     {
         return array_search($class, $this->__registry->getAliases());
-    }
-
-    /**
-     * Get the base path
-     *
-     * @return string The base path
-     */
-    public function getBasePath()
-    {
-        return $this->_base_path;
-    }
-
-    /**
-     * Set the base path
-     *
-     * @param string $base_path The base path
-     * @return ClassLoader
-     */
-    public function setBasePath($path)
-    {
-        $this->_base_path = $path;
-        return $this;
     }
 
     /**

@@ -27,28 +27,27 @@ interface ClassLocatorInterface
     /**
      * Get a fully qualified path based on a class name
      *
-     * @param  string $class    The class name
-     * @param  string $basepath The basepath to use to find the class
-     * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param  string  $class    The class name
+     * @return string|boolean    Returns the path on success FALSE on failure
      */
-    public function locate($class, $basepath);
+    public function locate($class);
 
     /**
      * Register a namespace
      *
-     * @param  string $namespace
-     * @param  string $path The location of the namespace
+     * @param  string       $namespace
+     * @param  string|array $path(s) The location of the namespace
      * @return ClassLocatorInterface
      */
-    public function registerNamespace($namespace, $paths);
+    public function registerNamespace($namespace, $path);
 
     /**
-     * Get the namespace path
+     * Get a namespace path
      *
      * @param string $namespace The namespace
-     * @return string|false The namespace path or FALSE if the namespace does not exist.
+     * @return array|false The namespace path(s) or FALSE if the namespace does not exist.
      */
-    public function getNamespace($namespace);
+    public function getNamespacePath($namespace);
 
     /**
      * Get the registered namespaces

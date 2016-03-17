@@ -52,13 +52,14 @@ class ClassLocatorComponent extends ClassLocatorAbstract
      * Get a fully qualified path based on a class name
      *
      * @param  string $class    The class name
-     * @param  string $basepath The basepath to use to find the class
      * @return string|false     Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function locate($class, $basepath)
+    public function locate($class)
 	{
+        $result = false;
+
         //Find the class
-        foreach($this->getNamespaces() as $namespace => $basepath)
+        foreach($this->getNamespaces() as $namespace => $basepaths)
         {
             if(empty($namespace) && strpos($class, '\\')) {
                 continue;
@@ -68,21 +69,21 @@ class ClassLocatorComponent extends ClassLocatorAbstract
                 continue;
             }
 
-            $class = str_replace(array($namespace, '\\'), '', '\\'.$class);
+            //Remove the namespace from the class name
+            $classname = ltrim(substr($class, strlen($namespace)), '\\');
 
             /*
              * Exception rule for Exception classes
              *
              * Transform class to lower case to always load the exception class from the /exception/ folder.
              */
-            if($pos = strpos($class, 'Exception'))
+            if($pos = strpos($classname, 'Exception'))
             {
-                $filename  = substr($class, $pos + strlen('Exception'));
-                $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
+                $filename  = substr($classname, $pos + strlen('Exception'));
+                $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
             }
 
-            $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class)));
-
+            $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname)));
             $file  = array_pop($parts);
 
             if(count($parts)){
@@ -91,11 +92,22 @@ class ClassLocatorComponent extends ClassLocatorAbstract
                 $path = $file . '/' . $file;
             }
 
-            $result = $basepath . '/' . $path . '.php';
+            $paths = array(
+                $path . '.php',
+                $path . '/' . $file . '.php'
+            );
 
-            if (!is_file($result) && count($parts)) {
-                $result = $basepath . '/' . $path . '/' . $file . '.php';
+            foreach($basepaths as $basepath)
+            {
+                foreach($paths as $path)
+                {
+                    $result = $basepath . '/' .$path;
+                    if (is_file($result)) {
+                        break (2);
+                    }
+                }
             }
+
 
             return $result;
         }
