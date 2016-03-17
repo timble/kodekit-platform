@@ -34,60 +34,36 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
     public function bootstrap();
 
     /**
-     * Register an application
-     *
-     * @param string  $name  The application name
-     * @param string  $path  The application path
-     * @return ObjectBootstrapper
-     */
-    public function registerApplication($name, $path, $bootstrap = false);
-
-    /**
-     * Register a component to be bootstrapped.
-     *
-     * If the component contains a /resources/config/bootstrapper.php file it will be registered. Class and object
-     * locators will be setup for domain only components.
-     *
-     * @param string $name      The component name
-     * @param string $path      The component path
-     * @param string $domain    The component domain. Domain is optional and can be NULL
-     * @return ObjectBootstrapperInterface
-     */
-    public function registerComponent($name, $path, $domain = null);
-
-    /**
      * Register components from a directory to be bootstrapped
      *
      * All the first level directories are assumed to be component folders and will be registered.
      *
      * @param string  $directory
-     * @param string  $domain
-     * @return ObjectBootstrapperInterface
+     * @param bool    $bootstrap If TRUE bootstrap all the components in the directory. Default TRUE
+     * @return ObjectBootstrapper
      */
-    public function registerComponents($directory, $doamin = null);
+    public function registerComponents($directory, $bootstrap = true);
+
+    /**
+     * Register a component to be bootstrapped.
+     *
+     * Class and object locators will be setup based on the information in the composer.json file.
+     * If the component contains a /resources/config/bootstrapper.php file it will be registered.
+     *
+     * @param string $path          The component path
+     * @param bool   $bootstrap     If TRUE bootstrap all the components in the directory. Default TRUE
+     * @param array  $directories   Additional array of directories
+     * @return ObjectBootstrapper
+     */
+    public function registerComponent($path, $bootstrap = true, array $directories = array());
 
     /**
      * Register a configuration file to be bootstrapped
      *
-     * @param string $filename The absolute path to the file
+     * @param string $path  The absolute path to the file
      * @return ObjectBootstrapperInterface
      */
-    public function registerFile($filename);
-
-    /**
-     * Get the registered applications
-     *
-     * @return array
-     */
-    public function getApplications();
-
-    /**
-     * Get an application path
-     *
-     * @param string  $name   The application name
-     * @return string|null Returns the application path if the application was registered. NULL otherwise
-     */
-    public function getApplicationPath($name);
+    public function registerFile($path);
 
     /**
      * Get the registered components
@@ -97,14 +73,6 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
     public function getComponents();
 
     /**
-     * Get a registered component domain
-     *
-     * @param string $name    The component name
-     * @return string Returns the component domain if the component is registered. NULL otherwise
-     */
-    public function getComponentDomain($name);
-
-    /**
      * Get a registered component path
      *
      * @param string $name    The component name
@@ -112,15 +80,6 @@ interface ObjectBootstrapperInterface extends ObjectHandlable
      * @return string Returns the component path if the component is registered. FALSE otherwise
      */
     public function getComponentPath($name, $domain = null);
-
-    /**
-     * Get a registered component domain
-     *
-     * @param string $name    The component name
-     * @param string $domain  The component domain. Domain is optional and can be NULL
-     * @return string Returns the component class namespace if the component is registered. FALSE otherwise
-     */
-    public function getComponentNamespace($name, $domain = null);
 
     /**
      * Get a hash based on a name and domain
