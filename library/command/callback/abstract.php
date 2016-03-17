@@ -41,7 +41,7 @@ abstract class CommandCallbackAbstract extends ObjectMixinAbstract
     /**
      * Constructor
      *
-     * @param ObjectConfig  $config  An optional KObjectConfig object with configuration options
+     * @param ObjectConfig  $config  An optional ObjectConfig object with configuration options
      * @return CommandChain
      */
     public function __construct(ObjectConfig $config)
@@ -129,7 +129,7 @@ abstract class CommandCallbackAbstract extends ObjectMixinAbstract
      *
      * @param  	string          $command  The command name to register the handler for
      * @param 	string|\Closure  $method   The name of a method or a Closure object
-     * @param   array|object    $params   An associative array of config parameters or a KObjectConfig object
+     * @param   array|object    $params   An associative array of config parameters or a ObjectConfig object
      * @throws  \InvalidArgumentException If the method does not exist
      * @return  CommandCallbackAbstract
      */

@@ -35,7 +35,7 @@ interface KCommandCallbackInterface extends CommandCallbackDelegate
      *
      * @param  	string          $command  The command name to register the handler for
      * @param 	string|\Closure  $method   The name of a method or a Closure object
-     * @param   array|object    $params   An associative array of config parameters or a KObjectConfig object
+     * @param   array|object    $params   An associative array of config parameters or a ObjectConfig object
      * @throws  \InvalidArgumentException If the method does not exist
      * @return  CommandCallbackAbstract
      */
