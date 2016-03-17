@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationRouter extends Library\DispatcherRouter
+class ApplicationDispatcherRouter extends Library\DispatcherRouter
 {
     public function parse(Library\HttpUrlInterface $url)
 	{
@@ -127,7 +127,7 @@ class ApplicationRouter extends Library\DispatcherRouter
             if(!empty($route))
             {
                 //Get the router identifier
-                $identifier = 'com:'.$url->query['component'].'.router';
+                $identifier = 'com:'.$url->query['component'].'.dispatcher.router';
 
                 //Parse the view route
                 $query = $this->getObject($identifier)->parse($url);

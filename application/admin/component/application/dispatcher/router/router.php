@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationRouter extends Library\DispatcherRouter
+class ApplicationDispatcherRouter extends Library\DispatcherRouter
 {
     public function parse(Library\HttpUrlInterface $url)
 	{
