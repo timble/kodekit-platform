@@ -68,7 +68,7 @@ class HttpToken extends Object implements HttpTokenInterface
     /**
      * Constructor
      *
-     * @param ObjectConfig $config  An optional KObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -86,7 +86,7 @@ class HttpToken extends Object implements HttpTokenInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   ObjectConfig $config  An optional KObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)

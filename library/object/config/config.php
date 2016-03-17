@@ -429,7 +429,7 @@ class ObjectConfig implements ObjectConfigInterface
     }
 
     /**
-     * Deep clone of this instance to ensure that nested KObjectConfigs are also cloned.
+     * Deep clone of this instance to ensure that nested ObjectConfigs are also cloned.
      *
      * @return void
      */

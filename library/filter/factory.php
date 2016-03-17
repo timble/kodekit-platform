@@ -24,7 +24,7 @@ class FilterFactory extends Object implements ObjectSingleton
      * using a FIFO approach.
      *
      * @param	string|array $identifier Filter identifier(s)
-     * @param 	object|array $config     An optional KObjectConfig object with configuration options
+     * @param 	object|array $config     An optional ObjectConfig object with configuration options
      * @return  FilterInterface
      */
     public function createChain($identifier, $config = array())
@@ -49,7 +49,7 @@ class FilterFactory extends Object implements ObjectSingleton
      * identification process.
      *
      * @param 	string	$filter Filter identifier
-     * @param 	object|array $config     An optional KObjectConfig object with configuration options
+     * @param 	object|array $config     An optional ObjectConfig object with configuration options
      * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
      * @return  FilterInterface
      */

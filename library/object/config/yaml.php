@@ -34,7 +34,7 @@ class ObjectConfigYaml extends ObjectConfigFormat
     /**
      * Constructor.
      *
-     * @param   array|ObjectConfig An associative array of configuration options or a KObjectConfig instance.
+     * @param   array|ObjectConfig An associative array of configuration options or a ObjectConfig instance.
      */
     public function __construct( $options = array() )
     {

@@ -27,7 +27,7 @@ abstract class DispatcherRequestTransportAbstract extends Object implements Disp
     /**
      * Constructor.
      *
-     * @param ObjectConfig $config 	An optional KObjectConfig object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {

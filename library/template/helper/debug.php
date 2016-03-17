@@ -28,7 +28,7 @@ class TemplateHelperDebug extends TemplateHelperAbstract
      */
     public function dump($config = array())
     {
-        // Have to do this to avoid array to KObjectConfig conversion
+        // Have to do this to avoid array to ObjectConfig conversion
         $value = $config['value'];
         unset($config['value']);
 

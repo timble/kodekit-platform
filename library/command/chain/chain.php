@@ -53,7 +53,7 @@ class CommandChain extends Object implements CommandChainInterface
     /**
      * Constructor
      *
-     * @param ObjectConfig  $config  An optional KObjectConfig object with configuration options
+     * @param ObjectConfig  $config  An optional ObjectConfig object with configuration options
      * @return CommandChain
      */
     public function __construct(ObjectConfig $config)
