@@ -37,9 +37,8 @@ $nooku = Nooku::getInstance(array(
 
 //Bootstrap the application
 Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
-    ->registerApplication('site' , $nooku->getRootPath().'/application/site/component', true)
-    ->registerApplication('admin', $nooku->getRootPath().'/application/admin/component')
-    ->registerComponents($nooku->getRootPath().'/component', 'nooku')
+    ->registerComponents($nooku->getRootPath().'/application/site/component')
+    ->registerComponents($nooku->getRootPath().'/component')
     ->registerFile($nooku->getRootPath(). '/config/bootstrapper.php')
     ->bootstrap();
 
