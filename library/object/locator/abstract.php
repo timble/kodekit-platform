@@ -25,40 +25,11 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     protected static $_name = '';
 
     /**
-     * The class prefix sequence in FIFO order
+     * Locator identifiers
      *
      * @var array
      */
-    protected $_sequence = array();
-
-    /**
-     * Constructor.
-     *
-     * @param ObjectConfig $config  An optional KObjectConfig object with configuration options
-     */
-    public function __construct(ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_sequence = ObjectConfig::unbox($config->sequence);
-    }
-
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config An optional KObjectConfig object with configuration options.
-     * @return  void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'sequence' => array(),
-        ));
-
-        parent::_initialize($config);
-    }
+    protected $_identifiers = array();
 
     /**
      * Returns a fully qualified class name for a given identifier.
@@ -79,8 +50,8 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
         $info = array(
             'identifier' => $identifier,
             'class'      => $class,
-            'package'    => $package,
             'domain'     => $domain,
+            'package'    => $package,
             'path'       => $path,
             'file'       => $file
         );
@@ -99,8 +70,16 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     {
         $result = false;
 
+        if(!empty($info['domain'])) {
+            $identifier = $this->getName().'://'.$info['domain'].'/'.$info['package'];
+        } else {
+            $identifier = $this->getName().':'.$info['package'];
+        }
+
+        $templates = $this->getClassTemplates(strtolower($identifier));
+
         //Find the class
-        foreach($this->_sequence as $template)
+        foreach($templates as $template)
         {
             $class = str_replace(
                 array('<Domain>',      '<Package>'     ,'<Path>'      ,'<File>'      , '<Class>'),
@@ -123,6 +102,30 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     }
 
     /**
+     * Register an identifier
+     *
+     * @param  string       $identifier
+     * @param  string|array $namespace(s) Sequence of fallback namespaces
+     * @return ObjectLocatorAbstract
+     */
+    public function registerIdentifier($identifier, $namespaces)
+    {
+        $this->_identifiers[$identifier] = (array) $namespaces;
+        return $this;
+    }
+
+    /**
+     * Get the namespace(s) for the identifier
+     *
+     * @param string $identifier The package identifier
+     * @return array|false The namespace(s) or FALSE if the identifier does not exist.
+     */
+    public function getIdentifierNamespaces($identifier)
+    {
+        return isset($this->_identifiers[$identifier]) ?  $this->_identifiers[$identifier] : false;
+    }
+
+    /**
      * Get the type
      *
      * @return string
@@ -130,15 +133,5 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     public static function getName()
     {
         return static::$_name;
-    }
-
-    /**
-     * Get the locator fallback sequence
-     *
-     * @return array
-     */
-    public function getSequence()
-    {
-        return $this->_sequence;
     }
 }

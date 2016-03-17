@@ -25,20 +25,18 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     protected static $_name = 'lib';
 
     /**
-     * Initializes the options for the object
+     * Get the list of location templates for an identifier
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options.
-     * @return  void
+     * @param string $identifier The package identifier
+     * @return string The class location templates for the identifier
      */
-    protected function _initialize(ObjectConfig $config)
+    public function getClassTemplates($identifier)
     {
-        $config->append(array(
-            'sequence' => array(
-                '<Domain>\Library\<Package><Class>',
-                '<Domain>\Library\<Package><Path>Default',
-            )
-        ));
+        $templates = array(
+            __NAMESPACE__.'\<Package><Class>',
+            __NAMESPACE__.'\<Package><Path>Default',
+        );
+
+        return $templates;
     }
 }

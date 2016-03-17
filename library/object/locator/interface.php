@@ -43,9 +43,27 @@ interface ObjectLocatorInterface
     public function find(array $info, $fallback = true);
 
     /**
-     * Get the locator fallback sequence
+     * Get the list of class templates for an identifier
      *
-     * @return array
+     * @param string $identifier The package identifier
+     * @return array The class templates for the identifier
      */
-    public function getSequence();
+    public function getClassTemplates($identifier);
+
+    /**
+     * Register an identifier
+     *
+     * @param  string       $identifier
+     * @param  string|array $namespace(s) Sequence of fallback namespaces
+     * @return ObjectLocatorAbstract
+     */
+    public function registerIdentifier($identifier, $namespaces);
+
+    /**
+     * Get the namespace(s) for the identifier
+     *
+     * @param string $identifier The package identifier
+     * @return string|false The namespace(s) or FALSE if the identifier does not exist.
+     */
+    public function getIdentifierNamespaces($identifier);
 }

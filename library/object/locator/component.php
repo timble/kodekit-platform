@@ -25,27 +25,6 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
     protected static $_name = 'com';
 
     /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options.
-     * @return  void
-     */
-    protected function _initialize(ObjectConfig $config)
-    {
-        $config->append(array(
-            'sequence' => array(
-                '<Package><Class>',
-                '<Domain>\Component\<Package>\<Class>',
-                '<Domain>\Component\<Package>\<Path><File>',
-                'Nooku\Library\<Path><File>',
-                'Nooku\Library\<Path>Default',
-            )
-        ));
-    }
-
-    /**
      * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier $identifier An identifier object
@@ -54,12 +33,7 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        if(empty($identifier->domain)) {
-            $domain  = ucfirst($this->getObject('object.bootstrapper')->getComponentDomain($identifier->package));
-        } else {
-            $domain = ucfirst($identifier->domain);
-        }
-
+        $domain  = $identifier->domain ? ucfirst($identifier->domain) : null;
         $package = ucfirst($identifier->package);
         $file    = ucfirst($identifier->name);
         $path    = $identifier->path;
@@ -85,12 +59,45 @@ class ObjectLocatorComponent extends ObjectLocatorAbstract
         $info = array(
             'identifier' => $identifier,
             'class'      => $class,
-            'package'    => $package,
             'domain'     => $domain,
+            'package'    => $package,
             'path'       => $path,
             'file'       => $file
         );
 
         return $this->find($info, $fallback);
+    }
+
+    /**
+     * Get the list of class templates for an identifier
+     *
+     * @param string $identifier The package identifier
+     * @return array The class templates for the identifier
+     */
+    public function getClassTemplates($identifier)
+    {
+        //Identifier
+        $templates = array();
+
+        //Fallback
+        if($namespaces = $this->getIdentifierNamespaces($identifier))
+        {
+            foreach($namespaces as $namespace)
+            {
+                //Handle class prefix vs class namespace
+                if(strpos($namespace, '\\')) {
+                    $namespace .= '\\';
+                }
+
+                $templates[] = $namespace.'<Class>';
+                $templates[] = $namespace.'<Path><File>';
+            }
+        }
+
+        //Library
+        $templates[] = __NAMESPACE__.'\<Path><File>';
+        $templates[] = __NAMESPACE__.'\<Path>Default';
+
+        return $templates;
     }
 }
