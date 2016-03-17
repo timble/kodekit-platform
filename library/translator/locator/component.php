@@ -32,18 +32,8 @@ class TranslatorLocatorComponent extends TranslatorLocatorIdentifier
      */
     public function find(array $info)
     {
-        $paths  = array();
-        $loader = $this->getObject('manager')->getClassLoader();
-
         //Base paths
-        $namespace = $this->getObject('object.bootstrapper')->getComponentNamespace($info['package']);
-        if($path = $loader->getLocator('component')->getNamespace($namespace)) {
-            $paths[] = $path;
-        }
-
-        if($path = $loader->getLocator('component')->getNamespace('\\')) {
-            $paths[] = $path.'/'.$info['package'];
-        }
+        $paths = $this->getObject('object.bootstrapper')->getComponentPath($info['package'], $info['domain']);
 
         $result = array();
         foreach($paths as $basepath)

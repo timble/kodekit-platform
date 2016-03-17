@@ -33,21 +33,9 @@ class TemplateLocatorComponent extends TemplateLocatorIdentifier
     public function find(array $info)
     {
         $result = false;
-        $paths  = array();
-        $loader = $this->getObject('manager')->getClassLoader();
-
-        //Get the package
-        $package = $info['package'];
 
         //Base paths
-        if($path = $loader->getLocator('component')->getNamespace('\\')) {
-            $paths[] = $path.'/'.$package;
-        }
-
-        $namespace = $this->getObject('object.bootstrapper')->getComponentNamespace($package);
-        if($path = $loader->getLocator('component')->getNamespace($namespace)) {
-            $paths[] = $path;
-        }
+        $paths = $this->getObject('object.bootstrapper')->getComponentPath($info['package'], $info['domain']);
 
         //If no type exists create a glob pattern
         if(!empty($info['type'])){
