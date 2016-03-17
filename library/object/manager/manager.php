@@ -277,21 +277,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     public function getClass($identifier, $fallback = true)
     {
         $identifier = $this->getIdentifier($identifier);
-        $class      = $this->__registry->getClass($identifier);
-
-        //If the class is FALSE we have tried to locate it already, do not locate it again.
-        if(empty($class) && $class !== false)
-        {
-            $class = $this->_locate($identifier, $fallback);
-
-            //If we are falling back set the class in the registry
-            if($fallback)
-            {
-                if(!$this->__registry->get($identifier) instanceof ObjectInterface) {
-                    $this->__registry->setClass($identifier, $class);
-                }
-            }
-        }
+        $class      = $this->_locate($identifier, $fallback);
 
         return $class;
     }
@@ -675,15 +661,23 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      */
     protected function _locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        //Set loader basepath if we are locating inside an application
-        if($identifier->domain && $this->isRegistered('object.bootstrapper'))
+        $class = $this->__registry->getClass($identifier);
+
+        //If the class is FALSE we have tried to locate it already, do not locate it again.
+        if(empty($class) && ($class !== false))
         {
-            if($path = $this->getObject('object.bootstrapper')->getApplicationPath($identifier->domain)) {
-                $this->getClassLoader()->setBasePath($path);
+            $class = $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
+
+            //If we are falling back set the class in the registry
+            if($fallback)
+            {
+                if(!$this->__registry->get($identifier) instanceof ObjectInterface) {
+                    $this->__registry->setClass($identifier, $class);
+                }
             }
         }
 
-        return $this->_locators[$identifier->getType()]->locate($identifier, $fallback);
+        return $class;
     }
 
     /**
