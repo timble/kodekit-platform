@@ -389,7 +389,7 @@ final class ObjectBootstrapper extends Object implements ObjectBootstrapperInter
         {
             foreach($components as $key => $component)
             {
-                if(strpos($component, 'com://'.$domain) !== false) {
+                if(strpos($component, 'com://'.$domain) === false) {
                     unset($components[$key]);
                 }
             }
