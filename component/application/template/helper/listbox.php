@@ -33,7 +33,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('label' => $this->getObject('translator')->translate($config->prompt)));
         }
 
-        $applications = $this->getObject('object.bootstrapper')->getApplications();
+        $applications = array('admin', 'site');
         foreach($applications as $name) {
             $options[] = $this->option(array('label' => $name, 'value' => $name));
         }
