@@ -7,6 +7,8 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Languages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Languages
  */
-class LanguagesControllerLanguage extends Library\ControllerModel
+class ControllerLanguage extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

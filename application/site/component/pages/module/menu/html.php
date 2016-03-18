@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 use Nooku\Component\Pages;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Pages;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesModuleMenuHtml extends Pages\ModuleEntity
+class ModuleMenuHtml extends Pages\ModuleEntity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

@@ -7,6 +7,8 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Attachments;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Attachments
  */
-class AttachmentsTemplateHelperImage extends Library\TemplateHelperAbstract
+class TemplateHelperImage extends Library\TemplateHelperAbstract
 {
     public function thumbnail($config = array())
     {

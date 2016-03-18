@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Categories;
+
 use Nooku\Library;
 use Nooku\Component\Categories;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Categories;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Categories
  */
-abstract class CategoriesControllerCategory extends Categories\ControllerCategory
+abstract class ControllerCategory extends Categories\ControllerCategory
 {
     public function getRequest()
 	{

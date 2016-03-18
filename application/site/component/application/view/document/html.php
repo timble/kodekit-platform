@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Application;
+
 use Nooku\Library;
 use Nooku\Component\Application;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Application;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationViewDocumentHtml extends Application\ViewDocumentHtml
+class ViewDocumentHtml extends Application\ViewDocumentHtml
 {
     /**
      * Initializes the config for the object

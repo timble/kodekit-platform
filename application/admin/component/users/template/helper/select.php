@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -15,8 +17,8 @@ use Nooku\Library;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Component\Users
  */
-class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
-{    
+class TemplateHelperSelect extends Library\TemplateHelperSelect
+{
     public function roles($config = array())
     {
         $config = new Library\ObjectConfig($config);

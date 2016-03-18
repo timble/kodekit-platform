@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Categories;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * Category Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Categories
  */
-class CategoriesControllerPermissionCategory extends ApplicationControllerPermissionAbstract
+class ControllerPermissionCategory extends Application\ControllerPermissionAbstract
 {
 
 }

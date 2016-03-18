@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesViewPageHtml extends Library\ViewHtml
+class ViewPageHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {

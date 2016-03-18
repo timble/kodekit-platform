@@ -1,5 +1,5 @@
 {
   "identifier": "com:categories",
-  "namespace": "Categories"
+  "namespace": "Nooku\\Platform\\Categories"
 }
 

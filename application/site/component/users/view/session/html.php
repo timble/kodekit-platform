@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Users
  */
-class UsersViewSessionHtml extends Library\ViewHtml
+class ViewSessionHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {

@@ -7,6 +7,8 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Files;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Files
  */
-class FilesViewDirectoryHtml extends Library\ViewHtml
+class ViewDirectoryHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {

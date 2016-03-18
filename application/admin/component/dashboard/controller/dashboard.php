@@ -7,15 +7,17 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Dashboard;
+
 use Nooku\Library;
 
 /**
  * Dashboard Controller
- *   
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Dashboard
  */
-class DashboardControllerDashboard extends Library\ControllerView
+class ControllerDashboard extends Library\ControllerView
 {
-	
+
 }

@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Files;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * Thumbnail Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Files
  */
-class FilesControllerPermissionThumbnail extends ApplicationControllerPermissionAbstract
+class ControllerPermissionThumbnail extends Application\ControllerPermissionAbstract
 {
 
 }

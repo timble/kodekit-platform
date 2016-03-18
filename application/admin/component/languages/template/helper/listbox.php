@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Languages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Languages
  */
-class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function languages($config = array())
     {
@@ -23,9 +25,9 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 		$config->append(array(
 			'name'  => 'language'
 		));
-		
+
 		$result = '';
-		
+
 	    $result = '
 		    <script>
                 window.addEvent(\'domready\', function() {
@@ -35,24 +37,24 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
                 });
             </script>
 		';
-	    
+
 		$options   = array();
 		$languages = $this->getObject('application.languages');
 		$active    = $languages->getActive();
-		
+
 		foreach($languages as $language)
 		{
 		    $route = $this->getTemplate()->route('language='.$language->slug);
 		    $options[] = $this->option(array('label' => $language->name, 'value' => $route));
-		    
+
 		    if($language->iso_code == $active->iso_code) {
 		        $config->selected = $route;
 		    }
 		}
-		
+
 		$config->options = $options;
 		$result .= parent::optionlist($config);
-			
+
 		return $result;
     }
 }

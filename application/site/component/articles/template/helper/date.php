@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
+class TemplateHelperDate extends Library\TemplateHelperDate
 {
     public function timestamp($config = array())
     {

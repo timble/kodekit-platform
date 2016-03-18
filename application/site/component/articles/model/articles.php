@@ -7,6 +7,8 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 use Nooku\Component\Articles;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Articles;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesModelArticles extends Articles\ModelArticles
+class ModelArticles extends Articles\ModelArticles
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

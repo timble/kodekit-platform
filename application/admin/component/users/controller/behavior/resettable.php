@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 use Nooku\Component\Users;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Users;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
-class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
+class ControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
     protected function _beforeToken(Library\ControllerContextInterface $context)
     {
@@ -63,7 +65,7 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
 
                 $subject = $translator('Reset your password');
                 $message = $translator('Password reset instructions E-mail',
-                    array('name' => $entity->name, 'site' => $site, 'url' => $url));
+                    array('name' => $entity->name, 'url' => $url));
 
                 if ($entity->isNotifable())
                 {

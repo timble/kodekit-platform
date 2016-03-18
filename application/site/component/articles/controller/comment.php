@@ -7,7 +7,10 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
+use Nooku\Platform\Comments;
 
 /**
  * Comments Controller Class
@@ -16,7 +19,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ArticlesControllerComment extends CommentsControllerComment
+class ControllerComment extends Comments\ControllerComment
 {
 
 }

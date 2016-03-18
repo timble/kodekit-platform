@@ -7,6 +7,8 @@
  * @link           http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 use Nooku\Component\Users;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Users;
  * @author   Johan Janssens <http://github.com/johanjanssens>
  * @package  Component\Users
  */
-class UsersControllerSession extends Users\ControllerSession
+class ControllerSession extends Users\ControllerSession
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

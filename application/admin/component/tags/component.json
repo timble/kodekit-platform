@@ -1,5 +1,5 @@
 {
   "identifier": "com:tags",
-  "namespace": "Tags"
+  "namespace": "Nooku\\Platform\\Tags"
 }
 

@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Attachments;
+
 use Nooku\Library;
 use Nooku\Component\Attachments;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Attachments;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Attachments
  */
-abstract class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
+abstract class ControllerAttachment extends Attachments\ControllerAttachment
 {
 
 }

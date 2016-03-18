@@ -7,7 +7,10 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * User Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Users
  */
-class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract
+class ControllerPermissionUser extends Application\ControllerPermissionAbstract
 {
     public function canAdd()
     {

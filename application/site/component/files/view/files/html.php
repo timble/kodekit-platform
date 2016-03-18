@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Files;
+
 use Nooku\Library;
 use Nooku\Component\Files;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Files;
  * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Component\Files
  */
-class FilesViewFilesHtml extends Files\ViewFilesHtml
+class ViewFilesHtml extends Files\ViewFilesHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {

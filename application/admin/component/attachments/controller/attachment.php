@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Attachments;
+
 use Nooku\Library;
 use Nooku\Component\Attachments;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Attachments;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Attachments
  */
-class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
+class ControllerAttachment extends Attachments\ControllerAttachment
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{
@@ -26,7 +28,7 @@ class AttachmentsControllerAttachment extends Attachments\ControllerAttachment
             ),
             'model' => 'com:attachments.model.attachments'
 		));
-		
+
 		parent::_initialize($config);
 	}
 }

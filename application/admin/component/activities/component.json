@@ -1,5 +1,5 @@
 {
   "identifier": "com:activities",
-  "namespace": "Activities"
+  "namespace": "Nooku\\Platform\\Activities"
 }
 

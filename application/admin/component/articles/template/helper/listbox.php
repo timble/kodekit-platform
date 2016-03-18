@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Articles
  */
-class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function articles($config = array())
     {
@@ -46,7 +48,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        if (!$config->entity instanceof \ArticlesModelEntityArticle) {
+        if (!$config->entity instanceof ModelEntityArticle) {
             throw new \InvalidArgumentException('The entity is missing.');
         }
 

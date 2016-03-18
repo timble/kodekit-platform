@@ -7,19 +7,21 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 
 /**
  * Menus Html View
- *   
+ *
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
-class PagesViewMenusHtml extends Library\ViewHtml
+class ViewMenusHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
     {
-        $context->data->applications = $this->getObject('object.bootstrapper')->getApplications();
+        $context->data->applications = array('admin', 'site');
 
         parent::_fetchData($context);
     }

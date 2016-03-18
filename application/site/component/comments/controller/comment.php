@@ -7,6 +7,8 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Comments;
+
 use Nooku\Library;
 use Nooku\Component\Comments;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Comments;
  * @author  Terry Visser <http://github.com/terryvisser>
  * @package Component\Comments
  */
-abstract class CommentsControllerComment extends Comments\ControllerComment
+abstract class ControllerComment extends Comments\ControllerComment
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

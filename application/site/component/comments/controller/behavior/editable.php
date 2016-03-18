@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Comments;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
-class CommentsControllerBehaviorEditable extends Library\ControllerBehaviorEditable
+class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {
     /**
      * Check if the entity is lockable

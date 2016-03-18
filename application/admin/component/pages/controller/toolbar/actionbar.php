@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 use Nooku\Component\Users;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Users;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class PagesControllerToolbarActionbar extends Users\ControllerToolbarSession
+class ControllerToolbarActionbar extends Users\ControllerToolbarSession
 {
     public function getCommands()
     {

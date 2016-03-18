@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Categories;
+
 use Nooku\Library;
 use Nooku\Component\Categories;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Categories;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Categories
  */
-abstract class CategoriesControllerCategory extends Categories\ControllerCategory
+abstract class ControllerCategory extends Categories\ControllerCategory
 {
     public function __construct(Library\ObjectConfig $config)
     {
@@ -25,7 +27,7 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
         $this->addCommandCallback('after.save'  , 'setDefaultAttachment');
         $this->addCommandCallback('after.apply' , 'setDefaultAttachment');
     }
-    
+
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -35,7 +37,7 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
                 'com:attachments.controller.behavior.attachable',
             ),
         ));
-        
+
         parent::_initialize($config);
 
         //Force the toolbars
@@ -44,7 +46,7 @@ abstract class CategoriesControllerCategory extends Categories\ControllerCategor
 
     public function setDefaultAttachment(Library\ControllerContext $context)
     {
-        if($this->isAttachable()) 
+        if($this->isAttachable())
         {
             $entity = $context->result;
 

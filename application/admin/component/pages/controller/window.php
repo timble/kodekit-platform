@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Component\Pages;
 use Nooku\Library;
 
@@ -16,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class PagesControllerWindow extends Pages\ControllerWindow
+class ControllerWindow extends Pages\ControllerWindow
 {
     protected function  _initialize(Library\ObjectConfig $config)
     {

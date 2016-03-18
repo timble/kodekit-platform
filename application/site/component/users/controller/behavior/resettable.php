@@ -7,7 +7,10 @@
  * @link           http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Users;
+namespace Nooku\Platform\Users;
+
+use Nooku\Library;
+use Nooku\Component\Users;
 
 /**
  * Resettable Controller Behavior
@@ -15,7 +18,7 @@ use Nooku\Library, Nooku\Component\Users;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
-class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
+class ControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
     protected function _beforeRead(Library\ControllerContextInterface $context)
     {

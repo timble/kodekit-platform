@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Dashboard;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * Dashboard Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Dashboard
  */
-class DashboardControllerPermissionDashboard extends ApplicationControllerPermissionAbstract
+class ControllerPermissionDashboard extends Application\ControllerPermissionAbstract
 {
 
 }

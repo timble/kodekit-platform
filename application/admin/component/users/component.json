@@ -1,5 +1,5 @@
 {
   "identifier": "com:users",
-  "namespace": "Users"
+  "namespace": "Nooku\\Platform\\Users"
 }
 

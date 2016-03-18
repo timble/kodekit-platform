@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Articles
  */
-class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
+class TemplateHelperDate extends Library\TemplateHelperDate
 {
     /**
      * Render a HTML5 date type field

@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -15,6 +17,6 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Users
  */
-class UsersViewGroupHtml extends Library\ViewHtml
+class ViewGroupHtml extends Library\ViewHtml
 {
 }

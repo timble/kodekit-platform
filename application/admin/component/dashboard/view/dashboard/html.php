@@ -7,15 +7,17 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Dashboard;
+
 use Nooku\Library;
 
 /**
  * Dashboard Html View
- *   
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Dashboard
  */
-class DashboardViewDashboardHtml extends Library\ViewHtml
+class ViewDashboardHtml extends Library\ViewHtml
 {
 
 }

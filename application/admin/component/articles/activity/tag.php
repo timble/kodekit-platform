@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
+use Nooku\Platform\Activities;
 
 /**
  * Articles Tag Activity
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
-class ArticlesActivityTag extends ActivitiesModelEntityActivity
+class ActivityTag extends Activities\ModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

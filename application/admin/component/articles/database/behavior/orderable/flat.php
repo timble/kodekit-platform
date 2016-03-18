@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Component\Pages;
 
 /**
@@ -15,13 +17,13 @@ use Nooku\Component\Pages;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesDatabaseBehaviorOrderableFlat extends Pages\DatabaseBehaviorOrderableFlat
+class DatabaseBehaviorOrderableFlat extends Pages\DatabaseBehaviorOrderableFlat
 {
     public function _buildQuery($query)
     {
         parent::_buildQuery($query);
 
-        if ($this->getMixer()->getIdentifier()->name == 'article') 
+        if ($this->getMixer()->getIdentifier()->name == 'article')
         {
             $query->where('tbl.categories_category_id = :category')
                   ->where('tbl.published >= :published')

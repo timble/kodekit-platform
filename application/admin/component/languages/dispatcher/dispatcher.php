@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Languages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Comments
  */
-class LanguagesDispatcher extends Library\Dispatcher
+class Dispatcher extends Library\Dispatcher
 {
     public function canDispatch()
     {

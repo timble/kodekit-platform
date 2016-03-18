@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Component\Activities, Nooku\Library;
+namespace Nooku\Platform\Activities;
+
+use Nooku\Library;
+use Nooku\Component\Activities;
 
 /**
  * Activities Html View
@@ -15,7 +18,7 @@ use Nooku\Component\Activities, Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Nooku\Component\Activities
  */
-class ActivitiesControllerActivity extends Activities\ControllerActivity
+class ControllerActivity extends Activities\ControllerActivity
 {
     /**
      * Overridden for avoiding

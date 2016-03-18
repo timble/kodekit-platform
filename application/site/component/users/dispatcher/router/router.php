@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -17,7 +19,7 @@ use Nooku\Library;
  * @subpackage  Users
  */
 
-class UsersDispatcherRouter extends Library\DispatcherRouter
+class DispatcherRouter extends Library\DispatcherRouter
 {
     public function build(Library\HttpUrlInterface $url)
     {

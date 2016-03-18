@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
+use Nooku\Platform\Activities;
 
 /**
  * Users Session Activity
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
-class UsersActivitySession extends ActivitiesModelEntityActivity
+class ActivitySession extends Activities\ModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Attachments;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Attachments
  */
-class AttachmentsTemplateHelperGrid extends Library\TemplateHelperAbstract
+class TemplateHelperGrid extends Library\TemplateHelperAbstract
 {
     public function thumbnails($config = array())
     {
@@ -31,16 +33,16 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperAbstract
                 'limit'    => '1'
             )
         ));
-        
+
         $attribs = $this->buildAttributes($config->attribs);
 
         $controller = $this->getObject('com:attachments.controller.attachment');
         $controller->getRequest()->setQuery($config->filter);
 
         $list = $controller->browse();
-        
+
         $html = array();
-        
+
         if(count($list))
         {
             foreach($list as $item)
@@ -49,13 +51,13 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperAbstract
                     $html[] = '<img '.$attribs.' src="attachments://'.$item->thumbnail.'" />';
                 }
             }
-    
+
             return implode(' ', $html);
         }
-        
+
         return false;
     }
-    
+
     public function files($config = array())
     {
         $config = new Library\ObjectConfig($config);
@@ -71,7 +73,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperAbstract
         $controller->getRequest()->setQuery($config->filter);
 
         $list = $controller->browse();
-        
+
         $html = array();
 
         if(count($list))
@@ -90,10 +92,10 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperAbstract
             }
 
             $html[] = '</ul>';
-    
+
             return implode(' ', $html);
         }
-        
+
         return false;
     }
 }

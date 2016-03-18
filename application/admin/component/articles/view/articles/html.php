@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 
 /**
@@ -15,12 +17,12 @@ use Nooku\Library;
  * @author  Tom Janssens <http://github.com/tomjanssens>
  * @package Component\Articles
  */
-class ArticlesViewArticlesHtml extends Library\ViewHtml
+class ViewArticlesHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
-    {        
+    {
         $state = $this->getModel()->getState();
-        
+
         // Enable sortable
         $context->data->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
 

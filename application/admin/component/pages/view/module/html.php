@@ -7,6 +7,8 @@
  * @link        http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author   Gergo Erdosi <http://github.com/gergoerdosi>
  * @package  Component\Pages
  */
-class PagesViewModuleHtml extends Library\ViewHtml
+class ViewModuleHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
     {

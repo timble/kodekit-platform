@@ -7,15 +7,18 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-use Nooku\Library, Nooku\Component\Files;
+namespace Nooku\Platform\Files;
+
+use Nooku\Library;
+use Nooku\Component\Files;
 
 /**
  * Directories Model
- *   
+ *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Files
  */
-class FilesModelDirectories extends Files\ModelFolders
+class ModelDirectories extends Files\ModelFolders
 {
 
 }

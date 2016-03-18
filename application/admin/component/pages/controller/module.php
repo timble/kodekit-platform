@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 
 /**
@@ -15,14 +17,14 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesControllerModule extends Library\ControllerModel
+class ControllerModule extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
     	$config->append(array(
     		'behaviors' => array('editable', 'persistable')
     	));
-    
+
     	parent::_initialize($config);
     }
 }

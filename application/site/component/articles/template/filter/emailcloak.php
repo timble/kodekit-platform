@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 
 /**
@@ -17,7 +19,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract
+class TemplateFilterEmailcloak extends Library\TemplateFilterAbstract
 {
     /**
      * Determines if email address should be linked

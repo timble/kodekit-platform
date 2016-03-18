@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 use Nooku\Component\Users;
 
@@ -16,8 +18,8 @@ use Nooku\Component\Users;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Component\Users
  */
-class UsersControllerUser extends Users\ControllerUser
-{ 
+class ControllerUser extends Users\ControllerUser
+{
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(

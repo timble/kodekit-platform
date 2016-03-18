@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
+use Nooku\Platform\Categories;
 
 /**
  * Category Controller
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesControllerCategory extends CategoriesControllerCategory
+class ControllerCategory extends Categories\ControllerCategory
 {
 
 }

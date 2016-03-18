@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Pages
  */
-class PagesTemplateHelperRoute extends Library\TemplateHelperAbstract
+class TemplateHelperRoute extends Library\TemplateHelperAbstract
 {
     /**
      * Find a page based on list of needles

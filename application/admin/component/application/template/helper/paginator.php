@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Application;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
+class TemplateHelperPaginator extends Library\TemplateHelperPaginator
 {
     /**
      * Render item pagination

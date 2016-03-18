@@ -7,10 +7,10 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Comments;
+
 use Nooku\Library;
 use Nooku\Component\Comments;
-
-use Nooku\Library\DatabaseQuerySelect;
 
 /**
  * Comments Model
@@ -18,7 +18,7 @@ use Nooku\Library\DatabaseQuerySelect;
  * @author  Terry Visser <http://github.com/terryvisser>
  * @package Nooku\Component\Comments
  */
-class CommentsModelComments extends Comments\ModelComments
+class ModelComments extends Comments\ModelComments
 {
     protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {

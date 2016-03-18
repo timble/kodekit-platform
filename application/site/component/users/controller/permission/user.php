@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * User Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Users
  */
-class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract
+class ControllerPermissionUser extends Application\ControllerPermissionAbstract
 {
     public function canRead()
     {
@@ -29,7 +32,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstr
 
         return $result;
     }
-    
+
     public function canBrowse()
     {
         return false;

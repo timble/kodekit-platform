@@ -7,7 +7,10 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
+use Nooku\Platform\Pages;
 
 /**
  * Route Template Helper
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
+class TemplateHelperRoute extends Pages\TemplateHelperRoute
 {
     public function article($config = array())
     {

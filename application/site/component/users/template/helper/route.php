@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
+use Nooku\Platform\Pages;
 
 /**
  * Route Template Helper
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
-class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
+class TemplateHelperRoute extends Pages\TemplateHelperRoute
 {
 	public function session($config = array())
 	{

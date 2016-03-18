@@ -1,5 +1,5 @@
 {
   "identifier": "com:languages",
-  "namespace": "Languages"
+  "namespace": "Nooku\\Platform\\Languages"
 }
 

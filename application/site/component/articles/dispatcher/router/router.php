@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author   Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Articles
  */
-class ArticlesDispatcherRouter extends Library\DispatcherRouter
+class DispatcherRouter extends Library\DispatcherRouter
 {
     public function build(Library\HttpUrlInterface $url)
     {

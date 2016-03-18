@@ -1,5 +1,5 @@
 {
   "identifier": "com:dashboard",
-  "namespace": "Dashboard"
+  "namespace": "Nooku\\Platform\\Dashboard"
 }
 

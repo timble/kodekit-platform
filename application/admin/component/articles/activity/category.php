@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
+use Nooku\Platform\Activities;
 
 /**
  * Articles Category Activity
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
-class ArticlesActivityCategory extends ActivitiesModelEntityActivity
+class ActivityCategory extends Activities\ModelEntityActivity
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

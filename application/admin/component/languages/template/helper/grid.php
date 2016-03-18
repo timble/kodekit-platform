@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Languages;
+
 use Nooku\Library;
 use Nooku\Component\Languages;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Languages;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Languages
  */
-class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
+class TemplateHelperGrid extends Library\TemplateHelperGrid
 {
     public function status($config = array())
     {
@@ -33,11 +35,11 @@ class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
             Languages\ModelEntityTranslation::STATUS_MISSING   => 'Missing',
             Languages\ModelEntityTranslation::STATUS_OUTDATED  => 'Outdated'
         );
-        
+
         $text  = $config->original ? 'Original' : $statuses[$config->status];
         $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
         $class = $config->deleted  ? 'deleted'  : $class;
-    
+
         return '<span class="label label-'.$class.'">'.$translator($text).'</span>';
     }
 }

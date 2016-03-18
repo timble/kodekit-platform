@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author   Gergo Erdosi <http://github.com/gergoerdosi>
  * @@package Component\Users
  */
-class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function groups($config = array())
     {

@@ -1,5 +1,5 @@
 {
   "identifier": "com:pages",
-  "namespace": "Pages"
+  "namespace": "Nooku\\Platform\\Pages"
 }
 

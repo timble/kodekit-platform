@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
 use Nooku\Component\Pages;
 
@@ -18,7 +20,7 @@ use Nooku\Component\Pages;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Articles
  */
-class ArticlesDatabaseBehaviorOrderable extends Pages\DatabaseBehaviorOrderable
+class DatabaseBehaviorOrderable extends Pages\DatabaseBehaviorOrderable
 {
     //@TODO this is to make the customized query work
 }

@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 use Nooku\Component\Pages;
 
@@ -17,7 +19,7 @@ use Nooku\Component\Pages;
  * @package Component\Pages
  */
 
-class PagesTemplateHelperMenubar extends Pages\TemplateHelperMenubar
+class TemplateHelperMenubar extends Pages\TemplateHelperMenubar
 {
     public function render($config = array())
     {

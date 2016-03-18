@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Comments;
+
 use Nooku\Library;
+use Nooku\Platform\Pages;
 
 /**
  * Route Template Helper Class
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Terry Visser <http://github.com/terryvisser>
  * @package Component\Comments
  */
-class CommentsTemplateHelperRoute extends PagesTemplateHelperRoute
+class TemplateHelperRoute extends Pages\TemplateHelperRoute
 {
     /**
      * Comment route helper

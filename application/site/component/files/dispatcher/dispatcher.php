@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Files;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Component\Files
  */
-class FilesDispatcher extends Library\Dispatcher
+class Dispatcher extends Library\Dispatcher
 {
     public function __construct(Library\ObjectConfig $config)
     {

@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Activities;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Activities
  */
-class ActivitiesViewActivitiesHtml extends Library\ViewHtml
+class ViewActivitiesHtml extends Library\ViewHtml
 {
 	protected function _fetchData(Library\ViewContext $context)
 	{

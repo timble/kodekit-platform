@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Languages;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * Language Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Languages
  */
-class LanguagesControllerPermissionLanguage extends ApplicationControllerPermissionAbstract
+class ControllerPermissionLanguage extends Application\ControllerPermissionAbstract
 {
 
 }

@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Pages;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author      Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Pages
  */
-class PagesControllerMenu extends Library\ControllerModel
+class ControllerMenu extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -23,7 +25,7 @@ class PagesControllerMenu extends Library\ControllerModel
             'behaviors' => array( 'editable', 'persistable'),
             'request'   => array('application' => 'site')
         ));
-        
+
         parent::_initialize($config);
     }
 }

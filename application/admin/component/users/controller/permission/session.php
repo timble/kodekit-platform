@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
+use Nooku\Platform\Application;
 
 /**
  * Session Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Users
  */
-class UsersControllerPermissionSession extends ApplicationControllerPermissionAbstract
+class ControllerPermissionSession extends Application\ControllerPermissionAbstract
 {
     public function canRender()
     {

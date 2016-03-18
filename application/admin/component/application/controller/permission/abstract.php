@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Application;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-abstract class ApplicationControllerPermissionAbstract extends Library\ControllerPermissionAbstract
+abstract class ControllerPermissionAbstract extends Library\ControllerPermissionAbstract
 {
     /**
      * Authorize handler for render actions

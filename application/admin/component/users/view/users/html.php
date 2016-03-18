@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
  * @package Component\Users
  */
-class UsersViewUsersHtml extends Library\ViewHtml
+class ViewUsersHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
 	{

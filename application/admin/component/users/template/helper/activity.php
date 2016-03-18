@@ -7,6 +7,8 @@
  * @link		http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 use Nooku\Component\Activities;
 
@@ -16,26 +18,26 @@ use Nooku\Component\Activities;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Users
  */
-class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
+class TemplateHelperActivity extends Activities\TemplateHelperActivity
 {
     public function message($config = array())
-	{
-	    $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'entity'      => ''
-		));
-		
-		$entity = $config->entity;
+    {
+        $config = new Library\ObjectConfig($config);
+        $config->append(array(
+            'entity'      => ''
+        ));
+
+        $entity = $config->entity;
 
         if($entity->name == 'session')
         {
-		    $item = $this->getTemplate()->route('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
-		    
-		    $message   = '<a href="'.$item.'">'.$entity->title.'</a>';
-		    $message  .= ' <span class="action">'.$entity->status.'</span>';
-		}
-		else $message = parent::message($config);
-		
-		return $message;
-	}
+            $item = $this->getTemplate()->route('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
+
+            $message   = '<a href="'.$item.'">'.$entity->title.'</a>';
+            $message  .= ' <span class="action">'.$entity->status.'</span>';
+        }
+        else $message = parent::message($config);
+
+        return $message;
+    }
 }

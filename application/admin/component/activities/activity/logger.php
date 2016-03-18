@@ -7,6 +7,8 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Activities;
+
 use Nooku\Library;
 use Nooku\Component\Activities;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Activities;
  * @author  Arunas Mazeika <http://github.com/amazeika>
  * @package Component\Activities
  */
-class ActivitiesActivityLogger extends Activities\ActivityLogger
+class ActivityLogger extends Activities\ActivityLogger
 {
     public function getActivityData(Library\ModelEntityInterface $object, Library\ObjectIdentifierInterface $subject)
     {

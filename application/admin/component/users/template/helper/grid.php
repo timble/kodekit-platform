@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
  */
 
+namespace Nooku\Platform\Users;
+
 use Nooku\Library;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Library;
  * @author   Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @@package Component\Users
  */
-class UsersTemplateHelperGrid extends Library\TemplateHelperGrid
+class TemplateHelperGrid extends Library\TemplateHelperGrid
 {
     public function groups($config = array())
     {

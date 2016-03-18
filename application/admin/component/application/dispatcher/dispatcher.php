@@ -7,6 +7,8 @@
  * @link           http://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Application;
+
 use Nooku\Library;
 use Nooku\Component\Application;
 
@@ -16,7 +18,7 @@ use Nooku\Component\Application;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Component\Application
  */
-class ApplicationDispatcher extends Application\Dispatcher
+class Dispatcher extends Application\Dispatcher
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

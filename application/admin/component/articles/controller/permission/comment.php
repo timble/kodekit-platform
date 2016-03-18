@@ -7,7 +7,10 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
+namespace Nooku\Platform\Articles;
+
 use Nooku\Library;
+use Nooku\Platform\Comments;
 
 /**
  * Comment Controller Permission
@@ -15,7 +18,7 @@ use Nooku\Library;
  * @author  Terry Visser <http://github.com/terryvisser>
  * @package Component\Articles
  */
-class ArticlesControllerPermissionComment extends CommentsControllerPermissionComment
+class ControllerPermissionComment extends Comments\ControllerPermissionComment
 {
 
 }
