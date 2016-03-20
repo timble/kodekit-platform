@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Command
  */
-abstract class CommandCallbackAbstract extends ObjectMixinAbstract
+abstract class CommandCallbackAbstract extends ObjectMixinAbstract implements CommandCallbackInterface
 {
     /**
      * Array of command callbacks

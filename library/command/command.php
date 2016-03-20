@@ -18,7 +18,7 @@ namespace Nooku\Library;
 class Command extends ObjectConfig implements CommandInterface
 {
     /**
-     * The command name
+     * The event name
      *
      * @var array
      */
@@ -47,9 +47,9 @@ class Command extends ObjectConfig implements CommandInterface
     }
 
     /**
-     * Get the command name
+     * Get the event name
      *
-     * @return string	The command name
+     * @return string	The event name
      */
     public function getName()
     {
@@ -57,9 +57,9 @@ class Command extends ObjectConfig implements CommandInterface
     }
 
     /**
-     * Set the command name
+     * Set the event name
      *
-     * @param string $name  The command name
+     * @param string $name  The event name
      * @return Command
      */
     public function setName($name)
@@ -156,19 +156,18 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Get a new instance
      *
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig
      */
-    final public static function getInstance($readonly = false)
+    final public function getInstance()
     {
-        $instance = new ObjectConfig(array(), $readonly);
+        $instance = new ObjectConfig(array());
         return $instance;
     }
 
     /**
      * Get an command property or attribute
      *
-     * If an command property exists the property will be returned, otherwise the attribute will be returned. If no
+     * If an event property exists the property will be returned, otherwise the attribute will be returned. If no
      * property or attribute can be found the method will return NULL.
      *
      * @param  string $name    The property name
@@ -190,7 +189,7 @@ class Command extends ObjectConfig implements CommandInterface
     /**
      * Set a command property or attribute
      *
-     * If an command property exists the property will be set, otherwise an attribute will be added.
+     * If an event property exists the property will be set, otherwise an attribute will be added.
      *
      * @param  string $name
      * @param  mixed  $value

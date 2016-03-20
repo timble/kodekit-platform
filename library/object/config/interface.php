@@ -12,8 +12,7 @@ namespace Nooku\Library;
 /**
  * Object Config Interface
  *
- * ObjectConfig provides a property based interface to an array. Data is can be modified unless the object is marked
- * as readonly.
+ * ObjectConfig provides a property based interface to an array.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Nooku\Library\Object
@@ -118,22 +117,5 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig Returns a ObjectConfig object
      */
-    public static function fromArray(array $array, $readonly = false);
-
-    /**
-     * Prevent any more modifications being made to this instance.
-     *
-     * Useful after merge() has been used to merge multiple Config objects into one object which should then not be
-     * modified again.
-     *
-     * @return ObjectConfigInterface
-     */
-    public function setReadOnly();
-
-    /**
-     * Returns whether this ObjectConfig object is read only or not.
-     *
-     * @return bool
-     */
-    public function isReadOnly();
+    public static function fromArray(array $array);
 }

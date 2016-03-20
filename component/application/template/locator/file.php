@@ -65,9 +65,25 @@ class TemplateLocatorFile extends Library\TemplateLocatorFile
     {
         if(!empty($this->_override_path))
         {
-            $path   = $this->_override_path;
+            //Qualify partial templates.
+            if(dirname($info['url']) === '.')
+            {
+                if(empty($info['base'])) {
+                    throw new \RuntimeException('Cannot qualify partial template path');
+                }
+
+                $path = dirname($info['base']);
+            }
+            else $path = dirname($info['url']);
+
             $file   = pathinfo($info['url'], PATHINFO_FILENAME);
             $format = pathinfo($info['url'], PATHINFO_EXTENSION);
+            $path   = $this->_override_path.'/'.str_replace(parse_url($path, PHP_URL_SCHEME).'://', '', $path);
+
+            // Remove /view from the end of the override path
+            if (substr($path, strrpos($path, '/')) === '/view') {
+                $path = substr($path, 0, -5);
+            }
 
             if(!$result = $this->realPath($path.'/'.$file.'.'.$format))
             {

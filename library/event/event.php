@@ -195,7 +195,7 @@ class Event extends ObjectConfig implements EventInterface
      */
     final public static function getInstance($readonly = false)
     {
-        $instance = new ObjectConfig(array(), $readonly);
+        $instance = new ObjectConfig(array());
         return $instance;
     }
 

@@ -25,18 +25,18 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     private $__computed_properties;
 
     /**
+     * List of modified properties
+     *
+     * @var array
+     */
+    private $__modified_properties;
+
+    /**
      * Tracks if entity data is new
      *
      * @var bool
      */
     private $__new = true;
-
-    /**
-     * List of modified properties
-     *
-     * @var array
-     */
-    protected $_modified = array();
 
     /**
      * The status
@@ -147,8 +147,9 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
      */
     public function clear()
     {
-        $this->_data     = array();
-        $this->_modified = array();
+        $this->_data                 = array();
+        $this->__modified_properties = array();
+        $this->setStatus(NULL);
 
         return $this;
     }
@@ -251,8 +252,10 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
                 parent::offsetSet($name, $value);
 
                 //Mark the property as modified
-                if($modified || $this->isNew()) {
-                    $this->_modified[$name] = $name;
+                if($modified || $this->isNew())
+                {
+                    $this->__modified_properties[$name] = $name;
+                    $this->setStatus(Database::STATUS_MODIFIED);
                 }
             }
         }
@@ -293,7 +296,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     public function removeProperty($name)
     {
         parent::offsetUnset($name);
-        unset($this->_modified[$name]);
+        unset($this->__modified_properties[$name]);
 
         return $this;
     }
@@ -309,7 +312,7 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
         $properties = $this->_data;
 
         if ($modified) {
-            $properties = array_intersect_key($properties, $this->_modified);
+            $properties = array_intersect_key($properties, $this->__modified_properties);
         }
 
         return $properties;
@@ -325,7 +328,9 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
     public function setProperties($properties, $modified = true)
     {
         if ($properties instanceof ModelEntityInterface) {
-            $properties = $properties->getProperties(false);
+            $properties = $properties->getProperties();
+        } else {
+            $properties = (array) $properties;
         }
 
         foreach ($properties as $property => $value) {
@@ -468,11 +473,11 @@ abstract class ModelEntityAbstract extends ObjectArray implements ModelEntityInt
 
         if($property)
         {
-            if (isset($this->_modified[$property]) && $this->_modified[$property]) {
+            if (isset($this->__modified_properties[$property]) && $this->__modified_properties[$property]) {
                 $result = true;
             }
         }
-        else $result = (bool) count($this->_modified);
+        else $result = (bool) count($this->__modified_properties);
 
         return $result;
     }
