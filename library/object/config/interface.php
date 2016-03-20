@@ -22,10 +22,9 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
     /**
      * Get a new instance
      *
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfigInterface
      */
-    public static function getInstance($readonly = false);
+    public static function getInstance();
 
     /**
      * Retrieve a configuration option
@@ -114,7 +113,6 @@ interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Count
      * Return a ObjectConfig object from an array
      *
      * @param  array $array
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfig Returns a ObjectConfig object
      */
     public static function fromArray(array $array);

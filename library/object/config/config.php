@@ -39,12 +39,11 @@ class ObjectConfig implements ObjectConfigInterface
     /**
      * Get a new instance
      *
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
      * @return ObjectConfigInterface
      */
-    public static function getInstance($readonly = false)
+    public static function getInstance()
     {
-        $instance = new static(array(), $readonly);
+        $instance = new static(array());
         return $instance;
     }
 
@@ -225,17 +224,6 @@ class ObjectConfig implements ObjectConfigInterface
     public static function unbox($data)
     {
         return ($data instanceof ObjectConfig) ? $data->toArray() : $data;
-    }
-
-    /**
-     * Get a new instance
-     *
-     * @return ObjectConfigInterface
-     */
-    public function getInstance()
-    {
-        $instance = new static(array());
-        return $instance;
     }
 
     /**
