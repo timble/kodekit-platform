@@ -1,13 +1,13 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
  /**
   * Object Stack
@@ -19,17 +19,17 @@ namespace Nooku\Library;
   * @link http://en.wikipedia.org/wiki/Stack_(abstract_data_type)
   *
   * @author  Johan Janssens <http://github.com/johanjanssens>
-  * @package Nooku\Library\Object
+  * @package Kodekit\Library\Object
   */
 class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
-{ 
+{
     /**
      * The object container
      *
      * @var array
      */
     private $__object_stack = array();
-    
+
     /**
      * Peeks at the element from the end of the stack
      *
@@ -39,7 +39,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
     {
         return end($this->__object_stack);
     }
-      
+
     /**
      * Pushes an element at the end of the stack
      *
@@ -52,7 +52,7 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
         $this->__object_stack[] = $object;
         return $this;
     }
-    
+
     /**
      * Pops an element from the end of the stack
      *
@@ -182,11 +182,11 @@ class ObjectStack extends Object implements \Iterator, \Countable, \Serializable
 
     /**
      * Check to see if the registry is empty
-     * 
+     *
      * @return boolean	Return TRUE if the registry is empty, otherwise FALSE
      */
     public function isEmpty()
     {
         return empty($this->__object_stack);
-    }  
+    }
 }

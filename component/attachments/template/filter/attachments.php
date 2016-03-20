@@ -1,16 +1,16 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-attachments for the canonical source repository
  */
 
-namespace Nooku\Component\Attachments;
+namespace Kodekit\Component\Attachments;
 
-use Nooku\Library;
-use Nooku\Component\Files;
+use Kodekit\Library;
+use Kodekit\Component\Files;
 
 /**
  * Url Template Filter
@@ -18,7 +18,7 @@ use Nooku\Component\Files;
  * Filter rewrites relative attachments/... paths as inserted by the editor to absolute paths /files/[site]/attachments/...
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Attachments
+ * @package Kodekit\Component\Attachments
  */
 class TemplateFilterAttachments extends Files\TemplateFilterFiles
 {

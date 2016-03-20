@@ -1,6 +1,5 @@
 {
   "identifier": "com:application",
-  "namespace": "Nooku\\Platform\\Application",
-  "extends": "Nooku\\Component\\Application"
+  "namespace": "Kodekit\\Platform\\Application"
 }
 

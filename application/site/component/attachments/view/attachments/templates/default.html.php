@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 ?>
 
@@ -16,7 +16,7 @@
 <? if(count($list) > '1' || (count($list) == '1' && reset($exclude) == '0')) : ?>
     <ul class="thumbnails">
     <? foreach($list as $item) : ?>
-    	<? if($item->file->isImage() && !in_array($item->id, Nooku\Library\ObjectConfig::unbox($exclude))) : ?>
+    	<? if($item->file->isImage() && !in_array($item->id, Kodekit\Library\ObjectConfig::unbox($exclude))) : ?>
     	<li class="span3">
 	    	<a class="thumbnail modal" href="attachments://<?= $item->path; ?>" rel="{handler: 'image'}">
 	    	   <img src="attachments://<?= $item->thumbnail ?>" />

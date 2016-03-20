@@ -1,21 +1,21 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
- * Nooku Template Engine
+ * Kodekit Template Engine
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Template\Engine\Abstract
+ * @package Kodekit\Library\Template\Engine\Abstract
  */
-class TemplateEngineNooku extends TemplateEngineAbstract
+class TemplateEngineKodekit extends TemplateEngineAbstract
 {
     /**
      * The engine file types
@@ -72,7 +72,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      * @throws \InvalidArgumentException If the template could not be located
      * @throws \RuntimeException         If the template could not be loaded
      * @throws \RuntimeException         If the template could not be compiled
-     * @return TemplateEngineNooku
+     * @return TemplateEngineKodekit
      */
     public function loadFile($url)
     {
@@ -110,7 +110,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      *
      * @param  string  $source The template source
      * @throws \RuntimeException If the template could not be compiled
-     * @return TemplateEngineNooku
+     * @return TemplateEngineKodekit
      */
     public function loadString($source)
     {
@@ -168,7 +168,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
      * Cache the compiled template source
      *
      * Write the template content to a file buffer. If cache is enabled the file will be buffer using cache settings
-     * If caching is not enabled the file will be written to the temp path using a nooku-buffer://temp stream.
+     * If caching is not enabled the file will be written to the temp path using a kodekit-buffer://temp stream.
      *
      * @param  string $name     The file name
      * @param  string $content  The template source to cache
@@ -180,7 +180,7 @@ class TemplateEngineNooku extends TemplateEngineAbstract
     {
         if(!$file = parent::cache($name, $source))
         {
-            $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('nooku-buffer://temp', 'w+b');
+            $this->_buffer = $this->getObject('filesystem.stream.factory')->createStream('kodekit-buffer://temp', 'w+b');
             $this->_buffer->truncate(0);
             $this->_buffer->write($source);
 

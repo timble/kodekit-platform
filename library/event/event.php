@@ -1,13 +1,13 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Event
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * You can call the method stopPropagation() to abort the execution of further listeners in your event listener.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Event
+ * @package Kodekit\Library\Event
  */
 class Event extends ObjectConfig implements EventInterface
 {
@@ -55,6 +55,18 @@ class Event extends ObjectConfig implements EventInterface
         $this->setTarget($target);
         $this->setAttributes($attributes);
     }
+
+    /**
+     * Get a new instance
+     *
+     * @return ObjectConfig
+     */
+    final public static function getInstance()
+    {
+        $instance = new ObjectConfig(array());
+        return $instance;
+    }
+
 
     /**
      * Get the event name
@@ -185,18 +197,6 @@ class Event extends ObjectConfig implements EventInterface
     {
         $this->_propagate = false;
         return $this;
-    }
-
-    /**
-     * Get a new instance
-     *
-     * @param  bool $readonly  TRUE to not allow modifications of the config data. Default FALSE.
-     * @return ObjectConfig
-     */
-    final public static function getInstance($readonly = false)
-    {
-        $instance = new ObjectConfig(array());
-        return $instance;
     }
 
     /**

@@ -1,21 +1,21 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2013 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-users for the canonical source repository
  */
 
-namespace Nooku\Component\Users;
+namespace Kodekit\Component\Users;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Users Groups Model
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @package Nooku\Component\Users
+ * @author  Arunas Mazeika <github.com/arunasmazeika>
+ * @package Kodekit\Component\Users
  */
 class ModelGroups extends Library\ModelDatabase
 {

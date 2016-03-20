@@ -1,5 +1,5 @@
 {
   "identifier": "com:attachments",
-  "namespace": "Nooku\\Platform\\Attachments"
+  "namespace": "Kodekit\\Platform\\Attachments"
 }
 

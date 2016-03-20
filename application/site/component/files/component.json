@@ -1,5 +1,5 @@
 {
   "identifier": "com:files",
-  "namespace": "Nooku\\Platform\\Files"
+  "namespace": "Kodekit\\Platform\\Files"
 }
 

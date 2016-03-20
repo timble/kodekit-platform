@@ -1,21 +1,21 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-files for the canonical source repository
  */
 
-namespace Nooku\Component\Files;
+namespace Kodekit\Component\Files;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Thumbnail Model Entity
  *
  * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
- * @package Nooku\Component\Files
+ * @package Kodekit\Component\Files
  */
 class ModelEntityThumbnail extends Library\ModelEntityRow
 {
@@ -36,7 +36,7 @@ class ModelEntityThumbnail extends Library\ModelEntityRow
     protected function _initialize(Library\ObjectConfig $config)
     {
     	$size = Library\ObjectConfig::unbox($config->thumbnail_size);
-    	
+
 		if (empty($size)) {
 			$config->thumbnail_size = array('x' => 200, 'y' => 150);
 		}

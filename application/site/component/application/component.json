@@ -1,5 +1,5 @@
 {
   "identifier": "com:application",
-  "namespace": "Nooku\\Platform\\Application"
+  "namespace": "Kodekit\\Platform\\Application"
 }
 

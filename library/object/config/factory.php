@@ -1,19 +1,19 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Object Config Factory
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object
+ * @package Kodekit\Library\Object
  */
 class ObjectConfigFactory extends Object implements ObjectSingleton
 {
@@ -55,11 +55,11 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
     {
         $config->append(array(
             'formats' => array(
-                'php'  => 'Nooku\Library\ObjectConfigPhp',
-                'ini'  => 'Nooku\Library\ObjectConfigIni',
-                'json' => 'Nooku\Library\ObjectConfigJson',
-                'xml'  => 'Nooku\Library\ObjectConfigXml',
-                'yaml' => 'Nooku\Library\ObjectConfigYaml'
+                'php'  => 'Kodekit\Library\ObjectConfigPhp',
+                'ini'  => 'Kodekit\Library\ObjectConfigIni',
+                'json' => 'Kodekit\Library\ObjectConfigJson',
+                'xml'  => 'Kodekit\Library\ObjectConfigXml',
+                'yaml' => 'Kodekit\Library\ObjectConfigYaml'
             )
         ));
 
@@ -101,7 +101,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
         //Clone the object
         $result = clone $this->__prototypes[$name];
         $result->merge($options);
-        
+
         return $result;
     }
 

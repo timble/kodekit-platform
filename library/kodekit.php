@@ -1,24 +1,24 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
 /**
- * Nooku Framework Loader
+ * Kodekit Loader
  *
  * Loads classes and files, and provides metadata for Nooku such as version info
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library
+ * @package Kodekit\Library
  */
-class Nooku
+class Kodekit
 {
     /**
-     * Nooku version
+     * Kodekit version
      *
      * @var string
      */
@@ -110,14 +110,14 @@ class Nooku
         require_once dirname(__FILE__).'/class/loader.php';
 
         if (!isset($config['class_loader'])) {
-            $config['class_loader'] = Nooku\Library\ClassLoader::getInstance($config);
+            $config['class_loader'] = Kodekit\Library\ClassLoader::getInstance($config);
         }
 
         //Create the object manager
-        $manager = Nooku\Library\ObjectManager::getInstance($config);
+        $manager = Kodekit\Library\ObjectManager::getInstance($config);
 
         //Register the component class locator
-        $manager->getClassLoader()->registerLocator(new Nooku\Library\ClassLocatorComponent());
+        $manager->getClassLoader()->registerLocator(new Kodekit\Library\ClassLocatorComponent());
 
         //Register the component object locator
         $manager->registerLocator('lib:object.locator.component');
@@ -125,7 +125,7 @@ class Nooku
         //Register the composer class locator
         if(file_exists($this->getVendorPath()))
         {
-            $manager->getClassLoader()->registerLocator(new Nooku\Library\ClassLocatorComposer(
+            $manager->getClassLoader()->registerLocator(new Kodekit\Library\ClassLocatorComposer(
                 array(
                     'vendor_path' => $this->getVendorPath()
                 )
@@ -140,7 +140,7 @@ class Nooku
      * Singleton instance
      *
      * @param  array  $config An optional array with configuration options.
-     * @return Nooku
+     * @return Kodekit
      */
     final public static function getInstance($config = array())
     {
@@ -197,7 +197,7 @@ class Nooku
      * Enable or disable debug
      *
      * @param bool $debug True or false.
-     * @return Nooku
+     * @return Kodekit
      */
     public function setDebug($debug)
     {
@@ -218,7 +218,7 @@ class Nooku
      * Enable or disable the cache
      *
      * @param bool $cache True or false.
-     * @return Nooku
+     * @return Kodekit
      */
     public function setCache($cache)
     {

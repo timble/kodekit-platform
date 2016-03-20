@@ -1,5 +1,5 @@
 {
   "identifier": "com:articles",
-  "namespace": "Nooku\\Platform\\Articles"
+  "namespace": "Kodekit\\Platform\\Articles"
 }
 

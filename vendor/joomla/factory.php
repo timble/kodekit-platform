@@ -53,7 +53,7 @@ class JFactory
     {
         jimport('joomla.mail.mail');
 
-        $conf = Nooku\Library\ObjectManager::getInstance()->getObject('application')->getConfig();
+        $conf = Kodekit\Library\ObjectManager::getInstance()->getObject('application')->getConfig();
 
         $sendmail = $conf->sendmail;
         $smtpauth = $conf->smtpauth;

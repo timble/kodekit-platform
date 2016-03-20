@@ -1,21 +1,21 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright      Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright      Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license        MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link           https://github.com/timble/kodekit-application for the canonical source repository
  */
 
-namespace Nooku\Component\Application;
+namespace Kodekit\Component\Application;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Sites Model
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Application
+ * @package Kodekit\Component\Application
  */
 class ModelSites extends Library\ModelAbstract
 {
@@ -47,7 +47,7 @@ class ModelSites extends Library\ModelAbstract
         $sites  = array();
 
         //Get the sites
-        foreach (new \DirectoryIterator(\Nooku::getInstance()->getRootPath().'/sites') as $file)
+        foreach (new \DirectoryIterator(\Kodekit::getInstance()->getRootPath().'/sites') as $file)
         {
             if ($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.'))
             {

@@ -1,10 +1,10 @@
 <?
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-files for the canonical source repository
  */
 ?>
 
@@ -23,7 +23,7 @@ window.addEvent('domready', function() {
 	//This trick enables the flash runtime to work properly when the uploader is hidden
 	var containershim = 'mushycode'+ Math.floor((Math.random()*10000000000)+1);
 	jQuery('<div id="'+containershim+'" class="uploader-flash-container" />').appendTo(jQuery(document.body));
-	
+
 	element.pluploadQueue({
 		runtimes: 'html5,flash',
 		container: containershim,
@@ -247,7 +247,7 @@ window.addEvent('domready', function() {
 			     {title: Files._('All Files'), extensions: Files.app.container.parameters.allowed_extensions.join(',')}
 			];
 		}
-		
+
 		if (Files.app.container.parameters.maximum_size) {
 			uploader.settings.max_file_size = Files.app.container.parameters.maximum_size;
 			var max_size = document.id('upload-max-size');

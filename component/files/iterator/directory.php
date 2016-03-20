@@ -1,21 +1,21 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-files for the canonical source repository
  */
 
-namespace Nooku\Component\Files;
+namespace Kodekit\Component\Files;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Directory Iterator
  *
  * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
- * @package Nooku\Component\Files
+ * @package Kodekit\Component\Files
  */
 class IteratorDirectory extends \DirectoryIterator
 {
@@ -73,7 +73,7 @@ class IteratorDirectory extends \DirectoryIterator
 				continue;
 			}
 
-			if ($file->isDir() && !$file->isDot() && $recurse) 
+			if ($file->isDir() && !$file->isDot() && $recurse)
 			{
 				$clone = clone $config;
 				$clone->path    = $file->getPathname();
@@ -82,7 +82,7 @@ class IteratorDirectory extends \DirectoryIterator
 				$child_results = self::getNodes($clone);
 			}
 
-			if ($config->type) 
+			if ($config->type)
 			{
 				$method = 'is'.ucfirst($config->type === 'files' ? 'file' : 'dir');
 				if (!$file->$method()) {
@@ -90,7 +90,7 @@ class IteratorDirectory extends \DirectoryIterator
 				}
 			}
 
-			if ($filter) 
+			if ($filter)
 			{
 				if (is_callable($filter)) {
 					$ignore = call_user_func($filter, rawurldecode($file->getPathname())) === false;
@@ -117,13 +117,13 @@ class IteratorDirectory extends \DirectoryIterator
 				$results = array_merge($results, $child_results);
 			}
 		}
-		
+
 		if ($config->sort === 'modified_on') {
 			uasort($results, array('self', '_sortByDate'));
 		} elseif ($config->sort === 'name') {
             uasort($results, array('self', '_sortByName'));
         }
-		
+
 		if ($config->return_raw === true) {
 			return $results;
 		}
@@ -132,7 +132,7 @@ class IteratorDirectory extends \DirectoryIterator
 		foreach ($results as $result) {
 			$return[] = $result['path'];
 		}
-		
+
 		return $return;
 	}
 
@@ -143,7 +143,7 @@ class IteratorDirectory extends \DirectoryIterator
 
 		return strtolower($extension);
 	}
-	
+
 	public static function _sortByDate($file1, $file2)
 	{
 		return strcmp($file1['modified'], $file2['modified']);

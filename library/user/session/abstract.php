@@ -1,13 +1,13 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Abstract User Session
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Provides access to session-state values as well as session-level settings and lifetime management methods.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\User
+ * @package Kodekit\Library\User
  */
 class UserSessionAbstract extends Object implements UserSessionInterface
 {
@@ -136,7 +136,7 @@ class UserSessionAbstract extends Object implements UserSessionInterface
             'name'       => 'KSESSIONID',
             'id'         => '',
             'lifetime'   => ini_get('session.gc_maxlifetime'),
-            'namespace'  => '__nooku',
+            'namespace'  => '__kodekit',
             'options' => array(
                 'auto_start'        => 0,
                 'cache_limiter'     => '',

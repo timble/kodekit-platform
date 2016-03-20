@@ -1,31 +1,31 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-attachments for the canonical source repository
  */
 
-namespace Nooku\Component\Attachments;
+namespace Kodekit\Component\Attachments;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Attachment Template Helper
  *
  * @author  Steven Rombauts <http://github.com/stevenrombauts>
- * @package Nooku\Component\Attachments
+ * @package Kodekit\Component\Attachments
  */
 class TemplateHelperAttachment extends Library\TemplateHelperAbstract
 {
 	/**
 	 * Builds the file upload control and initializes it's related javascript classes.
-	 * 
+	 *
 	 * To enable maximum compliance with the current state of the file upload's accept attribute, specify both any MIME
      * types and any corresponding extension.
 	 * @see http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#attr-input-accept
-	 * 
+	 *
 	 * @param mixed $config An optional Library\ObjectConfig object with configuration options
 	 */
 	public function upload($config = array())
@@ -46,7 +46,7 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
 					'allowed_mimetypes'   => $container->getParameters()->allowed_mimetypes
 			));
 		}
-		
+
 		if($config->container != 'document.body') {
 			$config->container = '\''.$config->container.'\'';
 		}
@@ -64,16 +64,16 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
 		});
 		</script>
 END;
-		
+
 		$accept = array();
 		foreach($config->allowed_extensions->toArray() as $val) {
 			$accept[] = '.'.$val;
 		}
-		
+
 		$accept = array_merge($accept, $config->allowed_mimetypes->toArray());
-		
+
 		$html .= '<input type="file" name="attachments[]" accept="'.implode(', ', $accept).'" />';
-	
+
 		return $html;
 	}
 }

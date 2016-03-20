@@ -1,15 +1,15 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
- * @copyright   Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright   Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license     MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link        https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Script;
+namespace Kodekit\Script;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 class TranslationsGenerator
 {
@@ -310,14 +310,14 @@ class TranslationsGenerator
         switch ($parts[0])
         {
             case 'lib':
-                $locations = array('library' => NOOKU_PATH . '/library');
+                $locations = array('library' => KODEKIT_PATH . '/library');
                 break;
             case 'com':
                 $component = $parts[1];
                 $locations = array(
-                    'site'      => NOOKU_PATH . "/application/site/component/{$component}",
-                    "admin"     => NOOKU_PATH . "/application/admin/component/{$component}",
-                    'component' => NOOKU_PATH . "/component/{$component}");
+                    'site'      => KODEKIT_PATH . "/application/site/component/{$component}",
+                    "admin"     => KODEKIT_PATH . "/application/admin/component/{$component}",
+                    'component' => KODEKIT_PATH . "/component/{$component}");
                 break;
             default:
                 $locations = array();
@@ -340,7 +340,7 @@ class TranslationsGenerator
 
     public function getStrategy()
     {
-        $classname = 'Nooku\Script\TranslationsStrategy' . ucfirst($this->format);
+        $classname = 'Kodekit\Script\TranslationsStrategy' . ucfirst($this->format);
         return new $classname();
     }
 

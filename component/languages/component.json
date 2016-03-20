@@ -1,4 +1,21 @@
 {
+  "name": "Languages",
+  "description": "Languages component for Kodekit",
+  "license": "MPL-2.0",
+  "copyright": "Copyright (C) 2011 - 2016 Timble CVBA and Contributors. (http://www.timble.net)",
+  "version": "1.0-alpha",
   "identifier": "com:languages",
-  "namespace": "Nooku\\Component\\Languages"
+  "namespace": "Kodekit\\Component\\Languages",
+  "authors": [
+    {
+      "name": "Johan Janssens",
+      "email": "johan@janssens.me",
+      "homepage": "http://johan.janssens.me"
+    },
+    {
+      "name": "Timble",
+      "email": "info@timble.net",
+      "homepage": "http://www.timble.net"
+    }
+  ]
 }

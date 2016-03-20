@@ -1,0 +1,1 @@
+Please read [Contributing to Kodekit](https://github.com/timble/blob/develop/CONTRIBUTING.md)

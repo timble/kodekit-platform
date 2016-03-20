@@ -1,15 +1,20 @@
 {
-    "name": "nooku/nooku-platform",
-    "type": "nooku-platform",
-    "license": "GPLv3",
-    "description": "Nooku Platform is an open-source web application platform",
+    "name": "timble/kodekit-platform",
+    "type": "kodekit-platform",
+    "license": "MPLv2.0",
+    "description": "Kodekit Platform is a web application platform",
     "keywords": [
         "platform",
         "framework",
-        "nooku"
+        "kodekit"
     ],
-    "homepage": "https://github.com/nooku/nooku-platform",
+    "homepage": "https://github.com/timble/kodekit-platform",
     "authors": [
+        {
+            "name": "Johan Janssens",
+            "email": "johan@janssens.me",
+            "homepage": "http://johan.janssens.me"
+        },
         {
             "name": "Timble",
             "email": "info@timble.net",

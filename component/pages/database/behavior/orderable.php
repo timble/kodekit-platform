@@ -1,15 +1,15 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-pages for the canonical source repository
  */
 
-namespace Nooku\Component\Pages;
+namespace Kodekit\Component\Pages;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Orderable Database Behavior Class
@@ -17,12 +17,12 @@ use Nooku\Library;
  * Provides ordering support for closure tables by using a special ordering help of another table
  *
  * @author  Gergo Erdosi <http://github.com/gergoerdosi>
- * @package Nooku\Component\Pages
+ * @package Kodekit\Component\Pages
  */
 class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
 {
     protected $_strategy;
-    
+
     public function __construct(Library\ObjectConfig $config)
     {
         // Need to set strategy before parent::__construct, otherwise strategy won't be available in getMixableMethods().
@@ -31,13 +31,13 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
             $identifier = $config->object_identifier->toArray();
             $identifier['path'] = array('database', 'behavior', 'orderable');
             $identifier['name'] = $config->strategy;
-            
+
             $this->setStrategy($config->object_manager->getObject($identifier, Library\ObjectConfig::unbox($config)));
         }
-        
+
         parent::__construct($config);
     }
-    
+
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -49,18 +49,18 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
 
         parent::_initialize($config);
     }
-    
+
     public function getMethods()
     {
         $methods = parent::getMethods();
-        
+
         foreach($this->getStrategy()->getMethods() as $method)
         {
             if(substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
                 $methods[] = $method;
             }
         }
-        
+
         return $methods;
     }
 
@@ -68,7 +68,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     {
         $methods = array_merge(parent::getMixableMethods($exclude), $this->getStrategy()->getMixableMethods());
         unset($methods['getStrategy']);
-        
+
         return $methods;
     }
 
@@ -76,12 +76,12 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
     {
         return $this->getStrategy()->execute($command, $chain);
     }
-    
+
     public function setStrategy(DatabaseBehaviorOrderableInterface $strategy)
     {
         $this->_strategy = $strategy;
     }
-    
+
     public function getStrategy()
     {
         return $this->_strategy;

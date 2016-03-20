@@ -1,13 +1,13 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Block Template Filter
@@ -27,7 +27,7 @@ namespace Nooku\Library;
  * if at least two blocks have been injected.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Template
+ * @package Kodekit\Library\Template
  */
 class TemplateFilterBlock extends TemplateFilterDecorator
 {
@@ -318,7 +318,7 @@ class TemplateFilterBlock extends TemplateFilterDecorator
         //Use the stream buffer to evaluate the condition
         $str = '<?php return ' . implode(' ', $words) .';';
 
-        $buffer = $this->getObject('filesystem.stream.factory')->createStream('nooku-buffer://temp', 'w+b');
+        $buffer = $this->getObject('filesystem.stream.factory')->createStream('kodekit-buffer://temp', 'w+b');
         $buffer->truncate(0);
         $buffer->write($str);
 

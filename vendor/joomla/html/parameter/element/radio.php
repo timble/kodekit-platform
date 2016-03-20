@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Renders a radio element
@@ -48,6 +48,6 @@ class JElementRadio extends JElement
         );
 
         $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
+        return Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
 	}
 }

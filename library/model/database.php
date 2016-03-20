@@ -1,13 +1,13 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Database Model
@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * Provides interaction with a database
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Model
+ * @package Kodekit\Library\Model
  */
 class ModelDatabase extends ModelAbstract
 {

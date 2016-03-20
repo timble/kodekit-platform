@@ -1,24 +1,24 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Component - http://www.timble.net/kodekit
  *
- * @copyright	Copyright (C) 2011 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @copyright	Copyright (C) 2011 - 2016 Johan Janssens and Timble CVBA. (http://www.timble.net)
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-categories for the canonical source repository
  */
 
-namespace Nooku\Component\Categories;
+namespace Kodekit\Component\Categories;
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Persistable Controller Behavior
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Component\Categories
+ * @package Kodekit\Component\Categories
  */
 class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistable
-{ 
+{
 	/**
 	 * Load the model state from the request
 	 *
@@ -40,7 +40,7 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
         //Push the request query data in the model
         $this->getModel()->setState($context->request->query->toArray());
 	}
-	
+
 	/**
 	 * Saves the model state in the session
 	 *
@@ -54,7 +54,7 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 
         // Built the session identifier based on the action
         $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
-        
+
         //Set the state in the user session
         $context->user->set($identifier, $state->getValues());
 	}

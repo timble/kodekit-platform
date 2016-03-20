@@ -1,13 +1,13 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Stream Dispatcher Response Transport
@@ -35,7 +35,7 @@ namespace Nooku\Library;
  * finished receiving data for that chunk. The data transfer is terminated by a final chunk of length zero.
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Koowa\Library\Dispatcher
+ * @package Kodekit\Library\Dispatcher
  * @see http://en.wikipedia.org/wiki/Byte_serving
  * @see http://en.wikipedia.org/wiki/Chunked_transfer_encoding
  * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16

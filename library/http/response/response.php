@@ -1,12 +1,12 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Http Response
@@ -14,7 +14,7 @@ namespace Nooku\Library;
  *
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Http
+ * @package Kodekit\Library\Http
  * @link    http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
  * @link    http://tools.ietf.org/html/rfc2616
  * @link    http://en.wikipedia.org/wiki/List_of_HTTP_status_codes

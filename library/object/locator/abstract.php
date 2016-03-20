@@ -1,19 +1,19 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Abstract Object Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Object\Locator\Abstract
+ * @package Kodekit\Library\Object\Locator\Abstract
  */
 abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
@@ -40,7 +40,7 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      */
     public function locate(ObjectIdentifier $identifier, $fallback = true)
     {
-        $domain  = empty($identifier->domain) ? 'Nooku' : ucfirst($identifier->domain);
+        $domain  = empty($identifier->domain) ? 'Kodekit' : ucfirst($identifier->domain);
         $package = ucfirst($identifier->package);
         $path    = StringInflector::camelize(implode('_', $identifier->path));
         $file    = ucfirst($identifier->name);

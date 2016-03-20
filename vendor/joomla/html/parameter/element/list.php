@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-use Nooku\Library;
+use Kodekit\Library;
 
 /**
  * Renders a list element
@@ -36,7 +36,7 @@ class JElementList extends JElement
         $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
 
         $class  = $param->attributes()->class ? $param->attributes()->class : 'inputbox';
-        $helper = Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template));
+        $helper = Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template));
 
         $options = array ();
         foreach ($param->children() as $option)
@@ -54,6 +54,6 @@ class JElementList extends JElement
             'attribs'  => array('class' => array($class))
         );
 
-        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
+        return Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
 	}
 }

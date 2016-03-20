@@ -1,19 +1,19 @@
 <?php
 /**
- * Nooku Platform - http://www.nooku.org/platform
+ * Kodekit Platform - http://www.timble.net/kodekit
  *
  * @copyright	Copyright (C) 2007 - 2014 Johan Janssens and Timble CVBA. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		https://github.com/nooku/nooku-platform for the canonical source repository
+ * @license		MPL v2.0 <https://www.mozilla.org/en-US/MPL/2.0>
+ * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Nooku\Library;
+namespace Kodekit\Library;
 
 /**
  * Event Interface
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Nooku\Library\Event
+ * @package Kodekit\Library\Event
  */
 interface EventInterface
 {
@@ -32,7 +32,7 @@ interface EventInterface
      * @return string	The event name
      */
     public function getName();
-    
+
     /**
      * Set the event name
      *
@@ -40,14 +40,14 @@ interface EventInterface
      * @return Event
      */
     public function setName($name);
-    
+
     /**
      * Get the event target
      *
      * @return object	The event target
      */
     public function getTarget();
-    
+
     /**
      * Set the event target
      *
@@ -93,7 +93,7 @@ interface EventInterface
      * @return EventInterface
      */
     public function setAttribute($name, $value);
-    
+
     /**
      * Returns whether further event listeners should be triggered.
      *
@@ -106,7 +106,7 @@ interface EventInterface
      *
      * If multiple event listeners are connected to the same event, no further event listener will be triggered once
      * any trigger calls stopPropagation().
-     * 
+     *
      * @return Event
      */
     public function stopPropagation();
