@@ -39,8 +39,8 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
         $config->append(array(
             'dispatched' => true,
             'controller' => '',
-            'request'    => array('
-                base_url'   => '/'
+            'request'    => array(
+                'base_url'   => '/'
             ),
         ));
 
@@ -54,7 +54,7 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
      * @param 	Library\ObjectManagerInterface	$manager  A ObjectInterface object
      * @return  Dispatcher
      */
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfigInterface $config, Library\ObjectManagerInterface $manager)
     {
         // Check if an instance with this identifier already exists
         if (!$manager->isRegistered('application'))
