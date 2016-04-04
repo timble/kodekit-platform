@@ -43,7 +43,7 @@ class Dispatcher extends Application\Dispatcher
         if(!$context->request->query->has('component'))
         {
             $url = clone($context->request->getUrl());
-            $url->query['component'] = $this->getConfig()->component;
+            $url->query['component'] = $this->getController()->getIdentifier()->getPackage();
 
             $this->getRouter()->build($url);
             return $this->redirect((string) $url);

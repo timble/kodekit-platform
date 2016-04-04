@@ -31,7 +31,7 @@ class ModelEntityActivity extends Activities\ModelEntityActivity implements Libr
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfigInterface $config, Library\ObjectManagerInterface $manager)
     {
         $class = $manager->getClass($config->object_identifier, false);
 
