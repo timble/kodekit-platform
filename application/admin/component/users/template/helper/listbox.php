@@ -21,32 +21,28 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function groups($config = array())
     {
-    	$config = new Library\ObjectConfig($config);
-    	$config->append(array(
-    		'model' => 'groups',
-    		'value'	=> 'name',
-    		'label'	=> 'name'
-    	));
+        $config = new Library\ObjectConfig($config);
+        $config->append(array(
+            'model' => 'groups',
+            'value' => 'name',
+            'label' => 'name'
+        ));
 
-    	return parent::_listbox($config);
+        return parent::_listbox($config);
     }
 
     public function users($config = array())
     {
         $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'model'		=> 'users',
-			'name'		=> 'id',
-		    'filter'	=> array(
-		    	'group'  => 18,
-		    )
-		));
+        $config->append(array(
+            'model'     => 'users',
+            'name'      => 'id',
+            'filter'    => array(
+                'group'  => 18,
+            )
+        ));
 
-		//@TODO : Fix - Forcing config option because of name collisions
-		$config->text = 'name';
-		$config->sort = 'name';
-
-		return parent::_render($config);
+        return parent::_render($config);
     }
 
     public function languages($config = array())
