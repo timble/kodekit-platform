@@ -27,7 +27,7 @@ define('APPLICATION_BASE' , APPLICATION_ROOT.'/application/site');
 // Bootstrap the framework
 $config = require APPLICATION_ROOT.'/config/bootstrapper.php';
 
-require_once(APPLICATION_ROOT.'/library/kodekit.php');
+require_once(APPLICATION_ROOT.'/library/code/kodekit.php');
 $kodekit = Kodekit::getInstance(array(
     'debug'           =>  $config['debug'],
     'cache'           =>  $config['cache'],
