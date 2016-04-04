@@ -99,7 +99,7 @@ class ModelEntityUser extends Library\ModelEntityRow implements Library\UserInte
     public function hasRole($role)
     {
         $roles = (array) $role;
-        return (bool) array_intersect($this->getRoles(), $roles);
+        return (bool) array_intersect((array) $this->getRoles(), $roles);
     }
 
     /**
