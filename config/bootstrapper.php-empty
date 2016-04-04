@@ -73,7 +73,7 @@ return array(
             'error_reporting' => null //Use PHP error_reporting
         ],
 
-        'database.adapter.mysql' =>  [
+        'database.adapter.mysqli' =>  [
 
             'auto_connect' => true,
             'database'     => '',          // MySQL database name
