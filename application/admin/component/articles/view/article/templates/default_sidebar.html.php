@@ -43,13 +43,19 @@
             <? if($article->isCategorizable()) : ?>
             <fieldset>
                 <legend><?= translate('Category') ?></legend>
-                <?= helper('com:categories.radiolist.categories', array('entity' => $article, 'uncategorised' => true)) ?>
+                <?= helper('com:categories.radiolist.categories', array(
+                    'entity' => $article, 'uncategorised' => true
+                )) ?>
             </fieldset>
             <? endif ?>
             <? if($article->isTaggable()) : ?>
                 <fieldset>
                     <legend><?= translate('Tags') ?></legend>
-                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags(), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:100%'))) ?>
+                    <?= helper('com:tags.listbox.tags', array(
+                        'name'     => 'tags[]',
+                        'selected' => $article->getTags(),
+                        'attribs'  => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:100%')
+                    )) ?>
                 </fieldset>
             <? endif ?>
         </div>
@@ -61,7 +67,10 @@
         <div class="content">
             <fieldset>
                 <? if (!$article->isNew()) : ?>
-                    <?= import('com:attachments.attachments.list.html', array('attachments' => $article->getAttachments(), 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
+                    <?= import('com:attachments.attachments.list.html', array(
+                        'attachments'               => $article->getAttachments(),
+                        'attachments_attachment_id' => $article->attachments_attachment_id
+                    )) ?>
                 <? endif ?>
                 <?= import('com:attachments.attachments.upload.html') ?>
             </fieldset>
