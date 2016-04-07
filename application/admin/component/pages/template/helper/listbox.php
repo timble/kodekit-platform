@@ -29,7 +29,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 			'label'	=> 'title',
 		));
 
-		return $this->_listbox($config);
+		return $this->render($config);
     }
 
     public function pages($config = array())
@@ -45,7 +45,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('label' => $translator($config->prompt)));
+            $options[] = $this->option(array('label' => $translator->translate($config->prompt)));
         }
 
         $menus = $this->getObject('com:pages.model.menus')->fetch();
@@ -102,7 +102,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $html[] = '<label class="radio" for="'.$config->name.'0">';
         $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.'0" value="0" '.$selected.' />';
-        $html[] = $translator('Top').'</label>';
+        $html[] = $translator->translate('Top').'</label>';
 
         foreach($pages as $page)
         {
