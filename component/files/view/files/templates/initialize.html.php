@@ -8,9 +8,8 @@
  */
 ?>
 
-<?= helper('behavior.mootools'); ?>
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.keepalive'); ?>
-
 <?= helper('behavior.modal'); ?>
 
 <ktml:script src="assets://files/js/delegation.js" />
@@ -19,9 +18,7 @@
 <ktml:script src="assets://files/js/history/history.html4.js" />
 
 <ktml:script src="assets://files/js/ejs/ejs.js" />
-
-<ktml:script src="assets://js/koowa.js" />
-<ktml:script src="assets://js/mootree.js" />
+<ktml:script src="assets://files/js/mootree.js" />
 
 <ktml:script src="assets://files/js/files.utilities.js" />
 <ktml:script src="assets://files/js/files.state.js" />
