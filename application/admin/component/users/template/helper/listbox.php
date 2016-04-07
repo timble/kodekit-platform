@@ -28,7 +28,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'label' => 'name'
         ));
 
-        return parent::_listbox($config);
+        return parent::render($config);
     }
 
     public function users($config = array())
@@ -42,7 +42,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             )
         ));
 
-        return parent::_render($config);
+        return parent::render($config);
     }
 
     public function languages($config = array())
@@ -50,12 +50,12 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $config = new Library\ObjectConfig($config);
 
         $config->append(array(
-            'value'      => 'iso_code',
-            'label'      => 'name',
-            'identifier' => 'com:languages.model.languages',
-            'filter'     => array('application' => 'site', 'enabled' => 1)));
+            'value'  => 'iso_code',
+            'label'  => 'name',
+            'model'  => 'com:languages.model.languages',
+            'filter' => array('application' => 'site', 'enabled' => 1)));
 
-        $listbox = parent::_listbox($config);
+        $listbox = parent::render($config);
 
         if (!$config->size) {
             $listbox = str_replace('size="1"', '', $listbox);
