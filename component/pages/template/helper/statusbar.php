@@ -12,12 +12,12 @@ namespace Kodekit\Component\Pages;
 use Kodekit\Library;
 
 /**
- * Toolbar Template Helper
+ * Statusbar Template Helper
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Component\Application
  */
-class TemplateHelperActionbar extends Library\TemplateHelperAbstract
+class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
 {
     /**
      * Render the toolbar

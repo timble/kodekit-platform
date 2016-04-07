@@ -15,7 +15,7 @@
         <div id="menu">
             <ktml:toolbar type="menubar">
         </div>
-        <ktml:toolbar type="actionbar" id="statusmenu">
+        <ktml:toolbar type="statusbar">
 	</div>
 
     <div id="panel-tabbar">

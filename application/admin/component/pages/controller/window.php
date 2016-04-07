@@ -24,7 +24,7 @@ class ControllerWindow extends Pages\ControllerWindow
     {
         $config->append(array(
             'toolbars'  => array(
-                'actionbar',
+                'statusbar',
                 'menubar',
                 'tabbar'
             ),

@@ -18,8 +18,25 @@ use Kodekit\Component\Users;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Platform\Pages
  */
-class ControllerToolbarActionbar extends Users\ControllerToolbarSession
+class ControllerToolbarStatusbar extends Users\ControllerToolbarSession
 {
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Library\ObjectConfig $config Configuration options
+     * @return  void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'type'  => 'statusbar',
+        ));
+
+        parent::_initialize($config);
+    }
+
     public function getCommands()
     {
         $this->addCommand('profile');
