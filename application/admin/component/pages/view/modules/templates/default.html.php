@@ -11,7 +11,9 @@
 <?= helper('behavior.koowa'); ?>
 
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
-<?= helper('behavior.sortable', array('url' => '?format=json&application='.parameters()->application)) ?>
+<?= helper('com:application.behavior.sortable', array(
+    'url' => '?format=json&application='.parameters()->application
+)) ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">

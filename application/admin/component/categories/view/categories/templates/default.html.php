@@ -9,7 +9,7 @@
 ?>
 
 <?= helper('behavior.koowa'); ?>
-<?= helper('behavior.sortable') ?>
+<?= helper('com:application.behavior.sortable') ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">

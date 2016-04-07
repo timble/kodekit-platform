@@ -9,7 +9,9 @@
 ?>
 
 <?= helper('behavior.koowa'); ?>
-<?= helper('behavior.sortable', array('options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
+<?= helper('com:application.behavior.sortable', array(
+    'options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/)
+)) ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
