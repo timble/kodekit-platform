@@ -21,16 +21,9 @@
 
     <link href="assets://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <ktml:script src="assets://js/mootools.js" />
+    <ktml:script src="assets://application/js/mootools.js" />
     <ktml:script src="assets://application/js/application.js" />
     <ktml:script src="assets://application/js/chromatable.js" />
 
     <ktml:style src="assets://application/stylesheets/default.css" />
-
-    <ktml:script src="assets://application/js/jquery.js" />
-    <script>
-        var $jQuery = jQuery.noConflict();
-    </script>
-    <ktml:script src="assets://application/js/select2/select2.js" />
-    <ktml:style src="assets://application/js/select2/select2.css" />
 </head>
