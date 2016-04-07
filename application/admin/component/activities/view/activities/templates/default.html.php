@@ -8,8 +8,7 @@
  */
 ?>
 
-<ktml:script src="assets://js/koowa.js" />
-<ktml:style src="assets://css/koowa.css" />
+<?= helper('behavior.koowa'); ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">

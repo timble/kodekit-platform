@@ -8,9 +8,7 @@
  */
 ?>
 
-<ktml:script src="assets://js/koowa.js" />
-<ktml:style src="assets://css/koowa.css" />
-
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.sortable') ?>
 
 <ktml:block prepend="actionbar">
@@ -31,41 +29,41 @@
     <?= import('default_scopebar.html'); ?>
     <table>
         <thead>
-            <tr>
-                <? if($sortable) : ?>
+        <tr>
+            <? if($sortable) : ?>
                 <th class="handle"></th>
-                <? endif ?>
-                <th width="1">
-                	 <?= helper('grid.checkall') ?>
+            <? endif ?>
+            <th width="1">
+                <?= helper('grid.checkall') ?>
+            </th>
+            <th width="1"></th>
+            <th>
+                <?= helper('grid.sort', array('column' => 'title')) ?>
+            </th>
+            <th width="1">
+                <?= helper('grid.sort', array('title' => 'Last modified', 'column' => 'modified_on')) ?>
+            </th>
+            <? if($articles->isTranslatable()) : ?>
+                <th width="70">
+                    <?= translate('Translation') ?>
                 </th>
-                <th width="1"></th>
-                <th>
-                    <?= helper('grid.sort', array('column' => 'title')) ?>
-                </th>
-                <th width="1">
-                    <?= helper('grid.sort', array('title' => 'Last modified', 'column' => 'modified_on')) ?>
-                </th>
-                <? if($articles->isTranslatable()) : ?>
-                    <th width="70">
-                        <?= translate('Translation') ?>
-                    </th>
-                <? endif ?>
-            </tr>
+            <? endif ?>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <td colspan="7">
-                    <?= helper('com:application.paginator.pagination') ?>
-                </td>
-            </tr>
+        <tr>
+            <td colspan="7">
+                <?= helper('com:application.paginator.pagination') ?>
+            </td>
+        </tr>
         </tfoot>
         <tbody<?= $sortable ? ' class="sortable"' : '' ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
                 <? if($sortable) : ?>
-                <td class="handle">
-                    <span class="text--small data-order"><?= $article->ordering ?></span>
-                </td>
+                    <td class="handle">
+                        <span class="text--small data-order"><?= $article->ordering ?></span>
+                    </td>
                 <? endif ?>
                 <td align="center">
                     <?= helper('grid.checkbox' , array('entity' => $article)) ?>
@@ -74,16 +72,16 @@
                     <?= helper('grid.enable', array('entity' => $article, 'field' => 'published')) ?>
                 </td>
                 <td class="ellipsis">
-                	<?if($article->getStatus() != 'deleted') : ?>
-                    	<a href="<?= route('view=article&id='.$article->id) ?>">
+                    <?if($article->getStatus() != 'deleted') : ?>
+                        <a href="<?= route('view=article&id='.$article->id) ?>">
                             <?= escape($article->title) ?>
-                    	</a>
-                     <? else : ?>
-                     	<?= escape($article->title); ?>
-                     <? endif; ?>
-                     <? if($article->access) : ?>
-                         <span class="label label-important"><?= translate('Registered') ?></span>
-                     <? endif; ?>
+                        </a>
+                    <? else : ?>
+                        <?= escape($article->title); ?>
+                    <? endif; ?>
+                    <? if($article->access) : ?>
+                        <span class="label label-important"><?= translate('Registered') ?></span>
+                    <? endif; ?>
                 </td>
                 <td>
                     <?= helper('date.humanize', array('date' => $article->modified_on)) ?> by <a href="<?= route('component=users&view=user&id='.$article->created_by) ?>">

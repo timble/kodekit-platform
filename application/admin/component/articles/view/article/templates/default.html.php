@@ -8,21 +8,10 @@
  */
 ?>
 
+<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.select2'); ?>
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>
-
-<ktml:script src="assets://js/koowa.js" />
-
-<script>
-    if(Form && Form.Validator) {
-        Form.Validator.add('validate-unsigned', {
-            errorMsg: Form.Validator.getMsg("required"),
-            test: function(field){
-                return field.get('value').toInt() >= 0;
-            }
-        });
-    }
-</script>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
@@ -53,4 +42,4 @@
     </div>
 </form>
 
-<script data-inline> $jQuery(".select-tags").select2({tags:true, tokenSeparators: [',', ' ']}); </script>
+<script data-inline> jQuery(".select-tags").select2({tags:true, tokenSeparators: [',', ' ']}); </script>
