@@ -9,8 +9,6 @@
 ?>
 
 <? if(can('delete')) : ?>
-    <?= helper('behavior.mootools') ?>
-    <ktml:script src="assets://application/js/jquery.js" />
     <ktml:script src="assets://comments/js/comments.js" />
 
     <script>
@@ -28,7 +26,6 @@
 <? endif ?>
 
 <? if(can('add')) : ?>
-    <ktml:script src="assets://application/js/jquery.js" />
     <ktml:cript src="assets://ckeditor/ckeditor/ckeditor.js" />
 
     <script>

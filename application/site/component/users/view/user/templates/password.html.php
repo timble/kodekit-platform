@@ -8,10 +8,8 @@
  */
 ?>
 
-<?=helper('behavior.mootools');?>
-<?=helper('behavior.validator');?>
-
-<ktml:script src="assets://js/koowa.js"/>
+<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.validator');?>
 
 <div class="page-header">
     <h1><?= translate('Set your password');?></h1>

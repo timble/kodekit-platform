@@ -8,9 +8,7 @@
  */
 ?>
 
-<ktml:script src="assets://js/koowa.js" />
-<ktml:style src="assets://css/koowa.css" />
-
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.sortable') ?>
 
 <ktml:block prepend="actionbar">

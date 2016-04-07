@@ -8,11 +8,11 @@
  */
 ?>
 
-<ktml:script src="assets://js/koowa.js" />
-<ktml:script src="assets://users/js/users.js" />
-<ktml:style src="assets://css/koowa.css" />
-
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.validator') ?>
+<?= helper('behavior.select2'); ?>
+
+<ktml:script src="assets://users/js/users.js" />
 
 <script>
     window.addEvent('domready', function() {
@@ -101,4 +101,4 @@
 	</div>
 </form>
 
-<script data-inline> $jQuery(".select-timezone").select2(); </script>
+<script data-inline> jQuery(".select-timezone").select2(); </script>

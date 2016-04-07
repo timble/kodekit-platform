@@ -8,8 +8,8 @@
  */
 ?>
 
-<?=helper('behavior.mootools')?>
-<?=helper('behavior.validator')?>
+<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.validator')?>
 
 <div class="page-header">
     <h1><?=translate('Password reset request');?></h1>

@@ -8,7 +8,7 @@
  */
 ?>
 
-<ktml:script src="assets://js/koowa.js" />
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.validator') ?>
 
 <ktml:block prepend="actionbar">

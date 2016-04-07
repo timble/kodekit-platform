@@ -8,10 +8,11 @@
  */
 ?>
 
+<?= helper('behavior.koowa'); ?>
+
 <ktml:script src="assets://attachments/js/jquery.Jcrop.min.js" />
 <ktml:style src="assets://attachments/css/jquery.Jcrop.min.css" />
 
-<ktml:script src="assets://js/koowa.js" />
 <ktml:script src="assets://attachments/js/attachments.list.js" />
 <ktml:script src="assets://files/js/uri.js" />
 

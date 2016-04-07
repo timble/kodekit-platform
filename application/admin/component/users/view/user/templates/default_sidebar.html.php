@@ -57,10 +57,10 @@
 </fieldset>
 
 <script>
-    $jQuery(document).ready(function($) {
+    jQuery(document).ready(function($) {
         var form = $('#user-form');
         form.get(0).addEvent('validate', function() {
-            var groups = $jQuery('#groups');
+            var groups = jQuery('#groups');
             if (!groups.val()) {
                 form.append('<input type="hidden" name="groups"/>');
             }

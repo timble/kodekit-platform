@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.mootools')?>
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.validator')?>
 
 <? if(parameters()->show_title) : ?>

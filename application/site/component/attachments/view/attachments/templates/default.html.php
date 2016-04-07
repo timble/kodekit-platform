@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.mootools') ?>
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.modal') ?>
 
 <? $list = (isset($row) && isset($table)) ? $attachments->find(array('row' => $row, 'table' => $table)) : $attachments ?>

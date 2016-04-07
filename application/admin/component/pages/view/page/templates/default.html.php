@@ -8,10 +8,10 @@
  */
 ?>
 
+<?= helper('behavior.koowa'); ?>
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>
 
-<ktml:script src="assets://js/koowa.js" />
 <ktml:script src="assets://pages/js/widget.js" />
 <ktml:script src="assets://pages/js/page.js" />
 

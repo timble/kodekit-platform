@@ -8,9 +8,9 @@
  */
 ?>
 
-<?=helper('behavior.mootools')?>
-<?=helper('behavior.keepalive')?>
-<?=helper('behavior.validator')?>
+<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.keepalive')?>
+<?= helper('behavior.validator')?>
 
 <title content="replace"><?= translate('Login') ?></title>
 
