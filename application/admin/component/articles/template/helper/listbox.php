@@ -29,7 +29,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
     		'label'	=> 'title'
     	));
 
-    	return parent::_render($config);
+    	return parent::render($config);
     }
 
     public function authors($config = array())
@@ -42,7 +42,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 			'label'	=> 'created_by_name',
 		));
 
-		return parent::_listbox($config);
+		return parent::render($config);
     }
 
     public function ordering($config = array())
