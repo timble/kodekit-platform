@@ -35,6 +35,6 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $config->label = 'title';
 		$config->sort  = 'title';
 
-    	return parent::_render($config);
+    	return parent::render($config);
     }
 }

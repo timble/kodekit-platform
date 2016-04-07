@@ -54,6 +54,6 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'deselect' => false
         ));
 
-        return parent::_listbox($config);
+        return parent::render($config);
     }
 }
