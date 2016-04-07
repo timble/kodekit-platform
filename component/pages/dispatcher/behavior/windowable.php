@@ -46,7 +46,7 @@ class DispatcherBehaviorWindowable extends Library\DispatcherBehaviorAbstract
         $mixer   = $this->getMixer();
         $request = $mixer->getRequest();
 
-        if($request->getFormat() == 'html' && $request->isGet()) {
+        if($request->getFormat() == 'html' && $request->isGet() && !$request->isAjax()) {
             return true;
         }
 
