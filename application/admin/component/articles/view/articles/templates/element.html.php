@@ -8,8 +8,7 @@
  */
 ?>
 
-<ktml:script src="assets://js/koowa.js" />
-<ktml:style src="assets://css/koowa.css" />
+<?= helper('behavior.koowa'); ?>
 
 <form action="" method="get" class="-koowa-grid">
 	<table>
