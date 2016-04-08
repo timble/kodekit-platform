@@ -1,4 +1,4 @@
 [submodule "library"]
 	path = library
-	url = git@github.com:nooku/nooku-framework.git
-	branch = feature/297-kodekit
+	url = git@github.com:timble/kodekit.git
+	branch = develop
