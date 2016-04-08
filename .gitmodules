@@ -1,4 +1,4 @@
 [submodule "library"]
 	path = library
 	url = git@github.com:timble/kodekit.git
-	branch = develop
+	branch = master
