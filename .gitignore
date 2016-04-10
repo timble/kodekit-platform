@@ -1,6 +1,5 @@
 .vagrant/
 box.config.yaml
 config/bootstrapper.php
-/library
 
 /scripts/translations/vendor/
