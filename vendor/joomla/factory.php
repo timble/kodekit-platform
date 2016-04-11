@@ -53,7 +53,7 @@ class JFactory
     {
         jimport('joomla.mail.mail');
 
-        $conf = Kodekit\Library\ObjectManager::getInstance()->getObject('application')->getConfig();
+        $conf = Kodekit::getObject('application')->getConfig();
 
         $sendmail = $conf->sendmail;
         $smtpauth = $conf->smtpauth;

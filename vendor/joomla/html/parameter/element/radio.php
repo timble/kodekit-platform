@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-use Kodekit\Library;
-
 /**
  * Renders a radio element
  *
@@ -47,7 +45,7 @@ class JElementRadio extends JElement
             'selected' => $value,
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        return Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
+        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
+        return Kodekit::getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
 	}
 }

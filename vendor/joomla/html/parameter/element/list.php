@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-use Kodekit\Library;
-
 /**
  * Renders a list element
  *
@@ -33,10 +31,10 @@ class JElementList extends JElement
 
 	function fetchElement($name, $value, $param, $group)
 	{
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
+        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
 
         $class  = $param->attributes()->class ? $param->attributes()->class : 'inputbox';
-        $helper = Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template));
+        $helper = Kodekit::getObject('lib:template.helper.select', array('template' => $template));
 
         $options = array ();
         foreach ($param->children() as $option)
@@ -54,6 +52,6 @@ class JElementList extends JElement
             'attribs'  => array('class' => array($class))
         );
 
-        return Library\ObjectManager::getInstance()->getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
+        return Kodekit::getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
 	}
 }
