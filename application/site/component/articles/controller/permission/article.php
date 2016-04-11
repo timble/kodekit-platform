@@ -18,7 +18,7 @@ use Kodekit\Platform\Application;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Platform\Articles
  */
-class ArticlesControllerPermissionArticle extends Application\ControllerPermissionAbstract
+class ControllerPermissionArticle extends Application\ControllerPermissionAbstract
 {
     public function canRead()
     {
