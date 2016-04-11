@@ -32,10 +32,14 @@ abstract class ModuleAbstract extends Library\ViewHtml
         $config->append(array(
             'behaviors' => array(
                 'com:pages.module.behavior.decoratable',
+                'com:pages.module.behavior.localizable'
             )
         ));
 
         parent::_initialize($config);
+
+        //Remove the localizable behavior
+        $config->behaviors->remove('localizable');
     }
 
     /**
