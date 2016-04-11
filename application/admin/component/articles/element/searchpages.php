@@ -7,8 +7,6 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-use Kodekit\Library;
-
 /**
  * Search Pages Element
  *
@@ -27,8 +25,8 @@ class JElementSearchpages extends JElement
             'deselect' => false,
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        $html = Library\ObjectManager::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->searchpages($config);
+        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
+        $html = Kodekit::getObject('com:articles.template.helper.listbox', array('template' => $template))->searchpages($config);
         return $html;
     }
 }

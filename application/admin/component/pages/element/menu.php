@@ -7,8 +7,6 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-use Kodekit\Library;
-
 /**
  * Menu Element Class
  *
@@ -27,8 +25,8 @@ class JElementMenu extends JElement
             'deselect' => false
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        $html = Library\ObjectManager::getInstance()->getObject('com:pages.template.helper.listbox', array('template' => $template))->menus($config);
+        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
+        $html = Kodekit::getObject('com:pages.template.helper.listbox', array('template' => $template))->menus($config);
         return $html;
     }
 }

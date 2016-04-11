@@ -8,4 +8,4 @@
  */
 
 require_once(__DIR__.'/bootstrap.php' );
-Kodekit\Library\ObjectManager::getInstance()->getObject('application')->dispatch();
+Kodekit::getObject('application')->dispatch();

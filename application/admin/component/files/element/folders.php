@@ -7,8 +7,6 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-use Kodekit\Library;
-
 /**
  * Folders Element
  *
@@ -24,10 +22,9 @@ class JElementFolders extends JElement
 		$el_name   = $group ? $group.'['.$name.']' : $name;
 		$show_root = (bool) $param->attributes()->show_root;
 
-        $manager    = Library\ObjectManager::getInstance();
-        $translator = $manager->getObject('translator');
+        $translator = Kodekit::getObject('translator');
 
-		$tree =  $manager->getObject('com:files.controller.folder')
+		$tree =  Kodekit::getObject('com:files.controller.folder')
 			->container('files-files')
 			->tree(1)
 			->limit(0)
@@ -43,8 +40,8 @@ class JElementFolders extends JElement
 			$this->_addFolder($folder, $options);
 		}
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
+        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
+		return  Kodekit::getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
 			'name'    => $el_name,
 			'options' => $options,
 			'showroot' => false,

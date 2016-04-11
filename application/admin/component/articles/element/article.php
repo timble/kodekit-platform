@@ -7,8 +7,6 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-use Kodekit\Library;
-
 /**
  * Article Element
  *
@@ -29,8 +27,8 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = Library\ObjectManager::getInstance()->getObject('com:pages.view.page')->getTemplate();
-        $html     = Library\ObjectManager::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
+        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
+        $html     = Kodekit::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;
     }

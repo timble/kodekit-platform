@@ -39,7 +39,7 @@ define('DS', DIRECTORY_SEPARATOR);
 
 require_once APPLICATION_ROOT.'/bootstrap.php';
 
-$application =  Library\ObjectManager::getInstance()->getObject('com:application.dispatcher');
+$application =  Kodekit::getObject('com:application.dispatcher');
 $application->loadConfig(new Library\Command());
 $application->loadSession(new Library\Command());
 
@@ -89,11 +89,11 @@ if($numbers['users'])
 
     $date_min = new DateTime('-3 years');
     $date_max = new DateTime();
-    $autoinc  =  Library\ObjectManager::getInstance()->getObject('com:users.database.table.users')->getSchema()->autoinc;
+    $autoinc  =  Kodekit::getObject('com:users.database.table.users')->getSchema()->autoinc;
 
     for($i = 0; $i < $numbers['users']; $i++)
     {
-        $row =  Library\ObjectManager::getInstance()->getObject('com:users.model.users')->getItem();
+        $row =  Kodekit::getObject('com:users.model.users')->getItem();
         $row->name = $generator->words(pick_random(range(1, 3)));
         $row->email = ($autoinc + $i).'@example.'.pick_random(array('com', 'net', 'org'));
         $row->enabled = (int) rand(0, 50) > 2;
@@ -143,7 +143,7 @@ if($numbers['categories'])
 
             for($i = 0; $i < $numbers['categories']; $i++)
             {
-                $row =  Library\ObjectManager::getInstance()->getObject('com:categories.model.categories')->getItem();
+                $row = Kodekit::getObject('com:categories.model.categories')->getItem();
                 $row->title = $generator->words(pick_random(range(1, 5)));
                 $row->description = $generator->sentences(pick_random(range(0, 3)));
                 $row->table = $table;
@@ -188,7 +188,7 @@ if($numbers['articles'])
 
     for($i = 0; $i < $numbers['articles']; $i++)
     {
-        $row =  Library\ObjectManager::getInstance()->getObject('com:articles.model.articles')->getItem();
+        $row =  Kodekit::getObject('com:articles.model.articles')->getItem();
         $row->title = $generator->words(pick_random(range(1, 5)));
         $row->introtext = $generator->sentences(pick_random(range(1, 3)));
         $row->fulltext = $generator->sentences(pick_random(range(0, 5)));

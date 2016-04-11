@@ -20,8 +20,6 @@ error_reporting($old & ~E_STRICT);
 require_once '../../library/kodekit.php';
 \Kodekit::getInstance();
 
-$manager = Library\ObjectManager::getInstance();
-
 spl_autoload_register(function ($class)
 {
     $parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class)));

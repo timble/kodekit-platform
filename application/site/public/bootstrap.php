@@ -29,14 +29,13 @@ $config = require APPLICATION_ROOT.'/config/bootstrapper.php';
 
 require_once(APPLICATION_ROOT.'/library/code/kodekit.php');
 $kodekit = Kodekit::getInstance(array(
-    'debug'           =>  $config['debug'],
-    'cache'           =>  $config['cache'],
-    'cache_namespace' =>  $config['cache_namespace'],
-    'base_path'       =>  APPLICATION_BASE
+    'debug'     =>  $config['debug'],
+    'cache'     =>  $config['cache'],
+    'base_path' =>  APPLICATION_BASE
 ));
 
 //Bootstrap the application
-Library\ObjectManager::getInstance()->getObject('object.bootstrapper')
+Kodekit::getObject('object.bootstrapper')
     ->registerComponents($kodekit->getRootPath().'/application/site/component')
     ->registerComponents($kodekit->getRootPath().'/component')
     ->registerFile($kodekit->getRootPath(). '/config/bootstrapper.php')
