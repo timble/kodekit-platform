@@ -7,15 +7,17 @@
  * @link		https://github.com/timble/kodekit-pages for the canonical source repository
  */
 
-namespace Kodekit\Library;
+namespace Kodekit\Component\Pages;
+
+use Kodekit\Library;
 
 /**
  * Localizable Module Behavior
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Library\View
+ * @package Kodekit\Component\Pages
  */
-class ModuleBehaviorLocalizable extends ViewBehaviorLocalizable
+class ModuleBehaviorLocalizable extends Library\ViewBehaviorLocalizable
 {
 
 }

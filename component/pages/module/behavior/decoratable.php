@@ -15,7 +15,7 @@ use Kodekit\Library;
  * Decoratable Module Behavior
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Library\View
+ * @package Kodekit\Component\Pages
  */
 class ModuleBehaviorDecoratable extends Library\ViewBehaviorAbstract
 {
