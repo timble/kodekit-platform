@@ -3,7 +3,7 @@
   "description": "Application component for Kodekit",
   "license": "MPL-2.0",
   "copyright": "Copyright (C) 2011 - 2016 Timble CVBA and Contributors. (http://www.timble.net)",
-  "version": "1.0-alpha",
+  "version": "0.10.0",
   "identifier": "com:application",
   "namespace": "Kodekit\\Component\\Application",
   "authors": [
