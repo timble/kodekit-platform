@@ -12,6 +12,7 @@ probe health
         "HEAD /varnish-enabled HTTP/1.1"
         "Host: localhost"
         "Connection: close";
+        "User-Agent: Varnish Health Probe";
     .interval = 5s;   # check the health of each backend every 5 seconds
     .timeout = 1s;    # timing out after 1 second.
     # If 3 out of the last 5 polls succeeded the backend is considered healthy, otherwise it will be marked as sick
@@ -410,6 +411,11 @@ sub vcl_backend_response
     # To prevent accidental replace, we only filter the 301/302 redirects for now.
     if (beresp.status == 301 || beresp.status == 302) {
         set beresp.http.Location = regsub(beresp.http.Location, ":[0-9]+", "");
+    }
+
+    # Never cache 50x responses
+    if (beresp.status >= 500) {
+        return (abandon);
     }
 
     # Do not cache errors from the backend
