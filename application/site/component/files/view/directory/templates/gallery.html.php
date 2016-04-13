@@ -7,8 +7,7 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 ?>
-
-<ktml:script src="assets://application/js/jquery.js" />
+<?= helper('behavior.jquery'); ?>
 <ktml:script src="assets://files/js/bootstrap-modal.js" />
 <ktml:script src="assets://files/js/bootstrap-image-gallery.js" />
 <ktml:script src="assets://files/js/gallery.js" />
