@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
 <?= helper('com:application.behavior.sortable', array(

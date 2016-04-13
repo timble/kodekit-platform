@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 
 <ktml:script src="assets://attachments/js/jquery.Jcrop.min.js" />
 <ktml:style src="assets://attachments/css/jquery.Jcrop.min.css" />

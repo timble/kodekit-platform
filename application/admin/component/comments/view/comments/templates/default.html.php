@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">

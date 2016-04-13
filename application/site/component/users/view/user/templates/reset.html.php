@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 <?= helper('behavior.validator')?>
 
 <div class="page-header">

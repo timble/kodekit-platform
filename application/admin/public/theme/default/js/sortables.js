@@ -105,7 +105,7 @@ Drag.Sortable = new Class({
 
 	getClone: function(event, element){
 
-		var clone = this.parent(event, element);	
+		var clone = this.parent(event, element);
 
 		clone.addClass('clone');
 
@@ -115,7 +115,7 @@ Drag.Sortable = new Class({
 
 	start: function(event, element){
 
-		this.parent(event, element);	
+		this.parent(event, element);
 
 		this.element.setStyle('opacity', 0);
 
@@ -331,7 +331,7 @@ Drag.Sortable.Adapter.Request = new Class({
 
 });
 
-Drag.Sortable.Adapter.Koowa = new Class({
+Drag.Sortable.Adapter.Kodekit = new Class({
 
 	Extends: Drag.Sortable.Adapter.Request,
 
@@ -438,15 +438,15 @@ Table.Sortable = new Class({
 			this.ghost.inject(this.element, 'after');
 
 		},
-		
+
 		onComplete: function(){
-		
+
 			var key = this.lists.indexOf(this.list);
-			
+
 			this.adapters[key].store(this, this.serialize(key));
-		
+
 			if(this.options.numcolumn) {
-				
+
 				(function(){
 					var numbers = [];
 					this.list.getElements(this.options.numcolumn).each(function(row){
@@ -466,7 +466,7 @@ Table.Sortable = new Class({
 					}, this);
 				}.bind(this)).delay(400);
 			}
-		
+
 		}
 	},
 
@@ -482,7 +482,7 @@ Table.Sortable = new Class({
 
 		this.parent(event, element);
 
-		var spacing = this.element.getParents('table')[0].getStyle('border-spacing').split(' ')[0].toInt(), 
+		var spacing = this.element.getParents('table')[0].getStyle('border-spacing').split(' ')[0].toInt(),
 			cells = this.clone.getChildren();
 
 		this.element.getChildren().each(function(cell, i){
@@ -515,8 +515,8 @@ Table.Sortable = new Class({
 
 	_getOffsetSize: function(cell, vertical){
 		var keys = vertical ? ['y', 'top', 'bottom'] : ['x', 'left', 'right'];
-		return cell.getSize()[keys[0]] 
-		- cell.getStyle('padding-'+keys[1]).toInt() 
+		return cell.getSize()[keys[0]]
+		- cell.getStyle('padding-'+keys[1]).toInt()
 		- cell.getStyle('padding-'+keys[2]).toInt();
 	}
 

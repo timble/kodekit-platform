@@ -6,9 +6,9 @@
  * @link		https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-var Koowa = Koowa || {};
+var Kodekit = Kodekit || {};
 
-Koowa.Sidebar = new Class({
+Kodekit.Sidebar = new Class({
 
     Implements: Options,
 
@@ -100,7 +100,7 @@ Koowa.Sidebar = new Class({
 
 window.addEvent('domready', function(){
     if(document.id('panel-sidebar') && document.id('panel-content')) {
-        new Koowa.Sidebar({
+        new Kodekit.Sidebar({
             sidebar: '#panel-sidebar',
             observe: '#panel-content',
             target: '.scrollable',
@@ -110,7 +110,7 @@ window.addEvent('domready', function(){
         });
     }
     if(document.getElement('#panel-content .sidebar') && document.getElement('#panel-content .form-body')) {
-        new Koowa.Sidebar({
+        new Kodekit.Sidebar({
             sidebar: '#panel-content .sidebar',
             observe: '#panel-content .form-body',
             target: '.scrollable',

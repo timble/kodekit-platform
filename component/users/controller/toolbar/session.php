@@ -49,7 +49,7 @@ class ControllerToolbarSession extends Library\ControllerToolbarActionbar
 
             $command->append(array(
                 'attribs' => array(
-                    'onclick'    => 'new Koowa.Form('.$config.').submit();',
+                    'onclick'    => 'new Kodekit.Form('.$config.').submit();',
                     'data-action' => 'delete',
                 )
             ));

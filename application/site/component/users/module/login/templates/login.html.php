@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 <?= helper('behavior.validator')?>
 
 <? if(parameters()->show_title) : ?>

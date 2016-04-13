@@ -6,11 +6,11 @@
  * @link           https://github.com/nooku/nooku-platform for the canonical source repository
  */
 
-if(!Koowa) var Koowa = {};
+if(!Kodekit) var Kodekit = {};
 
-Koowa.Controller.Form = new Class({
+Kodekit.Controller.Form = new Class({
 
-    Extends: Koowa.Controller,
+    Extends: Kodekit.Controller,
 
     _action_default: function(action, data, novalidate){
         if(!novalidate && !this.fireEvent('validate')) {

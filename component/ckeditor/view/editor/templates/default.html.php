@@ -8,10 +8,10 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 
 <ktml:script src="assets://ckeditor/ckeditor/ckeditor.js" />
-<ktml:script src="assets://ckeditor/js/ckeditor.koowa.js" />
+<ktml:script src="assets://ckeditor/js/ckeditor.kodekit.js" />
 
 <? $options = new  Kodekit\Library\ObjectConfig($options);  ?>
 

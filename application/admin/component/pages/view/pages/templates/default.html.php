@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 <?= helper('com:application.behavior.sortable', array(
     'options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/)
 )) ?>

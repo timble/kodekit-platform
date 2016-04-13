@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 <?= helper('behavior.select2'); ?>
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>

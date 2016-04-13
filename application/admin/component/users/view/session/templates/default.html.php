@@ -10,7 +10,7 @@
 
 <h1><?= translate('Administrator Login') ?></h1>
 
-<?= helper('behavior.koowa'); ?>
+<?= helper('behavior.kodekit'); ?>
 
 <form action="" method="post" name="login" id="form-login">
     <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= translate('Email') ?>" />

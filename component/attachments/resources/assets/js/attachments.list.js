@@ -87,7 +87,7 @@ Attachments.List = new Class({
 
     _actionDelete: function(uri)
     {
-        var form = new Koowa.Form({
+        var form = new Kodekit.Form({
             method: 'post',
             url: uri.toString(),
             params: {

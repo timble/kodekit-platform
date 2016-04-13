@@ -40,7 +40,7 @@ class TemplateHelperBehavior extends Library\TemplateHelperBehavior
                 'numcolumn' => '.grid-count',
                 'direction' => $config->direction,
                 'adapter'   => array(
-                    'type'      => 'koowa',
+                    'type'      => 'kodekit',
                     'options'   => array(
                         'url'   => $config->url,
                         'data'  => array(
