@@ -1,5 +1,7 @@
 {
-  "identifier": "com:categories",
-  "namespace": "Kodekit\\Platform\\Categories"
+  "bootstrap": {
+    "identifier": "com:categories",
+    "namespace": "Kodekit\\Platform\\Categories"
+  }
 }
 

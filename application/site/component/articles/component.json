@@ -1,5 +1,7 @@
 {
-  "identifier": "com:articles",
-  "namespace": "Kodekit\\Platform\\Articles"
+  "bootstrap": {
+    "identifier": "com:articles",
+    "namespace": "Kodekit\\Platform\\Articles"
+  }
 }
 

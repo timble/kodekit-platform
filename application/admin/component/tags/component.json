@@ -1,5 +1,7 @@
 {
-  "identifier": "com:tags",
-  "namespace": "Kodekit\\Platform\\Tags"
+  "bootstrap": {
+    "identifier": "com:tags",
+    "namespace": "Kodekit\\Platform\\Tags"
+  }
 }
 

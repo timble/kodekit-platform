@@ -1,5 +1,7 @@
 {
-  "identifier": "com:attachments",
-  "namespace": "Kodekit\\Platform\\Attachments"
+  "bootstrap": {
+    "identifier": "com:attachments",
+    "namespace": "Kodekit\\Platform\\Attachments"
+  }
 }
 

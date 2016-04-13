@@ -1,5 +1,7 @@
 {
-  "identifier": "com:languages",
-  "namespace": "Kodekit\\Platform\\Languages"
+  "bootstrap": {
+    "identifier": "com:languages",
+    "namespace": "Kodekit\\Platform\\Languages"
+  }
 }
 

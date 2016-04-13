@@ -1,5 +1,7 @@
 {
-  "identifier": "com:activities",
-  "namespace": "Kodekit\\Platform\\Activities"
+  "bootstrap": {
+    "identifier": "com:activities",
+    "namespace": "Kodekit\\Platform\\Activities"
+  }
 }
 

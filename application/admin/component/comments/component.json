@@ -1,5 +1,7 @@
 {
-  "identifier": "com:comments",
-  "namespace": "Kodekit\\Platform\\Comments"
+  "bootstrap": {
+    "identifier": "com:comments",
+    "namespace": "Kodekit\\Platform\\Comments"
+  }
 }
 

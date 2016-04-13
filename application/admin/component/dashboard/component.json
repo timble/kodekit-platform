@@ -1,5 +1,7 @@
 {
-  "identifier": "com:dashboard",
-  "namespace": "Kodekit\\Platform\\Dashboard"
+  "bootstrap": {
+    "identifier": "com:dashboard",
+    "namespace": "Kodekit\\Platform\\Dashboard"
+  }
 }
 

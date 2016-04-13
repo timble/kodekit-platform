@@ -1,5 +1,7 @@
 {
-  "identifier": "com:users",
-  "namespace": "Kodekit\\Platform\\Users"
+  "bootstrap": {
+    "identifier": "com:users",
+    "namespace": "Kodekit\\Platform\\Users"
+  }
 }
 

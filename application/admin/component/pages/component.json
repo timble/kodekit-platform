@@ -1,5 +1,7 @@
 {
-  "identifier": "com:pages",
-  "namespace": "Kodekit\\Platform\\Pages"
+  "bootstrap": {
+    "identifier": "com:pages",
+    "namespace": "Kodekit\\Platform\\Pages"
+  }
 }
 

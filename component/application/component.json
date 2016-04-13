@@ -4,8 +4,7 @@
   "license": "MPL-2.0",
   "copyright": "Copyright (C) 2011 - 2016 Timble CVBA and Contributors. (http://www.timble.net)",
   "version": "0.10.0",
-  "identifier": "com:application",
-  "namespace": "Kodekit\\Component\\Application",
+  "homepage": "https://github.com/timble/kodekit-platform",
   "authors": [
     {
       "name": "Johan Janssens",
@@ -17,6 +16,10 @@
       "email": "info@timble.net",
       "homepage": "http://www.timble.net"
     }
-  ]
+  ],
+  "bootstrap": {
+    "identifier": "com:application",
+    "namespace": "Kodekit\\Component\\Application"
+  }
 }
 
