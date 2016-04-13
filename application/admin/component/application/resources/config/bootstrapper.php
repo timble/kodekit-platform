@@ -16,7 +16,7 @@ return array(
         ),*/
 
         'com:application.template.locator.component'  => array(
-            'override_path' => APPLICATION_BASE.'/public/theme/default/templates/views'
+            'override_path' => APPLICATION_BASE.'/public/theme/default/templates/view'
         ),
 
         'com:application.template.filter.asset'         => array(
