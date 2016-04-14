@@ -7,18 +7,17 @@
  * @link		https://github.com/timble/kodekit-application for the canonical source repository
  */
 
-namespace Kodekit\Component\Application;
+namespace Kodekit\Component\Pages;
 
 use Kodekit\Library;
-use Kodekit\Component\Pages;
 
 /**
  * Component Override Locator
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Library\TemplateLoaderComponent
+ * @package Kodekit\Component\Pages
  */
-class TemplateLocatorModule extends Pages\TemplateLocatorModule
+class TemplateLocatorComponent extends Library\TemplateLocatorComponent
 {
     /**
      * The override path

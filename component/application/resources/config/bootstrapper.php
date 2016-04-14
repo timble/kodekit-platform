@@ -14,10 +14,7 @@ return array(
         'application.sites' => 'com:application.model.composite.sites',
         'translator'        => 'com:application.translator',
 
-        'lib:dispatcher.router.route'       => 'com:application.dispatcher.router.route',
-        'lib:template.locator.component'    => 'com:application.template.locator.component',
-        'lib:template.locator.file'         => 'com:application.template.locator.file',
-        'com:pages.template.locator.module' => 'com:application.template.locator.module',
+        'lib:dispatcher.router.route' => 'com:application.dispatcher.router.route',
     ),
 
     'identifiers' => array(

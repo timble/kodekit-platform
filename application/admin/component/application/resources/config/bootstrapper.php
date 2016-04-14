@@ -15,10 +15,6 @@ return array(
             'behaviors' => 'com:pages.dispatcher.behavior.accessible'
         ),*/
 
-        'com:application.template.locator.component'  => array(
-            'override_path' => APPLICATION_BASE.'/public/theme/default/templates/view'
-        ),
-
         'com:application.template.filter.asset'         => array(
             'schemes' => array(
                 'assets://application/' => '/administrator/theme/default/'

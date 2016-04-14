@@ -19,6 +19,10 @@ return array(
             'behaviors'  => array('com:varnish.controller.behavior.cachable'),
         ),
 
+        'com:pages.template.locator.component'  => array(
+            'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/view'
+        ),
+
         'com:pages.template.locator.module'  => array(
             'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/modules'
         ),
