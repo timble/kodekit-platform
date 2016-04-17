@@ -5553,7 +5553,7 @@ body.com_contacts .editor-wrap {
   z-index: 3;
 }
 
-/* com:application.view.page.login.html */
+/* com:users.view.session.default.html */
 /* line 2, components/_users.scss */
 body.login {
   overflow: auto;
