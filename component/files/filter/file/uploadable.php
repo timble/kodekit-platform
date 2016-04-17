@@ -19,14 +19,14 @@ use Kodekit\Library;
  */
 class FilterFileUploadable extends Library\FilterChain
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
-		$this->addFilter($this->getObject('com:files.filter.file.name'), self::PRIORITY_HIGH);
+        $this->addFilter($this->getObject('com:files.filter.file.name'), self::PRIORITY_HIGH);
 
-		//$this->addFilter($this->getObject('com:files.filter.file.extension'));
-		//$this->addFilter($this->getObject('com:files.filter.file.mimetype'));
-		$this->addFilter($this->getObject('com:files.filter.file.size'));
-	}
+        //$this->addFilter($this->getObject('com:files.filter.file.extension'));
+        //$this->addFilter($this->getObject('com:files.filter.file.mimetype'));
+        $this->addFilter($this->getObject('com:files.filter.file.size'));
+    }
 }
