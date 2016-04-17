@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:articles",
+    "extends": "com:articles",
     "namespace": "Kodekit\\Platform\\Articles"
   }
 }

@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:tags",
+    "extends": "com:tags",
     "namespace": "Kodekit\\Platform\\Tags"
   }
 }

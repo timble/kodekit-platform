@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:attachments",
+    "extends": "com:attachments",
     "namespace": "Kodekit\\Platform\\Attachments"
   }
 }

@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:pages",
+    "extends": "com:pages",
     "namespace": "Kodekit\\Platform\\Pages"
   }
 }

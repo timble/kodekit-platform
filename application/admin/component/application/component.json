@@ -1,7 +1,7 @@
 {
   "bootstrap": {
-      "identifier": "com:application",
-      "namespace": "Kodekit\\Platform\\Application"
+    "extends": "com:application",
+    "namespace": "Kodekit\\Platform\\Application"
   }
 }
 

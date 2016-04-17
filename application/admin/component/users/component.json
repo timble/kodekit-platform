@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:users",
+    "extends": "com:users",
     "namespace": "Kodekit\\Platform\\Users"
   }
 }

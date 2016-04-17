@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:categories",
+    "extends": "com:categories",
     "namespace": "Kodekit\\Platform\\Categories"
   }
 }

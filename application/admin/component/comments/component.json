@@ -1,6 +1,6 @@
 {
   "bootstrap": {
-    "identifier": "com:comments",
+    "extends": "com:comments",
     "namespace": "Kodekit\\Platform\\Comments"
   }
 }
