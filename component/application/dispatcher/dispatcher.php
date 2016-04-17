@@ -165,8 +165,8 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
         //Resolve the component
         if($context->request->query->has('component'))
         {
-            $identifier  = $this->getIdentifier()->toArray();!
-            $identifier['package'] = $context->request->query->get('component', 'cmd');;
+            $identifier  = $this->getIdentifier()->toArray();
+            $identifier['package'] = $context->request->query->get('component', 'cmd');
 
             $this->setController($identifier);
         }
