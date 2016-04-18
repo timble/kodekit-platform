@@ -80,7 +80,7 @@
         </div>
     <? endforeach ?>
     <?if(can('add')):?>
-        <?= import('com:comments.comment.form.html'); ?>
+        <?= import('com:comments/comment/form.html'); ?>
     <?endif;?>
 </div>
 <? endif; ?>

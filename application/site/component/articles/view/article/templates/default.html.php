@@ -47,7 +47,7 @@
     <? endif; ?>
 
     <? if($article->isAttachable()) : ?>
-    <?= import('com:attachments.attachments.default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
+    <?= import('com:attachments/attachments/default.html', array('attachments' => $article->getAttachments(), 'exclude' => array($article->attachments_attachment_id))) ?>
     <? endif ?>
 </article>
 

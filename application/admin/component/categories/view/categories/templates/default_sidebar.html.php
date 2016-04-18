@@ -9,7 +9,7 @@
 ?>
 
 <h3><?= translate('Categories') ?></h3>
-<?= import('com:categories.categories.list.html', array(
+<?= import('com:categories/categories/list.html', array(
     'categories' => object('com:articles.model.categories')
             ->sort(array('ordering', 'title'))
             ->table(parameters()->table)
