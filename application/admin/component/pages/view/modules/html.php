@@ -20,16 +20,11 @@ use Kodekit\Library;
 class ViewModulesHtml extends Library\ViewHtml
 {
     protected function _actionRender(Library\ViewContext $context)
-	{
+    {
         $context->data->positions = $this->getModel()->fetch()->getPositions();
 
-        return parent::_actionRender($context);
-	}
-
-    protected function _beforeRender(Library\ViewContext $context)
-    {
         //Load language files for each module
-        if($this->getLayout() == 'list')
+        if($context->getLayout() == 'list')
         {
             foreach($this->getModel()->fetch() as $module)
             {
@@ -45,5 +40,7 @@ class ViewModulesHtml extends Library\ViewHtml
                 $this->getObject('translator')->load($url);
             }
         }
+
+        return parent::_actionRender($context);
     }
 }

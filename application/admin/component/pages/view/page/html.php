@@ -25,6 +25,7 @@ class ViewPageHtml extends Library\ViewHtml
         $state = $this->getModel()->getState();
         $page  = $this->getModel()->fetch();
 
+
         $menu  = $this->getObject('com:pages.model.menus')
             ->id($state->menu)
             ->fetch();
@@ -58,7 +59,7 @@ class ViewPageHtml extends Library\ViewHtml
         parent::_fetchData($context);
     }
 
-    protected function _beforeRender(Library\ViewContext $context)
+    protected function _actionRender(Library\ViewContext $context)
     {
         // Load languages.
         $translator = $this->getObject('translator');
@@ -66,5 +67,7 @@ class ViewPageHtml extends Library\ViewHtml
         foreach($context->data->components as $component) {
             $translator->load('com:'.$component->name);
         }
+
+        return parent::_actionRender($context);
     }
 }

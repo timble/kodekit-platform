@@ -33,6 +33,17 @@ class ViewModuleHtml extends Library\ViewHtml
             }
         }
 
+        $package = $module->getIdentifier()->package;
+        $domain  = $module->getIdentifier()->domain;
+
+        if($domain) {
+            $url = 'com://'.$domain.'/'.$package;
+        } else {
+            $url = 'com:'.$package;
+        }
+
+        $this->getObject('translator')->load($url);
+
         return parent::_actionRender($context);
     }
 
@@ -55,21 +66,5 @@ class ViewModuleHtml extends Library\ViewHtml
         $context->data->params = $module->getParameters();
 
         parent::_fetchData($context);
-    }
-
-    protected function _beforeRender(Library\ViewContext $context)
-    {
-        $module = $this->getModel()->fetch();
-
-        $package = $module->getIdentifier()->package;
-        $domain  = $module->getIdentifier()->domain;
-
-        if($domain) {
-            $url = 'com://'.$domain.'/'.$package;
-        } else {
-            $url = 'com:'.$package;
-        }
-
-        $this->getObject('translator')->load($url);
     }
 }
