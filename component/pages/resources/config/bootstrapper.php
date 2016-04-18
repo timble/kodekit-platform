@@ -13,9 +13,6 @@ return array(
         'pages'         => 'com:pages.model.composite.pages',
         'pages.menus'   => 'com:pages.model.composite.menus',
         'pages.modules' => 'com:pages.model.composite.modules',
-
-        'lib:template.locator.component'    => 'com:pages.template.locator.component',
-        'lib:template.locator.file'         => 'com:pages.template.locator.file',
     ),
 
     'identifiers' => array(

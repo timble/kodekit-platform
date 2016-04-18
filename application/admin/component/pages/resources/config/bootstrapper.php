@@ -7,6 +7,7 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
+$theme_path = APPLICATION_BASE.'/public/theme/default';
 
 return array(
 
@@ -21,11 +22,11 @@ return array(
         ),
 
         'com:pages.template.locator.module'  => array(
-            'override_path' => APPLICATION_BASE.'/public/theme/bootstrap/templates/modules'
+            'path_templates' => array($theme_path.'/templates/modules')
         ),
 
-        'com:pages.template.locator.component'  => array(
-            'override_path' => APPLICATION_BASE.'/public/theme/default/templates/view'
+        'lib:template.locator.component'  => array(
+            'path_templates' => array($theme_path.'/templates/view/<Package>/<Path>/<File>.<Format>.<Type>')
         ),
     )
 );
