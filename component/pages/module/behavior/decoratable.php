@@ -37,12 +37,11 @@ class ModuleBehaviorDecoratable extends Library\ViewBehaviorAbstract
 
             foreach($decorators as $decorator)
             {
-                if(strpos($decorator, '.') === false)
-                {
-                    $layout = 'mod:pages.'.trim($decorator);
-                    $layout = $layout.'.'.$this->getFormat();
+                if(!parse_url($decorator, PHP_URL_SCHEME)) {
+                    $layout = 'mod:pages/'.trim($decorator).'.'.$this->getFormat();
+                } else {
+                    $layout = $decorator;
                 }
-                else $layout = $decorator;
 
                 //Unpack the data (first level only)
                 $data = $context->data->toArray();
