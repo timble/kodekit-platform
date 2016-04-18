@@ -70,22 +70,9 @@ abstract class ModuleEntity extends ModuleAbstract
     {
         if(!$this->_controller instanceof Library\ControllerModellable)
         {
-            //Force layout type to 'mod' to force using the module locator for partial layouts
-            $layout = $this->getLayout();
-
-            if (is_string($layout) && strpos($layout, '.') === false)
-            {
-                $identifier = $this->getIdentifier()->toArray();
-                $identifier['type'] = 'mod';
-                $identifier['name'] = $layout;
-                unset($identifier['path'][0]);
-
-                $layout = (string) $this->getIdentifier($identifier);
-            }
-
             //Create the controller
             $query = $this->getParameters();
-            $query['layout'] = $layout;
+            $query['layout'] = $this->qualifyLayout($this->getLayout());
 
             $this->_controller = $this->getObject($this->_controller,  array(
                 'request' => array('query' => $query)

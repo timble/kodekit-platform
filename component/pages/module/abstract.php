@@ -58,7 +58,7 @@ abstract class ModuleAbstract extends Library\ViewHtml
      * This function will always fetch the model state. Model data will only be fetched if the auto_fetch property is
      * set to TRUE.
      *
-     * @param Library\ViewContext	$context A view context object
+     * @param Library\ViewContext   $context A view context object
      * @return void
      */
     protected function _fetchData(Library\ViewContext $context)
@@ -69,25 +69,16 @@ abstract class ModuleAbstract extends Library\ViewHtml
     }
 
     /**
-     * Renders and echo's the views output
+     * Qualify the layout
      *
-     * @return string  The output of the module
+     * Convert a relative layout URL into an absolute layout URL
+     *
+     * @param string $layout The view layout name
+     * @param string $type   The filesystem locator type
+     * @return string   The fully qualified template url
      */
-    protected function _actionRender(Library\ViewContext $context)
+    public function qualifyLayout($layout, $type = 'mod')
     {
-        //Force layout type to 'mod' to force using the module locator for partial layouts
-        $layout = $context->layout;
-
-        if (is_string($layout) && strpos($layout, '.') === false)
-        {
-            $identifier = $this->getIdentifier()->toArray();
-            $identifier['type'] = 'mod';
-            $identifier['name'] = $layout;
-            unset($identifier['path'][0]);
-
-            $context->layout = $this->getIdentifier($identifier);
-        }
-
-        return parent::_actionRender($context);
+        return parent::qualifyLayout($layout, $type);
     }
 }
