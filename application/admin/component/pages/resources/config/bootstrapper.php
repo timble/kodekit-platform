@@ -13,6 +13,10 @@ return array(
 
     'identifiers' => array(
 
+        /*'dispatcher'  => array(
+            'behaviors' => 'com:pages.dispatcher.behavior.accessible'
+        ),*/
+
         'com:pages.controller.module'  => array(
             'behaviors'  => array('com:varnish.controller.behavior.cachable'),
         ),
@@ -23,6 +27,12 @@ return array(
 
         'com:pages.template.locator.module'  => array(
             'path_templates' => array($theme_path.'/templates/modules')
+        ),
+
+        'com:pages.template.filter.asset'         => array(
+            'schemes' => array(
+                'assets://theme/' => '/administrator/theme/default/'
+            )
         ),
 
         'lib:template.locator.component'  => array(

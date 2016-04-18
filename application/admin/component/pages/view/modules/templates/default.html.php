@@ -11,7 +11,7 @@
 <?= helper('behavior.kodekit'); ?>
 
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
-<?= helper('com:application.behavior.sortable', array(
+<?= helper('com:pages.behavior.sortable', array(
     'url' => '?format=json&application='.parameters()->application
 )) ?>
 

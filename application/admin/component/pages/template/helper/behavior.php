@@ -7,23 +7,23 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Kodekit\Platform\Application;
+namespace Kodekit\Platform\Pages;
 
 use Kodekit\Library;
 
 /**
- * Paginator Template Helper
+ * Behavior Template Helper
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Platform\Application
+ * @package Kodekit\Platform\Pages
  */
 class TemplateHelperBehavior extends Library\TemplateHelperBehavior
 {
     /**
      * Drag and Drop Sortables Behavior
      *
-     * @param 	array 	$config An optional array with configuration options
-     * @return	string 	Html
+     * @param   array   $config An optional array with configuration options
+     * @return  string  Html
      */
     public function sortable($config = array())
     {
@@ -61,8 +61,8 @@ class TemplateHelperBehavior extends Library\TemplateHelperBehavior
         {
             $options = !empty($config->options) ? $config->options->toArray() : array();
 
-            $html .= '<ktml:script src="assets://application/js/sortables.js" />';
-            $html .= '<ktml:style src="assets://application/stylesheets/sortables.css" />';
+            $html .= '<ktml:script src="assets://theme/js/sortables.js" />';
+            $html .= '<ktml:style src="assets://theme/css/sortables.css" />';
             $html .= "
                 <script>
                 (function(){

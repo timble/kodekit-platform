@@ -9,7 +9,7 @@
 ?>
 
 <?= helper('behavior.kodekit'); ?>
-<?= helper('com:application.behavior.sortable') ?>
+<?= helper('com:pages.behavior.sortable') ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">

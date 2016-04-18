@@ -18,10 +18,4 @@
     <ktml:link>
     <ktml:style>
     <ktml:script>
-
-    <link href="assets://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
-    <ktml:style src="assets://application/stylesheets/default.css" />
-    <ktml:style src="assets://application/stylesheets/print.css" media="print" />
-
 </head>

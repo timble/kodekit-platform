@@ -10,6 +10,11 @@
 
 <title><?= title() ?></title>
 
+<link href="assets://theme/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+<ktml:style src="assets://theme/css/default.css" />
+<ktml:style src="assets://theme/css/print.css" media="print" />
+
 <header class="container">
     <nav class="navbar navbar-default">
         <a class="navbar-brand" href="/"><?= escape(object('pages')->getActive()->title) ?></a>

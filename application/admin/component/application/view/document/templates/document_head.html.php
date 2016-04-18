@@ -18,12 +18,4 @@
     <ktml:link>
     <ktml:style>
     <ktml:script>
-
-    <link href="assets://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
-    <ktml:script src="assets://application/js/mootools.js" />
-    <ktml:script src="assets://application/js/application.js" />
-    <ktml:script src="assets://application/js/chromatable.js" />
-
-    <ktml:style src="assets://application/stylesheets/default.css" />
 </head>

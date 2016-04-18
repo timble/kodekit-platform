@@ -10,6 +10,14 @@
 
 <title><?= title().' - '.translate( 'Administration'); ?></title>
 
+<link href="assets://theme/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+<ktml:script src="assets://theme/js/mootools.js" />
+<ktml:script src="assets://theme/js/application.js" />
+<ktml:script src="assets://theme/js/chromatable.js" />
+
+<ktml:style src="assets://theme/css/default.css" />
+
 <div id="panel-wrapper">
     <div id="panel-navbar">
         <div id="menu">
