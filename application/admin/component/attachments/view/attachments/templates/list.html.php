@@ -37,7 +37,7 @@ window.addEvent('domready', function() {
                 <a class="button btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
                     <i class="icon-trash icon-white"></i>
                 </a>
-                <a class="button btn-mini modal" href="<?= route('view=attachment&layout=crop&tmpl=overlay&id='.$item->id) ?>" rel="{handler: 'iframe', size: {x: 600, y: 635}}">
+                <a class="button btn-mini modal" href="<?= route('view=attachment&layout=crop&id='.$item->id) ?>" rel="{handler: 'iframe', size: {x: 600, y: 635}}">
                     <i class="icon-resize-small icon-white"></i>
                 </a>
                 <? if(isset($attachments_attachment_id)) : ?>
