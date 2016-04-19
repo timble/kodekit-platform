@@ -33,7 +33,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="3">
-					<?= helper('com:application.paginator.pagination') ?>
+					<?= helper('com:pages.paginator.pagination') ?>
 				</td>
 			</tr>
 		</tfoot>

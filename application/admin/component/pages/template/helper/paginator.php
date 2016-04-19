@@ -7,7 +7,7 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Kodekit\Platform\Application;
+namespace Kodekit\Platform\Pages;
 
 use Kodekit\Library;
 
@@ -15,7 +15,7 @@ use Kodekit\Library;
  * Paginator Template Helper
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Platform\Application
+ * @package Kodekit\Platform\Pages
  */
 class TemplateHelperPaginator extends Library\TemplateHelperPaginator
 {

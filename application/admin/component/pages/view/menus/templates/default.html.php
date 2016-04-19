@@ -34,7 +34,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= helper('com:application.paginator.pagination') ?>
+                    <?= helper('com:pages.paginator.pagination') ?>
                 </td>
             </tr>
         </tfoot>
