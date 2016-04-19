@@ -23,9 +23,9 @@
         </a>
     </div>
     <div class="scopebar__group">
-    	<a class="<?= parameters()->access === 1 ? 'active' : ''; ?>" href="<?= route(parameters()->access === 1 ? 'access=' : 'access=1' ) ?>">
-    	    <?= 'Registered' ?>
-    	</a>
+        <a class="<?= parameters()->access === 1 ? 'active' : ''; ?>" href="<?= route(parameters()->access === 1 ? 'access=' : 'access=1' ) ?>">
+            <?= 'Registered' ?>
+        </a>
     </div>
     <div class="scopebar__search">
         <?= helper('grid.search') ?>

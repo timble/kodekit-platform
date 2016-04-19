@@ -9,33 +9,33 @@
 ?>
 
 <table summary="Add Module" class="table">
-	<thead>
-		<tr>
-			<th colspan="2">
-				<?= translate('Select module') ?>
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-	<? $i = 0; foreach($modules as $module) : ?>
-		<? if(!$i%2) : ?>
-			<tr valign="top">
-		<? endif; ?>
-		<? $last = $i+1 == count($modules) ?>
+    <thead>
+        <tr>
+            <th colspan="2">
+                <?= translate('Select module') ?>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <? $i = 0; foreach($modules as $module) : ?>
+        <? if(!$i%2) : ?>
+            <tr valign="top">
+        <? endif; ?>
+        <? $last = $i+1 == count($modules) ?>
 
-		<td width="50%">
+        <td width="50%">
             <a href="<?= route('view=module&name='.$module->name.'&application='.parameters()->application.'&component='.$module->component) ?>">
                 <?= translate(escape($module->name)) ?>
             </a>
-		</td>
+        </td>
 
-		<? if($last) : ?>
-			<td width="50%">&nbsp;</td>
-		<? endif; ?>
+        <? if($last) : ?>
+            <td width="50%">&nbsp;</td>
+        <? endif; ?>
 
-		<? if($i%2 || $last) : ?>
-			</tr>
-		<? endif; ?>
-	<? $i++; endforeach ?>
-	</tbody>
+        <? if($i%2 || $last) : ?>
+            </tr>
+        <? endif; ?>
+    <? $i++; endforeach ?>
+    </tbody>
 </table>

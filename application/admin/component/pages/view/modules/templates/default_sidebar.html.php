@@ -10,16 +10,16 @@
 
 <h3><?= translate( 'Positions' ); ?></h3>
 <ul class="navigation">
-	<li>
+    <li>
         <a <? if(!parameters()->position && parameters()->application == 'site') echo 'class="active"' ?> href="<?= route('position=&application=site') ?>">
             <?= translate('All positions') ?>
         </a>
-	</li>
-	<? foreach($positions as $position) : ?>
-	<li>
+    </li>
+    <? foreach($positions as $position) : ?>
+    <li>
         <a <? if(parameters()->position == $position && parameters()->application == 'site') echo 'class="active"' ?> href="<?= route('sort=ordering&position='.$position.'&application=site') ?>">
             <?= $position; ?>
         </a>
-	</li>
-	<? endforeach ?>
+    </li>
+    <? endforeach ?>
 </ul>

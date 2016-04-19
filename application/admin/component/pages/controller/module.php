@@ -21,10 +21,10 @@ class ControllerModule extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-    	$config->append(array(
-    		'behaviors' => array('editable', 'persistable')
-    	));
+        $config->append(array(
+            'behaviors' => array('editable', 'persistable')
+        ));
 
-    	parent::_initialize($config);
+        parent::_initialize($config);
     }
 }
