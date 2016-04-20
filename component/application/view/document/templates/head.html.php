@@ -7,16 +7,3 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 ?>
-
-<!DOCTYPE HTML>
-<html lang="<?= $language; ?>">
-
-<?= import('document_head.html') ?>
-
-<body class="login">
-    <div class="container">
-        <ktml:messages>
-        <ktml:content>
-    </div>
-</body>
-</html>

@@ -8,9 +8,12 @@
  */
 ?>
 
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>">
 <head>
     <base href="<?= url(); ?>" />
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
+    <meta content="chrome=1" http-equiv="X-UA-Compatible" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <ktml:title>
@@ -18,4 +21,10 @@
     <ktml:link>
     <ktml:style>
     <ktml:script>
+
+    <?= import('head.html') ?>
 </head>
+<body class="<?= $class ?>">
+<ktml:content>
+</body>
+</html>

@@ -1,5 +1,4 @@
 <?
-<?
 /**
  * Kodekit Platform - http://www.timble.net/kodekit
  *
