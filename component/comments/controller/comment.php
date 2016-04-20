@@ -34,25 +34,6 @@ abstract class ControllerComment extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionRender(Library\ControllerContextInterface $context)
-    {
-        $view = $this->getView();
-
-        //Alias the view layout
-        if ($view instanceof Library\ViewTemplate) {
-            $layout         = $view->getIdentifier()->toArray();
-            $layout['name'] = $view->getLayout();
-            unset($layout['path'][0]);
-
-            $alias            = $layout;
-            $alias['package'] = 'comments';
-
-            $this->getObject('manager')->registerAlias($alias, $layout);
-        }
-
-        return parent::_actionRender($context);
-    }
-
     public function getRequest()
     {
         $request = parent::getRequest();

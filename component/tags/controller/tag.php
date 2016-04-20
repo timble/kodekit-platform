@@ -47,23 +47,4 @@ class ControllerTag extends Library\ControllerModel
 
         return $this->_model;
     }
-
-    protected function _actionRender(Library\ControllerContext $context)
-    {
-        $view = $this->getView();
-
-        if($view instanceof Library\ViewTemplate)
-        {
-            $layout         = $view->getIdentifier()->toArray();
-            $layout['name'] = $view->getLayout();
-            unset($layout['path'][0]);
-
-            $alias            = $layout;
-            $alias['package'] = 'tags';
-
-            $this->getObject('manager')->registerAlias($alias, $layout);
-        }
-
-        return parent::_actionRender($context);
-    }
 }

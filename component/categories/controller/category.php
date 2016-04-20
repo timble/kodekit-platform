@@ -25,27 +25,13 @@ abstract class ControllerCategory extends Library\ControllerModel
             'model' => 'com:categories.model.categories'
         ));
 
+        //Alias the permission
+        $permission         = $this->getIdentifier()->toArray();
+        $permission['path'] = array('controller', 'permission');
+
+        $this->getObject('manager')->registerAlias('com:categories.controller.permission.category', $permission);
+
         parent::_initialize($config);
-    }
-
-    protected function _actionRender(Library\ControllerContext $context)
-    {
-        $view = $this->getView();
-
-        //Alias the view layout
-        if ($view instanceof Library\ViewTemplate)
-        {
-            $layout         = $view->getIdentifier()->toArray();
-            $layout['name'] = $view->getLayout();
-            unset($layout['path'][0]);
-
-            $alias            = $layout;
-            $alias['package'] = 'categories';
-
-            $this->getObject('manager')->registerAlias($alias, $layout);
-        }
-
-        return parent::_actionRender($context);
     }
 
     public function getRequest()
