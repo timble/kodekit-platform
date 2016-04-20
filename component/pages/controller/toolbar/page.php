@@ -24,8 +24,18 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
         parent::_afterBrowse($context);
 
         $this->addSeparator();
-        $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));
-        $this->addDisable(array('label' => 'unpublish', 'attribs' => array('data-data' => '{published:0}')));
+
+
+        $this->addEnable(array(
+            'label' => 'publish',
+            'data'  => array('data' => array('published' => 1))
+        ));
+
+        $this->addDisable(array(
+            'label' => 'unpublish',
+            'data'  => array('data' => array('published' => 0))
+        ));
+
         $this->addSeparator();
         $this->addDefault();
     }
@@ -35,9 +45,9 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
         $command->label = $this->getObject('translator')->translate('Make Default');
 
         $command->append(array(
-            'attribs' => array(
-                'data-action' => 'edit',
-                'data-data'   => '{default:1}'
+            'data' => array(
+                'action' => 'edit',
+                'data'   => array('default' => 1)
             )
         ));
     }
@@ -45,8 +55,8 @@ class ControllerToolbarPage extends Library\ControllerToolbarActionbar
     protected function _commandRestore(Library\ControllerToolbarCommand $command)
     {
         $command->append(array(
-            'attribs' => array(
-                'data-action' => 'edit',
+            'data' => array(
+                'action' => 'edit',
             )
         ));
     }

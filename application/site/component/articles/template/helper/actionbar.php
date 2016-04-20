@@ -29,28 +29,26 @@ class TemplateHelperActionbar extends Library\TemplateHelperActionbar
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'command' => array('attribs' => array(
+        	'attribs' => array(
                 'class' => array('btn', 'btn-mini', 'toolbar'),
                 'style' => array('float: right')
-            ))
+            )
         ));
 
-        $command = $config->command;
-
         //Force the id
-        $command->attribs['id'] = 'command-'.$command->id;
+        $config->attribs['id'] = 'command-'.$config->id;
 
         //Add a disabled class if the command is disabled
-        if($command->disabled) {
-            $command->attribs->class->append(array('nolink'));
+        if($config->disabled) {
+            $config->attribs->class->append(array('nolink'));
         }
 
         //Create the href
-        if(!empty($command->href)) {
-            $command->attribs['href'] = $command->href;
+        if(!empty($config->href)) {
+            $config->attribs['href'] = $config->href;
         }
 
-        $html  = '<a '.$this->buildAttributes($command->attribs).'>';
+        $html  = '<a '.$this->buildAttributes($config->attribs).'>';
        	$html .= '<i class="icon-edit"></i>';
        	$html .= '</a>';
 

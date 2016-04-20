@@ -24,13 +24,20 @@ class ControllerToolbarModule extends Library\ControllerToolbarActionbar
         parent::_afterBrowse($context);
 
         $this->addSeparator();
-        $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));
-        $this->addDisable(array('label' => 'unpublish', 'attribs' => array('data-data' => '{published:0}')));
+        $this->addEnable(array(
+            'label' => 'publish',
+            'data'  => array('data' => array('published' => 1))
+        ));
+
+        $this->addDisable(array(
+            'label' => 'unpublish',
+            'data'  => array('data' => array('published' => 0))
+        ));
     }
 
     protected function _commandNew(Library\ControllerToolbarCommand &$command)
     {
         $command = $this->getCommand('dialog', array('label' => 'new'));
-        $command->href = 'component=pages&view=modules&layout=list&installed=1&tmpl=dialog';
+        $command->href = 'component=pages&view=modules&layout=list&installed=1';
     }
 }
