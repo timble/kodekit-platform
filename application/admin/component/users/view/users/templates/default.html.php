@@ -50,7 +50,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="8">
-					<?= helper('com:pages.paginator.pagination') ?>
+					<?= helper('com:theme.paginator.pagination') ?>
 				</td>
 			</tr>
 		</tfoot>

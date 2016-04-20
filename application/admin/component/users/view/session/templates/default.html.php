@@ -8,14 +8,17 @@
  */
 ?>
 
-<h1><?= translate('Administrator Login') ?></h1>
-
 <?= helper('behavior.kodekit'); ?>
 
-<form action="" method="post" name="login" id="form-login">
-    <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= translate('Email') ?>" />
-    <input name="password" type="password" id="password" class="inputbox" placeholder="<?= translate('Password') ?>" />
+<ktml:messages>
+<div class="login-box">
+    <h1><?= translate('Administrator Login') ?></h1>
 
-   <input type="submit" class="button btn-large btn-block" value="<?= translate('Login') ?>" />
-   <p><a class="return" href="/"><?= translate('Go to site homepage.'); ?></a></p>
-</form>
+    <form action="" method="post" name="login" id="form-login">
+        <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= translate('Email') ?>" />
+        <input name="password" type="password" id="password" class="inputbox" placeholder="<?= translate('Password') ?>" />
+
+        <input type="submit" class="button btn-large btn-block" value="<?= translate('Login') ?>" />
+        <p><a class="return" href="/"><?= translate('Go to site homepage.'); ?></a></p>
+    </form>
+</div>

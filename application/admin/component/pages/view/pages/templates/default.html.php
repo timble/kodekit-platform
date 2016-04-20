@@ -9,7 +9,7 @@
 ?>
 
 <?= helper('behavior.kodekit'); ?>
-<?= helper('com:pages.behavior.sortable', array(
+<?= helper('com:theme.behavior.sortable', array(
     'options' => array('nested' => true /*, 'adapter' => array('options' => array('key' => 'custom'))*/)
 )) ?>
 
@@ -46,7 +46,7 @@
         <tfoot>
         <tr>
             <td colspan="6">
-                <?= helper('com:pages.paginator.pagination') ?>
+                <?= helper('com:theme.paginator.pagination') ?>
             </td>
         </tr>
         </tfoot>
