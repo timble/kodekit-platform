@@ -67,12 +67,12 @@
         <div class="content">
             <fieldset>
                 <? if (!$article->isNew()) : ?>
-                    <?= import('com:articles/attachments/list.html', array(
+                    <?= import('attachments/list.html', array(
                         'attachments'               => $article->getAttachments(),
                         'attachments_attachment_id' => $article->attachments_attachment_id
                     )) ?>
                 <? endif ?>
-                <?= import('com:articles/attachments/upload.html') ?>
+                <?= import('attachments/upload.html') ?>
             </fieldset>
         </div>
     </div>
