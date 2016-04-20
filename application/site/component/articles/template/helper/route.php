@@ -84,4 +84,26 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
 
         return $this->getTemplate()->route($route);
     }
+
+    /**
+     * Comment route helper
+     *
+     * This function will forward to the appropriate router based on the name of the row.
+     *
+     * @param array $config An array of configuration options
+     * @return string The route
+     */
+    public function comment($config = array())
+    {
+        $config = new Library\ObjectConfig($config);
+        $config->append(array(
+            'view'  => 'comments',
+        ));
+
+        //Forward the route call
+        $function = Library\StringInflector::singularize($config->entity->getIdentifier()->name);
+        $route    = $this->getTemplate()->createHelper('route')->$function($config);
+
+        return $route;
+    }
 }

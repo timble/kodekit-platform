@@ -1,7 +1,0 @@
-{
-  "bootstrap": {
-    "extends": "com:categories",
-    "namespace": "Kodekit\\Platform\\Categories"
-  }
-}
-

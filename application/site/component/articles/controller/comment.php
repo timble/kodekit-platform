@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Comments;
+use Kodekit\Component\Comments;
 
 /**
  * Comments Controller Class
@@ -20,5 +20,12 @@ use Kodekit\Platform\Comments;
  */
 class ControllerComment extends Comments\ControllerComment
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array('editable'),
+        ));
 
+        parent::_initialize($config);
+    }
 }

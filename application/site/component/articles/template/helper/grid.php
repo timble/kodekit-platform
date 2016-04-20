@@ -7,7 +7,7 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Kodekit\Platform\Attachments;
+namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
 
@@ -36,7 +36,7 @@ class TemplateHelperGrid extends Library\TemplateHelperAbstract
 
         $attribs = $this->buildAttributes($config->attribs);
 
-        $controller = $this->getObject('com:attachments.controller.attachment');
+        $controller = $this->getObject('com:articles.controller.attachment');
         $controller->getRequest()->setQuery($config->filter);
 
         $list = $controller->browse();
@@ -69,7 +69,7 @@ class TemplateHelperGrid extends Library\TemplateHelperAbstract
             )
         ));
 
-        $controller = $this->getObject('com:attachments.controller.attachment');
+        $controller = $this->getObject('com:articles.controller.attachment');
         $controller->getRequest()->setQuery($config->filter);
 
         $list = $controller->browse();

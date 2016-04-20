@@ -68,7 +68,7 @@
                </span>
                <span class="comment__header--right">
                     <time datetime="<?= $comment->created_on ?>" pubdate><?= helper('date.humanize', array('date' => $comment->created_on)) ?></time>
-                   <? if(object('com:comments.controller.comment')->id($comment->id)->canDelete()) : ?>
+                   <? if(object('com:articles.controller.comment')->id($comment->id)->canDelete()) : ?>
                        <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
                    <? endif;?>
                </span>
@@ -80,7 +80,7 @@
         </div>
     <? endforeach ?>
     <?if(can('add')):?>
-        <?= import('com:comments/comment/form.html'); ?>
+        <?= import('com:articles/comment/form.html'); ?>
     <?endif;?>
 </div>
 <? endif; ?>

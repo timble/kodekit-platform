@@ -7,7 +7,7 @@
  * @link           https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Kodekit\Platform\Attachments;
+namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
 

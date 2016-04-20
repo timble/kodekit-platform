@@ -10,7 +10,6 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Categories;
 
 /**
  * Categories Html View
@@ -18,7 +17,11 @@ use Kodekit\Platform\Categories;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Platform\Articles
  */
-class ViewCategoriesHtml extends Categories\ViewCategoriesHtml
+class ViewCategoriesHtml extends Library\ViewHtml
 {
-
+    protected function _fetchData(Library\ViewContext $context)
+    {
+        $context->data->params =  $params = $this->getObject('pages')->getActive()->getParams('page');
+        parent::_fetchData($context);
+    }
 }

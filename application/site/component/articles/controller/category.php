@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Categories;
+use Kodekit\Component\Categories;
 
 /**
  * Category Controller
@@ -20,5 +20,13 @@ use Kodekit\Platform\Categories;
  */
 class ControllerCategory extends Categories\ControllerCategory
 {
+    public function getRequest()
+    {
+        $request = parent::getRequest();
 
+        $request->query->access    = $this->getUser()->isAuthentic();
+        $request->query->published = 1;
+
+        return $request;
+    }
 }
