@@ -7,8 +7,6 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-$theme_path = APPLICATION_BASE.'/public/theme/default';
-
 return array(
 
     'identifiers' => array(
@@ -23,20 +21,6 @@ return array(
 
         'com:pages.controller.page'  => array(
             'behaviors'  => array('com:varnish.controller.behavior.cachable'),
-        ),
-
-        'com:pages.template.locator.module'  => array(
-            'path_templates' => array($theme_path.'/templates/modules')
-        ),
-
-        'com:pages.template.filter.asset'         => array(
-            'schemes' => array(
-                'assets://theme/' => '/administrator/theme/default/'
-            )
-        ),
-
-        'lib:template.locator.component'  => array(
-            'path_templates' => array($theme_path.'/templates/view/<Package>/<Path>/<File>.<Format>.<Type>')
         ),
     )
 );
