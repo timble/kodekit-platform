@@ -1,0 +1,7 @@
+{
+  "bootstrap": {
+    "identifier": "com:theme",
+    "namespace": "Kodekit\\Platform\\Theme"
+  }
+}
+
