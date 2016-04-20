@@ -8,8 +8,8 @@
  */
 ?>
 
-<ktml:script src="assets://tags/js/tags.js" />
-<ktml:style src="assets://tags/css/tags-list.css" />
+<ktml:script src="assets://articles/js/tags.js" />
+<ktml:style src="assets://articles/css/tags-list.css" />
 
 <? $disabled = $disabled ? 'disabled="disabled"' : ''; ?>
 

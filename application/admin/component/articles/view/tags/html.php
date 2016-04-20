@@ -7,7 +7,7 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Kodekit\Platform\Tags;
+namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
 
@@ -15,19 +15,19 @@ use Kodekit\Library;
  * Tags Html View
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Platform\Tags
+ * @package Kodekit\Platform\Articles
  */
 class ViewTagsHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
-	{
-		//If no row exists assign an empty array
-		if($this->getModel()->getState()->row) {
-			$context->data->disabled = false;
-		} else {
-			$context->data->disabled = true;
-		}
+    {
+        //If no row exists assign an empty array
+        if($this->getModel()->getState()->row) {
+            $context->data->disabled = false;
+        } else {
+            $context->data->disabled = true;
+        }
 
         parent::_fetchData($context);
-	}
+    }
 }

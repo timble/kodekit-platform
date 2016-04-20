@@ -9,7 +9,7 @@
 ?>
 
 <?= helper('behavior.kodekit'); ?>
-<?= helper('com:pages.behavior.sortable') ?>
+<?= helper('com:theme.behavior.sortable') ?>
 
 <ktml:block prepend="actionbar">
     <ktml:toolbar type="actionbar">
@@ -47,7 +47,7 @@
         <tfoot>
             <tr>
                 <td colspan="13">
-                    <?= helper('com:pages.paginator.pagination'); ?>
+                    <?= helper('com:theme.paginator.pagination'); ?>
                 </td>
             </tr>
         </tfoot>

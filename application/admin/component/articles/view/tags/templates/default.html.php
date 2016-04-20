@@ -32,7 +32,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= helper('com:pages.paginator.pagination') ?>
+                    <?= helper('com:theme.paginator.pagination') ?>
                 </td>
             </tr>
         </tfoot>

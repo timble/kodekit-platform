@@ -1,7 +1,0 @@
-{
-  "bootstrap": {
-    "extends": "com:tags",
-    "namespace": "Kodekit\\Platform\\Tags"
-  }
-}
-

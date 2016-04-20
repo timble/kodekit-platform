@@ -1,7 +1,0 @@
-{
-  "bootstrap": {
-    "extends": "com:comments",
-    "namespace": "Kodekit\\Platform\\Comments"
-  }
-}
-

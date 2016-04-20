@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Attachments;
+use Kodekit\Component\Attachments;
 
 /**
  * Attachment Controller Class
@@ -20,5 +20,15 @@ use Kodekit\Platform\Attachments;
  */
 class ControllerAttachment extends Attachments\ControllerAttachment
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array(
+                'editable', 'persistable',
+            ),
+            'model' => 'com:attachments.model.attachments'
+        ));
 
+        parent::_initialize($config);
+    }
 }

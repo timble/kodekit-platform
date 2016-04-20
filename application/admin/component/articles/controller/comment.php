@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Comments;
+use Kodekit\Component\Comments;
 
 /**
  * Comment Controller
@@ -20,5 +20,18 @@ use Kodekit\Platform\Comments;
  */
 class ControllerComment extends Comments\ControllerComment
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array(
+                'editable', 'persistable',
+                'com:activities.controller.behavior.loggable'
+            ),
+        ));
 
+        parent::_initialize($config);
+
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:ccomment.controller.toolbar.comment');
+    }
 }

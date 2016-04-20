@@ -11,7 +11,7 @@
  * Category Element
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Platform\Categories
+ * @package Kodekit\Platform\Articles
  */
 class JElementCategory extends JElement
 {

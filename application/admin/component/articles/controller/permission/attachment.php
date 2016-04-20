@@ -7,20 +7,18 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
-namespace Kodekit\Platform\Comments;
+namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
+use Kodekit\Platform\Application;
 
 /**
- * Default Dispatcher
+ * Attachment Controller Permission
  *
  * @author  Johan Janssens <http://github.com/johanjanssens>
- * @package Kodekit\Platform\Comments
+ * @package Kodekit\Platform\Articles
  */
-class Dispatcher extends Library\Dispatcher
+class ControllerPermissionAttachment extends Application\ControllerPermissionAbstract
 {
-    public function canDispatch()
-    {
-        return true;
-    }
+
 }

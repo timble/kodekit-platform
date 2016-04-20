@@ -10,23 +10,22 @@
 return array(
 
     'aliases'  => array(
-        'com:articles.model.categories'      => 'com:categories.model.categories',
-        'com:articles.controller.attachment' => 'com:attachments.controller.attachment',
+        'com:articles.model.categories' => 'com:categories.model.categories',
     ),
 
-	'identifiers' => array(
+    'identifiers' => array(
 
-		'com:articles.controller.article'  => array(
-			'behaviors'  => array(
+        'com:articles.controller.article'  => array(
+            'behaviors'  => array(
                 'com:varnish.controller.behavior.cachable',
                 'com:tags.controller.behavior.taggable'
             ),
-		),
+        ),
 
        'com:articles.model.articles'  => array(
             'behaviors'  => array(
                 'com:tags.model.behavior.taggable'
             ),
         ),
-	)
+    )
 );

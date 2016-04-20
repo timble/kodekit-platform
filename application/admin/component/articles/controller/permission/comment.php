@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Comments;
+use Kodekit\Platform\Application;
 
 /**
  * Comment Controller Permission
@@ -18,7 +18,7 @@ use Kodekit\Platform\Comments;
  * @author  Terry Visser <http://github.com/terryvisser>
  * @package Kodekit\Platform\Articles
  */
-class ControllerPermissionComment extends Comments\ControllerPermissionComment
+class ControllerPermissionComment extends Application\ControllerPermissionAbstract
 {
 
 }

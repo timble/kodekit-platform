@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Articles;
 
 use Kodekit\Library;
-use Kodekit\Platform\Categories;
+use Kodekit\Platform\Application;
 
 /**
  * Category Controller Permission
@@ -18,7 +18,7 @@ use Kodekit\Platform\Categories;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Platform\Articles
  */
-class ControllerPermissionCategory extends Categories\ControllerPermissionCategory
+class ControllerPermissionCategory extends Application\ControllerPermissionAbstract
 {
 
 }
