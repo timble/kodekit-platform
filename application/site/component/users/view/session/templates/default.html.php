@@ -14,6 +14,8 @@
 
 <title content="replace"><?= translate('Login') ?></title>
 
+<div class="container">
+<ktml:messages>
 <form action="<?= helper('route.session'); ?>" method="post" class="-koowa-form">
     <div class="form-content">
         <div class="page-header">
@@ -40,3 +42,4 @@
         <?php endif; ?>
     </div>
 </form>
+</div>
