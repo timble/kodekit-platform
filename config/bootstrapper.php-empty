@@ -27,7 +27,7 @@ return array(
         'application'           => [
 
             // Request Settings
-            'title'    => 'Nooku Platform',
+            'title'    => 'Kodekit Platform',
             'request'  => [
                 'timezone' => 'UTC',
                 'language' => 'en-GB'
