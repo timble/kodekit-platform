@@ -126,7 +126,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $options = array();
 
         $path  = \Kodekit::getInstance()->getRootPath().'/application/site/';
-        $path .= '/public/theme/bootstrap/config.xml';
+        $path .= '/component/theme/resources/config/positions.xml';
 
         if (file_exists($path))
         {
