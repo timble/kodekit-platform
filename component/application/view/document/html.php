@@ -27,15 +27,4 @@ class ViewDocumentHtml extends ViewHtml
 
         parent::_initialize($config);
     }
-
-    protected function _fetchData(Library\ViewContext $context)
-    {
-        if($this->getObject('manager')->isRegistered('dispatcher')) {
-            $context->data->component = $this->getObject('dispatcher')->getIdentifier()->package;
-        } else {
-            $context->data->component = '';
-        }
-
-        parent::_fetchData($context);
-    }
 }
