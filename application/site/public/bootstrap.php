@@ -36,8 +36,9 @@ $kodekit = Kodekit::getInstance(array(
 
 //Bootstrap the application
 Kodekit::getObject('object.bootstrapper')
-    ->registerComponents($kodekit->getRootPath().'/application/site/component')
+    ->registerComponents($kodekit->getBasePath().'/component')
     ->registerComponents($kodekit->getRootPath().'/component')
+    ->registerFile($kodekit->getBasePath(). '/config/bootstrapper.php')
     ->registerFile($kodekit->getRootPath(). '/config/bootstrapper.php')
     ->bootstrap();
 
