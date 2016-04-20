@@ -32,11 +32,6 @@ class Dispatcher extends Application\Dispatcher
         parent::_initialize($config);
     }
 
-    public function canDispatch()
-    {
-        return true;
-    }
-
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
         //Redirect if no view information can be found in the request

@@ -20,11 +20,6 @@ use Kodekit\Component\Application;
  */
 class Dispatcher extends Application\Dispatcher
 {
-    public function canDispatch()
-    {
-        return true;
-    }
-
     protected function _actionDispatch(Library\DispatcherContextInterface $context)
     {
         $pages = $this->getObject('pages');
