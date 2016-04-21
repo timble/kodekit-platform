@@ -85,7 +85,7 @@ CREATE TABLE `articles_tags` (
   `params` text NOT NULL,
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `slug` (`slug`),
-  UNIQUE KEY `title` (`title`),
+  UNIQUE KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -96,7 +96,7 @@ CREATE TABLE `articles_tags` (
 
 CREATE TABLE `articles_tags_relations` (
   `tag_id` BIGINT(20) UNSIGNED NOT NULL,
-  `row` CHAR(36) UNSIGNED NOT NULL,
+  `row` CHAR(36) NOT NULL,
   PRIMARY KEY  (`tag_id`,`row`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -171,7 +171,7 @@ CREATE TABLE `categories` (
   UNIQUE KEY `path` (`path`),
   KEY `cat_idx` (`table`,`published`,`access`),
   KEY `access_idx` (`access`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 --
