@@ -9,7 +9,7 @@
 ?>
 
 <!DOCTYPE HTML>
-<html lang="<?= $language; ?>">
+<html lang="<?= language(); ?>">
 <head>
     <base href="<?= url(); ?>" />
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
@@ -24,7 +24,5 @@
 
     <?= import('head.html') ?>
 </head>
-<body class="<?= $class ?>">
 <ktml:content>
-</body>
 </html>
