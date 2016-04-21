@@ -7,8 +7,11 @@
  * @link		https://github.com/timble/kodekit-platform for the canonical source repository
  */
 
+use Kodekit\Library;
+
 return array(
 
+    'priority' => Library\ObjectBootstrapperInterface::PRIORITY_LOW,
     'aliases'  => array(
         'application'       => 'com:application.dispatcher',
         'application.sites' => 'com:application.model.composite.sites',
@@ -20,7 +23,7 @@ return array(
     'identifiers' => array(
 
         'dispatcher' => array(
-            'behaviors' => array('com:application.dispatcher.behavior.documentable')
-        ),
+            'behaviors'=> array('decoratable' => array('decorators' => 'com:application.controller.document')),
+        )
     )
 );
