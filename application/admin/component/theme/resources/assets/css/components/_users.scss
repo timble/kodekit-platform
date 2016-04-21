@@ -1,5 +1,5 @@
 /* com:users.view.session.default.html */
-body.error_401 {
+body[data-status="401"] {
     overflow: auto;
     background-color: #f5f5f5;
 

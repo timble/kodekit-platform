@@ -2622,8 +2622,8 @@ body {
 }
 
 /* line 185, utilities/_flexbox.scss */
-.com_pages #components,
-.com_pages #layouts {
+body[data-component="pages"] #components,
+body[data-component="pages"] #layouts {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -2633,7 +2633,7 @@ body {
 }
 
 /* line 192, utilities/_flexbox.scss */
-.com_dashboard #panel-content {
+body[data-component="dashboard"] #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -2642,7 +2642,7 @@ body {
   flex: 1;
 }
 /* line 195, utilities/_flexbox.scss */
-.com_dashboard #panel-content > div:first-child {
+body[data-component="dashboard"] #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -2651,7 +2651,7 @@ body {
   flex: 1;
 }
 /* line 198, utilities/_flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div {
+body[data-component="dashboard"] #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -2663,7 +2663,7 @@ body {
   flex-direction: column;
 }
 /* line 202, utilities/_flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div #activities-list {
+body[data-component="dashboard"] #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-flex-direction: column;
@@ -2674,19 +2674,19 @@ body {
   flex-grow: 1;
 }
 /* line 207, utilities/_flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div #activities-list .activity {
+body[data-component="dashboard"] #panel-content > div:first-child > div #activities-list .activity {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
 /* line 210, utilities/_flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div #activities-list .activity .activity__text {
+body[data-component="dashboard"] #panel-content > div:first-child > div #activities-list .activity .activity__text {
   -webkit-flex-grow: 1;
   -moz-flex-grow: 1;
   flex-grow: 1;
 }
 /* line 214, utilities/_flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div #activities-list .activity .activity__info {
+body[data-component="dashboard"] #panel-content > div:first-child > div #activities-list .activity .activity__info {
   white-space: nowrap;
   overflow: hidden;
   -webkit-flex-shrink: 0;
@@ -4842,11 +4842,11 @@ disabled look for disabled choices in the results dropdown
 }
 
 /* line 2, components/_articles.scss */
-.com_articles .tabs {
+body[data-component="articles"] .tabs {
   border-top: 1px solid #ddd;
 }
 /* line 5, components/_articles.scss */
-.com_articles .select2-offscreen {
+body[data-component="articles"] .select2-offscreen {
   display: none;
 }
 
@@ -4866,16 +4866,16 @@ disabled look for disabled choices in the results dropdown
 }
 
 /* line 2, components/_contacts.scss */
-body.com_contacts .editor-wrap {
+body[data-component="contacts"] .editor-wrap {
   min-height: 200px;
 }
 
 /* line 2, components/_dashboard.scss */
-.com_dashboard #panel-content > div:first-child {
+body[data-component="dashboard"] #panel-content > div:first-child {
   border-right: 1px solid #ddd;
 }
 /* line 6, components/_dashboard.scss */
-.com_dashboard #panel-content .sidebar {
+body[data-component="dashboard"] #panel-content .sidebar {
   width: 400px;
   padding: 20px;
 }
@@ -5472,19 +5472,19 @@ body.com_contacts .editor-wrap {
 
 /* @end */
 /* line 2, components/_pages.scss */
-.com_pages #components {
+body[data-component="pages"] #components {
   width: 200px;
   background: #F7F7F7;
   border-right: 1px solid #DDD;
 }
 /* line 8, components/_pages.scss */
-.com_pages #components h3 {
+body[data-component="pages"] #components h3 {
   border-bottom: 1px solid #DDD;
   margin: 0;
   padding: 10px;
 }
 /* line 14, components/_pages.scss */
-.com_pages #components a {
+body[data-component="pages"] #components a {
   display: block;
   font-size: 120%;
   font-weight: bold;
@@ -5492,16 +5492,16 @@ body.com_contacts .editor-wrap {
   border-bottom: 1px solid #DDD;
 }
 /* line 22, components/_pages.scss */
-.com_pages #components a.active {
+body[data-component="pages"] #components a.active {
   background: #E8F3FB;
 }
 /* line 26, components/_pages.scss */
-.com_pages #layouts {
+body[data-component="pages"] #layouts {
   width: 250px;
   border-right: 1px solid #DDD;
 }
 /* line 31, components/_pages.scss */
-.com_pages #layouts .view h4 {
+body[data-component="pages"] #layouts .view h4 {
   margin: 0;
   padding: 5px;
   background: #F0F0F0;
@@ -5509,58 +5509,58 @@ body.com_contacts .editor-wrap {
   border-top: 1px solid #DDD;
 }
 /* line 39, components/_pages.scss */
-.com_pages #layouts .view:first-of-type h4 {
+body[data-component="pages"] #layouts .view:first-of-type h4 {
   border-top: none 0px;
 }
 /* line 43, components/_pages.scss */
-.com_pages #layouts .view a {
+body[data-component="pages"] #layouts .view a {
   padding: 5px 10px;
   display: block;
   font-weight: bold;
 }
 /* line 48, components/_pages.scss */
-.com_pages #layouts .view a.active {
+body[data-component="pages"] #layouts .view a.active {
   background: #E8F3FB;
 }
 /* line 53, components/_pages.scss */
-.com_pages #layouts .view a small {
+body[data-component="pages"] #layouts .view a small {
   font-weight: normal;
   color: #333;
 }
 /* line 58, components/_pages.scss */
-.com_pages .level1 {
+body[data-component="pages"] .level1 {
   padding-left: 36px;
 }
 /* line 61, components/_pages.scss */
-.com_pages .level2 {
+body[data-component="pages"] .level2 {
   padding-left: 54px;
 }
 /* line 64, components/_pages.scss */
-.com_pages .level3 {
+body[data-component="pages"] .level3 {
   padding-left: 72px;
 }
 /* line 67, components/_pages.scss */
-.com_pages .level4 {
+body[data-component="pages"] .level4 {
   padding-left: 90px;
 }
 /* line 70, components/_pages.scss */
-.com_pages .level5 {
+body[data-component="pages"] .level5 {
   padding-left: 108px;
 }
 /* line 74, components/_pages.scss */
-.com_pages .title {
+body[data-component="pages"] .title {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
   z-index: 3;
 }
 
 /* com:users.view.session.default.html */
 /* line 2, components/_users.scss */
-body.error_401 {
+body[data-status="401"] {
   overflow: auto;
   background-color: #f5f5f5;
 }
 /* line 6, components/_users.scss */
-body.error_401 .login-box {
+body[data-status="401"] .login-box {
   width: 275px;
   margin: auto;
   border: 1px solid #D7DADE;
@@ -5569,7 +5569,7 @@ body.error_401 .login-box {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 /* line 15, components/_users.scss */
-body.error_401 .login-box h1 {
+body[data-status="401"] .login-box h1 {
   margin: 0;
   text-align: center;
   padding: 10px 0;
@@ -5579,12 +5579,12 @@ body.error_401 .login-box h1 {
   border-bottom: 1px solid #D7DADE;
 }
 /* line 25, components/_users.scss */
-body.error_401 .login-box form {
+body[data-status="401"] .login-box form {
   margin: 0px;
   padding: 15px 25px 0;
 }
 /* line 29, components/_users.scss */
-body.error_401 .login-box form label {
+body[data-status="401"] .login-box form label {
   font-size: 13px;
   width: 120px;
   text-align: left;
@@ -5593,7 +5593,7 @@ body.error_401 .login-box form label {
   font-weight: bold;
 }
 /* line 38, components/_users.scss */
-body.error_401 .login-box form input {
+body[data-status="401"] .login-box form input {
   width: 220px !important;
   padding: 4px 8px;
   font-size: 18px;
@@ -5603,32 +5603,32 @@ body.error_401 .login-box form input {
   height: 36px;
 }
 /* line 46, components/_users.scss */
-body.error_401 .login-box form a {
+body[data-status="401"] .login-box form a {
   text-align: center;
   display: block;
 }
 /* line 54, components/_users.scss */
-body.error_401 .form #password-check.score1 {
+body[data-status="401"] .form #password-check.score1 {
   color: #FF0000;
 }
 /* line 58, components/_users.scss */
-body.error_401 .form #password-check.score2 {
+body[data-status="401"] .form #password-check.score2 {
   color: #FF5F5F;
 }
 /* line 62, components/_users.scss */
-body.error_401 .form #password-check.score3 {
+body[data-status="401"] .form #password-check.score3 {
   color: #56E500;
 }
 /* line 66, components/_users.scss */
-body.error_401 .form #password-check.score4 {
+body[data-status="401"] .form #password-check.score4 {
   color: #4DCD00;
 }
 /* line 70, components/_users.scss */
-body.error_401 .form #password-check.score5 {
+body[data-status="401"] .form #password-check.score5 {
   color: #399800;
 }
 /* line 75, components/_users.scss */
-body.error_401 .alert__text {
+body[data-status="401"] .alert__text {
   background: #c4553c linear-gradient(135deg, transparent, transparent 25%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 50%, transparent 50%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
   background-size: 20px 20px;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);

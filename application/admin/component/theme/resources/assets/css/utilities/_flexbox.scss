@@ -181,7 +181,7 @@ body {
     }
 }
 
-.com_pages {
+body[data-component="pages"] {
     #components,
     #layouts {
         @include flex;
@@ -189,7 +189,7 @@ body {
     }
 }
 
-.com_dashboard #panel-content {
+body[data-component="dashboard"] #panel-content {
     @include flex(1);
 
     > div:first-child {
