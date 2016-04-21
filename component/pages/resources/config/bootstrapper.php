@@ -17,12 +17,12 @@ return array(
 
     'identifiers' => array(
 
-        'template.locator.factory' => array(
-            'locators' => array('com:pages.template.locator.module')
+        'dispatcher' => array(
+            'behaviors'=> array('decoratable' => array('decorators' => 'com:pages.controller.window')),
         ),
 
-        'dispatcher' => array(
-            'behaviors' => array('com:pages.dispatcher.behavior.windowable')
-        ),
+        'template.locator.factory' => array(
+            'locators' => array('com:pages.template.locator.module')
+        )
     )
 );
