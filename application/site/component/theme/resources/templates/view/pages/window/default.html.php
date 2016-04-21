@@ -12,23 +12,21 @@
     <nav class="navbar navbar-default">
         <a class="navbar-brand" href="/"><?= escape(object('pages')->getActive()->title) ?></a>
         <div>
-            <ktml:block name="user3">
+            <ktml:block name="user3" />
         </div>
-        <ktml:block name="user4">
+        <ktml:block name="user4" />
     </nav>
 </header>
 
 <div class="container">
     <div class="row">
         <aside class="sidebar col-md-3">
-            <ktml:block name="left" decorator="wrapper">
+            <ktml:block name="left" decorator="wrapper.html" />
         </aside>
         <div class="col-md-9">
-            <ktml:block name="breadcrumb">
+            <ktml:block name="breadcrumb" />
             <ktml:messages>
-            <section>
-                <ktml:content>
-            </section>
+            <ktml:content decorator="section">
         </div>
     </div>
 </div>
