@@ -22,14 +22,14 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
     public function menus($config = array())
     {
         $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'model'	=> 'menus',
-			'name' 	=> 'pages_menu_id',
-			'value'	=> 'id',
-			'label'	=> 'title',
-		));
+        $config->append(array(
+            'model'	=> 'menus',
+            'name' 	=> 'pages_menu_id',
+            'value'	=> 'id',
+            'label'	=> 'title',
+        ));
 
-		return $this->render($config);
+        return $this->render($config);
     }
 
     public function pages($config = array())
@@ -123,18 +123,20 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'name' => 'position',
         ));
 
-        $options = array();
+        $options   = array();
 
         $path  = \Kodekit::getInstance()->getRootPath().'/application/site/';
-        $path .= '/component/theme/resources/config/positions.xml';
+        $path .= '/component/theme/resources/templates/view/pages/window/default.html.php';
 
         if (file_exists($path))
         {
-            $xml = simplexml_load_file($path);
-            if (isset($xml->positions))
+            $text = file_get_contents($path);
+
+            // <ktml:block name="[name]">
+            if(preg_match_all('#<ktml:block\s+name="([^"]+)"(.*)?>#siU', $text, $matches))
             {
-                foreach ($xml->positions->children() as $position) {
-                    $options[] = $this->option(array('text' => (string) $position, 'value' =>  (string) $position));
+                foreach($matches[1] as $key => $match) {
+                    $options[] = $this->option(array('text' => (string) trim($match), 'value' =>  (string) trim($match)));
                 }
             }
         }
