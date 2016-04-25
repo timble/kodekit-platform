@@ -31,7 +31,7 @@ class TemplateHelperGrid extends Library\TemplateHelperGrid
         foreach ($config->groups as $group)
         {
             $href     = $this->getTemplate()->route('view=group&name=' . (int) $group);
-            $output[] = '<li><a href="' . $href . '">' . $this->getTemplate()->escape($group) . '</a></li>';
+            $output[] = '<li><a href="' . $href . '">' . StringEscaper::html($group) . '</a></li>';
         }
 
         return '<ul>' . implode('', $output) . '</ul>';
