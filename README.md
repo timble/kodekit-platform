@@ -40,14 +40,12 @@ Kodekit Platform is only supported on PHP 5.5 and up running MySQL v5.x, or simi
 
 ## Installation
 
-* Clone this repository at [https://github.com/timble/kodekit-platform](https://github.com/timble/kodekit-platform)
+* Clone this repository and fetch submodules
 
 ```
     $ git clone https://github.com/timble/kodekit-platform
-```
-
-```
-    $ git checkout develop
+    $ git submodule init
+    $ git submodule update
 ```
 
 * Install [VirtualBox](http://www.virtualbox.org/)
