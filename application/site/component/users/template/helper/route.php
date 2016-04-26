@@ -20,8 +20,8 @@ use Kodekit\Platform\Pages;
  */
 class TemplateHelperRoute extends Pages\TemplateHelperRoute
 {
-	public function session($config = array())
-	{
+    public function session($config = array(), Library\TemplateInterface $template)
+    {
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
            'layout' => null
@@ -29,7 +29,7 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
 
         $needles = array(
             array('view' => 'session'),
-		);
+        );
 
         $route = array(
             'view'     => 'session',
@@ -44,10 +44,10 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-		return $this->getTemplate()->route($route);
-	}
+        return $template->route($route);
+    }
 
-    public function user($config = array())
+    public function user($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -74,6 +74,6 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-        return is_null($page) ? null : $this->getTemplate()->route($route);
+        return is_null($page) ? null : $template->route($route);
     }
 }
