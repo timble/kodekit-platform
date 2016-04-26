@@ -20,7 +20,7 @@ use Kodekit\Component\Activities;
  */
 class TemplateHelperActivity extends Activities\TemplateHelperActivity
 {
-    public function message($config = array())
+    public function message($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -31,7 +31,7 @@ class TemplateHelperActivity extends Activities\TemplateHelperActivity
 
         if($entity->name == 'session')
         {
-            $item = $this->getTemplate()->route('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
+            $item = $template->route('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
 
             $message   = '<a href="'.$item.'">'.$entity->title.'</a>';
             $message  .= ' <span class="action">'.$entity->status.'</span>';

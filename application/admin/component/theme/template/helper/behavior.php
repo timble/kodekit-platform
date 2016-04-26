@@ -25,12 +25,12 @@ class TemplateHelperBehavior extends Library\TemplateHelperBehavior
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function sortable($config = array())
+    public function sortable($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfigJson($config);
         $config->append(array(
             'component' => $this->getIdentifier()->getPackage(),
-            'view'      => Library\StringInflector::singularize($this->getTemplate()->getIdentifier()->getName()),
+            'view'      => Library\StringInflector::singularize($template->getIdentifier()->getName()),
             'selector'  => 'table tbody.sortable',
             'direction' => 'asc',
             'url'       => '?format=json'

@@ -10,7 +10,7 @@
 namespace Kodekit\Platform\Files;
 
 use Kodekit\Library;
-use Kodekit\Platform\Application;
+use Kodekit\Platform\Theme;
 
 /**
  * Paginator Template Helper
@@ -18,7 +18,7 @@ use Kodekit\Platform\Application;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Component\Files
  */
-class TemplateHelperPaginator extends Application\TemplateHelperPaginator
+class TemplateHelperPaginator extends Theme\TemplateHelperPaginator
 {
     /**
      * Render item pagination
@@ -27,7 +27,7 @@ class TemplateHelperPaginator extends Application\TemplateHelperPaginator
      * @return  string  Html
      * @see     http://developer.yahoo.com/ypatterns/navigation/pagination/
      */
-    public function pagination($config = array())
+    public function pagination($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -39,7 +39,7 @@ class TemplateHelperPaginator extends Application\TemplateHelperPaginator
         $html = '';
         $html .= '<div class="pagination">';
         $html .= '<div class="limit">'.$translator('Display NUM').' '.$this->limit($config).'</div>';
-        $html .=  $this->pages($config);
+        $html .=  $this->pages($config, $template);
         $html .= '<div class="limit"> '.$translator('Page').' <span class="page-current">1</span>';
         $html .= ' '.$translator('of').' <span class="page-total">1</span></div>';
         $html .= '</div>';
@@ -47,27 +47,27 @@ class TemplateHelperPaginator extends Application\TemplateHelperPaginator
         return $html;
     }
 
-    public function pages($config = array())
+    public function pages($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ModelPaginator($config);
-		$config->append(array(
-			'total'      => 0,
-			'display'    => 4,
-			'offset'     => 0,
-			'limit'	     => 0,
-			'attribs'	=> array(),
-		));
+        $config->append(array(
+            'total'      => 0,
+            'display'    => 4,
+            'offset'     => 0,
+            'limit'	     => 0,
+            'attribs'	=> array(),
+        ));
 
-		$html   = '<div class="button__group">'.$this->link($config->pages->first).'</div>';
-		$html  .= '<div class="button__group">';
-		$html  .= $this->link($config->pages->prev);
-		$html  .= '</div>';
-		$html  .= '<div class="button__group page-list"></div>';
-		$html  .= '<div class="button__group">';
-		$html  .= $this->link($config->pages->next);
-		$html  .= '</div>';
-		$html  .= '<div class="button__group">'.$this->link($config->pages->last).'</div>';
+        $html   = '<div class="button__group">'.$this->link($config->pages->first, $template).'</div>';
+        $html  .= '<div class="button__group">';
+        $html  .= $this->link($config->pages->prev);
+        $html  .= '</div>';
+        $html  .= '<div class="button__group page-list"></div>';
+        $html  .= '<div class="button__group">';
+        $html  .= $this->link($config->pages->next);
+        $html  .= '</div>';
+        $html  .= '<div class="button__group">'.$this->link($config->pages->last, $template).'</div>';
 
-		return $html;
+        return $html;
     }
 }

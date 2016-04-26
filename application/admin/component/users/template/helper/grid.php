@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperGrid extends Library\TemplateHelperGrid
 {
-    public function groups($config = array())
+    public function groups($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -30,8 +30,8 @@ class TemplateHelperGrid extends Library\TemplateHelperGrid
 
         foreach ($config->groups as $group)
         {
-            $href     = $this->getTemplate()->route('view=group&name=' . (int) $group);
-            $output[] = '<li><a href="' . $href . '">' . StringEscaper::html($group) . '</a></li>';
+            $href     = $template->route('view=group&name=' . (int) $group);
+            $output[] = '<li><a href="' . $href . '">' . Library\StringEscaper::html($group) . '</a></li>';
         }
 
         return '<ul>' . implode('', $output) . '</ul>';

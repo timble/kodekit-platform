@@ -26,7 +26,7 @@ class TemplateHelperPaginator extends Library\TemplateHelperPaginator
      * @return  string  Html
      * @see     http://developer.yahoo.com/ypatterns/navigation/pagination/
      */
-    public function pagination($config = array())
+    public function pagination($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ModelPaginator($config);
         $config->append(array(
@@ -35,7 +35,7 @@ class TemplateHelperPaginator extends Library\TemplateHelperPaginator
             'offset'     => 0,
             'limit'      => 0,
             'show_limit' => true,
-		    'show_count' => true
+            'show_count' => true
         ));
 
         $translator = $this->getObject('translator');
@@ -44,7 +44,7 @@ class TemplateHelperPaginator extends Library\TemplateHelperPaginator
         if($config->show_limit) {
             $html .= '<div class="limit">'.$translator('Display NUM').' '.$this->limit($config).'</div>';
         }
-        $html .=  $this->pages($config);
+        $html .=  $this->pages($config, $template);
         if($config->show_count) {
             $html .= '<div class="limit"> '.$translator('Page').' '.$config->current.' '.$translator('of').' '.$config->count.'</div>';
         }
@@ -59,28 +59,28 @@ class TemplateHelperPaginator extends Library\TemplateHelperPaginator
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function pages($config = array())
+    public function pages($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ModelPaginator($config);
-		$config->append(array(
-			'total'      => 0,
-			'display'    => 4,
-			'offset'     => 0,
-			'limit'	     => 0,
-			'attribs'	=> array(),
-		));
+        $config->append(array(
+            'total'      => 0,
+            'display'    => 4,
+            'offset'     => 0,
+            'limit'	     => 0,
+            'attribs'	=> array(),
+        ));
 
-        $html   = '<div class="button__group">'.$this->link($config->pages->first).'</div>';
+        $html   = '<div class="button__group">'.$this->link($config->pages->first, $template).'</div>';
         $html  .= '<div class="button__group">';
-        $html  .= $this->link($config->pages->prev);
+        $html  .= $this->link($config->pages->prev, $template);
 
         foreach($config->pages->offsets as $offset) {
-            $html .= $this->link($offset);
+            $html .= $this->link($offset, $template);
         }
 
-        $html  .= $this->link($config->pages->next);
+        $html  .= $this->link($config->pages->next, $template);
         $html  .= '</div>';
-        $html  .= '<div class="button__group">'.$this->link($config->pages->last).'</div>';
+        $html  .= '<div class="button__group">'.$this->link($config->pages->last, $template).'</div>';
 
         return $html;
     }
@@ -91,22 +91,22 @@ class TemplateHelperPaginator extends Library\TemplateHelperPaginator
      * @param   array   $config An optional array with configuration options
      * @return	string	Html
      */
-   public function link($config)
+   public function link($config, Library\TemplateInterface $template)
    {
         $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'title'   => '',
-			'current' => false,
-		    'active'  => false,
-			'offset'  => 0,
-			'limit'	  => 0,
-		    'rel'	  => '',
-			'attribs'  => array(),
-		));
+        $config->append(array(
+            'title'   => '',
+            'current' => false,
+            'active'  => false,
+            'offset'  => 0,
+            'limit'	  => 0,
+            'rel'	  => '',
+            'attribs'  => array(),
+        ));
 
         $translator = $this->getObject('translator');
 
-        $route = $this->getTemplate()->route('limit='.$config->limit.'&offset='.$config->offset);
+        $route = $template->route('limit='.$config->limit.'&offset='.$config->offset);
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
 
         $html = '<a '.$this->buildAttributes($config->attribs).' href="'.$route.'" '.$rel.'>'.$translator($config->title).'</a>';

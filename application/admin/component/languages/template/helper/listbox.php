@@ -19,42 +19,42 @@ use Kodekit\Library;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function languages($config = array())
+    public function languages($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'name'  => 'language'
-		));
+        $config->append(array(
+            'name'  => 'language'
+        ));
 
-		$result = '';
+        $result = '';
 
-	    $result = '
-		    <script>
+        $result = '
+            <script>
                 window.addEvent(\'domready\', function() {
                     document.getElement(\'select[name='.$config->name.']\').addEvent(\'change\', function() {
                         window.location = this.value;
                     });
                 });
             </script>
-		';
+        ';
 
-		$options   = array();
-		$languages = $this->getObject('application.languages');
-		$active    = $languages->getActive();
+        $options   = array();
+        $languages = $this->getObject('application.languages');
+        $active    = $languages->getActive();
 
-		foreach($languages as $language)
-		{
-		    $route = $this->getTemplate()->route('language='.$language->slug);
-		    $options[] = $this->option(array('label' => $language->name, 'value' => $route));
+        foreach($languages as $language)
+        {
+            $route = $template->route('language='.$language->slug);
+            $options[] = $this->option(array('label' => $language->name, 'value' => $route));
 
-		    if($language->iso_code == $active->iso_code) {
-		        $config->selected = $route;
-		    }
-		}
+            if($language->iso_code == $active->iso_code) {
+                $config->selected = $route;
+            }
+        }
 
-		$config->options = $options;
-		$result .= parent::optionlist($config);
+        $config->options = $options;
+        $result .= parent::optionlist($config);
 
-		return $result;
+        return $result;
     }
 }
