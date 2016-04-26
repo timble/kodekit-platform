@@ -30,7 +30,7 @@ class ViewArticleHtml extends ViewHtml
         if ($page->getLink()->query['view'] == 'categories')
         {
             $category = $article->getCategory();
-            $url      = $this->getTemplate()->createHelper('route')->category(array('entity' => $category));
+            $url      = $this->getTemplate()->invokeHelper('route.category', array('entity' => $category));
 
             $pathway[] = array(
                 'title' => $category->title,

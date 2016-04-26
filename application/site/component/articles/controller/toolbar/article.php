@@ -34,7 +34,7 @@ class ControllerToolbarArticle extends Library\ControllerToolbarActionbar
         if($view->getLayout() != 'form' && $controller->isEditable() && $controller->canEdit())
         {
             $article = $controller->getModel()->fetch();
-            $route   = $controller->getView()->getTemplate()->createHelper('route')->article(
+            $route   = $controller->getView()->getTemplate()->invokeHelper('route.article',
                 array('entity' => $article, 'layout' => 'form')
             );
 
