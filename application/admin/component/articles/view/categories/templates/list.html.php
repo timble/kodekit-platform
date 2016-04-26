@@ -9,23 +9,23 @@
 ?>
 
 <ul class="navigation">
-	<li>
-        <a class="<?= !is_numeric(parameters()->category) ? 'active' : ''; ?>" href="<?= route('category=' ) ?>">
+    <li>
+        <a class="<?= !is_numeric(parameter('category')) ? 'active' : ''; ?>" href="<?= route('category=' ) ?>">
             <?= translate('All articles')?>
         </a>
-	</li>
-	<li>
-        <a class="<?= parameters()->category == '0' ? 'active' : ''; ?>" href="<?= route('category=0' ) ?>">
+    </li>
+    <li>
+        <a class="<?= parameter('category') == '0' ? 'active' : ''; ?>" href="<?= route('category=0' ) ?>">
             <?= translate('Uncategorised') ?>
         </a>
-	</li>
+    </li>
 
     <? foreach($categories as $category) : ?>
-	<li>
-        <a class="<?= parameters()->category == $category->id ? 'active' : ''; ?>" href="<?= route('category='.$category->id ) ?>">
+    <li>
+        <a class="<?= parameter('category') == $category->id ? 'active' : ''; ?>" href="<?= route('category='.$category->id ) ?>">
             <?= escape($category->title) ?>
         </a>
     </li>
 
-	<? endforeach ?>
+    <? endforeach ?>
 </ul>

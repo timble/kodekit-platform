@@ -12,7 +12,7 @@
 
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
 <?= helper('com:theme.behavior.sortable', array(
-    'url' => '?format=json&application='.parameters()->application
+    'url' => '?format=json&application='.parameter('application')
 )) ?>
 
 <ktml:block prepend="actionbar">
@@ -28,7 +28,7 @@
     <table>
         <thead>
             <tr>
-                <? if(parameters()->position && parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?><th class="handle"></th><? endif ?>
+                <? if(parameter('position') && parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?><th class="handle"></th><? endif ?>
                 <th width="1">
                     <?= helper('grid.checkall'); ?>
                 </th>
@@ -53,10 +53,10 @@
             </tr>
             <? endif ?>
         </tfoot>
-        <tbody<? if(parameters()->position && parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<? if(parameter('position') && parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?> class="sortable"<? endif ?>>
         <? foreach ($modules as $module) : ?>
             <tr>
-                <? if(parameters()->position && parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?>
+                <? if(parameter('position') && parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?>
                 <td class="handle">
                     <span class="text--small data-order"><?= $module->ordering ?></span>
                 </td>

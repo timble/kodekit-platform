@@ -10,7 +10,7 @@
 
 <div class="scopebar">
     <div class="scopebar__group">
-        <a class="<?= is_null(parameters()->published) ? 'active' : ''; ?>" href="<?= route('published=' ) ?>">
+        <a class="<?= is_null(parameter('published')) ? 'active' : ''; ?>" href="<?= route('published=' ) ?>">
             <?= translate('All') ?>
         </a>
     </div>

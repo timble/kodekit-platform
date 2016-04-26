@@ -12,6 +12,6 @@
 <?= import('list.html', array(
     'categories' => object('com:articles.model.categories')
         ->sort(array('ordering', 'title'))
-        ->table(parameters()->table)
+        ->table(parameter('table'))
         ->fetch()
 )); ?>

@@ -11,8 +11,8 @@
 <nav role="navigation">
     <?= helper('com:pages.menu.render', array(
         'pages'       => $pages,
-        'max_level'   => parameters()->get('max_level', 9),
-        'active_only' => parameters()->get('active_only', false),
-        'title'       => parameters()->show_title ? title() : null,
-        'attribs'     => array('class' => parameters()->get('class', 'nav')))) ?>
+        'max_level'   => parameter('max_level', 9),
+        'active_only' => parameter('active_only', false),
+        'title'       => parameter('show_title') ? title() : null,
+        'attribs'     => array('class' => parameter('class', 'nav')))) ?>
 </nav>

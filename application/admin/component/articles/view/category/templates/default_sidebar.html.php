@@ -23,11 +23,11 @@
         </div>
     </div>
 </fieldset>
-<? if(parameters()->table == 'articles') : ?>
+<? if(parameter('table') == 'articles') : ?>
     <fieldset class="categories group">
         <legend><?= translate('Parent') ?></legend>
         <div>
-            <?= helper('com:categories.radiolist.categories', array('entity' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => parameters()->table))) ?>
+            <?= helper('com:categories.radiolist.categories', array('entity' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => parameter('table')))) ?>
         </div>
     </fieldset>
 <? endif ?>

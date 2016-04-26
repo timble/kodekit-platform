@@ -10,23 +10,23 @@
 
 <div class="scopebar">
 	<div class="scopebar__group">
-		<a class="<?= is_null(parameters()->enabled) && is_null(parameters()->visited) && is_null(parameters()->authentic) ? 'active' : ''; ?>" href="<?= route('enabled=&authentic=&visited=' ) ?>">
+		<a class="<?= is_null(parameter('enabled')) && is_null(parameter('visited')) && is_null(parameter('authentic')) ? 'active' : ''; ?>" href="<?= route('enabled=&authentic=&visited=' ) ?>">
 		    <?= translate('All') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= parameters()->enabled === true ? 'active' : ''; ?>" href="<?= route(parameters()->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
+		<a class="<?= parameter('enabled') === true ? 'active' : ''; ?>" href="<?= route(parameter('enabled') === true ? 'enabled=' : 'enabled=1' ) ?>">
 		    <?= translate('Enabled') ?>
 		</a>
-		<a class="<?= parameters()->enabled === false ? 'active' : ''; ?>" href="<?= route(parameters()->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
+		<a class="<?= parameter('enabled') === false ? 'active' : ''; ?>" href="<?= route(parameter('enabled') === false ? 'enabled=' : 'enabled=0' ) ?>">
 		    <?= translate('Disabled') ?>
 		</a>
 	</div>
 	<div class="scopebar__group">
-		<a class="<?= parameters()->authentic === true ? 'active' : ''; ?>" href="<?= route( parameters()->authentic === true ? 'authentic=' : 'authentic=1&visited=' ) ?>">
+		<a class="<?= parameter('authentic') === true ? 'active' : ''; ?>" href="<?= route( parameter('authentic') === true ? 'authentic=' : 'authentic=1&visited=' ) ?>">
 		    <?= translate('Logged in') ?>
 		</a>
-		<a class="<?= parameters()->visited === false ? 'active' : ''; ?>" href="<?= route( parameters()->visited === false? 'visited=' : 'visited=0&authentic=' ) ?>">
+		<a class="<?= parameter('visited') === false ? 'active' : ''; ?>" href="<?= route( parameter('visited') === false? 'visited=' : 'visited=0&authentic=' ) ?>">
 		    <?= translate('Never visited') ?>
 		</a>
 	</div>

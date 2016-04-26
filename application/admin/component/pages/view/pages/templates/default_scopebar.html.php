@@ -10,28 +10,28 @@
 
 <div class="scopebar">
     <div class="scopebar__group">
-            <a href="<?= route('published=&deleted=&access=' ) ?>" class="<?= !is_bool(parameters()->published) && !parameters()->deleted && is_null(parameters()->access) ? 'active' : '' ?>">
+            <a href="<?= route('published=&deleted=&access=' ) ?>" class="<?= !is_bool(parameter('published')) && !parameter('deleted') && is_null(parameter('access')) ? 'active' : '' ?>">
                 <?= 'All' ?>
             </a>
     </div>
     <div class="scopebar__group">
-        <a href="<?= route('published=1' ) ?>" class="<?= parameters()->published === true ? 'active' : '' ?>">
+        <a href="<?= route('published=1' ) ?>" class="<?= parameter('published') === true ? 'active' : '' ?>">
             <?= translate('Published') ?>
         </a>
-        <a href="<?= route('published=0' ) ?>" class="<?= parameters()->published === false ? 'active' : '' ?>">
+        <a href="<?= route('published=0' ) ?>" class="<?= parameter('published') === false ? 'active' : '' ?>">
             <?= translate('Unpublished') ?>
         </a>
-        <a href="<?= route( parameters()->deleted ? 'deleted=' : 'deleted=1' ) ?>" class="<?= parameters()->deleted ? 'active' : '' ?>">
+        <a href="<?= route( parameters()->deleted ? 'deleted=' : 'deleted=1' ) ?>" class="<?= parameter('deleted') ? 'active' : '' ?>">
             <?= 'Trashed' ?>
         </a>
     </div>
     <div class="scopebar__group">
-    	<a class="<?= parameters()->access === 1 ? 'active' : ''; ?>" href="<?= route(parameters()->access === 1 ? 'access=' : 'access=1' ) ?>">
+    	<a class="<?= parameter('access') === 1 ? 'active' : ''; ?>" href="<?= route(parameter('access') === 1 ? 'access=' : 'access=1' ) ?>">
     	    <?= 'Registered' ?>
     	</a>
     </div>
     <div class="scopebar__group">
-    	<a class="<?= parameters()->hidden === 1 ? 'active' : ''; ?>" href="<?= route(parameters()->hidden === 1 ? 'hidden=' : 'hidden=1' ) ?>">
+    	<a class="<?= parameter('hidden') === 1 ? 'active' : ''; ?>" href="<?= route(parameter('hidden') === 1 ? 'hidden=' : 'hidden=1' ) ?>">
     	    <?= 'Hidden' ?>
     	</a>
     </div>

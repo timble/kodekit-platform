@@ -11,14 +11,14 @@
 <ktml:style src="assets://articles/css/tags-cloud.css" />
 
 <ul id="tags-tags-cloud">
-	<? foreach ($tags as $tag) : ?>
-	<? list($component, $view) = explode("_", $tag->table) ?>
-	<li>
-		<span><?= $tags->count ?> <?= translate('articles are tagged with') ?></span>
-		<a  href="<?= route('component='.$component.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/parameters()->total + 1) ?>" ><?= $tag->title; ?></a>
-	</li>
-	<? endforeach; ?>
-	<li>
-		<a href="<?= route('component='.$component.'&view='.$view.'&tag=') ?>"><?= translate('All tags') ?></a>
-	</li>
+    <? foreach ($tags as $tag) : ?>
+    <? list($component, $view) = explode("_", $tag->table) ?>
+    <li>
+        <span><?= $tags->count ?> <?= translate('articles are tagged with') ?></span>
+        <a  href="<?= route('component='.$component.'&view='.$view.'&tag='.$tag->slug) ?>" class="weight<?= round($tag->count/parameter('total') + 1) ?>" ><?= $tag->title; ?></a>
+    </li>
+    <? endforeach; ?>
+    <li>
+        <a href="<?= route('component='.$component.'&view='.$view.'&tag=') ?>"><?= translate('All tags') ?></a>
+    </li>
 </ul>

@@ -9,7 +9,7 @@
 ?>
 
 <? if(content()) : ?>
-    <div class="module <?= parameters()->view ?>">
+    <div class="module <?= parameter('view') ?>">
         <?= content(); ?>
     </div>
 <? endif; ?>

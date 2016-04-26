@@ -59,10 +59,10 @@
 	</tbody>
 </table>
 
-<? if(count($files) != parameters()->total): ?>
+<? if(count($files) != parameter('total')): ?>
     <?= helper('paginator.pagination', array(
-        'limit'      => parameters()->limit,
-        'offset'     => parameters()->offset,
+        'limit'      => parameter('limit'),
+        'offset'     => parameter('offset'),
     	'show_limit' => false,
     	'show_count' => false
     )); ?>

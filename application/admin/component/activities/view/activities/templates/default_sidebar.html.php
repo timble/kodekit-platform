@@ -28,13 +28,13 @@
 <h3><?= translate('Extensions') ?></h3>
 <ul class="navigation">
     <li>
-        <a class="<?= empty(parameters()->package) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
+        <a class="<?= empty(parameter('package')) ? 'active' : ''; ?>" href="<?= route('package=') ?>">
             <?= translate('All extensions') ?>
         </a>
     </li>
     <? foreach ($packages as $package): ?>
         <li>
-            <a <?= $package == parameters()->package ? 'class="active"' : '' ?> href="<?= route('package=' . $package) ?>">
+            <a <?= $package == parameter('package') ? 'class="active"' : '' ?> href="<?= route('package=' . $package) ?>">
                 <?= ucfirst($package) ?>
             </a>
         </li>
@@ -46,11 +46,11 @@
     <fieldset>
         <div class="input-prepend">
             <span class="add-on"><?=translate('Show activities until')?></span>
-            <input type="date" name="end_date" value="<?= parameters()->end_date ?>"/>
+            <input type="date" name="end_date" value="<?= parameter('end_date') ?>"/>
         </div>
         <div class="input-prepend">
             <span class="add-on"><?=translate('Going back')?></span>
-            <input type="text" name="day_range" value="<?= (parameters()->day_range) ? parameters()->day_range : '' ?>"/>
+            <input type="text" name="day_range" value="<?= parameter('day_range') ? parameter('day_range') : '' ?>"/>
         </div>
         <div class="input-prepend">
             <span class="add-on">User</span>

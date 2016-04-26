@@ -8,7 +8,7 @@
  */
 ?>
 
-<? if(parameters()->show_title) : ?>
+<? if(parameter('show_title')) : ?>
     <h3><?= title() ?></h3>
 <? endif ?>
 

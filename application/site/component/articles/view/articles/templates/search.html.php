@@ -17,7 +17,7 @@
               style="margin-bottom: 0;">
             <div class="form-group">
                 <input id="search" name="search" class="form-control" type="text"
-                       value="<?= escape(parameters()->search) ?>" placeholder="<?= translate('Search articles') ?>"/>
+                       value="<?= escape(parameter('search')) ?>" placeholder="<?= translate('Search articles') ?>"/>
                 <button type="submit" class="btn btn-primary"><?= translate('Submit') ?></button>
             </div>
         </form>
@@ -27,6 +27,6 @@
     <?= import('default_item.html', array('article' => $article)) ?>
 <? endforeach ?>
 
-<? if (count($articles) != parameters()->total) : ?>
-    <?= helper('paginator.pagination', array('total' => parameters()->total, 'show_limit' => false, 'show_count' => false)) ?>
+<? if (count($articles) != parameter('total')) : ?>
+    <?= helper('paginator.pagination', array('total' => parameter('total'), 'show_limit' => false, 'show_count' => false)) ?>
 <? endif ?>

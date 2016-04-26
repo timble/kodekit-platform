@@ -11,13 +11,13 @@
 <h3><?= translate('Roles') ?></h3>
 <ul class="navigation">
 	<li>
-        <a class="<?= is_null(parameters()->role) ? 'active' : ''; ?>" href="<?= route('role=') ?>">
+        <a class="<?= is_null(parameter('role')) ? 'active' : ''; ?>" href="<?= route('role=') ?>">
             <?= translate('All roles') ?>
         </a>
 	</li>
 	<? foreach($roles as $role) : ?>
     <li>
-        <a <?= parameters()->role == $role->id ? 'class="active"' : '' ?> href="<?= route('role='.$role->id) ?>">
+        <a <?= parameter('role') == $role->id ? 'class="active"' : '' ?> href="<?= route('role='.$role->id) ?>">
             <?= $role->name ?>
         </a>
     </li>
@@ -27,14 +27,14 @@
 <h3><?= translate('Groups') ?></h3>
 <ul class="navigation">
 	<li>
-        <a class="<?= is_null(parameters()->group) ? 'active' : ''; ?>" href="<?= route('group=') ?>">
+        <a class="<?= is_null(parameter('group')) ? 'active' : ''; ?>" href="<?= route('group=') ?>">
             <?= translate('All groups') ?>
         </a>
 	</li>
 
 	<? foreach($groups as $group) : ?>
     <li>
-        <a <?= parameters()->group == $group->name ? 'class="active"' : '' ?> href="<?= route('group='.$group->name) ?>">
+        <a <?= parameter('group') == $group->name ? 'class="active"' : '' ?> href="<?= route('group='.$group->name) ?>">
             <?= $group->name ?>
         </a>
     </li>

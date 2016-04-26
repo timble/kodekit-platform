@@ -15,20 +15,20 @@
     <ktml:toolbar type="actionbar">
 </ktml:block>
 
-<? if(parameters()->table == 'articles') : ?>
+<? if(parameter('table') == 'articles') : ?>
     <ktml:block prepend="sidebar">
         <?= import('default_sidebar.html'); ?>
     </ktml:block>
 <? endif; ?>
 
 <form action="" method="get" class="-koowa-grid">
-    <input type="hidden" name="type" value="<?= parameters()->type;?>" />
+    <input type="hidden" name="type" value="<?= parameter('type') ;?>" />
 
     <?= import('default_scopebar.html'); ?>
     <table>
         <thead>
             <tr>
-                <? if(parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?>
+                <? if(parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?>
                 <th class="handle"></th>
                 <? endif ?>
                 <th width="1">
@@ -52,10 +52,10 @@
             </tr>
         </tfoot>
 
-        <tbody<? if(parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<? if(parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <? if(parameters()->sort == 'ordering' && parameters()->direction == 'asc') : ?>
+                    <? if(parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?>
                     <td class="handle">
                         <span class="text--small data-order"><?= $category->ordering ?></span>
                     </td>

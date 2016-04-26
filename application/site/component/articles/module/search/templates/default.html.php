@@ -8,13 +8,13 @@
  */
 ?>
 
-<? if (is_numeric(parameters()->item_id)): ?>
+<? if (is_numeric(parameter('item_id'))): ?>
 
-    <? if(parameters()->show_title) : ?>
+    <? if(parameter('show_title')) : ?>
         <h3><?= title() ?></h3>
     <? endif ?>
 
-    <form action="<?= route('component=articles&view=articles&Itemid=' . parameters()->item_id) ?>" method="get" class="navbar-form pull-right">
+    <form action="<?= route('component=articles&view=articles&Itemid=' . parameter('item_id')) ?>" method="get" class="navbar-form pull-right">
         <div class="form-group">
             <input id="search" name="search" class="form-control" type="text" value="" placeholder="<?= translate('Search articles') ?>"/>
         </div>

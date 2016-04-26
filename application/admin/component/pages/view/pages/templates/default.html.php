@@ -26,7 +26,7 @@
     <table>
         <thead>
         <tr>
-            <? if (parameters()->sort == 'custom' && parameters()->direction == 'asc') : ?>
+            <? if (parameter('sort') == 'custom' && parameter('direction') == 'asc') : ?>
                 <th class="handle"></th><? endif ?>
             <th width="1">
                 <?= helper('grid.checkall'); ?>
@@ -55,7 +55,7 @@
         <? foreach ($pages as $page) : ?>
             <tr class="sortable" data-sortable-parent="<?= (int)$page->parent_id; ?>"
                 data-sortable-level="<?= (int)$page->level ?>">
-                <? if (parameters()->sort == 'custom' && parameters()->direction == 'asc') : ?>
+                <? if (parameter('sort') == 'custom' && parameter('direction') == 'asc') : ?>
                     <td class="handle">
                         <span class="text--small data-order"><?= $page->ordering ?></span>
                     </td>
@@ -70,10 +70,10 @@
                     <?/*
                     $link  = '&type[component]=' . $page->getLink()->query['component'] . '&type[view]=' . $page->getLink()->query['view'];
                     $link .= '&type[layout]=' . (isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
-                    $link .= '&view=page&menu=' . parameters()->menu . '&id=' . $page->id;
+                    $link .= '&view=page&menu=' . parameter('menu') . '&id=' . $page->id;
                     */?>
 
-                    <a href="<?= route('view=page&menu='.parameters()->menu.'&id='.$page->id) ?>">
+                    <a href="<?= route('view=page&menu='.parameter('menu').'&id='.$page->id) ?>">
                         <? if ($page->level > 1) : ?>
                             <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - 1) ?><sup>|_</sup>&nbsp;
                         <? endif ?>

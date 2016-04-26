@@ -20,7 +20,7 @@ use Kodekit\Library;
     Files.token    = '<?= $token; ?>';
 
     window.addEvent('domready', function() {
-        var config = <?= json_encode(parameters()->config); ?>,
+        var config = <?= json_encode(parameter('config')); ?>,
         options = {
             state: {
                 defaults: {
@@ -28,13 +28,13 @@ use Kodekit\Library;
                     offset: 0
                 }
             },
-            editor: <?= json_encode(parameters()->editor); ?>,
+            editor: <?= json_encode(parameter('editor')); ?>,
             tree: {
                 theme: 'assets://files/images/mootree.png'
             },
-            types: <?= json_encode(parameters()->types); ?>,
+            types: <?= json_encode(parameter('types')) ?>,
             site: <?= json_encode($site); ?>,
-            container: <?= json_encode(parameters()->container ? parameters()->container : null); ?>
+            container: <?= json_encode(parameter('container') ? parameter('container') : null); ?>
         };
         options = $extend(options, config);
 
@@ -68,7 +68,7 @@ use Kodekit\Library;
                                 <input type="text" id="image-url" value="" />
                             </div>
                         </div>
-                        <? if(in_array('file', parameters()->types)) : ?>
+                        <? if(in_array('file', parameter('types'))) : ?>
                             <div id="link-text">
                                 <label for="image-text"><?= translate('Text') ?></label>
                                 <div>
@@ -88,7 +88,7 @@ use Kodekit\Library;
                                 <input type="text" id="image-title" value="" />
                             </div>
                         </div>
-                        <? if(in_array('image', parameters()->types)) : ?>
+                        <? if(in_array('image', parameter('types'))) : ?>
                             <div>
                                 <label for="image-align"><?= translate('Align') ?></label>
                                 <div>

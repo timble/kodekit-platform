@@ -17,7 +17,7 @@ $config = array(
 );
 ?>
 
-<? if(isset(parameters()->rel->first)) : ?>
+<? if(isset(parameter('rel')->first)) : ?>
     <?= helper('accordion.startPane', $config); ?>
 <? endif ?>
 
@@ -25,6 +25,6 @@ $config = array(
 <?= content(); ?>
 <?= helper('accordion.endPanel'); ?>
 
-<? if(isset(parameters()->rel->last)) : ?>
+<? if(isset(parameter('rel')->last)) : ?>
     <?= helper('accordion.startPane'); ?>
 <? endif ?>

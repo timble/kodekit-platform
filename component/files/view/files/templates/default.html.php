@@ -17,20 +17,20 @@ Files.base     = '<?= $base; ?>';
 Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
-	var config = <?= json_encode(parameters()->config); ?>,
+	var config = <?= json_encode(parameter('config')); ?>,
 		options = {
             title: false,
 			state: {
 				defaults: {
-					limit: <?= (int) parameters()->limit; ?>,
-					offset: <?= (int) parameters()->offset; ?>,
-					types: <?= json_encode(parameters()->types); ?>
+					limit: <?= (int) paramete('limit'); ?>,
+					offset: <?= (int) parameter('offset'); ?>,
+					types: <?= json_encode(parameter('types')); ?>
 				}
 			},
 			tree: {
 				theme: 'assets://files/images/mootree.png'
 			},
-			types: <?= json_encode(parameters()->types); ?>,
+			types: <?= json_encode(parameter('types')); ?>,
             site: <?= json_encode($site); ?>,
 			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
 			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
