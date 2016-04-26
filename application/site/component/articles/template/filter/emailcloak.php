@@ -66,7 +66,7 @@ class TemplateFilterEmailcloak extends Library\TemplateFilterAbstract
         return $result;
     }
 
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template)
     {
         // Search for <a href="mailto:|http(s)://mce_host/dir/email@email.tld">
         $pattern = '~<a[^>]*href\s*=\s*"(?:mailto:|https?://.+?)';
