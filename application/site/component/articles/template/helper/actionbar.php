@@ -29,7 +29,7 @@ class TemplateHelperActionbar extends Library\TemplateHelperActionbar
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'attribs' => array(
+            'attribs' => array(
                 'class' => array('btn', 'btn-mini', 'toolbar'),
                 'style' => array('float: right')
             )
@@ -49,9 +49,9 @@ class TemplateHelperActionbar extends Library\TemplateHelperActionbar
         }
 
         $html  = '<a '.$this->buildAttributes($config->attribs).'>';
-       	$html .= '<i class="icon-edit"></i>';
-       	$html .= '</a>';
+        $html .= '<i class="icon-edit"></i>';
+        $html .= '</a>';
 
-    	return $html;
+        return $html;
     }
 }

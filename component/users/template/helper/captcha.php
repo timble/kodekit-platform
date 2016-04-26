@@ -52,11 +52,11 @@ class TemplateHelperCaptcha extends Library\TemplateHelperAbstract
             $html .= '</script> ';
 
             $html .= '<script data-inline type="text/javascript" src="' . $config->server . '/challenge?k=' . $public_key . $config->error . '"></script>';
-	        $html .= '<noscript>';
-  		    $html .= '<iframe src="' . $config->server . '/noscript?k=' . $public_key . $config->error . '" height="300" width="500" frameborder="0"></iframe><br/>';
-  		    $html .= '<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>';
-  		    $html .= '<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>';
-	        $html .= '</noscript>';
+            $html .= '<noscript>';
+            $html .= '<iframe src="' . $config->server . '/noscript?k=' . $public_key . $config->error . '" height="300" width="500" frameborder="0"></iframe><br/>';
+            $html .= '<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>';
+            $html .= '<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>';
+            $html .= '</noscript>';
         }
 
         return $html;
