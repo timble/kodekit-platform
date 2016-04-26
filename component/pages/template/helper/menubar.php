@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperMenubar extends Library\TemplateHelperAbstract
 {
-    public function render($config = array())
+    public function render($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -77,9 +77,9 @@ class TemplateHelperMenubar extends Library\TemplateHelperAbstract
             $name = $command->getName();
 
             if(method_exists($this, $name)) {
-                $html .= $this->$name(array('command' => $command));
+                $html .= $this->$name(array('command' => $command), $template);
             } else {
-                $html .= $this->command(array('command' => $command));
+                $html .= $this->command(array('command' => $command), $template);
             }
 
             if(!count($command))
@@ -103,7 +103,7 @@ class TemplateHelperMenubar extends Library\TemplateHelperAbstract
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function command($config = array())
+    public function command($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -115,7 +115,7 @@ class TemplateHelperMenubar extends Library\TemplateHelperAbstract
 
         //Create the href
         if($command->href instanceof Library\HttpUrl && !$command->disabled) {
-            $command->href = (string) $this->getTemplate()->route($command->href->getQuery());
+            $command->href = (string) $template->route($command->href->getQuery());
         }
 
         if ($command->disabled || empty($command->href)) {

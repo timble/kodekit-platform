@@ -25,30 +25,30 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function render($config = array())
+    public function render($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'toolbar' => null,
+            'toolbar' => null,
             'attribs' => array()
         ));
 
         $html  = '<ul '.$this->buildAttributes($config->attribs).'>';
-	    foreach ($config->toolbar as $command)
-	    {
+        foreach ($config->toolbar as $command)
+        {
             $name = $command->getName();
 
             $html .= '<li>';
-	        if(method_exists($this, $name)) {
-                $html .= $this->$name(array('command' => $command));
+            if(method_exists($this, $name)) {
+                $html .= $this->$name(array('command' => $command), $template);
             } else {
-                $html .= $this->command(array('command' => $command));
+                $html .= $this->command(array('command' => $command), $template);
             }
             $html .= '</li>';
-       	}
-		$html .= '</ul>';
+        }
+        $html .= '</ul>';
 
-		return $html;
+        return $html;
     }
 
     /**
@@ -57,11 +57,11 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function command($config = array())
+    public function command($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'command' => array()
+            'command' => array()
         ));
 
         $command = $config->command;
@@ -76,7 +76,7 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
 
         //Create the href
         if(!empty($command->href)) {
-            $command->attribs['href'] = $this->getTemplate()->route($command->href);
+            $command->attribs['href'] = $template->route($command->href);
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';

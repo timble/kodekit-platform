@@ -19,13 +19,13 @@ use Kodekit\Library;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function tags($config = array())
+    public function tags($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
-    	$config->append(array(
-            'package' => $this->getTemplate()->getIdentifier()->package,
-    		'value'	  => 'title',
-    		'label'	  => 'title',
+        $config->append(array(
+            'package' => $this->getIdentifier()->package,
+            'value'	  => 'title',
+            'label'	  => 'title',
             'prompt'   => false,
             'deselect' => false,
         ))->append(array(
@@ -33,8 +33,8 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ));
 
         $config->label = 'title';
-		$config->sort  = 'title';
+        $config->sort  = 'title';
 
-    	return parent::render($config);
+        return parent::render($config, $template);
     }
 }

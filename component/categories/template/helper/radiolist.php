@@ -30,7 +30,7 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
         ))->append(array(
             'selected'      => $config->entity->{$config->name},
         ))->append(array(
-            'filter' 	=> array(
+            'filter'    => array(
                 'sort'      => 'title',
                 'limit'     => 0,
                 'parent'    => null,

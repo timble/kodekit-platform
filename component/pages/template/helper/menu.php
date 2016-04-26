@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperMenu extends Library\TemplateHelperAbstract
 {
-    public function render($config = array())
+    public function render($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -75,7 +75,7 @@ class TemplateHelperMenu extends Library\TemplateHelperAbstract
 
                 if($link = $page->getLink())
                 {
-                    $link = $this->getTemplate()->route($link->getQuery());
+                    $link = $template->route($link->getQuery());
                     $html .= '<a href="'.(string) $link.'">';
                     $html .= $page->title;
                     $html .= '</a>';

@@ -31,17 +31,14 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
              'selected' => 0
         ));
 
-        //@TODO can be removed when name collisions fixed
-        $config->name = 'order';
-
         $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Library\StringInflector::pluralize($config->package));
 
         $list = $this->getObject($identifier)->set($config->filter)->fetch();
 
         $options = array();
         foreach($list as $item) {
-			$options[] =  $this->option(array('label' => $item->ordering, 'value' => $item->ordering - $config->ordering));
-		}
+            $options[] =  $this->option(array('label' => $item->ordering, 'value' => $item->ordering - $config->ordering));
+        }
 
         $list = $this->optionlist(array(
             'options'  => $options,
@@ -49,10 +46,11 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'attribs'  => $config->attribs,
             'selected' => $config->selected
         ));
+
         return $list;
      }
 
-    public function categories($config = array())
+    public function categories($config = array(), Library\TemplateInterface $template)
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
