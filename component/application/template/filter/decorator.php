@@ -21,13 +21,6 @@ use Kodekit\Library;
  */
 class TemplateFilterDecorator extends Library\TemplateFilterDecorator
 {
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  Library\ObjectConfig $config An optional ObjectConfig object with configuration options
-     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -37,19 +30,13 @@ class TemplateFilterDecorator extends Library\TemplateFilterDecorator
         parent::_initialize($config);
     }
 
-    /**
-     * Add the template parameters to the attributes
-     *
-     * @param string $text  The text to parse
-     * @return void
-     */
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template)
     {
         $attributes = array();
-        foreach($this->getTemplate()->parameters() as $name => $value) {
+        foreach($template->getParameters() as $name => $value) {
             $this->_attributes['data-'.$name] = $value;
         }
 
-        parent::filter($text);
+        parent::filter($text, $template);
     }
 }

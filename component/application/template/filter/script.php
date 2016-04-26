@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateFilterScript extends Library\TemplateFilterScript
 {
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template = null)
     {
         $scripts = $this->_parseTags($text);
         $text = str_replace('<ktml:script>', $scripts, $text);

@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateFilterLink extends Library\TemplateFilterLink
 {
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template = null)
     {
         $links = $this->_parseTags($text);
         $text = str_replace('<ktml:link>', $links, $text);

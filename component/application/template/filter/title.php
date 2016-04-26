@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateFilterTitle extends Library\TemplateFilterTitle
 {
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template = null)
     {
         $title = $this->_parseTags($text);
         $text = str_replace('<ktml:title>', $title, $text);

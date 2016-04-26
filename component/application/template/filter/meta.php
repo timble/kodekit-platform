@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateFilterMeta extends Library\TemplateFilterMeta
 {
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template = null)
     {
         $meta = $this->_parseTags($text);
         $text = str_replace('<ktml:meta>', $meta, $text);

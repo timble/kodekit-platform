@@ -21,13 +21,6 @@ use Kodekit\Library;
  */
 class TemplateFilterMessage extends Library\TemplateFilterAbstract
 {
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  Library\ObjectConfig $config An optional ObjectConfig object with configuration options
-     */
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
@@ -37,7 +30,7 @@ class TemplateFilterMessage extends Library\TemplateFilterAbstract
         parent::_initialize($config);
     }
 
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template = null)
     {
         if (strpos($text, '<ktml:messages>') !== false)
         {

@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateFilterStyle extends Library\TemplateFilterStyle
 {
-    public function filter(&$text)
+    public function filter(&$text, Library\TemplateInterface $template = null)
     {
         $styles = $this->_parseTags($text);
         $text = str_replace('<ktml:style>', $styles, $text);
