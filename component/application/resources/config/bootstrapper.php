@@ -11,7 +11,7 @@ use Kodekit\Library;
 
 return array(
 
-    'priority' => Library\ObjectBootstrapperInterface::PRIORITY_LOW,
+    'priority' => Library\ObjectBootstrapper::PRIORITY_LOW,
     'aliases'  => array(
         'application'       => 'com:application.dispatcher',
         'application.sites' => 'com:application.model.composite.sites',
