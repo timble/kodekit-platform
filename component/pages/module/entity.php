@@ -58,12 +58,7 @@ abstract class ModuleEntity extends ModuleAbstract
         $view->setTitle($this->getTitle());
 
         //Render the controller
-        $html = $controller->render(array('module' => $this->module));
-
-        //Set the html in the module
-        $this->setContent($html);
-
-        return $html;
+        return $controller->render(array('module' => $this->module));
     }
 
     public function getController()
