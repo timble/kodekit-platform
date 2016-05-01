@@ -32,7 +32,8 @@ abstract class ModuleAbstract extends Library\ViewHtml
         $config->append(array(
             'behaviors' => array(
                 'com:pages.module.behavior.decoratable',
-                'com:pages.module.behavior.localizable'
+                'com:pages.module.behavior.localizable',
+                'com:pages.module.behavior.routable'
             )
         ));
 
@@ -40,6 +41,9 @@ abstract class ModuleAbstract extends Library\ViewHtml
 
         //Remove the localizable behavior
         $config->behaviors->remove('localizable');
+
+        //Remove the routable behavior
+        $config->behaviors->remove('routable');
     }
 
     /**
