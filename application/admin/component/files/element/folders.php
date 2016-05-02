@@ -15,50 +15,49 @@
  */
 class JElementFolders extends JElement
 {
-	public $_name = 'Folders';
+    public $_name = 'Folders';
 
-	function fetchElement($name, $value, $param = null, $group = null)
-	{
-		$el_name   = $group ? $group.'['.$name.']' : $name;
-		$show_root = (bool) $param->attributes()->show_root;
+    function fetchElement($name, $value, $param = null, $group = null)
+    {
+        $el_name   = $group ? $group.'['.$name.']' : $name;
+        $show_root = (bool) $param->attributes()->show_root;
 
         $translator = Kodekit::getObject('translator');
 
-		$tree =  Kodekit::getObject('com:files.controller.folder')
-			->container('files-files')
-			->tree(1)
-			->limit(0)
-			->browse();
+        $tree =  Kodekit::getObject('com:files.controller.folder')
+            ->container('files-files')
+            ->tree(1)
+            ->limit(0)
+            ->browse();
 
-		$options = array();
+        $options = array();
 
-		if ($show_root) {
-		    $options[] = array('label' => $translator('Root Folder'), 'value' => '');
-		}
+        if ($show_root) {
+            $options[] = array('label' => $translator('Root Folder'), 'value' => '');
+        }
 
-		foreach ($tree as $folder) {
-			$this->_addFolder($folder, $options);
-		}
+        foreach ($tree as $folder) {
+            $this->_addFolder($folder, $options);
+        }
 
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-		return  Kodekit::getObject('com:files.template.helper.select', array('template' => $template))->optionlist(array(
-			'name'    => $el_name,
-			'options' => $options,
-			'showroot' => false,
-			'selected' => $value
-		));
-	}
+        return  Kodekit::getObject('com:files.template.helper.select')->optionlist(array(
+            'name'    => $el_name,
+            'options' => $options,
+            'showroot' => false,
+            'selected' => $value
+        ));
+    }
 
-	protected function _addFolder($folder, &$options)
-	{
-		$padded    = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
-		$options[] = array('label' => $padded, 'value' => $folder->path);
+    protected function _addFolder($folder, &$options)
+    {
+        $padded    = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
+        $options[] = array('label' => $padded, 'value' => $folder->path);
 
-		if ($folder->hasChildren())
+        if ($folder->hasChildren())
         {
-			foreach ($folder->getChildren() as $child) {
-				$this->_addFolder($child, $options);
-			}
-		}
-	}
+            foreach ($folder->getChildren() as $child) {
+                $this->_addFolder($child, $options);
+            }
+        }
+    }
 }
