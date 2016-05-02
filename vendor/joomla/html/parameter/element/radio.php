@@ -21,23 +21,23 @@
 
 class JElementRadio extends JElement
 {
-	/**
-	* Element name
-	*
-	* @access	protected
-	* @var		string
-	*/
-	var	$_name = 'Radio';
+    /**
+    * Element name
+    *
+    * @access	protected
+    * @var		string
+    */
+    var	$_name = 'Radio';
 
-	function fetchElement($name, $value, $param, $group)
-	{
-		$options = array ();
-		foreach ($param->children() as $option)
-		{
-			$val	= (string) $option->attributes()->value;
-			$text	= (string) $option->attributes()->data;
-			$options[] = (object) array('id' => $val, 'value' => $val, 'label' => $text);
-		}
+    function fetchElement($name, $value, $param, $group)
+    {
+        $options = array ();
+        foreach ($param->children() as $option)
+        {
+            $val	= (string) $option->attributes()->value;
+            $text	= (string) $option->attributes()->data;
+            $options[] = (object) array('id' => $val, 'value' => $val, 'label' => $text);
+        }
 
         $config = array(
             'options'     => (object) $options,
@@ -45,7 +45,6 @@ class JElementRadio extends JElement
             'selected' => $value,
         );
 
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-        return Kodekit::getObject('lib:template.helper.select', array('template' => $template))->radiolist($config);
-	}
+        return Kodekit::getObject('lib:template.helper.select')->radiolist($config);
+    }
 }

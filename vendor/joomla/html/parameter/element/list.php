@@ -21,20 +21,18 @@
 
 class JElementList extends JElement
 {
-	/**
-	* Element type
-	*
-	* @access	protected
-	* @var		string
-	*/
-	var	$_name = 'List';
+    /**
+    * Element type
+    *
+    * @access	protected
+    * @var		string
+    */
+    var	$_name = 'List';
 
-	function fetchElement($name, $value, $param, $group)
-	{
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-
+    function fetchElement($name, $value, $param, $group)
+    {
         $class  = $param->attributes()->class ? $param->attributes()->class : 'inputbox';
-        $helper = Kodekit::getObject('lib:template.helper.select', array('template' => $template));
+        $helper = Kodekit::getObject('lib:template.helper.select');
 
         $options = array ();
         foreach ($param->children() as $option)
@@ -52,6 +50,6 @@ class JElementList extends JElement
             'attribs'  => array('class' => array($class))
         );
 
-        return Kodekit::getObject('lib:template.helper.select', array('template' => $template))->optionlist($config);
+        return Kodekit::getObject('lib:template.helper.select')->optionlist($config);
 	}
 }

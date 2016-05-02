@@ -27,8 +27,7 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-        $html     = Kodekit::getInstance()->getObject('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
+        $html = Kodekit::getInstance()->getObject('com:articles.template.helper.listbox')->articles($config);
 
         return $html;
     }

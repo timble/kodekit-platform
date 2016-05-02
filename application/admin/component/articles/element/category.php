@@ -26,8 +26,7 @@ class JElementCategory extends JElement
             'attribs'  => array('class' => 'inputbox'),
         );
 
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-        $html     = Kodekit::getObject('com:categories.template.helper.listbox',  array('template' => $template))->categories($config);
+        $html = Kodekit::getObject('com:categories.template.helper.listbox')->categories($config);
         return $html;
     }
 }

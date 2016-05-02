@@ -25,8 +25,7 @@ class JElementMenu extends JElement
             'deselect' => false
         );
 
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-        $html = Kodekit::getObject('com:pages.template.helper.listbox', array('template' => $template))->menus($config);
+        $html = Kodekit::getObject('com:pages.template.helper.listbox')->menus($config);
         return $html;
     }
 }

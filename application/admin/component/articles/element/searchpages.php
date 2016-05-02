@@ -25,8 +25,7 @@ class JElementSearchpages extends JElement
             'deselect' => false,
         );
 
-        $template = Kodekit::getObject('com:pages.view.page')->getTemplate();
-        $html = Kodekit::getObject('com:articles.template.helper.listbox', array('template' => $template))->searchpages($config);
+        $html = Kodekit::getObject('com:articles.template.helper.listbox')->searchpages($config);
         return $html;
     }
 }
