@@ -20,8 +20,8 @@ use Kodekit\Library;
 class DispatcherRouter extends Library\DispatcherRouter
 {
     public function parse(Library\HttpUrlInterface $url)
-	{
-		// Get the path
+    {
+        // Get the path
         $path = trim($url->getPath(), '/');
 
         //Remove base path
@@ -32,18 +32,18 @@ class DispatcherRouter extends Library\DispatcherRouter
             $url->query['format'] = $url->format;
         }
 
-		//Set the route
-		$url->path = trim($path , '/');
+        //Set the route
+        $url->path = trim($path , '/');
 
-		return $this->_parseRoute($url);
-	}
+        return $this->_parseRoute($url);
+    }
 
-	public function build(Library\HttpUrlInterface $url)
-	{
+    public function build(Library\HttpUrlInterface $url)
+    {
         $result = $this->_buildRoute($url);
 
-		// Get the path data
-		$route = $url->getPath();
+        // Get the path data
+        $route = $url->getPath();
 
         //Add the format to the uri
         if(isset($url->query['format']))
@@ -60,24 +60,24 @@ class DispatcherRouter extends Library\DispatcherRouter
         //Build the route
         $url->path = $this->getObject('request')->getBaseUrl()->getPath().'/'.$route;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	protected function _parseRoute($url)
-	{
+    protected function _parseRoute($url)
+    {
         $this->_parseSiteRoute($url);
         $this->_parsePageRoute($url);
         $this->_parseComponentRoute($url);
 
-		return true;
-	}
+        return true;
+    }
 
     protected function _parseSiteRoute($url)
     {
         $route = $url->getPath();
 
         //Find the site
-        $url->query['site']  = $this->getObject('application')->getSite();
+        $url->query['site'] = $this->getObject('application')->getSite();
 
         $route = preg_replace('/^'.preg_quote($url->query['site']).'/', '', $route);
         $url->path = ltrim($route, '/');
@@ -147,8 +147,8 @@ class DispatcherRouter extends Library\DispatcherRouter
         return true;
     }
 
-	protected function _buildRoute($url)
-	{
+    protected function _buildRoute($url)
+    {
         $segments = array();
 
         $view = $this->_buildComponentRoute($url);
@@ -161,7 +161,7 @@ class DispatcherRouter extends Library\DispatcherRouter
         $url->path = array_filter($segments);
 
         return true;
-	}
+    }
 
     protected function _buildComponentRoute($url)
     {
