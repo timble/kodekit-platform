@@ -22,7 +22,7 @@ window.addEvent('domready', function() {
             title: false,
 			state: {
 				defaults: {
-					limit: <?= (int) paramete('limit'); ?>,
+					limit: <?= (int) parameter('limit'); ?>,
 					offset: <?= (int) parameter('offset'); ?>,
 					types: <?= json_encode(parameter('types')); ?>
 				}
