@@ -163,7 +163,7 @@ class ModelEntityFolder extends ModelEntityNode
         $data = parent::toArray();
 
         if ($this->hasChildren()) {
-            $data['children'] = $this->getChildren()->toArray();
+            $data['children'] = iterator_to_array($this->getChildren());
         }
 
         return $data;

@@ -54,7 +54,7 @@ class TemplateHelperTabbar extends Library\TemplateHelperAbstract
             }
         }
 
-		return $html;
+        return $html;
     }
 
     /**
@@ -67,7 +67,7 @@ class TemplateHelperTabbar extends Library\TemplateHelperAbstract
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-        	'command' => null
+            'command' => null
         ));
 
         $command    = $config->command;
@@ -88,11 +88,11 @@ class TemplateHelperTabbar extends Library\TemplateHelperAbstract
         }
 
         if ($command->disabled || empty($command->href)) {
-			$html = '<span '.$this->buildAttributes($command->attribs).'>'.$translator($command->label).'</span>';
-		} else {
-			$html = '<a '.$this->buildAttributes($command->attribs).'>'.$translator($command->label).'</a>';
-		}
+            $html = '<span '.$this->buildAttributes($command->attribs).'>'.$translator($command->label).'</span>';
+        } else {
+            $html = '<a '.$this->buildAttributes($command->attribs).'>'.$translator($command->label).'</a>';
+        }
 
-    	return $html;
+        return $html;
     }
 }

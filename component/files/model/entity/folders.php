@@ -34,24 +34,24 @@ class ModelEntityFolders extends ModelEntityNodes
         if(isset($entity->hierarchy) && !empty($entity->hierarchy))
         {
             $nodes   = $this;
-			$node    = null;
-			$parents = $entity->hierarchy;
+            $node    = null;
+            $parents = $entity->hierarchy;
 
-			foreach($parents as $parent)
-       		{
-       			if($node) {
-					$nodes = $node->getChildren();
-				}
+            foreach($parents as $parent)
+            {
+                if($node) {
+                    $nodes = $node->getChildren();
+                }
 
-       		    $node = $nodes->find($parent);
-			}
+                $node = $nodes->find($parent);
+            }
 
             unset($entity->hierarchy);
-			$node->insertChild($entity);
+            $node->insertChild($entity);
         }
         else parent::insert($entity);
 
-		return true;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class ModelEntityFolders extends ModelEntityNodes
      */
     public function getIterator()
     {
-        return new \RecursiveArrayIterator($this->_data);
+        return new \RecursiveArrayIterator($this);
     }
 }

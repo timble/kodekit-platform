@@ -80,7 +80,7 @@ class ModelModules extends Library\ModelDatabase
             }
 
             if (is_numeric($state->page)) {
-                $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($page, 0)));
+                $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($state->page, 0)));
             }
         }
     }
@@ -97,24 +97,25 @@ class ModelModules extends Library\ModelDatabase
      */
     protected function _actionCreate(Library\ModelContext $context)
     {
-        if (!isset($this->_data))
+        if (!isset($this->_entity))
         {
-            $this->_data = parent::_actionCreate($context);
+            $this->_entity = parent::_actionCreate($context);
 
-            if ($this->_data->isNew()) {
+            if ($this->_entity->isNew())
+            {
                 $state = $this->getState();
 
                 if ($state->application) {
-                    $this->_data->application = $state->application;
+                    $this->_entity->application = $state->application;
                 }
 
                 if ($state->component) {
-                    $this->_data->component = $state->component;
+                    $this->_entity->component = $state->component;
                 }
             }
         }
 
-        return $this->_data;
+        return $this->_entitye;
     }
 
     /**

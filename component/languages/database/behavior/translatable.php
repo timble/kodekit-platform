@@ -93,7 +93,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         if ($query = $context->query)
         {
-            $table     = $this->_tables->find(array('name' => $context->table))->top();
+            $table     = $this->_tables->find(array('name' => $context->table));
             $languages = $this->getObject('languages');
             $active    = $languages->getActive();
             $default   = $languages->getDefault();
@@ -157,11 +157,12 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 ->save();
 
             // Insert item into language specific tables.
-            $table = $this->_tables->find(array('name' => $context->table))->top();
+            $table = $this->_tables->find(array('name' => $context->table));
 
             foreach ($languages as $language)
             {
-                if ($language->iso_code != $default->iso_code) {
+                if ($language->iso_code != $default->iso_code)
+                {
                     $query = clone $context->query;
                     $query->table(strtolower($language->iso_code) . '_' . $query->table);
 
@@ -205,7 +206,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         $active    = $languages->getActive();
 
         // Update item in the translations table.
-        $table       = $this->_tables->find(array('name' => $context->table))->top();
+        $table       = $this->_tables->find(array('name' => $context->table));
         $translation = $this->getObject('com:languages.database.table.translations')
             ->select(array(
                 'iso_code' => $active->iso_code,

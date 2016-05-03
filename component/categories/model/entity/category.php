@@ -31,7 +31,7 @@ class ModelEntityCategory extends Library\ModelEntityRow
         $data = parent::toArray();
 
         if($this->isRecursable() && $this->hasChildren())  {
-            $data['children'] = array_values($this->getChildren()->toArray());
+            $data['children'] = array_values(iterator_to_array($this->getChildren()));
         }
 
         return $data;

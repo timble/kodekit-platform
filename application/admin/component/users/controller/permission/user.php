@@ -34,7 +34,7 @@ class ControllerPermissionUser extends Application\ControllerPermissionAbstract
         $entities = $this->getModel()->fetch();
 
         // Only administrators can delete users and they cannot delete themselves.
-        if ($user->hasRole('administrator') && $entities->find(array('id', $user->getId()))) {
+        if ($user->hasRole('administrator') && $entities->find(array('id' => $user->getId()))) {
             $result = true;
         }
 

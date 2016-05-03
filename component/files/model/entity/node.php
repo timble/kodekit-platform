@@ -213,8 +213,8 @@ class ModelEntityNode extends Library\ModelEntityAbstract
             'path' => $container->path . '/' . ($this->folder ? $this->folder . '/' : '') . $this->name
         ));
 
-        unset($this->_data['fullpath']);
-        unset($this->_data['metadata']);
+        $this->removeProperty('fullpath');
+        $this->removeProperty('metadata');
 
         return $this;
     }

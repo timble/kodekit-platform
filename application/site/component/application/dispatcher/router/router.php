@@ -89,7 +89,7 @@ class DispatcherRouter extends Library\DispatcherRouter
     {
         $route   = $url->getPath();
         $pages   = $this->getObject('pages');
-        $reverse = array_reverse($pages->toArray());
+        $reverse = array_reverse(iterator_to_array($pages));
 
         //Set the default
         $page = $pages->getDefault();
