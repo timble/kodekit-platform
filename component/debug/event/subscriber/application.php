@@ -20,17 +20,17 @@ use Kodekit\Library;
 class EventSubscriberApplication extends Library\EventSubscriberAbstract
 {
     public function __construct(Library\ObjectConfig $config)
-	{
-	    //Intercept the events for profiling
-	    if($this->getObject('application')->getConfig()->debug)
-	    {
-	        //Profile the event dispatcher
-	        $this->getObject('event.dispatcher')->decorate('event.profiler');
+    {
+        //Intercept the events for profiling
+        if($this->getObject('application')->getConfig()->debug)
+        {
+            //Profile the event dispatcher
+            $this->getObject('event.dispatcher')->decorate('event.profiler');
 
-	        //Trace database queries
-	        $this->getObject('event.dispatcher')->addEventSubscriber('com:debug.event.subscriber.database');
-		}
+            //Trace database queries
+            $this->getObject('event.dispatcher')->addEventSubscriber('com:debug.event.subscriber.database');
+        }
 
-		parent::__construct($config);
-	}
+        parent::__construct($config);
+    }
 }

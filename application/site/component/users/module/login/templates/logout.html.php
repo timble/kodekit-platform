@@ -15,13 +15,13 @@
 <? if(object('user')->getSession()->isActive()) : ?>
 
 <form action="<?= helper('route.session'); ?>" method="post" name="login" id="form-login">
-	<input type="hidden" name="_action" value="delete" />
+    <input type="hidden" name="_action" value="delete" />
 
     <?= translate( 'Hi {name}', array('name' => object('user')->getName())); ?>
 
-	<div class="form-actions">
-		<input type="submit" name="Submit" class="btn" value="<?= translate('Sign out'); ?>" />
-	</div>
+    <div class="form-actions">
+        <input type="submit" name="Submit" class="btn" value="<?= translate('Sign out'); ?>" />
+    </div>
 </form>
 
 <? endif; ?>
