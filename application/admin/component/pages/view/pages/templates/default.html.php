@@ -33,20 +33,20 @@
             </th>
             <th width="1"></th>
             <th>
-                <?= helper('grid.sort', array('column' => 'title')); ?>
+                <?= helper('grid.sort', array('column' => 'title', 'url' => route())); ?>
             </th>
             <th width="1">
-                <?= helper('grid.sort', array('column' => 'custom', 'title' => 'Ordering')); ?>
+                <?= helper('grid.sort', array('column' => 'custom', 'title' => 'Ordering', 'url' => route())); ?>
             </th>
             <th width="1">
-                <?= helper('grid.sort', array('column' => 'component', 'title' => 'Type')); ?>
+                <?= helper('grid.sort', array('column' => 'component', 'title' => 'Type', 'url' => route())); ?>
             </th>
         </tr>
         </thead>
         <tfoot>
         <tr>
             <td colspan="6">
-                <?= helper('com:theme.paginator.pagination') ?>
+                <?= helper('com:theme.paginator.pagination', array('url' => route())) ?>
             </td>
         </tr>
         </tfoot>

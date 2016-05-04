@@ -25,7 +25,7 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function render($config = array(), Library\TemplateInterface $template)
+    public function render($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -40,9 +40,9 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
 
             $html .= '<li>';
             if(method_exists($this, $name)) {
-                $html .= $this->$name(array('command' => $command), $template);
+                $html .= $this->$name(array('command' => $command));
             } else {
-                $html .= $this->command(array('command' => $command), $template);
+                $html .= $this->command(array('command' => $command));
             }
             $html .= '</li>';
         }
@@ -57,7 +57,7 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
      * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
-    public function command($config = array(), Library\TemplateInterface $template)
+    public function command($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -75,8 +75,12 @@ class TemplateHelperStatusbar extends Library\TemplateHelperAbstract
         }
 
         //Create the href
-        if(!empty($command->href)) {
-            $command->attribs['href'] = $template->route($command->href);
+        if(!empty($command->href) && !$command->disabled)
+        {
+            $url = $this->getObject('lib:dispatcher.router.route', array('escape' =>  true))
+                ->setQuery($command->href);
+
+            $command->attribs->href = (string) $url;
         }
 
         $html  = '<a '.$this->buildAttributes($command->attribs).'>';

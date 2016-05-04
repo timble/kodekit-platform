@@ -84,7 +84,7 @@ class ControllerToolbarTabbar extends Library\ControllerToolbarAbstract
                     $this->addCommand($page->title, array(
                         'id'       => $page->id,
                         'href'     => $page->getLink(),
-                        'active'   => (string) $controller == Library\StringInflector::singularize($page->getLink()->query['view']),
+                        'active'   => (string) $controller == Library\StringInflector::singularize($page->view),
                         'path'     => $page->getPath(),
                         'hidden'   => $page->hidden,
                     ));

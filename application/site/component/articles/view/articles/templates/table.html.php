@@ -54,6 +54,7 @@
 </table>
 
 <?= helper('paginator.pagination',array(
+        'url'         => route(),
         'limit'      => $params->get('articles_per_page', 10),
         'show_limit' => false,
         'show_count' => false)

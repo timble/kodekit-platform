@@ -50,7 +50,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         return $list;
      }
 
-    public function categories($config = array(), Library\TemplateInterface $template)
+    public function categories($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(

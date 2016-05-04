@@ -19,10 +19,11 @@ use Kodekit\Library;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function languages($config = array(), Library\TemplateInterface $template)
+    public function languages($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
+            'url'   => null,
             'name'  => 'language'
         ));
 
@@ -44,11 +45,12 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         foreach($languages as $language)
         {
-            $route = $template->route('language='.$language->slug);
-            $options[] = $this->option(array('label' => $language->name, 'value' => $route));
+            $config->url->query['language'] = $language->slug;
+
+            $options[] = $this->option(array('label' => $language->name, 'value' => (string) $config->url));
 
             if($language->iso_code == $active->iso_code) {
-                $config->selected = $route;
+                $config->selected = (string) $config->url;
             }
         }
 

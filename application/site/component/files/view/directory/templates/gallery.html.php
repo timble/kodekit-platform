@@ -27,46 +27,47 @@ jQuery(function($) {
         <div class="modal-body"><div class="modal-image"></div></div>
     </div>
 
-	<div class="page-header">
-		<h1><?= escape($params->get('page_title')); ?></h1>
-	</div>
+    <div class="page-header">
+        <h1><?= escape($params->get('page_title')); ?></h1>
+    </div>
 
     <? if (count($folders)): ?>
     <ul>
     <? foreach($folders as $folder): ?>
-	<li class="gallery-folder">
-	    <a href="<?= route('view=folder&folder='.$folder->path) ?>">
-	        <?= escape($folder->display_name) ?>
-	    </a>
-	</li>
-	<? endforeach ?>
-	</ul>
-	<? endif ?>
+    <li class="gallery-folder">
+        <a href="<?= route('view=folder&folder='.$folder->path) ?>">
+            <?= escape($folder->display_name) ?>
+        </a>
+    </li>
+    <? endforeach ?>
+    </ul>
+    <? endif ?>
 
-	<? if (count($files)): ?>
+    <? if (count($files)): ?>
     <ol class="thumbnails files-gallery" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.thumbnail">
         <? foreach($files as $file): ?>
-    	<? if (!empty($file->thumbnail)): ?>
+        <? if (!empty($file->thumbnail)): ?>
         <li class="span3">
-    		<a class="thumbnail text-center" data-path="<?= escape($file->path); ?>"
-    			href="<?= route('view=file&folder='.$file->folder.'&name='.$file->name) ?>"
-    		    title="<?= escape($file->display_name) ?>"
-    		    style="min-height:<?= $thumbnail_size['y'] ?>px"
+            <a class="thumbnail text-center" data-path="<?= escape($file->path); ?>"
+                href="<?= route('view=file&folder='.$file->folder.'&name='.$file->name) ?>"
+                title="<?= escape($file->display_name) ?>"
+                style="min-height:<?= $thumbnail_size['y'] ?>px"
             >
-        		<img src="<?= $file->thumbnail ?>" alt="<?= escape($file->display_name) ?>" />
-        	</a>
+                <img src="<?= $file->thumbnail ?>" alt="<?= escape($file->display_name) ?>" />
+            </a>
         </li>
-    	<? endif ?>
+        <? endif ?>
         <? endforeach ?>
     </ol>
 
     <? if(count($files) != parameter('total')): ?>
-	    <?= helper('paginator.pagination', array(
-	    	'limit' => parameter('limit'),
-	    	'offset' => parameter('offset'),
-	    	'show_count' => false,
-	    	'show_limit' => false
-	    )) ?>
+        <?= helper('paginator.pagination', array(
+            'url'       => route(),
+            'limit'     => parameter('limit'),
+            'offset'    => parameter('offset'),
+            'show_count' => false,
+            'show_limit' => false
+        )) ?>
     <? endif ?>
 
     <? endif ?>

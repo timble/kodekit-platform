@@ -17,7 +17,7 @@
 
 <? if($articles->isTranslatable()) : ?>
     <ktml:block extend="actionbar">
-        <?= helper('com:languages.listbox.languages') ?>
+        <?= helper('com:languages.listbox.languages', array('url' => route())) ?>
     </ktml:block>
 <? endif ?>
 
@@ -38,10 +38,10 @@
             </th>
             <th width="1"></th>
             <th>
-                <?= helper('grid.sort', array('column' => 'title')) ?>
+                <?= helper('grid.sort', array('column' => 'title', 'url' => route())) ?>
             </th>
             <th width="1">
-                <?= helper('grid.sort', array('title' => 'Last modified', 'column' => 'modified_on')) ?>
+                <?= helper('grid.sort', array('title' => 'Last modified', 'column' => 'modified_on', 'url' => route())) ?>
             </th>
             <? if($articles->isTranslatable()) : ?>
                 <th width="70">
@@ -53,7 +53,7 @@
         <tfoot>
         <tr>
             <td colspan="7">
-                <?= helper('com:theme.paginator.pagination') ?>
+                <?= helper('com:theme.paginator.pagination', array('url' => route())) ?>
             </td>
         </tr>
         </tfoot>

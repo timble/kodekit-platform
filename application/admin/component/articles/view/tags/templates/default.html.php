@@ -21,10 +21,10 @@
                     <?= helper('grid.checkall'); ?>
                 </th>
                 <th>
-                    <?= helper('grid.sort', array('column' => 'title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title', 'url' => route())); ?>
                 </th>
                 <th>
-                    <?= helper('grid.sort', array('column' => 'count')); ?>
+                    <?= helper('grid.sort', array('column' => 'count', 'url' => route())); ?>
                 </th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= helper('com:theme.paginator.pagination') ?>
+                    <?= helper('com:theme.paginator.pagination', array('url' => route())) ?>
                 </td>
             </tr>
         </tfoot>

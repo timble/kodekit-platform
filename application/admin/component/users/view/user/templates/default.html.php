@@ -25,51 +25,51 @@
 </ktml:block>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<input type="hidden" name="enabled" value="<?= object('user')->getId() == $user->id ? 1 : 0 ?>" />
+    <input type="hidden" name="enabled" value="<?= object('user')->getId() == $user->id ? 1 : 0 ?>" />
 
-	<div class="main">
-		<div class="title">
-			<input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" placeholder="<?= translate('Name') ?>" />
-		</div>
+    <div class="main">
+        <div class="title">
+            <input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" placeholder="<?= translate('Name') ?>" />
+        </div>
 
-		<div class="scrollable">
-			<fieldset>
-				<legend><?= translate('General') ?></legend>
-				<div>
-				    <label for="email"><?= translate('E-Mail') ?></label>
-				    <div>
-				        <input class="required validate-email" type="email" id="email" name="email" value="<?= $user->email ?>" />
-				    </div>
-				</div>
-			</fieldset>
-			<fieldset>
-				<legend><?= translate('Password') ?></legend>
-				<div>
-				    <label for="password"><?= translate('Password') ?></label>
-				    <div>
+        <div class="scrollable">
+            <fieldset>
+                <legend><?= translate('General') ?></legend>
+                <div>
+                    <label for="email"><?= translate('E-Mail') ?></label>
+                    <div>
+                        <input class="required validate-email" type="email" id="email" name="email" value="<?= $user->email ?>" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend><?= translate('Password') ?></legend>
+                <div>
+                    <label for="password"><?= translate('Password') ?></label>
+                    <div>
                         <input class="passwordLength:6" id="password" type="password" name="password" maxlength="100" />
-				        <?= helper('com:users.form.password');?>
-				    </div>
-				</div>
-				<div>
-				    <label for="password_verify"><?= translate('Verify Password') ?></label>
-				    <div>
-				        <input class="passwordVerify matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
-				    </div>
-				</div>
-			    <? if (!$user->isNew()): ?>
-				<div>
-				    <div>
-				        <label class="checkbox" for="password_reset">
-				            <input type="checkbox" id="password_reset" name="password_reset" />
-				            <?= translate('Require a password reset for the next sign in') ?>
-				        </label>
-				    </div>
-				</div>
-			    <? endif; ?>
-			</fieldset>
-			<fieldset>
-				<legend><?= translate('Locale') ?></legend>
+                        <?= helper('com:users.form.password');?>
+                    </div>
+                </div>
+                <div>
+                    <label for="password_verify"><?= translate('Verify Password') ?></label>
+                    <div>
+                        <input class="passwordVerify matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
+                    </div>
+                </div>
+                <? if (!$user->isNew()): ?>
+                <div>
+                    <div>
+                        <label class="checkbox" for="password_reset">
+                            <input type="checkbox" id="password_reset" name="password_reset" />
+                            <?= translate('Require a password reset for the next sign in') ?>
+                        </label>
+                    </div>
+                </div>
+                <? endif; ?>
+            </fieldset>
+            <fieldset>
+                <legend><?= translate('Locale') ?></legend>
                 <div>
                     <label for="parameters[timezone]"><?= translate('Time Zone') ?></label>
                     <div>
@@ -85,6 +85,7 @@
                     <label for="parameters[language]"><?= translate('Language') ?></label>
                     <div>
                         <?= helper('listbox.languages', array(
+                            'url'      => route(),
                             'name'     => 'parameters[language]',
                             'selected' => $user->getParameters()->language,
                             'deselect' => true,
@@ -92,13 +93,13 @@
                         )) ?>
                     </div>
                 </div>
-			</fieldset>
-		</div>
-	</div>
+            </fieldset>
+        </div>
+    </div>
 
-	<div class="sidebar">
+    <div class="sidebar">
         <?= import('default_sidebar.html'); ?>
-	</div>
+    </div>
 </form>
 
 <script data-inline> jQuery(".select-timezone").select2(); </script>

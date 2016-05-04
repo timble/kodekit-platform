@@ -27,10 +27,10 @@ class TemplateHelperActivity extends Library\TemplateHelperAbstract implements L
      * @param array $config An optional configuration array.
      * @return string The rendered activity.
      */
-    public function activity($config = array(), Library\TemplateInterface $template)
+    public function activity($config = array())
     {
         $config = new Library\ObjectConfig($config);
-        $config->url = $template->route();
+        $config->url = '';
 
         $output = '';
 
@@ -51,7 +51,6 @@ class TemplateHelperActivity extends Library\TemplateHelperAbstract implements L
     public function render(ActivityInterface $activity, $config = array())
     {
         $config = new Library\ObjectConfig($config);
-
         $output = $activity->getActivityFormat();
 
         if (preg_match_all('/{(.*?)}/', $output, $labels))
@@ -93,9 +92,10 @@ class TemplateHelperActivity extends Library\TemplateHelperAbstract implements L
     protected function _renderObject(ActivityObjectInterface $object, Library\ObjectConfig $config)
     {
         $config->append(array(
+            'url'  => null,
             'html' => true,
+            'fqr'  => false,
             'escaped_urls' => true,
-            'fqr' => false
         ));
 
         if ($output = $object->getDisplayName())
@@ -108,7 +108,12 @@ class TemplateHelperActivity extends Library\TemplateHelperAbstract implements L
                 if ($url = $object->getUrl())
                 {
                     // Make sure we have a fully qualified route.
-                    if ($config->fqr && !$url->getHost()) {
+                    if ($config->fqr && !$url->getHost())
+                    {
+                        if(!$config->url instanceof Library\HttpUrl) {
+                            $config->url = Library\HttpUrl::fromString($config->url);
+                        }
+
                         $url->setUrl($config->url->toString(Library\HttpUrl::AUTHORITY));
                     }
 

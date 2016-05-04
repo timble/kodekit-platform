@@ -43,7 +43,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         return $this->optionlist($config);
     }
 
-    public function sites( $config = array(), Library\TemplateInterface $template )
+    public function sites( $config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -54,6 +54,6 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'deselect' => false
         ));
 
-        return parent::render($config, $template);
+        return parent::render($config);
     }
 }

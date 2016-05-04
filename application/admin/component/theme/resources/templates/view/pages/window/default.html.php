@@ -8,6 +8,8 @@
  */
 ?>
 
+<?= helper('behavior.keepalive') ?>
+
 <ktml:script src="assets://theme/js/mootools.js" />
 <ktml:script src="assets://theme/js/application.js" />
 <ktml:script src="assets://theme/js/chromatable.js" />

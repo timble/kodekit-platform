@@ -19,6 +19,18 @@ use Kodekit\Library;
  */
 class TemplateHelperRoute extends Library\TemplateHelperAbstract
 {
+    public function route($route)
+    {
+        if(isset($route['component'])) {
+            $route['component'] = $this->getIdentifier()->package;
+        }
+
+        $route = $this->getObject('lib:dispatcher.router.route', array('escape' =>  true))
+            ->setQuery($route);
+
+        return $route;
+    }
+
     /**
      * Find a page based on list of needles
      *
@@ -26,8 +38,8 @@ class TemplateHelperRoute extends Library\TemplateHelperAbstract
      * @return
      */
     protected function _findPage($needles)
-	{
+    {
         $pages  = $this->getObject('pages');
         return $pages->find(array('component' => $this->getIdentifier()->package, 'link' => $needles));
-	}
+    }
 }

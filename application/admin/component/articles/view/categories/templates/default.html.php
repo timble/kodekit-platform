@@ -36,10 +36,10 @@
                 </th>
                 <th width="1"></th>
                 <th>
-                    <?= helper('grid.sort',  array('column' => 'title')); ?>
+                    <?= helper('grid.sort',  array('column' => 'title', 'url' => route())); ?>
                 </th>
                 <th width="1">
-                    <?= helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
+                    <?= helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count', 'url' => route())); ?>
                 </th>
             </tr>
         </thead>
@@ -47,7 +47,7 @@
         <tfoot>
             <tr>
                 <td colspan="13">
-                    <?= helper('com:theme.paginator.pagination'); ?>
+                    <?= helper('com:theme.paginator.pagination', array('url' => route())); ?>
                 </td>
             </tr>
         </tfoot>

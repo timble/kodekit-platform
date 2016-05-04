@@ -19,7 +19,7 @@
 
 <? if($article->isTranslatable()) : ?>
     <ktml:block extend="actionbar">
-        <?= helper('com:languages.listbox.languages') ?>
+        <?= helper('com:languages.listbox.languages', array('url' => route())) ?>
     </ktml:block>
 <? endif ?>
 

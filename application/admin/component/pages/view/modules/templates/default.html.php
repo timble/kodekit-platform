@@ -34,13 +34,13 @@
                 </th>
                 <th width="1"></th>
                 <th>
-                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
+                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Name', 'url' => route())) ?>
                 </th>
                 <th width="1">
-                    <?= helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
+                    <?= helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages', 'url' => route())) ?>
                 </th>
                 <th width="1">
-                    <?= helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
+                    <?= helper('grid.sort', array('column' => 'type' , 'title' => 'Type', 'url' => route())) ?>
                 </th>
             </tr>
         </thead>
@@ -48,7 +48,7 @@
             <? if ($modules) : ?>
             <tr>
                 <td colspan="20">
-                    <?= helper('com:theme.paginator.pagination') ?>
+                    <?= helper('com:theme.paginator.pagination', array('url' => route())) ?>
                 </td>
             </tr>
             <? endif ?>

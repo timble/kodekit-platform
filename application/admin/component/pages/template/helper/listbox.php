@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function menus($config = array(), Library\TemplateInterface $template)
+    public function menus($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -29,7 +29,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'label'	=> 'title',
         ));
 
-        return $this->render($config, $template);
+        return $this->render($config);
     }
 
     public function pages($config = array())

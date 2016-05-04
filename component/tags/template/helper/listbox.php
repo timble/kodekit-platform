@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function tags($config = array(), Library\TemplateInterface $template)
+    public function tags($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -35,6 +35,6 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $config->label = 'title';
         $config->sort  = 'title';
 
-        return parent::render($config, $template);
+        return parent::render($config);
     }
 }

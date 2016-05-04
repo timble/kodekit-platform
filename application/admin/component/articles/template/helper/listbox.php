@@ -20,29 +20,29 @@ use Kodekit\Component\Articles;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function articles($config = array(), Library\TemplateInterface $template)
-    {
-    	$config = new Library\ObjectConfig($config);
-    	$config->append(array(
-    		'model' => 'articles',
-    		'value'	=> 'id',
-    		'label'	=> 'title'
-    	));
-
-    	return parent::render($config, $template);
-    }
-
-    public function authors($config = array(), Library\TemplateInterface $template)
+    public function articles($config = array())
     {
         $config = new Library\ObjectConfig($config);
-		$config->append(array(
-			'model'	=> 'articles',
-			'name' 	=> 'created_by',
-			'value'	=> 'created_by_id',
-			'label'	=> 'created_by_name',
-		));
+        $config->append(array(
+            'model' => 'articles',
+            'value'	=> 'id',
+            'label'	=> 'title'
+        ));
 
-		return parent::render($config, $template);
+        return parent::render($config);
+    }
+
+    public function authors($config = array())
+    {
+        $config = new Library\ObjectConfig($config);
+        $config->append(array(
+            'model'	=> 'articles',
+            'name' 	=> 'created_by',
+            'value'	=> 'created_by_id',
+            'label'	=> 'created_by_name',
+        ));
+
+        return parent::render($config);
     }
 
     public function ordering($config = array())

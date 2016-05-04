@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperMenu extends Library\TemplateHelperAbstract
 {
-    public function render($config = array(), Library\TemplateInterface $template)
+    public function render($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -75,8 +75,10 @@ class TemplateHelperMenu extends Library\TemplateHelperAbstract
 
                 if($link = $page->getLink())
                 {
-                    $link = $template->route($link->getQuery());
-                    $html .= '<a href="'.(string) $link.'">';
+                    $url = $this->getObject('lib:dispatcher.router.route', array('escape' =>  true))
+                        ->setQuery($link->getQuery());
+
+                    $html .= '<a href="'.(string) $url.'">';
                     $html .= $page->title;
                     $html .= '</a>';
                 }

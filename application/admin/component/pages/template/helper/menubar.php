@@ -21,13 +21,13 @@ use Kodekit\Component\Pages;
 
 class TemplateHelperMenubar extends Pages\TemplateHelperMenubar
 {
-    public function render($config = array(), Library\TemplateInterface $template)
+    public function render($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
             'max_level' => 2,
         ));
 
-        return parent::render($config, $template);
+        return parent::render($config);
     }
 }

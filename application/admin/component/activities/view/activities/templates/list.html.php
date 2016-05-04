@@ -22,7 +22,7 @@
         <div class="activity">
             <div class="activity__text">
                 <i class="icon-<?= $activity->image ?>"></i>
-                <?= helper('activity.activity', array('entity' => $activity)) ?>
+                <?= helper('activity.activity', array('entity' => $activity, 'url' => route())) ?>
             </div>
             <div class="activity__info">
                 <?= helper('date.format', array('date' => $activity->created_on, 'format' => 'H:i'))?>

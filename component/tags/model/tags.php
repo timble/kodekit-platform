@@ -19,12 +19,12 @@ use Kodekit\Library;
  */
 class ModelTags extends Library\ModelDatabase
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
-		// Set the state
-		$this->getState()
+        // Set the state
+        $this->getState()
             ->insert('row', 'cmd');
     }
 
@@ -77,23 +77,23 @@ class ModelTags extends Library\ModelDatabase
                 'row' => 'relations.row'
             ));
         }
-	}
+    }
 
-	protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
-	{
+    protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
+    {
         $query->group('tbl.slug');
-	}
+    }
 
-	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
-	{
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
+    {
         parent::_buildQueryJoins($query);
 
         $table = $this->getTable()->getName();
         $query->join(array('relations' => $table.'_relations'), 'relations.tag_id = tbl.tag_id');
-	}
+    }
 
-	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
-	{
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
+    {
         $state = $this->getState();
 
         if($this->getState()->row) {
@@ -101,5 +101,5 @@ class ModelTags extends Library\ModelDatabase
         }
 
         parent::_buildQueryWhere($query);
-	}
+    }
 }

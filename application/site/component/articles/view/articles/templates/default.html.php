@@ -18,4 +18,4 @@
     <?= import('default_item.html', array('article' => $article)) ?>
 <? endforeach; ?>
 
-<?= helper('paginator.pagination', array('show_limit' => false, 'show_count' => false)); ?>
+<?= helper('paginator.pagination', array('show_limit' => false, 'show_count' => false, 'url' => route())); ?>

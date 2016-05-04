@@ -22,7 +22,7 @@ class ControllerToolbarTag extends Library\ControllerToolbarActionbar
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $component = $this->getController()->getIdentifier()->package;
-		$view	   = Library\StringInflector::singularize($this->getIdentifier()->name);
+        $view      = Library\StringInflector::singularize($this->getIdentifier()->name);
 
         $command->href = 'component='.$component.'&view='.$view;
     }

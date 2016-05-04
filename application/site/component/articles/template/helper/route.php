@@ -20,7 +20,7 @@ use Kodekit\Platform\Pages;
  */
 class TemplateHelperRoute extends Pages\TemplateHelperRoute
 {
-    public function article($config = array(), Library\TemplateInterface $template)
+    public function article($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -51,10 +51,10 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
             $route['Itemid'] = $page->id;
         }
 
-        return $template->route($route);
+        return parent::route($route);
     }
 
-    public function category($config = array(), Library\TemplateInterface $template)
+    public function category($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -74,7 +74,8 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
             'category' => $category->getSlug(),
         );
 
-        if ($page = $this->_findPage($needles)) {
+        if ($page = $this->_findPage($needles))
+        {
             if (isset($page->getLink()->query['layout'])) {
                 $route['layout'] = $page->getLink()->query['layout'];
             }
@@ -82,7 +83,7 @@ class TemplateHelperRoute extends Pages\TemplateHelperRoute
             $route['Itemid'] = $page->id;
         };
 
-        return $template->route($route);
+        return parent::route($route);
     }
 
     /**

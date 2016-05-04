@@ -28,5 +28,5 @@
 <? endforeach ?>
 
 <? if (count($articles) != parameter('total')) : ?>
-    <?= helper('paginator.pagination', array('total' => parameter('total'), 'show_limit' => false, 'show_count' => false)) ?>
+    <?= helper('paginator.pagination', array('total' => parameter('total'), 'show_limit' => false, 'show_count' => false, 'url' => route())) ?>
 <? endif ?>

@@ -20,20 +20,27 @@ use Kodekit\Component\Activities;
  */
 class TemplateHelperActivity extends Activities\TemplateHelperActivity
 {
-    public function message($config = array(), Library\TemplateInterface $template)
+    public function message($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'entity'      => ''
+            'entity' => ''
         ));
 
         $entity = $config->entity;
 
         if($entity->name == 'session')
         {
-            $item = $template->route('component='.$entity->type.'_'.$entity->package.'&view=user&id='.$entity->created_by);
+            $query = array(
+                'component' => $entity->type.'_'.$entity->package,
+                'view'      => 'user',
+                'id'        => $entity->created_by
+            );
 
-            $message   = '<a href="'.$item.'">'.$entity->title.'</a>';
+            $url = $this->getObject('lib:dispatcher.router.route', array('escape' =>  true))
+                ->setQuery($query);
+
+            $message   = '<a href="'.$url.'">'.$entity->title.'</a>';
             $message  .= ' <span class="action">'.$entity->status.'</span>';
         }
         else $message = parent::message($config);

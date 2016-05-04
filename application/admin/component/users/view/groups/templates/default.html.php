@@ -23,7 +23,7 @@
                     <?= helper('grid.checkall'); ?>
                 </th>
                 <th>
-                    <?= helper('grid.sort', array('column' => 'Name')) ?>
+                    <?= helper('grid.sort', array('column' => 'Name', 'url' => route())) ?>
                 </th>
                 <th>
                     <?= translate('Description') ?>
@@ -34,7 +34,7 @@
         <tfoot>
             <tr>
                 <td colspan="3">
-                    <?= helper('com:theme.paginator.pagination') ?>
+                    <?= helper('com:theme.paginator.pagination', array('url' => route())) ?>
                 </td>
             </tr>
         </tfoot>

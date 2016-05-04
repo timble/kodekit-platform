@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
-    public function groups($config = array(), Library\TemplateInterface $template)
+    public function groups($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -28,10 +28,10 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'label' => 'name'
         ));
 
-        return parent::render($config, $template);
+        return parent::render($config);
     }
 
-    public function users($config = array(), Library\TemplateInterface $template)
+    public function users($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
@@ -42,10 +42,10 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             )
         ));
 
-        return parent::render($config, $template);
+        return parent::render($config);
     }
 
-    public function languages($config = array(), Library\TemplateInterface $template)
+    public function languages($config = array())
     {
         $config = new Library\ObjectConfig($config);
 
@@ -55,7 +55,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'model'  => 'com:languages.model.languages',
             'filter' => array('application' => 'site', 'enabled' => 1)));
 
-        $listbox = parent::render($config, $template);
+        $listbox = parent::render($config);
 
         if (!$config->size) {
             $listbox = str_replace('size="1"', '', $listbox);

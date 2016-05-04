@@ -26,7 +26,7 @@
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($menus); ?>);" />
                 </th>
                 <th>
-                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
+                    <?= helper('grid.sort', array('column' => 'title' , 'title' => 'Title', 'url' => route())); ?>
                 </th>
             </tr>
         </thead>
@@ -34,7 +34,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <?= helper('com:theme.paginator.pagination') ?>
+                    <?= helper('com:theme.paginator.pagination', array('url' => route())) ?>
                 </td>
             </tr>
         </tfoot>

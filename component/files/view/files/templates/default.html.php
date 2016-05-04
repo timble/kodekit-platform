@@ -17,120 +17,120 @@ Files.base     = '<?= $base; ?>';
 Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
-	var config = <?= json_encode(parameter('config')); ?>,
-		options = {
+    var config = <?= json_encode(parameter('config')); ?>,
+        options = {
             title: false,
-			state: {
-				defaults: {
-					limit: <?= (int) parameter('limit'); ?>,
-					offset: <?= (int) parameter('offset'); ?>,
-					types: <?= json_encode(parameter('types')); ?>
-				}
-			},
-			tree: {
-				theme: 'assets://files/images/mootree.png'
-			},
-			types: <?= json_encode(parameter('types')); ?>,
+            state: {
+                defaults: {
+                    limit: <?= (int) parameter('limit'); ?>,
+                    offset: <?= (int) parameter('offset'); ?>,
+                    types: <?= json_encode(parameter('types')); ?>
+                }
+            },
+            tree: {
+                theme: 'assets://files/images/mootree.png'
+            },
+            types: <?= json_encode(parameter('types')); ?>,
             site: <?= json_encode($site); ?>,
-			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
-			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
-		};
-	options = $extend(options, config);
+            container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
+            thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
+        };
+    options = $extend(options, config);
 
-	Files.app = new Files.App(options);
+    Files.app = new Files.App(options);
 
-	//@TODO hide the uploader in a modal, make code pretty
-	var tmp = new Element('div', {style: 'display:none'}).inject(document.body);
-	$('files-upload').getParent().inject(tmp).setStyle('visibility', '');
-	$('command-upload').addEvent('click', function(e){
-		e.stop();
+    //@TODO hide the uploader in a modal, make code pretty
+    var tmp = new Element('div', {style: 'display:none'}).inject(document.body);
+    $('files-upload').getParent().inject(tmp).setStyle('visibility', '');
+    $('command-upload').addEvent('click', function(e){
+        e.stop();
 
-		var handleClose = function(){
-			$('files-upload').getParent().inject(tmp);
-			SqueezeBox.removeEvent('close', handleClose);
-		};
-		SqueezeBox.addEvent('close', handleClose);
-		SqueezeBox.open($('files-upload').getParent(), {
-			handler: 'adopt',
-			size: {x: 700, y: $('files-upload').getParent().measure(function(){return this.getSize().y;})}
-		});
-	});
+        var handleClose = function(){
+            $('files-upload').getParent().inject(tmp);
+            SqueezeBox.removeEvent('close', handleClose);
+        };
+        SqueezeBox.addEvent('close', handleClose);
+        SqueezeBox.open($('files-upload').getParent(), {
+            handler: 'adopt',
+            size: {x: 700, y: $('files-upload').getParent().measure(function(){return this.getSize().y;})}
+        });
+    });
 
-	$('files-new-folder-modal').getElement('form').addEvent('submit', function(e){
-		e.stop();
-		var element = $('files-new-folder-input');
-		var value = element.get('value');
-		if (value.length > 0) {
-			var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
-			folder.add(function(response, responseText) {
-				if (response.status === false) {
-					return alert(response.error);
-				}
-				element.set('value', '');
-				$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
-				var el = response.item;
-				var cls = Files[el.type.capitalize()];
-				var row = new cls(el);
-				Files.app.grid.insert(row);
-				Files.app.tree.selected.insert({
-					text: row.name,
-					id: row.path,
-					data: {
-						path: row.path,
-						url: '#'+row.path,
-						type: 'folder'
-					}
-				});
-				Files.app.tree.selected.toggle(false, true);
+    $('files-new-folder-modal').getElement('form').addEvent('submit', function(e){
+        e.stop();
+        var element = $('files-new-folder-input');
+        var value = element.get('value');
+        if (value.length > 0) {
+            var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
+            folder.add(function(response, responseText) {
+                if (response.status === false) {
+                    return alert(response.error);
+                }
+                element.set('value', '');
+                $('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
+                var el = response.item;
+                var cls = Files[el.type.capitalize()];
+                var row = new cls(el);
+                Files.app.grid.insert(row);
+                Files.app.tree.selected.insert({
+                    text: row.name,
+                    id: row.path,
+                    data: {
+                        path: row.path,
+                        url: '#'+row.path,
+                        type: 'folder'
+                    }
+                });
+                Files.app.tree.selected.toggle(false, true);
 
-				SqueezeBox.close();
-			});
-		};
-	});
+                SqueezeBox.close();
+            });
+        };
+    });
 
     Files.createModal = function(container, button){
         var modal = $(container), tmp = new Element('div', {style: 'display:none'}).inject(document.body);
         tmp.grab(modal);
-    	$(button).addEvent('click', function(e) {
-    		e.stop();
+        $(button).addEvent('click', function(e) {
+            e.stop();
 
-    		var handleClose = function(){
-					modal.inject(tmp);
+            var handleClose = function(){
+                    modal.inject(tmp);
 
-					SqueezeBox.removeEvent('close', handleClose);
-				},
-				handleOpen = function(){
-					var focus = modal.getElement('input.focus');
-		    		if (focus) {
-		        		focus.focus();
-		    		}
+                    SqueezeBox.removeEvent('close', handleClose);
+                },
+                handleOpen = function(){
+                    var focus = modal.getElement('input.focus');
+                    if (focus) {
+                        focus.focus();
+                    }
 
-					SqueezeBox.removeEvent('open', handleOpen);
-				},
-				sizes = modal.measure(function(){return this.getSize();});
+                    SqueezeBox.removeEvent('open', handleOpen);
+                },
+                sizes = modal.measure(function(){return this.getSize();});
 
-			SqueezeBox.addEvent('close', handleClose);
-			SqueezeBox.addEvent('open', handleOpen);
-			SqueezeBox.open(modal.setStyle('display', ''), {
-				handler: 'adopt',
-				size: {x: sizes.x, y: sizes.y}
-			});
+            SqueezeBox.addEvent('close', handleClose);
+            SqueezeBox.addEvent('open', handleOpen);
+            SqueezeBox.open(modal.setStyle('display', ''), {
+                handler: 'adopt',
+                size: {x: sizes.x, y: sizes.y}
+            });
 
-    	});
+        });
 
-    	var validate = function(){
-    		if(this.value.trim()) {
-    			$('files-new-folder-create').addClass('valid').removeProperty('disabled');
-    		} else {
-    			$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
-    		}
-    	};
-    	$('files-new-folder-input').addEvent('change', validate);
-    	if(window.addEventListener) {
-    		$('files-new-folder-input').addEventListener('input', validate);
-    	} else {
-    		$('files-new-folder-input').addEvent('keyup', validate);
-    	}
+        var validate = function(){
+            if(this.value.trim()) {
+                $('files-new-folder-create').addClass('valid').removeProperty('disabled');
+            } else {
+                $('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
+            }
+        };
+        $('files-new-folder-input').addEvent('change', validate);
+        if(window.addEventListener) {
+            $('files-new-folder-input').addEventListener('input', validate);
+        } else {
+            $('files-new-folder-input').addEvent('keyup', validate);
+        }
     };
 
     Files.createModal('files-new-folder-modal', 'command-new');
@@ -142,11 +142,11 @@ window.addEvent('domready', function() {
     }).addClass('active');
 
     switchers.addEvent('click', function(e) {
-    	e.stop();
-    	var layout = this.get('data-layout');
-    	Files.app.grid.setLayout(layout);
-    	switchers.removeClass('active');
-    	this.addClass('active');
+        e.stop();
+        var layout = this.get('data-layout');
+        Files.app.grid.setLayout(layout);
+        switchers.removeClass('active');
+        this.addClass('active');
     });
 });
 </script>
@@ -156,35 +156,35 @@ window.addEvent('domready', function() {
 </ktml:block>
 
 <div id="files-app">
-	<?= import('templates_icons.html'); ?>
-	<?= import('templates_details.html'); ?>
+    <?= import('templates_icons.html'); ?>
+    <?= import('templates_details.html'); ?>
 
-	<ktml:block prepend="sidebar">
-		<div id="files-tree"></div>
-	</ktml:block>
+    <ktml:block prepend="sidebar">
+        <div id="files-tree"></div>
+    </ktml:block>
 
-	<div id="files-canvas">
-	    <div class="scopebar">
-			<div class="button__group" data-toggle="buttons-radio">
-				<button class="button files-layout-switcher" data-layout="icons" title="<?= translate('Show files as icons'); ?>">
-					<i class="icon-th"></i>
-				</button>
-				<button class="button files-layout-switcher" data-layout="details" title="<?= translate('Show files in a list'); ?>">
-					<i class="icon-list"></i>
-				</button>
-			</div>
-		</div>
-		<div id="files-grid" class="-koowa-grid"></div>
-		<div id="files-paginator">
-			<?= helper('paginator.pagination') ?>
-		</div>
+    <div id="files-canvas">
+        <div class="scopebar">
+            <div class="button__group" data-toggle="buttons-radio">
+                <button class="button files-layout-switcher" data-layout="icons" title="<?= translate('Show files as icons'); ?>">
+                    <i class="icon-th"></i>
+                </button>
+                <button class="button files-layout-switcher" data-layout="details" title="<?= translate('Show files in a list'); ?>">
+                    <i class="icon-list"></i>
+                </button>
+            </div>
+        </div>
+        <div id="files-grid" class="-koowa-grid"></div>
+        <div id="files-paginator">
+            <?= helper('paginator.pagination', array('url' => route())) ?>
+        </div>
 
-		<?= import('uploader.html');?>
-	</div>
+        <?= import('uploader.html');?>
+    </div>
 </div>
 
 <div>
-	<div id="files-new-folder-modal" style="display: none">
+    <div id="files-new-folder-modal" style="display: none">
         <form class="files-modal">
             <div style="text-align: center;">
                 <h3 style=" float: none">

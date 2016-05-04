@@ -68,9 +68,9 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 
             return true;
         }
-	}
+    }
 
-	protected function _removeTags(Library\ControllerContextInterface $context)
+    protected function _removeTags(Library\ControllerContextInterface $context)
     {
         $entity = $context->result;
         $status = $entity->getStatus();
@@ -78,5 +78,5 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
         if($entity->isIdentifiable() && $status == $entity::STATUS_DELETED) {
             $entity->getTags()->delete();
         }
-	}
+    }
 }
