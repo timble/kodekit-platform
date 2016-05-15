@@ -76,6 +76,7 @@ CREATE TABLE `articles_tags` (
   `tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
+  `count` int(11) DEFAULT '0',
   `created_by` int(10) unsigned DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int(10) unsigned DEFAULT NULL,

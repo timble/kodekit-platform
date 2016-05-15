@@ -58,6 +58,13 @@ class ModelEntityTag extends Library\ModelEntityRow
 
                 $result = $table->insert($relation);
             }
+
+            //Increase the tag count
+            if($result)
+            {
+                $tag->count += 1;
+                $result = $tag->save();
+            }
         }
         else $result = parent::save();
 
@@ -84,15 +91,18 @@ class ModelEntityTag extends Library\ModelEntityRow
 
         $rowset = $table->select($query);
 
-        if($rowset->count())
+        if($count = $rowset->count())
         {
             //Delete the relations
             if($result = $rowset->delete())
             {
-                //Delete the tag
-                if(!$this->row) {
-                    $result = parent::delete();
+                //Update the count
+                if($this->row)
+                {
+                    $this->count -= $count;
+                    $result = parent::save();
                 }
+                else $result = parent::delete();
             }
         }
 
