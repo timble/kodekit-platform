@@ -31,8 +31,8 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	Library\ObjectConfig    $config  An optional Library\ObjectConfig object with configuration options.
-     * @return 	void
+     * @param   Library\ObjectConfig    $config  An optional Library\ObjectConfig object with configuration options.
+     * @return  void
      */
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -50,8 +50,8 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     /**
      * Force creation of a singleton
      *
-     * @param 	Library\ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	Library\ObjectManagerInterface	$manager  A ObjectInterface object
+     * @param   Library\ObjectConfigInterface   $config   A ObjectConfig object with configuration options
+     * @param   Library\ObjectManagerInterface  $manager  A ObjectInterface object
      * @return  Dispatcher
      */
     public static function getInstance(Library\ObjectConfigInterface $config, Library\ObjectManagerInterface $manager)
@@ -72,8 +72,8 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     /**
      * Get the application router.
      *
-     * @param  array $options 	An optional associative array of configuration options.
-     * @return	Dispatcher
+     * @param  array $options   An optional associative array of configuration options.
+     * @return  Dispatcher
      */
     public function getRouter(array $options = array())
     {
