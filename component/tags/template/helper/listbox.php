@@ -24,8 +24,8 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $config = new Library\ObjectConfig($config);
         $config->append(array(
             'package' => $this->getIdentifier()->package,
-            'value'	  => 'title',
-            'label'	  => 'title',
+            'value'   => 'title',
+            'label'   => 'title',
             'prompt'   => false,
             'deselect' => false,
         ))->append(array(
