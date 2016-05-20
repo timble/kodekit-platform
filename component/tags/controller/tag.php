@@ -21,12 +21,9 @@ class ControllerTag extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $config->model = 'com:'.$this->getIdentifier()->package.'.model.tags';
-
-        //If no specialised model exists use default
-        if(!$this->getObject('manager')->getClass($config->model, false)) {
-            $config->model = 'com:tags.model.tags';
-        }
+        $config->append(array(
+            'model' => 'com:tags.model.tags'
+        ));
 
         //Alias the permission
         $permission         = $this->getIdentifier()->toArray();
