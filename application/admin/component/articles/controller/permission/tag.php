@@ -18,7 +18,7 @@ use Kodekit\Platform\Application;
  * @author  Johan Janssens <http://github.com/johanjanssens>
  * @package Kodekit\Platform\Articles
  */
-class ArticlesControllerPermissionTag extends Application\ControllerPermissionAbstract
+class ControllerPermissionTag extends Application\ControllerPermissionAbstract
 {
 
 }
