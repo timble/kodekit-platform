@@ -10,7 +10,6 @@
 
 <?= helper('behavior.kodekit'); ?>
 <?= helper('behavior.validator') ?>
-<?= helper('behavior.select2'); ?>
 
 <ktml:script src="assets://users/js/users.js" />
 
@@ -77,7 +76,7 @@
                             'name'     => 'parameters[timezone]',
                             'selected' => $user->getParameters()->timezone,
                             'deselect' => true,
-                            'attribs'  => array('class' => 'select-timezone', 'style' => 'width:220px')
+                            'attribs'  => array('class' => 'select-timezone')
                         )) ?>
                     </div>
                 </div>
@@ -89,7 +88,7 @@
                             'name'     => 'parameters[language]',
                             'selected' => $user->getParameters()->language,
                             'deselect' => true,
-                            'attribs'  => array('class' => 'select-language', 'style' => 'width:220px')
+                            'attribs'  => array('class' => 'select-language')
                         )) ?>
                     </div>
                 </div>
@@ -101,5 +100,3 @@
         <?= import('default_sidebar.html'); ?>
     </div>
 </form>
-
-<script data-inline> jQuery(".select-timezone").select2(); </script>
