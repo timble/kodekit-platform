@@ -23,7 +23,6 @@ class ModelTags extends Library\ModelDatabase
     {
         parent::__construct($config);
 
-        // Set the state
         $this->getState()
             ->insert('row', 'cmd');
     }
@@ -37,11 +36,6 @@ class ModelTags extends Library\ModelDatabase
         parent::_initialize($config);
     }
 
-    /**
-     * Method to get a table object
-     *
-     * @return Library\DatabaseTableInterface
-     */
     final public function getTable()
     {
         if(!($this->_table instanceof Library\DatabaseTableInterface)) {
@@ -51,12 +45,6 @@ class ModelTags extends Library\ModelDatabase
         return $this->_table;
     }
 
-    /**
-     * Method to set a table object attached to the model
-     *
-     * @param	string	$table The table name
-     * @return  ModelTags
-     */
     final public function setTable($table)
     {
         $this->_table = $table;
