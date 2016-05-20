@@ -23,15 +23,49 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'package' => $this->getIdentifier()->package,
-            'value'   => 'title',
-            'label'   => 'title',
+            'autocomplete' => true,
+            'autocreate'   => true,
+            'component'    => $this->getIdentifier()->package,
+            'entity'   => null,
+            'name'     => 'tags',
+            'value'    => 'title',
             'prompt'   => false,
             'deselect' => false,
+            'attribs'  => array(
+                'multiple' => true
+            ),
         ))->append(array(
-            'model'  => $this->getObject('com:tags.model.tags', array('table' => $config->package.'_tags')),
+            'model'  => $this->getObject('com:tags.model.tags', array('table' => $config->component.'_tags')),
+            'options' => array(
+                'tokenSeparators' => array(',', ' '),
+                'tags'            => $config->autocreate
+            ),
         ));
 
+        //Set the selected tags
+        if ($config->entity instanceof Library\ModelEntityInterface && $config->entity->isTaggable())
+        {
+            $config->append(array(
+                'selected' => $config->entity->getTags(),
+            ));
+        }
+
+        //Set the autocompplete url
+        if ($config->autocomplete)
+        {
+            $parts = array(
+                'component' => $config->component,
+                'view'      => 'tags',
+            );
+
+            if ($config->filter) {
+                $parts = array_merge($parts, Library\ObjectConfig::unbox($config->filter));
+            }
+
+            $config->url = $this->getObject('lib:dispatcher.router.route')->setQuery($parts);
+        }
+
+        //Do not allow to override label and sort
         $config->label = 'title';
         $config->sort  = 'title';
 
