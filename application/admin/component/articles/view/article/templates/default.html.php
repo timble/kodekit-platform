@@ -9,7 +9,6 @@
 ?>
 
 <?= helper('behavior.kodekit'); ?>
-<?= helper('behavior.select2'); ?>
 <?= helper('behavior.keepalive') ?>
 <?= helper('behavior.validator') ?>
 
@@ -41,5 +40,3 @@
         <?= import('default_sidebar.html'); ?>
     </div>
 </form>
-
-<script data-inline> jQuery(".select-tags").select2({tags:true, tokenSeparators: [',', ' ']}); </script>
