@@ -37,7 +37,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ))->append(array(
             'model'  => $this->getObject('com:tags.model.tags', array('table' => $config->component.'_tags')),
             'options' => array(
-                'tokenSeparators' => array(',', ' '),
+                'tokenSeparators' => $config->autocreate ? array(',', ' ') : null,
                 'tags'            => $config->autocreate ? 'true' : 'false'
             ),
         ));
