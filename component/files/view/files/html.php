@@ -20,21 +20,21 @@ use Kodekit\Library;
 
 class ViewFilesHtml extends Library\ViewHtml
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->auto_fetch = false;
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->auto_fetch = false;
 
-		parent::_initialize($config);
-	}
+        parent::_initialize($config);
+    }
 
     protected function _fetchData(Library\ViewContext $context)
-	{
-	    $state = $this->getModel()->getState();
+    {
+        $state = $this->getModel()->getState();
 
         $context->data->container = $this->getModel()->getContainer();
         $context->data->site      = $this->getObject('application')->getSite();
-		$context->data->token     = $this->getObject('user')->getSession()->getToken();
+        $context->data->token     = $this->getObject('user')->getSession()->getToken();
 
-		parent::_fetchData($context);
-	}
+        parent::_fetchData($context);
+    }
 }

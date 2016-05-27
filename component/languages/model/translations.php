@@ -44,7 +44,8 @@ class ModelTranslations extends Library\ModelDatabase
     {
         $state = $context->state;
 
-        if ($state->sort == 'table') {
+        if ($state->sort == 'table')
+        {
             $direction = strtoupper($state->direction);
 
             $context->query->order('tbl.row', $direction);
