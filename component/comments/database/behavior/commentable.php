@@ -20,17 +20,17 @@ use Kodekit\Library;
 class DatabaseBehaviorCommentable extends Library\DatabaseBehaviorAbstract
 {
     /**
-	 * Get a list of comments
-	 *
-	 * @return Library\ModelEntityInterface
-	 */
-	public function getComments()
-	{
-		$comments = $this->getObject('com:comments.model.comments')
-					->row($this->id)
-					->table($this->getTable()->getName())
-					->fetch();
+     * Get a list of comments
+     *
+     * @return Library\ModelEntityInterface
+     */
+    public function getComments()
+    {
+        $comments = $this->getObject('com:comments.model.comments')
+                    ->row($this->id)
+                    ->table($this->getTable()->getName())
+                    ->fetch();
 
-		return $comments;
-	}
+        return $comments;
+    }
 }
