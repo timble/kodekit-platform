@@ -36,12 +36,12 @@ class ViewDebugHtml extends Library\ViewHtml
             };
         }
 
-	    $context->data->memory    = $profiler->getMemory();
-	    $context->data->events    = (array) $profiler->getEvents();
-	    $context->data->queries   = (array) $database->getQueries();
-	    $context->data->languages = array(); // $language->getPaths();
-	    $context->data->includes  = (array) $includes;
-	    $context->data->strings   = array(); //$language->getOrphans();
+        $context->data->memory    = $profiler->getMemory();
+        $context->data->events    = (array) $profiler->getEvents();
+        $context->data->queries   = (array) $database->getQueries();
+        $context->data->languages = array(); // $language->getPaths();
+        $context->data->includes  = (array) $includes;
+        $context->data->strings   = array(); //$language->getOrphans();
 
         parent::_fetchData($context);
     }
