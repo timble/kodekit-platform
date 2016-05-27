@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ModelEntityFile extends ModelEntityNode
 {
-	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
+    public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
     public function __construct(Library\ObjectConfig $config)
     {
@@ -29,26 +29,26 @@ class ModelEntityFile extends ModelEntityNode
     }
 
     public function save()
-	{
-		$context = $this->getContext();
-		$context->result = false;
+    {
+        $context = $this->getContext();
+        $context->result = false;
 
-		$is_new = $this->isNew();
+        $is_new = $this->isNew();
 
-		if ($this->invokeCommand('before.save', $context) !== false)
-		{
-			$context->result = $this->_adapter->write(!empty($this->contents) ? $this->contents : $this->file);
+        if ($this->invokeCommand('before.save', $context) !== false)
+        {
+            $context->result = $this->_adapter->write(!empty($this->contents) ? $this->contents : $this->file);
             $this->invokeCommand('after.save', $context);
         }
 
-		if ($context->result === false) {
-			$this->setStatus(self::STATUS_FAILED);
-		} else {
+        if ($context->result === false) {
+            $this->setStatus(self::STATUS_FAILED);
+        } else {
             $this->setStatus($is_new ? self::STATUS_CREATED : self::STATUS_UPDATED);
         }
 
-		return $context->result;
-	}
+        return $context->result;
+    }
 
     public function getPropertyFilename()
     {
@@ -152,19 +152,19 @@ class ModelEntityFile extends ModelEntityNode
         $data = parent::toArray();
 
         unset($data['file']);
-		unset($data['contents']);
+        unset($data['contents']);
 
-		$data['metadata'] = $this->metadata;
+        $data['metadata'] = $this->metadata;
 
-		if ($this->isImage()) {
-			$data['type'] = 'image';
-		}
+        if ($this->isImage()) {
+            $data['type'] = 'image';
+        }
 
         return $data;
     }
 
-	public function isImage()
-	{
-		return in_array(strtolower($this->extension), self::$image_extensions);
-	}
+    public function isImage()
+    {
+        return in_array(strtolower($this->extension), self::$image_extensions);
+    }
 }
