@@ -30,7 +30,8 @@ class ModelAttachments extends Library\ModelDatabase
 
     protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
-        if (!$this->getState()->isUnique()) {
+        if (!$this->getState()->isUnique())
+        {
             $query->columns(array('count' => 'COUNT(relations.attachments_attachment_id)'))
                 ->columns('table')
                 ->columns('row');

@@ -20,10 +20,10 @@ use Kodekit\Library;
 class ViewUsersHtml extends Library\ViewHtml
 {
     protected function _fetchData(Library\ViewContext $context)
-	{
+    {
         $context->data->groups = $this->getObject('com:users.model.groups')->fetch();
         $context->data->roles  = $this->getObject('com:users.model.roles')->fetch();
 
         parent::_fetchData($context);
-	}
+    }
 }
