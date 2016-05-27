@@ -33,7 +33,7 @@ class ControllerSession extends Library\ControllerModel
         $session->fork();
 
         //Prepare the data
-        $data = array(
+        $properties = array(
             'id'         => $session->getId(),
             'authentic'  => $context->user->isAuthentic(),
             'email'      => $context->user->getEmail(),
@@ -44,7 +44,7 @@ class ControllerSession extends Library\ControllerModel
             'name'       => $context->user->getName()
         );
 
-        $context->request->data->add($data);
+        $context->setEntity($this->getModel()->create($properties));
 
         //Store the session
         return  parent::_actionAdd($context);
