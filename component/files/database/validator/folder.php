@@ -19,8 +19,8 @@ use Kodekit\Library;
  */
 class DatabaseValidatorFolder extends DatabaseValidatorNode
 {
-	protected function _beforeSave($context)
-	{
+    protected function _beforeSave($context)
+    {
         $result = parent::_beforeSave($context);
 
         if ($result)
@@ -37,5 +37,5 @@ class DatabaseValidatorFolder extends DatabaseValidatorNode
         }
 
         return $result;
-	}
+    }
 }
