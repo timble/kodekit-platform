@@ -115,7 +115,7 @@ class ModelModules extends Library\ModelDatabase
             }
         }
 
-        return $this->_entitye;
+        return $this->_entity;
     }
 
     /**
@@ -172,7 +172,7 @@ class ModelModules extends Library\ModelDatabase
             }
 
             //Apply direction
-            if (strtolower($state->direction) == 'desc') {
+            if (substr( $state->sort, 0, 1 ) == '-') {
                 $modules = array_reverse($modules);
             }
 
