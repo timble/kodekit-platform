@@ -19,14 +19,14 @@ use Kodekit\Library;
  */
 class DatabaseTableThumbnails extends Library\DatabaseTableAbstract
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'behaviors' => array(
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'behaviors' => array(
                 'identifiable',
-			)
-		));
+            )
+        ));
 
-		parent::_initialize($config);
-	}
+        parent::_initialize($config);
+    }
 }

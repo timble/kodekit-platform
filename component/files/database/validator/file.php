@@ -19,12 +19,12 @@ use Kodekit\Library;
  */
 class DatabaseValidatorFile extends DatabaseValidatorNode
 {
-	protected function _beforeSave(Library\DatabaseContext $context)
-	{
-		$entity = $context->getSubject();
+    protected function _beforeSave(Library\DatabaseContext $context)
+    {
+        $entity = $context->getSubject();
 
-		if (is_string($entity->file) && !is_uploaded_file($entity->file))
-		{
+        if (is_string($entity->file) && !is_uploaded_file($entity->file))
+        {
             // remote file
             $file = $this->getObject('com:files.model.entity.url');
             $file->setProperties(array('file' => $entity->file));
@@ -35,17 +35,17 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
 
             $entity->contents = $file->contents;
 
-			if (empty($entity->name))
-			{
-				$uri  = $this->getObject('lib:http.url', array('url' => $entity->file));
-	        	$path = $uri->toString(Library\HttpUrl::PATH);
-	        	if (strpos($path, '/') !== false) {
-	        		$path = basename($path);
-	        	}
+            if (empty($entity->name))
+            {
+                $uri  = $this->getObject('lib:http.url', array('url' => $entity->file));
+                $path = $uri->toString(Library\HttpUrl::PATH);
+                if (strpos($path, '/') !== false) {
+                    $path = basename($path);
+                }
 
-	        	$entity->name = $path;
-			}
-		}
+                $entity->name = $path;
+            }
+        }
 
         $result = parent::_beforeSave($context);
 
@@ -62,7 +62,7 @@ class DatabaseValidatorFile extends DatabaseValidatorNode
             }
         }
 
-		return $result;
+        return $result;
 
-	}
+    }
 }
