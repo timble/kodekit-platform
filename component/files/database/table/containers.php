@@ -19,20 +19,20 @@ use Kodekit\Library;
  */
 class DatabaseTableContainers extends Library\DatabaseTableAbstract
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'filters' => array(
-				'slug' 	     => 'cmd',
-				'path'       => 'com:files.filter.path',
-				'parameters' => 'json'
-			),
-			'behaviors' => array(
-			    'sluggable' => array('columns' => array('id', 'title')),
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'filters' => array(
+                'slug' 	     => 'cmd',
+                'path'       => 'com:files.filter.path',
+                'parameters' => 'json'
+            ),
+            'behaviors' => array(
+                'sluggable' => array('columns' => array('id', 'title')),
                 'identifiable', 'parameterizable'
-			)
-		));
+            )
+        ));
 
-		parent::_initialize($config);
-	}
+        parent::_initialize($config);
+    }
 }
