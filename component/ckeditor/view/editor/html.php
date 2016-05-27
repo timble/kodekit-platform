@@ -28,30 +28,30 @@ class ViewEditorHtml extends Library\ViewHtml
                 'baseHref'		    => '/files/'.$this->getObject('application')->getSite().'/',
                 'language'	        => substr($locale, 0, strpos( $locale, '-' )),
                 'contentsLanguage'  => substr($locale, 0, strpos( $locale, '-' )),
-			    'height' 	        => '',
-			    'width'			    => '',
+                'height' 	        => '',
+                'width'			    => '',
                 'removeButtons'	    => '',
                 'autoheight'        => true,
                 'toolbar'           => $this->toolbar ? $this->toolbar : 'standard',
-		    )
+            )
         ));
 
-		parent::_initialize($config);
+        parent::_initialize($config);
     }
 
     protected function _fetchData(Library\ViewContext $context)
-	{
-		//Set editor id
+    {
+        //Set editor id
         if(!$context->data->id) {
-		    $context->data->id = $context->data->name;
-		}
+            $context->data->id = $context->data->name;
+        }
 
         //Set editor options
-		$context->data->append(array('options' => $this->getConfig()->options));
+        $context->data->append(array('options' => $this->getConfig()->options));
 
         //Set editor class
         $context->data->class = isset($this->attribs['class']) ? $this->attribs['class'] : '';
 
-		parent::_fetchData($context);
-	}
+        parent::_fetchData($context);
+    }
 }
