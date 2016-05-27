@@ -19,14 +19,20 @@ use Kodekit\Library;
  */
 class ViewActivitiesHtml extends Library\ViewHtml
 {
-	protected function _fetchData(Library\ViewContext $context)
-	{
+    protected function _fetchData(Library\ViewContext $context)
+    {
         if ($this->getLayout() == 'default')
-		{
-			$query = $this->getObject('lib:database.query.select')->table('activities')->columns('package')->distinct();
-			$context->data->packages = $this->getModel()->getTable()->getDriver()->select($query, Library\Database::FETCH_FIELD_LIST);
-		}
+        {
+            $query = $this->getObject('lib:database.query.select')
+                ->table('activities')
+                ->columns('package')
+                ->distinct();
 
-		parent::_fetchData($context);
-	}
+            $packages = $this->getModel()->getTable()->getDriver()->select($query, Library\Database::FETCH_FIELD_LIST);
+
+            $context->data->packages = $packages;
+        }
+
+        parent::_fetchData($context);
+    }
 }

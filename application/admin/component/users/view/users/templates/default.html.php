@@ -55,45 +55,43 @@
             </tr>
         </tfoot>
         <tbody>
-        <? $i = 0 ?>
         <? foreach($users as $user) : ?>
-            <tr>
-                <td align="center">
-                    <?= helper('grid.checkbox' , array('entity' => $user)) ?>
-                </td>
-                <td align="center">
-                    <?= helper('grid.enable', array('entity' => $user, 'component' => 'users', 'view' => 'users')) ?>
-                </td>
-                <td>
-                    <a href="<?= route('view=user&id='.$user->id) ?>">
-                        <?= escape($user->name) ?>
-                    </a>
-                </td>
-                <td align="center">
-                    <i class="<?= $user->authentic ? 'icon-ok' : 'icon-remove' ?>"></i>
-                </td>
-                <td>
-                    <?= escape($user->role) ?>
-                </td>
-                <td class="array-separator">
-                    <ul>
-                    <? foreach ($user->getGroups() as $group) ?>
-                        <li><a href="<?= route('view=group&name=' . (int) $group) ?>"><?= escape($group) ?></a></li>
+        <tr>
+            <td align="center">
+                <?= helper('grid.checkbox' , array('entity' => $user)) ?>
+            </td>
+            <td align="center">
+                <?= helper('grid.enable', array('entity' => $user, 'component' => 'users', 'view' => 'users')) ?>
+            </td>
+            <td>
+                <a href="<?= route('view=user&id='.$user->id) ?>">
+                    <?= escape($user->name) ?>
+                </a>
+            </td>
+            <td align="center">
+                <i class="<?= $user->authentic ? 'icon-ok' : 'icon-remove' ?>"></i>
+            </td>
+            <td>
+                <?= escape($user->role) ?>
+            </td>
+            <td class="array-separator">
+                <ul>
+                    <? foreach ($user->getGroups() as $group) :  ?>
+                    <li><a href="<?= route('view=group&name=' . (int) $group) ?>"><?= escape($group) ?></a></li>
                     <? endforeach ?>
-                    </ul>
-                </td>
-                <td>
-                    <?= escape($user->email) ?>
-                </td>
-                <td>
-                    <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-                        <?= translate('Never') ?>
-                    <? else : ?>
-                        <?= helper('date.humanize', array('date' => $user->last_visited_on)) ?>
-                    <? endif ?>
-                </td>
-            </tr>
-            <? $i++ ?>
+                </ul>
+            </td>
+            <td>
+                <?= escape($user->email) ?>
+            </td>
+            <td>
+                <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+                    <?= translate('Never') ?>
+                <? else : ?>
+                    <?= helper('date.humanize', array('date' => $user->last_visited_on)) ?>
+                <? endif ?>
+            </td>
+        </tr>
         <? endforeach ?>
         </tbody>
     </table>
