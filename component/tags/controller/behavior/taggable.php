@@ -28,13 +28,13 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
         $this->addCommandCallback('after.delete' , '_removeTags');
     }
 
-    protected function _setTags(Library\ControllerContextInterface $context)
+    protected function _setTags(Library\ControllerContextModel $context)
     {
         $entity = $context->result;
 
         if ($entity->isIdentifiable() && !$context->response->isError())
         {
-            $tags   = $entity->getTags();
+            $tags = $entity->getTags();
 
             $package = $this->getMixer()->getIdentifier()->package;
             if(!$this->getObject('com:'.$package.'.controller.tag')->canAdd()) {
@@ -70,13 +70,18 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
         }
     }
 
-    protected function _removeTags(Library\ControllerContextInterface $context)
+    protected function _removeTags(Library\ControllerContextModel $context)
     {
-        $entity = $context->result;
-        $status = $entity->getStatus();
+        $collection = $context->entity;
 
-        if($entity->isIdentifiable() && $status == $entity::STATUS_DELETED) {
-            $entity->getTags()->delete();
+        if($collection->isIdentifiable())
+        {
+            foreach ($collection as $entity)
+            {
+                if($entity->getStatus() != $entity::STATUS_DELETED) {
+                    $entity->getTags()->delete();
+                }
+            }
         }
     }
 }
