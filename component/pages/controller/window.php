@@ -29,8 +29,8 @@ class ControllerWindow extends Library\ControllerView implements Library\Control
     /**
      * Get the controller model
      *
-     * @throws	\UnexpectedValueException	If the model doesn't implement the ModelInterface
-     * @return	Library\ModelInterface
+     * @throws  \UnexpectedValueException	If the model doesn't implement the ModelInterface
+     * @return  Library\ModelInterface
      */
     public function getModel()
     {
@@ -47,5 +47,22 @@ class ControllerWindow extends Library\ControllerView implements Library\Control
         }
 
         return $this->_model;
+    }
+
+    /**
+     * Get the controller context
+     *
+     * @param   Library\ControllerContextInterface $context Context to cast to a local context
+     * @return  Library\ControllerContextModel
+     */
+    public function getContext(Library\ControllerContextInterface $context = null)
+    {
+        $context = new Library\ControllerContextModel(parent::getContext($context));
+
+        if($this->getObject('pages')->getActive()) {
+            $context->setEntity($this->getModel()->fetch());
+        }
+
+        return $context;
     }
 }
