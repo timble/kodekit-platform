@@ -87,7 +87,7 @@ class DispatcherBehaviorIncludable extends Library\DispatcherBehaviorAbstract
         return $this->getObject('com:varnish.controller.cache');
     }
 
-    protected function _beforeInclude(Library\DispatcherContextInterface $context)
+    protected function _beforeInclude(Library\DispatcherContext $context)
     {
         if($this->getCache()->canEsi())
         {
@@ -96,7 +96,7 @@ class DispatcherBehaviorIncludable extends Library\DispatcherBehaviorAbstract
         }
     }
 
-    protected function _afterInclude(Library\DispatcherContextInterface $context)
+    protected function _afterInclude(Library\DispatcherContext $context)
     {
         if($this->getCache()->canEsi())
         {

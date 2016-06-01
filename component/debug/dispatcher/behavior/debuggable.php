@@ -59,10 +59,10 @@ class DispatcherBehaviorDebuggable extends Library\DispatcherBehaviorAbstract
      * An exception is made for responses that include a Www-Authenicate header. In this case we assume that
      * the request is valid and the client should be giving the option to re-submit the request.
      *
-     * @param 	Library\DispatcherContextInterface $context The active command context
+     * @param 	Library\DispatcherContext $context The active command context
      * @return 	void
      */
-    protected function _beforeSend(Library\DispatcherContextInterface $context)
+    protected function _beforeSend(Library\DispatcherContext $context)
     {
         $response = $context->getResponse();
         $request  = $context->getRequest();

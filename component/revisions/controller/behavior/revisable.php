@@ -19,13 +19,13 @@ use Kodekit\Library;
  */
 class ControllerBehaviorRevisable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeBrowse(Library\ControllerContextInterface $context)
-	{
+    protected function _beforeBrowse(Library\ControllerContextModel $context)
+    {
         $state = $context->getSubject()->getModel()->getState();
 
         //If we are filtering for all the trashed entities, decorate the actionbar with the revisable toolbar
         if($state->trashed == true && $this->hasToolbar('actionbar')) {
             $this->getToolbar('actionbar')->decorate('com:revisions.controller.toolbar.revisable');
         }
-	}
+    }
 }

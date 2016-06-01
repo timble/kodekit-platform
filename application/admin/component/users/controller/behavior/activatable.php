@@ -20,7 +20,7 @@ use Kodekit\Component\Users;
  */
 class ControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
 {
-    protected function _afterAdd(Library\ControllerContextInterface $context)
+    protected function _afterAdd(Library\ControllerContextModel $context)
     {
         $user = $context->result;
 

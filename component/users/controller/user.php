@@ -28,7 +28,7 @@ class ControllerUser extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionEdit(Library\ControllerContextInterface $context)
+    protected function _actionEdit(Library\ControllerContextModel $context)
     {
         $entity = parent::_actionEdit($context);
 

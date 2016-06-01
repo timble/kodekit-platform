@@ -39,10 +39,10 @@ class Dispatcher extends Library\DispatcherAbstract
     /**
      * Resolve the request
      *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     * @param Library\DispatcherContext $context A dispatcher context object
      * @throw DispatcherExceptionMethodNotAllowed If the HTTP request method is not allowed.
      */
-    protected function _resolveRequest(Library\DispatcherContextInterface $context)
+    protected function _resolveRequest(Library\DispatcherContext $context)
     {
         if ($context->request->getMethod() !== Library\HttpRequest::GET) {
             throw new Library\DispatcherExceptionMethodNotAllowed('Method not allowed');
@@ -57,10 +57,10 @@ class Dispatcher extends Library\DispatcherAbstract
      * Dispatch to a controller internally or forward to another component.  Functions makes an internal sub-request,
      * based on the information in the request and passing along the context.
      *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param Library\DispatcherContext $context   A dispatcher context object
      * @return	mixed
      */
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    protected function _actionDispatch(Library\DispatcherContext $context)
     {
         if($context->getRequest()->getQuery()->has('identifier'))
         {

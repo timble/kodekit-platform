@@ -39,7 +39,7 @@ class ControllerSession extends Users\ControllerSession
         parent::_initialize($config);
     }
 
-    protected function _passwordRedirect(Library\ControllerContextInterface $context)
+    protected function _passwordRedirect(Library\ControllerContextModel $context)
     {
         if ($context->result !== false)
         {
@@ -70,7 +70,7 @@ class ControllerSession extends Users\ControllerSession
         }
     }
 
-    protected function _actionAdd(Library\ControllerContextInterface $context)
+    protected function _actionAdd(Library\ControllerContextModel $context)
     {
         $result = parent::_actionAdd($context);
 

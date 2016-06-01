@@ -24,7 +24,7 @@ class Dispatcher extends Library\Dispatcher
         return true;
     }
 
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    protected function _actionDispatch(Library\DispatcherContext $context)
     {
         $view = $context->request->query->get('view', 'cmd', $this->_controller);
 

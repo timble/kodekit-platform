@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
 {
-    protected function _afterBrowse(Library\ControllerContextInterface $context)
+    protected function _afterBrowse(Library\ControllerContextModel $context)
     {
         $container = $this->getModel()->getContainer();
 

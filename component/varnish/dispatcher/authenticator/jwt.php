@@ -45,11 +45,11 @@ class DispatcherAuthenticatorJwt extends Library\DispatcherAuthenticatorJwt
      *
      * A JWt token is required.
      *
-     * @param   Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param   Library\DispatcherContext $context  A dispatcher context object
      * @throws  Library\ControllerExceptionRequestNotAuthenticated If a JWT token cannot be found in the request.
      * @return  boolean Returns TRUE if the authentication explicitly succeeded.
      */
-    public function authenticateRequest(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(Library\DispatcherContext $context)
     {
         if(!$this->getToken()){
             throw new Library\ControllerExceptionRequestNotAuthenticated('Token Not Found');

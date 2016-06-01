@@ -32,17 +32,17 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
     /**
      * Varnish constants, as defined in include/vcli.h
      */
-    const CLIS_SYNTAX	= 100;
-    const CLIS_UNKNOWN	= 101;
-    const CLIS_UNIMPL	= 102;
-    const CLIS_TOOFEW	= 104;
-    const CLIS_TOOMANY	= 105;
-    const CLIS_PARAM	= 106;
-    const CLIS_AUTH		= 107;
-    const CLIS_OK		= 200;
-    const CLIS_CANT		= 300;
-    const CLIS_COMMS	= 400;
-    const CLIS_CLOSE	= 500;
+    const CLIS_SYNTAX   = 100;
+    const CLIS_UNKNOWN  = 101;
+    const CLIS_UNIMPL   = 102;
+    const CLIS_TOOFEW   = 104;
+    const CLIS_TOOMANY  = 105;
+    const CLIS_PARAM    = 106;
+    const CLIS_AUTH     = 107;
+    const CLIS_OK       = 200;
+    const CLIS_CANT     = 300;
+    const CLIS_COMMS    = 400;
+    const CLIS_CLOSE    = 500;
 
     /**
      * The proxy server host
@@ -357,10 +357,10 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
     /**
      * Tag the response
      *
-     * @param  Library\ControllerContextInterface	$context    A controller context object
+     * @param  Library\ControllerContext   $context    A controller context object
      * @return bool TRUE if tagging was successful or FALSE of the cache is disabled
      */
-    protected function _actionTag($context)
+    protected function _actionTag(Library\ControllerContext $context)
     {
         if($this->isEnabled())
         {
@@ -379,10 +379,10 @@ class ControllerCache extends Library\ControllerAbstract implements Library\Obje
     /**
      * Ban cached objects by tag
      *
-     * @param  Library\ControllerContextInterface	$context    A controller context object
+     * @param  Library\ControllerContext $context    A controller context object
      * @return string|false The server's response or FALSE of the cache is disabled
      */
-    protected function _actionBan($context)
+    protected function _actionBan(Library\ControllerContext $context)
     {
         if($this->isEnabled())
         {

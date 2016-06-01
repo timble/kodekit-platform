@@ -20,7 +20,7 @@ use Kodekit\Component\Files;
  */
 class ControllerThumbnail extends ControllerAbstract
 {
-    protected function _actionBrowse(Library\ControllerContextInterface $context)
+    protected function _actionBrowse(Library\ControllerContext $context)
     {
         // Clone to make cacheable work since we change model states
         $model = clone $this->getModel();

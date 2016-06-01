@@ -22,10 +22,10 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorCookie
     /**
      * Authenticate using email and password credentials
      *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     * @param Library\DispatcherContext $context A dispatcher context object
      * @return  boolean Returns TRUE if the authentication explicitly succeeded.
      */
-    public function authenticateRequest(Library\DispatcherContextInterface $context)
+    public function authenticateRequest(Library\DispatcherContext $context)
     {
         if($context->request->isPost() )
         {
@@ -70,10 +70,10 @@ class DispatcherAuthenticatorForm extends Library\DispatcherAuthenticatorCookie
     /**
      * Render the login form
      *
-     * @param 	Library\DispatcherContextInterface $context The active command context
+     * @param 	Library\DispatcherContext $context The active command context
      * @return 	void
      */
-    public function challengeResponse(Library\DispatcherContextInterface $context)
+    public function challengeResponse(Library\DispatcherContext $context)
     {
         $response = $context->getResponse();
         $request  = $context->getRequest();

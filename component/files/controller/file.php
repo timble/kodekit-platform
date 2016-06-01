@@ -19,39 +19,39 @@ use Kodekit\Library;
  */
 class ControllerFile extends ControllerAbstract
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
 
         $this->addCommandCallback('before.add' , 'addFile');
         $this->addCommandCallback('before.edit', 'addFile');
-	}
+    }
 
     protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'behaviors' => array('com:files.controller.behavior.thumbnailable')
-		));
+    {
+        $config->append(array(
+            'behaviors' => array('com:files.controller.behavior.thumbnailable')
+        ));
 
-		parent::_initialize($config);
-	}
+        parent::_initialize($config);
+    }
 
-	public function addFile(Library\ControllerContextInterface $context)
-	{
-		$file = $context->request->data->get('file', 'raw');
-		$name = $context->request->data->get('name', 'raw');
+    public function addFile(Library\ControllerContext $context)
+    {
+        $file = $context->request->data->get('file', 'raw');
+        $name = $context->request->data->get('name', 'raw');
 
-		if (empty($file) && $context->request->files->has('file.tmp_name'))
-		{
-			$context->request->data->set('file', $context->request->files->get('file.tmp_name', 'raw'));
+        if (empty($file) && $context->request->files->has('file.tmp_name'))
+        {
+            $context->request->data->set('file', $context->request->files->get('file.tmp_name', 'raw'));
 
-			if (empty($name)) {
-				$context->request->data->set('name', $context->request->files->get('file.name', 'raw'));
-			}
-		}
-	}
+            if (empty($name)) {
+                $context->request->data->set('name', $context->request->files->get('file.name', 'raw'));
+            }
+        }
+    }
 
-    protected function _actionRender(Library\ControllerContextInterface $context)
+    protected function _actionRender(Library\ControllerContext $context)
     {
         $model = $this->getModel();
 

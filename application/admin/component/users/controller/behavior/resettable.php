@@ -20,7 +20,7 @@ use Kodekit\Component\Users;
  */
 class ControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
-    protected function _beforeToken(Library\ControllerContextInterface $context)
+    protected function _beforeToken(Library\ControllerContextModel $context)
     {
         $result = true;
 
@@ -36,7 +36,7 @@ class ControllerBehaviorResettable extends Users\ControllerBehaviorResettable
         return $result;
     }
 
-    protected function _afterToken(Library\ControllerContextInterface $context)
+    protected function _afterToken(Library\ControllerContextModel $context)
     {
         if ($context->result)
         {

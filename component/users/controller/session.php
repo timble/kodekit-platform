@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ControllerSession extends Library\ControllerModel
 {
-    protected function _actionAdd(Library\ControllerContextInterface $context)
+    protected function _actionAdd(Library\ControllerContextModel $context)
     {
         //Start the session (if not started already)
         $session = $context->user->getSession();
@@ -50,7 +50,7 @@ class ControllerSession extends Library\ControllerModel
         return  parent::_actionAdd($context);
     }
 
-    protected function _actionDelete(Library\ControllerContextInterface $context)
+    protected function _actionDelete(Library\ControllerContextModel $context)
     {
         //Remove the session from the session store
         $entity = parent::_actionDelete($context);

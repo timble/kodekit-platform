@@ -31,7 +31,7 @@ class ControllerSession extends Users\ControllerSession
         parent::_initialize($config);
     }
 
-    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    protected function _beforeAdd(Library\ControllerContextModel $context)
     {
         $result = true;
 
@@ -54,7 +54,7 @@ class ControllerSession extends Users\ControllerSession
         return $result;
     }
 
-    protected function _actionAdd(Library\ControllerContextInterface $context)
+    protected function _actionAdd(Library\ControllerContextModel $context)
     {
         $result = parent::_actionAdd($context);
 

@@ -121,10 +121,10 @@ class ControllerActivity extends Library\ControllerModel
     /**
      * Set the IP address if we are adding a new activity.
      *
-     * @param Library\ControllerContextInterface $context A command context object.
+     * @param Library\ControllerContextModel $context A command context object.
      * @return Library\ModelEntityInterface
      */
-    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    protected function _beforeAdd(Library\ControllerContextModel $context)
     {
         $context->request->data->ip = $this->getObject('request')->getAddress();
     }

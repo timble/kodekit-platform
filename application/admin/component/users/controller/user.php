@@ -32,7 +32,7 @@ class ControllerUser extends Users\ControllerUser
         parent::_initialize($config);
     }
 
-    protected function _actionDelete(Library\ControllerContextInterface $context)
+    protected function _actionDelete(Library\ControllerContextModel $context)
     {
         $entity = parent::_actionDelete($context);
 
@@ -41,7 +41,7 @@ class ControllerUser extends Users\ControllerUser
         return $entity;
     }
 
-    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    protected function _beforeAdd(Library\ControllerContextModel $context)
     {
         // Expire password
         if (!$context->request->data->get('password', 'string')) {
@@ -49,7 +49,7 @@ class ControllerUser extends Users\ControllerUser
         }
     }
 
-    protected function _beforeEdit(Library\ControllerContextInterface $context)
+    protected function _beforeEdit(Library\ControllerContextModel $context)
     {
         $data = $context->request->data;
 
@@ -68,9 +68,9 @@ class ControllerUser extends Users\ControllerUser
     /**
      * Reset password callback.
      *
-     * @param Library\ControllerContextInterface $context
+     * @param Library\ControllerContextModel $context
      */
-    protected function _resetPassword(Library\ControllerContextInterface $context)
+    protected function _resetPassword(Library\ControllerContextModel $context)
     {
         $user = $context->result;
 
@@ -85,9 +85,9 @@ class ControllerUser extends Users\ControllerUser
     /**
      * Expire password callback.
      *
-     * @param Library\ControllerContextInterface $context
+     * @param Library\ControllerContextModel $context
      */
-    protected function _expirePassword(Library\ControllerContextInterface $context)
+    protected function _expirePassword(Library\ControllerContextModel $context)
     {
         $user = $context->result;
 

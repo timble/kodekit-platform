@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ControllerToolbarModule extends Library\ControllerToolbarActionbar
 {
-    protected function _afterBrowse(Library\ControllerContextInterface $context)
+    protected function _afterBrowse(Library\ControllerContextModel $context)
     {
         parent::_afterBrowse($context);
 

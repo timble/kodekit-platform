@@ -56,7 +56,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return $this->_attachments;
     }
 
-    protected function _fetchFiles(Library\ControllerContextInterface $context)
+    protected function _fetchFiles(Library\ControllerContextModel $context)
     {
         $files = array();
 
@@ -85,7 +85,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         $this->_attachments = $files;
     }
 
-    protected function _storeFiles(Library\ControllerContextInterface $context)
+    protected function _storeFiles(Library\ControllerContextModel $context)
     {
         if (!$context->response->isError())
         {
@@ -97,7 +97,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         }
     }
 
-    protected function _storeFile(Library\ControllerContextInterface $context, $attachment)
+    protected function _storeFile(Library\ControllerContextModel $context, $attachment)
     {
         $entity = $context->result;
 
@@ -127,7 +127,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
         return true;
     }
 
-    protected function _deleteFiles(Library\ControllerContextInterface $context)
+    protected function _deleteFiles(Library\ControllerContextModel $context)
     {
         $entity = $context->result;
         $status = $context->result->getStatus();

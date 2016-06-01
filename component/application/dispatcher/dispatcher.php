@@ -148,9 +148,9 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     /**
      * Resolve the request
      *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     * @param Library\DispatcherContext $context A dispatcher context object
      */
-    protected function _resolveRequest(Library\DispatcherContextInterface $context)
+    protected function _resolveRequest(Library\DispatcherContext $context)
     {
         parent::_resolveRequest($context);
 
@@ -175,9 +175,9 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     /**
      * Forward the request
      *
-     * @param Library\DispatcherContextInterface $context A dispatcher context object
+     * @param Library\DispatcherContext $context A dispatcher context object
      */
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    protected function _actionDispatch(Library\DispatcherContext $context)
     {
         //Execute the component and pass along the context
         $this->getController()->dispatch($context);
@@ -187,9 +187,9 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
      * Forward the request
      *
      * @throws \InvalidArgumentException If the action parameter is not an instance of Exception or ExceptionError
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param Library\DispatcherContext $context    A dispatcher context object
      */
-    protected function _actionFail(Library\DispatcherContextInterface $context)
+    protected function _actionFail(Library\DispatcherContext $context)
     {
         //Execute the component and pass along the contex
         $this->getController()->fail($context);
@@ -198,9 +198,9 @@ class Dispatcher extends Library\DispatcherAbstract implements Library\ObjectIns
     /**
      * Forward the request
      *
-     * @param Library\DispatcherContextInterface $context	A dispatcher context object
+     * @param Library\DispatcherContext $context   A dispatcher context object
      */
-    protected function _actionRedirect(Library\DispatcherContextInterface $context)
+    protected function _actionRedirect(Library\DispatcherContext $context)
     {
         //Execute the component and pass along the context
         $this->getController()->redirect($context);

@@ -22,9 +22,9 @@ class ControllerToolbarCategory extends Library\ControllerToolbarActionbar
     /**
      * Add default toolbar commands
      * .
-     * @param	Library\ControllerContextInterface	$context A controller context object
+     * @param   Library\ControllerContextModel   $context A controller context object
      */
-    protected function _afterBrowse(Library\ControllerContextInterface $context)
+    protected function _afterBrowse(Library\ControllerContextModel $context)
     {
         parent::_afterBrowse($context);
 
@@ -43,8 +43,8 @@ class ControllerToolbarCategory extends Library\ControllerToolbarActionbar
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $option = $this->getController()->getIdentifier()->package;
-		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
-		$table  = $this->getController()->getModel()->getState()->table;
+        $view	= Library\StringInflector::singularize($this->getIdentifier()->name);
+        $table  = $this->getController()->getModel()->getState()->table;
 
         $command->href = 'component='.$option.'&view='.$view.'&table='.$table;
     }

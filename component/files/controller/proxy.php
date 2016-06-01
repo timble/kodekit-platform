@@ -22,49 +22,49 @@ use Kodekit\Library;
  */
  class ControllerProxy extends Library\ControllerView
 {
-	public function _actionRender(Library\ControllerContextInterface $context)
-	{
+    public function _actionRender(Library\ControllerContext $context)
+    {
         $data = array(
-			'url'            => $context->request->query->get('url', 'url'),
-			'content-length' => false
-		);
+            'url'            => $context->request->query->get('url', 'url'),
+            'content-length' => false
+        );
 
-		if (!function_exists('curl_init')) {
+        if (!function_exists('curl_init')) {
             throw new \RuntimeException('Curl library does not exist');
-		}
+        }
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $data['url']);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_MAXREDIRS,		 10);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 		 20);
-		//CURLOPT_NOBODY changes the request from GET to HEAD
-		curl_setopt($ch, CURLOPT_NOBODY, 		 true);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $data['url']);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_MAXREDIRS,		 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 		 20);
+        //CURLOPT_NOBODY changes the request from GET to HEAD
+        curl_setopt($ch, CURLOPT_NOBODY, 		 true);
 
-		$response = curl_exec($ch);
+        $response = curl_exec($ch);
 
-		if (curl_errno($ch)) {
+        if (curl_errno($ch)) {
             throw new \RuntimeException('Curl Error: '.curl_error($ch));
-		}
+        }
 
-		$info = curl_getinfo($ch);
-		if (isset($info['http_code']) && $info['http_code'] != 200) {
+        $info = curl_getinfo($ch);
+        if (isset($info['http_code']) && $info['http_code'] != 200) {
             throw new \RuntimeException($data['url'].' Not Found', $info['http_code']);
-		}
+        }
 
-		if (isset($info['download_content_length'])) {
-			$data['content-length'] = $info['download_content_length'];
-		}
+        if (isset($info['download_content_length'])) {
+            $data['content-length'] = $info['download_content_length'];
+        }
 
         if (isset($info['content_type'])) {
             $data['content-type'] = $info['content_type'];
         }
 
-		curl_close($ch);
+        curl_close($ch);
 
         $this->getView()->setContent($data);
         return parent::_actionRender($context);
-	}
+    }
 }

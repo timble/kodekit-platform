@@ -19,72 +19,72 @@ use Kodekit\Library;
  */
 abstract class ControllerAbstract extends Library\ControllerModel
 {
-	public function getRequest()
-	{
-		$request = parent::getRequest();
+    public function getRequest()
+    {
+        $request = parent::getRequest();
 
-		//The "config" state is only used in HMVC requests and passed to the JS application
-		if ($this->isDispatched()) {
-			unset($request->query->config);
-		}
+        //The "config" state is only used in HMVC requests and passed to the JS application
+        if ($this->isDispatched()) {
+            unset($request->query->config);
+        }
 
         //Make sure we have a default container in the request.
         if(!$request->query->has('container')) {
             $request->query->container = 'files-files';
         }
 
-		return $request;
-	}
+        return $request;
+    }
 
-	protected function _actionCopy(Library\ControllerContextInterface $context)
-	{
-		$entity = $this->getModel()->fetch();
+    protected function _actionCopy(Library\ControllerContextModel $context)
+    {
+        $entity = $this->getModel()->fetch();
 
-		if(!$entity->isNew())
-		{
-			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
+        if(!$entity->isNew())
+        {
+            $entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
-			//Only throw an error if the action explicitly failed.
-			if($entity->copy() === false)
-			{
-				$error = $entity->getStatusMessage();
+            //Only throw an error if the action explicitly failed.
+            if($entity->copy() === false)
+            {
+                $error = $entity->getStatusMessage();
                 throw new Library\ControllerExceptionActionFailed($error ? $error : 'Copy Action Failed');
-			}
-			else
+            }
+            else
             {
                 $context->response->setStatus(
                     $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
-		}
-		else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
+        }
+        else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
 
-		return $entity;
-	}
+        return $entity;
+    }
 
-	protected function _actionMove(Library\ControllerContextInterface $context)
-	{
-		$entity = $this->getModel()->fetch();
+    protected function _actionMove(Library\ControllerContextModel $context)
+    {
+        $entity = $this->getModel()->fetch();
 
-		if(!$entity->isNew())
-		{
-			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
+        if(!$entity->isNew())
+        {
+            $entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
-			//Only throw an error if the action explicitly failed.
-			if($entity->move() === false)
-			{
-				$error = $entity->getStatusMessage();
+            //Only throw an error if the action explicitly failed.
+            if($entity->move() === false)
+            {
+                $error = $entity->getStatusMessage();
                 throw new Library\ControllerExceptionActionFailed($error ? $error : 'Move Action Failed');
-			}
-			else
+            }
+            else
             {
                 $context->response->setStatus(
                     $entity->getStatus() === $entity::STATUS_CREATED ? HttpResponse::CREATED : HttpResponse::NO_CONTENT
                 );
             }
-		}
-		else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
+        }
+        else throw new Library\ControllerExceptionResourceNotFound('Resource Not Found');
 
-		return $entity;
-	}
+        return $entity;
+    }
 }

@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {
-    protected function _actionSave(Library\ControllerContextInterface $context)
+    protected function _actionSave(Library\ControllerContextModel $context)
     {
         $entity = parent::_actionSave($context);
 
@@ -30,12 +30,12 @@ class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
         return $entity;
     }
 
-    protected function _actionCancel(Library\ControllerContextInterface $context)
+    protected function _actionCancel(Library\ControllerContextModel $context)
     {
         $context->response->setRedirect($this->getReferrer($context));
     }
 
-    protected function _actionApply(Library\ControllerContextInterface $context)
+    protected function _actionApply(Library\ControllerContextModel $context)
     {
         $entity = $context->getSubject()->execute('edit', $context);
 

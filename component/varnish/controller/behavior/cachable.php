@@ -29,58 +29,51 @@ class ControllerBehaviorCachable extends Library\BehaviorAbstract
         return $this->getObject('com:varnish.controller.cache');
     }
 
-    protected function _afterRender(Library\ControllerContextInterface $context)
+    protected function _afterRender(Library\ControllerContext $context)
     {
         $controller = $context->getSubject();
 
         if($controller instanceof Library\ControllerModellable)
         {
-            $model  = $controller->getModel();
-            $entity = $model->fetch();
+            $model = $controller->getModel();
 
             if ($model->getState()->isUnique()) {
-                $this->getCache()->tag($this->_createTag($entity, true));
+                $this->getCache()->tag($this->_createTag($context->entity, true));
             } else {
-                $this->getCache()->tag($this->_createTag($entity));
+                $this->getCache()->tag($this->_createTag($context->entity));
             }
         }
     }
 
-    protected function _afterAdd(Library\ControllerContextInterface $context)
+    protected function _afterAdd(Library\ControllerContextModel $context)
     {
         if($context->response->getStatusCode() == Library\HttpResponse::CREATED)
         {
-            $entity = $context->result;
-
-            $this->getCache()->ban($this->_createTag($entity));
+            $this->getCache()->ban($this->_createTag($context->entity));
         }
     }
 
-    protected function _afterEdit(Library\ControllerContextInterface $context)
+    protected function _afterEdit(Library\ControllerContextModel $context)
     {
         if($context->response->getStatusCode() == Library\HttpResponse::RESET_CONTENT)
         {
-            $entities = $context->result;
-
-            foreach($entities as $entity) {
+            foreach($context->entity as $entity) {
                 $this->getCache()->ban($this->_createTag($entity, true));
             }
 
-            $this->getCache()->ban($this->_createTag($entity));
+            $this->getCache()->ban($this->_createTag($context->entity));
         }
     }
 
-    protected function _afterDelete(Library\ControllerContextInterface $context)
+    protected function _afterDelete(Library\ControllerContextModel $context)
     {
         if($context->response->getStatusCode() == Library\HttpResponse::NO_CONTENT)
         {
-            $entities = $context->result;
-
-            foreach($entities as $entity) {
+            foreach($context->entity as $entity) {
                 $this->getCache()->ban($this->_createTag($entity, true));
             }
 
-            $this->getCache()->ban($this->_createTag($entity));
+            $this->getCache()->ban($this->_createTag($context->entity));
         }
     }
 

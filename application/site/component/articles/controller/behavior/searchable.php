@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ControllerBehaviorSearchable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeBrowse(Library\ControllerContextInterface $context)
+    protected function _beforeBrowse(Library\ControllerContextModel $context)
     {
         $request = $this->getRequest();
 

@@ -20,7 +20,7 @@ use Kodekit\Component\Application;
  */
 class Dispatcher extends Application\Dispatcher
 {
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    protected function _actionDispatch(Library\DispatcherContext $context)
     {
         $pages = $this->getObject('pages');
 

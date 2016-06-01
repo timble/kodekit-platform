@@ -35,7 +35,7 @@ class Dispatcher extends Library\Dispatcher
         return true;
     }
 
-    protected function _afterPost(Library\DispatcherContextInterface $context)
+    protected function _afterPost(Library\DispatcherContext $context)
     {
         if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
             $this->getController()->execute('render', $context);
@@ -45,7 +45,7 @@ class Dispatcher extends Library\Dispatcher
     /**
      * Plupload do not pass the error to our application if the status code is not 200
      */
-    protected function _beforeSend(Library\DispatcherContextInterface $context)
+    protected function _beforeSend(Library\DispatcherContext $context)
     {
         if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int')) {
             $context->response->setStatus('200');

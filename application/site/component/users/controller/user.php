@@ -42,7 +42,7 @@ class ControllerUser extends Users\ControllerUser
         return $request;
     }
 
-    protected function _actionAdd(Library\ControllerContextInterface $context)
+    protected function _actionAdd(Library\ControllerContextModel $context)
     {
         $role = $this->getObject('com:users.model.roles')->name('registered')->fetch();
 

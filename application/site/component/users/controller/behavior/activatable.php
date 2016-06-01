@@ -29,7 +29,7 @@ class ControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
         parent::_initialize($config);
     }
 
-    protected function _beforeRender(Library\ControllerContextInterface $context)
+    protected function _beforeRender(Library\ControllerContextModel $context)
     {
         $entity = $this->getModel()->fetch();
 
@@ -48,7 +48,7 @@ class ControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
         }
     }
 
-    protected function _beforeActivate(Library\ControllerContextInterface $context)
+    protected function _beforeActivate(Library\ControllerContextModel $context)
     {
         $result = true;
 
@@ -64,7 +64,7 @@ class ControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
         return $result;
     }
 
-    protected function _afterAdd(Library\ControllerContextInterface $context)
+    protected function _afterAdd(Library\ControllerContextModel $context)
     {
         $user = $context->result;
 
@@ -117,7 +117,7 @@ class ControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
         return $url;
     }
 
-    protected function _afterActivate(Library\ControllerContextInterface $context)
+    protected function _afterActivate(Library\ControllerContextModel $context)
     {
         $page = $this->getObject('pages')->find(array(
             'component' => 'users',

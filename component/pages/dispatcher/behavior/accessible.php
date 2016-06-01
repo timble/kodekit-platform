@@ -28,7 +28,7 @@ class DispatcherBehaviorAccessible extends Library\DispatcherBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeDispatch(Library\DispatcherContextInterface $context)
+    protected function _beforeDispatch(Library\DispatcherContext $context)
     {
         $itemid = $context->getRequest()->getQuery()->get('Itemid', 'int');
 

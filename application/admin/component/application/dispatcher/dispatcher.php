@@ -32,7 +32,7 @@ class Dispatcher extends Application\Dispatcher
         parent::_initialize($config);
     }
 
-    protected function _actionDispatch(Library\DispatcherContextInterface $context)
+    protected function _actionDispatch(Library\DispatcherContext $context)
     {
         //Redirect if no view information can be found in the request
         if(!$context->request->query->has('component'))

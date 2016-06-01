@@ -43,7 +43,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeActivate(Library\ControllerContextInterface $context)
+    protected function _beforeActivate(Library\ControllerContextModel $context)
     {
         $result = true;
         $row    = $this->getModel()->fetch();
@@ -58,7 +58,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionActivate(Library\ControllerContextInterface $context)
+    protected function _actionActivate(Library\ControllerContextModel $context)
     {
         $result = true;
 
@@ -73,7 +73,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeAdd(Library\ControllerContextInterface $context)
+    protected function _beforeAdd(Library\ControllerContextModel $context)
     {
         // Force activation on new records.
         if ($this->_force) {
@@ -85,7 +85,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
         }
     }
 
-    protected function _afterEdit(Library\ControllerContextInterface $context)
+    protected function _afterEdit(Library\ControllerContextModel $context)
     {
         $row = $context->result;
 

@@ -19,7 +19,7 @@ use Kodekit\Library;
  */
 class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeReset(Library\ControllerContextInterface $context)
+    protected function _beforeReset(Library\ControllerContextModel $context)
     {
         $result = false;
 
@@ -33,7 +33,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionReset(Library\ControllerContextInterface $context)
+    protected function _actionReset(Library\ControllerContextModel $context)
     {
         $result = true;
 
@@ -50,7 +50,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeToken(Library\ControllerContextInterface $context)
+    protected function _beforeToken(Library\ControllerContextModel $context)
     {
         $result = false;
         $email  = $context->request->data->get('email', 'email');
@@ -65,7 +65,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionToken(Library\ControllerContextInterface $context)
+    protected function _actionToken(Library\ControllerContextModel $context)
     {
         return $this->getModel()->fetch()->resetPassword();
     }

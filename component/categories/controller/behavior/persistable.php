@@ -19,18 +19,18 @@ use Kodekit\Library;
  */
 class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistable
 {
-	/**
-	 * Load the model state from the request
-	 *
-	 * This functions merges the request information with any model state information
-	 * that was saved in the session and returns the result.
-	 *
-	 * @param 	Library\ControllerContextInterface $context A controller context object
-	 * @return 	void
-	 */
-	protected function _beforeBrowse(Library\ControllerContextInterface $context)
-	{
-		 // Built the session identifier based on the action
+    /**
+     * Load the model state from the request
+     *
+     * This functions merges the request information with any model state information
+     * that was saved in the session and returns the result.
+     *
+     * @param 	Library\ControllerContextModel $context A controller context object
+     * @return  void
+     */
+    protected function _beforeBrowse(Library\ControllerContextModel $context)
+    {
+         // Built the session identifier based on the action
         $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
         $state       = $context->user->get($identifier);
 
@@ -39,17 +39,17 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 
         //Push the request query data in the model
         $this->getModel()->setState($context->request->query->toArray());
-	}
+    }
 
-	/**
-	 * Saves the model state in the session
-	 *
-	 * @param 	Library\ControllerContextInterface $context A controller context object
-	 * @return 	void
-	 */
-	protected function _afterBrowse(Library\ControllerContextInterface $context)
-	{
-		$model = $this->getModel();
+    /**
+     * Saves the model state in the session
+     *
+     * @param 	Library\ControllerContextModel $context A controller context object
+     * @return 	void
+     */
+    protected function _afterBrowse(Library\ControllerContextModel $context)
+    {
+        $model = $this->getModel();
         $state = $model->getState();
 
         // Built the session identifier based on the action
@@ -57,5 +57,5 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 
         //Set the state in the user session
         $context->user->set($identifier, $state->getValues());
-	}
+    }
 }

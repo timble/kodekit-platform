@@ -26,10 +26,10 @@ class ControllerBehaviorPurgeable extends Library\ControllerBehaviorAbstract
      *
      * Deletes activities given a date range.
      *
-     * @param Library\ControllerContextInterface $context A command context object.
+     * @param Library\ControllerContextModel $context A command context object.
      * @throws Library\ControllerExceptionActionFailed If the activities cannot be purged.
      */
-    protected function _actionPurge(Library\ControllerContextInterface $context)
+    protected function _actionPurge(Library\ControllerContextModel $context)
     {
         $model = $this->getModel();
         $state = $model->getState();
