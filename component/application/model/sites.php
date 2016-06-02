@@ -28,7 +28,6 @@ class ModelSites extends Library\ModelAbstract
             ->insert('limit', 'int')
             ->insert('offset', 'int')
             ->insert('sort', 'cmd')
-            ->insert('direction', 'word', 'asc')
             ->insert('search', 'string');
     }
 

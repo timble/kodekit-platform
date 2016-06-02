@@ -26,8 +26,7 @@ class ModuleArticlesHtml extends Pages\ModuleEntity
             'parameters' => array(
                 'access'    => $this->getObject('user')->isAuthentic(),
                 'limit'     => 5,
-                'sort'      => 'created_on',
-                'direction' => 'DESC',
+                'sort'      => '-created_on',
                 'published' => 1,
                 'category'  => null
             ),

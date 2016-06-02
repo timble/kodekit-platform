@@ -26,7 +26,7 @@
     <table>
         <thead>
         <tr>
-            <? if (parameter('sort') == 'custom' && parameter('direction') == 'asc') : ?>
+            <? if (parameter('sort') == 'custom') : ?>
                 <th class="handle"></th><? endif ?>
             <th width="1">
                 <?= helper('grid.checkall'); ?>
@@ -55,7 +55,7 @@
         <? foreach ($pages as $page) : ?>
             <tr class="sortable" data-sortable-parent="<?= (int)$page->parent_id; ?>"
                 data-sortable-level="<?= (int)$page->level ?>">
-                <? if (parameter('sort') == 'custom' && parameter('direction') == 'asc') : ?>
+                <? if (parameter('sort') == 'custom') : ?>
                     <td class="handle">
                         <span class="text--small data-order"><?= $page->ordering ?></span>
                     </td>

@@ -28,7 +28,7 @@
     <table>
         <thead>
             <tr>
-                <? if(parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?>
+                <? if(parameter('sort') == 'ordering') : ?>
                 <th class="handle"></th>
                 <? endif ?>
                 <th width="1">
@@ -52,10 +52,10 @@
             </tr>
         </tfoot>
 
-        <tbody<? if(parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<? if(parameter('sort') == 'ordering') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <? if(parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?>
+                    <? if(parameter('sort') == 'ordering') : ?>
                     <td class="handle">
                         <span class="text--small data-order"><?= $category->ordering ?></span>
                     </td>

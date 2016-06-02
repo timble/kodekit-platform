@@ -48,9 +48,10 @@ class ControllerArticle extends Library\ControllerModel
             if ($request->getFormat() != 'json')
             {
                 $sort_by_map = array(
-                    'newest' => array('ordering_date' => 'DESC'),
-                    'oldest' => array('ordering_date' => 'ASC'),
-                    'order'  => array('ordering' => 'ASC'));
+                    'newest' => '-ordering_date',
+                    'oldest' => 'ordering_date',
+                    'order'  => 'ordering'
+                );
 
                 // Get the parameters
                 $page   = $this->getObject('pages')->getActive();
@@ -60,15 +61,14 @@ class ControllerArticle extends Library\ControllerModel
                 $request->query->limit = (int) $params->get('articles_per_page', 3);
 
                 $sort_by = $sort_by_map[$params->get('sort_by', 'newest')];
-                $request->query->sort      = key($sort_by);
-                $request->query->direction = current($sort_by);
+                $request->query->sort = $sort_by;
             }
         }
 
         return $request;
     }
 
-    protected function _actionAdd(Library\ControllerContextInterface $context)
+    protected function _actionAdd(Library\ControllerContextModel $context)
     {
         //Force article to unpublished if you cannot edit
         if (!$this->canEdit()) {

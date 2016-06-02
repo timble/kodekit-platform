@@ -60,7 +60,6 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'selected' => 0,
             'filter'   => array(
                 'sort'      => 'ordering',
-                'direction' => 'ASC',
                 'category'  => $article->category_id)));
 
         $list = $this->getObject('com:articles.model.articles')

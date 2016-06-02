@@ -44,7 +44,7 @@ class ModelFolders extends ModelNodes
 
         $this->_count = count($folders);
 
-        if (strtolower($state->direction) == 'desc') {
+        if (substr( $state->sort, 0, 1 ) == '-') {
             $folders = array_reverse($folders);
         }
 

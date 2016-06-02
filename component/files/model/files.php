@@ -37,7 +37,7 @@ class ModelFiles extends ModelNodes
 
         $this->_count = count($files);
 
-        if (strtolower($state->direction) == 'desc') {
+        if (substr( $state->sort, 0, 1 ) == '-') {
             $files = array_reverse($files);
         }
 

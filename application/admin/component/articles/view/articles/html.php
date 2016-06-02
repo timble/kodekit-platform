@@ -24,7 +24,7 @@ class ViewArticlesHtml extends Library\ViewHtml
         $state = $this->getModel()->getState();
 
         // Enable sortable
-        $context->data->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
+        $context->data->sortable = $state->category && $state->sort == 'ordering';
 
         parent::_fetchData($context);
     }

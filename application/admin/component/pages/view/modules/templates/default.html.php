@@ -28,7 +28,7 @@
     <table>
         <thead>
             <tr>
-                <? if(parameter('position') && parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?><th class="handle"></th><? endif ?>
+                <? if(parameter('position') && parameter('sort') == 'ordering') : ?><th class="handle"></th><? endif ?>
                 <th width="1">
                     <?= helper('grid.checkall'); ?>
                 </th>
@@ -53,10 +53,10 @@
             </tr>
             <? endif ?>
         </tfoot>
-        <tbody<? if(parameter('position') && parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<? if(parameter('position') && parameter('sort') == 'ordering') : ?> class="sortable"<? endif ?>>
         <? foreach ($modules as $module) : ?>
             <tr>
-                <? if(parameter('position') && parameter('sort') == 'ordering' && parameter('direction') == 'asc') : ?>
+                <? if(parameter('position') && parameter('sort') == 'ordering') : ?>
                 <td class="handle">
                     <span class="text--small data-order"><?= $module->ordering ?></span>
                 </td>

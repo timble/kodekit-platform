@@ -41,11 +41,6 @@ class ModelActivities extends Library\ModelDatabase
               ->insert('end_date', 'date')
               ->insert('day_range', 'int')
               ->insert('ip', 'ip');
-
-        $state->remove('direction')->insert('direction', 'word', 'desc');
-
-        // Force ordering by created_on
-        $state->sort = 'created_on';
     }
 
     /**

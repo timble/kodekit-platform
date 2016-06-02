@@ -104,7 +104,6 @@ class ViewDirectoryHtml extends Library\ViewHtml
         $query = array(
             'thumbnails' => true,
             'sort'       => $params->get('sort'),
-            'direction'  => $params->get('direction'),
             'offset'     => $state->offset,
             'folder'     => $state->folder,
             'container'  => $state->container,

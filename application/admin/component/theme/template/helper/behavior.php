@@ -32,13 +32,11 @@ class TemplateHelperBehavior extends Library\TemplateHelperBehavior
             'component' => $this->getIdentifier()->getPackage(),
             'view'      => Library\StringInflector::singularize($config->view),
             'selector'  => 'table tbody.sortable',
-            'direction' => 'asc',
             'url'       => '?format=json'
         ))->append(array(
             'options'   => array(
                 'handle'    => 'td.handle',
                 'numcolumn' => '.grid-count',
-                'direction' => $config->direction,
                 'adapter'   => array(
                     'type'      => 'kodekit',
                     'options'   => array(
