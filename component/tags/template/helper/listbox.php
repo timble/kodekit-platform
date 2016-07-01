@@ -69,6 +69,27 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $config->label = 'title';
         $config->sort  = 'title';
 
-        return parent::render($config);
+        $html = parent::_render($config);
+        
+        $html .= "<script>
+        jQuery(function($) {
+            var element = $('select[name=\"{$config->name}[]\"]');
+            
+            if (element.length) {
+                var form = $(element[0].form);
+                
+                form.submit(function() {
+                    if (!element.val()) {
+                        $('<input />')
+                            .attr('name', '{$config->name}')
+                            .attr('type', 'hidden')
+                            .val('')
+                            .appendTo(form);
+                    }
+                });
+            }
+        });</script>";
+
+        return $html;
     }
 }
