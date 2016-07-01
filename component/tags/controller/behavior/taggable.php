@@ -27,46 +27,59 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
         $this->addCommandCallback('after.edit'   , '_setTags');
         $this->addCommandCallback('after.delete' , '_removeTags');
     }
-
+    
+    /**
+     * Set the tags for an entity
+     *
+     * If the request data contains a tags array, it will be used as the new tag list.
+     * If the tags field is an empty string, all entity tags are deleted and no new ones are added.
+     *
+     * @param Library\ControllerContextModel $context
+     * @return bool
+     */
     protected function _setTags(Library\ControllerContextModel $context)
     {
         $entity = $context->result;
+        $data   = $context->getRequest()->getData();
 
-        if ($entity->isIdentifiable() && !$context->response->isError())
+        if ($data->has('tags'))
         {
-            $tags = $entity->getTags();
-
-            $package = $this->getMixer()->getIdentifier()->package;
-            if(!$this->getObject('com:'.$package.'.controller.tag')->canAdd()) {
-                $status  = Library\Database::STATUS_FETCHED;
-            } else {
-                $status = null;
-            }
-
-            //Delete tags
-            if(count($tags))
+            if ($entity->isIdentifiable() && !$context->response->isError())
             {
-                $tags->delete();
-                $tags->clear();
-            }
-
-            //Create tags
-            if($entity->tags)
-            {
-                foreach ($entity->tags as $tag)
-                {
-                    $properties = array(
-                        'title' => $tag,
-                        'row'   => $entity->uuid,
-                    );
-
-                    $tags->insert($properties, $status);
+                $tags = $entity->getTags();
+    
+                $package = $this->getMixer()->getIdentifier()->package;
+                if(!$this->getObject('com:'.$package.'.controller.tag')->canAdd()) {
+                    $status  = Library\Database::STATUS_FETCHED;
+                } else {
+                    $status = null;
                 }
+    
+                //Delete tags
+                if(count($tags))
+                {
+                    $tags->delete();
+                    $tags->clear();
+                }
+    
+                //Create tags
+                if($entity->tags)
+                {
+                    foreach ($entity->tags as $tag)
+                    {
+                        $properties = array(
+                            'title' => $tag,
+                            'row'   => $entity->uuid,
+                        );
+    
+                        $tags->insert($properties, $status);
+                    }
+                }
+    
+                $tags->save();
+    
+                return true;
             }
-
-            $tags->save();
-
-            return true;
         }
     }
 
