@@ -84,16 +84,13 @@ class ModelEntityTag extends Library\ModelEntityRow
 
         $rowset = $table->select($query);
 
-        if($rowset->count())
-        {
-            //Delete the relations
-            if($result = $rowset->delete())
-            {
-                //Delete the tag
-                if(!$this->row) {
-                    $result = parent::delete();
-                }
-            }
+        //Delete the relations
+        if($rowset->count()) {
+            $result = $rowset->delete();
+        }
+        //Delete the tag
+        if(!$this->row) {
+            $result = parent::delete();
         }
 
         return $result;
