@@ -24,7 +24,8 @@ class ModelTags extends Library\ModelDatabase
         parent::__construct($config);
 
         $this->getState()
-            ->insert('row', 'cmd');
+            ->insert('row', 'cmd')
+            ->insert('created_by', 'int');
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -84,8 +85,14 @@ class ModelTags extends Library\ModelDatabase
     {
         $state = $this->getState();
 
-        if($this->getState()->row) {
+        if($state->row) {
             $query->where('relations.row IN :row')->bind(array('row' => (array) $this->getState()->row));
+        }
+        
+        if ($state->created_by)
+        {
+            $query->where('tbl.created_by IN :created_by')
+                ->bind(array('created_by' => (array) $state->created_by));
         }
 
         parent::_buildQueryWhere($query);
