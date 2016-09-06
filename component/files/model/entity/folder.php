@@ -17,7 +17,7 @@ use Kodekit\Library;
  * @author  Ercan Ozkaya <http://github.com/ercanozkaya>
  * @package Kodekit\Component\Files
  */
-class ModelEntityFolder extends ModelEntityNode
+class ModelEntityFolder extends ModelEntityNode implements Library\CommandCallbackDelegate
 {
     /**
      * Nodes object or identifier
@@ -54,6 +54,53 @@ class ModelEntityFolder extends ModelEntityNode
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Invoke a command handler
+     *
+     * @param string             $method    The name of the method to be executed
+     * @param KCommandInterface  $command   The command
+     * @return mixed Return the result of the handler.
+     */
+    public function invokeCommandCallback($method, Library\CommandInterface $command)
+    {
+        return $this->$method($command);
+    }
+
+    /**
+     * Stores the parent contents before creating a folder
+     *
+     * @param KDatabaseContextInterface $context
+     */
+    protected function _beforeSave(Library\DatabaseContextInterface $context)
+    {
+        if (!$context->siblings) {
+            $context->siblings = array();
+        }
+
+        $context->siblings[] = scandir(dirname($context->getSubject()->fullpath));
+    }
+
+    /**
+     * Sets the folder name as created by the OS (encoding) in the filesystem
+     *
+     * @param KDatabaseContextInterface $context
+     */
+    protected function _afterSave(Library\DatabaseContextInterface $context)
+    {
+        if ($context->siblings && count($context->siblings))
+        {
+            $siblings = KObjectConfig::unbox($context->siblings);
+
+            $name = array_diff(scandir(dirname($context->getSubject()->fullpath)), array_pop($siblings));
+
+            if (count($name) == 1) {
+                $this->name = current($name);
+            }
+
+            $context->siblings = $siblings;
+        }
     }
 
     public function save()
