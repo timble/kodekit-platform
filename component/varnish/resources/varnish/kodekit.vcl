@@ -9,9 +9,9 @@ probe health
     #.url = "/varnish-enabled";
     # We prefer to only do a HEAD /
     .request =
-        "HEAD /varnish-enabled HTTP/1.1"
-        "Host: localhost"
-        "Connection: close";
+        "HEAD / HTTP/1.1"
+        "Host: localhost:%1$s"
+        "Connection: close"
         "User-Agent: Varnish Health Probe";
     .interval = 5s;   # check the health of each backend every 5 seconds
     .timeout = 1s;    # timing out after 1 second.
@@ -24,7 +24,7 @@ probe health
 backend default
 {
     .host = "127.0.0.1";        # IP or Hostname of backend
-    .port = "8080";             # Port Apache or whatever is listening
+    .port = "%1$s";             # Port Apache or whatever is listening
     .max_connections = 300;     # That's it
     .probe = health;
     .connect_timeout            = 600s;  # How long to wait before we receive a first byte from our backend?
@@ -35,7 +35,7 @@ backend default
 backend passthrough
 {
     .host = "127.0.0.1";        # IP or Hostname of backend
-    .port = "8080";             # Port Apache or whatever is listening
+    .port = "%1$s";             # Port Apache or whatever is listening
 }
 
 acl localhost
@@ -113,27 +113,10 @@ sub vcl_recv
         return (pass);
     }
 
-    # Specific Nooku Platform rules
+    # Specific Kodekit Platform rules
 
         # Do not cache /administrator
         if(req.url ~ "^/administrator") {
-            return (pass);
-        }
-
-    # Specific Nooku Server rules
-
-        # Do not cache webgrind.nooku.dev
-        if (req.http.host == "webgrind.nooku.dev") {
-            return (pass);
-        }
-
-        # Do not cache phpmyadmin.nooku.dev
-        if (req.http.host == "phpmyadmin.nooku.dev") {
-            return (pass);
-        }
-
-        # Do not cache /apc and /phpinfo
-        if (req.url == "/apc" || req.url == "/phpinfo") {
             return (pass);
         }
 
@@ -141,8 +124,8 @@ sub vcl_recv
 
         # Remove the Google Analytics added parameters, useless for our backend
         if (req.url ~ "(\?|&)(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=") {
-            set req.url = regsuball(req.url, "&(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=([A-z0-9_\-\.%25]+)", "");
-            set req.url = regsuball(req.url, "\?(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=([A-z0-9_\-\.%25]+)", "?");
+            set req.url = regsuball(req.url, "&(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=([A-z0-9_\-\.%%25]+)", "");
+            set req.url = regsuball(req.url, "\?(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=([A-z0-9_\-\.%%25]+)", "?");
             set req.url = regsub(req.url, "\?&", "?");
             set req.url = regsub(req.url, "\?$", "");
         }
@@ -374,7 +357,7 @@ sub vcl_backend_response
         # Large static files are delivered directly to the end-user without waiting for Varnish to fully read the
         # file first. Check memory usage it'll grow in fetch_chunksize blocks (128k by default) if the backend
         # doesn't send a Content-Length header. Only enable it for large files
-        if (bereq.url ~ "^[^?]*\.(7z|avi|bz2|flac|flv|gz|mka|mkv|mov|mp3|mp4|mpeg|mpg|ogg|ogm|opus|rar|tar|tgz|tbz|txz|wav|webm|xz|zip)(\?.*)?$") {
+        if (bereq.url ~ "^[^?]*\.(7z|avi|bz2|flac|flv|gz|mka|mkv|mov|mp3|mp4|mpeg|mpg|ogg|ogm|opus|rar|tar|tgz|tbz|txz|wav|webm|xz|zip)(\?.*)?$")
         {
             unset beresp.http.Set-Cookie;
 
