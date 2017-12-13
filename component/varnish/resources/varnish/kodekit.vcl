@@ -24,7 +24,7 @@ probe health
 backend default
 {
     .host = "127.0.0.1";        # IP or Hostname of backend
-    .port = "8080";             # Port Apache or whatever is listening
+    .port = "%1$s";             # Port Apache or whatever is listening
     .max_connections = 300;     # That's it
     .probe = health;
     .connect_timeout            = 600s;  # How long to wait before we receive a first byte from our backend?
@@ -35,7 +35,7 @@ backend default
 backend passthrough
 {
     .host = "127.0.0.1";        # IP or Hostname of backend
-    .port = "8080";             # Port Apache or whatever is listening
+    .port = "%1$s";             # Port Apache or whatever is listening
 }
 
 acl localhost
